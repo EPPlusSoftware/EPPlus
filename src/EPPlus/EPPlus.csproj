@@ -598,7 +598,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/8.6/articles/fixedissues.html
 
 			Version history
-			9.0.0-preview	20260916 Pdf export of ranges and tables. Export of shapes and charts to svg.
+			9.0.0-preview	20260922 Pdf export of ranges and tables. Export of shapes and charts to svg.
 			8.7.0			20260820 Save as template. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 			8.6.3			20260724 Updated System.Security.Cryptography.Xml for security vulnerabilities.
 			8.6.2			20260721 Minor bug fixes.
