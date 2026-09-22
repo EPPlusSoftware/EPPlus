@@ -56,6 +56,33 @@ namespace EPPlus.Export.Pdf.Tests
                 wide.Select(l => l.Text.Length).ToList(),
                 "Break positions must be identical for narrow and wide glyphs.");
         }
+
+        [TestMethod]
+        public void VerticalWrap_BreaksOnLastSpaceThatFits()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments("aaa bbb ccc"), step * 8);
+
+            Assert.AreEqual(2, lines.Count);
+            Assert.AreEqual("aaa bbb", lines[0].Text, "Trailing space must be trimmed from the stack text.");
+            Assert.AreEqual("ccc", lines[1].Text);
+            Assert.IsTrue(lines[0].WasWrappedOnSpace, "Break on whitespace should be flagged.");
+        }
+
+        [TestMethod]
+        public void HorizontalWrap_StillDependsOnGlyphWidth()
+        {
+            var engine = CreateEngine();
+
+            var narrow = engine.WrapRichTextLines(Fragments("iiiiiiiiiiiiiiiiiiii"), 50d, false);
+            var wide = engine.WrapRichTextLines(Fragments("mmmmmmmmmmmmmmmmmmmm"), 50d, false);
+
+            Assert.IsTrue(wide.Count > narrow.Count,
+                "Horizontal wrapping must still measure glyph advances.");
+        }
+
         private TextLayoutEngine CreateEngine()
             => _fontEngine.GetTextLayoutEngine(FontName, FontSubFamily.Regular);
 
