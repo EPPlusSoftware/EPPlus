@@ -1043,7 +1043,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
             if (count > 0)
             {
-                sw.Write(string.Format($"<{prefix}rowBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</rowBreaks>"));
+                 sw.Write(string.Format($"<{prefix}rowBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</{prefix}rowBreaks>"));
             }
         }
 
@@ -1063,7 +1063,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             }
             if (count > 0)
             {
-                sw.Write($"<colBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</colBreaks>");
+                sw.Write($"<{prefix}colBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</{prefix}colBreaks>");
             }
         }
 
@@ -1736,7 +1736,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     cache.Append($"<{prefix}color");
 
-                    if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
+                    if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)  
                     {
                         cache.Append($" auto=\"1\"");
                     }

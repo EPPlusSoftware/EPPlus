@@ -418,5 +418,35 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void CopyCommentText_i2524()
+        {
+            var noteText = "This note must survive the worksheet copy.";
+            var file = "worksheet-comment-copy.xlsx";
+
+            using (var p = OpenPackage(file, true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Source");
+                ws.Cells["A1"].Value = "Question";
+                ws.Cells["A2"].Value = "A table data cell with a note";
+                ws.Tables.Add(ws.Cells["A1:A2"], "Data0000");
+                ws.Cells["A2"].AddComment(noteText, "Test");
+                var copied = p.Workbook.Worksheets.Copy("Source", "Copy");
+                copied.Tables[0].Name = "Data2025";
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenPackage(file))
+            {
+                var sourceComment = p.Workbook.Worksheets["Source"].Cells["A2"].Comment;
+                var copiedComment = p.Workbook.Worksheets["Copy"].Cells["A2"].Comment;
+
+                Assert.IsNotNull(sourceComment);
+                Assert.AreEqual(noteText, sourceComment.Text);
+                Assert.IsNotNull(copiedComment, "Copied sheet lost its note object.");
+                Assert.AreEqual(noteText, copiedComment.Text, "Copied note text was empty.");
+            }
+        }
     }
 }

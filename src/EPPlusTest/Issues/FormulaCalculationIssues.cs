@@ -1808,9 +1808,9 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
-        public void i1069()
+        public void s1069()
         {
-            using(var package = OpenTemplatePackage("PrecisionTest.xlsx"))
+            using(var package = OpenTemplatePackage("s1069.xlsx"))
             {
                 var setPrecision = package.Workbook.FullPrecision;
                 Assert.AreEqual(setPrecision, false);
