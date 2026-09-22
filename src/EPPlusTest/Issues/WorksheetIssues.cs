@@ -1231,6 +1231,15 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(9f, ws.Cells["E1"].Style.Font.Size, "Cell E1 font size should be 9");
             }
         }
+        [TestMethod]
+        public void s1073()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("rowbreak.xlsx"))
+            {
+                p.Workbook.Worksheets[0].Cells["A7"].Value = 1;
+                SaveAndCleanup(p);            
+            }
+        }
 
     }
 }

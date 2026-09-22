@@ -80,6 +80,11 @@ namespace EPPlusTest.PDF
         {
             using (var package = OpenPackage("WidthParity.xlsx", true))
             {
+                package.Workbook.ConfigureFonts(x =>
+                {
+                    x.SearchSystemDirectories = false;
+                    x.FontDirectories.Add(Path.Combine(AppContext.BaseDirectory, "Fonts"));
+                });
                 var sheet = package.Workbook.Worksheets.Add("Parity");
                 sheet.Cells["A1"].Value = ReproText;
                 sheet.Cells["A1"].Style.Font.Name = ReproFontFamily;
