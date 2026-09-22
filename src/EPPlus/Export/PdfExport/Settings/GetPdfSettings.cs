@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             settings.Margins = new PdfMargins(topMargin, bottomMargin, leftMargin, rightMargin, headerMargin, footerMargin);
             settings.Orientation = (Orientations)eps.Orientation;
             //Scaling is not yet implemented.
-            settings.Scaling = new PdfScaling(eps.Scale);
+            settings.Scaling = new PdfScaling(eps.Scale / 100d);
             settings.ShowHeadings = eps.ShowHeaders;
             settings.RowsToRepeatAtTop = eps.RepeatRows != null ? eps.RepeatRows.Address : null;
             settings.ColumnsToRepeatAtLeft = eps.RepeatColumns != null ? eps.RepeatColumns.Address : null;

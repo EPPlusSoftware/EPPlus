@@ -1127,5 +1127,15 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "Allsvenskan2001.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void ScalingTests()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.Scale = 50; 
+            string path = _pdfPath + "ScalingTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }

@@ -1481,8 +1481,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
         {
-            var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.ContentBounds.Width));
-            var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.ContentBounds.Height));
+            var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.EffectiveContentWidth));
+            var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.EffectiveContentHeight));
 
             if (pageSettings.ShowHeadings)
             {
@@ -1491,13 +1491,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     prev = xPages;
                     range.AdditionalWidth = xPages * ((rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth));
-                    xPages = (int)Math.Max(1, Math.Ceiling((range.TotalWidth + range.AdditionalWidth) / pageSettings.ContentBounds.Width));
+                    xPages = (int)Math.Max(1, Math.Ceiling((range.TotalWidth + range.AdditionalWidth) / pageSettings.EffectiveContentWidth));
                 } while (prev != xPages);
                 do
                 {
                     prev = yPages;
                     range.AdditionalHeight = yPages * pdfSheet.Worksheet.DefaultRowHeight;
-                    yPages = (int)Math.Max(1, Math.Ceiling((range.TotalHeight + range.AdditionalHeight) / pageSettings.ContentBounds.Height));
+                    yPages = (int)Math.Max(1, Math.Ceiling((range.TotalHeight + range.AdditionalHeight) / pageSettings.EffectiveContentHeight));
                 } while (prev != yPages);
             }
             for (int i = range.Range._fromCol; i <= range.Range._toCol; i++)
@@ -1584,7 +1584,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 int actualCol = range.Range._fromCol + col;
                 bool reserveTitle = titleWidth > 0d && printTitleColTo >= 0 && (range.Map.FromColumn + segStartIdx) > printTitleColTo;
                 double effectiveAdded = addedWidth + (reserveTitle ? titleWidth : 0d);
-                if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
+                if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.EffectiveContentWidth)
                 {
                     if (col == segStartIdx)
                     {
@@ -1622,7 +1622,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 int actualRow = range.Range._fromRow + row;
                 bool reserveTitle = titleHeight > 0d && printTitleRowTo >= 0 && (range.Map.FromRow + segStartIdx) > printTitleRowTo;
                 double effectiveAdded = addedHeight + (reserveTitle ? titleHeight : 0d);
-                if (height + range.RowHeights[row].Height + effectiveAdded >= pageSettings.ContentBounds.Height)
+                if (height + range.RowHeights[row].Height + effectiveAdded >= pageSettings.EffectiveContentHeight)
                 {
                     segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row - 1));
                     segStartIdx = row;
