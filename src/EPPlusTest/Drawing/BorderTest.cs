@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -174,5 +175,94 @@ namespace EPPlusTest.Drawing
             Assert.AreEqual(eEndSize.Large, shape.Border.TailEnd.Height);
         }
 
+        [TestMethod]
+        public void i2517_BorderAroundShouldNotAffectDimension_Generated()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("shouldNotAffectDimension");
+
+            var headerRange = ws.Cells["A1:G2"];
+
+            headerRange.Value = "A";
+            headerRange.Style.Fill.SetBackground(Color.LightYellow);
+            headerRange.Style.Font.Color.SetColor(Color.IndianRed);
+            headerRange.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot;
+
+            var firstColRange = ws.Cells["A1:A33"];
+            firstColRange.Value = "A";
+
+            ws.Cells["B3:G33"].Style.Fill.SetBackground(Color.DarkSeaGreen);
+            ws.Cells["B3:G33"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+            ws.Cells["B3:G33"].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+            ws.Cells["B3:G33"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+            ws.Cells["B3:G33"].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+
+            firstColRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dotted, false);
+
+            var colCount = ws.Dimension.Columns;
+            var titleRange = ws.Cells[1, 1, 1, colCount];
+
+            Assert.AreEqual(7, ws.Dimension.Columns);
+            titleRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+            Assert.AreEqual(7, ws.Dimension.Columns);
+
+
+            var bottomRange = ws.Cells[1, 1, 33, 1];
+            Assert.AreEqual(33, ws.Dimension.Rows);
+            bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, false);
+            Assert.AreEqual(33, ws.Dimension.Rows);
+
+            ws.Cells["D34"].Value = "Test";
+
+            Assert.AreEqual(34, ws.Dimension.Rows);
+            Assert.AreEqual(7, ws.Dimension.Columns);
+            bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, false);
+            Assert.AreEqual(34, ws.Dimension.Rows);
+            Assert.AreEqual(7, ws.Dimension.Columns);
+        }
+
+        [TestMethod]
+        public void i2517_BorderAroundShouldNotAffectDimension()
+        {
+            //This testClass requires the package to exist. Do this to ensure it does even though unused in this test.
+            _pck.Workbook.Worksheets.Add("shouldNotAffectDimension_IntentionallyEmpty");
+
+            using (var p = OpenTemplatePackage("i2517.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets[0];
+                var colCount = worksheet.Dimension.Columns;
+                var titleRange = worksheet.Cells[1, 1, 1, colCount];
+
+                Assert.AreEqual(7, worksheet.Dimension.Columns);
+                titleRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Assert.AreEqual(7, worksheet.Dimension.Columns);
+
+
+                var bottomRange = worksheet.Cells[1, 1, 33, 1];
+                Assert.AreEqual(33, worksheet.Dimension.Rows);
+                bottomRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                Assert.AreEqual(33, worksheet.Dimension.Rows);
+            }
+        }
+
+        [TestMethod]
+        public void i2525_BorderAroundDropsStylesWhenCalledOnIndividualCellsInAloop()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("BorderAround_MissingStyles");
+
+            var tb1 = ws.Tables.Add(ws.Cells["B2:K11"],"BorderedTable");
+            tb1.TableStyle = OfficeOpenXml.Table.TableStyles.Light15;
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    //Set borders on every "even" individual cell
+                    if (j % 2 > 0 && i % 2 > 0)
+                    {
+                        ws.Cells[i + 2, j + 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dashed);
+                    }
+                }
+            }
+        }
     }
 }

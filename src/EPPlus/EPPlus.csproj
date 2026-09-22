@@ -31,12 +31,15 @@
 			## Version 9.0.0-preview
 			* Pdf export of ranges and tables.
 			* Export of shapes and charts to svg (Support for Line-, bar-, column-, pie and combo charts).
+			## Version 8.7.1
+			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+
 			* The Html export will now export shapes and supported chart types to svg.
 			* New Sample site: See https://samples.epplussoftware.com/EPPlus9
 
 			## Version 8.7.0
 			* New overloads for ExcelPackage.Save functions to save a package as a template (xlst or xltm).
-			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			* Minor bug fixes. 
 
 			## Version 8.6.3
 			* Updated System.Security.Cryptography.Xml to address security vulnerabilities (CVE-2026-47302, CVE-2026-47304, CVE-2026-50525, CVE-2026-50527, CVE-2026-50648).
@@ -599,7 +602,8 @@
 
 			Version history
 			9.0.0-preview	20260922 Pdf export of ranges and tables. Export of shapes and charts to svg.
-			8.7.0			20260820 Save as template. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.7.1			20260922 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.7.0			20260820 Save as template. Minor bug fixes.
 			8.6.3			20260724 Updated System.Security.Cryptography.Xml for security vulnerabilities.
 			8.6.2			20260721 Minor bug fixes.
 			8.6.1			20260616 3 new functions. Minor bug fixes.
