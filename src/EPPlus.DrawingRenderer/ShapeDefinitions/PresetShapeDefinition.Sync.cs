@@ -25,8 +25,9 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
 {
     public partial class PresetShapeDefinitions
     {
-        public static void LoadPresetShapeDefinitionFromXml()
+        public static Dictionary<ShapeStyle, ShapeDefinition> LoadPresetShapeDefinitionFromXml()
         {
+            var shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
             var assembly = Assembly.GetExecutingAssembly();
             using Stream stream = assembly.GetManifestResourceStream("EPPlus.DrawingRenderer.resource.psd.zip");
 
@@ -39,31 +40,24 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                     {
                         var br = new BinaryReader(zipStream);
                         var bytes = br.ReadBytes((int)entry.UncompressedSize);
-                        Read(bytes);
+                        Read(shapeDefinitions, bytes);
                     }
                 }
             }
+            return shapeDefinitions;
         }
 
-        private static void Read(byte[] bytes)
+        private static void Read(Dictionary<ShapeStyle, ShapeDefinition> shapeDefinitions, byte[] bytes)
         {
             try
             {
                 var ms = new MemoryStream(bytes);
-#if NET35
-                var xr = XmlReader.Create(ms, new XmlReaderSettings()
-                {
-                    ProhibitDtd=true,
-                    IgnoreWhitespace = true
-                });
-#else
                 var xr = XmlReader.Create(ms, new XmlReaderSettings()
                 {
                     DtdProcessing = DtdProcessing.Prohibit,
                     IgnoreWhitespace = true,
                     Async = true
                 });
-#endif
 
                 while (xr.Read())
                 {
@@ -72,7 +66,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                         if (xr.LocalName != "presetShapeDefinitons")
                         {
                             var item = LoadPresetShapeDefinition(xr);
-                            _shapeDefinitions.Add(item.Style, item);
+                            shapeDefinitions.Add(item.Style, item);
                         }
                     }
                 }
@@ -82,25 +76,18 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                 throw (new IOException("Cannot preset shape definitions file:presetShapeDefinitions.xml", ex));
             }
         }
-        private static async Task ReadAsync(byte[] bytes)
+        //We do currently not use this method as it is called from the constructor that cant handle async in a good way.
+        private static async Task<Dictionary<ShapeStyle, ShapeDefinition>> ReadAsync(Dictionary<ShapeStyle, ShapeDefinition> shapeDefinitions, byte[] bytes)
         {
             try
             {
                 var ms = new MemoryStream(bytes);
-#if NET35
-                var xr = XmlReader.Create(ms, new XmlReaderSettings()
-                {
-                    ProhibitDtd=true,
-                    IgnoreWhitespace = true
-                });
-#else
                 var xr = XmlReader.Create(ms, new XmlReaderSettings()
                 {
                     DtdProcessing = DtdProcessing.Prohibit,
                     IgnoreWhitespace = true,
                     Async = true
                 });
-#endif
 
                 while (await xr.ReadAsync())
                 {
@@ -109,49 +96,16 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                         if (xr.LocalName != "presetShapeDefinitons")
                         {
                             var item = await LoadPresetShapeDefinitionAsync(xr);
-                            _shapeDefinitions.Add(item.Style, item);
+                            shapeDefinitions.Add(item.Style, item);
                         }
                     }
                 }
+                return shapeDefinitions;
             }
             catch (Exception ex)
             {
                 throw (new IOException("Cannot preset shape definitions file:presetShapeDefinitions.xml", ex));
             }
-        }
-
-        public static bool LoadPresetShapeDefinitionFromXmlTriangle()
-        {
-            _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
-
-            var xmlFile = Directory.GetCurrentDirectory() + "\\resource\\triangleOnly.xml";
-            var fs = new FileStream(xmlFile, FileMode.Open, FileAccess.Read);
-#if NET35
-                var xr = XmlReader.Create(fs, new XmlReaderSettings()
-                {
-                    ProhibitDtd=true,
-                    IgnoreWhitespace = true
-                });
-#else
-            var xr = XmlReader.Create(fs, new XmlReaderSettings()
-            {
-                DtdProcessing = DtdProcessing.Prohibit,
-                IgnoreWhitespace = true,
-                Async = true
-            });
-#endif
-            while (xr.Read())
-            {
-                if (xr.NodeType == XmlNodeType.Element)
-                {
-                    if (xr.LocalName == "triangle" && xr.NodeType != XmlNodeType.EndElement)
-                    {
-                        var item = LoadPresetShapeDefinition(xr);
-                        _shapeDefinitions.Add(item.Style, item);
-                    }
-                }
-            }
-            return true;
         }
 
         private static ShapeDefinition LoadPresetShapeDefinition(XmlReader xr)

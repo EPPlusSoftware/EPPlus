@@ -40,21 +40,16 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                 {
                     if (_shapeDefinitions == null)
                     {
-                        _shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
-#if NET35
-                        LoadPresetShapeDefinitionFromXml();
-#else
-                        Task.Run(() => LoadPresetShapeDefinitionFromXmlAsync()).Wait();
-#endif
-
+                        _shapeDefinitions =  LoadPresetShapeDefinitionFromXml();
                     }
                     return _shapeDefinitions;
                 }
             }
         }        
-#if !NET35
-        public static async Task LoadPresetShapeDefinitionFromXmlAsync()
+        public static async Task<Dictionary<ShapeStyle, ShapeDefinition>> LoadPresetShapeDefinitionFromXmlAsync()
         {
+            var shapeDefinitions = new Dictionary<ShapeStyle, ShapeDefinition>();
+
             var assembly = Assembly.GetExecutingAssembly();
             using Stream stream = assembly.GetManifestResourceStream("EPPlus.DrawingRenderer.resource.psd.zip");
 
@@ -67,10 +62,11 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                     {
                         var br = new BinaryReader(zipStream);
                         var bytes = br.ReadBytes((int)entry.UncompressedSize);
-                        Read(bytes);
+                       Read(shapeDefinitions, bytes);
                     }
                 }
             }
+            return shapeDefinitions;
         }
 
             //var xmlFile = Directory.GetCurrentDirectory() + "\\resource\\presetShapeDefinitions.xml";
@@ -225,6 +221,5 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
             }
             return l;
         }
-#endif
     }
 }
