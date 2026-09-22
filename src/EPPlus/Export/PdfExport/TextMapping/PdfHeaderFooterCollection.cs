@@ -34,8 +34,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             bool differentOddEven = pdfSheet.Worksheet.HeaderFooter.differentOddEven;
             HasFirstPage = differentFirst;
             HasOddEvenPages = differentOddEven;
-            bool AlignWithMargins = pdfSheet.Worksheet.HeaderFooter.AlignWithMargins;
-            bool ScaleWithDocument = pdfSheet.Worksheet.HeaderFooter.ScaleWithDocument;
+            AlignWithMargins = pdfSheet.Worksheet.HeaderFooter.AlignWithMargins;
+            ScaleWithDocument = pdfSheet.Worksheet.HeaderFooter.ScaleWithDocument;
             PdfHeaderFooter entry = null;
             if (differentFirst)
             {

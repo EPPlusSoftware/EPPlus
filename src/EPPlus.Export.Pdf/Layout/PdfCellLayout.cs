@@ -137,7 +137,10 @@ namespace EPPlus.Export.Pdf.Layout
                             CellFillData.GradientFillData.coords = [0, 0, 1, 0];
                             break;
                     }
-                    CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
+                    double s = pageSettings.ContentScale;
+                    double ax = pageSettings.ContentBounds.Left;
+                    double ay = pageSettings.ContentBounds.Top;
+                    CellFillData.GradientFillData.matrix = [Size.X * s, 0, 0, Size.Y * s, LocalPosition.X * s + (1d - s) * ax, LocalPosition.Y * s + (1d - s) * ay];
                 }
                 else if (CellFillData.GradientFillData.GradientType == ExcelFillGradientType.Path)
                 {
@@ -170,7 +173,10 @@ namespace EPPlus.Export.Pdf.Layout
                     {
                         CellFillData.GradientFillData.coords = [0.5, 0.5, 0, 0.5, 0.5, r];
                     }
-                    CellFillData.GradientFillData.matrix = [Size.X, 0, 0, Size.Y, LocalPosition.X, LocalPosition.Y];
+                    double s = pageSettings.ContentScale;
+                    double ax = pageSettings.ContentBounds.Left;
+                    double ay = pageSettings.ContentBounds.Top;
+                    CellFillData.GradientFillData.matrix = [Size.X * s, 0, 0, Size.Y * s, LocalPosition.X * s + (1d - s) * ax, LocalPosition.Y * s + (1d - s) * ay];
                 }
             }
         }

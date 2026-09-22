@@ -47,6 +47,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add(command);
         }
 
+        public void AddContentScale(double scale, double anchorX, double anchorY)
+        {
+            if (scale == 1d) return;
+            double e = (1d - scale) * anchorX;
+            double f = (1d - scale) * anchorY;
+            commands.Add($"{scale.ToPdfString()} 0 0 {scale.ToPdfString()} {e.ToPdfString()} {f.ToPdfString()} cm");
+        }
+
         public void AddCellLayout(PdfCellLayout cell, string label)
         {
             if (cell.Size.X <= 0d || cell.Size.Y <= 0d) return;
@@ -476,8 +484,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 left = System.Math.Min(left, System.Math.Min(line.X1, line.X2));
                 right = System.Math.Max(right, System.Math.Max(line.X1, line.X2));
             }
-            right = System.Math.Min(right, pageSettings.PageSize.WidthPu);
-            bottom = System.Math.Max(bottom, 0d);
+            //right = System.Math.Min(right, pageSettings.PageSize.WidthPu);
+            //bottom = System.Math.Max(bottom, 0d);
             var pad = GridLine.Width * 4;
             var x = left + pl.HeadingWidth + pl.PrintTitleWidth - pad;
             var y = bottom - pad;
