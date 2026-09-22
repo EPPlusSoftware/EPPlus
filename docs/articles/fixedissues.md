@@ -1,4 +1,14 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.7.1
+### Fixed issues
+* Fixed an issue where saving a worksheet with a ´rowBreak´ element that has an xml prefix could cause a corrupt workbook. This could occur if the worksheet xml had been updated by the OOXML SDK.
+* Fixed header/footer sections lost when not in Left/Center/Right order.
+* Increased the width used in Autofit filter icon width calculations from 15 to 19 px.
+* Fixed an issue where ´Worksheet.Copy´ did not copy comment texts to the new worksheet.
+* Fixed an issue where ´Workbook.FullPrecision´ had the wrong default value when read from xml. The default value is now true (previously false).
+* Fixed an issue where a Conditional Formatting border style of None was not read correctly when the border xml element was empty.
+* Fixed an issue where ´ExcelRange.Style.BorderAround´ could occasionally extend the worksheet's ´Dimension´ when the range included bordered cells outside of it.
+* Fixed an issue where defined names used in array comparisons with the colon operator (:) could cause an invalid result in formula calculation.
 ## Version 8.7.0
 ### Minor Features
 * The ´ExcelPackage´ Save functions now support saving as a template (.xltx, .xltm), see https://github.com/EPPlusSoftware/EPPlus/wiki/Save-as-template(.xltx,-.xltm).
