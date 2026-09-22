@@ -1,7 +1,8 @@
 # Features / Fixed issues - EPPlus 8
-## Version 9.0.0
+## Version 9.0.0-preview
 * Pdf export of ranges and tables.
-* Svg export of shapes and charts (supports line-, column-, bar-, pie and combo charts).
+* SVG export of shapes and charts (supports line-, column-, bar-, pie and combo charts).
+* The HTML export will now optionally include shapes and supported chart types as SVGs.
 * Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
 ## Version 8.7.1
 ### Fixed issues

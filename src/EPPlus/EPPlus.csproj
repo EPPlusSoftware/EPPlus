@@ -31,11 +31,11 @@
 			## Version 9.0.0-preview
 			* Pdf export of ranges and tables.
 			* Export of shapes and charts to svg (Support for Line-, bar-, column-, pie and combo charts).
+			* The HTML export will now optionally include shapes and supported chart types as SVGs.
+			* New Sample site: See https://samples.epplussoftware.com/EPPlus9
+
 			## Version 8.7.1
 			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-
-			* The Html export will now export shapes and supported chart types to svg.
-			* New Sample site: See https://samples.epplussoftware.com/EPPlus9
 
 			## Version 8.7.0
 			* New overloads for ExcelPackage.Save functions to save a package as a template (xlst or xltm).
