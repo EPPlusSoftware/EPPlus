@@ -58,6 +58,8 @@ namespace OfficeOpenXml.Drawing.Renderer
 
             var parentBounds = shape.GetBoundingBox();
             var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
+            shapeGroup.Bounds.Name = "ShapeGroup";
+
             RenderItems.Add(shapeGroup);
 
             if (style==eShapeStyle.CustomShape)
@@ -248,29 +250,45 @@ namespace OfficeOpenXml.Drawing.Renderer
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            MarginTextBox = new RectRenderItem(this.Bounds);
+            MarginTextBox = new RectRenderItem(InsetTextBox.Bounds);
 
-            MarginTextBox.Top = t + InsetTextBox.Top;
-            MarginTextBox.Left = l + InsetTextBox.Left;
+            MarginTextBox.Top = t;
+            MarginTextBox.Left = l;
             MarginTextBox.Width = InsetTextBox.Width - r - l;
             MarginTextBox.Height = InsetTextBox.Height - b - t;
 
-            var grp = new GroupRenderItem(this.Bounds);
-            grp.Bounds.Position = MarginTextBox.Bounds.Position;
+            var insetGrp = new GroupRenderItem(this.Bounds);
+            insetGrp.Bounds.Left = InsetTextBox.Left;
+            insetGrp.Bounds.Top = InsetTextBox.Top;
+            insetGrp.Bounds.Name = $"{Drawing.Name}_InsetTextBox_Pos";
+
+            var marginGroup = new GroupRenderItem(insetGrp.Bounds);
+            marginGroup.Left = MarginTextBox.Left;
+            marginGroup.Top = MarginTextBox.Top;
+            marginGroup.Bounds.Name = $"{Drawing.Name}_MarginTextbox_Pos";
+            insetGrp.AddChildItem(marginGroup);
+
+            //grp.Bounds.Position = MarginTextBox.Bounds.Position;
             //grp.TranslationOffset = new Point(InsetTextBox.Left, InsetTextBox.Top);
             //grp.Bounds.Position = new EPPlus.Graphics.Geometry.Vector2(InsetTextBox.GlobalLeft, InsetTextBox.GlobalRight);
             //grp.AddChildItem(InsetTextBox);
             //grp.AddChildItem(MarginTextBox);
-            RenderItems.Add(grp);
+            RenderItems.Add(insetGrp);
 
             //RenderItems.Add(InsetTextBox);
             //RenderItems.Add(MarginTextBox);
 
             //Left and Top are already set by MarginTextBox we need not set them again
             var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            txtBodyItem.Bounds.Name = $"{Drawing.Name}_TxtBodyItem";
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
-            txtBodyItem.AppendRenderItems(grp.RenderItems);
+            foreach(var paragraph in txtBodyItem.Paragraphs)
+            {
+                paragraph.Bounds.Name = $"{Drawing.Name}_{paragraph.Bounds.Name}";
+            }
+
+            txtBodyItem.AppendRenderItems(marginGroup.RenderItems);
             //txtBodyItem.Left += InsetTextBox.Left;
             //txtBodyItem.Top += InsetTextBox.Top;
 
