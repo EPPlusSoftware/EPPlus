@@ -452,16 +452,13 @@ namespace EPPlusImageRenderer
 
             if (Plotarea != null)
             {
-                //var typeDrawersGrp = new GroupRenderItem(Bounds);
-                //typeDrawersGrp.Bounds.Name = "TypeDrawers";
-
+                //TODO: Add typeDrawers group?
+                //Currently drawer.AppendRenderItems rarely if ever actually adds anything
+                //It goes directly on PlotArea mostly
                 foreach (var drawer in Plotarea?.ChartTypeDrawers)
                 {
                     drawer.AppendRenderItems(RenderItems);
-                    //drawer.AppendRenderItems(typeDrawersGrp.RenderItems);
                 }
-                
-                //RenderItems.Add(typeDrawersGrp);
             }
 
             HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);

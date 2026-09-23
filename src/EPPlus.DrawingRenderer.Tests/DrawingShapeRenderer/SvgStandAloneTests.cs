@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
-    [TestClass/*, Ignore("Some small differences in the asserts when running in Github actions, investigation needed.")*/]
+    [TestClass]
     public class SvgStandAloneTests : TestBase
     {
 
@@ -131,10 +131,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             {
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
             }
-            //if (engine.GetFontAvailability("Archivo Narrow") == FontAvailability.NotFound)
-            //{
-            //    Assert.Inconclusive("Font not found. This is expected behaviour on web.");
-            //}
 
             var renderContext = new RenderContext(() => engine);
             var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);

@@ -109,8 +109,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
             renderItems.Add(this);
 
-            //var titleItem = new TitleRenderItem("TextBody group");
-            //AddChildItem(titleItem);
+            var titleItem = new TitleRenderItem("TextBody group");
+            AddChildItem(titleItem);
             foreach (var item in Paragraphs)
             {
                 AddChildItem(item);
