@@ -157,6 +157,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 entry.Content.ContentAligmnet = PdfTextMap.GetAlignmentData(entry);
                 PdfHeaderFooterEntries.Add(entry);
             }
+
+            double hfScale = pageSettings.ContentScale;
+            if (ScaleWithDocument && hfScale != 1d)
+            {
+                foreach (var e in PdfHeaderFooterEntries)
+                {
+                    if (e.Content?.TextFragments != null)
+                    {
+                        foreach (var tf in e.Content.TextFragments)
+                            tf.Font.Size = (float)(tf.Font.Size * hfScale);
+                    }
+                    e.ImageWidth *= hfScale;
+                    e.ImageHeight *= hfScale;
+                }
+            }
         }
 
         public PdfHeaderFooter Get(HeaderFooterType type, HeaderFooterSection section, HeaderFooterAlignment alignment)

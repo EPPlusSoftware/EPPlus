@@ -435,7 +435,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeBool(scaleWithDocPath);
+                return GetXmlNodeBool(scaleWithDocPath, true);
             }
             set
             {
