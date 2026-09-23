@@ -104,21 +104,15 @@ namespace OfficeOpenXml.Drawing.Renderer
                         InsetTextBox = new RectRenderItem(Bounds);
                         InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
                         InsetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
-                        InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
-                        InsetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
                         InsetTextBox.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
                             InsetTextBox.Width = ((double)((float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue)).PixelToPoint();
                             InsetTextBox.Height = ((double)((float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue)).PixelToPoint();
-                            InsetTextBox.Width = ((double)((float)shapeDef.TextBoxRect.RightValue - (float)shapeDef.TextBoxRect.LeftValue)).PixelToPoint();
-                            InsetTextBox.Height = ((double)((float)shapeDef.TextBoxRect.BottomValue - (float)shapeDef.TextBoxRect.TopValue)).PixelToPoint();
                         }
                         else
                         {
-                            InsetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue.PixelToPoint();
-                            InsetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue.PixelToPoint();
                             InsetTextBox.Width = (float)shapeDef.TextBoxRect.RightValue.PixelToPoint();
                             InsetTextBox.Height = (float)shapeDef.TextBoxRect.BottomValue.PixelToPoint();
                         }
@@ -249,11 +243,6 @@ namespace OfficeOpenXml.Drawing.Renderer
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
                 //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
-                InsetTextBox.Bounds.Left = x.PixelToPoint();
-                InsetTextBox.Bounds.Top = y.PixelToPoint();
-                InsetTextBox.Width = width.PixelToPoint();
-                InsetTextBox.Height = height.PixelToPoint();
-                //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
             }
 
             double l, r, t, b;
@@ -277,7 +266,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             //RenderItems.Add(InsetTextBox);
             //RenderItems.Add(MarginTextBox);
 
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, t, MarginTextBox.Width, MarginTextBox.Height, true);
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, t, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);

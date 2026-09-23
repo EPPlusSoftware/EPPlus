@@ -109,8 +109,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
             renderItems.Add(this);
 
-            var titleItem = new TitleRenderItem("TextBody group");
-            AddChildItem(titleItem);
+            //var titleItem = new TitleRenderItem("TextBody group");
+            //AddChildItem(titleItem);
             foreach (var item in Paragraphs)
             {
                 AddChildItem(item);
@@ -250,7 +250,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 case TextAnchoringType.Center:
                     if(AutoSize == false)
                     {
-                        alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
+                        alignmentY = (Bounds.Height - ContentBounds.Height) / 2d;
                     }
                     break;
                 case TextAnchoringType.Bottom:

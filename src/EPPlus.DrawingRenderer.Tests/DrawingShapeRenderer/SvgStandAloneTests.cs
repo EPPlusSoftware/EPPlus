@@ -252,9 +252,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             double delta = 0.001;
 
-            Assert.AreEqual(180.04052829742432d, textBody.Bounds.Top, delta);
-
             GenerateSvgFile("textBodyAlignVCenter", baseGroup.Bounds, baseGroup);
+
+            //This appears to be entirely accurate when comparing to excel
+            Assert.AreEqual(215.02026414871216, textBody.Bounds.Top, delta);
+            //This is our old expected value.
+            //Assert.AreEqual(180.04052829742432d, textBody.Bounds.Top, delta);
+            //Interestingly 500/2 = 250
+            //and 250 - 35 = 215 
+            //And 215 - 35 = 180
+            //Seems we may have been adjusting for something by taking the full height of the text rather than just half.
+            //Possibly this is now handled by the y of the first tSpan
         }
 
         [TestMethod]
