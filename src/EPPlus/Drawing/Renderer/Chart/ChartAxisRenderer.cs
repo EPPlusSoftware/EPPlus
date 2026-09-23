@@ -252,6 +252,33 @@ namespace EPPlusImageRenderer.Svg
             private set;
         } = false;
 
+        /// <summary>
+        /// Create a subGroup beneath the ParentGroup
+        /// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
+        /// </summary>
+        /// <typeparam name="T">Some RenderItem type</typeparam>
+        /// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
+        /// <param name="Items">The RenderItems to place within the group</param>
+        /// <param name="parentGroup">The parent group of this item</param>
+        private void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items, GroupRenderItem parentGroup) where T : RenderItem
+        {
+            if (Items != null)
+            {
+                //Create subGroup
+                var subGroup = new GroupRenderItem(parentGroup.Bounds);
+                subGroup.Bounds.Name = subGroupName;
+
+                //Add items to subGroup
+                foreach (var renderItem in Items)
+                {
+                    subGroup.RenderItems.Add(renderItem);
+                }
+
+                //Add subGroup to parent group
+                parentGroup.RenderItems.Add(subGroup);
+            }
+        }
+
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             Title?.AppendRenderItems(renderItems);
@@ -259,40 +286,23 @@ namespace EPPlusImageRenderer.Svg
             if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) renderItems.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
-            if (MinorGridlinePositions != null)
-            {
-                foreach (var tm in MinorGridlinePositions)
-                {
-                    plotareaGroup.RenderItems.Add(tm);
-                }
-            }
 
-            if (MajorGridlinePositions != null)
-            {
-                foreach (var tm in MajorGridlinePositions)
-                {
-                    plotareaGroup.RenderItems.Add(tm);
-                }
-            }
+            AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
+            AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
 
             if (Line != null) renderItems.Add(Line);
 
-            if (MinorTickMarkPositions != null)
+            var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            TickMarkGroup.Bounds.Name = $"Axis_{Axis.Index}_TickMarkGroup";
+
+            AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
+            AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
+
+            if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
             {
-                foreach (var tm in MinorTickMarkPositions)
-                {
-                    renderItems.Add(tm);
-                }
+                renderItems.Add(TickMarkGroup);
             }
 
-            if (MajorTickMarkPositions != null)
-            {
-                foreach (var tm in MajorTickMarkPositions)
-                {
-                    renderItems.Add(tm);
-                }
-            }
-            
             //The axis text boxes is rendered later as they have a higher Z-order.
         }
 
