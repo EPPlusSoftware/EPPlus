@@ -266,7 +266,8 @@ namespace OfficeOpenXml.Drawing.Renderer
             //RenderItems.Add(InsetTextBox);
             //RenderItems.Add(MarginTextBox);
 
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, t, MarginTextBox.Width, MarginTextBox.Height);
+            //Left and Top are already set by MarginTextBox we need not set them again
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
             txtBodyItem.AppendRenderItems(grp.RenderItems);
