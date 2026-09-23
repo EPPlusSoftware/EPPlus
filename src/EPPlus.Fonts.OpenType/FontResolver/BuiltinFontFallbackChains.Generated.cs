@@ -11,6 +11,16 @@
 //   Generated on 2026-05-19 11:22:31Z
 //   Entries: 56
 // </auto-generated>
+//
+// MANUAL PATCH NOTICE:
+// The generator tool (EPPlus.Tools.Fonts) was unavailable when Google Fonts
+// (Tinos, Arimo, Cousine, Gelasio) were added as metric-compatible fallbacks.
+// They were only added to chains where no other free/open-licensed font
+// (Carlito, Caladea, Liberation Sans/Serif/Mono/Narrow, DejaVu Sans, Cascadia
+// Mono/Code) already preceded Arial / Times New Roman / Courier New / Georgia
+// in that chain, to avoid redundant entries.
+// Remember to apply the same change in the generator once it is back in
+// source control, so the next regeneration doesn't silently drop this.
 
 using System;
 using System.Collections.Generic;
@@ -49,9 +59,9 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             d[@"Aptos Mono"] = new string[] { @"Cascadia Mono", @"Cascadia Code", @"Consolas", @"Liberation Mono", @"Courier New" };
             d[@"Aptos Narrow"] = new string[] { @"Liberation Sans Narrow", @"Arial Narrow", @"Carlito", @"Liberation Sans", @"Arial" };
             d[@"Aptos SemiBold"] = new string[] { @"Carlito", @"Liberation Sans", @"Arial" };
-            d[@"Arabic Transparent"] = new string[] { @"Arial" };
+            d[@"Arabic Transparent"] = new string[] { @"Arial", @"Arimo" };
             d[@"Arabic Transparent Bold"] = new string[] { @"Arial Bold" };
-            d[@"Arial"] = new string[] { @"Liberation Sans", @"Helvetica" };
+            d[@"Arial"] = new string[] { @"Arimo", @"Liberation Sans", @"Helvetica" };
             d[@"Arial Black"] = new string[] { @"Liberation Sans", @"Arial" };
             d[@"Arial Narrow"] = new string[] { @"Liberation Sans Narrow", @"Liberation Sans" };
             d[@"Book Antiqua"] = new string[] { @"Palatino Linotype", @"Palatino", @"Liberation Serif", @"Times New Roman" };
@@ -71,32 +81,32 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             d[@"Consolas"] = new string[] { @"Cascadia Mono", @"Cascadia Code", @"Liberation Mono", @"Courier New" };
             d[@"Constantia"] = new string[] { @"Caladea", @"Liberation Serif", @"Georgia", @"Times New Roman" };
             d[@"Corbel"] = new string[] { @"Carlito", @"Liberation Sans", @"Arial" };
-            d[@"Courier"] = new string[] { @"Courier New", @"Liberation Mono" };
-            d[@"Courier New"] = new string[] { @"Liberation Mono", @"Courier" };
+            d[@"Courier"] = new string[] { @"Courier New", @"Cousine", @"Liberation Mono" };
+            d[@"Courier New"] = new string[] { @"Cousine", @"Liberation Mono", @"Courier" };
             d[@"DejaVu Sans"] = new string[] { @"Liberation Sans", @"Arial", @"Helvetica" };
             d[@"DejaVu Sans Condensed"] = new string[] { @"DejaVu Sans", @"Liberation Sans", @"Arial" };
             d[@"DejaVu Sans Mono"] = new string[] { @"Liberation Mono", @"Courier New", @"Courier" };
             d[@"Garamond"] = new string[] { @"Liberation Serif", @"Times New Roman", @"Times" };
-            d[@"Georgia"] = new string[] { @"Liberation Serif", @"Times New Roman", @"Times" };
-            d[@"Helvetica"] = new string[] { @"Arial", @"Liberation Sans" };
-            d[@"Helvetica Neue"] = new string[] { @"Helvetica", @"Arial", @"Liberation Sans" };
+            d[@"Georgia"] = new string[] { @"Gelasio", @"Liberation Serif", @"Times New Roman", @"Times" };
+            d[@"Helvetica"] = new string[] { @"Arial", @"Arimo", @"Liberation Sans" };
+            d[@"Helvetica Neue"] = new string[] { @"Helvetica", @"Arial", @"Arimo", @"Liberation Sans" };
             d[@"Impact"] = new string[] { @"Liberation Sans Narrow", @"Arial Narrow", @"Arial Black", @"Arial" };
-            d[@"Liberation Mono"] = new string[] { @"Courier New", @"Courier" };
-            d[@"Liberation Sans"] = new string[] { @"Arial", @"Helvetica" };
+            d[@"Liberation Mono"] = new string[] { @"Courier New", @"Cousine", @"Courier" };
+            d[@"Liberation Sans"] = new string[] { @"Arial", @"Arimo", @"Helvetica" };
             d[@"Liberation Sans Narrow"] = new string[] { @"Arial Narrow", @"Liberation Sans", @"Arial" };
-            d[@"Liberation Serif"] = new string[] { @"Times New Roman", @"Times" };
+            d[@"Liberation Serif"] = new string[] { @"Times New Roman", @"Tinos", @"Times" };
             d[@"Lucida Console"] = new string[] { @"DejaVu Sans Mono", @"Liberation Mono", @"Consolas", @"Courier New" };
             d[@"Lucida Sans Unicode"] = new string[] { @"DejaVu Sans", @"Liberation Sans", @"Arial" };
-            d[@"MS Sans Serif"] = new string[] { @"Arial", @"Liberation Sans", @"Helvetica" };
-            d[@"MS Serif"] = new string[] { @"Times New Roman", @"Liberation Serif", @"Times" };
+            d[@"MS Sans Serif"] = new string[] { @"Arial", @"Arimo", @"Liberation Sans", @"Helvetica" };
+            d[@"MS Serif"] = new string[] { @"Times New Roman", @"Tinos", @"Liberation Serif", @"Times" };
             d[@"Palatino"] = new string[] { @"Palatino Linotype", @"Book Antiqua", @"Liberation Serif", @"Times New Roman" };
             d[@"Palatino Linotype"] = new string[] { @"Palatino", @"Book Antiqua", @"Liberation Serif", @"Times New Roman" };
             d[@"Segoe Print"] = new string[] { @"Comic Sans MS", @"Liberation Sans", @"Arial" };
             d[@"Segoe Script"] = new string[] { @"Comic Sans MS", @"Liberation Sans", @"Arial" };
             d[@"Segoe UI"] = new string[] { @"Liberation Sans", @"Arial", @"Helvetica" };
             d[@"Tahoma"] = new string[] { @"DejaVu Sans Condensed", @"DejaVu Sans", @"Liberation Sans", @"Arial" };
-            d[@"Times"] = new string[] { @"Times New Roman", @"Liberation Serif" };
-            d[@"Times New Roman"] = new string[] { @"Liberation Serif", @"Times" };
+            d[@"Times"] = new string[] { @"Times New Roman", @"Tinos", @"Liberation Serif" };
+            d[@"Times New Roman"] = new string[] { @"Tinos", @"Liberation Serif", @"Times" };
             d[@"Trebuchet MS"] = new string[] { @"Liberation Sans", @"Arial", @"Helvetica" };
             d[@"Verdana"] = new string[] { @"DejaVu Sans", @"Liberation Sans", @"Arial" };
 
