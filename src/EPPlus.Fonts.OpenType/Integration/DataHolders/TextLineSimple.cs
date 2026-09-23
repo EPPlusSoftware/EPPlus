@@ -83,6 +83,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         internal void FinalizeLineFragments(List<ITextFragmentBase> originalFragments)
         {
+            LineFragments.Clear();
             LastFontSpaceWidth = InternalLineFragments.Last().SpaceWidth;
 
             foreach (var lf in InternalLineFragments)

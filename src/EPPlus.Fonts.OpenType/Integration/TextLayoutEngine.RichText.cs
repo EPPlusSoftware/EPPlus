@@ -65,7 +65,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state, false);
+                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -202,7 +202,10 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessFragment(fragment, maxWidthPoints, lineBuilder, state, isVertical);
+                if (isVertical)
+                    ProcessFragmentVertical(fragment, maxWidthPoints, lineBuilder, state);
+                else
+                    ProcessFragment(fragment, maxWidthPoints, lineBuilder, state);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -240,11 +243,11 @@ namespace EPPlus.Fonts.OpenType.Integration
             return state.Lines;
         }
 
-        public List<TextLineSimple> WrapRichTextLineLineCollectionVertical(List<TextFragment> fragments, double maxHeightPoints)
+        public TextLineCollection WrapRichTextLineCollectionVertical(List<TextFragment> fragments, double maxHeightPoints)
         {
             var frags = fragments.Cast<ITextFragmentBase>().ToList();
             var innerLines = WrapVerticalRichTextLines(frags, maxHeightPoints);
-            return new TextLineCollection(innerLines, frags);
+            return new TextLineCollection(innerLines, frags, true);
         }
 
         public List<TextLineSimple> WrapVerticalRichTextLines(List<ITextFragmentBase> fragments, double maxHeightPoints)
@@ -355,44 +358,29 @@ namespace EPPlus.Fonts.OpenType.Integration
         }
 
         private void ProcessFragment(
-            ITextFragmentBase fragment,
-            double maxWidthPoints,
-            StringBuilder lineBuilder,
-            WrapStateRichText state,
-            bool isVertical)
+     ITextFragmentBase fragment,
+     double maxWidthPoints,
+     StringBuilder lineBuilder,
+     WrapStateRichText state)
         {
             state.CharIdxRt = 0;
             var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
             var options = fragment.Options ?? ShapingOptions.Default;
             int len = fragment.Text.Length;
+            var charWidths = GetCharWidthBuffer(len);
+            Array.Clear(charWidths, 0, len);
+
+            // ShapeLight applies only kerning (sufficient for line-breaking).
+            // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
+            // is ~250x slower and irrelevant for wrapping decisions.
+            var shaped = shaper.ShapeLight(fragment.Text, options);
+            shaped.FillCharWidths(fragment.Size, charWidths, len);
 
             //Store for after everything is done
             fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
             fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
 
-            double[] charWidths = null;
-            double verticalStep = 0d;
-            double spaceWidth;
-
-            if (isVertical)
-            {
-                verticalStep = fragment.AscentPoints + fragment.DescentPoints;
-                spaceWidth = verticalStep;
-            }
-            else
-            {
-                charWidths = GetCharWidthBuffer(len);
-                Array.Clear(charWidths, 0, len);
-
-                // ShapeLight applies only kerning (sufficient for line-breaking).
-                // Full Shape() runs SingleAdjustment + Kerning + MarkToBase which
-                // is ~250x slower and irrelevant for wrapping decisions.
-                var shaped = shaper.ShapeLight(fragment.Text, options);
-                shaped.FillCharWidths(fragment.Size, charWidths, len);
-
-                spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
-            }
-
+            var spaceWidth = shaper.Shape(" ", options).GetWidthInPoints(fragment.Size);
             state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
             state.LineFrag.SpaceWidth = spaceWidth;
 
@@ -415,11 +403,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 state.CharIdxRt = i;
 
-                double advance = isVertical ? verticalStep : charWidths[i];
-
-                state.CurrentLineWidth += advance;
-                state.CurrentWordWidth += advance;
-                state.LineFrag.Width += advance;
+                state.CurrentLineWidth += charWidths[i];
+                state.CurrentWordWidth += charWidths[i];
+                state.LineFrag.Width += charWidths[i];
 
                 lineBuilder.Append(c);
 
@@ -430,13 +416,97 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 if (state.CurrentLineWidth > maxWidthPoints)
                 {
-                    WrapCurrentLine(lineBuilder, state, maxWidthPoints, advance);
+                    WrapCurrentLine(lineBuilder, state, maxWidthPoints, charWidths[i]);
                 }
                 i++;
                 state.CharIdxWithinOriginal++;
             }
-        }
 
+            if (state.LineFrag.Width > 0)
+            {
+                state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
+            }
+
+            state.CurrentFragmentIdx++;
+        }
+        /// <summary>
+        /// Vertical (textRotation=255) counterpart to ProcessFragment.
+        ///
+        /// Characters are stacked top-to-bottom, so each one advances by a uniform line
+        /// height regardless of its glyph width. No shaping is needed for measurement -
+        /// only ascent/descent. Verified against Excel: for Aptos Narrow 11pt every
+        /// character steps exactly 15.24pt down the stack, and the same value separates
+        /// one stack from the next.
+        ///
+        /// Everything else - word breaking, line-break handling, wrap state - is shared
+        /// with ProcessFragment via WrapCurrentLine and WrapStateRichText.
+        /// </summary>
+        private void ProcessFragmentVertical(
+            ITextFragmentBase fragment,
+            double maxHeightPoints,
+            StringBuilder lineBuilder,
+            WrapStateRichText state)
+        {
+            state.CharIdxRt = 0;
+            var shaper = GetShaperForFont((IFontFormatBase)fragment.RichTextOptions);
+            int len = fragment.Text.Length;
+
+            //Store for after everything is done
+            fragment.AscentPoints = shaper.GetAscentInPoints(fragment.Size);
+            fragment.DescentPoints = shaper.GetDescentInPoints(fragment.Size);
+
+            // Uniform advance along the stack. Doubles as the space advance, since a space
+            // occupies a full slot in the stack just like any other character.
+            var step = fragment.AscentPoints + fragment.DescentPoints;
+
+            state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+            state.LineFrag.SpaceWidth = step;
+
+            int i = 0;
+            while (i < len)
+            {
+                char c = fragment.Text[i];
+
+                if (IsLineBreak(c))
+                {
+                    HandleLineBreak(lineBuilder, state);
+                    SkipLineBreakChars(fragment.Text, ref i);
+
+                    state.CurrentLineWidth = 0;
+                    state.CurrentWordWidth = 0;
+                    state.WordStart = -1;
+                    state.LineStart = -1;
+                    continue;
+                }
+
+                state.CharIdxRt = i;
+
+                state.CurrentLineWidth += step;
+                state.CurrentWordWidth += step;
+                state.LineFrag.Width += step;
+
+                lineBuilder.Append(c);
+
+                if (c == ' ')
+                {
+                    state.SetAndLogWordStartState(lineBuilder.Length - 1);
+                }
+
+                if (state.CurrentLineWidth > maxHeightPoints)
+                {
+                    WrapCurrentLine(lineBuilder, state, maxHeightPoints, step);
+                }
+                i++;
+                state.CharIdxWithinOriginal++;
+            }
+
+            if (state.LineFrag.Width > 0)
+            {
+                state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
+            }
+
+            state.CurrentFragmentIdx++;
+        }
         /// <summary>
         /// Fills character widths from lightweight GlyphWidth structs (8 bytes each).
         /// Used by the wrapping pipeline for optimal performance.

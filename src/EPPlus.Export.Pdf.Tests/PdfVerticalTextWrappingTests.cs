@@ -35,6 +35,29 @@ namespace EPPlus.Export.Pdf.Tests
         }
 
         /// <summary>
+        /// WrapRichTextLineCollectionVertical runs FinalizeLineFragments twice on each line:
+        /// once in WrapRichTextLines' ascent/descent pass, and once more in the
+        /// TextLineCollection constructor (finalizeLineFragments: true). Without a Clear()
+        /// at the top of FinalizeLineFragments the output fragments accumulate, which also
+        /// defeats the count-equality guard in FinalizeTextLineData.
+        /// </summary>
+        [TestMethod]
+        public void VerticalWrap_LineFragmentsDoNotAccumulateOnDoubleFinalize()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+
+            var collection = engine.WrapRichTextLineCollectionVertical(
+                FragmentsTyped("aaa bbb ccc"), step * 8);
+
+            Assert.AreEqual(2, collection.Count);
+            foreach (var line in collection)
+            {
+                Assert.AreEqual(line.InternalLineFragments.Count, line.LineFragments.Count,
+                    "LineFragments must not accumulate across repeated finalization.");
+            }
+        }
+        /// <summary>
         /// THE discriminating test. Narrow and wide glyphs must wrap at the exact same
         /// character count, because vertical stacking ignores glyph advance entirely.
         /// If this fails, the code is still measuring horizontal widths somewhere.
@@ -69,6 +92,9 @@ namespace EPPlus.Export.Pdf.Tests
             Assert.AreEqual("aaa bbb", lines[0].Text, "Trailing space must be trimmed from the stack text.");
             Assert.AreEqual("ccc", lines[1].Text);
             Assert.IsTrue(lines[0].WasWrappedOnSpace, "Break on whitespace should be flagged.");
+            Assert.IsLessThan(lines[0].LargestAscent, 0);
+            Assert.AreEqual(lines[0].InternalLineFragments.Count, lines[0].LineFragments.Count,
+    "LineFragments must not accumulate across repeated finalization.");
         }
 
         [TestMethod]
@@ -111,6 +137,20 @@ namespace EPPlus.Export.Pdf.Tests
             var frags = Fragments("X");
             engine.WrapVerticalRichTextLines(frags, double.MaxValue);
             return frags[0].AscentPoints + frags[0].DescentPoints;
+        }
+        private static List<TextFragment> FragmentsTyped(params string[] texts)
+        {
+            var list = new List<TextFragment>(texts.Length);
+            foreach (var text in texts)
+            {
+                var frag = new TextFragment();
+                frag.Font = new RichTextFormatSimple();
+                frag.Text = text;
+                frag.Font.Family = FontName;
+                frag.Font.Size = FontSize;
+                list.Add(frag);
+            }
+            return list;
         }
     }
 }
