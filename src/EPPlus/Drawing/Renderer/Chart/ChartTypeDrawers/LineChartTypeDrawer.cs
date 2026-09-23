@@ -296,7 +296,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
-            SeriesRenderItems.ForEach(x=> ChartRenderer.Plotarea.Group.AddChildItem(x));
+            //SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
+            //ChartRenderer.Plotarea.Group.AddSubGroupingOfRenderItems("Linechart_SeriesItems", SeriesRenderItems);
+            GroupRenderItem SerieGroup = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
+            SerieGroup.Bounds.Name = "LineChart_SeriesItems";
+
+            SeriesRenderItems.ForEach(x => SerieGroup.AddChildItem(x));
+
+            ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
+            ////ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
+            //SeriesRenderItems.ForEach(x=> ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
     }
 

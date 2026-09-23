@@ -34,6 +34,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -281,16 +282,19 @@ namespace EPPlusImageRenderer.Svg
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            Title?.AppendRenderItems(renderItems);
+            var AxisGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            AxisGroup.Bounds.Name = $"Axis_{Axis.Index}";
+
+            Title?.AppendRenderItems(AxisGroup.RenderItems);
             //Title?.Render(sb);
-            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) renderItems.Add(Rectangle);
+            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) AxisGroup.RenderItems.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
 
             AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
             AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
 
-            if (Line != null) renderItems.Add(Line);
+            if (Line != null) AxisGroup.RenderItems.Add(Line);
 
             var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
             TickMarkGroup.Bounds.Name = $"Axis_{Axis.Index}_TickMarkGroup";
@@ -300,8 +304,10 @@ namespace EPPlusImageRenderer.Svg
 
             if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
             {
-                renderItems.Add(TickMarkGroup);
+                AxisGroup.RenderItems.Add(TickMarkGroup);
             }
+
+            renderItems.Add(AxisGroup);
 
             //The axis text boxes is rendered later as they have a higher Z-order.
         }
@@ -339,6 +345,7 @@ namespace EPPlusImageRenderer.Svg
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
                 Textboxes = new ChartAxisTextBoxes(ChartRenderer);
+                Textboxes.AxisName = $"Axis_{Axis.Index}_Textboxes";
                 Textboxes.TextBoxes = GetAxisValueTextBoxes();  
             }
         }

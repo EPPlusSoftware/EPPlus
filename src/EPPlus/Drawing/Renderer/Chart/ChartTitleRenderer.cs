@@ -223,7 +223,7 @@ namespace EPPlusImageRenderer.Svg
         internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            TextBox.Rectangle.Bounds.Name = $"{Chart.Name}_Title_Rect";
+            TextBox.Name = $"{Chart.Name}_Title_Rect";
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
             if (p != null)
             {
