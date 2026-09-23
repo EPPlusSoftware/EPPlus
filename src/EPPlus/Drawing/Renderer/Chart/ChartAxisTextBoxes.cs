@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -21,6 +22,8 @@ namespace EPPlusImageRenderer.Svg
 {
     internal class ChartAxisTextBoxes : ChartDrawingObject
     {
+        internal string AxisName = "";
+
         internal override Color? DefaultFillColor { get; }
 
         internal ChartAxisTextBoxes(ChartRenderer chart) : base(chart)
@@ -38,10 +41,13 @@ namespace EPPlusImageRenderer.Svg
         {
             if (TextBoxes != null && TextBoxes.Count > 0)
             {
+                var AxisTxtBoxGroup = new GroupRenderItem(ChartRenderer.Bounds);
+                AxisTxtBoxGroup.Bounds.Name = AxisName;
                 foreach (var tb in TextBoxes)
                 {
-                    tb.AppendRenderItems(renderItems);
+                    tb.AppendRenderItems(AxisTxtBoxGroup.RenderItems);
                 }
+                renderItems.Add(AxisTxtBoxGroup);
             }
 
         }

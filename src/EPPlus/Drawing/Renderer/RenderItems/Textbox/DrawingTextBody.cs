@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Text = text;
 
             var paragraph = CreateParagraph(this, item, Bounds, text);
-            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
+            paragraph.Bounds.Name = $"Paragraph{Paragraphs.Count}";
             paragraph.Bounds.Top = startingY;
 
             if (AutoSize)

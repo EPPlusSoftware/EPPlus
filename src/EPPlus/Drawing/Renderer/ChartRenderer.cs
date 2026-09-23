@@ -452,6 +452,9 @@ namespace EPPlusImageRenderer
 
             if (Plotarea != null)
             {
+                //TODO: Add typeDrawers group?
+                //Currently drawer.AppendRenderItems rarely if ever actually adds anything
+                //It goes directly on PlotArea mostly
                 foreach (var drawer in Plotarea?.ChartTypeDrawers)
                 {
                     drawer.AppendRenderItems(RenderItems);
