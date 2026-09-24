@@ -1,0 +1,19 @@
+{
+  "name": "com.prpr.epplus",
+  "displayName": "EPPlus",
+  "description": "EPPlus-Excel spreadsheets for Unity",
+  "version": "8.7.0",
+  "unity": "2021.3",
+  "author": {
+    "name": "Peropero",
+    "email": "unity@peropero.net"
+  },
+  "documentationUrl": "https://github.com/peroperogames/epplus/blob/develop8/README.md",
+  "changelogUrl": "https://github.com/peroperogames/epplus/releases",
+  "type": "tool",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peroperogames/epplus.git",
+    "directory": "unity"
+  }
+}

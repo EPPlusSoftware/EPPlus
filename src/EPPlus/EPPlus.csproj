@@ -866,4 +866,24 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
+	<PropertyGroup>
+		<UnityPluginsDir>$(MSBuildProjectDirectory)\..\..\unity\Plugins</UnityPluginsDir>
+	</PropertyGroup>
+
+	<!-- Post-build: copy the netstandard2.1 output into the Unity package under unity/Plugins.
+	     All other target frameworks are skipped. EPPlus.Interfaces travels with EPPlus.dll
+	     as it is required at runtime. The deps.json and the XML documentation file the SDK
+	     build produces are not consumed by Unity, so both are left out. -->
+	<Target Name="CopyToUnityPlugins" AfterTargets="Build" Condition="'$(TargetFramework)' == 'netstandard2.1'">
+		<ItemGroup>
+			<UnityPluginArtifact Include="$(TargetDir)$(TargetName).dll" Condition="Exists('$(TargetDir)$(TargetName).dll')" />
+			<UnityPluginArtifact Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+			<UnityPluginArtifact Include="$(TargetDir)EPPlus.Interfaces.dll" Condition="Exists('$(TargetDir)EPPlus.Interfaces.dll')" />
+			<UnityPluginArtifact Include="$(TargetDir)EPPlus.Interfaces.pdb" Condition="Exists('$(TargetDir)EPPlus.Interfaces.pdb')" />
+		</ItemGroup>
+		<MakeDir Directories="$(UnityPluginsDir)" />
+		<Copy SourceFiles="@(UnityPluginArtifact)" DestinationFolder="$(UnityPluginsDir)" SkipUnchangedFiles="true" />
+		<Message Importance="high" Text="EPPlus: copied @(UnityPluginArtifact->'%(Filename)%(Extension)', ', ') to $(UnityPluginsDir)" />
+	</Target>
 </Project>
