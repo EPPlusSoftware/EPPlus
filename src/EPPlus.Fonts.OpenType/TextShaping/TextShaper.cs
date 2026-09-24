@@ -634,27 +634,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
 
         #endregion
 
-        #region Utilities
-
-        /// <summary>
-        /// Measures the width of text in PDF points.
-        /// </summary>
-        public float MeasureTextInPoints(string text, float fontSize, ShapingOptions options = null)
-        {
-            var shaped = Shape(text, options);
-            return shaped.GetWidthInPoints(fontSize);
-        }
-
-        /// <summary>
-        /// Measures the width of text in pixels.
-        /// </summary>
-        public float MeasureTextInPixels(string text, float fontSize, float dpi, ShapingOptions options = null)
-        {
-            var shaped = Shape(text, options);
-            return shaped.GetWidthInPixels(fontSize, dpi);
-        }
-
-        #endregion
 
         #region Multi-line Support
 
@@ -678,34 +657,6 @@ namespace EPPlus.Fonts.OpenType.TextShaping
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Measure multi-line text and return bounding box.
-        /// </summary>
-        public MultiLineMetrics MeasureLines(string text, float fontSize, ShapingOptions options = null)
-        {
-            var shapedLines = ShapeLines(text, options);
-
-            float maxWidth = 0;
-            foreach (var line in shapedLines)
-            {
-                float lineWidth = line.GetWidthInPoints(fontSize);
-                maxWidth = Math.Max(maxWidth, lineWidth);
-            }
-
-            float lineHeight = GetLineHeightInPoints(fontSize);
-            float fontHeight = GetFontHeightInPoints(fontSize);
-            float totalHeight = shapedLines.Length * lineHeight;
-
-            return new MultiLineMetrics
-            {
-                Width = maxWidth,
-                Height = totalHeight,
-                FontHeight = fontHeight,
-                LineCount = shapedLines.Length,
-                LineHeight = lineHeight
-            };
         }
 
         #endregion

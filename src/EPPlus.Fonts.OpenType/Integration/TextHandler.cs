@@ -10,7 +10,7 @@ namespace EPPlus.Fonts.OpenType.Integration
     {
         internal float CurrentFontSize { get; private set; }
 
-        TextShaper _currentShaper;
+        ITextShaper _currentShaper;
         TextLayoutEngine _currentLayout;
         OpenTypeFontEngine _fontEngine;
 
@@ -31,10 +31,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         public void SetFont(MeasurementFont mf)
         {
             CurrentFontSize = mf.Size;
-            _currentShaper = (TextShaper)_fontEngine.GetShaperForFont(mf);
+            _currentShaper = _fontEngine.GetShaperForFont(mf);
             _currentLayout = _fontEngine.GetTextLayoutEngineForFont(mf);
-            var usedFonts = _currentShaper.GetUsedFonts().ToList();
-
             FontFound = _fontEngine.GetFontAvailability(mf.FontFamily) != FontAvailability.NotFound;
         }
 
