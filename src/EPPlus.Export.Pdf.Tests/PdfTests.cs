@@ -1137,5 +1137,17 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "ScalingTest1.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void ScalingTestFitToPage()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 1;
+            ws.PrinterSettings.FitToHeight = 3;
+            string path = _pdfPath + "ScalingTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }
