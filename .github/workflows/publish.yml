@@ -1,0 +1,11 @@
+name: Publish on Tag
+on:
+  release:
+     types: [published]
+jobs:
+  call-publish:
+    if: github.actor != 'perotoolsbot[bot]'
+    uses: peroperogames/ToolsWorkflow/.github/workflows/publish-npm.yml@main
+    with:
+      working-directory: "unity"
+    secrets: inherit
