@@ -49,6 +49,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             SearchSystemDirectories = true;
             MetricsFallback = MetricsFallbackMode.WhenFontMissing;
             ApplyDefaultScriptFallbacks();
+            ApplyDefaultWebFontSubstitutions();
         }
 
         /// <inheritdoc/>
@@ -112,6 +113,8 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             _scriptFallbacks.Clear();
             MetricsFallback = MetricsFallbackMode.WhenFontMissing;
             ApplyDefaultScriptFallbacks();
+            _webFontSubstitutions.Clear();
+            ApplyDefaultWebFontSubstitutions();
         }
 
         // -----------------------------------------------------------------------------------------
@@ -194,6 +197,37 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             {
                 "Mangal", "Nirmala UI", "Noto Sans Devanagari"
             };
+        }
+
+        private readonly Dictionary<string, string> _webFontSubstitutions =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+
+
+        /// <inheritdoc/>
+        public IDictionary<string, string> WebFontSubstitutions
+        {
+            get { return _webFontSubstitutions; }
+        }
+
+        /// <summary>
+        /// Office cloud fonts are delivered through Office's font service and cached per user, never
+        /// installed system-wide. Browsers cannot see them, even on machines where Office has them.
+        /// Substitutes are fonts shipped with Windows that have metric-compatible open alternatives
+        /// (Calibri/Carlito, Cambria/Caladea), so server-side measurement stays reproducible.
+        /// </summary>
+        private void ApplyDefaultWebFontSubstitutions()
+        {
+            _webFontSubstitutions["Aptos"] = "Calibri";
+            _webFontSubstitutions["Aptos Narrow"] = "Calibri";
+            _webFontSubstitutions["Aptos Display"] = "Calibri";
+            _webFontSubstitutions["Aptos Serif"] = "Cambria";
+            _webFontSubstitutions["Aptos Mono"] = "Consolas";
+            _webFontSubstitutions["Grandview"] = "Calibri";
+            _webFontSubstitutions["Seaford"] = "Calibri";
+            _webFontSubstitutions["Tenorite"] = "Calibri";
+            _webFontSubstitutions["Bierstadt"] = "Calibri";
+            _webFontSubstitutions["Skeena"] = "Calibri";
         }
     }
 }
