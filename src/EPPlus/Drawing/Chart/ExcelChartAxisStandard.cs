@@ -957,7 +957,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             if (ct.XAxis.Id == Id || ct.YAxis.Id == Id)
                             {
-                                AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
+                                serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
                             }
                         }
                     }
@@ -965,11 +965,12 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if (ct.YAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
+                            //AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
+                            serie.AddFromSerie(l, false, false, null, pl);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
-                            AddFromSerie(l, serie.XSeries, serie.NumberLiteralsX, serie.StringLiteralsX, false, null);
+                            serie.AddFromSerie(l, true, false, null);
                         }
                     }
                     pl = l;
@@ -1031,153 +1032,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 var a = new ExcelAddressBase(address);
                 l.Add(Math.Max(a.Rows, a.Columns));
             }
-        }
-
-        private void AddFromSerie(List<object> list, string address, double[] numberLiterals, string[] stringLiterals, bool useText, string[] headerInfo, List<object> prevList=null)
-        {
-            var isStacked = _chart.IsTypeStacked() && prevList != null;
-            if (numberLiterals?.Length > 0)
-            {
-                for (int i = 0; i < numberLiterals.Length; i++)
-                {
-                    var n = numberLiterals[i];
-                    if (isStacked)
-                    {
-                        n += GetSerieValue(prevList, i);
-                    }
-                    list.Add(n);
-                }
-            }
-            else if (stringLiterals?.Length > 0)
-            {
-                foreach (var s in stringLiterals)
-                {
-                    list.Add(s);
-                }
-            }
-            else
-            {
-                var a = new ExcelAddressBase(address);
-                if (a.ExternalReferenceIndex > 0)
-                {
-                    GetExternalValues(list, useText, headerInfo, prevList, isStacked, a);
-                }
-                else
-                {
-                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a);
-                }
-            }
-        }
-
-        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a)
-        {
-            var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
-            if (ws != null)
-            {
-                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws);
-            }
-        }
-
-        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws)
-        {
-            var range = ws.Cells[a.Address];
-            var i = 0;
-            for (var r = 0; r < range.Rows; r++)
-            {
-                for (var c = 0; c < range.Columns; c++)
-                {
-                    var v = range.Offset(r, c, 1, 1);
-                    if (useText)
-                    {
-                        if (headerInfo == null)
-                        {
-                            list.Add(v.Text);
-                        }
-                        else
-                        {
-                            if(v.Style.Numberformat.IsDateFormat && !(v.Value is DateTime) && ConvertUtil.IsNumericOrDate(v.Value))
-                            {
-                                var d = ConvertUtil.GetValueDouble(v.Value);
-                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], DateTime.FromOADate(d) }); //Last value is for sorting.
-                            }
-                            else
-                            {
-                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], v.Value }); //Last value is for sorting.
-                            }
-                        }
-                    }
-                    else
-                    {
-                        double d = ConvertUtil.GetValueDouble(v.Value, false, true);
-                        if (double.IsNaN((double)d)) d = 0;
-                        if (isStacked)
-                        {
-                            var pv = GetSerieValue(prevList, i++);
-                            d += pv;
-                        }
-                        list.Add(d);
-                    }
-                }
-            }
-        }
-
-        private void GetExternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a)
-        {
-            var wb = _chart.WorkSheet.Workbook;
-            if (wb.ExternalLinks.Count > a.ExternalReferenceIndex) return;
-
-            var extRef = wb.ExternalLinks[a.ExternalReferenceIndex-1];
-            if (extRef.ExternalLinkType != ExternalReferences.eExternalLinkType.ExternalWorkbook) return;
-            var extWb = extRef as ExcelExternalWorkbook;
-            if (extWb.Package == null)
-            {
-                var ws = extWb.CachedWorksheets[a.WorkSheetName];
-                if (ws != null)
-                {
-                    var i = 0;
-                    for (var r = a._fromRow; r <= a._toRow; r++)
-                    {
-                        for (var c = a._fromCol; c <= a._toCol; c++)
-                        {
-                            var v = ws.CellValues[r, c];
-                            if (useText)
-                            {
-                                //    if (headerInfo == null)
-                                //    {
-                                //        list.Add(v.Text);
-                                //    }
-                                //    else
-                                //    {
-                                //        list.Add(new string[] { v.Text, a.Address, headerInfo[1] });
-                                //    }
-                                list.Add(v.Value);
-                            }
-                            else
-                            {
-                                double d = ConvertUtil.GetValueDouble(v.Value, false, true);
-                                if (double.IsNaN((double)d)) d = 0;
-                                if (isStacked)
-                                {
-                                    var pv = GetSerieValue(prevList, i++);
-                                    d += pv;
-                                }
-                                list.Add(d);
-                                //}
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        private double GetSerieValue(List<object> prevList, int i)
-        {
-            if (prevList.Count > i && ConvertUtil.IsExcelNumeric(prevList[i]))
-            {
-                var v=ConvertUtil.GetValueDouble(prevList[i], true, true);
-                if (double.IsNaN(v)) return 0d;
-                return v;
-            }
-            return 0d;
         }
     }
 }
