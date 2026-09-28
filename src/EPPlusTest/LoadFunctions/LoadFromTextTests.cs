@@ -393,7 +393,7 @@ namespace EPPlusTest.LoadFunctions
                 format.SetColumnLengths(12, 9, 5, 10, -1);
                 format.SkipLinesBeginning = 5;
                 format.SkipLinesEnd= 2;
-                format.Culture = CultureInfo.GetCultureInfo("sv-en");
+                format.Culture = CultureInfo.GetCultureInfo("sv-SE");
                 format.TableStyle = TableStyles.Medium12;
                 format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
                 format.EOL = "\n";
