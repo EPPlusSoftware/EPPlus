@@ -211,6 +211,16 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"{start.X.ToPdfString()} {start.Y.ToPdfString()} m");
                         commands.Add($"{end.X.ToPdfString()} {end.Y.ToPdfString()} l");
                         commands.Add($"S");
+                        if (richInfo.UnderlineType == 4)
+                        {
+                            var gap = underlineWidth * 2.0;
+                            var start2 = textMatrix.Transform(new Vector2(0, underlinePos - gap));
+                            var end2 = textMatrix.Transform(new Vector2(textLength, underlinePos - gap));
+                            commands.Add($"{underlineWidth.ToPdfString()} w");
+                            commands.Add($"{start2.X.ToPdfString()} {start2.Y.ToPdfString()} m");
+                            commands.Add($"{end2.X.ToPdfString()} {end2.Y.ToPdfString()} l");
+                            commands.Add($"S");
+                        }
                     }
                     if (richInfo.StrikeType > 1)
                     {
