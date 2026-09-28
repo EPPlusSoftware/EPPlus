@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -204,6 +205,14 @@ namespace EPPlusTest.Core
                 text.AppendLine("String 2,123.456789");
                 text.AppendLine("String 3,-123.456789");
 
+                if(Environment.NewLine != "\r\n")
+                {
+                    //TODO: This doesn't seem quite right. But we can't change the default EOL without considerable breaking change
+                    //LoadFromText Constructor has different handling if no options are provided
+                    //Yet defaults \r\n change to it for now.
+                    text.Replace($"{Environment.NewLine}", "\r\n");
+                }
+
                 ws.Cells["A1"].LoadFromText(text.ToString());
                 ws.Cells["B2:B3"].Style.Numberformat.Format = "#,##0.00;-#,##0.000;0.0";
 
@@ -229,7 +238,10 @@ namespace EPPlusTest.Core
                 text.AppendLine("String 2 123.456789");
                 text.AppendLine("String 3-123.456789");
 
-                var option = new ExcelTextFormatFixedWidth();
+                var option = new ExcelTextFormatFixedWidth()
+                {
+                    EOL = $"{Environment.NewLine}"
+                };
                 option.SetColumnPositions(19, 0, 8);
                 ws.Cells["A1"].LoadFromText(text.ToString(), option);
                 ws.Cells["B2:B3"].Style.Numberformat.Format = "#,##0.00;-#,##0.000;0.0";
