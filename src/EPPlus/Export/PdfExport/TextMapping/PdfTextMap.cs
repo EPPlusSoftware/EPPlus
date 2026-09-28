@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     var tempMap = new PdfCell();
                     tempMap.Hidden = hiddenRow || hiddenCol;
                     tempMap.ColumnWidth = tempMap.Width = hiddenCol ? 0d : width;
+                    tempMap.Height = hiddenRow ? 0d : height;
                     var cell = worksheet.Cells[row, col];
                     tempMap.Name = cell.Address;
                     if (cell.Merge)

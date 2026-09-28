@@ -48,7 +48,12 @@ namespace EPPlus.Fonts.OpenType.Integration
         public double LineSpacingAbove { get; internal set; }
 
         internal bool WasWrappedOnSpace = false;
-
+        /// <summary>
+        /// For vertical text, the index of the stack this glyph belongs to. Stacks run
+        /// left to right, so stack 0 is the leftmost. Always 0 for horizontal text, where
+        /// a line is a line rather than a single glyph.
+        /// </summary>
+        public int StackIndex { get; internal set; }
         /// <summary>
         /// In renderers like Excel the width of trailing spaces
         /// MUST be resepected in some cases.

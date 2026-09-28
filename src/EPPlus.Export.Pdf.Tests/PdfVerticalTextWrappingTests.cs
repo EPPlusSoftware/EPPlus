@@ -109,6 +109,28 @@ namespace EPPlus.Export.Pdf.Tests
                 "Horizontal wrapping must still measure glyph advances.");
         }
 
+        [TestMethod]
+        public void VerticalTextWrappingBasicTest()
+        {
+            using (var package = OpenTemplatePackage("wrappingVerticalTExtPdf.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[1];
+                var path = _pdfPath + "wrappingVerticalTExtPdf.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
+        [TestMethod]
+        public void VerticalTextTest() 
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var path = _pdfPath + "verticalTextRegression.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
         private TextLayoutEngine CreateEngine()
             => _fontEngine.GetTextLayoutEngine(FontName, FontSubFamily.Regular);
 

@@ -49,13 +49,47 @@ namespace EPPlus.Export.Pdf.Layout
             ShapedTexts = cell.ShapedTexts;
             textLayoutEngine = cell.TextLayoutEngine;
             double totalTextHeight = 0d;
-            foreach (var line in TextLines)
+            double blockWidth;
+
+            if (cell.ContentAligmnet?.IsVertical == true)
             {
-                totalTextHeight += line.LargestAscent + line.LargestDescent;
+                // Each TextLine is one glyph and stacks run side by side, so the block is as tall as
+                // its tallest stack and as wide as the number of stacks times the line height.
+                var stackHeights = new Dictionary<int, double>();
+                int stackCount = 0;
+                double step = 0d;
+
+                foreach (var line in TextLines)
+                {
+                    double lineHeight = line.LargestAscent + line.LargestDescent;
+
+                    stackHeights.TryGetValue(line.StackIndex, out double h);
+                    stackHeights[line.StackIndex] = h + lineHeight;
+
+                    stackCount = System.Math.Max(stackCount, line.StackIndex + 1);
+                    step = System.Math.Max(step, lineHeight);
+                }
+
+                foreach (var h in stackHeights.Values)
+                {
+                    totalTextHeight = System.Math.Max(totalTextHeight, h);
+                }
+
+                blockWidth = stackCount * step;
+            }
+            else
+            {
+                foreach (var line in TextLines)
+                {
+                    totalTextHeight += line.LargestAscent + line.LargestDescent;
+                }
+                blockWidth = TextLines.LineFragments[0].Width;
             }
             double firstLineAscent = TextLines[0].LargestAscent;
             double lastLineAscent = TextLines[TextLines.Count - 1].LargestAscent;
-            LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
+            LocalPosition = CalculateAlignment(cell.Text, blockWidth, totalTextHeight,
+    firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
+            //LocalPosition = CalculateAlignment(cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height);
         }
 
         public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)

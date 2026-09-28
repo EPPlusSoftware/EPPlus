@@ -111,7 +111,51 @@ namespace EPPlus.Fonts.OpenType.Integration
             return WrapRichTextLineCollection(frags, maxWidthPoints);
         }
 
+
+        public TextLineCollection BuildVerticalLineCollection(List<TextFragment> fragments)
+        {
+            return BuildVerticalLineCollection(fragments.Cast<ITextFragmentBase>().ToList());
+        }
         public TextLineCollection BuildVerticalLineCollection(List<ITextFragmentBase> fragments)
+        {
+            return BuildVerticalLineCollectionCore(fragments, null);
+        }
+        public TextLineCollection WrapVerticalLineCollection(List<TextFragment> fragments, double maxHeightPoints)
+        {
+            return WrapVerticalLineCollection(fragments.Cast<ITextFragmentBase>().ToList(), maxHeightPoints);
+        }
+
+        /// <summary>
+        /// Vertical text with WrapText on. The break positions come from the vertical wrap, but
+        /// the output keeps BuildVerticalLineCollection's shape - one TextLine per glyph - because
+        /// that is what AddText renders. Each glyph carries the index of the stack it belongs to;
+        /// stacks run left to right.
+        /// </summary>
+        public TextLineCollection WrapVerticalLineCollection(List<ITextFragmentBase> fragments, double maxHeightPoints)
+        {
+            if (fragments == null || fragments.Count == 0)
+            {
+                return new TextLineCollection(new List<TextLineSimple>(),
+                    fragments ?? new List<ITextFragmentBase>(), true);
+            }
+
+            var stacks = WrapRichTextLines(fragments, maxHeightPoints, isVertical: true);
+
+            var stackStarts = new List<int>(stacks.Count);
+            foreach (var stack in stacks)
+            {
+                if (stack.InternalLineFragments.Count == 0) continue;
+                stackStarts.Add(stack.InternalLineFragments[0].StartOriginal);
+            }
+
+            return BuildVerticalLineCollectionCore(fragments, stackStarts);
+        }
+
+        /// <param name="stackStarts">
+        /// Global character indices at which each stack begins, or null for a single stack.
+        /// </param>
+        private TextLineCollection BuildVerticalLineCollectionCore(
+            List<ITextFragmentBase> fragments, List<int> stackStarts)
         {
             var lines = new List<TextLineSimple>();
             if (fragments == null || fragments.Count == 0)
@@ -120,6 +164,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             int globalIdx = 0;
+            int stackIdx = 0;
             for (int fragIdx = 0; fragIdx < fragments.Count; fragIdx++)
             {
                 var fragment = fragments[fragIdx];
@@ -152,6 +197,16 @@ namespace EPPlus.Fonts.OpenType.Integration
                     int count = 1;
                     while (i + count < len && charWidths[i + count] == 0d) count++;
 
+                    // A glyph belongs to the last stack that starts at or before it. Advancing
+                    // rather than searching also tolerates the gaps left by trailing spaces that
+                    // the wrap trimmed from a stack's text but that are still drawn.
+                    while (stackStarts != null
+                           && stackIdx + 1 < stackStarts.Count
+                           && globalIdx >= stackStarts[stackIdx + 1])
+                    {
+                        stackIdx++;
+                    }
+
                     var lf = new LineFragment(fragIdx, 0, i, globalIdx);
                     lf.Width = charWidths[i];
                     lf.SpaceWidth = spaceWidth;
@@ -159,6 +214,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     var line = new TextLineSimple();
                     line.Text = fragment.Text.Substring(i, count);
                     line.Width = charWidths[i];
+                    line.StackIndex = stackIdx;
                     line.InternalLineFragments.Add(lf);
                     lines.Add(line);
 
@@ -168,11 +224,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
 
             return new TextLineCollection(lines, fragments, finalizeLineFragments: true);
-        }
-
-        public TextLineCollection BuildVerticalLineCollection(List<TextFragment> fragments)
-        {
-            return BuildVerticalLineCollection(fragments.Cast<ITextFragmentBase>().ToList());
         }
 
         public List<TextLineSimple> WrapRichTextLines(List<TextFragment> fragments, double maxWidthPoints)

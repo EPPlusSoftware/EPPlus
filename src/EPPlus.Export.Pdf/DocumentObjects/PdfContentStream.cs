@@ -109,6 +109,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
             bool isVertical = cell.CellAlignmentData.IsVertical;
             double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
+            int currentStack = 0;
 
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
@@ -117,7 +118,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 double lineOffsetX = 0d;
                 if (isVertical)
                 {
-                    lineOffsetX = (stackWidth - line.Width) / 2d;
+                    if (line.StackIndex != currentStack)
+                    {
+                        currentStack = line.StackIndex;
+                        advanceY = 0d;
+                    }
+                    double step = line.LargestAscent + line.LargestDescent;
+                    lineOffsetX = line.StackIndex * step + (stackWidth - line.Width) / 2d;
                 }
                 else
                 {
