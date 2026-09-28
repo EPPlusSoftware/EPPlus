@@ -34,7 +34,7 @@ namespace EPPlusTest.Export.HtmlExport
                 {
                     var exporter = range.CreateHtmlExporter();
                     exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
-                    exporter.Settings.Culture = new CultureInfo("us-en");
+                    exporter.Settings.Culture = new CultureInfo("en");
                     exporter.RenderHtml(ms);
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
