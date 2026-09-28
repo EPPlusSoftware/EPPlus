@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.DateUtils;
 using System;
 using System.Collections.Generic;
@@ -17,27 +18,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
     internal class CategoryAxisScaleCalculator
     {
 
-        internal static AxisScale CalculateHorizontalAxisByWidth(ref List<object> values, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateHorizontalAxisByWidth(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
-            var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
-            var mf = ax.Font.GetMeasureFont();
-            List<object> displayValues = GetUniqueValues(values).Select(x=>(object)x.ToString()).ToList();
+            List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
 
-            var res = tm.MeasureText(displayValues[0].ToString(), mf);
+            var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
 
             //Get interval for maximum width with vertical text.
-            var interval = GetMinUnitVerticalText(displayValues.Count, res.Height, plotAreaWidth);
-
+            var interval = GetMinUnitVerticalText(displayValues.Count, textHeight, plotAreaWidth);
 
             //Get max text width when using diagonal text
-            var width = mf.Size * Math.Sqrt(2);
-            var margin = mf.Size * 0.5;
+            var width = fontSize * Math.Sqrt(2);
+            var margin = fontSize * 0.5;
 
             if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
             {
-                if(FitAsHorizontalText(displayValues, interval, mf, tm, plotAreaWidth)) //Check horizontal
+                if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth)) //Check horizontal
                 {
                     return new AxisScale()
                     {
@@ -62,13 +60,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                     };
                 }
             }
-            if(interval != 1)
+            if (interval != 1)
             {
                 var removeCount = interval - 1;
                 var c = (int)Math.Truncate(values.Count / (double)interval);
-                for(int i=0;i<=c;i++)
+                for (int i = 0; i <= c; i++)
                 {
-                    for(int j=0;j<removeCount;j++)
+                    for (int j = 0; j < removeCount; j++)
                     {
                         if (i + 1 < displayValues.Count)
                         {
@@ -87,24 +85,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 TextOrientation = eTextOrientation.Vertical,
                 DisplayValues = displayValues
             };
-
         }
-        internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
-            var ax = options.Axis;
             var plotAreaHeight = options.ChartSize.Bounds.Height;
-            var mf = ax.Font.GetMeasureFont();
             List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
-            var res = tm.MeasureText(displayValues[0].ToString(), mf);
+            var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
             int interval = 1;
-            while (FitAsVerticalDiagonalText(displayValues.Count, interval, res.Height, 1.2D, plotAreaHeight)==false) //Check horizontal
+            while (FitAsVerticalDiagonalText(displayValues.Count, interval, textHeight, 1.2D, plotAreaHeight) == false) //Check horizontal
             {
                 interval++;
             }
             if (interval != 1)
             {
-                var removeCount = interval-1;
+                var removeCount = interval - 1;
                 var c = (int)Math.Truncate(displayValues.Count / (double)interval);
                 for (int i = 0; i <= c; i++)
                 {
@@ -128,38 +123,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 DisplayValues = displayValues
             };
         }
-        internal static List<object> GetUniqueValues(List<object> values)
-        {
-            var ret = new List<object>();
-            var hs = new HashSet<string>();
-            foreach(var v in values)
-            {
-                if(v is object[])
-                {
-                    var s = (object[])v;
-                    var key = s[0].ToString() + s[1].ToString();
-                    if(hs.Add(key))
-                    {
-                        ret.Add(s[0]);
-                    }
-                }
-                else
-                {
-                    ret.Add(v);
-                }
-            }
-            return ret;
-        }
 
-        private static bool FitAsHorizontalText(List<object> displayValues, int interval, MeasurementFont mf, ITextMeasurer tm, double plotAreaWidth)
+
+        private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth)
         {
-            var margin = mf.Size * 0.3;
-            var width = tm.MeasureText(displayValues[0].ToString(), mf).Width + margin;
+            var margin = fontSize * 0.3;
+            var width = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
             var pos = interval;
             while (pos < displayValues.Count && width < plotAreaWidth)
             {
-                width = tm.MeasureText(displayValues[pos].ToString(), mf).Width + margin;
-                if(width > plotAreaWidth) return false;
+                width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
+                if (width > plotAreaWidth) return false;
                 pos += interval;
             }
             return width <= plotAreaWidth;
@@ -183,6 +157,50 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
 
             return interval;
+        }
+
+        internal static List<object> GetUniqueValues(List<object> values)
+        {
+            var ret = new List<object>();
+            var hs = new HashSet<string>();
+            foreach (var v in values)
+            {
+                if (v is object[])
+                {
+                    var s = (object[])v;
+                    var key = s[0].ToString() + s[1].ToString();
+                    if (hs.Add(key))
+                    {
+                        ret.Add(s[0]);
+                    }
+                }
+                else
+                {
+                    ret.Add(v);
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Width of a single line of text in points. An empty text has no width.
+        /// </summary>
+        private static double GetTextWidth(ITextShaper shaper, string text, float fontSize)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0D;
+            return shaper.Shape(text).GetWidthInPoints(fontSize);
+        }
+
+        /// <summary>
+        /// Line height in points, matching the height previously returned by ITextMeasurer.
+        /// An empty text has no height.
+        /// </summary>
+        private static double GetTextHeight(ITextShaper shaper, string text, float fontSize)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0D;
+            return shaper.GetLineHeightInPoints(fontSize);
         }
     }
 }

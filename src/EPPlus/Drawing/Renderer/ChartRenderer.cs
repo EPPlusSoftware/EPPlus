@@ -39,7 +39,7 @@ namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
     {
-        public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart) 
+        public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
         {
             SetChartArea(options);
 

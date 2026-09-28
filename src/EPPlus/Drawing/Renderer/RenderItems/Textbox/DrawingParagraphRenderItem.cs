@@ -26,6 +26,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <summary>
         /// Create basic empty paragraph
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
@@ -37,6 +38,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <summary>
         /// Create paragraph and import a singular text/richText
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="text"></param>
@@ -49,6 +51,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <summary>
         /// Create paragraph and import all textruns from ExcelDrawingParagraph
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="p"></param>
@@ -68,7 +71,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ImportLinesAndTextRuns(p, textIfEmpty);
         }
 
-        private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
+        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextShaper fmExact, float fontSize)
         {
             if (_lsType == TextLineSpacing.Exactly)
             {
@@ -248,7 +251,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
         {
             _lsType = (TextLineSpacing)lsType;
-            var shaper = (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont);
+            var shaper = RenderContext.GetMeasurementShaper(DefaultParagraphFont);
 
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
                 lineSpacingValue,

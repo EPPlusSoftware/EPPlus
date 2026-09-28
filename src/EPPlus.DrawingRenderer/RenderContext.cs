@@ -1,5 +1,6 @@
 ﻿using EPPlus.Fonts.OpenType;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 
 namespace EPPlus.DrawingRenderer
 {
@@ -77,6 +78,17 @@ namespace EPPlus.DrawingRenderer
         public string GetFamilyForTarget(string fontName)
         {
             return FontEngine.GetFamilyForTarget(fontName, Target);
+        }
+
+        /// <summary>
+        /// Gets a measurement shaper for the font, with the family substituted for this context's target.
+        /// All text measurement in drawing rendering should go through here.
+        /// </summary>
+        public ITextShaper GetMeasurementShaper(IFontFormatBase font)
+        {
+            if (font == null)
+                throw new ArgumentNullException("font");
+            return FontEngine.GetMeasurementShaper(GetFamilyForTarget(font.Family), font.SubFamily);
         }
 
         public void Dispose()

@@ -218,16 +218,16 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         /// </summary>
         private void ApplyDefaultWebFontSubstitutions()
         {
-            _webFontSubstitutions["Aptos"] = "Calibri";
+            _webFontSubstitutions["Aptos"] = "Arial";
             _webFontSubstitutions["Aptos Narrow"] = "Calibri";
-            _webFontSubstitutions["Aptos Display"] = "Calibri";
+            _webFontSubstitutions["Aptos Display"] = "Arial";
             _webFontSubstitutions["Aptos Serif"] = "Cambria";
             _webFontSubstitutions["Aptos Mono"] = "Consolas";
             _webFontSubstitutions["Grandview"] = "Calibri";
-            _webFontSubstitutions["Seaford"] = "Calibri";
-            _webFontSubstitutions["Tenorite"] = "Calibri";
-            _webFontSubstitutions["Bierstadt"] = "Calibri";
-            _webFontSubstitutions["Skeena"] = "Calibri";
+            _webFontSubstitutions["Seaford"] = "Segoe UI";
+            _webFontSubstitutions["Tenorite"] = "Segoe UI";
+            _webFontSubstitutions["Bierstadt"] = "Arial";
+            _webFontSubstitutions["Skeena"] = "Segoe UI";
         }
     }
 }

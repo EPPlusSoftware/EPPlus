@@ -193,7 +193,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
-            TextBox = new DrawingTextBox(_svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;

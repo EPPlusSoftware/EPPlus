@@ -22,8 +22,9 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.Drawing;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
         //}
 
-        public ShapeRenderer(ExcelShape shape) : base(shape)
+        public ShapeRenderer(ExcelShape shape, FontRenderTarget target) : base(shape, target)
         {
             var style = shape.Style;
 
