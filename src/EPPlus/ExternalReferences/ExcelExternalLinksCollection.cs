@@ -99,6 +99,11 @@ namespace OfficeOpenXml.ExternalReferences
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                     var xr = new XmlTextReader(part.GetStream());
+#if (NET35)
+                    xr.ProhibitDtd = true;
+#else
+                    xr.DtdProcessing=DtdProcessing.Prohibit;
+#endif
                     while (xr.Read())
                     {
                         if (xr.NodeType == XmlNodeType.Element)
