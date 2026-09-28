@@ -153,7 +153,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
 
 
-        private void SetColumnWidth(double entryHeight)
+        private void SetColumnWidth(double entryWidth)
         {
             var height = 0D;
             var r = 0;
@@ -179,17 +179,19 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 height += GetLegendColHeight(r++);
             }
 
-            double y = entryHeight;
+            double y = 0;
+            r = 0;
+            var lcw = GetLegendColWidth();
             foreach (var row in DataTableRenderItems)
             {
-                var x = height;
+                var x = lcw;
                 foreach (var cell in row)
                 {
                     cell.Bounds.Left = x;
                     cell.Bounds.Top = y;
                     x += _columnsWidth;
                 }
-                y += entryHeight;
+                y += GetLegendColHeight(r++);
            }
         }
 
@@ -210,7 +212,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             if (_dataTable.ShowKeys)
             {
                 var sih = LegendColumn[row].SeriesIcon.Bounds.Height;
-                var mih = LegendColumn[x].MarkerIcon?.Bounds.Height ?? 0D;
+                var mih = LegendColumn[row].MarkerIcon?.Bounds.Height ?? 0D;
                 return Math.Max(mih, Math.Max(h, sih));
             }
             return h;
