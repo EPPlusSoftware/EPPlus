@@ -28,6 +28,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Init(parent, maxWidth, maxHeight);
         }
 
+        public string Name 
+        { 
+            get { return _group.Bounds.Name; } 
+            set { _group.Bounds.Name = value; } 
+        }
+
         //The origin point of the entire textbox itself (its outermost left and top point)
         protected GroupRenderItem _group;
         //The origin point of the textbody after applied margins

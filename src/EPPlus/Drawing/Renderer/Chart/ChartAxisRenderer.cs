@@ -34,6 +34,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -252,47 +253,62 @@ namespace EPPlusImageRenderer.Svg
             private set;
         } = false;
 
+        /// <summary>
+        /// Create a subGroup beneath the ParentGroup
+        /// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
+        /// </summary>
+        /// <typeparam name="T">Some RenderItem type</typeparam>
+        /// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
+        /// <param name="Items">The RenderItems to place within the group</param>
+        /// <param name="parentGroup">The parent group of this item</param>
+        private void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items, GroupRenderItem parentGroup) where T : RenderItem
+        {
+            if (Items != null)
+            {
+                //Create subGroup
+                var subGroup = new GroupRenderItem(parentGroup.Bounds);
+                subGroup.Bounds.Name = subGroupName;
+
+                //Add items to subGroup
+                foreach (var renderItem in Items)
+                {
+                    subGroup.RenderItems.Add(renderItem);
+                }
+
+                //Add subGroup to parent group
+                parentGroup.RenderItems.Add(subGroup);
+            }
+        }
+
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
-            Title?.AppendRenderItems(renderItems);
+            var AxisGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            AxisGroup.Bounds.Name = $"Axis_{Axis.Index}";
+
+            Title?.AppendRenderItems(AxisGroup.RenderItems);
             //Title?.Render(sb);
-            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) renderItems.Add(Rectangle);
+            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) AxisGroup.RenderItems.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
-            if (MinorGridlinePositions != null)
+
+            AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
+            AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
+
+            if (Line != null) AxisGroup.RenderItems.Add(Line);
+
+            var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            TickMarkGroup.Bounds.Name = $"Axis_{Axis.Index}_TickMarkGroup";
+
+            AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
+            AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
+
+            if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
             {
-                foreach (var tm in MinorGridlinePositions)
-                {
-                    plotareaGroup.RenderItems.Add(tm);
-                }
+                AxisGroup.RenderItems.Add(TickMarkGroup);
             }
 
-            if (MajorGridlinePositions != null)
-            {
-                foreach (var tm in MajorGridlinePositions)
-                {
-                    plotareaGroup.RenderItems.Add(tm);
-                }
-            }
+            renderItems.Add(AxisGroup);
 
-            if (Line != null) renderItems.Add(Line);
-
-            if (MinorTickMarkPositions != null)
-            {
-                foreach (var tm in MinorTickMarkPositions)
-                {
-                    renderItems.Add(tm);
-                }
-            }
-
-            if (MajorTickMarkPositions != null)
-            {
-                foreach (var tm in MajorTickMarkPositions)
-                {
-                    renderItems.Add(tm);
-                }
-            }
-            
             //The axis text boxes is rendered later as they have a higher Z-order.
         }
 
@@ -329,6 +345,7 @@ namespace EPPlusImageRenderer.Svg
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
                 Textboxes = new ChartAxisTextBoxes(ChartRenderer);
+                Textboxes.AxisName = $"Axis_{Axis.Index}_Textboxes";
                 Textboxes.TextBoxes = GetAxisValueTextBoxes();  
             }
         }

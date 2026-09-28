@@ -182,13 +182,22 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
 
             if (TextBoxRect != null)
             {
-                //if (textAutofit != eTextAutofit.ShapeAutofit)
                 if (textAutofit == false)
                 {
-                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / Constants.EMU_PER_PIXEL;
-                    TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / Constants.EMU_PER_PIXEL;
-                    TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / Constants.EMU_PER_PIXEL;
-                    TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / Constants.EMU_PER_PIXEL;
+                    TextBoxRect.LeftValue = GetValue(TextBoxRect.LeftName) / (double)Constants.EMU_PER_PIXEL;
+
+                    //The offical Preset file appears to be faulty for Pie. They have mixed up Top and Right attributes.
+                    if(Style == ShapeStyle.Pie)
+                    {
+                        TextBoxRect.RightValue = GetValue(TextBoxRect.TopName) / (double)Constants.EMU_PER_PIXEL;
+                        TextBoxRect.TopValue = GetValue(TextBoxRect.RightName) / (double)Constants.EMU_PER_PIXEL;
+                    }
+                    else
+                    {
+                        TextBoxRect.RightValue = GetValue(TextBoxRect.RightName) / (double)Constants.EMU_PER_PIXEL;
+                        TextBoxRect.TopValue = GetValue(TextBoxRect.TopName) / (double)Constants.EMU_PER_PIXEL;
+                    }
+                    TextBoxRect.BottomValue = GetValue(TextBoxRect.BottomName) / (double)Constants.EMU_PER_PIXEL;
                 }
                 else
                 {
@@ -400,6 +409,7 @@ namespace EPPlus.DrawingRenderer.ShapeDefinitions
                     return Math.Sqrt(Math.Pow((double)GetValue(tokens[1]), 2d) + Math.Pow((double)GetValue(tokens[2]), 2) + Math.Pow((double)GetValue(tokens[3]), 2));
                 case "pin":
                     //if (y < x), then x = value of this guide else if (y > z), then z
+                    //Else y
                     double x = GetValue(tokens[1]);
                     double y = GetValue(tokens[2]);
                     double z = GetValue(tokens[3]);
