@@ -98,12 +98,7 @@ namespace OfficeOpenXml.ExternalReferences
                     string rID = elem.GetAttribute("id",ExcelPackage.schemaRelationships);
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
-                    var xr = new XmlTextReader(part.GetStream());
-#if (NET35)
-                    xr.ProhibitDtd = true;
-#else
-                    xr.DtdProcessing=DtdProcessing.Prohibit;
-#endif
+                    var xr = XmlHelper.CreateXmlReaderSafe(part.GetStream());
                     while (xr.Read())
                     {
                         if (xr.NodeType == XmlNodeType.Element)
