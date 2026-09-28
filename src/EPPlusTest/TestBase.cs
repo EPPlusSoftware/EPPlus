@@ -59,7 +59,7 @@ namespace EPPlusTest
         //protected static FileInfo _file;
         protected static string _clipartPath ="";
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
-        protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
+        protected static string _testInputPath = AppContext.BaseDirectory + $"{Path.DirectorySeparatorChar}workbooks{Path.DirectorySeparatorChar}";
         protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         protected static string _imagePath = @"c:\epplusTest\images\";
         /// <summary>
@@ -103,7 +103,7 @@ namespace EPPlusTest
             }
             
             var di=new DirectoryInfo(_worksheetPath);            
-            _worksheetPath = di.FullName + "\\";
+            _worksheetPath = di.FullName + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace EPPlusTest
             {
                 Directory.CreateDirectory(path);
             }
-            if (path.EndsWith("\\")==false) path+="\\";
+            if (path.EndsWith($"{Path.DirectorySeparatorChar}")== false) path+= $"{Path.DirectorySeparatorChar}";
             
             return new FileInfo(path + fileName);
         }
