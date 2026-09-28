@@ -75,7 +75,9 @@ namespace EPPlus.Export.Pdf.Layout
                     totalTextHeight = System.Math.Max(totalTextHeight, h);
                 }
 
-                blockWidth = stackCount * step;
+                blockWidth = stackCount > 1
+                            ? stackCount * step
+                            : TextLines.LineFragments[0].Width;
             }
             else
             {

@@ -517,6 +517,11 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             contentAlignment.ShrinkToFit = cell.Style.ShrinkToFit;
             contentAlignment.TextRotation = (cell.Style.TextRotation > 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
             contentAlignment.IsVertical = cell.Style.TextRotation == 255 ? true : false;
+            if (contentAlignment.IsVertical
+                && contentAlignment.HorizontalAlignment == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
+            {
+                contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center;
+            }
             contentAlignment.TextDirection = (EPPlus.Export.Pdf.Enums.ExcelReadingOrder)cell.Style.ReadingOrder;
             return contentAlignment;
         }

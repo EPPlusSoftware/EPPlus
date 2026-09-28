@@ -121,12 +121,22 @@ namespace EPPlus.Export.Pdf.Tests
         }
 
         [TestMethod]
-        public void VerticalTextTest() 
+        public void VerticalTextTestSheet1() 
         {
             using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
             {
                 var ws = package.Workbook.Worksheets[0];
                 var path = _pdfPath + "verticalTextRegression.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+        [TestMethod]
+        public void VerticalTextTestSheet2()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[1];
+                var path = _pdfPath + "verticalTextRegressionSheet2.pdf";
                 ws.SaveAsPdf(path);
             }
         }
@@ -150,7 +160,7 @@ namespace EPPlus.Export.Pdf.Tests
         }
 
         /// <summary>
-        /// Runs an unconstrained pass to learn the per-character step for this font/size.
+        /// Runs an unconstrained pass to learn the pe  r-character step for this font/size.
         /// AscentPoints/DescentPoints are populated on the fragment during ProcessFragment,
         /// so the tests never have to hardcode a point value that depends on font metrics.
         /// </summary>
