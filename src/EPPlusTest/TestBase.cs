@@ -58,10 +58,10 @@ namespace EPPlusTest
         }
         //protected static FileInfo _file;
         protected static string _clipartPath ="";
-        protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
+        protected static string _worksheetPath = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}";
         protected static string _testInputPath = AppContext.BaseDirectory + $"{Path.DirectorySeparatorChar}workbooks{Path.DirectorySeparatorChar}";
-        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
-        protected static string _imagePath = @"c:\epplusTest\images\";
+        protected static string _testInputPathOptional = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}workbooks{Path.DirectorySeparatorChar}";
+        protected static string _imagePath = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}images{Path.DirectorySeparatorChar}";
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -102,8 +102,15 @@ namespace EPPlusTest
                 }
             }
             
-            var di=new DirectoryInfo(_worksheetPath);            
-            _worksheetPath = di.FullName + Path.DirectorySeparatorChar;
+            var di=new DirectoryInfo(_worksheetPath);
+            if(di.FullName.EndsWith($"{Path.DirectorySeparatorChar}") == false)
+            {
+                _worksheetPath = di.FullName + Path.DirectorySeparatorChar;
+            }
+            else
+            {
+                _worksheetPath = di.FullName;
+            }
         }
 
         /// <summary>
