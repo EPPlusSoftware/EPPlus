@@ -924,15 +924,21 @@ namespace EPPlusTest
             var ws = pkg.Workbook.Worksheets.Add("Hyperlink");
             ws.Cells["A1"].Hyperlink = new ExcelHyperLink("A2", "A2");
             pkg.Save();
-        }
-        [TestMethod]
-        public void Issue332_2()
-        {
+
+            //Moved up Issue332_2
             InitBase();
-            var pkg = OpenPackage("Hyperlink.xlsx");
-            var ws = pkg.Workbook.Worksheets["Hyperlink"];
+            pkg = OpenPackage("Hyperlink.xlsx");
+            ws = pkg.Workbook.Worksheets["Hyperlink"];
             Assert.IsNotNull(ws.Cells["A1"].Hyperlink);
         }
+        //[TestMethod]
+        //public void Issue332_2()
+        //{
+        //    InitBase();
+        //    var pkg = OpenPackage("Hyperlink.xlsx");
+        //    var ws = pkg.Workbook.Worksheets["Hyperlink"];
+        //    Assert.IsNotNull(ws.Cells["A1"].Hyperlink);
+        //}
         [TestMethod]
         public void Issue347()
         {
