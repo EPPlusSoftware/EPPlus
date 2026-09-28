@@ -1,23 +1,16 @@
 ﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
-using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Interfaces.RichText;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.TypeConversion;
-using System;
-using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Style;
+using System;
 using System.Drawing;
-using EPPlus.DrawingRenderer.RenderItems;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -32,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
       : base(renderContext, parent, textBody)
         {
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (ITextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
         }
 
         /// <summary>
