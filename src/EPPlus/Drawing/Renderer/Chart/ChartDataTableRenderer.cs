@@ -155,27 +155,34 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
         private void SetColumnWidth(double entryHeight)
         {
-            var ledgedColWidth = GetLegendColWidth();
+            var height = 0D;
+            var r = 0;
             foreach(var lc in LegendColumn)
             {
                 if (_dataTable.ShowKeys) 
                 {
-                    lc.MarkerIcon.Bounds.Left += ledgedColWidth;
-                    lc.MarkerBackground.Bounds.Left += ledgedColWidth;
-                    lc.SeriesIcon.Bounds.Left += ledgedColWidth;
-                    lc.Textbox.Bounds.Left += ledgedColWidth;
+                    if (lc.MarkerIcon != null)
+                    {
+                        lc.MarkerIcon.Bounds.Height += height;
+                        if (lc.MarkerBackground != null)
+                        {
+                            lc.MarkerBackground.Bounds.Height += height;
+                        }
+                    }
+                    lc.SeriesIcon.Bounds.Top += height;
+                    lc.Textbox.Bounds.Top += height;
                 }
                 else
                 {
-                    lc.Textbox.Left = ledgedColWidth;
+                    lc.Textbox.Left = height;
                 }
-                ledgedColWidth += _columnsWidth;
+                height += GetLegendColHeight(r++);
             }
 
             double y = entryHeight;
             foreach (var row in DataTableRenderItems)
             {
-                var x = ledgedColWidth;
+                var x = height;
                 foreach (var cell in row)
                 {
                     cell.Bounds.Left = x;
@@ -184,7 +191,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 y += entryHeight;
            }
-
         }
 
         const float MarginIconText = 1.5f;
@@ -194,9 +200,20 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var w = LegendColumn.Max(x=>x.Textbox.Width);
             if(_dataTable.ShowKeys)
             {
-                return w + LegendColumn.First().MarkerIcon.Bounds.Width + MarginIconText;
+                return w + LegendColumn.Max(x=>x.SeriesIcon?.Bounds.Width??0) + MarginIconText;
             }
             return w;
+        }
+        private double GetLegendColHeight(int row)
+        {
+            var h = LegendColumn[row].Textbox.Height;
+            if (_dataTable.ShowKeys)
+            {
+                var sih = LegendColumn[row].SeriesIcon.Bounds.Height;
+                var mih = LegendColumn[x].MarkerIcon?.Bounds.Height ?? 0D;
+                return Math.Max(mih, Math.Max(h, sih));
+            }
+            return h;
         }
 
         private double GetDataTableWidth(ChartRenderer svgChart, ExcelChartDataTable chartDataTable)
