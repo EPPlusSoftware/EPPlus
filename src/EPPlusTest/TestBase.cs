@@ -454,13 +454,13 @@ namespace EPPlusTest
         protected static FileInfo GetResourceFile(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
             if(path.Length > 4)
             {
-                return new FileInfo(path + "\\Resources\\" + fileName);
+                return new FileInfo(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}" + fileName);
             }
             else
             {
