@@ -56,24 +56,26 @@ namespace EPPlusTest.Core
         [TestMethod]
         public async Task SaveAsyncTest()
         {
-            using (var pck = OpenPackage("Async.xlsx", true))
+            var file = "Async.xlsx";
+            using (var pck = OpenPackage(file, true))
             {
                 var ws = pck.Workbook.Worksheets.Add("AsyncSave");
                 LoadTestdata(ws, noRows);
                 await pck.SaveAsync().ConfigureAwait(false);
-                CopyRead(pck.File);
             }
+            CopyRead(GetOutputFile("AsyncEnc.xlsx"));
         }
         [TestMethod]
         public async Task SaveAsyncEncryptedTest()
         {
-            using (var pck = OpenPackage("AsyncEnc.xlsx", true))
+            var file = "AsyncEnc.xlsx";
+            using (var pck = OpenPackage(file, true))
             {
                 var ws = pck.Workbook.Worksheets.Add("AsyncEncryptedSave");
                 LoadTestdata(ws, noRows);
                 await pck.SaveAsync("EPPlus").ConfigureAwait(false);
-                CopyRead(pck.File);
             }
+            CopyRead(GetOutputFile("AsyncEnc.xlsx"));
         }
         [TestMethod]
         public async Task LoadAsyncTest()
