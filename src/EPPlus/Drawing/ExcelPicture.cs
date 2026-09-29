@@ -22,6 +22,8 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
+using System.Collections.Generic;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -137,7 +139,10 @@ namespace OfficeOpenXml.Drawing
                     {
                         container.RelPic = LinkedImageRel;
                         Image = new ExcelImage(this);
-                        FileInfo ImageFile = new FileInfo(LinkedImageRel.TargetUri.LocalPath);
+                        //Path.Combine automatically fixes things like "\\" to linux appropriate paths if in linux
+                        //var fixedPath = Path.Combine(new string[] {  Path.GetFullPath(LinkedImageRel.TargetUri.GetComponents), "" });
+                        var fullPath = Path.GetFullPath(LinkedImageRel.TargetUri.LocalPath);
+                        FileInfo ImageFile = new FileInfo(fullPath);
                         LoadImageLinked(ImageFile);
                     }
                 }
