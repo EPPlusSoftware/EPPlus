@@ -1127,5 +1127,14 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "Allsvenskan2001.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void TableDxfStyleTest()
+        {
+            using var p = OpenTemplatePackage("TableDxfStylePdf1.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "TableDxfStylePdf1.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }
