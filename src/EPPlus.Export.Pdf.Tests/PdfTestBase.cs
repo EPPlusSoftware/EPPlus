@@ -11,31 +11,18 @@ namespace EPPlus.Export.Pdf.Tests
 
         protected void SaveAsPdf(ExcelWorksheet sheet, string pdfFileName)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             sheet.SaveAsPdf(path);
         }
-
         protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             wb.SaveAsPdf(path);
         }
 
         protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, params ExcelRangeBase[] ranges)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             if (ranges.Count() > 1)
                 wb.SaveAsPdf(path, ranges);
             else
@@ -69,15 +56,7 @@ namespace EPPlus.Export.Pdf.Tests
         /// </summary>
         protected void SaveAsPdf(ExcelWorksheet sheet, string pdfFileName, PdfPageSettings settings)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            if(Directory.Exists(_pdfPath)==false)
-            {
-                Directory.CreateDirectory(_pdfPath);
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             new PdfCatalog(settings, sheet).Save(path);
         }
 
@@ -87,11 +66,7 @@ namespace EPPlus.Export.Pdf.Tests
         /// </summary>
         protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfPageSettings settings)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             new PdfCatalog(settings, wb).Save(path);
         }
 
@@ -101,15 +76,28 @@ namespace EPPlus.Export.Pdf.Tests
         /// </summary>
         protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfPageSettings settings, params ExcelRangeBase[] ranges)
         {
-            if (!pdfFileName.ToLower().EndsWith(".pdf"))
-            {
-                pdfFileName += ".pdf";
-            }
-            var path = Path.Combine(_pdfPath, pdfFileName);
+            string path = GetPdfFilePath(pdfFileName);
             if (ranges.Count() > 1)
                 new PdfCatalog(settings, ranges).Save(path);
             else
                 new PdfCatalog(settings, ranges[0]).Save(path);
         }
+        private static string GetPdfFilePath(string pdfFileName)
+        {
+            if (!pdfFileName.ToLower().EndsWith(".pdf"))
+            {
+                pdfFileName += ".pdf";
+            }
+
+            if (Directory.Exists(_pdfPath) == false)
+            {
+                Directory.CreateDirectory(_pdfPath);
+            }
+
+            var path = Path.Combine(_pdfPath, pdfFileName);
+            return path;
+        }
+
+
     }
 }

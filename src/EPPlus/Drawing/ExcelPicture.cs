@@ -22,6 +22,8 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
+using System.Collections.Generic;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;

@@ -987,7 +987,7 @@ namespace EPPlusTest.PDF
         {
             using var p = CreateWorkbook();
             var ws = p.Workbook.Worksheets[0];
-            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            string path = _pdfPath + "EPPlus Sample 4.pdf";
             ws.SaveAsPdf(path);
         }
         public ExcelPackage CreateWorkbook()

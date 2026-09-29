@@ -229,6 +229,17 @@ namespace EPPlusTest
             }
             return null;
 		}
+        protected static FileInfo GetOutputFile(string fileName)
+        {
+            var path = _worksheetPath;
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return new FileInfo(path + fileName);
+        }
+
         protected static FileInfo GetOutputFile(string subPath, string fileName)
         {
             var path = _worksheetPath + subPath;
