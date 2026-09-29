@@ -462,7 +462,8 @@ namespace EPPlusImageRenderer
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-
+            
+            DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
 
