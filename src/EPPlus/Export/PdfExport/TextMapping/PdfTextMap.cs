@@ -878,21 +878,19 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 if (table.ShowColumnStripes && (tableCol & 1) == 0)
                 {
-                    if (cell._fromRow - ts > range._fromRow && cell._fromRow < range._toRow)
-                    { top = tableStyle.FirstColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                    else if (cell._fromRow <= range._toRow)
-                    { top = null; }
-                    else
-                    { top = tableStyle.FirstColumnStripe.Style.Border.Top; elementOrder = TableEdgeOrder.FirstColumnStripe; }
+                    var band = tableStyle.FirstColumnStripe.Style.Border;
+                    if (tableRow == 0)
+                    { if (band.Top.HasValue) { top = band.Top; elementOrder = TableEdgeOrder.FirstColumnStripe; } }
+                    else if (band.Horizontal.HasValue)
+                    { top = band.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
                 }
                 if (table.ShowColumnStripes && (tableCol & 1) != 0)
                 {
-                    if (cell._fromRow + ts > range._fromRow && cell._fromRow < range._toRow)
-                    { top = tableStyle.SecondColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                    else if (cell._fromRow <= range._toRow)
-                    { top = null; }
-                    else
-                    { top = tableStyle.SecondColumnStripe.Style.Border.Top; elementOrder = TableEdgeOrder.SecondColumnStripe; }
+                    var band = tableStyle.SecondColumnStripe.Style.Border;
+                    if (tableRow == 0)
+                    { if (band.Top.HasValue) { top = band.Top; elementOrder = TableEdgeOrder.SecondColumnStripe; } }
+                    else if (band.Horizontal.HasValue)
+                    { top = band.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
                 }
                 if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue && (tableRow & 1) != 0)
                 { top = tableStyle.FirstRowStripe.Style.Border.Top; elementOrder = TableEdgeOrder.FirstRowStripe; }
