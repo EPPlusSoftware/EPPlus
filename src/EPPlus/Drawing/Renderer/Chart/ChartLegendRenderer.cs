@@ -1057,6 +1057,7 @@ namespace EPPlusImageRenderer.Svg
         public override void AppendRenderItems(List<RenderItem> renderItems)
         {
             var groupItem = new GroupRenderItem(ChartRenderer.Bounds);
+            groupItem.Bounds.Name = "Legend";
             groupItem.Top = Rectangle.Bounds.Top;
             groupItem.Left = Rectangle.Bounds.Left;
             renderItems.Add(groupItem);

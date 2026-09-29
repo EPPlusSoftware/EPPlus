@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
-    [TestClass, Ignore("Some small differences in the asserts when running in Github actions, investigation needed.")]
+    [TestClass]
     public class SvgStandAloneTests : TestBase
     {
 
@@ -123,13 +123,19 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
         private SvgTextBodyRenderItem GenerateTextBody(GroupRenderItem baseGroup)
         {
-            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = false);
-            if (engine.GetFontAvailability("Archivo Narrow") == FontAvailability.NotFound)
+            var engine = new OpenTypeFontEngine(x => 
+            { 
+                x.SearchSystemDirectories = true;
+            });
+            if (engine.GetFontAvailability("Aptos Narrow") == FontAvailability.NotFound)
             {
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
             }
+
             var renderContext = new RenderContext(() => engine);
             var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);
+            //Aptos Narrow is Default font for a text that does not define its own font'
+            //As we do not have it, this fallbacks to archivo narrow and then to Old Metrics for Aptos
             var paragraph = textBody.AddParagraph("Hello");
 
             paragraph.AddText(" There");
@@ -242,9 +248,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             double delta = 0.001;
 
-            Assert.AreEqual(180.04052829742432d, textBody.Bounds.Top, delta);
-
             GenerateSvgFile("textBodyAlignVCenter", baseGroup.Bounds, baseGroup);
+
+            //This appears to be entirely accurate when comparing to excel
+            Assert.AreEqual(215.02026414871216, textBody.Bounds.Top, delta);
+            //This is our old expected value.
+            //Assert.AreEqual(180.04052829742432d, textBody.Bounds.Top, delta);
+            //Interestingly 500/2 = 250
+            //and 250 - 35 = 215 
+            //And 215 - 35 = 180
+            //Seems we may have been adjusting for something by taking the full height of the text rather than just half.
+            //Possibly this is now handled by the y of the first tSpan
         }
 
         [TestMethod]
@@ -279,9 +293,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             group = GenerateGroupRenderItem();
 
             var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
-            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = false);
+            var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
             var rc = new RenderContext(() => engine);
+
+            if (engine.GetFontAvailability("Aptos Narrow") == FontAvailability.NotFound)
+            {
+                Assert.Inconclusive("Font not found. This is expected behaviour on web.");
+            }
+
             textbox.TextBody = new SvgTextBodyRenderItem(rc, group.Bounds, true);
+
             var paragraph = textbox.TextBody.AddParagraph("Hello");
 
             paragraph.AddText(" There");
