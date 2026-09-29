@@ -47,7 +47,7 @@ namespace EPPlusTest.Issues
                 packageTemp.Workbook.Worksheets.Add("dummy");
                 SaveAndCleanup (packageTemp);
 
-                var file = new FileInfo("C:\\epplusTest\\Testoutput\\dummyQuoteWorkbook.xlsx");
+                var file = new FileInfo($"C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}dummyQuoteWorkbook.xlsx");
 
                 package.Workbook.ExternalLinks.AddExternalWorkbook(file);
 

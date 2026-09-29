@@ -565,7 +565,7 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
 
-            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtIconsetIdTest.xlsx"))
+            using (var p = new ExcelPackage($"C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}ExtIconsetIdTest.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var format = ws.ConditionalFormatting;
@@ -598,7 +598,7 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
 
-            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtIconsetIdGenerated.xlsx"))
+            using (var p = new ExcelPackage($"C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}ExtIconsetIdGenerated.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var format = ws.ConditionalFormatting;
