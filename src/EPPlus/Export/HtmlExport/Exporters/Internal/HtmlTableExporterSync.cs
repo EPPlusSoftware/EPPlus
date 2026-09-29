@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         public string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
+            if (Settings.Minify) htmlDocument = htmlDocument.Replace("{2}", "");
             var html = GetHtmlString();
             var cssExporter = HtmlExporterFactory.CreateCssExporterTableSync(_tableExportSettings, _table, _exporterContext);
             var css = cssExporter.GetCssString();
