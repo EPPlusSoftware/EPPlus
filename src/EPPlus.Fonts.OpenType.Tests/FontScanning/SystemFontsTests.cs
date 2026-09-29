@@ -15,6 +15,7 @@ namespace EPPlus.Fonts.OpenType.Tests.FontScanning
         [TestMethod]
         public void AptosNarrowTest1()
         {
+            RequireFont(SystemFontsEngine, "Aptos Narrow", FontSubFamily.Regular);
             var font = SystemFontsEngine.LoadFont("Aptos Narrow", FontSubFamily.Regular);
             Assert.AreEqual("Aptos Narrow", font.FullName);
         }
