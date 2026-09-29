@@ -213,7 +213,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"S");
                         if (richInfo.UnderlineType == 4)
                         {
-                            var gap = underlineWidth * 2.0;
+                            var gap = underlineWidth * 3.0;
                             var start2 = textMatrix.Transform(new Vector2(0, underlinePos - gap));
                             var end2 = textMatrix.Transform(new Vector2(textLength, underlinePos - gap));
                             commands.Add($"{underlineWidth.ToPdfString()} w");
