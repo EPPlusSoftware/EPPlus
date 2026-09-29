@@ -465,20 +465,19 @@ namespace EPPlusTest.ConditionalFormatting
                 id = format[0].Uid;
                 Assert.AreNotEqual(id[0], '{');
                 Assert.AreNotEqual(id[id.Length - 1], '}');
-                SaveAndCleanup(p);
-            }
+                SaveAndCleanup(p, false);
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    format = ws.ConditionalFormatting;
 
-            using (var p = new ExcelPackage("C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}databarIdTest.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var format = ws.ConditionalFormatting;
+                    var id2 = format[0].Uid;
+                    Assert.AreEqual(id, id2);
+                    Assert.AreNotEqual(id2[0], '{');
+                    Assert.AreNotEqual(id2[id2.Length - 1], '}');
 
-                var id2 = format[0].Uid;
-                Assert.AreEqual(id, id2);
-                Assert.AreNotEqual(id2[0], '{');
-                Assert.AreNotEqual(id2[id2.Length - 1], '}');
-
-                SaveAndCleanup(p);
+                    SaveAndCleanup(p);
+                }
             }
         }
         [TestMethod]
@@ -495,7 +494,7 @@ namespace EPPlusTest.ConditionalFormatting
                 id = format[0].Uid;
                 Assert.AreNotEqual(id[0], '{');
                 Assert.AreNotEqual(id[id.Length - 1], '}');
-                SaveAndCleanup(p);
+                SaveAndCleanup(p, false);
 
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
