@@ -123,8 +123,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         currentStack = line.StackIndex;
                         advanceY = 0d;
                     }
+                    //double step = line.LargestAscent + line.LargestDescent;
                     double step = line.LargestAscent + line.LargestDescent;
-                    lineOffsetX = line.StackIndex * step + (stackWidth - line.Width) / 2d;
+                    lineOffsetX = line.StackIndex * step + (step - line.Width) / 2d;
+                    //lineOffsetX = line.StackIndex * step + (stackWidth - line.Width) / 2d;
                 }
                 else
                 {

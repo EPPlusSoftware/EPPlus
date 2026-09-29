@@ -8,6 +8,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -130,6 +131,7 @@ namespace EPPlus.Export.Pdf.Tests
                 ws.SaveAsPdf(path);
             }
         }
+
         [TestMethod]
         public void VerticalTextTestSheet2()
         {
@@ -139,6 +141,94 @@ namespace EPPlus.Export.Pdf.Tests
                 var path = _pdfPath + "verticalTextRegressionSheet2.pdf";
                 ws.SaveAsPdf(path);
             }
+        }
+
+        [TestMethod]
+        public void VerticalTextTestSheet3()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[3];
+                var path = _pdfPath + "wrappedHorizontal.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
+        [TestMethod] 
+        public void DumpAptosNarrowMetrics()
+        {
+            using (var engine = new OpenTypeFontEngine())
+            {
+                var font = engine.LoadFont("Aptos", FontSubFamily.Regular);
+                double upem = font.HeadTable.UnitsPerEm;
+
+                void Show(string name, double units)
+                {
+                    Debug.WriteLine($"{name,-40} {units,8:F0} units = {units / upem,7:F5} em " +
+                                    $"= {units / upem * 11.04,7:F3} pt @11.04 " +
+                                    $"= {units / upem * 11,7:F3} pt @11");
+                }
+
+                Show("hhea asc - desc", font.HheaTable.ascender - font.HheaTable.descender);
+                Show("hhea asc - desc + lineGap", font.HheaTable.ascender - font.HheaTable.descender + font.HheaTable.lineGap);
+                Show("OS/2 typo asc - desc", font.Os2Table.sTypoAscender - font.Os2Table.sTypoDescender);
+                Show("OS/2 typo asc - desc + gap", font.Os2Table.sTypoAscender - font.Os2Table.sTypoDescender + font.Os2Table.sTypoLineGap);
+                Show("OS/2 win asc + win desc", font.Os2Table.usWinAscent + font.Os2Table.usWinDescent);
+                Show("usWinAscent", font.Os2Table.usWinAscent);
+                Show("usWinDescent", font.Os2Table.usWinDescent);
+                Show("head yMax - yMin", font.HeadTable.Ymax - font.HeadTable.Ymin);
+                Show("TARGET", 0);
+                Debug.WriteLine($"Excel measured: 15.240 pt");
+            }
+        }
+
+        /// <summary>
+        /// 2.2 - verified against Excel: "1,2346E+19" in a 60.02pt row (capacity 3 chars)
+        /// produced exactly "1,2" / "346" / "E+1" / "9".
+        /// </summary>
+        [TestMethod]
+        public void VerticalWrap_NoSpaces_BreaksAtCapacity()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments("1,2346E+19"), step * 3);
+
+            Assert.AreEqual(4, lines.Count);
+            Assert.AreEqual("1,2", lines[0].Text);
+            Assert.AreEqual("346", lines[1].Text);
+            Assert.AreEqual("E+1", lines[2].Text);
+            Assert.AreEqual("9", lines[3].Text);
+        }
+
+        /// <summary>
+        /// 2.5 - an explicit line break starts a new stack even when room remains.
+        /// </summary>
+        [TestMethod]
+        public void VerticalWrap_ExplicitLineBreakStartsNewStack()
+        {
+            var engine = CreateEngine();
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments("ab\ncd"), double.MaxValue);
+
+            Assert.AreEqual(2, lines.Count);
+            Assert.AreEqual("ab", lines[0].Text);
+            Assert.AreEqual("cd", lines[1].Text);
+        }
+
+        /// <summary>
+        /// 2.6 - text that fits needs no break, and must not differ from the unwrapped path.
+        /// </summary>
+        [TestMethod]
+        public void VerticalWrap_TextThatFitsProducesOneStack()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments("Hej"), step * 10);
+
+            Assert.AreEqual(1, lines.Count);
+            Assert.AreEqual("Hej", lines[0].Text);
         }
 
         private TextLayoutEngine CreateEngine()
