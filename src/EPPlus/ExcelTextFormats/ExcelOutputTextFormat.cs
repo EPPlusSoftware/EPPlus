@@ -47,6 +47,10 @@ namespace OfficeOpenXml
         public ExcelOutputTextFormat() : base()
         {
             FirstRowIsHeader = true;
+            //TODO: Possibly set this in base-class?
+            //Tests using this particular child class expect actual Environment.NewLine()
+            //Ensure it is the same
+            EOL = Environment.NewLine;
         }
         /// <summary>
         /// A text written at the start of the file.

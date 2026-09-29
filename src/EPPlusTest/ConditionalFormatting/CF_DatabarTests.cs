@@ -468,7 +468,7 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
 
-            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\databarIdTest.xlsx"))
+            using (var p = new ExcelPackage("C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}databarIdTest.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var format = ws.ConditionalFormatting;
