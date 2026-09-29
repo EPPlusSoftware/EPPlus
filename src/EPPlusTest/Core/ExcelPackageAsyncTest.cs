@@ -63,7 +63,7 @@ namespace EPPlusTest.Core
                 LoadTestdata(ws, noRows);
                 await pck.SaveAsync().ConfigureAwait(false);
             }
-            CopyRead(GetOutputFile("AsyncEnc.xlsx"));
+            CopyRead(GetOutputFile(file));
         }
         [TestMethod]
         public async Task SaveAsyncEncryptedTest()
@@ -75,7 +75,7 @@ namespace EPPlusTest.Core
                 LoadTestdata(ws, noRows);
                 await pck.SaveAsync("EPPlus").ConfigureAwait(false);
             }
-            CopyRead(GetOutputFile("AsyncEnc.xlsx"));
+            CopyRead(GetOutputFile(file));
         }
         [TestMethod]
         public async Task LoadAsyncTest()
