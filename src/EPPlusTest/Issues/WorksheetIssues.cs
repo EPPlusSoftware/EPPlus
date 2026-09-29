@@ -853,6 +853,14 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void i1951()
         {
+            var isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT &&
+            Environment.OSVersion.Version.Major >= 6 &&
+            Environment.OSVersion.Version.Minor >= 0;
+            if (isWindows == false)
+            {
+                Assert.Inconclusive("This test is only meant to be run on Windows OS");
+            }
+
             using (var p = OpenPackage("I1951.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("GenericTM");
