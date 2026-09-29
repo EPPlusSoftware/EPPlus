@@ -6,7 +6,7 @@ using OfficeOpenXml.Drawing;
 namespace TestProject1
 {
     [TestClass]
-    public sealed class PresetShapeDefinitionTests
+    public sealed class PresetShapeDefinitionTest : TestBase
     {
         [TestMethod]
         public async Task LoadPreset()
@@ -21,7 +21,7 @@ namespace TestProject1
                 var shape = ws.Drawings.AddShape("Rect1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
 
                 PresetShapeDefinitions.ShapeDefinitions[(ShapeStyle)shape.Style].Calculate(shape._width, shape._height, shape.TextBody.TextAutofit == eTextAutofit.ShapeAutofit, null, null);
-                await p.SaveAsAsync("c:\\temp\\rect.xlsx");
+                await SaveWorkbookAsync("rect.xlsx", p);
             }
         }
 

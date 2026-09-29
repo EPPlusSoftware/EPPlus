@@ -29,7 +29,7 @@ namespace EPPlus.DrawingRenderer.Svg
                 fillPropery = $" fill=\"{item.FillColor}\" ";
             }
 
-            OutputStream.Append($"<g {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
+            OutputStream.Append($"<g class=\"{item.Bounds.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
 
             foreach (var childItem in item.RenderItems)
             {

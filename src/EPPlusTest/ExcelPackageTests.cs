@@ -235,11 +235,11 @@ namespace EPPlusTest
             {
                 package.Workbook.Worksheets.Add("Sheet1");
                 await package.SaveAsync(o => o.SaveAsTemplate = true);
-            }
 
-            using (var reopened = new ExcelPackage(file))
-            {
-                AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+                using (var reopened = new ExcelPackage(package.Stream))
+                {
+                    AssertWorkbookContentType(ContentTypes.contentTypeTemplateDefault, reopened);
+                }
             }
         }
 

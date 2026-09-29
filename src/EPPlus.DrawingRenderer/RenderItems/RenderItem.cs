@@ -236,6 +236,35 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
             Bounds.Height = item.Bounds.Bottom > Bounds.Height ? item.Bounds.Bottom : Bounds.Height;
         }
+
+        /// <summary>
+        /// Create a subGroup beneath the ParentGroup
+        /// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
+        /// </summary>
+        /// <typeparam name="T">Some RenderItem type</typeparam>
+        /// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
+        /// <param name="Items">The RenderItems to place within the group</param>
+        /// <param name="parentGroup">The parent group of this item</param>
+        public void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items) where T : RenderItem
+        {
+            if (Items != null)
+            {
+                //Create subGroup
+                var subGroup = new GroupRenderItem(this.Bounds);
+                subGroup.Bounds.Name = subGroupName;
+
+                //Add items to subGroup
+                foreach (var renderItem in Items)
+                {
+                    subGroup.RenderItems.Add(renderItem);
+                }
+
+                //Add subGroup to parent group
+                this.RenderItems.Add(subGroup);
+            }
+        }
+
+
         public override RenderItem Clone()
         {
             var item = new GroupRenderItem(Bounds)
@@ -254,6 +283,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
             return item;
         }
+
+
     }
     public class PathRenderItem : RenderItem
     {

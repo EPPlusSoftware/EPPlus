@@ -21,7 +21,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             if (item.Bounds.Name != null)
             {
-                sb.Append($" id=\"{item.Bounds.Name}\" ");
+                sb.Append($" class=\"{item.Bounds.Name}\" ");
             }
 
             if (string.IsNullOrEmpty(item.DefId) == false)

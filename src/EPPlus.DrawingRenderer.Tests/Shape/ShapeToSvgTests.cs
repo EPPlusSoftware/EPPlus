@@ -1,4 +1,5 @@
-﻿using EPPlus.Fonts.OpenType;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.Fonts.OpenType;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -399,6 +400,41 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
         }
 
 
+        [TestMethod]
+        public void OpenReadAndHTMLExportTextbox()
+        {
+            using(var p = OpenTemplatePackage("HtmlExportwithCharts.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var shape = ws.Drawings["InfoBox"];
+                var svg = shape.ToSvg();
+                SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", svg);
+            }
+        }
+
+
+        [TestMethod]
+        public void GenerateSpecificShape()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Shapes");
+                int y = 100;
+
+                var shapeStyle = eShapeStyle.Pie;
+
+                var shape = ws.Drawings.AddShape(shapeStyle.ToString(), shapeStyle);
+                shape.Text = shapeStyle.ToString();
+                Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
+                shape.SetPosition(y, 100);
+                shape.SetSize(600, 600);
+                y += 700;
+
+                var shapeSvg = shape.ToSvg();
+                SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
+            }
+        }
+
 
         [TestMethod]
         public void GenerateAllShapes()
@@ -407,18 +443,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
             {
                 var ws = p.Workbook.Worksheets.Add("Shapes");
                 int y = 100, i = 1;
-
-
-
-                //var shape = ws.Drawings.AddShape(eShapeStyle.Gear6.ToString(), eShapeStyle.Gear6);
-                //shape.Text = eShapeStyle.Gear9.ToString();
-                //Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
-                //shape.SetPosition(y, 100);
-                //shape.SetSize(600, 600);
-                //y += 700;
-
-                //var shapeSvg = shape.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
 
                 foreach (eShapeStyle style in Enum.GetValues(typeof(eShapeStyle)))
                 {
