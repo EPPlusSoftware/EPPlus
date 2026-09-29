@@ -480,5 +480,25 @@ namespace EPPlus.Fonts.OpenType
         {
             return string.Equals("archivo narrow", fontName, StringComparison.OrdinalIgnoreCase);
         }
+
+        /// <summary>
+        /// Returns the font family to use for the given render target. For <see cref="FontRenderTarget.Document"/>
+        /// the requested family is always returned unchanged. For <see cref="FontRenderTarget.Web"/> a
+        /// configured substitute is returned when one exists. Substitution is a single step and is not chained.
+        /// </summary>
+        public string GetFamilyForTarget(string fontName, FontRenderTarget target)
+        {
+            ThrowIfDisposed();
+            if (target != FontRenderTarget.Web || string.IsNullOrEmpty(fontName))
+                return fontName;
+
+            string substitute;
+            if (_configuration.WebFontSubstitutions.TryGetValue(fontName, out substitute)
+                && string.IsNullOrEmpty(substitute) == false)
+            {
+                return substitute;
+            }
+            return fontName;
+        }
     }
 }

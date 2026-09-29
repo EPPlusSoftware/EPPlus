@@ -181,7 +181,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            var txtBox = new DrawingTextBox(Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
+            var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
 
             txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 

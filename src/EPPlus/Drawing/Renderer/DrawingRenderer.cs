@@ -21,23 +21,21 @@ using EPPlus.Graphics;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.Renderer
 {
     internal abstract class DrawingRenderer 
     {
-        internal DrawingRenderer(ExcelDrawing drawing)
+        internal DrawingRenderer(ExcelDrawing drawing, FontRenderTarget target = FontRenderTarget.Document)
         {
             Drawing = drawing;
             Bounds = drawing.GetBoundingBox();
 
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
-            RenderContext = wb.RenderContext;
-
-            var shaper = RenderContext.FontEngine.GetTextShaper(Theme.FontScheme.MajorFont[0].Typeface);
-            TextMeasurer = new OpenTypeFontTextMeasurer(shaper);
+            RenderContext = wb.RenderContext.ForTarget(target);
         }
 
 
@@ -54,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         public ExcelDrawing Drawing { get; }
         public ExcelTheme Theme { get;}
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
-        internal ITextMeasurer TextMeasurer { get; }
+        //internal ITextMeasurer TextMeasurer { get; }
         internal RenderContext RenderContext { get; }
         public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
         internal BoundingBox Bounds = new BoundingBox();
