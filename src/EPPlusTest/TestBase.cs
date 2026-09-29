@@ -461,6 +461,9 @@ namespace EPPlusTest
         protected static FileInfo GetResourceFile(string fileName)
         {
             string path = AppContext.BaseDirectory;
+            //Trim start and end separators so not double-added below (extra important on linux)
+            path = path.TrimEnd(new char[] { Path.DirectorySeparatorChar });
+
             while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
             {
                 path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
