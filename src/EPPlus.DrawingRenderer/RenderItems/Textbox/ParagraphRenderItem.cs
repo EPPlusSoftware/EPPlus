@@ -96,10 +96,25 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public bool AutoSize = false;
 
-        public FontFormatBase DefaultParagraphFont;
+        private FontFormatBase _defaultParagraphFont;
+
+        /// <summary>
+        /// The default font of the paragraph. The family is substituted for the render target on assignment.
+        /// </summary>
+        public FontFormatBase DefaultParagraphFont
+        {
+            get { return _defaultParagraphFont; }
+            set
+            {
+                _defaultParagraphFont = value;
+                ApplyFontTarget(value);
+            }
+        }
 
         protected double ParentMaxWidth;
         protected double ParentMaxHeight;
+
+
 
         protected RenderTextBody ParentTextBody { get; set; }
 
@@ -226,6 +241,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             return _layoutSystem.Wrap(maxWidthInPoints);
         }
 
+        /// <summary>
+        /// Substitutes the font family for the render target. Every font that reaches measurement must pass
+        /// through here, since text runs output the same font object they were measured with.
+        /// </summary>
+        protected void ApplyFontTarget(IFontFormatBase font)
+        {
+            if (font == null || RenderContext == null)
+                return;
+            font.Family = RenderContext.GetFamilyForTarget(font.Family);
+        }
+
         private void AddRichTextBase(IRichTextFormatSimple rt)
         {
             if (_textFragments == null)
@@ -235,9 +261,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (string.IsNullOrEmpty(rt.Text) == false)
             {
+                ApplyFontTarget(rt);
                 _textFragments.Add(rt);
             }
         }
+
 
         protected void AddDefaultTextFragment(string text)
         {

@@ -119,12 +119,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// So that we can easily know what textfragment is on what line and what size it has later
         /// </summary>
         /// <param name="runs"></param>
-        void GenerateRichText(ExcelDrawingTextRunCollection runs/*, List<ShapingOptions>? optionLst = null*/)
+        void GenerateRichText(ExcelDrawingTextRunCollection runs)
         {
-            //var lstOfRichText = runs.ExportToOpenTypeFormat();
             var lstOfRichText = runs.ExportToImageRendererFormat();
             foreach (var rt in lstOfRichText)
             {
+                //Added directly, not via AddRichTextBase, as ImportStyles relies on a 1:1 index
+                //between the paragraph's text runs and the fragments, including empty runs.
+                ApplyFontTarget(rt);
                 _textFragments.Add(rt);
             }
         }
@@ -242,7 +244,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
         {
             _lsType = (TextLineSpacing)lsType;
-            var shaper = (ITextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont);
+            var shaper = RenderContext.GetMeasurementShaper(DefaultParagraphFont);
 
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
                 lineSpacingValue,
