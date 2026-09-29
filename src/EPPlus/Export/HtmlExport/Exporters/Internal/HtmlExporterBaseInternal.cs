@@ -28,6 +28,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime;
+using System.Xml;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
@@ -866,6 +867,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             else
             {
                 contentElement.Content = ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+            }
+        }
+
+        internal string FormatHtmlCssLineEnding(string htmlDocument, string html, string css)
+        {
+            if (htmlDocument.Contains("{2}"))
+            {
+                return string.Format(htmlDocument, html, css, Environment.NewLine);
+            }
+            else
+            {
+                return string.Format(htmlDocument, html, css);
             }
         }
     }

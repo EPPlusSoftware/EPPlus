@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var html = await GetHtmlStringAsync();
             var cssExporter = HtmlExporterFactory.CreateCssExporterTableAsync(_tableExportSettings, _table, _exporterContext);
             var css = await cssExporter.GetCssStringAsync();
-            return string.Format(htmlDocument, html, css);
+            return FormatHtmlCssLineEnding(htmlDocument, html, css);
         }
     }
 }

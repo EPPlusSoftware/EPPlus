@@ -147,7 +147,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var html = GetHtmlString();
             var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _ranges, _exporterContext);
             var css = exporter.GetCssString();
-            return string.Format(htmlDocument, html, css);
+            return FormatHtmlCssLineEnding(htmlDocument, html, css);
         }
     }
 }
