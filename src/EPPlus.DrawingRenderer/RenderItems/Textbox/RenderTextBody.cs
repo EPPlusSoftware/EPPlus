@@ -1,6 +1,10 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer.Utils;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
@@ -31,45 +35,61 @@ namespace EPPlus.DrawingRenderer.RenderItems
         Top
     }
 
-    public abstract class RenderTextBody : GroupRenderItem
+    public abstract class TextboxRenderItem : RectRenderItem
     {
-        public RenderTextBody(RenderContext renderContext, BoundingBox parent, bool autoSize)
+        public TextboxRenderItem(RenderContext renderContext, RenderItem parent, bool autoSize)
         {
             RenderContext = renderContext;
-            Bounds.Parent = parent;
+            Parent = parent;
             AutoSize = autoSize;
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
-            Bounds.Name = "Textbody";
+            Name = "Textbody";
         }
-        public RenderTextBody(RenderContext renderContext, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(renderContext, parent, autoSize)
+        public TextboxRenderItem(RenderContext renderContext, RenderItem parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(renderContext, parent, autoSize)
         {
             RenderContext = renderContext;
-            Bounds.Left = left;
-            Bounds.Top = top;
-            Bounds.Width = maxWidth;
-            Bounds.Height = maxHeight;
+            Left = left;
+            Top = top;
+            Width = maxWidth;
+            Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
-            Bounds.Name = "Textbody";
+            Name = "Textbody";
         }
 
         protected RenderContext RenderContext { get; private set; }
+        public bool HasBackground { get; set; }
         public List<ParagraphRenderItem> Paragraphs { get; set; } = new List<ParagraphRenderItem>();
 
         public TextAnchoringType VerticalAlignment = TextAnchoringType.Top;
-        public string Text { get; set; }
+        public string Text 
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                foreach(var p in Paragraphs)
+                {
+                    foreach (var line in p.Lines)
+                    {
+                        sb.AppendLine(line.Text);
+                    }
+                }
+                return sb.ToString();
+            }
+        }
+
         public double MaxWidth { get; set; }
         public double MaxHeight { get; set; }
-        /// <summary>
-        /// Shorthand for Bounds.Width
-        /// </summary>
-        public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
+        ///// <summary>
+        ///// Shorthand for Bounds.Width
+        ///// </summary>
+        //public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
 
-        /// <summary>
-        /// Shorthand for Bounds.Height
-        /// </summary>
-        public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
+        ///// <summary>
+        ///// Shorthand for Bounds.Height
+        ///// </summary>
+        //public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
 
         public bool AutoSize { get; set; }
         public double TopMargin { get; set; }
@@ -77,56 +97,16 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
         public string FontColorString { get; set; }
-
-        
-        public void AppendRenderItems(List<RenderItem> renderItems)
-        {
-            //foreach(var item in Paragraphs)
-            //{
-            //    AddChildItem(item);
-            //}
-            //GroupRenderItem groupItem;
-            //if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
-            //{
-            //    groupItem = new GroupRenderItem(Bounds, Bounds.Rotation);
-            //}
-            //else
-            //{
-            //    groupItem = new GroupRenderItem(Bounds);
-            //}
-
-            //if (FontColorString != null)
-            //{
-            //    groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
-            //}
-            //renderItems.Add(groupItem);
-
-            //Set bounds position to be translation
-            //Posibly remove translationOffset and make it always be bounds?
-            //But then we will have an inaccurate bounding box if a child object has negative position.
-            //TranslationOffset.Left = Bounds.Left;
-            //TranslationOffset.Top = Bounds.Top;
-
-            renderItems.Add(this);
-
-            var titleItem = new TitleRenderItem("TextBody group");
-            AddChildItem(titleItem);
-            foreach (var item in Paragraphs)
-            {
-                AddChildItem(item);
-            }
-        }
-
         public ParagraphRenderItem AddParagraph(IRichTextFormatSimple rtFormat)
         {
-            var paragraph = CreateParagraph(Bounds, rtFormat);
+            var paragraph = CreateParagraph(this, rtFormat);
             AdjustAndAddParagraph(paragraph);
             return paragraph;
         }
 
         public ParagraphRenderItem AddParagraph(string text = null)
         {
-            var paragraph = CreateParagraph(Bounds, text);
+            var paragraph = CreateParagraph(this, text);
             AdjustAndAddParagraph(paragraph);
             return paragraph;
         }
@@ -140,16 +120,16 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
                 foreach(var paragraph in Paragraphs)
                 {
-                    currentHeight += paragraph.Bounds.Height;
+                    currentHeight += paragraph.Height;
 
-                    if (currentWidth < paragraph.Bounds.Width || currentWidth == MaxWidth)
+                    if (currentWidth < paragraph.Width || currentWidth == MaxWidth)
                     {
-                        currentWidth = paragraph.Bounds.Width;
+                        currentWidth = paragraph.Width;
                     }
                 }
 
-                Bounds.Width = currentWidth;
-                Bounds.Height = currentHeight;
+                Width = currentWidth;
+                Height = currentHeight;
             }
         }
 
@@ -161,7 +141,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             if(Paragraphs != null && Paragraphs.Count != 0)
             {
-                double lastParagraphBottom = Paragraphs[0].Bounds.Top;
+                double lastParagraphBottom = Paragraphs[0].Top;
 
                 double smallestLeft = double.MaxValue;
                 double largestWidth = double.MinValue;
@@ -169,23 +149,23 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
                 foreach (var paragraph in Paragraphs)
                 {
-                    paragraph.Bounds.Top = lastParagraphBottom;
-                    lastParagraphBottom = paragraph.Bounds.Bottom;
+                    paragraph.Top = lastParagraphBottom;
+                    lastParagraphBottom = paragraph.Bottom;
 
-                    smallestLeft = Math.Min(smallestLeft, paragraph.Bounds.Left);
-                    largestWidth = Math.Max(largestWidth, paragraph.Bounds.Width);
-                    totalHeight += paragraph.Bounds.Height;
+                    smallestLeft = Math.Min(smallestLeft, paragraph.Left);
+                    largestWidth = Math.Max(largestWidth, paragraph.Width);
+                    totalHeight += paragraph.Height;
                 }
 
-                ContentBounds.Top = Paragraphs[0].Bounds.Top;
+                ContentBounds.Top = Paragraphs[0].Top;
                 ContentBounds.Left = smallestLeft;
                 ContentBounds.Width = largestWidth;
                 ContentBounds.Height = totalHeight;
 
                 if (AutoSize)
                 {
-                    Bounds.Height = totalHeight;
-                    Bounds.Width = ContentBounds.Width;
+                    Height = totalHeight;
+                    Width = ContentBounds.Width;
                 }
             }
         }
@@ -193,27 +173,27 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// <summary>
         /// The total bounds of all paragraphs without margins
         /// </summary>
-        protected BoundingBox ContentBounds = new BoundingBox();
+        protected BoundingBox<RenderItem> ContentBounds = new BoundingBox<RenderItem>();
 
         private void AdjustAndAddParagraph(ParagraphRenderItem paragraph)
         {
-            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = GetTopToAddNextParagraphAt();
+            paragraph.Name = $"Container{Paragraphs.Count}";
+            paragraph.Top = GetTopToAddNextParagraphAt();
 
             if (AutoSize)
             {
                 if (Paragraphs.Count == 0)
                 {
-                    Bounds.Height = paragraph.Bounds.Height;
+                    Height = paragraph.Height;
                 }
                 else
                 {
-                    Bounds.Height += paragraph.Bounds.Height;
+                    Height += paragraph.Height;
                 }
 
-                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                if (Width < paragraph.Width || (Width == MaxWidth && Paragraphs.Count == 0))
                 {
-                    Bounds.Width = paragraph.Bounds.Width;
+                    Width = paragraph.Width;
                 }
             }
             Paragraphs.Add(paragraph);
@@ -226,7 +206,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
             if (Paragraphs.Count != 0)
             {
-                paragraphTop = Paragraphs.Last().Bounds.Bottom;
+                paragraphTop = Paragraphs.Last().Bottom;
             }
             return paragraphTop;
         }
@@ -243,26 +223,90 @@ namespace EPPlus.DrawingRenderer.RenderItems
             switch (VerticalAlignment)
             {
                 case TextAnchoringType.Top:
-                    alignmentY = Bounds.Top;
+                    alignmentY = Top;
                     break;
                 //Center means center of a Shape's ENTIRE bounding box height.
                 //Not center of the Inset GetRectangle
                 case TextAnchoringType.Center:
                     if(AutoSize == false)
                     {
-                        alignmentY = (Bounds.Height) / 2 - ContentBounds.Height;
+                        alignmentY = (Height) / 2 - ContentBounds.Height;
                     }
                     break;
                 case TextAnchoringType.Bottom:
-                    alignmentY = Bounds.Height - ContentBounds.Height;
+                    alignmentY = Height - ContentBounds.Height;
                     break;
             }
 
             return alignmentY;
         }
 
-        protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "");
+        protected abstract ParagraphRenderItem CreateParagraph(RenderItem parent, string textIfEmpty = "");
 
-        protected abstract ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText);
+        protected abstract ParagraphRenderItem CreateParagraph(RenderItem parent, IRichTextFormatSimple richText);
+
+
+        public double HeightWithRotation
+        {
+            get
+            {
+                var radians = MathHelper.Radians(Rotation);
+                var sin = Math.Abs(Math.Sin(radians));
+                var cos = Math.Abs(Math.Cos(radians));
+                return Width * cos + Height * sin;
+            }
+        }
+        public double WidthRotated
+        {
+            get
+            {
+                var radians = MathHelper.Radians(Rotation);
+                var sin = Math.Abs(Math.Sin(radians));
+                var cos = Math.Abs(Math.Cos(radians));
+                return Width * sin + Height * cos;
+            }
+        }
+
+        /// <summary>
+        /// Gets the actual width of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        public double GetActualWidth()
+        {
+            return Width * Math.Abs(Math.Cos(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Sin(MathHelper.Radians(Rotation)));
+        }
+        /// <summary>
+        /// Gets the actual right position of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        public double GetActualRight()
+        {
+            return Left + GetActualWidth();
+        }
+        /// <summary>
+        /// Gets the actual height of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        public double GetActualHeight()
+        {
+            return Width * Math.Abs(Math.Sin(MathHelper.Radians(Rotation))) + Height * Math.Abs(Math.Cos(MathHelper.Radians(Rotation)));
+        }
+        /// <summary>
+        /// Gets the actual right position of the rotated textbox.
+        /// </summary>
+        /// <returns></returns>
+        public double GetActualBottom()
+        {
+            return Top + GetActualHeight();
+        }
+        /// <summary>
+        /// How the text is anchored.
+        /// </summary>
+        public eTextAnchor TextAnchor
+        {
+            get;
+            set;
+        }
+
     }
 }

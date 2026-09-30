@@ -99,6 +99,10 @@ namespace EPPlusImageRenderer.Svg
             {
                 vaHeight += ChartRenderer.Legend.Rectangle.Height + ChartRenderer.Legend.TopMargin;
             }
+            if(ChartRenderer.HasDataTable)
+            {
+                vaHeight += ChartRenderer.DataTable.Rectangle.Bounds.Height;
+            }
             return ChartRenderer.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 

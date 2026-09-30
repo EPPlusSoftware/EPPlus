@@ -21,27 +21,29 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
-    public class DrawingTextBody : RenderTextBody
+    public class DrawingTextBody : TextboxRenderItem
     {
         internal ExcelDrawing _drawing;
 
         internal ExcelTheme Theme { get; }
 
-        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderContext, parent, autoSize)
+        public override RenderItemType Type => RenderItemType.Textbox;
+
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, RenderItem parent, bool autoSize, bool clampedToParent = false) : base(renderContext, parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderContext, parent, autoSize)
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, RenderItem parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderContext, parent, autoSize)
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
-            Bounds.Left = left;
-            Bounds.Top = top;
-            Bounds.Width = maxWidth;
-            Bounds.Height = maxHeight;
+            Left = left;
+            Top = top;
+            Width = maxWidth;
+            Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
         }
@@ -49,30 +51,30 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null, bool applyDefaultMargins = false)
         {
             bool isFirst = Paragraphs.Count == 0;
-            Text = text;
+            //Text = text;
 
-            var paragraph = CreateParagraph(this, item, Bounds, text);
-            paragraph.Bounds.Name = $"Container{Paragraphs.Count}";
-            paragraph.Bounds.Top = startingY;
+            var paragraph = CreateParagraph(this, item, this, text);
+            paragraph.Name = $"Container{Paragraphs.Count}";
+            paragraph.Top = startingY;
 
             if (AutoSize)
             {
                 if (Paragraphs.Count == 0)
                 {
-                    Bounds.Height = paragraph.Bounds.Height;
-                    if(Bounds.Height == 0)
+                    Height = paragraph.Height;
+                    if(Height == 0)
                     {
-                        Bounds.Height = 3d;
+                        Height = 3d;
                     }
                 }
                 else
                 {
-                    Bounds.Height += paragraph.Bounds.Height;
+                    Height += paragraph.Height;
                 }
 
-                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                if (Width < paragraph.Width || (Width == MaxWidth && Paragraphs.Count == 0))
                 {
-                    Bounds.Width = paragraph.Bounds.Width;
+                    Width = paragraph.Width;
                 }
             }
             Paragraphs.Add(paragraph);
@@ -91,19 +93,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 switch (p.HorizontalAlignment)
                 {
                     case TextAlignment.Left:
-                        p.Bounds.Left = 0;
+                        p.Left = 0;
                         break;
                     case TextAlignment.Center:
-                        p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
+                        p.Left = (Width / 2) - (p.Width / 2);
                         break;
                     case TextAlignment.Right:
-                        p.Bounds.Left = Bounds.Right - p.Bounds.Width;
+                        p.Left = Right - p.Width;
                         break;
                     case TextAlignment.Distributed:
                     case TextAlignment.Justified:
                     case TextAlignment.JustifiedLow:
                     case TextAlignment.ThaiDistributed:
-                        p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
+                        p.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
                         break;
                 }
             }
@@ -130,7 +132,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
         internal virtual void ImportTextBodyAndParagraphs(ExcelTextBody body, ExcelHorizontalAlignment horizontalDefault = ExcelHorizontalAlignment.Left)
         {
-            Text = null;
             VerticalAlignment = (TextAnchoringType)body.Anchor;
 
             //We already apply bounds top via the parent Transform
@@ -160,14 +161,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 var addedPara = Paragraphs.Last();
                 //addedPara.HorizontalAlignment = defaultAlignment;
 
-                currentHeight = addedPara.Bounds.Bottom;
-                largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
+                currentHeight = addedPara.Bottom;
+                largestWidth = Math.Max(largestWidth, addedPara.Width);
             }
 
 
             if (Paragraphs != null && Paragraphs.Count() > 0 && AutoSize)
             {
-                Bounds.Height = currentHeight;
+                Height = currentHeight;
             }
 
             //Ensure contentBounds are calculated and paragraphs don't overlap
@@ -180,7 +181,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 SetHorizontalAlignmentPosition();
             }
 
-            Bounds.Top = GetAlignmentVertical();
+            Top = GetAlignmentVertical();
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)
@@ -208,12 +209,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
         //}
 
-        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, BoundingBox parent)
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, RenderItem parent)
         {
             return new DrawingParagraphRenderItem(RenderContext, textBody, parent);
         }
 
-        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, ExcelDrawingParagraph paragraph, BoundingBox parent, string textIfEmpty = null)
+        internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, ExcelDrawingParagraph paragraph, RenderItem parent, string textIfEmpty = null)
         {
             return new DrawingParagraphRenderItem(RenderContext, textBody, parent, paragraph, textIfEmpty);
         }
@@ -224,16 +225,21 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="textIfEmpty"></param>
         /// <returns></returns>
-        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, string textIfEmpty = "")
+        protected override ParagraphRenderItem CreateParagraph(RenderItem parent, string textIfEmpty = "")
         {
             return new DrawingParagraphRenderItem(RenderContext, this, parent, textIfEmpty);
         }
 
-        protected override ParagraphRenderItem CreateParagraph(BoundingBox parent, IRichTextFormatSimple richText)
+        protected override ParagraphRenderItem CreateParagraph(RenderItem parent, IRichTextFormatSimple richText)
         {
             var paragraph = new SvgParagraphRenderItem(RenderContext, this, parent, "");
             paragraph.AddRichText(richText);
             return paragraph;
+        }
+
+        public override RenderItem Clone()
+        {
+            return new DrawingTextBody(RenderContext, _drawing, Parent, AutoSize);
         }
     }
 }

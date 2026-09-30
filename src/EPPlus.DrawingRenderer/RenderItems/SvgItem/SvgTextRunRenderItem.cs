@@ -11,20 +11,20 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 {
     public class SvgTextRunRenderItem : TextRunRenderItem
     {
-        public SvgTextRunRenderItem(BoundingBox parent) : base(parent)
+        public SvgTextRunRenderItem(RenderItem parent) : base(parent)
         {
         }
 
-        public SvgTextRunRenderItem(BoundingBox parent, string text, int origRtIdx) : base(parent, text, origRtIdx)
+        public SvgTextRunRenderItem(RenderItem parent, string text, int origRtIdx) : base(parent, text, origRtIdx)
         {
         }
 
-        public SvgTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText, bool renderTextNode = false) : base(parent, font, displayText)
+        public SvgTextRunRenderItem(RenderItem parent, IFontFormatBase font, string displayText, bool renderTextNode = false) : base(parent, font, displayText)
         {
             RenderTextNode = renderTextNode;
         }
 
-        public SvgTextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) : base(parent, text, font, displayText)
+        public SvgTextRunRenderItem(RenderItem parent, string text, IFontFormatBase font, string displayText) : base(parent, text, font, displayText)
         {
         }
 

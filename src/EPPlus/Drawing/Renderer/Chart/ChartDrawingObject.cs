@@ -57,10 +57,11 @@ namespace EPPlusImageRenderer.Svg
         internal virtual RectRenderItem Rectangle { get; set; }
         internal virtual Color? DefaultFillColor { get; }
         internal virtual Color? DefaultBorderColor { get; }
+
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;
-            var rect = new RectRenderItem(sc.ChartArea.Rectangle.Bounds);
+            var rect = new RectRenderItem(sc.ChartArea.Rectangle);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {

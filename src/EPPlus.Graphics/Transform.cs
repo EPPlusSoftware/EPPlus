@@ -15,10 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using EPPlus.Graphics.Geometry;
+using System.Security.Cryptography.Xml;
 
 namespace EPPlus.Graphics
 {
-    public class Transform
+    public class Transform<T> where T : Transform<T>
     {
         public string Name;
 
@@ -151,9 +152,9 @@ namespace EPPlus.Graphics
         public Vector2 Size { get; set; } = Vector2.Zero;
 
         public int Z { get; set; } = 0;
-
-        private Transform _parent = null;
-        public Transform Parent
+        public T Self { get => (T)(object)this;  }
+        private T _parent = null;
+        public T Parent
         {
             get
             {
@@ -164,11 +165,11 @@ namespace EPPlus.Graphics
                 if (_parent == value) return;
                 if (_parent != null)
                 {
-                    _parent.RemoveChild(this);
+                    _parent.RemoveChild(Self);
                 }
                 if (value != null)
                 {
-                    value.AddChild(this);
+                    value.AddChild(Self);
                 }
                 else
                 {
@@ -177,14 +178,14 @@ namespace EPPlus.Graphics
             }
         }
 
-        private List<Transform> _childObjects = null;
-        public List<Transform> ChildObjects
+        private List<T> _childObjects = null;
+        public List<T> ChildObjects
         {
             get
             {
                 if (_childObjects == null)
                 {
-                    _childObjects = new List<Transform>();
+                    _childObjects = new List<T>();
                 }
                 return _childObjects;
             }
@@ -192,7 +193,7 @@ namespace EPPlus.Graphics
             {
                 if (_childObjects == null)
                 {
-                    _childObjects = new List<Transform>();
+                    _childObjects = new List<T>();
                 }
             }
         }
@@ -208,13 +209,13 @@ namespace EPPlus.Graphics
         public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation)
             : this(position, size, scale, rotation, null) { }
 
-        public Transform(Vector2 position, Vector2 size, Transform parent)
+        public Transform(Vector2 position, Vector2 size, T parent)
             : this(position, size, Vector2.One, 0d, parent) { }
 
-        public Transform(Vector2 position, Vector2 size, Vector2 scale, Transform parent)
+        public Transform(Vector2 position, Vector2 size, Vector2 scale, T parent)
             : this(position, size, scale, 0d, parent) { }
 
-        public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation, Transform parent)
+        public Transform(Vector2 position, Vector2 size, Vector2 scale, double rotation, T parent)
         {
             Position = position;
             Size = size;
@@ -224,7 +225,7 @@ namespace EPPlus.Graphics
             ChildObjects = null;
         }
 
-        public Transform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public Transform(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, T parent = null)
         {
             Position = new Vector2(x, y);
             Size = new Vector2(width, height);
@@ -233,7 +234,7 @@ namespace EPPlus.Graphics
             Parent = parent;
             ChildObjects = null;
         }
-        public Transform AddChild(Transform child)
+        public T AddChild(T child)
         {
             Vector2 worldPos;
             if(child.Parent != null)
@@ -247,10 +248,10 @@ namespace EPPlus.Graphics
             {
                 ChildObjects.Add(child);
             }
-            child._parent = this;
+            child._parent = Self;
             return child;
         }
-        public Transform InsertChildAt(Transform child, int at)
+        public T InsertChildAt(T child, int at)
         {
             Vector2 worldPos;
             if (child.Parent != null)
@@ -264,11 +265,11 @@ namespace EPPlus.Graphics
             {
                 ChildObjects.Insert(at, child);
             }
-            child._parent = this;
+            child._parent = Self;
             return child;
         }
 
-        public void RemoveChild(Transform child)
+        public void RemoveChild(T child)
         {
             if (child == null) return;
             if(ChildObjects.Remove(child))

@@ -70,7 +70,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// </summary>
         Multiple
     }
-
     public abstract class ParagraphRenderItem : RenderItem
     {
         protected double LeftMargin { get; set; }
@@ -101,7 +100,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected double ParentMaxWidth;
         protected double ParentMaxHeight;
 
-        protected RenderTextBody ParentTextBody { get; set; }
+        protected TextboxRenderItem ParentTextBody { get; set; }
 
         protected double? _lsMultiplier = null;
 
@@ -122,10 +121,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected TextLineSpacing _lsType;
         protected double? _centerAdjustment;
 
-        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, bool setFallbackDefaultFont = true) : base(parent)
+        protected ParagraphRenderItem(RenderContext renderContext, RenderItem parent, bool setFallbackDefaultFont = true) : base(parent)
         {
             RenderContext = renderContext;
-            Bounds.Name = "Paragraph";
+            Name = "Paragraph";
             if (setFallbackDefaultFont)
             {
                 var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
@@ -134,21 +133,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
         }
 
-        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, bool setFallbackDefaultFont = true)
+        protected ParagraphRenderItem(RenderContext renderContext, RenderItem parent, TextboxRenderItem textBody, bool setFallbackDefaultFont = true)
             : this(renderContext, parent, setFallbackDefaultFont)
         {
             InitBasedOnParent(textBody);
-            Bounds.Name = "Paragraph";
+            Name = "Paragraph";
         }
 
-        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, string text, bool setFallbackDefaultFont = true)
+        protected ParagraphRenderItem(RenderContext renderContext, RenderItem parent, TextboxRenderItem textBody, string text, bool setFallbackDefaultFont = true)
             : this(renderContext, parent, textBody, setFallbackDefaultFont)
         {
             _lsMultiplier = 1d;
             ImportLinesAndTextRunsBase(text);
         }
 
-        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, IRichTextFormatSimple rtFormat)
+        protected ParagraphRenderItem(RenderContext renderContext, RenderItem parent, TextboxRenderItem textBody, IRichTextFormatSimple rtFormat)
             : this(renderContext, parent, textBody, false)
         {
             _lsMultiplier = 1d;
@@ -156,7 +155,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             AddRichText(rtFormat);
         }
 
-        protected ParagraphRenderItem(RenderContext renderContext, BoundingBox parent, RenderTextBody textBody, IRichTextFormatDrawing rtFormat)
+        protected ParagraphRenderItem(RenderContext renderContext, RenderItem parent, TextboxRenderItem textBody, IRichTextFormatDrawing rtFormat)
             : this(renderContext, parent, textBody, false)
         {
             AddRichText(rtFormat);
@@ -169,13 +168,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 case TextAlignment.Left:
                 default:
-                    x = Bounds.Left + LeftMargin;
+                    x = Left + LeftMargin;
                     break;
                 case TextAlignment.Center:
-                    x = (Bounds.Right / 2) + LeftMargin - RightMargin;
+                    x = (Right / 2) + LeftMargin - RightMargin;
                     break;
                 case TextAlignment.Right:
-                    x = Bounds.Right - RightMargin;
+                    x = Right - RightMargin;
                     break;
             }
 
@@ -183,7 +182,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        void InitBasedOnParent(RenderTextBody textBody)
+        void InitBasedOnParent(TextboxRenderItem textBody)
         {
             ParentTextBody = textBody;
             ParentMaxWidth = textBody.MaxWidth;
@@ -192,14 +191,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
             if (AutoSize == false)
             {
-                Bounds.Width = textBody.Width;
-                Bounds.Height = textBody.Height;
+                Width = textBody.Width;
+                Height = textBody.Height;
             }
             else
             {
                 //Set to max until measured
-                Bounds.Width = ParentMaxWidth;
-                Bounds.Height = ParentMaxHeight;
+                Width = ParentMaxWidth;
+                Height = ParentMaxHeight;
             }
         }
 
@@ -221,7 +220,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             else
             {
-                maxWidthInPoints = Bounds.Width;
+                maxWidthInPoints = Width;
             }
             return _layoutSystem.Wrap(maxWidthInPoints);
         }
@@ -286,7 +285,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
 
-                Bounds.Width = widthOfLargestLine + RightMargin;
+                Width = widthOfLargestLine + RightMargin;
                 //SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;
@@ -310,8 +309,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         //We may need to move it back here for auto-size reasons
 
                         run.YPosition = Lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
-                        run.Bounds.Left = prevWidth;
-                        run.Bounds.Width = lineFragment.Width;
+                        run.Left = prevWidth;
+                        run.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
 
                         Runs.Add(run);
@@ -319,7 +318,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                     lineIdx++;
                 }
             }
-            Bounds.Height = combinedHeight;
+            Height = combinedHeight;
         }
 
         protected double CalculatePrevWidthBasedOnAlignment(double lineDist)
@@ -332,7 +331,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             }
             else if (HorizontalAlignment == TextAlignment.Right)
             {
-                //Note that the actual bounds with the space will be outside max bounds.
+                //Note that the actual bounds with the space will be outside max 
                 //This appears to be how excel does it
                 prevWidth = lineDist;
             }
@@ -346,13 +345,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 //Bounds of the paragraph should be bounds of the text itself.
                 //Therefore we must know the starting point to set accurate left and offset from left.
-                Bounds.Left = GetAlignmentHorizontal(HorizontalAlignment) - (widthOfLargestLine / 2);
+                Left = GetAlignmentHorizontal(HorizontalAlignment) - (widthOfLargestLine / 2);
             }
             else
             {
                 //Bounds of the paragraph should be bounds of the text itself.
                 //Therefore we must know the starting point to set accurate left and offset from left.
-                Bounds.Left = 0;
+                Left = 0;
             }
         }
 
@@ -403,6 +402,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             ImportStyles();
         }
 
-        protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);
+        protected abstract TextRunRenderItem CreateTextRun(RenderItem parent, string displayText, int origRtIdx);
     }
 }

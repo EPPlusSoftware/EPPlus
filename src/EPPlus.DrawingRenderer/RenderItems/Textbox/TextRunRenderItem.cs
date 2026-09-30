@@ -115,8 +115,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public int OriginalRtIdx { get; private set; } = -1;
 
         protected string _originalText;
-        public string _currentText { get; protected set; }
-
+        protected string _currentText;
+        public string Text { get { return _originalText; } }
         public IFontFormatBase _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
 
@@ -133,14 +133,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
         public double YPosition { get; set; }
         public double ClippingHeight { get; protected set; } = double.NaN;
-        public TextRunRenderItem(BoundingBox parent) : base(parent)
+        public TextRunRenderItem(RenderItem parent) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
         }
 
-        public TextRunRenderItem(BoundingBox parent, string text, int origRtIdx) : base(parent)
+        public TextRunRenderItem(RenderItem parent, string text, int origRtIdx) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
             _currentText = text;
             OriginalRtIdx = origRtIdx;
         }
@@ -170,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected void InitializeBase(IFontFormatBase font)
         {
             //Should be ascent-only?
-            Bounds.Height = font.Size;
+            Height = font.Size;
             FontSizeInPixels = ((double)font.Size).PointToPixel(true);
             _measurementFont = font;
         }
@@ -183,9 +183,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="origText"></param>
         /// <param name="currentText"></param>
         /// <param name="font"></param>
-        private TextRunRenderItem(BoundingBox parent, string origText, string currentText, IFontFormatBase font) : base(parent)
+        private TextRunRenderItem(RenderItem parent, string origText, string currentText, IFontFormatBase font) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
 
             //possibly no longer neccesary
             _originalText = origText;
@@ -193,7 +193,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _currentText = currentText;
 
             //Should be ascent-only?
-            Bounds.Height = font.Size;
+            Height = font.Size;
 
             //Possibly no longer neccesary
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
@@ -204,13 +204,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _isFirstInParagraph = true;
         }
 
-        public TextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText) 
+        public TextRunRenderItem(RenderItem parent, IFontFormatBase font, string displayText) 
             : this(parent, displayText, displayText, font)
         {
             ////Dash is default but we know there is no underline in our input here
             //_underLineType = UnderLineType.None;
         }
-        public TextRunRenderItem(BoundingBox parent, string text, IFontFormatBase font, string displayText) 
+        public TextRunRenderItem(RenderItem parent, string text, IFontFormatBase font, string displayText) 
             : this(parent, text, string.IsNullOrEmpty(displayText) ? text : displayText, font)
         {
         }
@@ -218,9 +218,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected void CalculateClippingHeightFromTextBodyParent()
         {
             //To get clipping height we need to get the textbody bounds
-            if (Bounds.Parent != null && Bounds.Parent.Parent != null && Bounds.Parent.Parent.Parent != null)
+            if (Parent != null && Parent.Parent != null && Parent.Parent.Parent != null)
             {
-                ClippingHeight = Bounds.Parent.Parent.Parent.Position.Y + Bounds.Parent.Parent.Parent.Size.Y;
+                ClippingHeight = Parent.Parent.Parent.Position.Y + Parent.Parent.Parent.Size.Y;
             }
         }
     }

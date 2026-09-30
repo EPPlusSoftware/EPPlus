@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="text"></param>
         /// /// <param name="origRtIndex"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, string text, int origRtIndex) : base(parent, text, origRtIndex)
+        internal DrawingTextRunRenderItem(RenderItem parent, string text, int origRtIndex) : base(parent, text, origRtIndex)
         {
 
         }
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
             ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
-            SetClippingHeightToCurrentTextBoxBottom((BoundingBox)Bounds.Parent);
+            SetClippingHeightToCurrentTextBoxBottom(Parent);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //Parent and clipping height must be calculated dependent on content
             ImportExcelStyleInfo(font.Fill, font.Italic, font.Bold, font.UnderLine, font.UnderLineColor, font.Strike);
             //Assumes texbox uses auto-size?
-            AdjustParentAndSetClippingHeight((BoundingBox)Bounds.Parent);
+            AdjustParentAndSetClippingHeight(Parent);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="font"></param>
         /// <param name="displayText"></param>
         /// <param name="adjustParent"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, IFontFormatBase font, string displayText, bool adjustParent = true) : base(parent, font, displayText)
+        internal DrawingTextRunRenderItem(RenderItem parent, IFontFormatBase font, string displayText, bool adjustParent = true) : base(parent, font, displayText)
         {
             //Parent and clipping height must be calculated dependent on content
             if (adjustParent)
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="text"></param>
         /// <param name="font">Legacy format</param>
         /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new FontFormatBase(font.GetMeasureFont()), displayText)
+        internal DrawingTextRunRenderItem(RenderItem parent, string text, ExcelTextFont font, string displayText) : base(parent, text, new FontFormatBase(font.GetMeasureFont()), displayText)
         {
             _baseline = font.Baseline;
 
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="run">new format</param>
         /// <param name="parent"></param>
         /// <param name="displayText"></param>
-        internal DrawingTextRunRenderItem(BoundingBox parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent, run.Text, new FontFormatBase(run.GetMeasurementFont()), displayText)
+        internal DrawingTextRunRenderItem(RenderItem parent, ExcelParagraphTextRunBase run, string displayText = "") : base(parent, run.Text, new FontFormatBase(run.GetMeasurementFont()), displayText)
         {
             //This is pre-determined/irrelevant here and does not need to be calculated as sizes are already what they should
             _isFirstInParagraph = false; 
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ImportRichTextInfo(italic, bold, uType, uColor, strikeType);
         }
 
-        private void AdjustParentAndSetClippingHeight(BoundingBox parent)
+        private void AdjustParentAndSetClippingHeight(RenderItem parent)
         {
             if (parent.Height < _measurementFont.Size)
             {
@@ -170,12 +170,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _strikeType = (eDrawingStrikeType)strikeType;
         }
 
-        void SetClippingHeightToCurrentTextBoxBottom(BoundingBox parent)
+        void SetClippingHeightToCurrentTextBoxBottom(RenderItem parent)
         {
             //To get clipping height we need to get the textbody bounds
             if (parent != null && parent.Parent != null && parent.Parent.Parent != null)
             {
-                ClippingHeight = ((BoundingBox)parent.Parent.Parent).Bottom;
+                ClippingHeight = parent.Parent.Parent.Bottom;
             }
         }
 

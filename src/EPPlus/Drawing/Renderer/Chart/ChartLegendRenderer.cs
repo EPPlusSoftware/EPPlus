@@ -21,6 +21,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
@@ -36,7 +37,9 @@ namespace EPPlusImageRenderer.Svg
         double MaxWidth { get; }
         double MaxHeight { get; }
         List<TextMeasurement> SeriesHeadersMeasure { get; }
-        List<DrawingLegendSerie> SeriesIcon { get; }
+        List<DrawingLegendSerie> LegendIcons { get; }
+        bool DrawHorizontal { get; }
+
     }
     internal class ChartLegendRenderer : ChartDrawingObject, ILegendKeyContainer
     {
@@ -81,10 +84,12 @@ namespace EPPlusImageRenderer.Svg
                         _maxWidth = sc.ChartArea.Rectangle.Width * 0.85d;
                     }
                     _maxHeight = sc.ChartArea.Rectangle.Height * 0.6d;
+                    DrawHorizontal = true;
                     break;
                 default:
                     _maxWidth = sc.ChartArea.Rectangle.Width * 0.6d;
                     _maxHeight = sc.ChartArea.Rectangle.Height * 0.85d;
+                    DrawHorizontal = false;
                     break;
             }
             double entryWidth, entryHeight;
@@ -430,7 +435,7 @@ namespace EPPlusImageRenderer.Svg
                             case eChartType.LineMarkersStacked100:
                             case eChartType.LineStacked:
                             case eChartType.LineStacked100:
-                                LegendIconRenderer.SetLineLegend(ChartRenderer,this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                LegendIconRenderer.SetLineLegend(ChartRenderer,this, SetText, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                 break;
                             case eChartType.ColumnClustered:
                             case eChartType.ColumnStacked:
@@ -438,15 +443,27 @@ namespace EPPlusImageRenderer.Svg
                             case eChartType.BarClustered:
                             case eChartType.BarStacked:
                             case eChartType.BarStacked100:
-                                LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                LegendIconRenderer.SetBarLegend(ChartRenderer, this, SetText, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                 break;
                             case eChartType.Pie:
                             case eChartType.PieExploded:
                                 if (ix == 0)
                                 {
-                                    LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
-                                    pSls = null;
-                                    sls = null;
+                                    var totalWidth = LegendIconRenderer.SetPieLegend(ChartRenderer, this, SetText, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+
+                                    var position = ChartRenderer.Chart.Legend.Position;
+                                    if (position == eLegendPosition.Top || position == eLegendPosition.Bottom)
+                                    {
+                                        //Rectangle.Bounds.Width = totalWidth;
+                                        Rectangle.Width = LegendIcons.Last().Textbox.GetGlobalBoundingbox().Right - LegendIcons[0].SeriesIcon.GlobalLeft + 4d + LegendIcons[0].SeriesIcon.Width * 2;
+                                        Rectangle.Left = ((ChartRenderer.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
+
+                                        if (Rectangle.Width < MaxWidth)
+                                        {
+                                            Rectangle.Height = entryHeight + TopMargin + BottomMargin;
+                                            Rectangle.Top = ChartRenderer.ChartArea.Rectangle.Height - Rectangle.Height - BottomMargin - TopMargin;
+                                        }
+                                    }
                                 }
                                 break;
                             default:
@@ -462,14 +479,14 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-                            if (sls != null && sls.Textbox.Bounds.Bottom > Rectangle.Height)
+                            if (sls != null && sls.Textbox.Bottom > Rectangle.Height)
                             {
                                 break;
                             }
                         }
                         if (sls != null)
                         {
-                            SeriesIcon.Add(sls);
+                            LegendIcons.Add(sls);
                         }
                         //SeriesIcon.Add(sls);
                         pSls = sls;
@@ -491,10 +508,22 @@ namespace EPPlusImageRenderer.Svg
             }
             return pSls;
         }
-
+        private void SetText(string text, int index, DrawingLegendSerie serie)
+        {
+            var entry = ChartRenderer.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+            if (entry == null || entry.Font.IsEmpty)
+            {
+                serie.Textbox.ImportParagraph(ChartRenderer.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, text);
+            }
+            else
+            {
+                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
+                serie.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, text);
+            }
+        }
         private void SetLegendTrendlines(double entryWidth, double entryHeight, DrawingLegendSerie pSls)
         {
-            int index = SeriesIcon.Count;
+            int index = LegendIcons.Count;
             var pos = Chart.Legend.Position;
             foreach (var ct in Chart.PlotArea.ChartTypes)
             {
@@ -519,12 +548,12 @@ namespace EPPlusImageRenderer.Svg
 
                         SetTrendlineLegend(ct, ix, index, pSls, pos, tl, sls, entryWidth, entryHeight);
 
-                        if (sls.Textbox.Bounds.Bottom > Rectangle.Height)
+                        if (sls.Textbox.Bottom > Rectangle.Height)
                         {
                             return;
                         }
 
-                        SeriesIcon.Add(sls);
+                        LegendIcons.Add(sls);
                         pSls = sls;
                         index++;
 
@@ -577,13 +606,13 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.Bounds.Left = 0;
 
             groupItem.RenderItems.Add(Rectangle);
-            foreach(var s in SeriesIcon)
+            foreach(var s in LegendIcons)
             {
                 if(s.SeriesIcon != null) groupItem.RenderItems.Add(s.SeriesIcon);
                 if(s.MarkerBackground != null) groupItem.RenderItems.Add(s.MarkerBackground);
                 if (s.MarkerIcon != null) groupItem.RenderItems.Add(s.MarkerIcon);
                 //renderItems.Add(s.Textbox);
-                if(s.Textbox != null) s.Textbox.AppendRenderItems(groupItem.RenderItems);
+                if(s.Textbox != null) groupItem.AddChildItem(s.Textbox);
             }
         }
         internal override Color? DefaultFillColor => Color.Transparent;
@@ -598,7 +627,8 @@ namespace EPPlusImageRenderer.Svg
 
         public List<TextMeasurement> SeriesHeadersMeasure => _seriesHeadersMeasure;
 
-        public List<DrawingLegendSerie> SeriesIcon { get; } = new List<DrawingLegendSerie>();
+        public List<DrawingLegendSerie> LegendIcons { get; } = new List<DrawingLegendSerie>();
 
+        public bool DrawHorizontal { get; }
     }
 }

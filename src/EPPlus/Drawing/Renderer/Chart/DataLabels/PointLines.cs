@@ -14,18 +14,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private List<string> ptColors = new List<string> { "red", "green", "blue", "yellow" };
 
-        private BoundingBox parentBounds;
+        private RenderItem parentBounds;
 
         private PointLines(ChartRenderer cr) : base(cr)
         {
             Rectangle = new RectRenderItem(cr.Bounds);
         }
 
-        internal PointLines(ChartRenderer cr, BoundingBox parent, ConnectionPointsMiddle connectionPoints) : this(cr)
+        internal PointLines(ChartRenderer cr, RenderItem parent, ConnectionPointsMiddle connectionPoints) : this(cr)
         {
             parentBounds = parent;
 
-            Rectangle.Bounds.Parent = parent;
+            Rectangle.Parent = parent;
             ConnectionPoints = connectionPoints;
 
             UpdateLines();
@@ -38,7 +38,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             for (int i = 0; i < ConnectionPoints.Points.Count; i++)
             {
                 var cPoint = ConnectionPoints.Points[i];
-                var cPointLine = new LineRenderItem(Rectangle.Bounds);
+                var cPointLine = new LineRenderItem(Rectangle);
                 cPointLine.X1 = 0;
                 cPointLine.Y1 = 0;
                 cPointLine.X2 = cPoint.X;

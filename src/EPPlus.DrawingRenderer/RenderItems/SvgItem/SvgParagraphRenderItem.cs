@@ -8,11 +8,11 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 {
     public class SvgParagraphRenderItem : ParagraphRenderItem
     {
-        public SvgParagraphRenderItem(RenderContext renderContext, RenderTextBody body, BoundingBox parent, string text, bool setDefaultFont = true) : base(renderContext, parent, body, text, setDefaultFont)
+        public SvgParagraphRenderItem(RenderContext renderContext, TextboxRenderItem body, RenderItem parent, string text, bool setDefaultFont = true) : base(renderContext, parent, body, text, setDefaultFont)
         {
             ImportStyles();
         }
-        public SvgParagraphRenderItem(RenderContext renderContext, RenderTextBody textBody, BoundingBox parent, IRichTextFormatSimple rtFormat) : base(renderContext, parent, textBody, rtFormat)
+        public SvgParagraphRenderItem(RenderContext renderContext, TextboxRenderItem textBody, RenderItem parent, IRichTextFormatSimple rtFormat) : base(renderContext, parent, textBody, rtFormat)
         {
             ImportStyles();
         }
@@ -38,7 +38,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 
         public override RenderItemType Type => RenderItemType.Paragraph;
 
-        protected override TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx)
+        protected override TextRunRenderItem CreateTextRun(RenderItem parent, string displayText, int origRtIdx)
         {
             return new SvgTextRunRenderItem(parent, displayText, origRtIdx);
         }

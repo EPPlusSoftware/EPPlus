@@ -118,7 +118,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 var legendItem = ChartRenderer.Legend;
 
-                var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                var seriesIconOrig = legendItem.LegendIcons[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
                 if (seriesIconOrig.FillColor == null && seriesIconOrig.GradientFill != null)
@@ -167,7 +167,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             dataLabels.Add(newDataLabel);
         }
 
-        internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
+        internal void SetDimensions(int index, TransformPoint basePoint, TransformPoint endPoint, RectBase maxBoundsPieSlice = null)
         {
             if (dataLabels.Count > index)
             {
@@ -175,7 +175,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        internal void SetParentPoint(BoundingBox parent, int index)
+        internal void SetParentPoint(TransformPoint parent, int index)
         {
             if (dataLabels.Count > index)
             {

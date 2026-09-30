@@ -1,5 +1,6 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
+using EPPlus.DrawingRenderer.Svg.ItemRenderers;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using System;
 using System.Collections.Generic;
@@ -13,25 +14,24 @@ namespace EPPlus.DrawingRenderer
     {
         public SvgBasicShapesRenderer(StringBuilder outputStream)
         {
+            GroupRenderer = new SvgGroupRenderer(this, outputStream);
             LineRenderer = new SvgLineRenderer(outputStream);
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
+            TextboxRenderer = new SvgTextboxRenderer(this, outputStream);
             ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
-            GroupRenderer = new SvgGroupRenderer(this, outputStream);
             TextRunRenderer = new SvgTextRunRenderer(outputStream);
             TitleRenderer = new SvgTitleRenderer(outputStream);
             UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
-
-            // ImageRenderer = new SvgImageRenderer(outputStream);
         }
         public BaseRenderer<StringBuilder, GroupRenderItem> GroupRenderer { get; }
         public BaseRenderer<StringBuilder, RectRenderItem> RectangleRenderer { get; }
         public BaseRenderer<StringBuilder, EllipseRenderItem> EllipseRenderer { get; }
         public BaseRenderer<StringBuilder, PathRenderItem> PathRenderer { get; }
-        //public BaseRenderer<StringBuilder> ImageRenderer { get; }
         public BaseRenderer<StringBuilder, LineRenderItem> LineRenderer { get; }
         public BaseRenderer<StringBuilder, TitleRenderItem> TitleRenderer { get; }
+        public BaseRenderer<StringBuilder, TextboxRenderItem> TextboxRenderer { get; }
         public BaseRenderer<StringBuilder, ParagraphRenderItem> ParagraphRenderer { get; }
         public BaseRenderer<StringBuilder, TextRunRenderItem> TextRunRenderer { get; }
         public BaseRenderer<StringBuilder, UseReferenceRenderItem> UseReferenceRenderer { get; }
@@ -55,8 +55,8 @@ namespace EPPlus.DrawingRenderer
                 case RenderItemType.Path:
                     PathRenderer.Render((PathRenderItem)item);
                     break;
-                case RenderItemType.Text:
-                    throw new NotImplementedException();
+                case RenderItemType.Textbox:
+                    GroupRenderer.Render((TextBodyRenderItem)item);
                     break;
                 case RenderItemType.CommentTitle:
                     TitleRenderer.Render((TitleRenderItem)item);

@@ -19,7 +19,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
     {
         List<List<object>> _catValues, _valValues, _origValValues;
         List<ChartSerieDataLabelRenderer> serieDataLabels = new List<ChartSerieDataLabelRenderer>();
-        List<List<BoundingBox>> dataPointsPerSerie = new List<List<BoundingBox>>();
+        List<List<RenderItem>> dataPointsPerSerie = new List<List<RenderItem>>();
         internal override bool SupportsTrendlines => true;
         internal override bool SupportsErrorBars => true;
         internal override bool SupportsDataTable => true;
@@ -74,7 +74,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var serie = (ExcelBarChartSerie)_chartType.Series[i];
 
-                var dataPoints = new List<BoundingBox>();
+                var dataPoints = new List<RenderItem>();
 
                 //Add the bar or column.
                 AddBar((ExcelBarChart)_chartType, serie, _catValues, _valValues, dataPoints, count, i);
@@ -97,10 +97,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         var globalDPBounds = dataPoints[j].GetGlobalBoundingbox();
 
                         //Initialize transforms
-                        Transform basePoint = new Transform();
-                        Transform endPoint = new Transform();
-                        basePoint.Parent = dataPoints[j];
-                        endPoint.Parent = dataPoints[j];
+                        Vector2 basePoint = new TransformPoint(0, 0);
+                        TransformPoint endPoint = new TransformPoint(0, 0);
+                        basePoint.Parent = endPoint.Parent = new TransformPoint(dataPoints[j].GlobalLeft, dataPoints[j].GlobalTop);
 
                         if (isColumn == true)
                         {
@@ -169,7 +168,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         double chartBaseY = double.NaN;
 
-        private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position)
+        private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<RenderItem> dataPoints, int seriesCount, int position)
         {
             GetAxis(chartType, out var yAxis, out var xAxis);
             ChartAxisRenderer valAx, catAx;
@@ -258,7 +257,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
-                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle);
                 var yPos = valAx.GetPositionInPlotarea(y);
                 double xPos;
                 if (isColumn)
@@ -351,7 +350,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
-                dataPoints.Add(rect.Bounds);
+                dataPoints.Add(rect);
 
                 SeriesRenderItems.Add(rect);
 

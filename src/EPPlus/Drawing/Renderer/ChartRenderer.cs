@@ -67,7 +67,7 @@ namespace EPPlusImageRenderer
                 Legend = null;
             }
 
-            if (Chart.Axis.Length != 0)
+            if (chart.Axis.Length != 0)
             {
                 HorizontalAxis = GetAxis(false);
                 VerticalAxis = GetAxis(true);
@@ -88,6 +88,11 @@ namespace EPPlusImageRenderer
             
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea();
+
+            if(HasDataTable)
+            {
+                DataTable.SetPosition();
+            }
 
             Plotarea.DrawSeries();
             

@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
-        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, RenderItem parent)
       : base(renderContext, parent, textBody)
         {
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (ITextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="text"></param>
-        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, string text)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, RenderItem parent, string text)
            : this(renderContext, textBody, parent)
         {
             ImportLinesAndTextRunsDefault(text);
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="parent"></param>
         /// <param name="p"></param>
         /// <param name="textIfEmpty"></param>
-        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null)
+        public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, RenderItem parent, ExcelDrawingParagraph p, string textIfEmpty = null)
             : base(renderContext, parent, textBody, false)
         {
             IsFirstParagraph = p == p._paragraphs[0];
@@ -283,9 +283,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
         }
-        protected override TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx)
+        protected override TextRunRenderItem CreateTextRun(RenderItem parent, string displayText, int origRtIdx)
         {
-            return new DrawingTextRunRenderItem(Bounds, displayText, origRtIdx);
+            return new DrawingTextRunRenderItem(this, displayText, origRtIdx);
         }
 
         public override RenderItem Clone()

@@ -230,7 +230,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (i > 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
-                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle);
                     lineDp.X1 = coords[coords.Count - 4];
                     lineDp.Y1 = coords[coords.Count - 3];
                     lineDp.X2 = xPos;

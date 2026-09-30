@@ -15,6 +15,7 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
@@ -42,9 +43,12 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
         public double MaxHeight => _maxHeight;
         public List<TextMeasurement> SeriesHeadersMeasure => _seriesHeadersMeasure;
-
-        public List<DrawingLegendSerie> SeriesIcon { get;  }=new List<DrawingLegendSerie>();
+        public GroupRenderItem Group { get; set; } = new GroupRenderItem();
+        public List<DrawingLegendSerie> LegendIcons { get;  }=new List<DrawingLegendSerie>();
         public List<List<DrawingTextBody>> DataTableRenderItems { get; set; } = new List<List<DrawingTextBody>>();
+
+        public bool DrawHorizontal => false; //Datatable legend key column is always drawn vertical
+
         double _dataTableWidth, _columnsWidth;
         internal ChartDataTableRenderer(ChartRenderer svgChart) : base(svgChart)
         {
@@ -62,22 +66,20 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
 
             _marginItemsWidth = mf.Size / 2;
-            _maxWidth = svgChart.Plotarea.GetPlotAreaWidth(Rectangle);
-            _maxHeight = svgChart.Plotarea.GetPlotAreaHeight(Rectangle);
+            _maxWidth = svgChart.ChartArea.Rectangle.Width - LeftMargin - RightMargin;
+            _maxHeight = svgChart.ChartArea.Rectangle.Height - TopMargin - BottomMargin;
             Rectangle.Bounds.Width = _maxWidth;   //Set to max. Adjust later to actual width
             Rectangle.Bounds.Height = _maxHeight; //Set to max. Adjust later to actual height
-            var items = new List<List<DrawingTextBox>>();
-            var headers = new List<DrawingTextBox>();
-            items.Add(headers);
             
             var tm = svgChart.TextMeasurer;
             double entryWidth = 0, entryHeight=0;
             var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _);
             var horizontaValues = GetFormattedValues(svgChart, values);
+            var headers = new List<DrawingTextBody>();
             foreach (var v in horizontaValues)
             {
-                var tb = new DrawingTextBox(svgChart.Chart, Rectangle.Bounds, MaxWidth, MaxHeight);
-                tb.AddText(v);
+                var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle.Bounds, true);
+                tb.AddParagraph(v);
                 headers.Add(tb);
                 var size = tm.MeasureText(v, mf);
                 if (entryWidth<size.Width)
@@ -90,6 +92,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 _seriesHeadersMeasure.Add(size);
             }
+            DataTableRenderItems.Add(headers);
 
             ExcelDrawingParagraph paragraph;
             if (_dataTable.HasFont)
@@ -117,17 +120,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     var sls = new DrawingLegendSerie();
                     if(ct.IsTypeLine())
                     {
-                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
-                        SeriesIcon.Add(sls);
+                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, SetText, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIcons.Add(sls);
                     }
                     else if (ct.IsTypeColumn() || ct.IsTypeBar())
                     {
-                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
-                        SeriesIcon.Add(sls);
+                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, SetText, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIcons.Add(sls);
                     }
                     else if (ct.IsTypePie())
                     {
-                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, SetText, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                     }
                     var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
                     pSls = sls;
@@ -152,34 +155,45 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
 
             SetColumnWidth(entryHeight);
-        }
 
+        }
+        private void SetText(string text, int index, DrawingLegendSerie serie)
+        {
+            if (_dataTable.TextBody.Paragraphs.Count > 0)
+            {
+                serie.Textbox.ImportParagraph(_dataTable.TextBody.Paragraphs.FirstOrDefault(), 0, text);
+            }
+            else
+            {
+                serie.Textbox.AddParagraph(text);
+            }
+        }
 
         private void SetColumnWidth(double entryWidth)
         {
             var height = 0D;
             var r = 0;
-            foreach(var lc in SeriesIcon)
-            {
-                if (_dataTable.ShowKeys) 
-                {
-                    if (lc.MarkerIcon != null)
-                    {
-                        lc.MarkerIcon.Bounds.Height += height;
-                        if (lc.MarkerBackground != null)
-                        {
-                            lc.MarkerBackground.Bounds.Height += height;
-                        }
-                    }
-                    lc.SeriesIcon.Bounds.Top += height;
-                    lc.Textbox.Bounds.Top += height;
-                }
-                else
-                {
-                    lc.Textbox.Left = height;
-                }
-                height += GetLegendColHeight(r++);
-            }
+            //foreach(var lc in LegendIcons)
+            //{
+            //    if (_dataTable.ShowKeys) 
+            //    {
+            //        if (lc.MarkerIcon != null)
+            //        {
+            //            lc.MarkerIcon.Bounds.Height += height;
+            //            if (lc.MarkerBackground != null)
+            //            {
+            //                lc.MarkerBackground.Bounds.Height = height;
+            //            }
+            //        }
+            //        lc.SeriesIcon.Bounds.Top = height;
+            //        lc.Textbox.Bounds.Top = height;
+            //    }
+            //    else
+            //    {
+            //        lc.Textbox.Left = height;
+            //    }
+            //    height += GetLegendColHeight(r++);
+            //}
 
             double y = 0;
             r = 0;
@@ -187,34 +201,45 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             foreach (var row in DataTableRenderItems)
             {
                 var x = lcw;
+                height = 0;
                 foreach (var cell in row)
                 {
-                    cell.Bounds.Left += x;
-                    cell.Bounds.Top += y;
+                    cell.Left += x;
+                    cell.Top += y;
                     x += _columnsWidth;
+                    if(height<cell.Height)
+                    {
+                        height = cell.Height;
+                    }
                 }
-                y += GetLegendColHeight(r++);
+                if (r > 0)
+                {
+                     height = Math.Max(height, GetLegendColHeight(r - 1));
+                }
+                y += height;
+                r++;
            }
+           Rectangle.Height = y;
         }
 
         const float MarginIconText = 1.5f;
         private double GetLegendColWidth()
         {
-            if (SeriesIcon.Count == 0) return 0;
-            var w = SeriesIcon.Max(x=>x.Textbox.Width);
+            if (LegendIcons.Count == 0) return 0;
+            var w = LegendIcons.Max(x=>x.Textbox.Width);
             if(_dataTable.ShowKeys)
             {
-                return w + SeriesIcon.Max(x=>x.SeriesIcon?.Bounds.Width??0) + MarginIconText;
+                return w + LegendIcons.Max(x=>x.SeriesIcon?.Bounds.Width??0) + MarginIconText;
             }
             return w;
         }
         private double GetLegendColHeight(int row)
         {
-            var h = SeriesIcon[row].Textbox.Height;
+            var h = LegendIcons[row].Textbox.Height;
             if (_dataTable.ShowKeys)
             {
-                var sih = SeriesIcon[row].SeriesIcon.Bounds.Height;
-                var mih = SeriesIcon[row].MarkerIcon?.Bounds.Height ?? 0D;
+                var sih = LegendIcons[row].SeriesIcon.Bounds.Height;
+                var mih = LegendIcons[row].MarkerIcon?.Bounds.Height ?? 0D;
                 return Math.Max(mih, Math.Max(h, sih));
             }
             return h;
@@ -311,26 +336,44 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
 
         public override void AppendRenderItems(List<RenderItem> renderItems)
-        {
+        {            
             //Render series header column.
-            foreach(var li in SeriesIcon)
+            foreach(var li in LegendIcons)
             {
                 if (_dataTable.ShowKeys)
                 {
-                    renderItems.Add(li.SeriesIcon);
-                    if (li.MarkerBackground != null) renderItems.Add(li.MarkerBackground);
-                    if (li.MarkerIcon != null) renderItems.Add(li.MarkerIcon);
+                    Group.AddChildItem(li.SeriesIcon);
+                    if (li.MarkerBackground != null) Group.AddChildItem(li.MarkerBackground);
+                    if (li.MarkerIcon != null) Group.AddChildItem(li.MarkerIcon);
                 }
-                renderItems.Add(li.Textbox);
+                Group.AddChildItem(li.Textbox);
             }
 
             foreach(var row in DataTableRenderItems)
             {
                 foreach (var cell in row)
                 {
-                    renderItems.Add(cell);
+                    Group.AddChildItem(cell);
                 }
             }
-        }        
+            Group.Bounds.Name = "DataTable";
+            renderItems.Add(Group);
+        }
+
+        internal void SetPosition()
+        {
+            Group.Left = ChartRenderer.ChartArea.LeftMargin;
+
+            var belowWidth = 0D;
+            if(ChartRenderer.HorizontalAxis.Title!=null)
+            {
+                belowWidth = ChartRenderer.HorizontalAxis.Title.Rectangle.Bounds.Height;
+            }
+            if(ChartRenderer.Legend!=null && ChartRenderer.Chart.Legend.Position==eLegendPosition.Bottom)
+            {
+                belowWidth += ChartRenderer.Legend.Rectangle.Bounds.Height+ ChartRenderer.Legend.BottomMargin;
+            }
+            Group.Top = ChartRenderer.ChartArea.Rectangle.Bounds.Height - Rectangle.Bounds.Height - belowWidth;
+        }
     }
 }

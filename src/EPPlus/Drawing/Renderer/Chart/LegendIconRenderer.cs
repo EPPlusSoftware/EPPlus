@@ -93,13 +93,13 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                         sls.Textbox.AddParagraph(headerText);
                     }
                 }
-                parent.SeriesIcon.Add(sls);
+                parent.LegendIcons.Add(sls);
                 pSls = sls;
                 index++;
             }
         }
 
-        internal static void SetBarLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetBarLegend<T>(ChartRenderer chart, T parent, Action<string, int, DrawingLegendSerie> SetText, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = parent.SeriesHeadersMeasure[index];
@@ -116,21 +116,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
-            var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
-            if (entry == null || entry.Font.IsEmpty)
-            {
-                //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
-            }
-            else
-            {
-                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
-                sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
-            }
+            SetText(headerText, index, sls);
         }
 
-        internal static void SetLineLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetLineLegend<T>(ChartRenderer chart, T parent, Action<string, int, DrawingLegendSerie> SetText, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
         {
             var ls = (ExcelLineChartSerie)s;
 
@@ -145,16 +135,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var headerText = s.GetHeaderText(index);
-            var entry = chart.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
-            if (entry == null || entry.Font.IsEmpty)
-            {
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
-            }
-            else
-            {
-                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
-                sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
-            }
+
+            SetText(headerText, index, sls);
 
             if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
             {
@@ -173,7 +155,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
             }
         }
-        internal static void SetPieLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static double SetPieLegend<T>(ChartRenderer chart, T parent, Action<string, int, DrawingLegendSerie> SetText, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
         {
             var ps = (ExcelPieChartSerie)s;
             pSls = null;
@@ -236,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 var tbHeight = tm.Height;
                 sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
+                SetText(catValues[i].ToString(), i, sls);
 
                 //si.Left += sls.Textbox.LeftMargin;
 
@@ -259,29 +241,19 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     ChartTypeDrawer.SetFillSerie(chart.Chart, ct, ps, 0, i, sls.SeriesIcon);
                 }
 
-                parent.SeriesIcon.Add(sls);
+                parent.LegendIcons.Add(sls);
                 pSls = sls;
             }
 
-            foreach (var icon in parent.SeriesIcon)
+            foreach (var icon in parent.LegendIcons)
             {
                 icon.SeriesIcon.Bounds.Top = icon.SeriesIcon.Bounds.Top - ((entryHeight) / 4);
             }
-            var position = chart.Chart.Legend.Position;
-            if (position == eLegendPosition.Top || position == eLegendPosition.Bottom)
-            {
-                //Rectangle.Bounds.Width = totalWidth;
-                parent.Rectangle.Bounds.Width = parent.SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - parent.SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
-                parent.Rectangle.Bounds.Left = ((chart.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
 
-                if (parent.Rectangle.Bounds.Width < parent.MaxWidth)
-                {
-                    parent.Rectangle.Bounds.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
-                    parent.Rectangle.Bounds.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
-                }
-            }
             pSls = null;
             sls = null;
+
+            return totalWidth;
         }
 
         internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObject, ILegendKeyContainer
@@ -314,14 +286,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             item.LineCap = LineCap.Round;
             item.Left = x;
-            if (pSls != null && (chart.Chart.Legend.Position == eLegendPosition.Left || chart.Chart.Legend.Position == eLegendPosition.Right))
-            {
-                item.Top = y - iconHeight / 2d;
-            }
-            else
-            {
-                item.Top = y - iconHeight / 2d;
-            }
+            item.Top = y - iconHeight / 2d;
             //item.Top = y;
             item.Width = iconHeight;
             item.Height = iconHeight;
@@ -369,7 +334,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             item.LineCap = LineCap.Round;
             item.Left = x;
-            if (pSls != null && (chart.Chart.Legend.Position == eLegendPosition.Left || chart.Chart.Legend.Position == eLegendPosition.Right))
+            if (pSls != null && parent.DrawHorizontal==false)
             {
                 item.Top = y - (iconHeight / 2d);
             }
@@ -406,8 +371,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         private static double GetItemPosition<T>(ChartRenderer chart, T parent, DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y) where T : ChartDrawingObject, ILegendKeyContainer
         {
             var topOffset = 0D;
-            if (chart.Chart.Legend.Position == eLegendPosition.Top ||
-               chart.Chart.Legend.Position == eLegendPosition.Bottom)
+            if (parent.DrawHorizontal)
             {
                 if (pSls != null && iconLeft + entryWidth * 2 + parent.MarginItemsWidth + parent.RightMargin > parent.MaxWidth)
                 {
