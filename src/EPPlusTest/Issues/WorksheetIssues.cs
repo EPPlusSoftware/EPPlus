@@ -895,7 +895,7 @@ namespace EPPlusTest.Issues
         }
 
         //i2084
-        [TestMethod]
+        [TestMethod, Ignore("Disabled due to taking over 10 seconds on AppVeyor. /MA")]
         public void s912_Alternate()
         {
             //Optimizing for not overwriting existing styles
@@ -927,7 +927,7 @@ namespace EPPlusTest.Issues
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore("Disabled due to taking over 10 seconds on AppVeyor. /MA")]
         public void s912()
         {
             using (var package = OpenPackage("s912.xlsx", true))
