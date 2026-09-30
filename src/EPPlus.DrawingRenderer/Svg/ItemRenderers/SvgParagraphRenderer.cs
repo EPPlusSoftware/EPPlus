@@ -21,7 +21,7 @@ namespace EPPlus.DrawingRenderer.Svg
             var sb = OutputStream;
             var fontSize = item.DefaultParagraphFont.Size.PointToPixel().ToString(CultureInfo.InvariantCulture);
 
-            sb.AppendLine($"<g transform=\"translate({item.Bounds.Left.PointToPixelString()},{item.Bounds.Top.PointToPixelString()})\" >");
+            sb.AppendLine($"<g class=\"{item.Bounds.Name}\" transform=\"translate({item.Bounds.Left.PointToPixelString()},{item.Bounds.Top.PointToPixelString()})\" >");
 
             sb.AppendLine("<title>paragraph</title> ");
 

@@ -8,19 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/07/2026         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
-namespace OfficeOpenXml.Drawing.Svg
+namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
-    /// Options for rendering drawings to svg.
+    /// The kind of output text is being laid out for. Decides whether web font substitution applies.
     /// </summary>
-    public class SvgRenderOptions
+    public enum FontRenderTarget
     {
         /// <summary>
-        /// The size of the svg image, if you want to override the default size.
-        /// </summary>  
-        public SvgSize Size { get; } = new SvgSize();
+        /// Output where EPPlus controls the fonts, e.g. PDF with embedded fonts. No substitution.
+        /// </summary>
+        Document,
+        /// <summary>
+        /// Output rendered by a browser using its own fonts, e.g. SVG and HTML.
+        /// Fonts unlikely to be available to a browser are substituted.
+        /// </summary>
+        Web
     }
-    
 }

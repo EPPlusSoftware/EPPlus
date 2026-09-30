@@ -10,8 +10,8 @@ namespace OfficeOpenXml.Utils.FileUtils
             if (sourceFile == null) return (addFileProtocolIfAbsolute ? "file:///" : "") + targetFile.FullName;
             var sourceDir = sourceFile.DirectoryName ?? "";
             var targetDir = targetFile.DirectoryName ?? "";
-            string[] source = sourceDir.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-            string[] target = targetDir.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] source = sourceDir.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+            string[] target = targetDir.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
             int slen = source.Length;
             int i = 0;
@@ -34,14 +34,14 @@ namespace OfficeOpenXml.Utils.FileUtils
             string dirUp = "";
             for (int s = i; s < slen; s++)
             {
-                dirUp += "..\\";
+                dirUp += $"..{Path.DirectorySeparatorChar}";
             }
             string path = "";
             for (int t = i; t < target.Length; t++)
             {
-                path += (path == "" ? "" : "\\") + target[t];
+                path += (path == "" ? "" : $"{Path.DirectorySeparatorChar}") + target[t];
             }
-            return dirUp + path + (path == "" ? "" : "\\") + targetFile.Name;
+            return dirUp + path + (path == "" ? "" : $"{Path.DirectorySeparatorChar}") + targetFile.Name;
         }
         internal static bool IsFileNameValid(string fileName)
         {

@@ -258,7 +258,7 @@ namespace OfficeOpenXml.ExternalReferences
                         {
                             if (string.IsNullOrEmpty(Path.GetDirectoryName(filePath)) || Path.IsPathRooted(filePath) == false)
                             {
-                                filePath = _wb._package.File.DirectoryName + "\\" + filePath;
+                                filePath = _wb._package.File.DirectoryName + $"{Path.DirectorySeparatorChar}" + filePath;
                             }
                             else
                             {

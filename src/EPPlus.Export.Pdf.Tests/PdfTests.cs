@@ -987,7 +987,7 @@ namespace EPPlusTest.PDF
         {
             using var p = CreateWorkbook();
             var ws = p.Workbook.Worksheets[0];
-            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            string path = _pdfPath + "EPPlus Sample 4.pdf";
             ws.SaveAsPdf(path);
         }
         public ExcelPackage CreateWorkbook()
@@ -1125,6 +1125,15 @@ namespace EPPlusTest.PDF
             using var p = OpenTemplatePackage("Allsvenskan2001.xlsx");
             var ws = p.Workbook.Worksheets[0];
             string path = _pdfPath + "Allsvenskan2001.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void TableDxfStyleTest()
+        {
+            using var p = OpenTemplatePackage("TableDxfStylePdf1.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "TableDxfStylePdf1.pdf";
             ws.SaveAsPdf(path);
         }
     }

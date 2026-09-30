@@ -230,7 +230,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 case TextAnchoringType.Center:
                     if(AutoSize == false)
                     {
-                        alignmentY = (Height) / 2 - ContentBounds.Height;
+                        alignmentY = (Height - ContentBounds.Height) / 2d;
                     }
                     break;
                 case TextAnchoringType.Bottom:

@@ -106,11 +106,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length>4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length>4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new FileInfo(path + "\\Resources\\Test1.jpg");
+                return new FileInfo(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Test1.jpg");
             }
         }
         /// <summary>
@@ -121,11 +121,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\BitmapImage.gif");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}BitmapImage.gif");
             }
         }
 
@@ -137,11 +137,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\code.bmp");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}code.bmp");
             }
         }
         /// <summary>
@@ -152,11 +152,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\Test1.jpg");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Test1.jpg");
             }
         }
 
@@ -168,11 +168,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\VmlPatternImage.png");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}VmlPatternImage.png");
             }
         }
         /// <summary>
@@ -183,11 +183,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\VmlPatternImage.png");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}VmlPatternImage.png");
             }
         }
         /// <summary>
@@ -198,11 +198,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\EPPlus.png");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}EPPlus.png");
             }
         }
         /// <summary>
@@ -213,11 +213,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\screenshot.PNG");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}screenshot.PNG");
             }
         }
         /// <summary>
@@ -228,11 +228,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\Code.emf");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Code.emf");
             }
         }
         internal static byte[] Svg1ByteArray
@@ -240,11 +240,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\car-silhouette-color-low-poly.svg");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}car-silhouette-color-low-poly.svg");
             }
         }
         internal static byte[] Svg2ByteArray
@@ -252,11 +252,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return File.ReadAllBytes(path + "\\Resources\\tree-solid.svg");
+                return File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}tree-solid.svg");
             }
         }
 
@@ -270,11 +270,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\Vector Drawing.wmf"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Vector Drawing.wmf"));
             }
         }
 
@@ -283,11 +283,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\code2.tif"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}code2.tif"));
             }
         }
         internal static MemoryStream CodeWebP
@@ -295,11 +295,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\code.webp"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}code.webp"));
             }
         }
         internal static MemoryStream TestThemeThmx
@@ -307,11 +307,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\TestTheme.thmx"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}TestTheme.thmx"));
             }
         }
         internal static MemoryStream SavonThmx
@@ -319,11 +319,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\Savon.thmx"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Savon.thmx"));
             }
         }
         internal static MemoryStream WoodTypeThmx
@@ -331,11 +331,11 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\WoodType.thmx"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}WoodType.thmx"));
             }
         }
         internal static MemoryStream TestLine3Crtx
@@ -343,21 +343,21 @@ namespace EPPlusTest.Properties {
             get
             {
                 string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
+                while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
                 {
-                    path = new DirectoryInfo(path + "\\..").FullName;
+                    path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
                 }
-                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\LineChart3.crtx"));
+                return new MemoryStream(File.ReadAllBytes(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}LineChart3.crtx"));
             }
         }
         internal static string GetTextFileContent(string fileName, System.Text.Encoding encoding)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources"))
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
-            fileName = path + $"\\Resources\\TextFiles\\{fileName}";
+            fileName = path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}TextFiles{Path.DirectorySeparatorChar}{fileName}";
             if (File.Exists(fileName))
             {
                 return File.ReadAllText(fileName, encoding);
@@ -367,41 +367,41 @@ namespace EPPlusTest.Properties {
         internal static FileInfo GetTextFileInfo(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources"))
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
-            fileName = path + $"\\Resources\\TextFiles\\{fileName}";
+            fileName = path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}TextFiles{Path.DirectorySeparatorChar}{fileName}";
             return new FileInfo(fileName);
         }
 
         internal static string GetOLEObjectFullFileName(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources"))
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
-            return path + $"\\Resources\\OLEObjectFiles\\{fileName}";
+            return path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}OLEObjectFiles{Path.DirectorySeparatorChar}{fileName}";
         }
         internal static FileInfo GetOLEFileInfo(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources"))
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
-            fileName = path + $"\\Resources\\OLEObjectFiles\\{fileName}";
+            fileName = path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}OLEObjectFiles{Path.DirectorySeparatorChar}{fileName}";
             return new FileInfo(fileName);
         }
         internal static string GetImageFullFileName(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources"))
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources"))
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
-            return path + $"\\Resources\\Images\\{fileName}";
+            return path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}Images{Path.DirectorySeparatorChar}{fileName}";
         }
 
     }

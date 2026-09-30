@@ -29,14 +29,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         }
 
         /// <summary>
-        ///  TextRunBase holds style info
-        ///  baseFont is most likely a OpenTypeFontInfoBase made out of the font but we don't want to 'new' it every time we import
+        /// Imports style info from the text run. The font is taken from the fragment the text was
+        /// measured with, never from the model, so measurement and output cannot diverge.
         /// </summary>
-        /// <param name="run"></param>
-        /// <param name="baseFont"></param>
-        internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase baseFont)
+        internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase measuredFont)
         {
-            InitializeBase(new FontFormatBase(run.GetMeasurementFont()));
+            InitializeBase(measuredFont);
             _currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;

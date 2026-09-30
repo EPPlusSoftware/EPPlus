@@ -34,8 +34,8 @@ namespace EPPlusTest.LoadFunctions
             _package = new ExcelPackage();
             _worksheet = _package.Workbook.Worksheets.Add("test");
             _lines = new StringBuilder();
-            _format = new ExcelTextFormat();
-            _formatFixed = new ExcelTextFormatFixedWidth();
+            _format = new ExcelTextFormat() { EOL = Environment.NewLine };
+            _formatFixed = new ExcelTextFormatFixedWidth() { EOL = Environment.NewLine };
         }
 
         [TestCleanup]
@@ -113,14 +113,14 @@ namespace EPPlusTest.LoadFunctions
         public void ShouldReturnRange()
         {
             AddLine("a,b,c");
-            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString());
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString().Replace(Environment.NewLine,"\r\n"));
             Assert.AreEqual("A1:C2", r.FirstAddress);
         }
         [TestMethod]
         public void VerifyOneLineWithTextQualifier()
         {
             AddLine("\"a\",\"\"\"\", \"\"\"\"");
-            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(),new ExcelTextFormat { TextQualifier='\"' });
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), new ExcelTextFormat { TextQualifier = '\"', EOL = Environment.NewLine });
             Assert.AreEqual("a", _worksheet.Cells[1,1].Value);
             Assert.AreEqual("\"", _worksheet.Cells[1, 2].Value);
             Assert.AreEqual("\"", _worksheet.Cells[1, 3].Value);
@@ -134,7 +134,7 @@ namespace EPPlusTest.LoadFunctions
             AddLine("\"d\",e, \"\"");
             AddLine("\"\",, \"\"");
 
-            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), new ExcelTextFormat { TextQualifier = '\"' });
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), new ExcelTextFormat { TextQualifier = '\"', EOL = Environment.NewLine });
             Assert.AreEqual("a", _worksheet.Cells[1, 1].Value);
             Assert.AreEqual("b", _worksheet.Cells[1, 2].Value);
             Assert.AreEqual("c\"", _worksheet.Cells[1, 3].Value);
@@ -326,7 +326,7 @@ namespace EPPlusTest.LoadFunctions
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth(){ EOL = Environment.NewLine };
                 format.SetColumnPositions(0, 0, 16, 26, 42, 50);
                 format.ReadType = FixedWidthReadType.Positions;
                 //format.SetColumnLengths(16, 10, 16, 8, 2);
@@ -356,7 +356,7 @@ namespace EPPlusTest.LoadFunctions
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth(){ EOL = Environment.NewLine };
                 format.SetColumnPositions(52, 0, 16, 26, 42, 50);
                 //format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
                 //format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
@@ -387,13 +387,13 @@ namespace EPPlusTest.LoadFunctions
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth(){ EOL = Environment.NewLine };
 
                 format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
                 format.SetColumnLengths(12, 9, 5, 10, -1);
                 format.SkipLinesBeginning = 5;
                 format.SkipLinesEnd= 2;
-                format.Culture = CultureInfo.GetCultureInfo("sv-en");
+                format.Culture = CultureInfo.GetCultureInfo("sv-SE");
                 format.TableStyle = TableStyles.Medium12;
                 format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
                 format.EOL = "\n";
@@ -424,7 +424,7 @@ namespace EPPlusTest.LoadFunctions
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth(){ EOL = Environment.NewLine };
 
                 format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
                 format.SetColumnPositions(-1, 0, 30, 60, 80);
@@ -449,7 +449,7 @@ namespace EPPlusTest.LoadFunctions
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth();
+                ExcelTextFormatFixedWidth format = new ExcelTextFormatFixedWidth(){ EOL = Environment.NewLine };
 
                 format.FormatErrorStrategy = FixedWidthFormatErrorStrategy.Truncate;
                 format.SetColumnLengths(15);

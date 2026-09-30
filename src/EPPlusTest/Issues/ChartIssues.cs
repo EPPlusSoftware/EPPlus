@@ -282,7 +282,7 @@ namespace EPPlusTest.Issues
 				var currDir = Directory.GetCurrentDirectory();
 
 				// Add a pie chart to the worksheet
-				using (FileStream template = new FileStream($@"{currDir}\Resources\PieChartTemplate2.crtx", FileMode.Open, FileAccess.Read))
+				using (FileStream template = new FileStream($@"{currDir}{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}PieChartTemplate2.crtx", FileMode.Open, FileAccess.Read))
 				{
 					var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
 
@@ -339,7 +339,7 @@ namespace EPPlusTest.Issues
 				var currDir = Directory.GetCurrentDirectory();
 
 				// Add a pie chart to the worksheet
-				using (FileStream template = new FileStream($@"{currDir}\Resources\StackedColumnChart.crtx", FileMode.Open, FileAccess.Read))
+				using (FileStream template = new FileStream($@"{currDir}{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}StackedColumnChart.crtx", FileMode.Open, FileAccess.Read))
 				{
 					var barChart = worksheet.Drawings.AddChartFromTemplate(template, "colChart").As.Chart.BarChart;
 

@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Interfaces.Fonts;
+
 namespace EPPlus.DrawingRenderer.Svg
 {
     /// <summary>
@@ -31,6 +33,14 @@ namespace EPPlus.DrawingRenderer.Svg
         /// Sets the width and height of the svg image. If not set, the size will be calculated based on the drawings dimensions.
         /// </summary>
         public SvgSize SvgSize { get; } = new SvgSize();
+
+        /// <summary>
+        /// The render target used for text layout. Defaults to <see cref="FontRenderTarget.Web"/>, which
+        /// substitutes fonts unlikely to be available to a browser, both when measuring and in the output.
+        /// Use <see cref="FontRenderTarget.Document"/> when the fonts are made available to the consumer
+        /// by other means, e.g. embedded.
+        /// </summary>
+        public FontRenderTarget FontTarget { get; set; } = FontRenderTarget.Web;
     }
     
 }

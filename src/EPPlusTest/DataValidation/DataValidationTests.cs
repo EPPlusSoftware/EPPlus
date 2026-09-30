@@ -638,14 +638,14 @@ namespace EPPlusTest.DataValidation
                 list.Formula.Values.Add("Value1");
                 list.Formula.Values.Add("Value2");
 
-                SaveAndCleanup(pck);
-            }
+                SaveAndCleanup(pck, false);
 
-            using (var pck2 = OpenPackage("ClearDataValidationTestAdress.xlsx"))
-            {
-                var ws2 = pck2.Workbook.Worksheets[0];
-                var address = ws2.DataValidations[0].Address;
-                Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollition.No);
+                using (var pck2 = new ExcelPackage(pck.Stream))
+                {
+                    var ws2 = pck2.Workbook.Worksheets[0];
+                    var address = ws2.DataValidations[0].Address;
+                    Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollition.No);
+                }
             }
         }
 

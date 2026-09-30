@@ -28,6 +28,8 @@
 //        {
 //            Init(parent, maxWidth, maxHeight);
 //        }
+        }
+
 
 //        //The origin point of the entire textbox itself (its outermost left and top point)
 //        protected GroupRenderItem _group;
