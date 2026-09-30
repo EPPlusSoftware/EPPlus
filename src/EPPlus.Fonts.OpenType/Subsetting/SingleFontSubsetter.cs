@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -56,6 +57,7 @@ namespace EPPlus.Fonts.OpenType
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("Subsetting failed for font " + font.GetEnglishFontFamilyName() + ": " + ex.Message);
                 // unchanged
                 return font;
             }
