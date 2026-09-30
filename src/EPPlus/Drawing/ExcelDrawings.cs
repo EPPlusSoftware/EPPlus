@@ -965,7 +965,14 @@ namespace OfficeOpenXml.Drawing
         public ExcelPicture AddPicture(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
-            return AddPicture(Name, new FileInfo(ImagePath), null, Location);
+
+            //var packageLocation = _package.File.FullName.Replace(_package.File.Name, "");
+            //Uri imageUri = new Uri(new Uri(packageLocation), ImagePath);
+            //FileInfo verifyFile = null;
+
+            //verifyFile = new FileInfo(imageUri);
+            var test = new FileInfo(ImagePath);
+            return AddPicture(Name, test, null, Location, null, ImagePath);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -978,7 +985,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
-            return AddPicture(Name, new FileInfo(ImagePath), Hyperlink, Location);
+            return AddPicture(Name, new FileInfo(ImagePath), Hyperlink, Location, null, ImagePath);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -992,7 +999,7 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, ImageFile, null, Location);
         }
 
-        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
+        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null, string origImagePath = "")
         {
             XmlElement drawNode;
             switch (_collectionType)
@@ -1005,22 +1012,22 @@ namespace OfficeOpenXml.Drawing
                     drawNode = CreateDrawingXml(eEditAs.OneCell);
                     break;
             }
-            var type = PictureStore.GetPictureType(ImageFile.Extension);
-
-            bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
+            var type = PictureStore.GetPictureType(ImageFile?.Extension);
 
             var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, _collectionType);
 
+            bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
+
             if (hasLink)
             {
-                pic.LoadImageLinked(ImageFile);
+                pic.LoadImageLinked(ImageFile, origImagePath);
             }
             return pic;
         }
 
-        internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
+        internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null, string origImagePath = "")
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, container);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, container, origImagePath);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
@@ -1126,9 +1133,9 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, string ImagePath = "")
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, null, ImagePath);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
@@ -1152,7 +1159,7 @@ namespace OfficeOpenXml.Drawing
         public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
-            return await AddPictureAsync(Name, new FileInfo(ImagePath), null, Location);
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), null, Location, ImagePath);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -1165,7 +1172,7 @@ namespace OfficeOpenXml.Drawing
         public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
-            return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink, Location, ImagePath);
         }
         /// <summary>
         /// Adds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.

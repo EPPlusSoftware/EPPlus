@@ -1,13 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.GroupingFunctions;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using OfficeOpenXml.Drawing;
-using System.Linq;
 using System.IO;
+using System.Linq;
 
 namespace EPPlusTest.Drawing
 {
@@ -951,5 +953,48 @@ namespace EPPlusTest.Drawing
                 Assert.AreEqual(30, toColOff, "To column offset should be ~30 px.");
             }
         }
+
+        [TestMethod]
+        public void s1078_EppGenerated()
+        {
+            //Ensure image does not exists when we first generate the package
+            var exists = GetOutputFile("images", "epplus_linkedLogo.png");
+            if(File.Exists(exists.FullName))
+            {
+                File.Delete(exists.FullName);
+            }
+
+            using (var p = OpenPackage("s1078-gen-linked-picture-relative-target.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("GeneratedLinkedPicWS");
+                var linkedPic = ws.Drawings.AddPicture("myLinkedPic", "../images/epplus_linkedLogo.png", PictureLocation.Link);
+
+                SaveAndCleanup(p);
+            }
+
+            var file = GetOutputFile("images", "epplus_linkedLogo.png");
+            var pngFile = GetResourceFile("Images/epplusobject.png");
+            File.WriteAllBytes(file.FullName, File.ReadAllBytes(pngFile.FullName));
+
+            using (var p = OpenPackage("s1078-gen-linked-picture-relative-target.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var genEpp = GetOutputFile("", "s1078-gen-resaved-linked-picture-relative-target.xlsx");
+                p.SaveAs(genEpp);
+            }
+        }
+
+        [TestMethod]
+        public void s1078_LinkedPicture()
+        {
+            using (var p = OpenTemplatePackage("s1078-linked-picture-relative-target.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var strVal = ws.Cells["A1"].Value;
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
