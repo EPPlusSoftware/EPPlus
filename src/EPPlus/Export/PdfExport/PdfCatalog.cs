@@ -483,20 +483,32 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             var worksheet = pdfSheet.Worksheet;
             //Check the worksheet's _xlnm.Print_Titles defined name.
+            // Check the worksheet's _xlnm.Print_Titles defined name.
             if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
             {
                 var printTitlesName = worksheet.Names["_xlnm.Print_Titles"];
-                foreach (var address in printTitlesName.Addresses)
+
+                if (printTitlesName.Addresses == null)
                 {
-                    if (address._toCol >= ExcelPackage.MaxColumns)
+                    pdfSheet.PrintTitleRowFrom = printTitlesName._fromRow;
+                    pdfSheet.PrintTitleRowTo = printTitlesName._toRow;
+                    pdfSheet.PrintTitleColFrom = printTitlesName._fromCol;
+                    pdfSheet.PrintTitleColTo = printTitlesName._toCol;
+                }
+                else
+                {
+                    foreach (var address in printTitlesName.Addresses)
                     {
-                        pdfSheet.PrintTitleRowFrom = address._fromRow;
-                        pdfSheet.PrintTitleRowTo = address._toRow;
-                    }
-                    else if (address._toRow >= ExcelPackage.MaxRows)
-                    {
-                        pdfSheet.PrintTitleColFrom = address._fromCol;
-                        pdfSheet.PrintTitleColTo = address._toCol;
+                        if (address._toCol >= ExcelPackage.MaxColumns)
+                        {
+                            pdfSheet.PrintTitleRowFrom = address._fromRow;
+                            pdfSheet.PrintTitleRowTo = address._toRow;
+                        }
+                        else if (address._toRow >= ExcelPackage.MaxRows)
+                        {
+                            pdfSheet.PrintTitleColFrom = address._fromCol;
+                            pdfSheet.PrintTitleColTo = address._toCol;
+                        }
                     }
                 }
             }
