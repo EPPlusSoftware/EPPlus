@@ -78,7 +78,6 @@ namespace EPPlusTest.Export.HtmlExport
 
                 // Create the file, or overwrite if the file exists.
                 using (FileStream fs = File.Create($"C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}CF_IconSetsCompareTemplate.html"))
-                using (FileStream fs = File.Create($"C:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}CF_IconSetsCompareTemplate.html"))
                 {
                     byte[] info = new UTF8Encoding(true).GetBytes(exporter.GetSinglePage());
                     // Add some information to the file.
