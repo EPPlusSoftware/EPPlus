@@ -196,17 +196,18 @@ namespace EPPlus.Export.Pdf.Settings
             }
         }
 
+        private double _resolvedFitScale = 1d;
+        internal void SetResolvedFitScale(double s) { _resolvedFitScale = s; }
+
         internal double ContentScale
         {
             get
             {
-                if (_scaling != null &&
-                    _scaling.ScalingMode == ScalingMode.AdjustToNormalSize &&
-                    _scaling.Scale > 0d)
-                {
-                    return _scaling.Scale;
-                }
-                return 1d;
+                if (_scaling == null) 
+                   return 1d;
+                if (_scaling.ScalingMode == ScalingMode.AdjustToNormalSize)
+                    return _scaling.Scale > 0d ? _scaling.Scale : 1d;
+                return _resolvedFitScale;
             }
         }
         internal double EffectiveContentWidth => ContentBounds.Width / ContentScale;

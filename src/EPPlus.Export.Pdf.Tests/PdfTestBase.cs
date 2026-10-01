@@ -78,7 +78,7 @@ namespace EPPlus.Export.Pdf.Tests
                 Directory.CreateDirectory(_pdfPath);
             }
             var path = Path.Combine(_pdfPath, pdfFileName);
-            new PdfCatalog(settings, sheet).Save(path);
+            new EPPlusToPdfWriter(settings, sheet).Save(path);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace EPPlus.Export.Pdf.Tests
                 pdfFileName += ".pdf";
             }
             var path = Path.Combine(_pdfPath, pdfFileName);
-            new PdfCatalog(settings, wb).Save(path);
+            new EPPlusToPdfWriter(settings, wb).Save(path);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace EPPlus.Export.Pdf.Tests
             }
             var path = Path.Combine(_pdfPath, pdfFileName);
             if (ranges.Count() > 1)
-                new PdfCatalog(settings, ranges).Save(path);
+                new EPPlusToPdfWriter(settings, ranges).Save(path);
             else
-                new PdfCatalog(settings, ranges[0]).Save(path);
+                new EPPlusToPdfWriter(settings, ranges[0]).Save(path);
         }
     }
 }

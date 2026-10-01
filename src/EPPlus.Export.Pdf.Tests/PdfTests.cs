@@ -376,7 +376,7 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
-            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            var pdfCatalog = new EPPlusToPdfWriter(pageSettings, ws);
             pdfCatalog.Save(ms);
             AssertLooksLikePdf(ms.ToArray());
         }
@@ -674,7 +674,7 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            var pdfCatalog = new EPPlusToPdfWriter(pageSettings, ws);
             pdfCatalog.Save(outputPath);
 
         }
@@ -813,7 +813,7 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    var pdfCatalog = new EPPlusToPdfWriter(settings, package.Workbook);
                     pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
@@ -880,7 +880,7 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    var pdfCatalog = new EPPlusToPdfWriter(settings, package.Workbook);
                     pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
@@ -1143,10 +1143,11 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.RepeatRows = new ExcelAddress("1:2");
             ws.PrinterSettings.FitToPage = true;
-            ws.PrinterSettings.FitToWidth = 1;
+            ws.PrinterSettings.FitToWidth = 2;
             ws.PrinterSettings.FitToHeight = 3;
-            string path = _pdfPath + "ScalingTest1.pdf";
+            string path = _pdfPath + "ScalingTest2.pdf";
             ws.SaveAsPdf(path);
         }
     }
