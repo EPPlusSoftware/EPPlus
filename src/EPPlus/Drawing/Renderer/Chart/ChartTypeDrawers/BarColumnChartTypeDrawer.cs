@@ -258,7 +258,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
-                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle);
                 var yPos = valAx.GetPositionInPlotarea(y);
                 double xPos;
                 if (isColumn)
@@ -351,7 +351,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
-                dataPoints.Add(rect.Bounds);
+                dataPoints.Add(rect);
 
                 SeriesRenderItems.Add(rect);
 
@@ -390,7 +390,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
             SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));

@@ -103,9 +103,9 @@ namespace EPPlus.DrawingRenderer.Svg
             var sbStartidx = OutputStream.Length -1;
 
             string finalString = "";
-            var xString = $"x =\"{(textRun.Bounds.Left.PointToPixelString())}\" ";
+            var xString = $"x =\"{(textRun.Left.PointToPixelString())}\" ";
 
-            var currentYEndPos = textRun.Bounds.Position.Y; // Global position Y
+            var currentYEndPos = textRun.Position.Y; // Global position Y
             finalString += $"<tspan ";
             string visibility = "";
 

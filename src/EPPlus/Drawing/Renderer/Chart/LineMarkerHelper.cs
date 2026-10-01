@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));
                     break;
                 case eMarkerStyle.Diamond:
-                    item = new PathRenderItem(sc.ChartArea.Rectangle.Bounds);
+                    item = new PathRenderItem(sc.ChartArea.Rectangle);
                     cmd = new PathCommands(PathCommandType.Move, new double[] { (xPath - halfSize), yPath, xPath, yPath + halfSize, xPath + halfSize, yPath, xPath, yPath - halfSize });
                     ((PathRenderItem)item).Commands.Add(cmd);
                     ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));

@@ -26,7 +26,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         ExcelChartDataLabel _dlbl;
 
         internal double rotation = double.NaN;
-        internal Graphics.Point rotationPoint = null;
+        internal Graphics.TranformPoint rotationPoint = null;
 
         internal override Color? DefaultFillColor { get; }
 
@@ -37,7 +37,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _serieIndex = index;
             _origIndex = index;
             _dlbl = dlbl;
-            plotAreaBounds = chart.Plotarea.Group.Bounds;
+            plotAreaBounds = chart.Plotarea.Group;
 
             DefaultFillColor =  dlbl.Fill != null && dlbl.Fill.Color.IsEmpty == false ? dlbl.Fill.Color : Color.Transparent;
 
@@ -182,7 +182,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             var plotAreaGroup = new GroupRenderItem(plotAreaBounds);
 
@@ -211,7 +211,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
-                dataLabels[i].AppendRenderItems(plotAreaGroup.RenderItems);
+                dataLabels[i].AppendRenderItems(plotAreaGroup.ChildObjects);
             }
         }
     }

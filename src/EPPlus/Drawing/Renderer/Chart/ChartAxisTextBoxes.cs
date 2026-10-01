@@ -17,6 +17,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Collections.Generic;
 using System.Drawing;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -37,15 +38,15 @@ namespace EPPlusImageRenderer.Svg
             set;
         }=new List<DrawingTextBox>();
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             if (TextBoxes != null && TextBoxes.Count > 0)
             {
                 var AxisTxtBoxGroup = new GroupRenderItem(ChartRenderer.Bounds);
-                AxisTxtBoxGroup.Bounds.Name = AxisName;
+                AxisTxtBoxGroup.Name = AxisName;
                 foreach (var tb in TextBoxes)
                 {
-                    tb.AppendRenderItems(AxisTxtBoxGroup.RenderItems);
+                    tb.AppendRenderItems(AxisTxtBoxGroup.ChildObjects);
                 }
                 renderItems.Add(AxisTxtBoxGroup);
             }

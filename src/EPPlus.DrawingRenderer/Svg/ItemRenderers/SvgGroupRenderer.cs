@@ -29,11 +29,14 @@ namespace EPPlus.DrawingRenderer.Svg
                 fillPropery = $" fill=\"{item.FillColor}\" ";
             }
 
-            OutputStream.Append($"<g class=\"{item.Bounds.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
+            OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
 
-            foreach (var childItem in item.RenderItems)
+            foreach (var childItem in item.ChildObjects)
             {
-                _shapeRenderer.Render(childItem);
+                if (childItem is RenderItem renderItem)
+                {
+                    _shapeRenderer.Render(renderItem);
+                }
             }
 
             OutputStream.Append("</g>");
@@ -50,7 +53,7 @@ namespace EPPlus.DrawingRenderer.Svg
             //    positionStr = string.Format(transformTranslate, item.TranslationOffset.Left.PointToPixelString(), item.TranslationOffset.Top.PointToPixelString()) + " ";
             //}
 
-            positionStr = string.Format("translate({0}, {1})", item.Bounds.Left.PointToPixelString(), item.Bounds.Top.PointToPixelString()) + " ";
+            positionStr = string.Format("translate({0}, {1})", item.Left.PointToPixelString(), item.Top.PointToPixelString()) + " ";
 
             return positionStr + rotationStr + scalingStr;
         }

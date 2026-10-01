@@ -2,6 +2,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -14,8 +15,6 @@ using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -149,8 +148,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        public List<RenderItem> SeriesRenderItems { get; } = new List<RenderItem>();
-        public List<RenderItem> ChartAreaRenderItems { get; } = new List<RenderItem>();
+        public List<Transform> SeriesRenderItems { get; } = new List<Transform>();
+        public List<Transform> ChartAreaRenderItems { get; } = new List<Transform>();
         internal static List<ChartTypeDrawer> Create(ChartRenderer svgChart)
         {
             var drawers = new List<ChartTypeDrawer>();

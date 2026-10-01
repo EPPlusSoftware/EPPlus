@@ -60,7 +60,7 @@ namespace EPPlusImageRenderer.Svg
         protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent=null)
         {
             var bounds = parent ?? sc.Bounds;
-            var rect = new RectRenderItem(sc.ChartArea.Rectangle.Bounds);
+            var rect = new RectRenderItem(sc.ChartArea.Rectangle);
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {

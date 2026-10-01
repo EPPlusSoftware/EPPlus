@@ -287,7 +287,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         }
         protected override TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx)
         {
-            return new DrawingTextRunRenderItem(Bounds, displayText, origRtIdx);
+            return new DrawingTextRunRenderItem(this, displayText, origRtIdx);
         }
 
         public override RenderItem Clone()

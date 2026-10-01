@@ -19,9 +19,9 @@ namespace EPPlus.DrawingRenderer.Svg
         /// <param name="sb"></param>
         protected void RenderBaseToSpecified(T item, StringBuilder sb)
         {
-            if (item.Bounds.Name != null)
+            if (item.Name != null)
             {
-                sb.Append($" class=\"{item.Bounds.Name}\" ");
+                sb.Append($" class=\"{item.Name}\" ");
             }
 
             if (string.IsNullOrEmpty(item.DefId) == false)

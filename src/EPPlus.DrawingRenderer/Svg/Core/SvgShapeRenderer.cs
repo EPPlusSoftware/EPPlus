@@ -10,8 +10,6 @@ using System.Globalization;
 using System.Text;
 using OfficeOpenXml.Utils;
 using EPPlus.Fonts.OpenType.Utils;
-using System.Security.Cryptography.Xml;
-using System.ComponentModel;
 
 namespace EPPlus.DrawingRenderer
 {
@@ -41,14 +39,15 @@ namespace EPPlus.DrawingRenderer
 
         public BoundingBox Bounds { get; }
         public string ViewBox { get; set; }
-        public bool Render(List<RenderItem> items)
+        public bool Render(List<Transform> items)
         {
             OutputStream.Clear();
             OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()}>");
             PreRender(items);
             foreach (var item in items)
             {
-                switch (item.Type)
+                if(item is RenderItem renderItem)
+                switch (renderItem.Type)
                 {
                     case RenderItemType.Group:
                         BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
@@ -83,13 +82,13 @@ namespace EPPlus.DrawingRenderer
             return $" viewbox=\"{ViewBox}\"";
         }
 
-        public void PreRenderGroup(List<RenderItem> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
+        public void PreRenderGroup(List<Transform> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
         {
             foreach (RenderItem item in items)
             {
                 if (item is GroupRenderItem group)
                 {
-                    PreRenderGroup(group.RenderItems, defSb, hs, ref ix);
+                    PreRenderGroup(group.ChildObjects, defSb, hs, ref ix);
                     //foreach(var child in group.RenderItems)
                     //{
                     //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
@@ -103,7 +102,7 @@ namespace EPPlus.DrawingRenderer
         }
 
 
-        public bool PreRender(List<RenderItem> items)
+        public bool PreRender(List<Transform> items)
         {
             var defSb = new StringBuilder();
             var hs = new HashSet<string>();
@@ -167,7 +166,7 @@ namespace EPPlus.DrawingRenderer
             }
             if (item.BorderGradientFill != null)
             {
-                var key = item.BorderGradientFill.GetKey() + item.Bounds.UniqueKey;
+                var key = item.BorderGradientFill.GetKey() + item.UniqueKey;
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
                     name = WriteGradient($"StrokeGradient{ix}", defSb, hs, item, item.BorderGradientFill, item.BorderColorSource);
@@ -600,20 +599,20 @@ namespace EPPlus.DrawingRenderer
                 switch (userSpace)
                 {
                     case UserSpaceSettings.UserSpaceOnUse_Parent:
-                        l = item.Bounds.Left;
-                        t = item.Bounds.Top;
+                        l = item.Left;
+                        t = item.Top;
                         break;
                     case UserSpaceSettings.UserSpaceOnUse_Global:
-                        l = item.Bounds.Left;
-                        t = item.Bounds.Top;
+                        l = item.Left;
+                        t = item.Top;
                         break;
                     default:
                         l = t = 0;
                         break;
                 }
 
-                var w = item.Bounds.Width;
-                var h = item.Bounds.Height;
+                var w = item.Width;
+                var h = item.Height;
 
                 double dx = Math.Cos(theta);
                 double dy = Math.Sin(theta);
@@ -632,7 +631,7 @@ namespace EPPlus.DrawingRenderer
                 {
                     //If global, has to stretch the whole length.
                     //This case is special because it stretches in the same direction as the attempted gradient
-                    x1 = item.Bounds.Left;
+                    x1 = item.Left;
                     x2 = w - x1;
                 }
 

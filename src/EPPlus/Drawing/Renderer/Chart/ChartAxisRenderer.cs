@@ -124,7 +124,7 @@ namespace EPPlusImageRenderer.Svg
 
                 Rectangle.FillColor = "none";
 
-                Line = new LineRenderItem(Rectangle.Bounds);
+                Line = new LineRenderItem(Rectangle);
                 Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
                 if(Line.BorderWidth < 1)
                 {
@@ -276,45 +276,42 @@ namespace EPPlusImageRenderer.Svg
             if (Items != null)
             {
                 //Create subGroup
-                var subGroup = new GroupRenderItem(parentGroup.Bounds);
-                subGroup.Bounds.Name = subGroupName;
+                var subGroup = new GroupRenderItem(parentGroup);
+                subGroup.Name = subGroupName;
 
                 //Add items to subGroup
                 foreach (var renderItem in Items)
                 {
-                    subGroup.RenderItems.Add(renderItem);
+                    subGroup.ChildObjects.Add(renderItem);
                 }
-
-                //Add subGroup to parent group
-                parentGroup.RenderItems.Add(subGroup);
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             var AxisGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            AxisGroup.Bounds.Name = $"Axis_{Axis.Index}";
+            AxisGroup.Name = $"Axis_{Axis.Index}";
 
-            Title?.AppendRenderItems(AxisGroup.RenderItems);
+            Title?.AppendRenderItems(AxisGroup.ChildObjects);
             //Title?.Render(sb);
-            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) AxisGroup.RenderItems.Add(Rectangle);
+            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) AxisGroup.ChildObjects.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
 
             AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
             AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
 
-            if (Line != null) AxisGroup.RenderItems.Add(Line);
+            if (Line != null) AxisGroup.ChildObjects.Add(Line);
 
             var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            TickMarkGroup.Bounds.Name = $"Axis_{Axis.Index}_TickMarkGroup";
+            TickMarkGroup.Name = $"Axis_{Axis.Index}_TickMarkGroup";
 
             AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
             AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
 
             if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
             {
-                AxisGroup.RenderItems.Add(TickMarkGroup);
+                AxisGroup.ChildObjects.Add(TickMarkGroup);
             }
 
             renderItems.Add(AxisGroup);
@@ -475,7 +472,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, x, y, width, height, maxWidth, maxHeight);
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
@@ -889,7 +886,7 @@ namespace EPPlusImageRenderer.Svg
             var pa = ChartRenderer.Plotarea;
             var diff = Max - min;
 
-            List<EPPlus.Graphics.Point> points = new List<EPPlus.Graphics.Point>();
+            List<EPPlus.Graphics.TranformPoint> points = new List<EPPlus.Graphics.TranformPoint>();
             var group = ChartRenderer.Plotarea.Group;
             for (double d = min; d <= Max; d += units)
             {
@@ -900,12 +897,12 @@ namespace EPPlusImageRenderer.Svg
                     {
                         case eAxisPosition.Left:
                         case eAxisPosition.Right:
-                            points.Add(new EPPlus.Graphics.Point(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
+                            points.Add(new EPPlus.Graphics.TranformPoint(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
                             break;
                         case eAxisPosition.Top:
                         case eAxisPosition.Bottom:
                             var xValue = (float)(((d - min) / diff * pa.Rectangle.Width));
-                            points.Add(new EPPlus.Graphics.Point(xValue, 0f));
+                            points.Add(new EPPlus.Graphics.TranformPoint(xValue, 0f));
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position.");
@@ -948,7 +945,7 @@ namespace EPPlusImageRenderer.Svg
 
             if(id == "xGridLine")
             {
-                tm.Bounds.Width = pa.Rectangle.Width;
+                tm.Width = pa.Rectangle.Width;
             }
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
             tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
@@ -1164,7 +1161,7 @@ namespace EPPlusImageRenderer.Svg
                 AxisScale res;
                 if (ax.IsVertical)
                 {
-                    res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Bounds.Height, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                    res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Height, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                 }
                 else
                 {

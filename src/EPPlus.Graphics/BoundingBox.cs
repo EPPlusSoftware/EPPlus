@@ -124,6 +124,9 @@ namespace EPPlus.Graphics
                 return Position.Y;
             }
         }
+        public double GlobalRight => GlobalLeft + Width;
+
+        public double GlobalBottom => GlobalTop + Height;
 
         public string UniqueKey 
         { 

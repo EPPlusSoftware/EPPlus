@@ -27,7 +27,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
     /// The compound line type. Used for underlining text
     /// </summary>
     public enum CompoundLineStyle
-    {
+    {        
         /// <summary>
         /// Double lines with equal width
         /// </summary>
@@ -87,27 +87,27 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             get
             {
-                return Bounds.Left;
+                return Left;
             }
             set
             {
-                Bounds.Left = value;
+                Left = value;
             }
         }
         public double Y
         {
             get
             {
-                return Bounds.Top;
+                return Top;
             }
             set
             {
-                Bounds.Top = value;
+                Top = value;
             }
         }
         public override RenderItem Clone()
         {
-            var clone = new UseReferenceRenderItem((BoundingBox)Bounds.Parent, Href);
+            var clone = new UseReferenceRenderItem((BoundingBox)Parent, Href);
             CloneBase(clone);
             return clone;
         }
@@ -118,31 +118,21 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             
         }
-        public RectRenderItem(BoundingBox parent) : base(parent)
+        public RectRenderItem(Transform parent) : base(parent)
         {
 
         }
         public override RenderItemType Type => RenderItemType.Rect;
-        public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
-        public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
-        public double Width { get { return Bounds.Width; } set { Bounds.Width = value; } }
-        public double Height { get { return Bounds.Height; } set { Bounds.Height = value; } }
-        public double Right { get { return Bounds.Left + Width; } }
-        public double Bottom { get { return Bounds.Top + Height; } }
-        public double GlobalLeft => Bounds.GlobalLeft;
-        public double GlobalTop => Bounds.GlobalTop;
-        public double GlobalRight => Bounds.GlobalLeft + Width;
-        public double GlobalBottom => Bounds.GlobalTop + Height;
         public double RoundedCornerRadius { get; set; }
         public override RenderItem Clone()
         {
-            var clone = new RectRenderItem((BoundingBox)Bounds.Parent)
+            var clone = new RectRenderItem(Parent)
             {
                 RoundedCornerRadius = RoundedCornerRadius,
             };
 
-            clone.Bounds.Width = Bounds.Width;
-            clone.Bounds.Height = Bounds.Height;
+            clone.Width = Width;
+            clone.Height = Height;
 
             CloneBase(clone);
             return clone;
@@ -160,12 +150,12 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         public GroupRenderItem() : base()
         {
-            Bounds.Parent = TranslationOffset;
+            Parent = TranslationOffset;
         }
 
         public GroupRenderItem(double localXPos, double localYPos) : this()
         {
-            TranslationOffset = new Graphics.Point(localXPos, localYPos);
+            TranslationOffset = new Graphics.TranformPoint(localXPos, localYPos);
         }
 
 
@@ -175,32 +165,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
             Rotation = rotation;
             if (rotationPoint != null)
             {
-                RotationPoint = new Graphics.Point(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
+                RotationPoint = new Graphics.TranformPoint(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);
             }
         }
-        /// <summary>
-        /// The top position of the group. This is the position of the group relative to its parent. The child items are positioned relative to this position.
-        /// </summary>
-        public double Top { get { return Bounds.Top; } set { Bounds.Top = value; } }
-        /// <summary>
-        /// The left position of the group. This is the position of the group relative to its parent. The child items are positioned relative to this position.
-        /// </summary>
-        public double Left { get { return Bounds.Left; } set { Bounds.Left = value; } }
         public override RenderItemType Type => RenderItemType.Group;
         public string TextAnchor { get; set; }
         public double Rotation { get; set; }
         public string GroupTransform = "";
-        public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
+        //public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
 
-        Graphics.Point _altRotationPoint = null;
+        Graphics.TranformPoint _altRotationPoint = null;
         /// <summary>
         /// The translated position of this item in points
         /// Also the parent position of the group item 
         /// (This may seem strange but it ensures the the translation is seen 
         /// immediately in the global position of GroupItem without affecting local position)
         /// </summary>
-        public Graphics.Point TranslationOffset = new Graphics.Point(0, 0);
-        public Graphics.Point RotationPoint
+        public Graphics.TranformPoint TranslationOffset = new Graphics.TranformPoint(0, 0);
+        public Graphics.TranformPoint RotationPoint
         {
             get
             {
@@ -220,7 +202,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
         {
-            RotationPoint = new Graphics.Point(Bounds.Width / 2, Bounds.Height / 2);
+            RotationPoint = new Graphics.TranformPoint(Width / 2, Height / 2);
 
             if (double.IsNaN(rotation) == false)
             {
@@ -228,13 +210,16 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
-        public void AddChildItem(RenderItem item)
+        public void AddChildItem(Transform item)
         {
             //item.Bounds.Parent = TranslationOffset;  //This incorrectly sets the parent bounds to zero. Intended?
-            RenderItems.Add(item);
+            ChildObjects.Add(item);
 
-            Bounds.Width = item.Bounds.Right > Bounds.Width ? item.Bounds.Right : Bounds.Width;
-            Bounds.Height = item.Bounds.Bottom > Bounds.Height ? item.Bounds.Bottom : Bounds.Height;
+            if (item is BoundingBox bb)
+            {
+                Width = bb.Right > Width ? bb.Right : Width;
+                Height = bb.Bottom > Height ? bb.Bottom : Height;
+            }
         }
 
         /// <summary>
@@ -250,24 +235,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
             if (Items != null)
             {
                 //Create subGroup
-                var subGroup = new GroupRenderItem(this.Bounds);
-                subGroup.Bounds.Name = subGroupName;
+                var subGroup = new GroupRenderItem(this);
+                subGroup.Name = subGroupName;
 
                 //Add items to subGroup
                 foreach (var renderItem in Items)
                 {
-                    subGroup.RenderItems.Add(renderItem);
+                    subGroup.ChildObjects.Add(renderItem);
                 }
 
                 //Add subGroup to parent group
-                this.RenderItems.Add(subGroup);
+                this.ChildObjects.Add(subGroup);
             }
         }
 
 
         public override RenderItem Clone()
         {
-            var item = new GroupRenderItem(Bounds)
+            var item = new GroupRenderItem(this)
             {
                 Rotation = Rotation,
                 TextAnchor = TextAnchor,
@@ -277,9 +262,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 Scale = Scale,
             };
             CloneBase(item);
-            foreach(var child in RenderItems)            
+            foreach(var child in ChildObjects)            
             { 
-                item.RenderItems.Add(child.Clone());
+                item.ChildObjects.Add(((RenderItem)child).Clone());
             }
             return item;
         }
@@ -289,14 +274,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
     public class PathRenderItem : RenderItem
     {
         public override RenderItemType Type => RenderItemType.Path;
-        public PathRenderItem(BoundingBox parent) : base(parent)
+        public PathRenderItem(Transform parent) : base(parent)
         {
 
         }
         public List<PathCommands> Commands { get; } = new List<PathCommands>();
         public override RenderItem Clone()
         {
-            var clone = new PathRenderItem(Bounds);
+            var clone = new PathRenderItem(Parent);
             CloneBase(clone);
             foreach(var cmd in Commands)
             {
@@ -307,7 +292,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public class EllipseRenderItem : RenderItem
     {
-        public EllipseRenderItem(BoundingBox parent) : base(parent)
+        public EllipseRenderItem(Transform parent) : base(parent)
         {
 
         }
@@ -318,7 +303,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double Ry { get; set; }
         public override RenderItem Clone()
         {
-            var clone = new EllipseRenderItem((BoundingBox)Bounds.Parent)
+            var clone = new EllipseRenderItem(Parent)
             {
                 Cx = Cx,
                 Cy = Cy,
@@ -331,7 +316,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public class LineRenderItem : RenderItem
     {
-        public LineRenderItem(BoundingBox parent) : base(parent)
+        public LineRenderItem(Transform parent) : base(parent)
         {
             
         }
@@ -391,12 +376,12 @@ namespace EPPlus.DrawingRenderer.RenderItems
             var sizeX = Math.Abs(X2 - X1);
             var sizeY = Math.Abs(Y2 - Y1);
 
-            Bounds.LocalPosition = new Vector2(px, py);
-            Bounds.Size = new Vector2(sizeX, sizeY);
+            LocalPosition = new Vector2(px, py);
+            Size = new Vector2(sizeX, sizeY);
         }
         public override RenderItem Clone()
         {
-            var clone = new LineRenderItem((BoundingBox)Bounds.Parent);
+            var clone = new LineRenderItem(Parent);
             CloneBase(clone);
             clone._x1 = X1;
             clone._y1 = Y1;
@@ -409,24 +394,24 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public abstract class DrawingObject
     {
-        public virtual void AppendRenderItems(List<RenderItem> renderItems) { }
+        public virtual void AppendRenderItems(List<Transform> renderItems) { }
     }
     public abstract class RenderItem : RenderItemBase
     {
         protected RenderItem()
         {
         }
-        protected RenderItem(BoundingBox parent)
+        protected RenderItem(Transform parent)
         {
-            Bounds.Parent = parent;
+            Parent = parent;
         }
         //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
         public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = Bounds.Left;
-            it = Bounds.Top;
-            ir = Bounds.Right;
-            ib = Bounds.Bottom;
+            il = Left;
+            it = Top;
+            ir = Right;
+            ib = Bottom;
         }
         public string DefId { get; set; }
         //internal bool IsEndOfGroup { get; set; } = false;
@@ -501,20 +486,21 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             return $"{GlowColor} {GlowRadius} { OuterShadowEffect?.GetKey()}";
         }
+        
     }
     /// <summary>
     /// Base class for any item rendered.
     /// </summary>
-    public abstract class RenderItemBase
+    public abstract class RenderItemBase : BoundingBox
     {
-        public BoundingBox Bounds = new BoundingBox();
+        //public BoundingBox Bounds = new BoundingBox();
         public abstract RenderItemType Type { get; }
         public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
         {
-            il = Bounds.Left; 
-            it = Bounds.Top; 
-            ir = Bounds.Right; 
-            ib = Bounds.Bottom;
+            il = Left; 
+            it = Top; 
+            ir = Right; 
+            ib = Bottom;
         }
     }
 }

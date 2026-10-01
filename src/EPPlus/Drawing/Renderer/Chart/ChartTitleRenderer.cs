@@ -193,7 +193,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
-            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, maxWidth, maxHeight);
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
@@ -221,7 +221,7 @@ namespace EPPlusImageRenderer.Svg
             get; private set;
         }
         internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             TextBox.Name = $"{Chart.Name}_Title_Rect";
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();

@@ -25,7 +25,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// The holder of the actual items, AFTER origin/translations
         /// </summary>
         GroupRenderItem _innerItems;
-        Point _circleCenter;
+        TranformPoint _circleCenter;
 
         /// <summary>
         /// How many percent of the pie this represents
@@ -34,11 +34,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal double Degrees { get; private set; }
 
-        Point _startPoint;
-        Point _startPointHalf;
-        Point _midPoint;
-        Point _endPoint;
-        Point _endPointHalf;
+        TranformPoint _startPoint;
+        TranformPoint _startPointHalf;
+        TranformPoint _midPoint;
+        TranformPoint _endPoint;
+        TranformPoint _endPointHalf;
 
         internal override System.Drawing.Color? DefaultFillColor { get; }
 
@@ -159,7 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
-            ExtremePoints.Parent = _innerGroup.Bounds;
+            ExtremePoints.Parent = _innerGroup;
         }
 
         private double _sliceScaleFactor = 1d;
@@ -180,19 +180,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, Point circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, TranformPoint circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
             _prevSliceDegrees = prevSliceDegrees;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
-            Rectangle.Bounds.Parent = parent;
+            Rectangle.Parent = parent;
             _radius = radius;
             _percent = percentOfPie;
             //How many degrees that percentage is out of 360
             Degrees = _percent * 360d;
 
             _innerGroup = new GroupRenderItem(parent, 0, circleCenter);
-            _innerGroup.Bounds.Parent = _innerGroup.TranslationOffset;
-            _innerGroup.Bounds.Name = "InnerGroupChartDrawer";
+            _innerGroup.Parent = _innerGroup.TranslationOffset;
+            _innerGroup.Name = "InnerGroupChartDrawer";
 
             _circleCenter = circleCenter;
 
@@ -216,7 +216,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CalculateWidthHeight(prevSliceDegrees);
 
 
-            _innerItems = new GroupRenderItem(_innerGroup.Bounds, 0);
+            _innerItems = new GroupRenderItem(_innerGroup, 0);
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
@@ -374,7 +374,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var worldPositionTransformOrigin = _midPoint.Position;
 
             //Calculate extremes 
-            Point localMax = new Point(
+            TranformPoint localMax = new TranformPoint(
                 globalWidth - worldPositionTransformOrigin.X,
                 globalHeight - worldPositionTransformOrigin.Y);
 
@@ -385,7 +385,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var worldPositionTransformOrigin = _midPoint.Position;
             //Calculate extremes 
-            Point worldMin = new Point(-worldPositionTransformOrigin.X, -worldPositionTransformOrigin.Y);
+            TranformPoint worldMin = new TranformPoint(-worldPositionTransformOrigin.X, -worldPositionTransformOrigin.Y);
 
             //var localMin = _innerGroup.Position.Parent.TransformPointToLocal(worldMin.Position);
             return worldMin.LocalPosition;
@@ -411,11 +411,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         ///
         /// </summary>
         /// <returns></returns>
-        internal Point GetSliceShapeCenterLocal()
+        internal TranformPoint GetSliceShapeCenterLocal()
         {
             var translationVector = GetLocalTranslationVector(50);
             var pt = _circleCenter.LocalPosition + translationVector;
-            var SliceCenterLocal = new Point(pt.X, pt.Y);
+            var SliceCenterLocal = new TranformPoint(pt.X, pt.Y);
 
             return SliceCenterLocal;
         }
@@ -602,14 +602,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        Point CalculateLocalPointOnCircle(double degrees)
+        TranformPoint CalculateLocalPointOnCircle(double degrees)
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
             var xPoint = _circleCenter.Left + (_radius * Math.Cos(angleRadians));
             var yPoint = _circleCenter.Top + (_radius * Math.Sin(angleRadians));
 
-            var point = new Point();
+            var point = new TranformPoint();
 
             //Ensure the cx/cy offset
             point.Parent = _innerGroup.TranslationOffset.Parent;
@@ -619,14 +619,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return point;
         }
 
-        Point CalculateLocalPointOnCircleHalfRadius(double degrees)
+        TranformPoint CalculateLocalPointOnCircleHalfRadius(double degrees)
         {
             var angleRadians = MConverter.DegreesToRadians(degrees);
 
             var xPoint = _circleCenter.Left + (_radius/2d * Math.Cos(angleRadians));
             var yPoint = _circleCenter.Top + (_radius/2d * Math.Sin(angleRadians));
 
-            var point = new Point();
+            var point = new TranformPoint();
 
             //Ensure the cx/cy offset
             point.Parent = _innerGroup.TranslationOffset.Parent;
@@ -681,7 +681,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal Transform GetInnerGroupWithTransformOriginTranslated()
         {
             Transform transform = new Transform();
-            transform.Parent = _innerGroup.Bounds.Parent;
+            transform.Parent = _innerGroup.Parent;
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left - _innerGroup.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top- _innerGroup.Top);
             return transform;
         }
@@ -735,7 +735,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return _endPoint;
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
 
             throw new NotImplementedException();

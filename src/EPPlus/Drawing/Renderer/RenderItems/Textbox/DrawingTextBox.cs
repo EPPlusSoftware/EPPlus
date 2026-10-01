@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Parent = parent;
             _drawing = drawing;
             //The context must come from the renderer, not the workbook, so the render target is preserved.
-            TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup.Bounds, true);
+            TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup, true);
             TextBody.MaxWidth = maxWidth;
             TextBody.MaxHeight = maxHeight;
         }

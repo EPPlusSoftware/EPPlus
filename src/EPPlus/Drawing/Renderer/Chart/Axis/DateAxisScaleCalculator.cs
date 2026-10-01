@@ -323,7 +323,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateByWidthAllowDiagonal(List<object> values, double min, double max, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var ax = options.Axis;
-            var plotAreaWidth = options.ChartSize.Bounds.Width;
+            var plotAreaWidth = options.ChartSize.Width;
             int interval;
             eTimeUnit unit;
             string format = GetNumberFormat(options);

@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -41,8 +42,8 @@ namespace EPPlusImageRenderer.Svg
             _pa = Chart.PlotArea;
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
             Group = new GroupRenderItem(ChartRenderer.Bounds);
-            Group.Bounds.Name = "PlotArea";
-            var rect = new RectRenderItem(Group.Bounds);
+            Group.Name = "PlotArea";
+            var rect = new RectRenderItem(Group);
             if (_pa.Layout.HasLayout)
             {
                 rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
@@ -55,10 +56,10 @@ namespace EPPlusImageRenderer.Svg
                 rect.Height = GetPlotAreaHeight(rect);
             }
 
-            Group.Bounds.Top = rect.Top;
-            Group.Bounds.Left = rect.Left;           
+            Group.Top = rect.Top;
+            Group.Left = rect.Left;           
             rect.Top = rect.Left = 0;
-            Group.RenderItems.Add(rect);
+            //Group.ChildObjects.Add(rect); //Dupl?
 
             if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
                Chart.Legend.Position == eLegendPosition.Left)
@@ -109,7 +110,7 @@ namespace EPPlusImageRenderer.Svg
             var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
             var lp = ChartRenderer.Chart.Legend?.Position;
             var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null ?
-                        ChartRenderer.Legend.Rectangle.Bounds.GlobalLeft - RightMargin :
+                        ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
 
@@ -157,7 +158,7 @@ namespace EPPlusImageRenderer.Svg
             var left = LeftMargin;
             if(ChartRenderer.Chart.Legend?.Position == eLegendPosition.Left)
             {
-                left += ChartRenderer.Legend.Rectangle.Bounds.Width + ChartRenderer.Legend.RightMargin;
+                left += ChartRenderer.Legend.Rectangle.Width + ChartRenderer.Legend.RightMargin;
             }
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left);
@@ -200,7 +201,7 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bounds.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? TopMargin) + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? TopMargin) + haHeight;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
@@ -244,7 +245,7 @@ namespace EPPlusImageRenderer.Svg
             return null;
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.Add(Group);
         }

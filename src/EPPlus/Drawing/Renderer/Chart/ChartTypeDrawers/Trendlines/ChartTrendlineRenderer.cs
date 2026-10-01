@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -124,7 +125,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle.Bounds, x, y, width, height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
@@ -661,9 +662,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateRenderCoordinates();
             CreateDatalabel();
         }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
             pathItem.FillColor = "none";
             pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);

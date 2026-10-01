@@ -73,7 +73,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var catAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
                 var valAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
                 var yBottom = GetAxisBaseY(catAxis, valAxis);
-                var bb = ChartRenderer.Plotarea.Group.Bounds;
+                var bb = ChartRenderer.Plotarea.Group;
                 var dl = new LineRenderItem(bb)
                 {
                     X1 = x,
@@ -81,7 +81,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     Y1 = yTop,
                     Y2 = yBottom,                    
                 };
-                dl.Bounds.Name = $"DropLine {i/2 + 1}";
+                dl.Name = $"DropLine {i/2 + 1}";
                 //TODO: DropLines should actually use the "Other Lines" DefaultDrawingObject
                 dl.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, () => DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
                 dl.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
@@ -172,7 +172,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 xAxis = ChartRenderer.HorizontalAxis;
             }
 
-            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
             var dataPointOverrides = new List<LineRenderItem>();
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
@@ -205,7 +205,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);
-                    pt.Parent = ChartRenderer.Plotarea.Rectangle.Bounds;
+                    pt.Parent = ChartRenderer.Plotarea.Rectangle;
                 }
                 if(hasErrorBars)
                 {
@@ -230,7 +230,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (i > 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
-                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle);
                     lineDp.X1 = coords[coords.Count - 4];
                     lineDp.Y1 = coords[coords.Count - 3];
                     lineDp.X2 = xPos;
@@ -286,20 +286,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (pt != null)
             {
-                pt.Width = ls.Bounds.Width;
-                pt.Height = ls.Bounds.Height;
+                pt.Width = ls.Width;
+                pt.Height = ls.Height;
                 dataPoints.Add(pt);
             }
         }
 
         internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
             //SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
             //ChartRenderer.Plotarea.Group.AddSubGroupingOfRenderItems("Linechart_SeriesItems", SeriesRenderItems);
-            GroupRenderItem SerieGroup = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
-            SerieGroup.Bounds.Name = "LineChart_SeriesItems";
+            GroupRenderItem SerieGroup = new GroupRenderItem(ChartRenderer.Plotarea.Group);
+            SerieGroup.Name = "LineChart_SeriesItems";
 
             SeriesRenderItems.ForEach(x => SerieGroup.AddChildItem(x));
 

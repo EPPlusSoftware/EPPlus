@@ -25,7 +25,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             parentBounds = parent;
 
-            Rectangle.Bounds.Parent = parent;
+            Rectangle.Parent = parent;
             ConnectionPoints = connectionPoints;
 
             UpdateLines();
@@ -38,7 +38,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             for (int i = 0; i < ConnectionPoints.Points.Count; i++)
             {
                 var cPoint = ConnectionPoints.Points[i];
-                var cPointLine = new LineRenderItem(Rectangle.Bounds);
+                var cPointLine = new LineRenderItem(Rectangle);
                 cPointLine.X1 = 0;
                 cPointLine.Y1 = 0;
                 cPointLine.X2 = cPoint.X;
@@ -50,13 +50,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            GroupRenderItem gItem = new GroupRenderItem(Rectangle.Bounds);
+            GroupRenderItem gItem = new GroupRenderItem(Rectangle);
             renderItems.Add(gItem);
             foreach (var line in RenderLines)
             {
-                gItem.RenderItems.Add(line);
+                gItem.ChildObjects.Add(line);
             }
         }
     }

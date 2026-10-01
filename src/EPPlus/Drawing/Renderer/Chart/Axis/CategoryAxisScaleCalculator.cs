@@ -20,7 +20,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 
         internal static AxisScale CalculateHorizontalAxisByWidth(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
-            var plotAreaWidth = options.ChartSize.Bounds.Width;
+            var plotAreaWidth = options.ChartSize.Width;
             List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
 
@@ -88,7 +88,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         }
         internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
-            var plotAreaHeight = options.ChartSize.Bounds.Height;
+            var plotAreaHeight = options.ChartSize.Height;
             List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);

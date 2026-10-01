@@ -12,6 +12,7 @@
  *************************************************************************************************/
 
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using System;
@@ -26,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
              var chartDataTable = svgChart.Chart.PlotArea.DataTable;
             
         }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             base.AppendRenderItems(renderItems);
         }

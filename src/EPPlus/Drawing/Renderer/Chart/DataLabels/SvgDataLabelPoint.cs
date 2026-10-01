@@ -100,22 +100,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal void AddSeriesIcon(RenderItem seriesIcon)
         {
-            var iconWidth = seriesIcon.Bounds.Width;
-            var iconHeight = seriesIcon.Bounds.Height;
+            var iconWidth = seriesIcon.Width;
+            var iconHeight = seriesIcon.Height;
 
             _seriesIcon = seriesIcon;
-            _seriesIcon.Bounds.Parent = Rectangle.Bounds;
+            _seriesIcon.Parent = Rectangle;
 
             if (_haveAdjustedForIcon == false)
             {
                 _txtBox.Left += iconWidth;
-                _seriesIcon.Bounds.Left -= 0.75d;
-                Rectangle.Bounds.Width += iconWidth + 0.75d;
+                _seriesIcon.Left -= 0.75d;
+                Rectangle.Width += iconWidth + 0.75d;
 
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
 
                 //Increase width by iconWidth + right margin of icon
-                //Rectangle.Bounds.Width += iconWidth + 2.25d;
+                //Rectangle.Width += iconWidth + 2.25d;
                 //Move the starting bounds to origin point since width increased by that much
                 //LeftMargin -= 2.25;
                 //Excel appears to simply add icon width rightwards after applying everything else instead of truly considering the icon
@@ -123,7 +123,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //LeftMargin += 2.25d + iconWidth;
 
                 ////Hardcoded top margin
-                //Rectangle.Bounds.Height += iconHeight + 1.4173228346d;
+                //Rectangle.Height += iconHeight + 1.4173228346d;
                 //TopMargin -= 1.4173228346d + 3d;
                 //_txtBox.Top += iconHeight;
 
@@ -181,11 +181,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle.Bounds, maxBounds.Width, maxBounds.Height);
+            var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, maxBounds.Width, maxBounds.Height);
 
             txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 
-            txtBox.TextBody.Bounds.Top = 0;
+            txtBox.TextBody.Top = 0;
             txtBox.TextBody.AutoSize = true;
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
@@ -233,12 +233,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //txtBox.Top += txtBox.TopMargin;
 
             //Center the textbox at the origin point
-            Rectangle.Bounds.Left -= txtBox.Rectangle.Bounds.Width / 2;
-            Rectangle.Bounds.Top -= txtBox.Rectangle.Bounds.Height / 2;
+            Rectangle.Left -= txtBox.Rectangle.Width / 2;
+            Rectangle.Top -= txtBox.Rectangle.Height / 2;
 
             //Set initial width and height to content
-            Rectangle.Bounds.Width = txtBox.Rectangle.Bounds.Width;
-            Rectangle.Bounds.Height = txtBox.Rectangle.Bounds.Height;
+            Rectangle.Width = txtBox.Rectangle.Width;
+            Rectangle.Height = txtBox.Rectangle.Height;
 
             _txtBox = txtBox;
             _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
@@ -271,18 +271,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     _hasManualLayout = true;
                     var rect = GetRectFromManualLayout(ChartRenderer, individualLabel.Layout);
 
-                    Rectangle.Bounds.Left += rect.Left;
-                    Rectangle.Bounds.Top += rect.Top;
+                    Rectangle.Left += rect.Left;
+                    Rectangle.Top += rect.Top;
 
                     _manualLayoutOffset = new Coordinate(rect.Left, rect.Top);
 
-                    if (rect.Bounds.Width != 0)
+                    if (rect.Width != 0)
                     {
-                        Rectangle.Bounds.Width = rect.Bounds.Width;
+                        Rectangle.Width = rect.Width;
                     }
-                    if (rect.Bounds.Height != 0)
+                    if (rect.Height != 0)
                     {
-                        Rectangle.Bounds.Height = rect.Bounds.Height;
+                        Rectangle.Height = rect.Height;
                     }
 
                     if (dataLabel.ShowLeaderLines)
@@ -330,17 +330,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //    Bounds.Top = dataLabelCenter.Y;
                 //    break;
                 case eLabelPosition.Left:
-                    Rectangle.Bounds.Left -= (_txtBox.Width/2) + (point.Width / 2d);
+                    Rectangle.Left -= (_txtBox.Width/2) + (point.Width / 2d);
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
-                    Rectangle.Bounds.Left += (_txtBox.Width / 2d) + point.Width;
+                    Rectangle.Left += (_txtBox.Width / 2d) + point.Width;
                     break;
                 case eLabelPosition.Top:
-                    Rectangle.Bounds.Top -= (point.Height + _txtBox.Height) / 2d;
+                    Rectangle.Top -= (point.Height + _txtBox.Height) / 2d;
                     break;
                 case eLabelPosition.Bottom:
-                    Rectangle.Bounds.Top += (point.Height + _txtBox.Height) / 2d;
+                    Rectangle.Top += (point.Height + _txtBox.Height) / 2d;
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position entered in SetPositionBasic: '{basicPosition}' is not a basic position");
@@ -404,7 +404,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //Ensure vector is normalized
             var directionOnly = direction / direction.Length;
-            Rectangle.Bounds.Position += directionOnly * margin;
+            Rectangle.Position += directionOnly * margin;
         }
 
 
@@ -445,13 +445,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //Calculate diagonal between two sides using basic trig
             actualDistance = Math.Sqrt(Math.Pow(triangleWidth, 2d) + Math.Pow(triangleHeight, 2d));
 
-            Rectangle.Bounds.Position += directionOnly * actualDistance;
+            Rectangle.Position += directionOnly * actualDistance;
         }
 
         private void SetInOut(Vector2 direction, Vector2 translation, bool reverseDirection)
         {
             //Translate to the translation point
-            Rectangle.Bounds.Position += translation;
+            Rectangle.Position += translation;
             SetAdjustedTextBoxPosition(direction, reverseDirection);
         }
 
@@ -460,22 +460,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //If there is a manual layout assume this was intentional
             if(_hasManualLayout == false)
             {
-                var gLeft = Rectangle.Bounds.GlobalLeft;
-                var gTop = Rectangle.Bounds.GlobalTop;
+                var gLeft = Rectangle.GlobalLeft;
+                var gTop = Rectangle.GlobalTop;
 
-                var chartBounds = ChartRenderer.ChartArea.Rectangle.Bounds;
+                var chartBounds = ChartRenderer.ChartArea.Rectangle;
                 var plotBounds = ChartRenderer.GetPlotAreaTop();
 
-                var chartMinY = ChartRenderer.Bounds.GlobalTop;
+                var chartMinY = ChartRenderer.ChartArea.Rectangle.GlobalTop;
                 var chartMinX = chartBounds.Position.X - ChartRenderer.Plotarea.LeftMargin;
 
                 if (gTop < chartMinY)
                 {
-                    Rectangle.Bounds.Position = new Vector2(Rectangle.Bounds.Position.X - (ChartRenderer.Plotarea.LeftMargin/2d), chartMinY);
+                    Rectangle.Position = new Vector2(Rectangle.Position.X - (ChartRenderer.Plotarea.LeftMargin/2d), chartMinY);
                 }
                 if (gLeft < chartMinX)
                 {
-                    Rectangle.Bounds.Position = new Vector2(chartMinX, Rectangle.Bounds.Position.Y);
+                    Rectangle.Position = new Vector2(chartMinX, Rectangle.Position.Y);
                 }
             }
         }
@@ -487,17 +487,17 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 if (_hasLeaderLines)
                 {
                     //With origin in top left of current bounds get the connection points
-                    var cPoints = new ConnectionPointsMiddle(0, 0, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+                    var cPoints = new ConnectionPointsMiddle(0, 0, Rectangle.Width, Rectangle.Height);
 
                     //Ready to draw the lines so that we can visualize the distances to each point
-                    _connectionPointLines = new PointLines(ChartRenderer, Rectangle.Bounds, cPoints);
+                    _connectionPointLines = new PointLines(ChartRenderer, Rectangle, cPoints);
 
                     //Adjust if there is a margin
-                    _connectionPointLines.Rectangle.Bounds.Left += LeftMargin;
+                    _connectionPointLines.Rectangle.Left += LeftMargin;
                     _connectionPointLines.UpdateLines();
 
                     //Get the offset between those points and the origin point
-                    var offsetToParentPoint = new Coordinate(-(Rectangle.Bounds.Left + LeftMargin), -(Rectangle.Bounds.Top + TopMargin));
+                    var offsetToParentPoint = new Coordinate(-(Rectangle.Left + LeftMargin), -(Rectangle.Top + TopMargin));
 
                     //Calculate closest point
                     var index = GetClosestConnectionPointCoordinateIndex(offsetToParentPoint);
@@ -553,7 +553,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _parentPoint.Parent = basePoint.Parent.Parent;
             _parentPoint.Left = basePoint.Parent.LocalPosition.X;
             _parentPoint.Top = basePoint.Parent.LocalPosition.Y;
-            Rectangle.Bounds.Parent = _parentPoint;
+            Rectangle.Parent = _parentPoint;
             //---
 
             //--- Calculate vectors and center point ---
@@ -578,8 +578,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
-                    Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                    Rectangle.Left += centerPoint.LocalPosition.X;
+                    Rectangle.Top += centerPoint.LocalPosition.Y;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(_parentPoint, _labelPosition);
@@ -628,8 +628,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         bool canFitInCenter = false;
                         if (canFitInCenter)
                         {
-                            Rectangle.Bounds.Left += centerPoint.LocalPosition.X;
-                            Rectangle.Bounds.Top += centerPoint.LocalPosition.Y;
+                            Rectangle.Left += centerPoint.LocalPosition.X;
+                            Rectangle.Top += centerPoint.LocalPosition.Y;
                         }
                         else
                         {
@@ -655,16 +655,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal void SetParentPoint(BoundingBox parentPoint)
         {
-            Rectangle.Bounds.Parent = parentPoint;
+            Rectangle.Parent = parentPoint;
             _parentPoint = parentPoint;
 
-            var dataLabelCenter = new Vector2(Rectangle.Bounds.Left, Rectangle.Bounds.Top);
+            var dataLabelCenter = new Vector2(Rectangle.Left, Rectangle.Top);
 
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Rectangle.Bounds.Left += Rectangle.Bounds.Left;
-                    Rectangle.Bounds.Top += Rectangle.Bounds.Top;
+                    Rectangle.Left += Rectangle.Left;
+                    Rectangle.Top += Rectangle.Top;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
@@ -687,20 +687,20 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             AdjustPositionIfOutsideChartAndNotManualLayout();
         }
 
-        private void AppendDebugBounds(List<RenderItem> renderItems)
+        private void AppendDebugBounds(List<Transform> renderItems)
         {
-            var rect = new RectRenderItem(Rectangle.Bounds);
-            rect.Bounds.Left = LeftMargin;
-            rect.Bounds.Top = 0;
-            rect.Bounds.Width = Rectangle.Bounds.Width;
-            rect.Bounds.Height = Rectangle.Bounds.Height;
+            var rect = new RectRenderItem(Rectangle);
+            rect.Left = LeftMargin;
+            rect.Top = 0;
+            rect.Width = Rectangle.Width;
+            rect.Height = Rectangle.Height;
 
             rect.FillColor = "red";
             rect.FillOpacity = 0.2;
             renderItems.Add(rect);
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             var parentPointGroup = new GroupRenderItem(_parentPoint);
             parentPointGroup.Left = _parentPoint.Left;
@@ -736,48 +736,48 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             renderItems.Add(parentPointGroup);
 
-            var group = new GroupRenderItem(Rectangle.Bounds);
-            group.Left = Rectangle.Bounds.Left;
-            group.Top = Rectangle.Bounds.Top;
+            var group = new GroupRenderItem(Rectangle);
+            group.Left = Rectangle.Left;
+            group.Top = Rectangle.Top;
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment");
             group.AddChildItem(titleItem);
 
-            parentPointGroup.RenderItems.Add(group);
+            parentPointGroup.ChildObjects.Add(group);
 
-            group.RotationPoint = new Graphics.Point(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            group.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
             group.Rotation = CounterRotation;
 
-            _txtBox.AppendRenderItems(group.RenderItems);
+            _txtBox.AppendRenderItems(group.ChildObjects);
             
             if(_renderConnectionPointLines)
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(group.RenderItems);
+                    _connectionPointLines.AppendRenderItems(group.ChildObjects);
                 }
             }
 
             if (_seriesIcon != null)
             {
-                var height = Rectangle.Bounds.Height;
+                var height = Rectangle.Height;
                 if (height == 0)
                 {
                     height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Bounds.Left, height / 2));
-                iconGrp.Left = _seriesIcon.Bounds.Left;
+                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Left, height / 2));
+                iconGrp.Left = _seriesIcon.Left;
                 iconGrp.Top = (height / 2) - 2;
-                group.RenderItems.Add(iconGrp);
-                iconGrp.RenderItems.Add(_seriesIcon);
+                group.ChildObjects.Add(iconGrp);
+                iconGrp.ChildObjects.Add(_seriesIcon);
             }
 
             if (_leaderLines != null && _leaderLines.Count > 0)
             {
                 foreach (var line in _leaderLines)
                 {
-                    group.RenderItems.Add(line);
+                    group.ChildObjects.Add(line);
                 }
             }
         }
