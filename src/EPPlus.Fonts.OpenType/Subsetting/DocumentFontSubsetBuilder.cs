@@ -138,9 +138,13 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 codePointsByIdentity.TryGetValue(id, out cps);
 
                 if (DecisionForIdentity(id) == FontEmbeddingDecision.EmbedWhole)
+                {
                     _sharedSubsetByIdentity[id] = font;
+                }   
                 else
-                    _sharedSubsetByIdentity[id] = _subsetter.Subset(font, cps);
+                {
+                    _sharedSubsetByIdentity[id] = _subsetter.Subset(font, cps, true);
+                }
             }
 
             // ===== PHASE 3: build one provider per request from the SHARED subsets =====
