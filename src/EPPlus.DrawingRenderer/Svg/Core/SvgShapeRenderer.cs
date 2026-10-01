@@ -84,19 +84,22 @@ namespace EPPlus.DrawingRenderer
 
         public void PreRenderGroup(List<Transform> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
         {
-            foreach (RenderItem item in items)
+            foreach (var t in items)
             {
-                if (item is GroupRenderItem group)
+                if (t is RenderItem item)
                 {
-                    PreRenderGroup(group.ChildObjects, defSb, hs, ref ix);
-                    //foreach(var child in group.RenderItems)
-                    //{
-                    //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
-                    //}
-                }
-                else
-                {
-                    WriteDefsForRenderItem(defSb, hs, ref ix, item);
+                    if (item is GroupRenderItem group)
+                    {
+                        PreRenderGroup(group.ChildObjects, defSb, hs, ref ix);
+                        //foreach(var child in group.RenderItems)
+                        //{
+                        //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
+                        //}
+                    }
+                    else
+                    {
+                        WriteDefsForRenderItem(defSb, hs, ref ix, item);
+                    }
                 }
             }
         }
@@ -108,10 +111,13 @@ namespace EPPlus.DrawingRenderer
             var hs = new HashSet<string>();
             var ix = 1;
 
-            foreach (RenderItem item in items)
-            {
-                PreRenderGroup(items, defSb, hs, ref ix);
-            }
+            //foreach (var item in items)
+            //{
+            //    if (item is RenderItem)
+            //    {
+                    PreRenderGroup(items, defSb, hs, ref ix);
+            //    }
+            //}
 
             if (defSb.Length > 0)
             {
