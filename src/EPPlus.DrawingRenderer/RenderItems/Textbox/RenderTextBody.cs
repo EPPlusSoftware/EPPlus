@@ -61,16 +61,6 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public string Text { get; set; }
         public double MaxWidth { get; set; }
         public double MaxHeight { get; set; }
-        /// <summary>
-        /// Shorthand for Width
-        /// </summary>
-        public double Width { get { return Width; } set { Width = value; } }
-
-        /// <summary>
-        /// Shorthand for Height
-        /// </summary>
-        public double Height { get { return Height; } set { Height = value; } }
-
         public bool AutoSize { get; set; }
         public double TopMargin { get; set; }
         public double BottomMargin { get; set; }
