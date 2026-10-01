@@ -1133,9 +1133,9 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, string ImagePath = "")
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, null, ImagePath);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, null);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
@@ -1174,6 +1174,20 @@ namespace OfficeOpenXml.Drawing
             VerifyPath(ImagePath);
             return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink, Location, ImagePath);
         }
+
+        internal async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, string ImagePath = "")
+        {
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, null, ImagePath);
+            if (Location != PictureLocation.Link)
+            {
+                ValidatePictureFile(Name, ImageFile);
+                await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
+            }
+            AddPicture(Name, pic);
+            return pic;
+        }
+
+
         /// <summary>
         /// Adds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.
         /// </summary>
