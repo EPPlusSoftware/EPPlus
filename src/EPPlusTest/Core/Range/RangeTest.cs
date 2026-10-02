@@ -31,6 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -404,9 +405,10 @@ namespace EPPlusTest.Core.Range
                     valueAsTimeSpan.Minutes == expected.Minutes &&
                     valueAsTimeSpan.Seconds == expected.Seconds;
 
-                Console.WriteLine($"Actual   : {valueAsTimeSpan:hh\\:mm\\:ss}");
-                Console.WriteLine($"Expected : {expected:hh\\:mm\\:ss}");
-                Console.WriteLine(matches ? "PASS" : "FAIL");
+                Assert.AreEqual(expected, valueAsTimeSpan);
+                //Console.WriteLine($"Actual   : {valueAsTimeSpan:hh\\:mm\\:ss}");
+                //Console.WriteLine($"Expected : {expected:hh\\:mm\\:ss}");
+                //Console.WriteLine(matches ? "PASS" : "FAIL");
             }
         }
 

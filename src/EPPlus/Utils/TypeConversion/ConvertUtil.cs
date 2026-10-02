@@ -546,7 +546,11 @@ namespace OfficeOpenXml.Utils.TypeConversion
         private static TimeSpan GetTimespanTicks(DateTime dt)
         {
             var startDate = DateTime.FromOADate(0);
-            var ticks = dt.Ticks - startDate.Ticks;
+            long ticks = dt.Ticks;
+            if(dt.Ticks > startDate.Date.Ticks)
+            {
+                ticks = dt.Ticks - startDate.Ticks;
+            }
             return new TimeSpan(ticks);
         }
 
