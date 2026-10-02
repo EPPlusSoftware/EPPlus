@@ -93,7 +93,6 @@ namespace EPPlusImageRenderer
             
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
             AppendItems();
-
         }
         private void SetAxisPositionsFromPlotarea()
         {
@@ -101,7 +100,7 @@ namespace EPPlusImageRenderer
             {
                 PlaceVerticalAxis(VerticalAxis);
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                if (VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
+                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
                 {
                     var CrossValue = HorizontalAxis.GetCrossesValue();
                     var newRight = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(CrossValue);
@@ -122,7 +121,7 @@ namespace EPPlusImageRenderer
                 PlaceHorizontalAxis(HorizontalAxis, false);
 
                 //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                if (HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
+                if (VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                 {
                     var CrossValue = HorizontalAxis.GetCrossesValue();
                     var newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top;
