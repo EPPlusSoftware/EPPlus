@@ -204,15 +204,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
-            renderItems.Add(plotAreaGroup);
             for(int i = 0; i< dataLabels.Count; i++) 
             {
                 if(rotation != double.NaN)
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
-                dataLabels[i].AppendRenderItems(plotAreaGroup.ChildObjects);
+                //dataLabels[i].AppendRenderItems(plotAreaGroup.ChildObjects);
             }
+
+            renderItems.Add(plotAreaGroup);
         }
     }
 }
