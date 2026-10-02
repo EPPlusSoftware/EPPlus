@@ -301,7 +301,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             SeriesRenderItems.ForEach(x => SerieGroup.AddChildItem(x));
 
-            ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
+            //ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
         }
     }
 }

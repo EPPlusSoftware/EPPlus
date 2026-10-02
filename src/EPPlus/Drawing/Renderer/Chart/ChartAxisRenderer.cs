@@ -602,7 +602,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            else
+            else if(LabelOrientation==eTextOrientation.Horizontal)
             {
                 double majorWidth;
                 var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;

@@ -539,9 +539,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 var fraction = interval / magnitude;
 
                 double nice;
-                if (fraction <= 1) nice = 1;
-                else if (fraction <= 2) nice = 2;
-                else if (fraction <= 5) nice = 5;
+                if (fraction <= 1) nice = 2;
+                else if (fraction <= 2) nice = 5;
                 else nice = 10;
 
                 interval = (int)Math.Round(nice * magnitude);
