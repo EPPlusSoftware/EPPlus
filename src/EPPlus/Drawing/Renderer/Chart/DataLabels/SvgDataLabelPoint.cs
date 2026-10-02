@@ -182,7 +182,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
 
             var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, maxBounds.Width, maxBounds.Height);
-
+            //txtBox.Left += Rectangle.Left;
+            //txtBox.Top += Rectangle.Top;
             txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);
 
             txtBox.TextBody.Top = 0;
@@ -702,84 +703,92 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var parentPointGroup = new GroupRenderItem(_parentPoint);
-            parentPointGroup.Left = _parentPoint.Left;
-            parentPointGroup.Top = _parentPoint.Top;
+            //var parentPointGroup = new GroupRenderItem(_parentPoint);
+            //parentPointGroup.Left = _parentPoint.Left;
+            //parentPointGroup.Top = _parentPoint.Top;
 
-            var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
-            parentPointGroup.AddChildItem(titleItemOrigin);
+            //var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
+            //titleItemOrigin.Parent = parentPointGroup;
+            ////parentPointGroup.AddChildItem(titleItemOrigin);
 
-            if(originPointRect != null)
-            {
-                parentPointGroup.AddChildItem(originPointRect);
-            }
-            if(basePositionRect != null)
-            {
-                parentPointGroup.AddChildItem(basePositionRect);
-            }
-            if(endPositionRect != null)
-            {
-                parentPointGroup.AddChildItem(endPositionRect);
-            }
-            if(centerPositionRect != null)
-            {
-                parentPointGroup.AddChildItem(centerPositionRect);
-            }
-            if(maxBoundsCircle != null)
-            {
-                parentPointGroup.AddChildItem(maxBoundsCircle);
-            }
-            if (endPointCircle != null)
-            {
-                parentPointGroup.AddChildItem(endPointCircle);
-            }
+            //if(originPointRect != null)
+            //{
+            //    parentPointGroup.AddChildItem(originPointRect);
+            //}
+            //if(basePositionRect != null)
+            //{
+            //    parentPointGroup.AddChildItem(basePositionRect);
+            //}
+            //if(endPositionRect != null)
+            //{
+            //    parentPointGroup.AddChildItem(endPositionRect);
+            //}
+            //if(centerPositionRect != null)
+            //{
+            //    parentPointGroup.AddChildItem(centerPositionRect);
+            //}
+            //if(maxBoundsCircle != null)
+            //{
+            //    parentPointGroup.AddChildItem(maxBoundsCircle);
+            //}
+            //if (endPointCircle != null)
+            //{
+            //    parentPointGroup.AddChildItem(endPointCircle);
+            //}
 
-            renderItems.Add(parentPointGroup);
+            ////renderItems.Add(parentPointGroup);
 
-            var group = new GroupRenderItem(Rectangle);
-            group.Left = Rectangle.Left;
-            group.Top = Rectangle.Top;
+            //var group = new GroupRenderItem(_parentPoint);
+            //group.Left = Rectangle.Left;
+            //group.Top = Rectangle.Top;
 
-            var titleItem = new TitleRenderItem("DataLabel size adjustment");
-            group.AddChildItem(titleItem);
+            //var titleItem = new TitleRenderItem("DataLabel size adjustment");
+            //group.AddChildItem(titleItem);
 
-            parentPointGroup.ChildObjects.Add(group);
+            ////parentPointGroup.ChildObjects.Add(group);
 
-            group.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
-            group.Rotation = CounterRotation;
+            //group.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            //group.Rotation = CounterRotation;
+            ////_txtBox.Rectangle.Parent = group;
+            ////_txtBox.TextBody.Parent = group;
+            //_txtBox.PrepareForRender();
+            ////group.AddChild(_txtBox.Rectangle);
+            ////_txtBox.TextBody.Parent = group;
+            ////_txtBox.AppendRenderItems(group.ChildObjects);
 
-            _txtBox.AppendRenderItems(group.ChildObjects);
-            
-            if(_renderConnectionPointLines)
-            {
-                if (_connectionPointLines != null)
-                {
-                    _connectionPointLines.AppendRenderItems(group.ChildObjects);
-                }
-            }
+            //if (_renderConnectionPointLines)
+            //{
+            //    if (_connectionPointLines != null)
+            //    {
+            //        _connectionPointLines.AppendRenderItems(group.ChildObjects);
+            //    }
+            //}
 
-            if (_seriesIcon != null)
-            {
-                var height = Rectangle.Height;
-                if (height == 0)
-                {
-                    height = _txtBox.Height;
-                }
-                //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Left, height / 2));
-                iconGrp.Left = _seriesIcon.Left;
-                iconGrp.Top = (height / 2) - 2;
-                group.ChildObjects.Add(iconGrp);
-                iconGrp.ChildObjects.Add(_seriesIcon);
-            }
+            //if (_seriesIcon != null)
+            //{
+            //    var height = Rectangle.Height;
+            //    if (height == 0)
+            //    {
+            //        height = _txtBox.Height;
+            //    }
+            //    //Currently series icon always has a y1 y2 of 2
+            //    var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Left, height / 2));
+            //    iconGrp.Left = _seriesIcon.Left;
+            //    iconGrp.Top = (height / 2) - 2;
+            //    iconGrp.Parent = group;
+            //    _seriesIcon.Parent = iconGrp;
+            //}
 
-            if (_leaderLines != null && _leaderLines.Count > 0)
-            {
-                foreach (var line in _leaderLines)
-                {
-                    group.ChildObjects.Add(line);
-                }
-            }
+            //if (_leaderLines != null && _leaderLines.Count > 0)
+            //{
+            //    foreach (var line in _leaderLines)
+            //    {
+            //        line.Parent = group;
+            //        //group.ChildObjects.Add(line);
+            //    }
+            //}
+
+            //renderItems.Add(group);
         }
     }
 }

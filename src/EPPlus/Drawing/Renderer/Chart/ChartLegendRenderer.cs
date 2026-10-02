@@ -1069,11 +1069,11 @@ namespace EPPlusImageRenderer.Svg
             groupItem.ChildObjects.Add(Rectangle);
             foreach(var s in SeriesIcon)
             {
-                if(s.SeriesIcon != null) groupItem.ChildObjects.Add(s.SeriesIcon);
-                if(s.MarkerBackground != null) groupItem.ChildObjects.Add(s.MarkerBackground);
-                if (s.MarkerIcon != null) groupItem.ChildObjects.Add(s.MarkerIcon);
+                if(s.SeriesIcon != null) s.SeriesIcon.Parent = groupItem;
+                if(s.MarkerBackground != null) s.MarkerBackground.Parent = groupItem;
+                if (s.MarkerIcon != null) s.MarkerIcon.Parent = groupItem;
                 //renderItems.Add(s.Textbox);
-                if(s.Textbox != null) s.Textbox.AppendRenderItems(groupItem.ChildObjects);
+                if(s.Textbox != null) s.Textbox.Parent = groupItem;
             }
         }
 
