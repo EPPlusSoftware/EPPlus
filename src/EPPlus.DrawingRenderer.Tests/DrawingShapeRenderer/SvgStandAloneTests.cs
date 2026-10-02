@@ -31,7 +31,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             background.Height = bounds.Height;
             background.FillColor = "aliceBlue";
 
-            baseGroup.AddChildItem(background);
             return baseGroup;
         }
 
@@ -47,7 +46,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             background.Height = bounds.Height;
             background.FillColor = "aliceBlue";
 
-            baseGroup.AddChildItem(background);
+            //baseGroup.AddChildItem(background);
             return baseGroup;
         }
 
@@ -89,8 +88,6 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             //Add size of text since svg renders text upwards from the start point.
             textRun.YPosition = rt.Size;
-
-            baseGroup.AddChildItem(textRun);
 
             GenerateSvgFile("textRunStandAlone", baseGroup, baseGroup);
         }
@@ -144,10 +141,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rtItem.FontColor = Color.DarkGreen;
             var para2 = textBody.AddParagraph(rtItem);
 
-            textBody.AddChildItem(paragraph);
-            textBody.AddChildItem(para2);
+            //textBody.AddChildItem(paragraph);
+            //textBody.AddChildItem(para2);
 
-            baseGroup.AddChildItem(textBody);
+            //baseGroup.AddChildItem(textBody);
 
             return textBody;
         }
@@ -320,7 +317,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         public void BasicTextBox()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
-            textbox.AppendRenderItems(group.ChildObjects);
+            textbox.PrepareForRender();
 
             double delta = 0.001;
 
@@ -340,7 +337,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.LeftMargin = 10d;
             textbox.TopMargin = 10d;
 
-            textbox.AppendRenderItems(group.ChildObjects);
+            textbox.PrepareForRender();
 
             //Assert local position unchanged
             Assert.AreEqual(0d, textbox.TextBody.Left);
@@ -371,7 +368,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.RightMargin = 10d;
             textbox.BottomMargin = 10d;
 
-            textbox.AppendRenderItems(group.ChildObjects);
+            textbox.PrepareForRender();
 
             //Assert width and height changed by margins
             Assert.AreEqual(135.2d, textbox.Width, delta);
@@ -404,7 +401,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.RightMargin = 10d;
             textbox.BottomMargin = 10d;
 
-            textbox.AppendRenderItems(group.ChildObjects);
+            textbox.PrepareForRender();
 
             //Assert width and height changed by margins and textbody
             Assert.AreEqual(150.2d, textbox.Width, delta);

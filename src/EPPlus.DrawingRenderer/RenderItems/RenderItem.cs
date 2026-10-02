@@ -210,6 +210,39 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
+        //Note: This does not take negative child items into acount
+        //TODO: Fix that
+        public override double Width 
+        { get
+            {
+                foreach(var item in ChildObjects)
+                {
+                    if (item is BoundingBox bb)
+                    {
+                        Width = bb.Right > base.Width ? bb.Right : base.Width;
+                    }
+                }
+                return base.Width;
+            } 
+        }
+
+        //Note: This does not take negative child items into acount
+        //TODO: Fix that
+        public override double Height
+        {
+            get
+            {
+                foreach (var item in ChildObjects)
+                {
+                    if (item is BoundingBox bb)
+                    {
+                        base.Height = bb.Bottom > base.Height ? bb.Bottom : base.Height;
+                    }
+                }
+                return base.Height;
+            }
+        }
+
         public void AddChildItem(Transform item)
         {
             //item.Bounds.Parent = TranslationOffset;  //This incorrectly sets the parent bounds to zero. Intended?
