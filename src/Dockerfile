@@ -1,5 +1,5 @@
 #Get image that works for e.g. net481
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+#FROM mcr.microsoft.com/dotnet/aspnet:10.0
 #Get image that works for net8,net9 etc.
 FROM mcr.microsoft.com/dotnet/sdk:10.0
 
@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0
 #This is Strange as sdk:9.0 and 8.0 don't seem to require this.
 #Look into removing this later. 
 #Anyone can test removing it locally by commenting this line out but the whole test project will fail to run properly without it as of 2026-09-28
-RUN apt-get update && apt-get install -y mono-complete
+RUN apt-get update && apt-get install -y mono-complete wget
 
 #This Requires you to have Docker Desktop downloaded and open.
 #Create the Visual Studio Debug Shell image.

@@ -5,7 +5,12 @@
       "name": "epp-test",
       "type": "docker",
       "dockerFile": "Dockerfile"
-    }
+    }//,
+    //{
+    //  "name": "Docker-Image",
+    //  "type": "docker",
+    //  "dockerImage": "vsut_dockerfile"
+    //}
   ]
 }
 
