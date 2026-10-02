@@ -543,6 +543,17 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
         }
 
+        private static TimeSpan GetTimespanTicks(DateTime dt)
+        {
+            var startDate = DateTime.FromOADate(0);
+            long ticks = dt.Ticks;
+            if(dt.Ticks > startDate.Date.Ticks)
+            {
+                ticks = dt.Ticks - startDate.Ticks;
+            }
+            return new TimeSpan(ticks);
+        }
+
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
         ///     When converting blank string to nullable struct (e.g. ' ' to int?) null is returned.
@@ -621,7 +632,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 TimeSpan? ts = null;
                 if (value is DateTime dt)
                 {
-                    ts = new TimeSpan((long)(dt.ToOADate() * TimeSpan.TicksPerDay));
+                    ts = GetTimespanTicks(dt);
                 }
 #if (NET8_0_OR_GREATER)
                 else if (value is TimeOnly timeOnly)
@@ -630,7 +641,7 @@ namespace OfficeOpenXml.Utils.TypeConversion
                 }
                 else if (value is DateOnly dateOnly)
                 {
-                    ts=new TimeSpan((long)dateOnly.ToDateTime(TimeOnly.MinValue).ToOADate() * TimeSpan.TicksPerDay);
+                    ts = GetTimespanTicks(dateOnly.ToDateTime(TimeOnly.MinValue));
                 }
 #endif
                 else if (conversion.TryGetTimeSpan(out object tso))
