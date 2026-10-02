@@ -602,6 +602,43 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            else
+            {
+                double majorWidth;
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                if (IsDateAutoAxis || IsDateScale)
+                {
+                    var min = ConvertUtil.GetValueDouble(Values[0]);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var minUnit = (max - min) / MinorUnit;
+                    majorWidth = Rectangle.Width / minUnit;
+                }
+                else
+                {
+                    majorWidth = Rectangle.Width / AxisValues.Count;
+                }
+                foreach (var tb in ret)
+                {
+                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
+                    {
+                        tb.Left +=  -tb.Width / 2;
+                    }
+                    else
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
+                    }
+                }
+            }
 
             return ret;
         }
@@ -890,7 +927,7 @@ namespace EPPlusImageRenderer.Svg
             var group = ChartRenderer.Plotarea.Group;
             for (double d = min; d <= Max; d += units)
             {
-                if(d==min && Line!=null && Line.BorderWidth>0) continue;
+                //if(d==min && Line!=null && Line.BorderWidth>0) continue; //TODO: Check this. Removed as min is not always the first gridline, and this causes the first gridline to be missing in some cases.
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
                     switch (Axis.AxisPosition)

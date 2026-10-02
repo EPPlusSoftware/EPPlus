@@ -503,6 +503,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         interval = 7; //Week
                         break;
                     case 7:
+                        interval = 14;
+                        break;
+                    case 14:
                         interval = 1; //Month
                         unit = eTimeUnit.Months;
                         break;
@@ -513,14 +516,37 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
             else if (unit == eTimeUnit.Months)
             {
-                unit = eTimeUnit.Years;
+                switch (interval)
+                {
+                    case 1:
+                        interval = 2;
+                        break;
+                    case 2:
+                        interval = 3; //Week
+                        break;
+                    case 3:
+                        interval = 6;
+                        break;
+                    default:
+                        interval = 1;
+                        unit = eTimeUnit.Years;
+                        break;
+                }
             }
             else if (unit == eTimeUnit.Years)
             {
-                interval++;
+                var magnitude = Math.Pow(10, Math.Floor(Math.Log10(interval)));
+                var fraction = interval / magnitude;
+
+                double nice;
+                if (fraction <= 1) nice = 1;
+                else if (fraction <= 2) nice = 2;
+                else if (fraction <= 5) nice = 5;
+                else nice = 10;
+
+                interval = (int)Math.Round(nice * magnitude);
             }
         }
-
         private static bool FitAsHorizontalText(ITextShaper shaper, float fontSize, double min, double max, int interval, eTimeUnit unit, double width)
         {
             var minMargin = 2; //2 Points
