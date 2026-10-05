@@ -68,10 +68,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             circ.Cx = _circleCenter.Left;
             circ.Cy = _circleCenter.Top;
 
-            circ.FillColor = "transparent";
-            circ.FillOpacity = 0.3d;
-            circ.BorderColor = "purple";
-            circ.BorderWidth = 10;
+            circ.Style.FillColor = "transparent";
+            circ.Style.FillOpacity = 0.3d;
+            circ.Style.BorderColor = "purple";
+            circ.Style.BorderWidth = 10;
 
             _groupItem.ChildObjects.Add(circ);
         }

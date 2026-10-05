@@ -67,8 +67,8 @@ namespace EPPlusImageRenderer.Svg
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
 
-            rect.SetDrawingPropertiesFill(ChartRenderer.Theme, _pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, _pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, _pa.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
+            rect.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+            rect.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, _pa.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
             Rectangle = rect;
         }
 

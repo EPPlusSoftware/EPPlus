@@ -122,9 +122,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
-                if (seriesIconOrig.FillColor == null && seriesIconOrig.GradientFill != null)
+                if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
                 {
-                    clonedIcon.GradientFill = seriesIconOrig.GradientFill;
+                    clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
                 }
 
                 if (clonedIcon is LineRenderItem lineIcon)
@@ -202,8 +202,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_dlbl.Fill.IsEmpty == false)
             {
-                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
-                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                plotAreaGroup.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
             for(int i = 0; i< dataLabels.Count; i++) 

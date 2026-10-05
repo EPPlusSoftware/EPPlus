@@ -368,7 +368,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;
             
-            item.Rectangle.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.GetDefaultFillColor());
+            item.Rectangle.Style.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.GetDefaultFillColor());
 
             var borderstyle = Theme.FormatScheme.BorderStyle[0];
 
@@ -388,7 +388,7 @@ namespace EPPlusImageRenderer
 
             //var chartStyleId = Chart.StyleManager.Style.Id;
 
-            item.Rectangle.SetDrawingPropertiesBorder(
+            item.Rectangle.Style.SetDrawingPropertiesBorder(
                 Theme,
                 Chart.Border,
                 reference?.Color,
@@ -494,16 +494,16 @@ namespace EPPlusImageRenderer
             const float LineLength = 21.0f;
 
             var item = new LineRenderItem(parentItem);
-            item.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-            item.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
+            item.Style.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+            item.Style.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
 
             float y = (float)parentItem.Top + MarginExtra;
             float x = 0;
             item.X1 = x;
             item.Y1 = y;
-            item.X2 = x + (LineLength - (float)item.BorderWidth);
+            item.X2 = x + (LineLength - (float)item.Style.BorderWidth);
             item.Y2 = y;
-            item.LineCap = LineCap.Round;
+            item.Style.LineCap = LineCap.Round;
 
             return item;
         }

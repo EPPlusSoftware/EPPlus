@@ -105,8 +105,8 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
             //Default NoFill for title and axis titles if not set
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
+            Rectangle.Style.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
+            Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -233,9 +233,9 @@ namespace EPPlusImageRenderer.Svg
             if (p != null)
             {
                 TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
-                TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+                TextBox.Rectangle.Style.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
                 //Default is actually NoLine
-                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+                TextBox.Rectangle.Style.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             }
             TextBox.AppendRenderItems(renderItems);
         }

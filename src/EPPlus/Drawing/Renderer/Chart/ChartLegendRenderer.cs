@@ -92,8 +92,8 @@ namespace EPPlusImageRenderer.Svg
                 Rectangle = GetRectFromManualLayout(sc, l.Layout);
             }
 
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+            Rectangle.Style.SetDrawingPropertiesFill(sc.Theme, l.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+            Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, l.Border, sc.Chart.StyleManager.Style?.Legend.BorderReference.Color, l.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             
             var pSls = SetLegendSeries(entryWidth, entryHeight);
             SetLegendTrendlines(entryWidth, entryHeight, pSls);
@@ -736,7 +736,7 @@ namespace EPPlusImageRenderer.Svg
                     firstIconWidth = si.Width;
                 }
                 sls = new DrawingLegendSerie();
-                var tbLeft = si.Left + si.Width + MarginIconText + (si.BorderWidth ?? 0d);
+                var tbLeft = si.Left + si.Width + MarginIconText + (si.Style.BorderWidth ?? 0d);
                 var tbTop = si.Top - ((entryHeight + MarginIconText) / 2);
                 
                 double tbWidth;
@@ -773,18 +773,18 @@ namespace EPPlusImageRenderer.Svg
 
                 tbWidth = sls.Textbox.Width + rDefMargin; /*+ lDefMargin + rDefMargin;*/
 
-                lastWidth = tbWidth + si.Width - (si.BorderWidth ?? 0d);
+                lastWidth = tbWidth + si.Width - (si.Style.BorderWidth ?? 0d);
 
-                totalWidth += tbWidth + si.Width + (si.BorderWidth ?? 0d) + MarginIconText;
+                totalWidth += tbWidth + si.Width + (si.Style.BorderWidth ?? 0d) + MarginIconText;
 
                 if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
                     var dp = ps.DataPoints[i];
-                    ChartTypeDrawer.SetFillDataPoint(Chart, ps, i, sls.SeriesIcon, dp, Chart.StyleManager.Style?.SeriesLine);
+                    ChartTypeDrawer.SetFillDataPoint(Chart, ps, i, sls.SeriesIcon.Style, dp, Chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, i, sls.SeriesIcon);
+                    ChartTypeDrawer.SetFillSerie(Chart, ct, ps, 0, i, sls.SeriesIcon.Style);
                 }
 
                 SeriesIcon.Add(sls);
@@ -892,7 +892,7 @@ namespace EPPlusImageRenderer.Svg
             var line = new LineRenderItem(Rectangle);
             //line.SetDrawingPropertiesFill(ChartRenderer.Theme, cStandardSerie.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color, false, ChartRenderer.Theme.ColorScheme.Accent1.GetColor());
             //Default style is NoLine NoFill
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
+            line.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, cStandardSerie.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -902,16 +902,16 @@ namespace EPPlusImageRenderer.Svg
             line.X2 = x + LineLength;
             line.Y1 = y;
             line.Y2 = y;
-            line.LineCap = LineCap.Round;
+            line.Style.LineCap = LineCap.Round;
 
             return line;
         }
         private LineRenderItem GetTrendLineSeriesIcon(ExcelChart ct, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight)
         {
             var line = new LineRenderItem(Rectangle);
-            line.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+            line.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, tl.Fill, Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
             //Default is actually NoLine
-            line.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+            line.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, tl.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -921,7 +921,7 @@ namespace EPPlusImageRenderer.Svg
             line.Y1 = y;
             line.X2 = x + LineLength;
             line.Y2 = y;
-            line.LineCap = LineCap.Round;
+            line.Style.LineCap = LineCap.Round;
 
             return line;
         }
@@ -935,7 +935,7 @@ namespace EPPlusImageRenderer.Svg
 
             GetItemPosition(pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
 
-            item.LineCap = LineCap.Round;
+            item.Style.LineCap = LineCap.Round;
             item.Left = x;
             if (pSls != null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
@@ -960,8 +960,8 @@ namespace EPPlusImageRenderer.Svg
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 1.5d);
+            item.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, pcS.Fill, Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            item.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, pcS.Border, Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 1.5d);
 
             return item;
         }
@@ -977,7 +977,7 @@ namespace EPPlusImageRenderer.Svg
 
             GetItemPosition(pSls, entryWidth, entryHeight, iconLeft, iconTop + (iconHeight / 2), out double x, out double y);
 
-            item.LineCap = LineCap.Round;
+            item.Style.LineCap = LineCap.Round;
             item.Left = x;
             if(pSls !=null && (Chart.Legend.Position == eLegendPosition.Left || Chart.Legend.Position == eLegendPosition.Right))
             {
@@ -994,11 +994,11 @@ namespace EPPlusImageRenderer.Svg
             if (index>=0 && chartSerie.DataPoints.ContainsKey(index))
             {
                 var dp = chartSerie.DataPoints[index];
-                ChartTypeDrawer.SetFillDataPoint(Chart, chartSerie, index, item, dp, Chart.StyleManager.Style?.SeriesLine);
+                ChartTypeDrawer.SetFillDataPoint(Chart, chartSerie, index, item.Style, dp, Chart.StyleManager.Style?.SeriesLine);
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(Chart, ct, chartSerie, serieIndex, index, item);
+                ChartTypeDrawer.SetFillSerie(Chart, ct, chartSerie, serieIndex, index, item.Style);
             }
 
             return item;

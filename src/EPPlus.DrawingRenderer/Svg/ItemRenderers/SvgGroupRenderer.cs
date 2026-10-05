@@ -24,9 +24,9 @@ namespace EPPlus.DrawingRenderer.Svg
             string fillPropery = "";
 
             //We may need special handling for fill-color 'none' as it is sometimes transparent and sometimes un-applied.
-            if (string.IsNullOrEmpty(item.FillColor) == false)
+            if (string.IsNullOrEmpty(item.Style.FillColor) == false)
             {
-                fillPropery = $" fill=\"{item.FillColor}\" ";
+                fillPropery = $" fill=\"{item.Style.FillColor}\" ";
             }
 
             OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");

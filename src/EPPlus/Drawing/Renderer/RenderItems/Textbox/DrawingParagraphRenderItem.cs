@@ -156,7 +156,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 {
                     if (p.DefaultRunProperties.Fill != null)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
                 else
@@ -164,11 +164,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     //Drawingproperties has fallback to firstDefault but excel does not display it so we should not either.
                     if (p.DefaultRunProperties != p._paragraphs.FirstDefaultRunProperties)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p._paragraphs.FirstDefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p._paragraphs.FirstDefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }
@@ -190,16 +190,16 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                             //Otherwise use the default fill of the first paragraph
                             fill = p._paragraphs[0].DefaultRunProperties.Fill;
                         }
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else if(p.DefaultRunProperties.Fill != null)
                     {
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else
                     {
                         //Should never happen.
-                        this.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }

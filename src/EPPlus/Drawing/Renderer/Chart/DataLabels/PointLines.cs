@@ -49,8 +49,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 cPointLine.X2 = cPoint.X;
                 cPointLine.Y2 = cPoint.Y;
 
-                cPointLine.BorderWidth = 1;
-                cPointLine.BorderColor = ptColors[i];
+                cPointLine.Style.BorderWidth = 1;
+                cPointLine.Style.BorderColor = ptColors[i];
                 RenderLines.Add(cPointLine);
             }
         }

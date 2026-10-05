@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                         InsetTextBox = new RectRenderItem(Bounds);
                         InsetTextBox.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
                         InsetTextBox.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
-                        InsetTextBox.FillOpacity = 0.3d;
+                        InsetTextBox.Style.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
                     if (InsetTextBox != null)
                     {
-                        InsetTextBox.FillOpacity = 0.3d;
+                        InsetTextBox.Style.FillOpacity = 0.3d;
                     }
 
                     TextBody = CreateTextBodyItem(shape.TextBody);
@@ -183,26 +183,27 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
             var shape = (ExcelShape)Drawing;
             var shapeDefaultStyle = Theme.ObjectDefaults.ShapeDefinition.Style;
+            var style = pi.Style;
             if (drawFill)
             {
-                pi.FillColorSource = path.Fill;
-                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.FillReference.ShapeColor));
+                style.FillColorSource = path.Fill;
+                style.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.FillReference.ShapeColor));
             }
             else
             {
-                pi.FillColorSource = PathFillMode.None;
-                pi.FillColor = "none";
+                style.FillColorSource = PathFillMode.None;
+                style.FillColor = "none";
             }
 
             if (drawBorder)
             {
-                pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.BorderReference.ShapeColor), 0.75d);
+                style.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
+                style.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.BorderReference.ShapeColor), 0.75d);
             }
             else
             {
-                pi.BorderColorSource = PathFillMode.None;
-                pi.BorderColor = "none";
+                style.BorderColorSource = PathFillMode.None;
+                style.BorderColor = "none";
             }
 
             return pi;

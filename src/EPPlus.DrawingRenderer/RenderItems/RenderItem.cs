@@ -359,15 +359,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
     {
         public virtual void AppendRenderItems(List<Transform> renderItems) { }
     }
-    public abstract class RenderItem : RenderItemBase
+    public class RenderItemStyle
     {
-        protected RenderItem()
-        {
-        }
-        protected RenderItem(Transform parent)
-        {
-            Parent = parent;
-        }
         public string DefId { get; set; }
         //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
@@ -390,30 +383,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public PathFillMode FillColorSource { get; set; } = PathFillMode.Norm;
         public PathFillMode BorderColorSource { get; set; } = PathFillMode.Norm;
         public double? GlowRadius { get; set; }
-        public double? GlowOpacity{ get; set; }
+        public double? GlowOpacity { get; set; }
         public string GlowColor { get; set; }
         public RenderShadowEffect OuterShadowEffect { get; set; }
-
-
-        /// <summary>
-        /// The origin point for any transform actions in svg.
-        /// Normally/Default 0,0
-        /// </summary>
-        public Coordinate TransformOrigin { get; set; } = null;
-        protected void CloneBase(RenderItem item)
-        {
-            item.FillColor = FillColor;
-            item.FillOpacity = FillOpacity;
-            item.BorderWidth = BorderWidth;
-            item.BorderColor = BorderColor;
-            item.BorderDashArray = BorderDashArray;
-            item.BorderDashOffset = BorderDashOffset;
-            item.BorderOpacity = BorderOpacity;
-            item.LineJoin = LineJoin;
-            item.LineCap = LineCap;
-            item.FillColorSource = FillColorSource;
-        }
-        public abstract RenderItem Clone();
         internal void GetOuterShadowColor(out string shadowColor, out double opacity)
         {
             if (OuterShadowEffect == null)
@@ -439,15 +411,45 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         internal string GetFilterKey()
         {
-            return $"{GlowColor} {GlowRadius} { OuterShadowEffect?.GetKey()}";
-        }        
+            return $"{GlowColor} {GlowRadius} {OuterShadowEffect?.GetKey()}";
+        }
+
+        internal RenderItemStyle Clone()
+        {
+            var item = new RenderItemStyle();
+            item.FillColor = FillColor;
+            item.FillOpacity = FillOpacity;
+            item.BorderWidth = BorderWidth;
+            item.BorderColor = BorderColor;
+            item.BorderDashArray = BorderDashArray;
+            item.BorderDashOffset = BorderDashOffset;
+            item.BorderOpacity = BorderOpacity;
+            item.LineJoin = LineJoin;
+            item.LineCap = LineCap;
+            item.FillColorSource = FillColorSource;
+            return item;
+        }
     }
-    /// <summary>
-    /// Base class for any item rendered.
-    /// </summary>
-    public abstract class RenderItemBase : BoundingBox
+    public abstract class RenderItem : BoundingBox
     {
-        //public BoundingBox Bounds = new BoundingBox();
+        protected RenderItem()
+        {
+        }
+        protected RenderItem(Transform parent)
+        {
+            Parent = parent;
+        }
         public abstract RenderItemType Type { get; }
+        public RenderItemStyle Style{ get; private set; } = new RenderItemStyle();
+        /// <summary>
+        /// The origin point for any transform actions in svg.
+        /// Normally/Default 0,0
+        /// </summary>
+        public Coordinate TransformOrigin { get; set; } = null;
+        protected void CloneBase(RenderItem item)
+        {
+            item.Style = Style.Clone();
+        }
+        public abstract RenderItem Clone();
     }
 }

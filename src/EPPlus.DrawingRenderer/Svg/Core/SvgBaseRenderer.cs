@@ -19,49 +19,50 @@ namespace EPPlus.DrawingRenderer.Svg
         /// <param name="sb"></param>
         protected void RenderBaseToSpecified(T item, StringBuilder sb)
         {
+            var style = item.Style;
             if (item.Name != null)
             {
                 sb.Append($" class=\"{item.Name}\" ");
             }
 
-            if (string.IsNullOrEmpty(item.DefId) == false)
+            if (string.IsNullOrEmpty(style.DefId) == false)
             {
-                sb.Append($"id=\"{item.DefId}\" ");
+                sb.Append($"id=\"{style.DefId}\" ");
             }
 
-            if (string.IsNullOrEmpty(item.FillColor) == false)
+            if (string.IsNullOrEmpty(style.FillColor) == false)
             {
-                sb.Append($"fill=\"{item.FillColor}\" ");
+                sb.Append($"fill=\"{style.FillColor}\" ");
             }
             //If fill is null it may in e.g. Rect still get the color black which can have an opacity
-            if (item.FillOpacity != null && item.FillOpacity != 1)
+            if (style.FillOpacity != null && style.FillOpacity != 1)
             {
-                sb.Append($"opacity=\"{item.FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
+                sb.Append($"opacity=\"{style.FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
             }
-            if (string.IsNullOrEmpty(item.FilterName) == false)
+            if (string.IsNullOrEmpty(style.FilterName) == false)
             {
-                sb.Append($"filter=\"{item.FilterName}\" ");
+                sb.Append($"filter=\"{style.FilterName}\" ");
             }
 
-            if (item.BorderWidth.HasValue)
+            if (style.BorderWidth.HasValue)
             {
-                if (string.IsNullOrEmpty(item.BorderColor) == false)
+                if (string.IsNullOrEmpty(style.BorderColor) == false)
                 {
-                    sb.Append($"stroke=\"{item.BorderColor}\" ");
+                    sb.Append($"stroke=\"{style.BorderColor}\" ");
                 }
-                var v = item.BorderWidth.Value * Constants.EMU_PER_POINT / Constants.EMU_PER_PIXEL;
+                var v = style.BorderWidth.Value * Constants.EMU_PER_POINT / Constants.EMU_PER_PIXEL;
                 sb.Append($"stroke-width=\"{v.ToString(CultureInfo.InvariantCulture)}\" ");
 
-                if (item.BorderDashArray != null)
+                if (style.BorderDashArray != null)
                 {
-                    var BorderDashArrayStr = item.BorderDashArray.Select(x =>
+                    var BorderDashArrayStr = style.BorderDashArray.Select(x =>
                     x.ToString(CultureInfo.InvariantCulture)).ToArray();
 
                     sb.Append($"stroke-dasharray=\"" + $"{string.Join(",", BorderDashArrayStr)}\" ");
                 }
-                if (item.BorderOpacity.HasValue)
+                if (style.BorderOpacity.HasValue)
                 {
-                    sb.Append($" stroke-opacity=\"{(Math.Round(item.BorderOpacity.Value * 100)).ToString(CultureInfo.InvariantCulture)}%\" ");
+                    sb.Append($" stroke-opacity=\"{(Math.Round(style.BorderOpacity.Value * 100)).ToString(CultureInfo.InvariantCulture)}%\" ");
                 }
             }
 
@@ -70,9 +71,9 @@ namespace EPPlus.DrawingRenderer.Svg
                 sb.Append($" transform-origin=\"{item.TransformOrigin.X.ToString(CultureInfo.InvariantCulture)} {item.TransformOrigin.Y.ToString(CultureInfo.InvariantCulture)}\" ");
             }
 
-            if (item.StrokeMiterLimit.HasValue)
+            if (style.StrokeMiterLimit.HasValue)
             {
-                sb.Append($"stroke-miterlimit =\"{item.StrokeMiterLimit}\" ");
+                sb.Append($"stroke-miterlimit =\"{style.StrokeMiterLimit}\" ");
             }
         }
 
@@ -83,24 +84,25 @@ namespace EPPlus.DrawingRenderer.Svg
         }
         protected void RenderCompoundItems(T li, double? borderWidth, string color, string filter)
         {
-            var tmpBorderWidth = li.BorderWidth;
+            var style = li.Style;
+            var tmpBorderWidth = style.BorderWidth;
             string tmpBorderColor = null;
-            li.BorderWidth = borderWidth ?? li.BorderWidth;
+            style.BorderWidth = borderWidth ?? style.BorderWidth;
             if (string.IsNullOrEmpty(color) == false)
             {
-                tmpBorderColor = li.BorderColor;
-                li.BorderColor = color;
+                tmpBorderColor = style.BorderColor;
+                style.BorderColor = color;
             }
 
             RenderBase(li);
             var sb = OutputStream;
-            if (li.LineCap != LineCap.Flat)
+            if (style.LineCap != LineCap.Flat)
             {
-                sb.AppendFormat(" stroke-linecap=\"{0}\"", li.LineCap == LineCap.Round ? "round" : "square");
+                sb.AppendFormat(" stroke-linecap=\"{0}\"", style.LineCap == LineCap.Round ? "round" : "square");
             }
-            if (li.LineJoin != LineJoin.Miter)
+            if (style.LineJoin != LineJoin.Miter)
             {
-                sb.AppendFormat(" stroke-linejoin=\"{0}\"", li.LineJoin.ToEnumString());
+                sb.AppendFormat(" stroke-linejoin=\"{0}\"", style.LineJoin.ToEnumString());
             }
 
             if (string.IsNullOrEmpty(filter) == false)
@@ -110,12 +112,11 @@ namespace EPPlus.DrawingRenderer.Svg
 
             sb.AppendFormat("/>");
 
-            li.BorderWidth = tmpBorderWidth;
+            style.BorderWidth = tmpBorderWidth;
             if (string.IsNullOrEmpty(color) == false)
             {
-                li.BorderColor = tmpBorderColor;
+                style.BorderColor = tmpBorderColor;
             }
         }
-
     }
 }

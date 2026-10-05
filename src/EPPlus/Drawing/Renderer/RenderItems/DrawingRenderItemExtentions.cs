@@ -38,42 +38,42 @@ namespace EPPlusImageRenderer.RenderItems
     }
     internal static class DrawingRenderItemExtentions
     {
-        internal static void SetDrawingPropertiesFill(this RenderItem item, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpace = UserSpaceSettings.ObjectBoundingBox, Color? nullColor = null)
+        internal static void SetDrawingPropertiesFill(this RenderItemStyle style, ExcelTheme theme, ExcelDrawingFill fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpace = UserSpaceSettings.ObjectBoundingBox, Color? nullColor = null)
         {
             switch (fill.Style)
             {
 
                 case eFillStyle.PatternFill:
-                    item.PatternFill = new DrawingRenderPatternFill(theme, fill.PatternFill, item.FillColorSource);
+                    style.PatternFill = new DrawingRenderPatternFill(theme, fill.PatternFill, style.FillColorSource);
                     break;
                 case eFillStyle.BlipFill:
-                    item.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
+                    style.BlipFill = new DrawingRenderBlipFill(fill.BlipFill);
                     break;
                 default:
-                    SetDrawingPropertiesFillBasic(item, theme, fill, color, gradientUserSpace, nullColor);
+                    SetDrawingPropertiesFillBasic(style, theme, fill, color, gradientUserSpace, nullColor);
                     break;
             }
         }
-        internal static void SetDrawingPropertiesFillBasic(this RenderItem item, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
+        internal static void SetDrawingPropertiesFillBasic(this RenderItemStyle style, ExcelTheme theme, ExcelDrawingFillBasic fill, ExcelDrawingColorManager color, UserSpaceSettings gradientUserSpaceOnUse, Color? nullColor)
         {
             double opacity = double.NaN;
-            var fillNew = GetFillNew(fill, theme, color, item.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill, gradientUserSpaceOnUse);
+            var fillNew = GetFillNew(fill, theme, color, style.FillColorSource, out opacity, () => { return nullColor; }, out DrawingRenderGradientFill gradFill, gradientUserSpaceOnUse);
 
             if(gradFill != null)
             {
                 //Special case for gradFIll as it does not return string
-                item.GradientFill = gradFill;
-                item.FillType = FillType.GradientFill;
-                item.FillColor = null;
+                style.GradientFill = gradFill;
+                style.FillType = FillType.GradientFill;
+                style.FillColor = null;
             }
             else
             {
-                item.FillColor = fillNew;
+                style.FillColor = fillNew;
             }
 
             if (opacity != double.NaN)
             {
-                item.FillOpacity = opacity;
+                style.FillOpacity = opacity;
             }
         }
 
@@ -201,7 +201,7 @@ namespace EPPlusImageRenderer.RenderItems
             return fillStr;
         }
 
-        internal static void SetDrawingPropertiesBorder(this RenderItem item, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager reference, bool hasBorder, Func<Color?> GetStyleDefaultColor, double defaultWidth = 1.5d, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
+        internal static void SetDrawingPropertiesBorder(this RenderItemStyle style, ExcelTheme theme, ExcelDrawingBorder border, ExcelChartStyleColorManager reference, bool hasBorder, Func<Color?> GetStyleDefaultColor, double defaultWidth = 1.5d, UserSpaceSettings gradientUserSpaceOnUse = UserSpaceSettings.UserSpaceOnUse_Global)
         {
             string fillColorStr = null;
             DrawingRenderGradientFill gradFill = null;
@@ -211,38 +211,38 @@ namespace EPPlusImageRenderer.RenderItems
             {
                 if (hasBorder)
                 {
-                    fillColorStr = GetFillNew(null, theme, reference, item.BorderColorSource, out opacity, GetStyleDefaultColor, out gradFill);
+                    fillColorStr = GetFillNew(null, theme, reference, style.BorderColorSource, out opacity, GetStyleDefaultColor, out gradFill);
                 }
             }
             else
             {
-                fillColorStr = GetFillNew(border.Fill, theme, reference, item.BorderColorSource, out opacity, GetStyleDefaultColor, out gradFill);
+                fillColorStr = GetFillNew(border.Fill, theme, reference, style.BorderColorSource, out opacity, GetStyleDefaultColor, out gradFill);
             }
 
             if(gradFill != null)
             {
                 //Special case as gradfill does not return a string
-                item.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, gradientUserSpaceOnUse);
-                item.BorderColor = null;
+                style.BorderGradientFill = new DrawingRenderGradientFill(theme, border.Fill.GradientFill, gradientUserSpaceOnUse);
+                style.BorderColor = null;
             }
             else
             {
-                item.BorderColor = fillColorStr;
-                item.BorderGradientFill = null;
+                style.BorderColor = fillColorStr;
+                style.BorderGradientFill = null;
             }
 
-            item.BorderOpacity = opacity;
+            style.BorderOpacity = opacity;
 
-            if (item.BorderColorSource != PathFillMode.None)
+            if (style.BorderColorSource != PathFillMode.None)
             {
-                item.BorderWidth = (border?.Width ?? 0D) == 0D ? defaultWidth : border.Width;
+                style.BorderWidth = (border?.Width ?? 0D) == 0D ? defaultWidth : border.Width;
                 if (border != null && border.LineStyle.HasValue && border.LineStyle != eLineStyle.Solid)
                 {
-                    item.BorderDashArray = GetDashArray(border, item.BorderWidth.Value);
+                    style.BorderDashArray = GetDashArray(border, style.BorderWidth.Value);
                 }
                 if (border != null && border.CompoundLineStyle != eCompoundLineStyle.Single)
                 {
-                    item.CompoundLineStyle = (CompoundLineStyle)border.CompoundLineStyle;
+                    style.CompoundLineStyle = (CompoundLineStyle)border.CompoundLineStyle;
                     //TODO:Add support double compound borders.
                 }
             }
@@ -305,25 +305,25 @@ namespace EPPlusImageRenderer.RenderItems
         //    //    }
         //    //}
         //}
-        internal static void SetDrawingPropertiesEffects(this RenderItem item, ExcelTheme theme, ExcelDrawingEffectStyle effect)
+        internal static void SetDrawingPropertiesEffects(this RenderItemStyle style, ExcelTheme theme, ExcelDrawingEffectStyle effect)
         {
             if (effect.HasGlow)
             {
-                item.GlowRadius = effect.Glow.Radius;
+                style.GlowRadius = effect.Glow.Radius;
                 var gc = tc.ColorConverter.GetThemeColor(theme, effect.Glow.Color);
                 if(gc.A>0)
                 {
-                    item.GlowOpacity = Math.Round(gc.A / 255D * 100); 
+                    style.GlowOpacity = Math.Round(gc.A / 255D * 100); 
                 }
-                item.GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
+                style.GlowColor = "#" + gc.ToArgb().ToString("x8").Substring(2);
             }
             if (effect.HasOuterShadow)
             {
-                item.OuterShadowEffect = new RenderShadowEffect();
-                item.OuterShadowEffect.OuterShadowEffectColor = tc.ColorConverter.GetThemeColor(theme, effect.OuterShadow.Color);
-                item.OuterShadowEffect.Direction = effect.OuterShadow.Direction;
-                item.OuterShadowEffect.BlurRadius = effect.OuterShadow.BlurRadius;
-                item.OuterShadowEffect.Distance = effect.OuterShadow.Distance;
+                style.OuterShadowEffect = new RenderShadowEffect();
+                style.OuterShadowEffect.OuterShadowEffectColor = tc.ColorConverter.GetThemeColor(theme, effect.OuterShadow.Color);
+                style.OuterShadowEffect.Direction = effect.OuterShadow.Direction;
+                style.OuterShadowEffect.BlurRadius = effect.OuterShadow.BlurRadius;
+                style.OuterShadowEffect.Distance = effect.OuterShadow.Distance;
             }
         }
 

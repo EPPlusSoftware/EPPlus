@@ -149,13 +149,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             if (fill.IsEmpty == false && fill.Style == eFillStyle.SolidFill)
             {
-                FillColor = "#" + fill.Color.To6CharHexString();
+                Style.FillColor = "#" + fill.Color.To6CharHexString();
             }
 
             //Backup? Should probably be removed or fallback
             if (fill.Style == eFillStyle.SolidFill)
             {
-                FillColor = "#" + fill.Color.To6CharHexString();
+                Style.FillColor = "#" + fill.Color.To6CharHexString();
             }
         }
 

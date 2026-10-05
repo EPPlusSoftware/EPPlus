@@ -244,14 +244,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle.Height = txtBox.Rectangle.Height;
 
             _txtBox = txtBox;
-            _txtBox.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+            _txtBox.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dataLabel.Fill, null, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
 
             //Border should be decided by series if it has no specified color of its own
             //Therefore it is not set here unless specified as we set a fill color on the group it belongs to
             //If there is no series to inherit from we should apply the default by setting it here
             if(dataLabel.Border.Fill.Color.IsEmpty == false || serie == null)
             {
-                _txtBox.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, dataLabel.Border, ChartRenderer.Chart.StyleManager.Style?.DataLabel.BorderReference.Color, dataLabel.Border.IsEmpty, () => Color.Transparent, 0.75);
+                _txtBox.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dataLabel.Border, ChartRenderer.Chart.StyleManager.Style?.DataLabel.BorderReference.Color, dataLabel.Border.IsEmpty, () => Color.Transparent, 0.75);
             }
             if (dataLabel.Font.IsEmpty == false)
             {
@@ -266,7 +266,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 if (individualLabel.Fill.IsEmpty == false)
                 {
-                    _txtBox.Rectangle.FillColor = "#" + individualLabel.Fill.Color.ToColorString();
+                    _txtBox.Rectangle.Style.FillColor = "#" + individualLabel.Fill.Color.ToColorString();
                 }
 
                 if (individualLabel.Layout != null && individualLabel.Layout.HasLayout)
@@ -364,7 +364,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var pointRect = new RectRenderItem(parent);
             pointRect.Width = 10d;
             pointRect.Height = 10d;
-            pointRect.FillColor = fillColor;
+            pointRect.Style.FillColor = fillColor;
             pointRect.Left = -5d;
             pointRect.Top = -5d;
             return pointRect;
@@ -380,8 +380,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             endPositionRect = GenerateDebugRenderItem(_parentPoint, "darkBlue");
             endPositionRect.Left += endPoint.LocalPosition.X;
             endPositionRect.Top += endPoint.LocalPosition.Y;
-            endPositionRect.BorderWidth = 2d;
-            endPositionRect.BorderColor = "cyan";
+            endPositionRect.Style.BorderWidth = 2d;
+            endPositionRect.Style.BorderColor = "cyan";
             centerPositionRect = GenerateDebugRenderItem(_parentPoint, "Purple");
             centerPositionRect.Left += centerPoint.LocalPosition.X;
             centerPositionRect.Top += centerPoint.LocalPosition.Y;
@@ -521,8 +521,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         extraLine.Y2 = _connectionPointLines.ConnectionPoints.Points[index].Y;
                         extraLine.X2 = extraLine.X1 + xOffset;
 
-                        extraLine.BorderColor = "gray";
-                        extraLine.BorderWidth = 0.5;
+                        extraLine.Style.BorderColor = "gray";
+                        extraLine.Style.BorderWidth = 0.5;
 
                         _leaderLines.Add(extraLine);
                     }
@@ -532,8 +532,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     mainLine.X2 = offsetToParentPoint.X + LeftMargin;
                     mainLine.Y2 = offsetToParentPoint.Y;
 
-                    mainLine.BorderColor = "gray";
-                    mainLine.BorderWidth = 0.5;
+                    mainLine.Style.BorderColor = "gray";
+                    mainLine.Style.BorderWidth = 0.5;
                     _leaderLines.Add(mainLine);
                 }
             }
@@ -698,8 +698,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             rect.Width = Rectangle.Width;
             rect.Height = Rectangle.Height;
 
-            rect.FillColor = "red";
-            rect.FillOpacity = 0.2;
+            rect.Style.FillColor = "red";
+            rect.Style.FillOpacity = 0.2;
             renderItems.Add(rect);
         }
 

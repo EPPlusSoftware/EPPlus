@@ -342,14 +342,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (i >= 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
-                    SetFillDataPoint(Chart, serie, i, rect, dp, Chart.StyleManager.Style?.SeriesLine);
+                    SetFillDataPoint(Chart, serie, i, rect.Style, dp, Chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    SetFillSerie(Chart, chartType, serie, position, i, rect);
+                    SetFillSerie(Chart, chartType, serie, position, i, rect.Style);
                 }
 
-                rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
+                rect.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
                 dataPoints.Add(rect);
 

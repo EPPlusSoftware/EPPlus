@@ -153,7 +153,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportRichTextData(IRichTextFormatSimple rt)
         {
             InitializeBase(rt);
-            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            Style.FillColor = "#" + rt.FontColor.To6CharHexStringImage();
             _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : (eDrawingUnderLineType)rt.UnderlineType;
             _underlineColor = rt.UnderlineColor;
         }
@@ -161,7 +161,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportRichTextData(IRichTextFormatDrawing rt)
         {
             InitializeBase(rt);
-            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            Style.FillColor = "#" + rt.FontColor.To6CharHexStringImage();
             _baseline = rt.Baseline;
             _strikeType = (int)rt.StrikeType == -1 ? eDrawingStrikeType.No : rt.StrikeType;
             _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : rt.UnderlineType;

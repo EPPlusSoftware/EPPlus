@@ -29,7 +29,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             background.Width = bounds.Width;
             background.Height = bounds.Height;
-            background.FillColor = "aliceBlue";
+            background.Style.FillColor = "aliceBlue";
 
             return baseGroup;
         }
@@ -44,7 +44,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             background.Width = bounds.Width;
             background.Height = bounds.Height;
-            background.FillColor = "aliceBlue";
+            background.Style.FillColor = "aliceBlue";
 
             //baseGroup.AddChildItem(background);
             return baseGroup;
@@ -102,7 +102,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             background.Width = baseGroup.Width;
             background.Height = baseGroup.Height;
-            background.FillColor = "aliceBlue";
+            background.Style.FillColor = "aliceBlue";
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);
@@ -308,7 +308,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rtItem.FontColor = Color.DarkGreen;
             var para2 = textbox.TextBody.AddParagraph(rtItem);
 
-            textbox.Rectangle.FillColor = "#F9F6C4";
+            textbox.Rectangle.Style.FillColor = "#F9F6C4";
 
             return textbox;
         }

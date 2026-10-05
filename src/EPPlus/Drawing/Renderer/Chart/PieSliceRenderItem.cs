@@ -8,6 +8,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
@@ -224,7 +225,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             _slicePath = new PathRenderItem(plotAreaBounds);
 
-            _slicePath.BorderWidth = 5d;
+            _slicePath.Style.BorderWidth = 5d;
 
             //Calculate path commands
             var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
@@ -270,9 +271,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             //Render bounds for slice
             _debugBoundsPath = new PathRenderItem(bounds);
-            _debugBoundsPath.BorderColor = "red";
-            _debugBoundsPath.FillColor = "transparent";
-            _debugBoundsPath.BorderWidth = 3;
+            _debugBoundsPath.Style.BorderColor = "red";
+            _debugBoundsPath.Style.FillColor = "transparent";
+            _debugBoundsPath.Style.BorderWidth = 3;
             var moveCenterDebug = new PathCommands(PathCommandType.Move, ExtremePoints.Left, ExtremePoints.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
 
@@ -315,7 +316,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             double w = 5d;
             double h = 5d;
 
-            return new RectRenderItem(parent) { Left = l + point.X, Top = t + point.Y, Width = w, Height = h, FillColor = fillColor };
+            var rect = new RectRenderItem(parent) { Left = l + point.X, Top = t + point.Y, Width = w, Height = h };
+            rect.Style.FillColor = fillColor;
+            return rect;
         }
 
 
@@ -327,11 +330,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             if (position >= 0 && serie.DataPoints.ContainsKey(position))
             {
                 var dp = serie.DataPoints[position];
-                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
+                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath);
+                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
             }
             //if(chartType.VaryColors)
             //{

@@ -39,37 +39,6 @@ namespace EPPlusImageRenderer.Svg
             Rectangle = new RectRenderItem(chart.Bounds);
         }
         internal virtual RectRenderItem Rectangle { get; set; }
-        protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent = null)
-        {
-            var bounds = parent ?? sc.Bounds;
-            var rect = new RectRenderItem(parent);
-            var ml = layout.ManualLayout;
-            if (ml.LeftMode == eLayoutMode.Edge)
-            {
-                rect.Left = bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
-            }
-            else
-            {
-                rect.Left = bounds.Width * (float)(ml.Left ?? 0D) / 100;
-                //TODO:Add factor from default position
-            }
-
-            //Width is always factor.
-            rect.Width = bounds.Width * ml.GetWidth() / 100;
-
-            if (ml.LeftMode == eLayoutMode.Edge)
-            {
-                rect.Top = bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
-            }
-            else
-            {
-                rect.Top = bounds.Height * (float)(ml.Top ?? 0D) / 100;
-                //TODO:Add factor from default position
-            }
-            //Height is always factor.
-            rect.Height = bounds.Height * ml.GetHeight() / 100;
-            return rect;
-        }
         internal void SetMargins(ExcelTextBody tb)
         {
             tb.GetInsetsOrDefaults(out double l, out double r, out double t, out double b);
@@ -137,6 +106,37 @@ namespace EPPlusImageRenderer.Svg
             var schemeClr = tc.ColorConverter.GetThemeColor(ChartRenderer.Theme, themeColor);
             var tintedSchemeColor = tc.ColorConverter.ApplyTintDrawing(schemeClr, tint);
             return tintedSchemeColor;
+        }
+        protected static RectRenderItem GetRectFromManualLayout(ChartRenderer sc, ExcelLayout layout, BoundingBox parent = null)
+        {
+            var bounds = parent ?? sc.Bounds;
+            var rect = new RectRenderItem(parent);
+            var ml = layout.ManualLayout;
+            if (ml.LeftMode == eLayoutMode.Edge)
+            {
+                rect.Left = bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
+            }
+            else
+            {
+                rect.Left = bounds.Width * (float)(ml.Left ?? 0D) / 100;
+                //TODO:Add factor from default position
+            }
+
+            //Width is always factor.
+            rect.Width = bounds.Width * ml.GetWidth() / 100;
+
+            if (ml.LeftMode == eLayoutMode.Edge)
+            {
+                rect.Top = bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
+            }
+            else
+            {
+                rect.Top = bounds.Height * (float)(ml.Top ?? 0D) / 100;
+                //TODO:Add factor from default position
+            }
+            //Height is always factor.
+            rect.Height = bounds.Height * ml.GetHeight() / 100;
+            return rect;
         }
 
         internal Color? GetStyleColorOrDefault(int styleId, Color col1, Color col2, Color col3, Color col4)

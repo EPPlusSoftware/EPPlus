@@ -138,14 +138,14 @@ namespace EPPlus.DrawingRenderer.Svg
                     + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
             }
 
-            if(string.IsNullOrEmpty(textRun.FillColor) == false)
+            if(string.IsNullOrEmpty(textRun.Style.FillColor) == false)
             {
-                finalString += $" style=\"fill: {textRun.FillColor};\" ";
+                finalString += $" style=\"fill: {textRun.Style.FillColor};\" ";
             }
 
             //Avoid rendering fill color as we do so via style
-            var temp = textRun.FillColor;
-            textRun.FillColor = null;
+            var temp = textRun.Style.FillColor;
+            textRun.Style.FillColor = null;
 
             var sb = new StringBuilder();
             sb.Append(finalString);
@@ -154,7 +154,7 @@ namespace EPPlus.DrawingRenderer.Svg
             //Renders up until this point (must be done to end the attribute addings so that text content can then be added)
             RenderBaseToSpecified(textRun, sb);
 
-            textRun.FillColor = temp;
+            textRun.Style.FillColor = temp;
 
             //Since final string has been written in base.render erase it.
             finalString = "";

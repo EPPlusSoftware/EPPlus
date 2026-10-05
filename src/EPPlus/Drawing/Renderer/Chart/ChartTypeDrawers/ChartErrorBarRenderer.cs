@@ -227,16 +227,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
             foreach (var ri in l)
             {
+                var style = ri.Style;
                 if (_errorbars.Border.LineElement == null)
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, GetDefaultFillColor, 0.75);
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, GetDefaultBorderColor, 0.75d);
+                    style.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, GetDefaultFillColor, 0.75);
+                    style.SetDrawingPropertiesBorder(ChartRenderer.Theme, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, true, GetDefaultBorderColor, 0.75d);
                 }
                 else
                 {
-                    ri.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
+                    style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _errorbars.Border, ChartRenderer.Chart.StyleManager.Style?.ErrorBar.BorderReference.Color, _errorbars.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
                 }
-                ri.SetDrawingPropertiesEffects(ChartRenderer.Theme, _errorbars.Effect);
+                style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _errorbars.Effect);
             }
             return l;
         }
