@@ -37,7 +37,7 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartTitleRenderer : ChartDrawingObject
+    internal class ChartTitleRenderer : ChartDrawingObjectWithBackground
     {
         ExcelChartTitleStandard _title;
         string _titleText;
@@ -221,6 +221,11 @@ namespace EPPlusImageRenderer.Svg
             get; private set;
         }
         internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
+
+        internal override Color? DefaultFillColor => throw new NotImplementedException();
+
+        internal override Color? DefaultBorderColor => throw new NotImplementedException();
+
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             TextBox.Name = $"{Chart.Name}_Title_Rect";
@@ -235,5 +240,14 @@ namespace EPPlusImageRenderer.Svg
             TextBox.AppendRenderItems(renderItems);
         }
 
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
+        }
     }
 }

@@ -31,7 +31,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class ChartTrendlineRenderer : ChartDrawingDefaultObject
+    internal class ChartTrendlineRenderer : ChartDrawingObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
@@ -111,17 +111,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var y = ChartRenderer.Plotarea.Group.Top + coord[coord.Length - 1];
             double width = 0, height = 0;
 
-            if (_trendline.Label.Layout.HasLayout)
-            {
-                var mlRect = GetRectFromManualLayout(ChartRenderer, _trendline.Label.Layout);
-                x += mlRect.Left;
-                y += mlRect.Top;
-                if (lbl.Layout.ManualLayout.Width.HasValue && lbl.Layout.ManualLayout.Height.HasValue)
-                {
-                    width = mlRect.Width;
-                    height = mlRect.Height;
-                }
-            }
+            //if (_trendline.Label.Layout.HasLayout)
+            //{
+            //    var mlRect = GetRectFromManualLayout(ChartRenderer, _trendline.Label.Layout);
+            //    x += mlRect.Left;
+            //    y += mlRect.Top;
+            //    if (lbl.Layout.ManualLayout.Width.HasValue && lbl.Layout.ManualLayout.Height.HasValue)
+            //    {
+            //        width = mlRect.Width;
+            //        height = mlRect.Height;
+            //    }
+            //}
 
             if (width > 0 && height > 0)
             {
@@ -786,34 +786,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-
-        internal override Color? GetDefaultFillColor()
-        {
-            return GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
-        }
-
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
         internal override Color? GetDefaultBorderColor()
         {
-            //We only get here if the node is null or empty
-            var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
-            ////Kept here in case needed in future for effect etc.
-            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
-            return lineColor;
+            return DefaultBorderColor;
         }
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
         internal override Color? DefaultBorderColor
         {
             get
             {
-                return GetDefaultBorderColor();
-                //var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
-                //if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
-                //{
-                //    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
-                //}
-                //else
-                //{
-                //    return null;
-                //}
+                var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
+                ////Kept here in case needed in future for effect etc.
+                //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+                return lineColor;
             }
         }
     }

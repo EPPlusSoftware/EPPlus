@@ -15,6 +15,7 @@ using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
@@ -44,6 +45,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         double _radius;
 
         TranformPoint _circleCenter;
+
+        internal override Color? DefaultFillColor => null;
+
+        internal override Color? DefaultBorderColor => null;
 
         public PieChartTypeDrawer(ChartRenderer chart, ExcelPieChart chartType) : base(chart, chartType)
         {
@@ -312,6 +317,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {
                 ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
             }
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

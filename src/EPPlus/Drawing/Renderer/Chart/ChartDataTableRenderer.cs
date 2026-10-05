@@ -17,6 +17,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
@@ -27,10 +28,24 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
              var chartDataTable = svgChart.Chart.PlotArea.DataTable;
             
         }
+
+        internal override Color? DefaultFillColor => throw new NotImplementedException();
+
+        internal override Color? DefaultBorderColor => throw new NotImplementedException();
+
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             base.AppendRenderItems(renderItems);
         }
-        
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -169,79 +169,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
         public override RenderItemType Type => RenderItemType.Group;
-        public string TextAnchor { get; set; }
-        public double Rotation { get; set; }
-        public string GroupTransform = "";
-        //public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
-
-        Graphics.TranformPoint _altRotationPoint = null;
-        /// <summary>
-        /// The translated position of this item in points
-        /// Also the parent position of the group item 
-        /// (This may seem strange but it ensures the the translation is seen 
-        /// immediately in the global position of GroupItem without affecting local position)
-        /// </summary>
-        public Graphics.TranformPoint TranslationOffset = new Graphics.TranformPoint(0, 0);
-        public Graphics.TranformPoint RotationPoint
-        {
-            get
-            {
-                if (_altRotationPoint == null)
-                {
-                    return TranslationOffset;
-                }
-                return _altRotationPoint;
-            }
-            set
-            {
-                _altRotationPoint = value;
-            }
-        }
-
-        public Coordinate Scale = null;
-
-        internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
-        {
-            RotationPoint = new Graphics.TranformPoint(Width / 2, Height / 2);
-
-            if (double.IsNaN(rotation) == false)
-            {
-                Rotation = rotation;
-            }
-        }
 
         //Note: This does not take negative child items into acount
         //TODO: Fix that
-        public override double Width 
-        { get
-            {
-                foreach(var item in ChildObjects)
-                {
-                    if (item is BoundingBox bb)
-                    {
-                        Width = bb.Right > base.Width ? bb.Right : base.Width;
-                    }
-                }
-                return base.Width;
-            } 
-        }
-
-        //Note: This does not take negative child items into acount
-        //TODO: Fix that
-        public override double Height
-        {
-            get
-            {
-                foreach (var item in ChildObjects)
-                {
-                    if (item is BoundingBox bb)
-                    {
-                        base.Height = bb.Bottom > base.Height ? bb.Bottom : base.Height;
-                    }
-                }
-                return base.Height;
-            }
-        }
 
         public void AddChildItem(Transform item)
         {
@@ -255,32 +185,32 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
-        /// <summary>
-        /// Create a subGroup beneath the ParentGroup
-        /// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
-        /// </summary>
-        /// <typeparam name="T">Some RenderItem type</typeparam>
-        /// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
-        /// <param name="Items">The RenderItems to place within the group</param>
-        /// <param name="parentGroup">The parent group of this item</param>
-        public void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items) where T : RenderItem
-        {
-            if (Items != null)
-            {
-                //Create subGroup
-                var subGroup = new GroupRenderItem(this);
-                subGroup.Name = subGroupName;
+        ///// <summary>
+        ///// Create a subGroup beneath the ParentGroup
+        ///// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
+        ///// </summary>
+        ///// <typeparam name="T">Some RenderItem type</typeparam>
+        ///// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
+        ///// <param name="Items">The RenderItems to place within the group</param>
+        ///// <param name="parentGroup">The parent group of this item</param>
+        //public void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items) where T : RenderItem
+        //{
+        //    if (Items != null)
+        //    {
+        //        //Create subGroup
+        //        var subGroup = new GroupRenderItem(this);
+        //        subGroup.Name = subGroupName;
 
-                //Add items to subGroup
-                foreach (var renderItem in Items)
-                {
-                    subGroup.ChildObjects.Add(renderItem);
-                }
+        //        //Add items to subGroup
+        //        foreach (var renderItem in Items)
+        //        {
+        //            subGroup.ChildObjects.Add(renderItem);
+        //        }
 
-                //Add subGroup to parent group
-                this.ChildObjects.Add(subGroup);
-            }
-        }
+        //        //Add subGroup to parent group
+        //        this.ChildObjects.Add(subGroup);
+        //    }
+        //}
 
 
         public override RenderItem Clone()
@@ -290,9 +220,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 Rotation = Rotation,
                 TextAnchor = TextAnchor,
                 TransformOrigin = TransformOrigin,
-                GroupTransform = GroupTransform,
+               // GroupTransform = GroupTransform,
                 RotationPoint = RotationPoint,
-                Scale = Scale,
+               // Scale = Scale,
             };
             CloneBase(item);
             foreach(var child in ChildObjects)            
@@ -438,14 +368,6 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
             Parent = parent;
         }
-        //internal abstract void GetBounds(out double il, out double it, out double ir, out double ib);
-        public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = Left;
-            it = Top;
-            ir = Right;
-            ib = Bottom;
-        }
         public string DefId { get; set; }
         //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
@@ -472,12 +394,12 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public string GlowColor { get; set; }
         public RenderShadowEffect OuterShadowEffect { get; set; }
 
+
         /// <summary>
         /// The origin point for any transform actions in svg.
         /// Normally/Default 0,0
         /// </summary>
         public Coordinate TransformOrigin { get; set; } = null;
-
         protected void CloneBase(RenderItem item)
         {
             item.FillColor = FillColor;
@@ -518,8 +440,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         internal string GetFilterKey()
         {
             return $"{GlowColor} {GlowRadius} { OuterShadowEffect?.GetKey()}";
-        }
-        
+        }        
     }
     /// <summary>
     /// Base class for any item rendered.
@@ -528,12 +449,5 @@ namespace EPPlus.DrawingRenderer.RenderItems
     {
         //public BoundingBox Bounds = new BoundingBox();
         public abstract RenderItemType Type { get; }
-        public virtual void GetBounds(out double il, out double it, out double ir, out double ib)
-        {
-            il = Left; 
-            it = Top; 
-            ir = Right; 
-            ib = Bottom;
-        }
     }
 }

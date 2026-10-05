@@ -29,7 +29,7 @@ using System.Drawing;
 using System.Linq;
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartLegendRenderer : ChartDrawingObject
+    internal class ChartLegendRenderer : ChartDrawingObjectWithBackground
     {
         
         List<TextMeasurement> _seriesHeadersMeasure = new List<TextMeasurement>();
@@ -1082,5 +1082,14 @@ namespace EPPlusImageRenderer.Svg
         internal override Color? DefaultFillColor => Color.Transparent;
 
         internal override Color? DefaultBorderColor => Color.Transparent;
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
+        }
     }
 }

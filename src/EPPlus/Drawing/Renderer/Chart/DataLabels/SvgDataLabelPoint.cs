@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class SvgDataLabelPoint : ChartDrawingObject
+    internal class SvgDataLabelPoint : ChartDrawingObjectWithBackground
     {
         bool _hasManualLayout = false;
         bool _hasLeaderLines = false;
@@ -36,6 +36,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal double CounterRotation = double.NaN;
 
         internal override Color? DefaultFillColor { get; }
+
+        internal override Color? DefaultBorderColor => null;
 
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
@@ -789,6 +791,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //}
 
             //renderItems.Add(group);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

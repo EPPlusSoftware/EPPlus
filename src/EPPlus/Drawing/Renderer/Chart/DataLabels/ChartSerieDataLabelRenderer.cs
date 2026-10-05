@@ -12,7 +12,7 @@ using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class ChartSerieDataLabelRenderer : ChartDrawingObject
+    internal class ChartSerieDataLabelRenderer : ChartDrawingObjectWithBackground
     {
         //positioning is handled by parent item via these
         private List<SvgDataLabelPoint> dataLabels = new List<SvgDataLabelPoint>();
@@ -29,6 +29,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal Graphics.TranformPoint rotationPoint = null;
 
         internal override Color? DefaultFillColor { get; }
+
+        internal override Color? DefaultBorderColor => null;
 
         double? SummedSeries = null;
 
@@ -214,6 +216,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
 
             renderItems.Add(plotAreaGroup);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

@@ -397,5 +397,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
         internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
         internal override Color? DefaultBorderColor => null;
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
+        }
     }
 }

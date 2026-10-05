@@ -3,10 +3,11 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class PointLines : ChartDrawingObject
+    internal class PointLines : ChartDrawingObjectWithBackground
     {
         internal List<LineRenderItem> RenderLines = new List<LineRenderItem>();
 
@@ -15,6 +16,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         private List<string> ptColors = new List<string> { "red", "green", "blue", "yellow" };
 
         private BoundingBox parentBounds;
+
+        internal override Color? DefaultFillColor => Color.Black;
+
+        internal override Color? DefaultBorderColor => Color.Black;
 
         private PointLines(ChartRenderer cr) : base(cr)
         {
@@ -56,9 +61,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             renderItems.Add(gItem);
             foreach (var line in RenderLines)
             {
-                line.Parent = gItem;
+                gItem.ChildObjects.Add(line);
             }
-            renderItems.Add(gItem);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

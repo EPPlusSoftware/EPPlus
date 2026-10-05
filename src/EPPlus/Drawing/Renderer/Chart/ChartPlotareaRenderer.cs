@@ -26,7 +26,7 @@ using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartPlotareaRenderer : ChartDrawingDefaultObject
+    internal class ChartPlotareaRenderer : ChartDrawingObjectWithBackground
     {
         public ChartPlotareaRenderer(ChartRenderer sc) : base(sc)
         {
@@ -267,7 +267,7 @@ namespace EPPlusImageRenderer.Svg
         {
             return null;
         }
-
+        internal override Color? DefaultBorderColor => null;
         internal override Color? DefaultFillColor { get => GetDefaultFillColor();  }
     }
 }

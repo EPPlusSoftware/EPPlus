@@ -110,7 +110,7 @@ namespace EPPlusImageRenderer
                         Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
                         var rightDiff = newRight - VerticalAxis.Rectangle.Width;
                         VerticalAxis.Rectangle.Left = rightDiff;
-                        VerticalAxis.Line.X1 = VerticalAxis.Line.X2 = newRight;
+                        VerticalAxis.Line?.X1 = VerticalAxis.Line.X2 = newRight;
                     }
                 }
                 VerticalAxis.AddTickmarksAndValues(DefItems);
@@ -130,7 +130,7 @@ namespace EPPlusImageRenderer
                         var topDiff = HorizontalAxis.Rectangle.Top - newtop;
                         HorizontalAxis.Rectangle.Top = newtop;
                         HorizontalAxis.Rectangle.Height += topDiff;
-                        HorizontalAxis.Line.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                        HorizontalAxis.Line?.Y1 = HorizontalAxis.Line.Y2 = newtop;
                     }
                 }
 
@@ -423,7 +423,7 @@ namespace EPPlusImageRenderer
         { 
             get =>(ExcelChart)Drawing;  
         }
-        internal ChartDrawingObject ChartArea { get; set; }
+        internal ChartDrawingObjectWithBackground ChartArea { get; set; }
         internal ChartLegendRenderer Legend { get; set; }
         internal ChartTitleRenderer Title { get; set; }
         internal ChartPlotareaRenderer Plotarea { get; set; }

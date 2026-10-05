@@ -293,6 +293,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         }
 
         internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
+
+        internal override Color? DefaultFillColor => null;
+
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
@@ -302,6 +305,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.ForEach(x => SerieGroup.AddChildItem(x));
 
             //ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

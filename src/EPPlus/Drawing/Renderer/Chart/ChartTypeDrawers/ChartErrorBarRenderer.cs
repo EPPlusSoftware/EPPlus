@@ -18,7 +18,7 @@ using static OfficeOpenXml.ExcelErrorValue;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 {
-    internal class ChartErrorBarRenderer : ChartDrawingDefaultObject
+    internal class ChartErrorBarRenderer : ChartDrawingObject
     {
         internal ExcelChartErrorBars _errorbars;
         private double[] _ySerie;
@@ -243,7 +243,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
+            return DefaultFillColor;
         }
 
         internal override Color? GetDefaultBorderColor()
@@ -271,5 +271,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 //}
             }
         }
+
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
     }
 }

@@ -20,7 +20,7 @@ using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAreaRenderer : ChartDrawingDefaultObject
+    internal class ChartAreaRenderer : ChartDrawingObjectWithBackground
     {
         public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {

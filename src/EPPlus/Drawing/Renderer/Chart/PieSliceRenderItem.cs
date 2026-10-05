@@ -11,10 +11,11 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class PieSliceRenderItem : ChartDrawingObject
+    internal class PieSliceRenderItem : ChartDrawingObjectWithBackground
     {
         double _radius;
         /// <summary>
@@ -238,7 +239,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             _sliceScaleFactor = sliceScaleFactor;
             //Translate and scale path
-            _innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
+            //_innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
             CalculateLargestRectWithinCircleSegment();
 
@@ -540,6 +541,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal double LargestWidthRectangle { get; private set; }
         internal double LargestHeightRectangle { get; private set; }
 
+        internal override Color? DefaultBorderColor => throw new NotImplementedException();
+
         void CalculateLargestRectWithinCircleSegment()
         {
             //The degrees of the slice
@@ -741,9 +744,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             throw new NotImplementedException();
         }
 
-        //internal BoundingBox GetInnerGroupBounds()
-        //{
-        //    return _innerGroup.Bounds;
-        //}
+        internal override Color? GetDefaultFillColor()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

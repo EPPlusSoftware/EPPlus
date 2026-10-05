@@ -46,7 +46,7 @@ using System.Security.AccessControl;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAxisRenderer : ChartDrawingDefaultObject, IDrawingChartAxis
+    internal class ChartAxisRenderer : ChartDrawingObjectWithBackground, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
 
@@ -262,6 +262,7 @@ namespace EPPlusImageRenderer.Svg
             get;
             private set;
         } = false;
+
 
         /// <summary>
         /// Create a subGroup beneath the ParentGroup
@@ -1321,6 +1322,7 @@ namespace EPPlusImageRenderer.Svg
         {
             return GetDefaultBorderColorForElement(ChartElement.Axis, (int)Chart.Style);
         }
+        internal override Color? DefaultBorderColor => GetDefaultBorderColor();
 
         internal double GetCrossesValue()
         {

@@ -216,22 +216,21 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     if(item is RenderItem ri)
                     {
-                        ri.GetBounds(out var il, out var it, out var ir, out var ib);
-                        if(il<l)
+                        if(ri.GlobalLeft<l)
                         {
-                            l = il;
+                            l = ri.GlobalLeft;
                         }
-                        if(it<t)
+                        if(ri.GlobalTop<t)
                         {
-                            t = it;
+                            t = ri.GlobalTop;
                         }
-                        if(ir>r)
+                        if(ri.GlobalRight > r)
                         {
-                            r = ir;
+                            r = ri.GlobalRight;
                         }
-                        if(ib>b)
+                        if(ri.GlobalBottom > b)
                         {
-                            b = ib;
+                            b = ri.GlobalBottom;
                         }
                     }
                 }

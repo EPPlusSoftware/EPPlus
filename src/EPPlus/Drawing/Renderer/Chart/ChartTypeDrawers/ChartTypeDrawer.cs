@@ -23,7 +23,7 @@ using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal abstract class ChartTypeDrawer : ChartDrawingObject
+    internal abstract class ChartTypeDrawer : ChartDrawingObjectWithBackground
     {
         internal protected ExcelChart _chartType;
         internal List<ChartTrendlineRenderer> Trendlines { get; } = new List<ChartTrendlineRenderer>();

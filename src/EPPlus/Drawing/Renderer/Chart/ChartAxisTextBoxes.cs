@@ -38,6 +38,7 @@ namespace EPPlusImageRenderer.Svg
             set;
         }=new List<DrawingTextBox>();
 
+
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             if (TextBoxes != null && TextBoxes.Count > 0)
@@ -51,6 +52,17 @@ namespace EPPlusImageRenderer.Svg
                 renderItems.Add(AxisTxtBoxGroup);
             }
 
+        }
+        internal override Color? DefaultBorderColor => null;
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }
