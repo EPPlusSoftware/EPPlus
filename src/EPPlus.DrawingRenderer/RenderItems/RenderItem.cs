@@ -362,7 +362,6 @@ namespace EPPlus.DrawingRenderer.RenderItems
     public class RenderItemStyle
     {
         public string DefId { get; set; }
-        //internal bool IsEndOfGroup { get; set; } = false;
         public string FillColor { get; set; }
         public string FilterName { get; set; }
         public RenderGradientFill GradientFill { get; set; }
