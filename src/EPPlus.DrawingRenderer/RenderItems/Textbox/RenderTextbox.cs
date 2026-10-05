@@ -243,6 +243,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             PrepareForRender();
+            renderItems.Add(_group);
             //var rect = Rectangle;
 
             ////As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.

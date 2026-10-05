@@ -222,9 +222,9 @@ namespace EPPlusImageRenderer.Svg
         }
         internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
 
-        internal override Color? DefaultFillColor => throw new NotImplementedException();
+        internal override Color? DefaultFillColor => null;
 
-        internal override Color? DefaultBorderColor => throw new NotImplementedException();
+        internal override Color? DefaultBorderColor => null;
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
