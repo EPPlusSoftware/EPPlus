@@ -111,6 +111,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
             int currentStack = 0;
 
+            int stackCount = 0;
+            if (isVertical)
+            {
+                foreach (var l in cell.TextLines)
+                {
+                    if (l.StackIndex + 1 > stackCount) stackCount = l.StackIndex + 1;
+                }
+            }
+
             double rotation = textRotation * System.Math.PI / 180.0;
             for (int k = 0; k < cell.TextLines.Count; k++)
             {
@@ -125,8 +134,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     }
                     //double step = line.LargestAscent + line.LargestDescent;
                     double step = line.LargestAscent + line.LargestDescent;
-                    lineOffsetX = line.StackIndex * step + (step - line.Width) / 2d;
-                    //lineOffsetX = line.StackIndex * step + (stackWidth - line.Width) / 2d;
+
+                    double axis = stackCount > 1 ? step : stackWidth;
+                    lineOffsetX = line.StackIndex * step + (axis - line.Width) / 2d;
                 }
                 else
                 {
