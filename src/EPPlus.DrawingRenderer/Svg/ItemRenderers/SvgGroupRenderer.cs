@@ -83,9 +83,9 @@ namespace EPPlus.DrawingRenderer.Svg
 
         string GetRotationStr(GroupRenderItem item)
         {
-            if (double.IsNaN(item.Rotation) == false && item.Rotation!=0)
+            if (double.IsNaN(item.LocalRotation) == false && item.LocalRotation != 0)
             {
-                string rot = item.Rotation.ToString(CultureInfo.InvariantCulture);
+                string rot = item.LocalRotation.ToString(CultureInfo.InvariantCulture);
 
                 if (item.RotationPoint != null && item.RotationPoint != item.TranslationOffset)
                 {
