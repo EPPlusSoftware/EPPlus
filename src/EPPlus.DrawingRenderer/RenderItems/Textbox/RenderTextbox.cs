@@ -16,6 +16,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             Parent = parent;
             _group = new GroupRenderItem(Parent);
+            _group.Name = "Textbox_Group";
             _rectangle = new RectRenderItem(_group);
             _marginGroup = new GroupRenderItem(_group);
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);

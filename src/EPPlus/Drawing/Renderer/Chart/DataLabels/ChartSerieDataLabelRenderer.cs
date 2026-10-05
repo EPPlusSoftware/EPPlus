@@ -191,10 +191,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             var DatalabelsGroup = new GroupRenderItem(ChartRenderer.ChartArea.Rectangle);
 
-            DatalabelsGroup.Name = "DlblGrp";
-
-            DatalabelsGroup.Left = plotAreaBounds.Position.X;
-            DatalabelsGroup.Top = plotAreaBounds.Position.Y;
+            DatalabelsGroup.Name = "Dlbl_SeriesGroup";
 
             if (rotation != double.NaN)
             {

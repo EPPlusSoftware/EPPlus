@@ -706,9 +706,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var parentPointGroup = new GroupRenderItem(_parentPoint);
-            parentPointGroup.Left = _parentPoint.Left;
-            parentPointGroup.Top = _parentPoint.Top;
+            var parentPointGroup = new GroupRenderItem();
+            parentPointGroup.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
+
+            parentPointGroup.Name = "Dlbl_Parent_Point_Grp";
 
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
             titleItemOrigin.Parent = parentPointGroup;
@@ -741,7 +742,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //renderItems.Add(parentPointGroup);
 
-            var group = new GroupRenderItem(_parentPoint);
+            var group = new GroupRenderItem(parentPointGroup);
             group.Left = Rectangle.Left;
             group.Top = Rectangle.Top;
 
@@ -754,8 +755,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             group.Rotation = CounterRotation;
             //_txtBox.Rectangle.Parent = group;
             //_txtBox.TextBody.Parent = group;
-            _txtBox.PrepareForRender();
-            _txtBox.Rectangle.Parent = group;
+            _txtBox.AppendRenderItems(group.ChildObjects);
+            //_txtBox.Rectangle.Parent = group;
             //group.AddChild(_txtBox.Rectangle);
             //_txtBox.TextBody.Parent = group;
             //_txtBox.AppendRenderItems(group.ChildObjects);
@@ -792,7 +793,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            renderItems.Add(group);
+            renderItems.Add(parentPointGroup);
         }
 
         internal override Color? GetDefaultFillColor()
