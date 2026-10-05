@@ -223,6 +223,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         //Default values in excel
                         pt.Width = 5;
                         pt.Height = 5;
+                        pt.Name = $"Line_DataPoint{dataPoints.Count}";
                         dataPoints.Add(pt);
                     }
                 }

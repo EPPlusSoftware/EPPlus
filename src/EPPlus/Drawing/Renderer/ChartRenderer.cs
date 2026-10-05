@@ -199,7 +199,7 @@ namespace EPPlusImageRenderer
 
         private void PlaceHorizontalAxisTitle(ChartAxisRenderer horizontalAxis)
         {
-            horizontalAxis.Title.Rectangle.Height = Bounds.Height / 4;
+            horizontalAxis.Title.Rectangle.Height = ChartArea.Rectangle.Height / 4;
             horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? Plotarea.Rectangle.Width;
             if (horizontalAxis.Axis.Deleted)
             {

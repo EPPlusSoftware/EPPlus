@@ -709,9 +709,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var parentPointGroup = new GroupRenderItem();
             parentPointGroup.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
 
-            parentPointGroup.Name = "Dlbl_Parent_Point_Grp";
+            parentPointGroup.Name = "Dlbl_DataPoint_Position";
 
-            var titleItemOrigin = new TitleRenderItem("DataLabel originpoint");
+            var titleItemOrigin = new TitleRenderItem("DataLabel originpoint/Data point position");
             titleItemOrigin.Parent = parentPointGroup;
             //parentPointGroup.AddChildItem(titleItemOrigin);
 
