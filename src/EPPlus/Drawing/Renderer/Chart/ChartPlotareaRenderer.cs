@@ -70,6 +70,7 @@ namespace EPPlusImageRenderer.Svg
             rect.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _pa.Fill, ChartRenderer.Chart.StyleManager.Style?.PlotArea.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
             rect.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, _pa.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
             Rectangle = rect;
+            Rectangle.Name = "PlotArea_Rectangle";
         }
 
         private double GetPlotAreaHeight(RectRenderItem rect)

@@ -43,6 +43,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             DefaultFillColor =  dlbl.Fill != null && dlbl.Fill.Color.IsEmpty == false ? dlbl.Fill.Color : Color.Transparent;
 
+            Rectangle.Name = "SerieDataLabel";
+
 
             if(yValues != null && yValues.Count != 0)
             {
@@ -181,41 +183,41 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (dataLabels.Count > index)
             {
                 dataLabels[index].SetParentPoint(parent);
+                dataLabels[index].Rectangle.Name = $"DatalabelPoint_Rect_{index}";
             }
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var plotAreaGroup = new GroupRenderItem(plotAreaBounds);
+            var DatalabelsGroup = new GroupRenderItem(ChartRenderer.ChartArea.Rectangle);
 
-            plotAreaGroup.Left = plotAreaBounds.Position.X;
-            plotAreaGroup.Top = plotAreaBounds.Position.Y;
+            DatalabelsGroup.Name = "Dlbl_SeriesGroup";
 
-            if(rotation != double.NaN)
+            if (rotation != double.NaN)
             {
-                if(rotationPoint != null)
+                if (rotationPoint != null)
                 {
-                    plotAreaGroup.RotationPoint = rotationPoint;
+                    DatalabelsGroup.RotationPoint = rotationPoint;
                 }
-                plotAreaGroup.Rotation = rotation;
+                DatalabelsGroup.Rotation = rotation;
             }
 
             if (_dlbl.Fill.IsEmpty == false)
             {
                 Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
-                plotAreaGroup.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                DatalabelsGroup.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
-            for(int i = 0; i< dataLabels.Count; i++) 
+            for (int i = 0; i < dataLabels.Count; i++)
             {
-                if(rotation != double.NaN)
+                if (rotation != double.NaN)
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
-                //dataLabels[i].AppendRenderItems(plotAreaGroup.ChildObjects);
+                dataLabels[i].AppendRenderItems(DatalabelsGroup.ChildObjects);
             }
 
-            renderItems.Add(plotAreaGroup);
+            renderItems.Add(DatalabelsGroup);
         }
 
         internal override Color? GetDefaultFillColor()

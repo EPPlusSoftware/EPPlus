@@ -16,6 +16,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             Parent = parent;
             _group = new GroupRenderItem(Parent);
+            _group.Name = "Textbox_Group";
             _rectangle = new RectRenderItem(_group);
             _marginGroup = new GroupRenderItem(_group);
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);
@@ -243,6 +244,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             PrepareForRender();
+            renderItems.Add(_group);
             //var rect = Rectangle;
 
             ////As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
