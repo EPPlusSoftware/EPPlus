@@ -132,6 +132,18 @@ namespace EPPlus.Export.Pdf.Tests
             }
         }
 
+
+        [TestMethod]
+        public void VerticalTextTestSheetWrapping()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[6];
+                var path = _pdfPath + "mergeRegression.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
         [TestMethod]
         public void VerticalTextTestSheet2()
         {
@@ -229,6 +241,55 @@ namespace EPPlus.Export.Pdf.Tests
 
             Assert.AreEqual(1, lines.Count);
             Assert.AreEqual("Hej", lines[0].Text);
+        }
+
+        /// <summary>
+        /// 2.4 - a row shorter than one line height. Every character immediately exceeds the
+        /// limit, so WrapCurrentLine's else-branch fires on each one. The timeout guards the
+        /// failure mode where the overflow character is never consumed.
+        /// </summary>
+        [TestMethod, Timeout(5000)]
+        public void VerticalWrap_RowShorterThanOneStep_Terminates()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments("abcde"), step * 0.5);
+
+            Assert.AreEqual("abcde", string.Concat(lines.Select(l => l.Text)),
+                "No characters may be lost when every character overflows.");
+        }
+
+        /// <summary>
+        /// 2.7 - an empty fragment is skipped in the loop, leaving a TextLine with no
+        /// InternalLineFragments. FinalizeLineFragments calls InternalLineFragments.Last()
+        /// unguarded, so this is where it would throw.
+        /// </summary>
+        [TestMethod]
+        public void VerticalWrap_EmptyText_DoesNotThrow()
+        {
+            var engine = CreateEngine();
+
+            var lines = engine.WrapRichTextLines(Fragments(""), 100d, false);
+
+            Assert.AreEqual(0, lines.Count);
+        }
+
+        /// <summary>
+        /// 2.3 - a long run with no break opportunity. The point is that nothing is lost or
+        /// duplicated when every stack breaks mid-word.
+        /// </summary>
+        [TestMethod, Timeout(5000)]
+        public void VerticalWrap_LongWordWithoutSpaces_LosesNothing()
+        {
+            var engine = CreateEngine();
+            var step = GetStep(engine);
+            const string text = "abcdefghijklmnopqrstuvwxyzabcdefghijklmn";
+
+            var lines = engine.WrapVerticalRichTextLines(Fragments(text), step * 7);
+
+            Assert.AreEqual(text, string.Concat(lines.Select(l => l.Text)));
+            Assert.IsTrue(lines.Count >= 6, "40 characters at 7 per stack needs at least 6 stacks.");
         }
 
         private TextLayoutEngine CreateEngine()
