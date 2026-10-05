@@ -172,7 +172,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //Should be ascent-only?
             Bounds.Height = font.Size;
             FontSizeInPixels = ((double)font.Size).PointToPixel(true);
-            _measurementFont = font;
+            //Copy, as callers pass shared instances (e.g. the paragraph default font) and the
+            //run adjusts its own size for sub- and superscript.
+            _measurementFont = new FontFormatBase(font.Family, font.SubFamily, font.Size);
         }
 
         /// <summary>

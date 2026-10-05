@@ -1,23 +1,16 @@
 ﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Fonts.OpenType;
-using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
-using EPPlus.Fonts.OpenType.Integration.RichText;
 using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
-using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.Interfaces.RichText;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.TypeConversion;
-using System;
-using System.Collections.Generic;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Style;
+using System;
 using System.Drawing;
-using EPPlus.DrawingRenderer.RenderItems;
 
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
@@ -26,17 +19,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <summary>
         /// Create basic empty paragraph
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
       : base(renderContext, parent, textBody)
         {
-            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
+            ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (ITextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
         }
 
         /// <summary>
         /// Create paragraph and import a singular text/richText
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="text"></param>
@@ -49,6 +44,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <summary>
         /// Create paragraph and import all textruns from ExcelDrawingParagraph
         /// </summary>
+        /// <param name="renderContext"></param>
         /// <param name="textBody"></param>
         /// <param name="parent"></param>
         /// <param name="p"></param>
@@ -68,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             ImportLinesAndTextRuns(p, textIfEmpty);
         }
 
-        private double GetParagraphLineSpacingInPoints(double spacingValue, TextShaper fmExact, float fontSize)
+        private double GetParagraphLineSpacingInPoints(double spacingValue, ITextShaper fmExact, float fontSize)
         {
             if (_lsType == TextLineSpacing.Exactly)
             {
@@ -123,12 +119,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// So that we can easily know what textfragment is on what line and what size it has later
         /// </summary>
         /// <param name="runs"></param>
-        void GenerateRichText(ExcelDrawingTextRunCollection runs/*, List<ShapingOptions>? optionLst = null*/)
+        void GenerateRichText(ExcelDrawingTextRunCollection runs)
         {
-            //var lstOfRichText = runs.ExportToOpenTypeFormat();
             var lstOfRichText = runs.ExportToImageRendererFormat();
             foreach (var rt in lstOfRichText)
             {
+                //Added directly, not via AddRichTextBase, as ImportStyles relies on a 1:1 index
+                //between the paragraph's text runs and the fragments, including empty runs.
+                ApplyFontTarget(rt);
                 _textFragments.Add(rt);
             }
         }
@@ -246,7 +244,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         private void ImportLineSpacing(eDrawingTextLineSpacing lsType, double lineSpacingValue)
         {
             _lsType = (TextLineSpacing)lsType;
-            var shaper = (TextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont);
+            var shaper = RenderContext.GetMeasurementShaper(DefaultParagraphFont);
 
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(
                 lineSpacingValue,

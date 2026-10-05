@@ -1,37 +1,49 @@
-﻿using EPPlus.Graphics;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.EnumUtils;
-using System;
-using System.Collections.Generic;
+﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Graphics;
+using OfficeOpenXml.Style;
+using System;
+
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     public class DrawingTextBox : RenderTextbox
     {
         ExcelDrawing _drawing;
-        internal DrawingTextBox(ExcelDrawing drawing, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN) : base(parent, left, top, width, height, maxWidth, maxHeight)
+
+        /// <summary>
+        /// Creates a text box at a given position.
+        /// </summary>
+        /// <param name="renderContext">The render context of the renderer creating the text box. Decides the font render target.</param>
+        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN)
+            : base(parent, left, top, width, height, maxWidth, maxHeight)
         {
-            Init(drawing, parent, maxWidth, maxHeight);
+            Init(renderContext, drawing, parent, maxWidth, maxHeight);
             Left = left;
             Top = top;
         }
 
-        private void Init(ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight) 
+        /// <summary>
+        /// Creates a text box to be positioned later.
+        /// </summary>
+        /// <param name="renderContext">The render context of the renderer creating the text box. Decides the font render target.</param>
+        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight)
+            : base(parent, maxWidth, maxHeight)
         {
+            Init(renderContext, drawing, parent, maxWidth, maxHeight);
+        }
+
+        private void Init(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight)
+        {
+            if (renderContext == null)
+                throw new ArgumentNullException("renderContext");
+
             Parent = parent;
-            _drawing= drawing;
-            var renderContext = drawing._drawings.Worksheet.Workbook.RenderContext;
+            _drawing = drawing;
+            //The context must come from the renderer, not the workbook, so the render target is preserved.
             TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup.Bounds, true);
             TextBody.MaxWidth = maxWidth;
             TextBody.MaxHeight = maxHeight;
-        }
-
-        internal DrawingTextBox(ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight) : base(parent, maxWidth, maxHeight)
-        {
-            Init(drawing, parent, maxWidth, maxHeight);
         }
 
         internal void AddText(string text = null)
@@ -76,10 +88,5 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             _textBody.ImportParagraph(item, startingY, text);
         }
-
-        //internal void AddText(double startingY, string text = null)
-        //{
-        //    TextBody.AddParagraph(startingY, text);
-        //}
     }
 }

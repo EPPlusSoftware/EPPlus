@@ -316,11 +316,13 @@ public abstract class TestBase
     {
         if (pck.Workbook.Worksheets.Count == 0) return;
         var fi = new FileInfo(_worksheetPath + name);
-        if (fi.Exists)
-        {
-            //fi.Delete();
-        }
         pck.SaveAs(fi);
+    }
+    protected static async Task SaveWorkbookAsync(string name, ExcelPackage pck)
+    {
+        if (pck.Workbook.Worksheets.Count == 0) return;
+        var fi = new FileInfo(_worksheetPath + name);
+        await pck.SaveAsAsync(fi);
     }
     protected static readonly DateTime _loadDataStartDate = new DateTime(2022, 11, 1);
     /// <summary>

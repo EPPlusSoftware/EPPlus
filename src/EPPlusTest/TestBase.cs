@@ -58,10 +58,10 @@ namespace EPPlusTest
         }
         //protected static FileInfo _file;
         protected static string _clipartPath ="";
-        protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
-        protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
-        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
-        protected static string _imagePath = @"c:\epplusTest\images\";
+        protected static string _worksheetPath = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}Testoutput{Path.DirectorySeparatorChar}";
+        protected static string _testInputPath = AppContext.BaseDirectory + $"{Path.DirectorySeparatorChar}workbooks{Path.DirectorySeparatorChar}";
+        protected static string _testInputPathOptional = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}workbooks{Path.DirectorySeparatorChar}";
+        protected static string _imagePath = $@"c:{Path.DirectorySeparatorChar}epplusTest{Path.DirectorySeparatorChar}images{Path.DirectorySeparatorChar}";
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -102,8 +102,15 @@ namespace EPPlusTest
                 }
             }
             
-            var di=new DirectoryInfo(_worksheetPath);            
-            _worksheetPath = di.FullName + "\\";
+            var di=new DirectoryInfo(_worksheetPath);
+            if(di.FullName.EndsWith($"{Path.DirectorySeparatorChar}") == false)
+            {
+                _worksheetPath = di.FullName + Path.DirectorySeparatorChar;
+            }
+            else
+            {
+                _worksheetPath = di.FullName;
+            }
         }
 
         /// <summary>
@@ -222,6 +229,17 @@ namespace EPPlusTest
             }
             return null;
 		}
+        protected static FileInfo GetOutputFile(string fileName)
+        {
+            var path = _worksheetPath;
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return new FileInfo(path + fileName);
+        }
+
         protected static FileInfo GetOutputFile(string subPath, string fileName)
         {
             var path = _worksheetPath + subPath;
@@ -229,7 +247,7 @@ namespace EPPlusTest
             {
                 Directory.CreateDirectory(path);
             }
-            if (path.EndsWith("\\")==false) path+="\\";
+            if (path.EndsWith($"{Path.DirectorySeparatorChar}")== false) path+= $"{Path.DirectorySeparatorChar}";
             
             return new FileInfo(path + fileName);
         }
@@ -454,13 +472,16 @@ namespace EPPlusTest
         protected static FileInfo GetResourceFile(string fileName)
         {
             string path = AppContext.BaseDirectory;
-            while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+            //Trim start and end separators so not double-added below (extra important on linux)
+            path = path.TrimEnd(new char[] { Path.DirectorySeparatorChar });
+
+            while (!Directory.Exists(path + $"{Path.DirectorySeparatorChar}Resources") && path.Length > 4)
             {
-                path = new DirectoryInfo(path + "\\..").FullName;
+                path = new DirectoryInfo(path + $"{Path.DirectorySeparatorChar}..").FullName;
             }
             if(path.Length > 4)
             {
-                return new FileInfo(path + "\\Resources\\" + fileName);
+                return new FileInfo(path + $"{Path.DirectorySeparatorChar}Resources{Path.DirectorySeparatorChar}" + fileName);
             }
             else
             {

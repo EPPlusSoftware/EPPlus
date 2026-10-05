@@ -97,7 +97,7 @@ namespace OfficeOpenXml.Drawing
         }
         public string ToSvg(SvgRenderOptions options)
         {
-            var sr = new ShapeRenderer(this);           
+            var sr = new ShapeRenderer(this, options.FontTarget);           
             var sb = new StringBuilder();
             var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb, options);
             svg.Render(sr.RenderItems);

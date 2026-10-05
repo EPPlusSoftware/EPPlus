@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -59,8 +60,8 @@ namespace EPPlusTest.Drawing
                 r3.LatinFont = "Times New Roman";
                 r3.Size = 19.5F;
 
-                Assert.AreEqual("Line1\r\nLine2\r\nLine3", shape.Text);
-                Assert.AreEqual("Line1\r\nLine2\r\nLine3", shape.RichText.Text);
+                Assert.AreEqual($"Line1{Environment.NewLine}Line2{Environment.NewLine}Line3", shape.Text);
+                Assert.AreEqual($"Line1{Environment.NewLine}Line2{Environment.NewLine}Line3", shape.RichText.Text);
 
                 Assert.AreEqual(7, shape.RichText.Count);
                 Assert.IsTrue(shape.RichText[0].IsFirstInParagraph);
@@ -164,7 +165,7 @@ namespace EPPlusTest.Drawing
                     pg2.TextRuns[0].FontSize = 18;
                     pg2.TextRuns[0].HighlightColor.SetPresetColor(ePresetColor.Aqua);                    
                     pg1.DefaultRunProperties.LatinFont = "Arial";
-                    Assert.AreEqual("Paragraph 1\r\nThis is paragraph 2", shp.Text);
+                    Assert.AreEqual($"Paragraph 1{Environment.NewLine}This is paragraph 2", shp.Text);
                     SaveAndCleanup(p);
                 }
             }

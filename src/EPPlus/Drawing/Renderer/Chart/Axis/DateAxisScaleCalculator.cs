@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.DateUtils;
 using System;
 using System.Collections.Generic;
@@ -298,16 +299,37 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             };
         }
 
-        internal static AxisScale CalculateByWidthAllowDiagonal(List<object> values, double min, double max, ITextMeasurer tm, AxisOptions options)
+        /// <summary>
+        /// Width of a single line of text in points. An empty text has no width.
+        /// </summary>
+        private static double GetTextWidth(ITextShaper shaper, string text, float fontSize)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0D;
+            return shaper.Shape(text).GetWidthInPoints(fontSize);
+        }
+
+        /// <summary>
+        /// Line height in points, matching the height previously returned by ITextMeasurer.
+        /// An empty text has no height.
+        /// </summary>
+        private static double GetTextHeight(ITextShaper shaper, string text, float fontSize)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0D;
+            return shaper.GetLineHeightInPoints(fontSize);
+        }
+
+        internal static AxisScale CalculateByWidthAllowDiagonal(List<object> values, double min, double max, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var ax = options.Axis;
             var plotAreaWidth = options.ChartSize.Bounds.Width;
-            var mf = ax.Font.GetMeasureFont();
             int interval;
             eTimeUnit unit;
             string format = GetNumberFormat(options);
             var minString = DateTime.FromOADate(min).ToString(format);
-            var res = tm.MeasureText(minString, mf);
+            var textWidth = GetTextWidth(shaper, minString, fontSize);
+            var textHeight = GetTextHeight(shaper, minString, fontSize);
             if (options.LockedInterval.HasValue)
             {
                 interval = (int)options.LockedInterval.Value;
@@ -316,21 +338,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             else
             {
                 GetStartInterval(values.Count, max - min, out interval, out unit);
-                if(ax.TextBody.Rotation.HasValue==false || ax.TextBody.Rotation==-1000)
+                if (ax.TextBody.Rotation.HasValue == false || ax.TextBody.Rotation == -1000)
                 {
                     //Get interval for maximum width with vertical text.
-                    while (FitAsVerticalDiagonalText(min, max, interval, unit, res.Height, res.Height * 0.3, plotAreaWidth) == false)
+                    while (FitAsVerticalDiagonalText(min, max, interval, unit, textHeight, textHeight * 0.3, plotAreaWidth) == false)
                     {
                         AddIntervall(ref interval, ref unit);
                     }
 
                     //Get max text width when using diagonal text
-                    var width = mf.Size * Math.Sqrt(2);
-                    var margin = mf.Size * 0.5;
+                    var width = fontSize * Math.Sqrt(2);
+                    var margin = fontSize * 0.5;
 
                     if (FitAsVerticalDiagonalText(min, max, interval, unit, width, margin, plotAreaWidth)) //Check diagonal
                     {
-                        if (FitAsHorizontalText(tm, options, min, max, interval, unit, res.Height, plotAreaWidth)) //Check horizontal
+                        if (FitAsHorizontalText(shaper, fontSize, min, max, interval, unit, plotAreaWidth)) //Check horizontal
                         {
                             return new AxisScale()
                             {
@@ -363,14 +385,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                     var rot = ax.TextBody.Rotation.Value % 360;
                     var sin = Math.Sin(MathHelper.Radians(rot));
                     var cos = Math.Cos(MathHelper.Radians(rot));
-                    var width = res.Width * cos + res.Height * sin;
+                    var width = textWidth * cos + textHeight * sin;
                     //Get interval for maximum width with vertical text.
                     while (FitAsVerticalDiagonalText(min, max, interval, unit, width, width * 0.3, plotAreaWidth) == false)
                     {
                         AddIntervall(ref interval, ref unit);
                     }
                     eTextOrientation orientation;
-                    switch(rot)
+                    switch (rot)
                     {
                         case 45:
                         case 315:
@@ -499,20 +521,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
         }
 
-        private static bool FitAsHorizontalText(ITextMeasurer tm, AxisOptions options, double min, double max, int interval, eTimeUnit unit, float height, double width)
+        private static bool FitAsHorizontalText(ITextShaper shaper, float fontSize, double min, double max, int interval, eTimeUnit unit, double width)
         {
             var minMargin = 2; //2 Points
             var minDate = DateTime.FromOADate(min);
             var maxDate = DateTime.FromOADate(max);
             var date = minDate;
             var horizontalWidth = 0D;
-            var nf = options.NumberFormat;
-            var mf = options.Axis.Font.GetMeasureFont();
             while (date < maxDate)
             {
-                var textWidth = tm.MeasureText(date.ToString(), mf).Width;
+                var textWidth = GetTextWidth(shaper, date.ToString(), fontSize);
                 horizontalWidth += textWidth + minMargin;
-                if(horizontalWidth > width)
+                if (horizontalWidth > width)
                 {
                     return false;
                 }
@@ -520,7 +540,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 {
                     date = date.AddDays(interval);
                 }
-                else if(unit == eTimeUnit.Months)
+                else if (unit == eTimeUnit.Months)
                 {
                     date = minDate.AddDays(1).AddMonths(interval).AddDays(-1); //Extra adds to keep last day of month
                 }
@@ -570,14 +590,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
         }
 
-        internal static AxisScale CalculateByWidthHeight(double widthOrHeight, double min, double max, ITextMeasurer tm, AxisOptions options)
+        internal static AxisScale CalculateByWidthHeight(double widthOrHeight, double min, double max, ITextShaper shaper, float fontSize, AxisOptions options)
         {
-            var ax = options.Axis;
-            var mf = ax.Font.GetMeasureFont();
             int interval;
             eTimeUnit unit;
             var minString = DateTime.FromOADate(min).ToString(options.NumberFormat);
-            var res = tm.MeasureText(minString, mf);
+            var textHeight = GetTextHeight(shaper, minString, fontSize);
             if (options.LockedInterval.HasValue)
             {
                 interval = (int)options.LockedInterval.Value;
@@ -601,7 +619,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                     axis_max = max;
                 }
                 //Get interval for maximum width with vertical text.
-                while (FitAsVerticalDiagonalText(axis_min, axis_max, interval, unit, res.Height, res.Height * 0.3, widthOrHeight) == false)
+                while (FitAsVerticalDiagonalText(axis_min, axis_max, interval, unit, textHeight, textHeight * 0.3, widthOrHeight) == false)
                 {
                     AddIntervall(ref interval, ref unit);
                     double days;
@@ -638,7 +656,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 Max = max,
                 TextOrientation = eTextOrientation.Horizontal
             };
-
         }
     }
 }

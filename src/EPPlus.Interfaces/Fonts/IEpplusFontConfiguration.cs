@@ -107,6 +107,15 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// owner. Only one callback is active; a later call replaces the earlier one.
         /// </remarks>
         void OnFontEmbedding(Func<FontEmbeddingInfo, FontEmbeddingDecision> callback);
+
+        /// <summary>
+        /// Font substitutions applied when laying out text for <see cref="FontRenderTarget.Web"/>.
+        /// The substitute is used both for measurement and in the output, so the browser renders with
+        /// the same font the text was measured with. Pre-populated with Office cloud fonts, which are
+        /// never installed system-wide and therefore not visible to browsers. Lookup is case-insensitive.
+        /// Set a value to null or an empty string to keep the original font.
+        /// </summary>
+        IDictionary<string, string> WebFontSubstitutions { get; }
     }
 
 }

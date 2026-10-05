@@ -1133,7 +1133,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            ws.PrinterSettings.Scale = 50; 
+            ws.PrinterSettings.Scale = 50;
             string path = _pdfPath + "ScalingTest1.pdf";
             ws.SaveAsPdf(path);
         }
@@ -1306,6 +1306,13 @@ namespace EPPlusTest.PDF
             Assert.AreEqual(plainAlone + scaledAlone, combined,
                 $"combined ({combined}) should equal plain ({plainAlone}) + scaled ({scaledAlone}) - " +
                 "per-sheet scaling must stay isolated");
+        }
+        public void TableDxfStyleTest()
+        {
+            using var p = OpenTemplatePackage("TableDxfStylePdf1.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "TableDxfStylePdf1.pdf";
+            ws.SaveAsPdf(path);
         }
     }
 }

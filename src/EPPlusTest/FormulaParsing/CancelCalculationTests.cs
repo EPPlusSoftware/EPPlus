@@ -13,12 +13,12 @@ namespace EPPlusTest.FormulaParsing
     [TestClass]
     public class CancelCalculationTests
     {
-        const int WaitTimeMs = 50;
+        const int WaitTimeMs = 20;
 
         [TestMethod]
         public void CancelCalculation()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 3);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 3);
             using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
 
             var sw = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void Save_AfterCancelledCalculation_ThrowsInvalidOperationException()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 3);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 3);
             using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
             using var outputStream = new MemoryStream();
 
@@ -64,7 +64,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void CancelCalculation_AlreadyCancelledToken_ThrowsImmediately()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 3);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 3);
             using var cts = new CancellationTokenSource();
             cts.Cancel(); // Signal before calculate
 
@@ -78,7 +78,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void CancelCalculation_RecalculatePoisonedWorkbook_ThrowsInvalidOperationException()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 3);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 3);
             using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
 
             try
@@ -96,7 +96,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void CancelCalculation_FromAnotherThread()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 3);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 3);
             using var cts = new CancellationTokenSource();
             Exception caughtException = null;
 
@@ -168,7 +168,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void CancelCalculation_WorksheetLevel()
         {
-            using var package = CreateHeavyChain(chainLength: 1500, sheetCount: 1);
+            using var package = CreateHeavyChain(chainLength: 2000, sheetCount: 1);
             using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(WaitTimeMs));
 
             Assert.ThrowsExactly<OperationCanceledException>(() =>

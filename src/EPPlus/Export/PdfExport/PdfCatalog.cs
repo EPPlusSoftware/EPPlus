@@ -483,6 +483,7 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             var worksheet = pdfSheet.Worksheet;
             //Check the worksheet's _xlnm.Print_Titles defined name.
+            // Check the worksheet's _xlnm.Print_Titles defined name.
             if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
             {
                 var printTitlesName = worksheet.Names["_xlnm.Print_Titles"];
