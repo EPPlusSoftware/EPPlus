@@ -14,6 +14,7 @@ using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -135,6 +136,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         ExcelTextFont _font = null;
+        const string FontPath = "c:txPr/a:p/a:pPr/a:defRPr";
         /// <summary>
         /// Access font properties
         /// </summary>
@@ -149,9 +151,16 @@ namespace OfficeOpenXml.Drawing.Chart
                         CreateNode("c:txPr/a:bodyPr");
                         CreateNode("c:txPr/a:lstStyle");
                     }
-                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, FontPath, SchemaNodeOrder);
                 }
                 return _font;
+            }
+        }
+        internal bool HasFont 
+        {
+            get
+            {
+                return ExistsNode(FontPath);
             }
         }
         ExcelTextBody _textBody = null;

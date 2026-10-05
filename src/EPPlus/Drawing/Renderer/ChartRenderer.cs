@@ -464,7 +464,8 @@ namespace EPPlusImageRenderer
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-
+            
+            DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
 
@@ -487,26 +488,5 @@ namespace EPPlusImageRenderer
             }
 
         }
-        internal LineRenderItem GetSeriesIcon(ExcelChartStandardSerie s, int index, BoundingBox parentItem)
-        {
-            const float MarginExtra = 1.5f;
-            const float DefaultStrokeWidth = 0.75f;
-            const float LineLength = 21.0f;
-
-            var item = new LineRenderItem(parentItem);
-            item.Style.SetDrawingPropertiesFill(Theme, s.Fill, Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-            item.Style.SetDrawingPropertiesBorder(Theme, s.Border, Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
-
-            float y = (float)parentItem.Top + MarginExtra;
-            float x = 0;
-            item.X1 = x;
-            item.Y1 = y;
-            item.X2 = x + (LineLength - (float)item.Style.BorderWidth);
-            item.Y2 = y;
-            item.Style.LineCap = LineCap.Round;
-
-            return item;
-        }
-
     }
 }

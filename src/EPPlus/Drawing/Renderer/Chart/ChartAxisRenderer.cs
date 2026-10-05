@@ -493,14 +493,16 @@ namespace EPPlusImageRenderer.Svg
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
-                if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                if (p != null)
                 {
-                    //Horizontal axises are always center aligned visually
-                    //Should be broken out as input to ImportParagraph instead of changing the base item
-                    p.HorizontalAlignment = eTextAlignment.Center;
+                    if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                    {
+                        //Horizontal axises are always center aligned visually
+                        //Should be broken out as input to ImportParagraph instead of changing the base item
+                        p.HorizontalAlignment = eTextAlignment.Center;
+                    }
+                    tb.ImportParagraph(p, 0, t);
                 }
-
-                tb.ImportParagraph(p, 0, t);
 
                 tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
