@@ -6,6 +6,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
 using System.Drawing;
@@ -118,11 +119,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
         
-        private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
+        private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
             if (ChartRenderer.Legend == null)
             {
-                seriesIcon = ChartRenderer.GetSeriesIcon(serie, _serieIndex, maxBounds);
+                seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
             }
             else
             {
@@ -152,13 +153,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
+        private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
             //We MUST create a new icon per series. For pie chart each data point is a new series
             //Therefore check if _origIndex matches
             if (seriesIcon == null || _origIndex != _serieIndex)
             {
-                CreateSeriesIcon(serie, maxBounds);
+                CreateSeriesIcon(serie, maxBounds, entryHeight);
                 return seriesIcon;
             }
             else
@@ -177,7 +178,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (dataLabel.ShowLegendKey)
             {
-                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds));
+                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds, newDataLabel.Rectangle.Height)); //TODO: Check if Rectangle.Height matches entry height
             }
 
             dataLabels.Add(newDataLabel);

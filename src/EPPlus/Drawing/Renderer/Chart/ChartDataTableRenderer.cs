@@ -12,40 +12,349 @@
  *************************************************************************************************/
 
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Graphics;
+using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.ShapeDefinitions;
+using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
+using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.String;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
-    internal class ChartDataTableRenderer : ChartDrawingObject
+    internal class ChartDataTableRenderer : ChartDrawingObjectWithBackground, ILegendKeyContainer
     {
+        ExcelChartDataTable _dataTable;
+        float _marginItemsWidth;
+        public double _maxWidth, _maxHeight;
+        public float MarginItemsWidth => _marginItemsWidth;
+        List<TextMeasurement> _seriesHeadersMeasure = new List<TextMeasurement>();
+        public double MaxWidth => _maxWidth;
+
+        public double MaxHeight => _maxHeight;
+        public List<TextMeasurement> SeriesHeadersMeasure => _seriesHeadersMeasure;
+
+        public List<DrawingLegendSerie> SeriesIcon { get;  }=new List<DrawingLegendSerie>();
+        public List<List<DrawingTextBody>> DataTableRenderItems { get; set; } = new List<List<DrawingTextBody>>();
+
+        internal override Color? DefaultFillColor => GetDefaultFillColor();
+
+        internal override Color? DefaultBorderColor => GetDefaultBorderColor();
+
+        double _dataTableWidth, _columnsWidth;
         internal ChartDataTableRenderer(ChartRenderer svgChart) : base(svgChart)
         {
-             var chartDataTable = svgChart.Chart.PlotArea.DataTable;
+            _dataTable = svgChart.Chart.PlotArea.DataTable;
+            Rectangle = new RectRenderItem(svgChart.Plotarea.Rectangle);
+
+            MeasurementFont mf;
+            if(_dataTable.HasFont)
+            {
+                mf = _dataTable.Font.GetMeasureFont();
+            }
+            else
+            {
+                mf = Chart.Font.GetMeasureFont();
+            }
+
+            _marginItemsWidth = mf.Size / 2;
+            _maxWidth = svgChart.Plotarea.GetPlotAreaWidth(Rectangle);
+            _maxHeight = svgChart.Plotarea.GetPlotAreaHeight(Rectangle);
+            Rectangle.Width = _maxWidth;   //Set to max. Adjust later to actual width
+            Rectangle.Height = _maxHeight; //Set to max. Adjust later to actual height
+            var items = new List<List<DrawingTextBody>>();
+            var headers = new List<DrawingTextBody>();
+            items.Add(headers);
             
+            double entryWidth = 0, entryHeight=0;
+            var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _);
+            var horizontaValues = GetFormattedValues(svgChart, values);
+            foreach (var v in horizontaValues)
+            {
+                var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                tb.AddParagraph(v);
+                headers.Add(tb);
+                if (entryWidth < tb.Width)
+                {
+                    entryWidth = tb.Width;
+                }
+                if(entryHeight < tb.Height)
+                {
+                    entryHeight = tb.Height;
+                }
+                _seriesHeadersMeasure.Add(new TextMeasurement((float)tb.Width, (float)tb.Height));
+            }
+
+            ExcelDrawingParagraph paragraph;
+            if (_dataTable.HasFont)
+            {
+                paragraph = _dataTable.TextBody.Paragraphs.FirstOrDefault();
+            }
+            else
+            {
+                paragraph = null;
+            }
+
+            _dataTableWidth = GetDataTableWidth(svgChart, _dataTable);
+            _columnsWidth = (_dataTableWidth - entryWidth) / headers.Count;
+
+            //Create the source data for the data table from the series.
+            DrawingLegendSerie pSls = null;
+            int index = 0;
+            int seriesIndex=0;
+            var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight);
+            foreach (var ct in svgChart.Chart.PlotArea.ChartTypes)
+            {
+                foreach (ExcelChartStandardSerie serie in ct.Series)
+                {
+                    //Create the legend column
+                    var sls = new DrawingLegendSerie();
+                    if(ct.IsTypeLine())
+                    {
+                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        SeriesIcon.Add(sls);
+                    }
+                    else if (ct.IsTypeColumn() || ct.IsTypeBar())
+                    {
+                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        SeriesIcon.Add(sls);
+                    }
+                    else if (ct.IsTypePie())
+                    {
+                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                    }
+                    var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
+                    pSls = sls;
+                    var formattedValues = serie.GetValues(false, true);
+                    var l=new List<DrawingTextBody>();
+                    foreach (var v in formattedValues)
+                    {
+                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, true);
+                        if (paragraph == null)
+                        {
+                            tb.AddParagraph(v.ToString());
+                        }
+                        else
+                        {
+                            tb.ImportParagraph(paragraph, 0, v.ToString());
+                        }
+                        l.Add(tb);
+                    }
+                    DataTableRenderItems.Add(l);
+                }
+                seriesIndex++;
+            }
+
+            SetColumnWidth(entryHeight);
         }
 
-        internal override Color? DefaultFillColor => throw new NotImplementedException();
 
-        internal override Color? DefaultBorderColor => throw new NotImplementedException();
-
-        public override void AppendRenderItems(List<Transform> renderItems)
+        private void SetColumnWidth(double entryWidth)
         {
-            base.AppendRenderItems(renderItems);
+            var height = 0D;
+            var r = 0;
+            foreach(var lc in SeriesIcon)
+            {
+                if (_dataTable.ShowKeys) 
+                {
+                    if (lc.MarkerIcon != null)
+                    {
+                        lc.MarkerIcon.Height += height;
+                        if (lc.MarkerBackground != null)
+                        {
+                            lc.MarkerBackground.Height += height;
+                        }
+                    }
+                    lc.SeriesIcon.Top += height;
+                    lc.Textbox.Top += height;
+                }
+                else
+                {
+                    lc.Textbox.Left = height;
+                }
+                height += GetLegendColHeight(r++);
+            }
+
+            double y = 0;
+            r = 0;
+            var lcw = GetLegendColWidth();
+            foreach (var row in DataTableRenderItems)
+            {
+                var x = lcw;
+                foreach (var cell in row)
+                {
+                    cell.Left += x;
+                    cell.Top += y;
+                    x += _columnsWidth;
+                }
+                y += GetLegendColHeight(r++);
+           }
         }
 
-        internal override Color? GetDefaultBorderColor()
+        const float MarginIconText = 1.5f;
+        private double GetLegendColWidth()
         {
-            throw new NotImplementedException();
+            if (SeriesIcon.Count == 0) return 0;
+            var w = SeriesIcon.Max(x=>x.Textbox.Width);
+            if(_dataTable.ShowKeys)
+            {
+                return w + SeriesIcon.Max(x=>x.SeriesIcon?.Width??0) + MarginIconText;
+            }
+            return w;
+        }
+        private double GetLegendColHeight(int row)
+        {
+            var h = SeriesIcon[row].Textbox.Height;
+            if (_dataTable.ShowKeys)
+            {
+                var sih = SeriesIcon[row].SeriesIcon.Height;
+                var mih = SeriesIcon[row].MarkerIcon?.Height ?? 0D;
+                return Math.Max(mih, Math.Max(h, sih));
+            }
+            return h;
+        }
+
+        private double GetDataTableWidth(ChartRenderer svgChart, ExcelChartDataTable chartDataTable)
+        {
+            var width = svgChart.ChartArea.Rectangle.Width - svgChart.ChartArea.LeftMargin - svgChart.ChartArea.RightMargin;
+            if(svgChart.Legend==null || svgChart.Chart.Legend.Position==eLegendPosition.Top || svgChart.Chart.Legend.Position == eLegendPosition.Bottom)
+            {
+                return width;
+            }
+            else
+            {
+                return width - svgChart.Legend.Rectangle.Width - svgChart.Legend.RightMargin;
+            }
+        }
+        private List<string> GetFormattedValues(ChartRenderer svgChart, List<object> values)
+        {
+            var format = svgChart.HorizontalAxis.Axis.FormatOrFirstValueFormat;
+            var nf = new ExcelFormatTranslator(format, 0);
+            //Excel replaces the format with a default date format if the axis is date based.
+            if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
+            {
+                if (format == "m/d/yyyy")
+                {
+                    var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
+                    nf = new ExcelFormatTranslator(sdFormat, 14);
+                }
+            }
+            var displayValues = new List<string>();
+            foreach (var v in values)
+            {
+                var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                displayValues.Add(s);
+            }
+            return displayValues;
+        }
+
+        private RenderItem GetIcon(ChartRenderer svgChart, ExcelChart ct, ExcelChartStandardSerie serie, DrawingLegendSerie pSls, int serieIndex, int index, double entryWidth, double entryHeight)
+        {
+            if(ct.IsTypeLine())
+            {
+                return LegendIconRenderer.GetLineSeriesIcon(svgChart, this, serie, pSls, entryWidth, entryHeight);
+            }
+            else if(ct.IsTypeBar() || ct.IsTypeColumn())
+            {
+                return LegendIconRenderer.GetBarSeriesIcon(svgChart, ct, this, (ExcelBarChartSerie)serie, pSls, entryWidth, entryHeight, serieIndex, index);
+            }
+            else
+            {
+                return LegendIconRenderer.GetPieSeriesIcon(svgChart, ct, this, (ExcelPieChartSerie)serie, pSls, entryWidth, entryHeight, index);
+            }
+        }
+
+        private List<DrawingTextBody> AddSerieValues(ChartRenderer svgChart, double maxWidth, double maxHeight, ExcelChartSerie serie)
+        {
+            var ret = new List<DrawingTextBody>();
+            if (string.IsNullOrEmpty(serie.Series))
+            {
+                var a = new ExcelAddressBase(serie.Series);
+                var ws = svgChart.Chart.WorkSheet;
+                if (ws != null)
+                {
+                    var range = ws.Cells[a.Address];
+                    foreach (var cell in range)
+                    {
+                        var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                        tb.AddParagraph(cell.Text);
+                        ret.Add(tb);
+                    }
+                }
+            }
+            else if (serie.StringLiteralsY != null && serie.StringLiteralsY.Length > 0)
+            {
+                foreach (var se in serie.StringLiteralsY)
+                {
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    tb.AddParagraph(se);
+                    ret.Add(tb);
+                }
+            }
+            else if (serie.NumberLiteralsY != null && serie.NumberLiteralsY.Length > 0)
+            {
+                foreach (var nl in serie.NumberLiteralsY)
+                {
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    tb.AddParagraph(nl.ToString());
+                    ret.Add(tb);
+                }
+            }
+
+            return ret;
         }
 
         internal override Color? GetDefaultFillColor()
         {
-            throw new NotImplementedException();
+            return GetDefaultFillColorForElement(ChartElement.DataTable, (int)Chart.Style);
         }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return GetDefaultBorderColorForElement(ChartElement.DataTable, (int)Chart.Style);
+        }
+
+
+        //{
+        //    //Render series header column.
+        //    foreach(var li in SeriesIcon)
+        //    {
+        //        if (_dataTable.ShowKeys)
+        //        {
+        //            renderItems.Add(li.SeriesIcon);
+        //            if (li.MarkerBackground != null) renderItems.Add(li.MarkerBackground);
+        //            if (li.MarkerIcon != null) renderItems.Add(li.MarkerIcon);
+        //        }
+        //        renderItems.Add(li.Textbox);
+        //    }
+
+        //    foreach(var row in DataTableRenderItems)
+        //    {
+        //        foreach (var cell in row)
+        //        {
+        //            renderItems.Add(cell);
+        //        }
+        //    }
+        //}        
+        //internal override Color? GetDefaultBorderColor()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //internal override Color? GetDefaultFillColor()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

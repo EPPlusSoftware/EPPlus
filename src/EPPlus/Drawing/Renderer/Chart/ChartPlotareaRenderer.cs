@@ -73,7 +73,7 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.Name = "PlotArea_Rectangle";
         }
 
-        private double GetPlotAreaHeight(RectRenderItem rect)
+        internal double GetPlotAreaHeight(RectRenderItem rect)
         {
             var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom);
             double vaHeight = 0;
@@ -105,7 +105,7 @@ namespace EPPlusImageRenderer.Svg
             return ChartRenderer.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 
-        private double GetPlotAreaWidth(RectRenderItem rect)
+        internal double GetPlotAreaWidth(RectRenderItem rect)
         {
             var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right);
             var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
