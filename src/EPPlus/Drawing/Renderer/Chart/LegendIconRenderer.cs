@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         const float MinBarLength = 4;
         const float MinPieLength = 5.25f;
 
-        internal static void SetBarLegendSingle<T>(ChartRenderer chart, T parent, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetBarLegendSingle<T>(ChartRenderer chart, T parent, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var ct = chart.Chart.PlotArea.ChartTypes[0];
             var s = ct.Series[0];
@@ -60,10 +60,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 var tbTop = si.Top - (entryHeight - si.Height) / 2;
                 double tbWidth;
 
-                tbWidth = parent.Rectangle.Bounds.Width - tbLeft;
+                tbWidth = parent.Rectangle.Width - tbLeft;
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
                 var headerText = cv.ToString();
@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
         }
 
-        internal static void SetBarLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetBarLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var bs = (ExcelBarChartSerie)s;
             var tm = parent.SeriesHeadersMeasure[index];
@@ -110,10 +110,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var tbTop = si.Top - (entryHeight - si.Height) / 2;
             double tbWidth;
 
-            tbWidth = parent.Rectangle.Bounds.Width - tbLeft;
+            tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
         }
 
-        internal static void SetLineLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetLineLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var ls = (ExcelLineChartSerie)s;
 
@@ -139,10 +139,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
             var tbTop = si.Y2 - entryHeight * 0.5;
-            var tbWidth = parent.Rectangle.Bounds.Width - tbLeft;
+            var tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var headerText = s.GetHeaderText(index);
             var entry = chart.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
             }
         }
-        internal static void SetPieLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static void SetPieLegend<T>(ChartRenderer chart, T parent, ExcelChart ct, int index, DrawingLegendSerie pSls, ExcelChartSerie s, DrawingLegendSerie sls, double entryWidth, double entryHeight, double maxIconLength) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var ps = (ExcelPieChartSerie)s;
             pSls = null;
@@ -220,22 +220,22 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     firstIconWidth = si.Width;
                 }
                 sls = new DrawingLegendSerie();
-                var tbLeft = si.Left + si.Width + MarginIconText + (si.BorderWidth ?? 0d);
+                var tbLeft = si.Left + si.Width + MarginIconText + (si.Style.BorderWidth ?? 0d);
                 var tbTop = si.Top - ((entryHeight + MarginIconText) / 2);
 
                 double tbWidth;
 
                 if (i != catValues.Count - 1)
                 {
-                    tbWidth = parent.Rectangle.Bounds.Width - tbLeft;
+                    tbWidth = parent.Rectangle.Width - tbLeft;
                 }
                 else
                 {
-                    tbWidth = parent.Rectangle.Bounds.Width;
+                    tbWidth = parent.Rectangle.Width;
                 }
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle.Bounds, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
 
                 //si.Left += sls.Textbox.LeftMargin;
@@ -245,18 +245,18 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 tbWidth = sls.Textbox.Width + rDefMargin; /*+ lDefMargin + rDefMargin;*/
 
-                lastWidth = tbWidth + si.Width - (si.BorderWidth ?? 0d);
+                lastWidth = tbWidth + si.Width - (si.Style.BorderWidth ?? 0d);
 
-                totalWidth += tbWidth + si.Width + (si.BorderWidth ?? 0d) + MarginIconText;
+                totalWidth += tbWidth + si.Width + (si.Style.BorderWidth ?? 0d) + MarginIconText;
 
                 if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
                     var dp = ps.DataPoints[i];
-                    ChartTypeDrawer.SetFillDataPoint(chart.Chart, ps, i, sls.SeriesIcon, dp, chart.Chart.StyleManager.Style?.SeriesLine);
+                    ChartTypeDrawer.SetFillDataPoint(chart.Chart, ps, i, sls.SeriesIcon.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(chart.Chart, ct, ps, 0, i, sls.SeriesIcon);
+                    ChartTypeDrawer.SetFillSerie(chart.Chart, ct, ps, 0, i, sls.SeriesIcon.Style);
                 }
 
                 parent.SeriesIcon.Add(sls);
@@ -265,30 +265,30 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             foreach (var icon in parent.SeriesIcon)
             {
-                icon.SeriesIcon.Bounds.Top = icon.SeriesIcon.Bounds.Top - ((entryHeight) / 4);
+                icon.SeriesIcon.Top = icon.SeriesIcon.Top - ((entryHeight) / 4);
             }
             var position = chart.Chart.Legend.Position;
             if (position == eLegendPosition.Top || position == eLegendPosition.Bottom)
             {
                 //Rectangle.Bounds.Width = totalWidth;
-                parent.Rectangle.Bounds.Width = parent.SeriesIcon.Last().Textbox.Bounds.GetGlobalBoundingbox().Right - parent.SeriesIcon[0].SeriesIcon.Bounds.GlobalLeft + 4d + firstIconWidth * 2;
-                parent.Rectangle.Bounds.Left = ((chart.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
+                parent.Rectangle.Width = parent.SeriesIcon.Last().Textbox.GetGlobalBoundingbox().Right - parent.SeriesIcon[0].SeriesIcon.GlobalLeft + 4d + firstIconWidth * 2;
+                parent.Rectangle.Left = ((chart.Bounds.Width) / 2d) - (totalWidth / 2d) + 1.5d;
 
-                if (parent.Rectangle.Bounds.Width < parent.MaxWidth)
+                if (parent.Rectangle.Width < parent.MaxWidth)
                 {
-                    parent.Rectangle.Bounds.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
-                    parent.Rectangle.Bounds.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    parent.Rectangle.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
+                    parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
                 }
             }
             pSls = null;
             sls = null;
         }
 
-        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
-            var line = new LineRenderItem(parent.Rectangle.Bounds);
+            var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -298,13 +298,13 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             line.X2 = x + LineLength;
             line.Y1 = y;
             line.Y2 = y;
-            line.LineCap = LineCap.Round;
+            line.Style.LineCap = LineCap.Round;
 
             return line;
         }
-        internal static RectRenderItem GetBarSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static RectRenderItem GetBarSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
-            var item = new RectRenderItem(parent.Rectangle.Bounds);
+            var item = new RectRenderItem(parent.Rectangle);
             var iconHeight = GetIconLength(ct, entryHeight);
             //var icon = pSls?.SeriesIcon as RectRenderItem;
             double iconTop = 0, iconLeft = 0;
@@ -312,7 +312,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             GetItemPosition(chart, parent, pSls, entryWidth, entryHeight, iconLeft, iconTop + (iconHeight / 2), out double x, out double y);
 
-            item.LineCap = LineCap.Round;
+            item.Style.LineCap = LineCap.Round;
             item.Left = x;
             if (pSls != null && (chart.Chart.Legend.Position == eLegendPosition.Left || chart.Chart.Legend.Position == eLegendPosition.Right))
             {
@@ -329,21 +329,21 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             if (index >= 0 && chartSerie.DataPoints.ContainsKey(index))
             {
                 var dp = chartSerie.DataPoints[index];
-                ChartTypeDrawer.SetFillDataPoint(chart.Chart, chartSerie, index, item, dp, chart.Chart.StyleManager.Style?.SeriesLine);
+                ChartTypeDrawer.SetFillDataPoint(chart.Chart, chartSerie, index, item.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine);
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(chart.Chart, ct, chartSerie, serieIndex, index, item);
+                ChartTypeDrawer.SetFillSerie(chart.Chart, ct, chartSerie, serieIndex, index, item.Style);
             }
 
             return item;
         }
-        internal static LineRenderItem GetTrendLineSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static LineRenderItem GetTrendLineSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelChartTrendline tl, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
-            var line = new LineRenderItem(parent.Rectangle.Bounds);
-            line.SetDrawingPropertiesFill(chart.Theme, tl.Fill, chart.Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, parent.DefaultFillColor);
+            var line = new LineRenderItem(parent.Rectangle);
+            line.Style.SetDrawingPropertiesFill(chart.Theme, tl.Fill, chart.Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, parent.DefaultFillColor);
             //Default is actually NoLine
-            line.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 0.75);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -353,21 +353,21 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             line.Y1 = y;
             line.X2 = x + LineLength;
             line.Y2 = y;
-            line.LineCap = LineCap.Round;
+            line.Style.LineCap = LineCap.Round;
 
             return line;
         }
 
-        internal static RectRenderItem GetPieSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelPieChartSerie pcS, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int i) where T : ChartDrawingObject, ILegendKeyContainer
+        internal static RectRenderItem GetPieSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelPieChartSerie pcS, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int i) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
-            var item = new RectRenderItem(parent.Rectangle.Bounds);
+            var item = new RectRenderItem(parent.Rectangle);
 
             var iconHeight = GetIconLength(ct, entryHeight);
             var icon = pSls?.SeriesIcon as RectRenderItem;
 
             GetItemPosition(chart, parent, pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
 
-            item.LineCap = LineCap.Round;
+            item.Style.LineCap = LineCap.Round;
             item.Left = x;
             if (pSls != null && (chart.Chart.Legend.Position == eLegendPosition.Left || chart.Chart.Legend.Position == eLegendPosition.Right))
             {
@@ -392,8 +392,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             item.Width = iconHeight;
             item.Height = iconHeight;
 
-            item.SetDrawingPropertiesFill(chart.Theme, pcS.Fill, chart.Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
-            item.SetDrawingPropertiesBorder(chart.Theme, pcS.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 1.5d);
+            item.Style.SetDrawingPropertiesFill(chart.Theme, pcS.Fill, chart.Chart.StyleManager.Style?.SeriesLine.FillReference.Color);
+            item.Style.SetDrawingPropertiesBorder(chart.Theme, pcS.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, pcS.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 1.5d);
 
             return item;
         }
@@ -403,7 +403,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return c.IsTypeLine() ? LineLength : Math.Max(MinBarLength, highestText * 0.4);
         }
 
-        private static double GetItemPosition<T>(ChartRenderer chart, T parent, DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y) where T : ChartDrawingObject, ILegendKeyContainer
+        private static double GetItemPosition<T>(ChartRenderer chart, T parent, DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var topOffset = 0D;
             if (chart.Chart.Legend.Position == eLegendPosition.Top ||
@@ -464,16 +464,16 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             if(s._chart.IsTypeLine())
             {
                 var item = new LineRenderItem(parentItem);
-                item.SetDrawingPropertiesFill(theme, s.Fill, chartRenderer.Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-                item.SetDrawingPropertiesBorder(theme, s.Border, chartRenderer.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
+                item.Style.SetDrawingPropertiesFill(theme, s.Fill, chartRenderer.Chart.StyleManager.Style.SeriesLine.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+                item.Style.SetDrawingPropertiesBorder(theme, s.Border, chartRenderer.Chart.StyleManager.Style.SeriesLine.BorderReference.Color, s.Border.Fill.Style != eFillStyle.NoFill, null, DefaultStrokeWidth, UserSpaceSettings.ObjectBoundingBox);
 
                 float y = (float)parentItem.Top + MarginExtra;
                 float x = 0;
                 item.X1 = x;
                 item.Y1 = y;
-                item.X2 = x + (LineLength - (float)item.BorderWidth);
+                item.X2 = x + (LineLength - (float)item.Style.BorderWidth);
                 item.Y2 = y;
-                item.LineCap = LineCap.Round;
+                item.Style.LineCap = LineCap.Round;
                 return item;
             }
             else
@@ -487,11 +487,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (index >= 0 && bs.DataPoints.ContainsKey(index))
                 {
                     var dp = bs.DataPoints[index];
-                    ChartTypeDrawer.SetFillDataPoint(chart, s, index, item, dp, chart.StyleManager.Style?.SeriesLine);
+                    ChartTypeDrawer.SetFillDataPoint(chart, s, index, item.Style, dp, chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(chart, s._chart, s, index, index, item);
+                    ChartTypeDrawer.SetFillSerie(chart, s._chart, s, index, index, item.Style);
                 }
 
                 return item;

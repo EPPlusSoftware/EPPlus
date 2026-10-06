@@ -565,7 +565,6 @@ namespace EPPlusImageRenderer.Svg
                 sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
         }
-            var item = new RectRenderItem(Rectangle);
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             var groupItem = new GroupRenderItem(ChartRenderer.Bounds);

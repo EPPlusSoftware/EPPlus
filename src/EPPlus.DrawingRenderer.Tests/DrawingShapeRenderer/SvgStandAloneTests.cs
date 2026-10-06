@@ -14,8 +14,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
     [TestClass]
     public class SvgStandAloneTests : TestBase
-    {
-
+    {        
+        public SvgStandAloneTests()
+        {
+#if (Core)            
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
+        }
         private GroupRenderItem GenerateShapeRenderer()
         {
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
