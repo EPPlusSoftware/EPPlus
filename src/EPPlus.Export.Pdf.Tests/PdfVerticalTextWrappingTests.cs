@@ -292,6 +292,37 @@ namespace EPPlus.Export.Pdf.Tests
             Assert.IsTrue(lines.Count >= 6, "40 characters at 7 per stack needs at least 6 stacks.");
         }
 
+        [TestMethod]
+        public void VerticalTextTestSheetWrappingRegression1()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[7];
+                var path = _pdfPath + "richText.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+        [TestMethod]
+        public void VerticalTextTestSheetWrappingRegression()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                var path = _pdfPath + "regression.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
+
+        [TestMethod]
+        public void VerticalTextTestSheetWrapping1()
+        {
+            using (var package = OpenTemplatePackage("TestsVerticalText.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[4];
+                var path = _pdfPath + "mergeCellsVertical.pdf";
+                ws.SaveAsPdf(path);
+            }
+        }
         private TextLayoutEngine CreateEngine()
             => _fontEngine.GetTextLayoutEngine(FontName, FontSubFamily.Regular);
 

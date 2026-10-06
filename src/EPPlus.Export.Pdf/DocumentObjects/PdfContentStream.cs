@@ -109,13 +109,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
             bool isVertical = cell.CellAlignmentData.IsVertical;
             double stackWidth = isVertical ? cell.TextLines.GetWidthOfCollection() : 0d;
-            int currentStack = 0;
+            int currentStack = -1; 
+
 
             int stackCount = 0;
+            var stackLengths = new Dictionary<int, double>();
+
             if (isVertical)
             {
                 foreach (var l in cell.TextLines)
                 {
+                    double h = l.LargestAscent + l.LargestDescent;
+                    stackLengths.TryGetValue(l.StackIndex, out double acc);
+                    stackLengths[l.StackIndex] = acc + h;
                     if (l.StackIndex + 1 > stackCount) stackCount = l.StackIndex + 1;
                 }
             }
@@ -130,7 +136,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     if (line.StackIndex != currentStack)
                     {
                         currentStack = line.StackIndex;
-                        advanceY = 0d;
+                        //advanceY = 0d;
+                        advanceY = -GetStackStartOffset(stackLengths[currentStack], cell.Size.Y,
+                                                        cell.CellAlignmentData.VerticalAlignment);
                     }
                     //double step = line.LargestAscent + line.LargestDescent;
                     double step = line.LargestAscent + line.LargestDescent;
@@ -520,5 +528,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             bw.Write(body);
             WriteAscii(bw, "\nendstream");
         }
+        private static double GetStackStartOffset(double stackLength, double cellHeight,
+                                          ExcelVerticalAlignment alignment)
+        {
+            double slack = cellHeight - stackLength;
+            if (slack <= 0) return 0d;          // overflow: anchor at the top
+
+            switch (alignment)
+            {
+                case ExcelVerticalAlignment.Top: return 0d;
+                case ExcelVerticalAlignment.Center: return slack / 2d;
+                default: return slack;           // Bottom, Excel's default
+            }
+        }
+
     }
 }
