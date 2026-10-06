@@ -1,11 +1,6 @@
 ﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Graphics;
 using OfficeOpenXml.Interfaces.RichText;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlus.DrawingRenderer.RenderItems.SvgItem
 {

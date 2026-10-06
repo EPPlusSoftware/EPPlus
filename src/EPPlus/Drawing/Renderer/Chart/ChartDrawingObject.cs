@@ -114,28 +114,28 @@ namespace EPPlusImageRenderer.Svg
             var ml = layout.ManualLayout;
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Left = bounds.Width * (float)(layout.ManualLayout.Left ?? 0D) / 100;
+                rect.Left = bounds.Width * (float)(layout.ManualLayout.Left ?? 0d) / 100d;
             }
             else
             {
-                rect.Left = bounds.Width * (float)(ml.Left ?? 0D) / 100;
+                rect.Left = bounds.Width * (float)(ml.Left ?? 0d) / 100d;
                 //TODO:Add factor from default position
             }
 
             //Width is always factor.
-            rect.Width = bounds.Width * ml.GetWidth() / 100;
+            rect.Width = bounds.Width * ml.GetWidth() / 100d;
 
             if (ml.LeftMode == eLayoutMode.Edge)
             {
-                rect.Top = bounds.Height * (float)(layout.ManualLayout.Top ?? 0D) / 100;
+                rect.Top = bounds.Height * (float)(layout.ManualLayout.Top ?? 0d) / 100d;
             }
             else
             {
-                rect.Top = bounds.Height * (float)(ml.Top ?? 0D) / 100;
+                rect.Top = bounds.Height * (float)(ml.Top ?? 0d) / 100d;
                 //TODO:Add factor from default position
             }
             //Height is always factor.
-            rect.Height = bounds.Height * ml.GetHeight() / 100;
+            rect.Height = bounds.Height * ml.GetHeight() / 100d;
             return rect;
         }
 

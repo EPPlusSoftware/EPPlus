@@ -18,6 +18,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _group = new GroupRenderItem(Parent);
             _group.Name = "Textbox_Group";
             _rectangle = new RectRenderItem(_group);
+            _rectangle.Name = "Textbox_BG";
             _marginGroup = new GroupRenderItem(_group);
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);
             //TextBody.MaxWidth = maxWidth;

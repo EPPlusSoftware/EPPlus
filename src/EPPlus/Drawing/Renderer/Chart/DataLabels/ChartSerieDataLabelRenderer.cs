@@ -77,7 +77,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     var yVal = yValues == null ? null : yValues[i];
                     var xVal = xValues == null ? null : xValues[i];
-                    AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    if (dlblSerie == null)
+                    {
+                        AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    }
+                    else
+                    {
+                        AddDatalabel(serie, dlblSerie, xVal, yValues[i], maxBounds);
+                    }
                     //Bit strange but in e.g. pie charts each datapoint counts as a new series for the purposes of legendIcons etc.
                     _serieIndex++;
                 }
@@ -152,17 +159,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (seriesIcon == null || _origIndex != _serieIndex)
             {
                 CreateSeriesIcon(serie, maxBounds);
+                return seriesIcon;
             }
-
-            return seriesIcon;
+            else
+            {
+                return seriesIcon.Clone();
+            }
         }
 
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
-            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
 
-            if(dataLabel.ShowLegendKey)
+            var dlblName = $"DatalabelPoint_{dataLabels.Count}";
+            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
+            newDataLabel.DataLabelPointContainer.Name = dlblName;
+
+            if (dataLabel.ShowLegendKey)
             {
                 newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds));
             }
@@ -183,7 +196,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             if (dataLabels.Count > index)
             {
                 dataLabels[index].SetParentPoint(parent);
-                dataLabels[index].Rectangle.Name = $"DatalabelPoint_Rect_{index}";
             }
         }
 

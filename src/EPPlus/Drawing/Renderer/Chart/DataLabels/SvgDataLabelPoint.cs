@@ -11,6 +11,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -39,6 +40,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal override Color? DefaultBorderColor => null;
 
+        public GroupRenderItem DataLabelPointContainer { get; private set; }
+
         //public SvgChartDataLabelStandard(DrawingChart chart, string dataLabelText) : base(chart)
         //{
         //    var txtBox = new SvgTextBox(chart, chart.Bounds, chart.Bounds);
@@ -55,8 +58,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             DefaultFillColor = defaultFillColor.HasValue ? defaultFillColor : Color.Transparent;
             _labelPosition = GetDefaultPositionBasedOnChartType(standard);
-            Rectangle = new RectRenderItem(chart.Bounds);
+            DataLabelPointContainer = new GroupRenderItem(chart.Bounds);
+            Rectangle = new RectRenderItem(DataLabelPointContainer);
             Rectangle.Name = "Datapoint_Rect";
+            Rectangle.Style.FillColor = "none";
         }
 
         eLabelPosition GetDefaultPositionBasedOnChartType(ExcelChartDataLabel standardDatalabel)
@@ -107,20 +112,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             var iconHeight = seriesIcon.Height;
 
             _seriesIcon = seriesIcon;
-            _seriesIcon.Parent = Rectangle;
+            _seriesIcon.Name = "seriesIcon_" + DataLabelPointContainer.Name;
+            _seriesIcon.Parent = DataLabelPointContainer;
 
             if (_haveAdjustedForIcon == false)
             {
                 _txtBox.Left += iconWidth;
                 _seriesIcon.Left -= 0.75d;
                 Rectangle.Width += iconWidth + 0.75d;
-
+                LeftMargin += 4.5d;
+                //Rectangle.Left -= iconWidth + 0.75d;
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
 
                 //Increase width by iconWidth + right margin of icon
                 //Rectangle.Width += iconWidth + 2.25d;
                 //Move the starting bounds to origin point since width increased by that much
-                //LeftMargin -= 2.25;
+                //LeftMargin = 2.25d;
+                //DataLabelPointContainer.Left += 4.5d;
+
                 //Excel appears to simply add icon width rightwards after applying everything else instead of truly considering the icon
                 //it only considers the new location of the Textbox with Its margins for bestfit
                 //LeftMargin += 2.25d + iconWidth;
@@ -334,11 +343,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //    Bounds.Top = dataLabelCenter.Y;
                 //    break;
                 case eLabelPosition.Left:
-                    Rectangle.Left -= (_txtBox.Width/2) + (point.Width / 2d);
+                    Rectangle.Left -= (_txtBox.Width/2) + (point.Width / 2d) - LeftMargin;
                     break;
                 case eLabelPosition.Right:
                 case eLabelPosition.BestFit:
-                    Rectangle.Left += (_txtBox.Width / 2d) + point.Width;
+                    Rectangle.Left += (_txtBox.Width / 2d) + point.Width + LeftMargin;
                     break;
                 case eLabelPosition.Top:
                     Rectangle.Top -= (point.Height + _txtBox.Height) / 2d;
@@ -526,6 +535,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         extraLine.Style.BorderWidth = 0.5;
 
                         _leaderLines.Add(extraLine);
+
+                        _seriesIcon.Left += -xOffset + LeftMargin;
+                        _txtBox.Left += -xOffset + LeftMargin;
                     }
                     var mainLine = new LineRenderItem(ChartRenderer.Bounds);
                     mainLine.X1 = _connectionPointLines.ConnectionPoints.Points[index].X + xOffset + LeftMargin;
@@ -557,7 +569,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _parentPoint.Parent = basePoint.Parent.Parent;
             _parentPoint.Left = basePoint.Parent.LocalPosition.X;
             _parentPoint.Top = basePoint.Parent.LocalPosition.Y;
-            Rectangle.Parent = _parentPoint;
+            DataLabelPointContainer.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
             //---
 
             //--- Calculate vectors and center point ---
@@ -659,10 +671,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal void SetParentPoint(BoundingBox parentPoint)
         {
-            Rectangle.Parent = parentPoint;
             _parentPoint = parentPoint;
+            DataLabelPointContainer.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
 
-            var dataLabelCenter = new Vector2(Rectangle.Left, Rectangle.Top);
+            var dataLabelCenter = new Vector2(DataLabelPointContainer.Left, DataLabelPointContainer.Top);
 
             switch (_labelPosition)
             {
@@ -706,47 +718,42 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var parentPointGroup = new GroupRenderItem();
-            parentPointGroup.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
-
-            parentPointGroup.Name = "Dlbl_DataPoint_Position";
-
             var titleItemOrigin = new TitleRenderItem("DataLabel originpoint/Data point position");
-            titleItemOrigin.Parent = parentPointGroup;
+            titleItemOrigin.Parent = DataLabelPointContainer;
             //parentPointGroup.AddChildItem(titleItemOrigin);
 
             if (originPointRect != null)
             {
-                parentPointGroup.AddChildItem(originPointRect);
+                DataLabelPointContainer.AddChildItem(originPointRect);
             }
             if (basePositionRect != null)
             {
-                parentPointGroup.AddChildItem(basePositionRect);
+                DataLabelPointContainer.AddChildItem(basePositionRect);
             }
             if (endPositionRect != null)
             {
-                parentPointGroup.AddChildItem(endPositionRect);
+                DataLabelPointContainer.AddChildItem(endPositionRect);
             }
             if (centerPositionRect != null)
             {
-                parentPointGroup.AddChildItem(centerPositionRect);
+                DataLabelPointContainer.AddChildItem(centerPositionRect);
             }
             if (maxBoundsCircle != null)
             {
-                parentPointGroup.AddChildItem(maxBoundsCircle);
+                DataLabelPointContainer.AddChildItem(maxBoundsCircle);
             }
             if (endPointCircle != null)
             {
-                parentPointGroup.AddChildItem(endPointCircle);
+                DataLabelPointContainer.AddChildItem(endPointCircle);
             }
 
             //renderItems.Add(parentPointGroup);
 
-            var group = new GroupRenderItem(parentPointGroup);
+            var group = new GroupRenderItem(DataLabelPointContainer);
             group.Left = Rectangle.Left;
             group.Top = Rectangle.Top;
 
-            var titleItem = new TitleRenderItem("DataLabel size adjustment");
+            var titleItem = new TitleRenderItem("DataLabel size adjustment + margin");
             group.AddChildItem(titleItem);
 
             //parentPointGroup.ChildObjects.Add(group);
@@ -777,10 +784,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(new BoundingBox(_seriesIcon.Left, height / 2));
+                var iconGrp = new GroupRenderItem(group);
+                iconGrp.Name = "iconGrp_" + DataLabelPointContainer.Name;
                 iconGrp.Left = _seriesIcon.Left;
                 iconGrp.Top = (height / 2) - 2;
-                iconGrp.Parent = group;
+
                 _seriesIcon.Parent = iconGrp;
             }
 
@@ -793,7 +801,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            renderItems.Add(parentPointGroup);
+            renderItems.Add(DataLabelPointContainer);
         }
 
         internal override Color? GetDefaultFillColor()
