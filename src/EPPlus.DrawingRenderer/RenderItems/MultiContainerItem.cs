@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EPPlus.DrawingRenderer.RenderItems
 {
-    public class MultiContainerItem : RenderItem
+    public class MultiContainerItem : GroupRenderItem
     {
         public override RenderItemType Type => RenderItemType.Group;
 
