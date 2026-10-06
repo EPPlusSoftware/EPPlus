@@ -536,7 +536,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                         _leaderLines.Add(extraLine);
 
-                        _seriesIcon.Left += -xOffset + LeftMargin;
+                        
+                        _seriesIcon?.Left += -xOffset + LeftMargin;
                         _txtBox.Left += -xOffset + LeftMargin;
                     }
                     var mainLine = new LineRenderItem(ChartRenderer.Bounds);
