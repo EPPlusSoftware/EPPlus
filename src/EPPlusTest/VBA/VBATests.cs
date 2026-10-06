@@ -19,7 +19,7 @@ using System.Xml.XPath;
 
 namespace EPPlusTest.VBA
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class VBATests : TestBase
     {
         static ExcelPackage _pck;

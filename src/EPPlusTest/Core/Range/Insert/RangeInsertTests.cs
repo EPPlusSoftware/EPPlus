@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range.Insert
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeInsertTests : TestBase
     {
         public static ExcelPackage _pck;

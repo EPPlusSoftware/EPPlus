@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Table
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TableDeleteTests : TestBase
     {
         static ExcelPackage _pck;

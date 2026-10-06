@@ -12,7 +12,7 @@ using FakeItEasy;
 using System.Globalization;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class GetPivotDataTests_ShowValueAs : TestBase
     {
         private static ExcelWorksheet _sheet;

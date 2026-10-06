@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeRichTextTests : TestBase
     {
         static ExcelPackage _pck;

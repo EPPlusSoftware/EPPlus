@@ -11,7 +11,7 @@ using System.IO;
 
 namespace EPPlusTest.Drawing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class CopyDrawingTests : TestBase
     {
         //Sheet 1: 4, 0-3

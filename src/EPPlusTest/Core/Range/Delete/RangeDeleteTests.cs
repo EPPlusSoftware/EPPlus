@@ -38,7 +38,7 @@ using System.Drawing;
 
 namespace EPPlusTest.Core.Range.Delete
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeDeleteTests : TestBase
     {
         public static ExcelPackage _pck;

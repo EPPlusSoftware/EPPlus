@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class LicenseTest : TestBase
     {
+        [TestCleanup] 
+        public void Cleanup() 
+        { 
+            ExcelPackage.License.RemoveActiveLicense();
+        }
+
         [TestMethod]
         public void CommercialFunctionTest()
         {

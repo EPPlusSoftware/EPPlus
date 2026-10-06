@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExcelTableExpressionTests : TestBase
     {
         static ExcelPackage _package;

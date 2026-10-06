@@ -8,7 +8,7 @@ using OfficeOpenXml.Utils.FileUtils;
 
 namespace EPPlusTest.Drawing
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class PictureTests : TestBase
 	{
 		private static ExcelPackage _pck;
