@@ -43,5 +43,6 @@ namespace EPPlus.Fonts.OpenType.GenericFontWidths
         AptosDisplay = 27,
         SegoeUI = 28,
         Tahoma = 29,
+        Consolas = 30,
     }
 }

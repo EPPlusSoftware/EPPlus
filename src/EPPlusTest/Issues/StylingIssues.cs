@@ -12,7 +12,7 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class StylingIssues : TestBase
 	{
 		[ClassInitialize]

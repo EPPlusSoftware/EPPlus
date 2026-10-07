@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Worksheet
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class WorksheetViewTests : TestBase
     {
         static ExcelPackage _pck;

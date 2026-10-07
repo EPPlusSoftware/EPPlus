@@ -13,7 +13,7 @@ using System.Security.Principal;
 
 namespace EPPlusTest.Drawing.Control
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ControlTests : TestBase
     {
         static ExcelPackage _pck;

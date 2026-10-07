@@ -6,7 +6,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
 	public class VerifyPivotCalculationWorkbookTests : TestBase
 	{
 		static ExcelPackage _package;

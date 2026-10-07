@@ -36,7 +36,7 @@ using System.IO;
 
 namespace EPPlusTest.Table.PivotTable
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableDataFieldShowDataAsTests : TestBase
     {
         static ExcelPackage _pck;

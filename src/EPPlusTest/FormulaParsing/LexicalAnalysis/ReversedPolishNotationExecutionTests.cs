@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ReversedPolishNotationExecutionTests : TestBase
     {
         ExcelPackage _package;

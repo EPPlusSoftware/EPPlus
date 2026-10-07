@@ -36,7 +36,7 @@ namespace EPPlusTest.Core
     /************************************************************************************************************************
      * Note that some of these tests will fail the first time they are runned as they read the files created by other tests.
      ************************************************************************************************************************/
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExcelPackageAsyncTest : TestBase
     {
         private const int noRows= 10000;
@@ -49,8 +49,8 @@ namespace EPPlusTest.Core
         {
             var dirName = file.DirectoryName;
             var fileName = file.FullName;
-
-            File.Copy(fileName, dirName + $"\\{file.Name.Substring(0, file.Name.Length-file.Extension.Length)}Read.xlsx", true);
+            var fn = $"{file.Name.Substring(0, file.Name.Length - file.Extension.Length)}Read.xlsx"; ;
+            File.Copy(fileName, Path.Combine(dirName, fn), true);
         }
 
         [TestMethod]

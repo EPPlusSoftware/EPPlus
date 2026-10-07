@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EPPlusTest.FormulaParsing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeOperationsTests : TestBase
     {
         private static ExcelPackage _package;

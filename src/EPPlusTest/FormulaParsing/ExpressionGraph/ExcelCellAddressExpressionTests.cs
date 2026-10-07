@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
     //TODO: Look at these test and add support for the new formula parser.
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExcelCellAddressTests : TestBase
     {
         static ExcelPackage _package;

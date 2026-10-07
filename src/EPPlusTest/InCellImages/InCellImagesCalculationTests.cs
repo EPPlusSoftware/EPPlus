@@ -148,7 +148,8 @@ namespace EPPlusTest.InCellImages
             sheet.Cells["B1"].Picture.Set(Resources.Png2ByteArray);
             sheet.Cells["A1"].Formula = "IF(TRUE(), B1, B2)";
             sheet.Calculate();
-            sheet.Workbook.IndexStore.PrintRelations(@"c:\Temp");
+            // Uncomment the following line to see the relationships in the index store for debugging purposes
+            //sheet.Workbook.IndexStore.PrintRelations(@"c:\Temp");
             var pic = sheet.Cells["A1"].Picture.Get();
             Assert.IsNotNull(pic);
 

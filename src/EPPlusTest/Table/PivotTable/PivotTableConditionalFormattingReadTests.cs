@@ -11,7 +11,7 @@ using FakeItEasy;
 using System.Security.AccessControl;
 namespace EPPlusTest.Table.PivotTable
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableConditionalFormattingReadTests : TestBase
     {
         static ExcelPackage _pck;

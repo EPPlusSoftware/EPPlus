@@ -4,7 +4,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class GetPivotDataTests_Grouping : TestBase
 	{
 		private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;

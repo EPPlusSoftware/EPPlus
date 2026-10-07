@@ -435,7 +435,7 @@ namespace EPPlusTest.Core.Range
                     sheet1.Cells["A1:A4"].Copy(sheetNew.Cells["A1"]);
                     Assert.AreEqual(2, p2.Workbook.Names.Count);
                     Assert.AreEqual(1, sheetNew.Names.Count);
-                    SaveWorkbook("CopyWithName.xlsx", p2);
+                    SaveWorkbook("CopyWithName1.xlsx", p2);
                 }
             }
         }
@@ -460,7 +460,7 @@ namespace EPPlusTest.Core.Range
                     var sheetNew=p2.Workbook.Worksheets.Add("Sheet1", sheet1);
                     Assert.AreEqual(2, p2.Workbook.Names.Count);
                     Assert.AreEqual(1, sheetNew.Names.Count);
-                    SaveWorkbook("CopyWithName.xlsx", p2);
+                    SaveWorkbook("CopyWithName2.xlsx", p2);
                 }
             }
         }

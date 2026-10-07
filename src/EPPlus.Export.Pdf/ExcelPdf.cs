@@ -178,6 +178,9 @@ namespace EPPlus.Export.Pdf
         private void AddContent(PdfPageLayout pageLayout, PdfPage page)
         {
             var pageSettings = pageLayout.Settings;
+            double contentScale = pageSettings.ContentScale;
+            double scaleAnchorX = pageSettings.ContentBounds.Left;
+            double scaleAnchorY = pageSettings.ContentBounds.Top;
             var cells = pageLayout.ChildObjects.Where(t =>
                                                      (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
@@ -190,6 +193,7 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand($"% {pageLayout.Name} start");
             //Start page content clipping rectangle.
             contentStream.AddCommand("q");
+            contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
             contentStream.AddMarginClipping((PdfPageLayout)pageLayout, pageSettings);
             if (pageSettings.ShowGridLines)
             {
@@ -221,6 +225,8 @@ namespace EPPlus.Export.Pdf
             contentStream.AddCommand("Q");
             contentStream.AddCommand($"% Margin Clip End");
             //Add headings
+            contentStream.AddCommand("q");
+            contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
             foreach (var heading in headingLayouts)
             {
                 contentStream.AddCommand($"% HEADING : {heading.Name}");
@@ -234,11 +240,15 @@ namespace EPPlus.Export.Pdf
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
+            contentStream.AddCommand("Q");
             //Add outer gridlines
             if (pageSettings.ShowGridLines || pageSettings.ShowHeadings)
             {
+                contentStream.AddCommand("q");
+                contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
                 contentStream.AddOuterGridBorder(pageLayout);
                 contentStream.AddPrintTitleGridLines(pageLayout);
+                contentStream.AddCommand("Q");
             }
             //Add header and footer.
             foreach (var hf in headerFooterLayouts)
@@ -254,6 +264,8 @@ namespace EPPlus.Export.Pdf
                 if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
             }
             //Add print titles
+            contentStream.AddCommand("q");
+            contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
             foreach (var titleCell in printTitleLayouts)
             {
                 contentStream.AddCommand($"% PRINT TITLE : {titleCell.Name}");
@@ -267,6 +279,7 @@ namespace EPPlus.Export.Pdf
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
+            contentStream.AddCommand("Q");
             _document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
             contentStream.AddCommand($"% {pageLayout.Name} end");

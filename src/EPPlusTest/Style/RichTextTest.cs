@@ -37,7 +37,7 @@ using System.Drawing;
 
 namespace EPPlusTest.Style
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RichTextTest : TestBase
     {
         static ExcelPackage _pck;

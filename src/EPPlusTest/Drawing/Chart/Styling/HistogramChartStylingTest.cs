@@ -40,7 +40,7 @@ using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart.Styling
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class HistogramChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
