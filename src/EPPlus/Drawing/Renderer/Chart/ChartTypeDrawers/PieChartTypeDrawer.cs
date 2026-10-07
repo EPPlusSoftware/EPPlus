@@ -302,20 +302,30 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //RenderDebugEllipse();
 
             ChartAreaRenderItems.Add(_groupItem);
-            //Series Labels
-            foreach (var dataLabel in serieDataLabels)
-            {
-                dataLabel.AppendRenderItems(SeriesRenderItems);
-            }
+
+            ////This works but does not put them last in the render order in svg
+            ////Pie charts only use the first serie
+            //if (serieDataLabels != null && serieDataLabels.Count > 0)
+            //{
+            //    serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
+            //}
+
+            //////Series Labels
+            ////foreach (var dataLabel in serieDataLabels)
+            ////{
+            ////    //dataLabel.AppendRenderItems(SeriesRenderItems);
+            ////    //if(serieDataLabels.Count =)
+            ////    ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
+            ////}
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             //renderItems.AddRange(ChartAreaRenderItems);
-            ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
-            if (SeriesRenderItems != null && SeriesRenderItems.Count > 0)
+            //ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
+            if (serieDataLabels != null && serieDataLabels.Count > 0)
             {
-                ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
+                serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
             }
         }
 
