@@ -162,7 +162,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public GroupRenderItem(BoundingBox parent, double rotation, Transform rotationPoint = null) : this(0, 0)
         {
             TranslationOffset.Parent = parent;
-            Rotation = rotation;
+            LocalRotation = rotation;
             if (rotationPoint != null)
             {
                 RotationPoint = new Graphics.TranformPoint(rotationPoint.LocalPosition.X, rotationPoint.LocalPosition.Y);

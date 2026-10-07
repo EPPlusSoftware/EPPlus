@@ -107,9 +107,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         void CalculateLocalCenterAndRadius()
         {
             _circleCenter = new TranformPoint();
-            _circleCenter.Parent = _groupItem.TranslationOffset;
-            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Width / 2;
-            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Height / 2;
+            _circleCenter.Parent = _groupItem.Parent;
+            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Width / 2d;
+            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Height / 2d;
+
+            
 
             _groupItem.RotationPoint = _circleCenter;
 

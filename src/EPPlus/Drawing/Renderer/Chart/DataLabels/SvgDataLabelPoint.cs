@@ -589,7 +589,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //And endVector is the top center position.
 
             //--- Visualize positions for debugging purposes
-            //CreateDebugPoints(basePoint, endPoint, centerPoint, maxBoundsPieSlice);
+            CreateDebugPoints(basePoint, endPoint, centerPoint, maxBoundsPieSlice);
             //---
 
             switch (_labelPosition)
@@ -652,14 +652,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         {
                             //Set inside End
                             SetInOut(endToBaseVector, endPoint.LocalPosition, false);
-                            ApplyBestFitExtraMargin(endToBaseVector, false, 5d);
+                            //ApplyBestFitExtraMargin(endToBaseVector, false, 5d);
                         }
                     }
                     else
                     {
                         //Set outside end
                         SetInOut(endToBaseVector, endPoint.LocalPosition, true);
-                        ApplyBestFitExtraMargin(endToBaseVector, true, 5d);
+                        //ApplyBestFitExtraMargin(endToBaseVector, true, 5d);
                     }
                     break;
                 default:

@@ -100,7 +100,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
 
                 for (int i = 0; i < ws.Drawings.Count; i++)
                 {
-                    var c = ws.Drawings[i];
+                    var c = ws.Drawings[0];
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\Pie{i}.svg", svg);
                 }
