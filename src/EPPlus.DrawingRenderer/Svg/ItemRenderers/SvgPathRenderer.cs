@@ -62,7 +62,7 @@ namespace EPPlus.DrawingRenderer.Svg
             RenderCompoundItems(path, borderWidth, color, filter);
         }
 
-        private void RenderPathCommand(PathCommands pc)
+        private void RenderPathCommand(PathCommand pc)
         {
             OutputStream.Append(pc.Type.AsCommandChar());
             for (int i = 0; i < pc.Coordinates.Length; i++)

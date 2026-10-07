@@ -458,7 +458,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 interval = 1;
                 unit = eTimeUnit.Days;
             }
-            if(blockSize < 15)
+            else if(blockSize < 15)
             {
                 interval = 7;
                 unit = eTimeUnit.Days;

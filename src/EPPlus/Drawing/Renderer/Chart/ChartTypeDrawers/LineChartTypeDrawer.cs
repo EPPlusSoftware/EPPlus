@@ -260,7 +260,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             
             CreateDropLine(chartType, coords);
 
-            linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
+            linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
             linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line

@@ -184,7 +184,7 @@ namespace EPPlusImageRenderer.RenderItems
                 {
                     case eFillStyle.NoFill:
                         //Either transparent or Fallback to style hierarhy (options 2, 3 or 4)
-                        fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
+                         fillStr = GetFallbackFill(theme, fill, reference, fillMode, out opacity, GetHardCodedDefaultForItem);
                         break;
                     case eFillStyle.SolidFill:
                         //1. Standard case. There is a fill color to apply.

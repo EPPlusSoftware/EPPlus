@@ -335,21 +335,21 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    return GetSchemeColorTint(eSchemeColor.Background1, 0.75d);
+                    return GetSchemeColorTint(eSchemeColor.Dark1, 0.75d);
                 }
             }
             else if (element.HasFlag(ChartElement.MinorGridLines))
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Text1, 0.5d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Background1, 0.5d);
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Background1, 0.9d);
+                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 0.5d);
+                var retCol4 = GetSchemeColorTint(eSchemeColor.Dark1, 0.9d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
             }
             else if ((ChartElement.ChartArea | ChartElement.DataTable | ChartElement.Floor).HasFlag(element))
             {
                 var retCol = GetSchemeColorTint(eSchemeColor.Text1, 0.75d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Background1, 0.75d);
+                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 0.75d);
                 var retCol4 = GetSchemeColorTint(eSchemeColor.Text1, 1d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
@@ -358,7 +358,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 //Other lines should technically always be the enum here but keep it as Else just in case
                 var retCol = GetSchemeColorTint(eSchemeColor.Text1, 1d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Background1, 1d);
+                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 1d);
                 var retCol4 = GetSchemeColorTint(eSchemeColor.Text1, 1d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);

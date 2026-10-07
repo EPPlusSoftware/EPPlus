@@ -228,11 +228,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Style.BorderWidth = 5d;
 
             //Calculate path commands
-            var moveCenter = new PathCommands(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
-            var lineToStart = new PathCommands(PathCommandType.Line, _startPoint.Left, _startPoint.Top);
+            var moveCenter = new PathCommand(PathCommandType.Move, _circleCenter.Left, _circleCenter.Top);
+            var lineToStart = new PathCommand(PathCommandType.Line, _startPoint.Left, _startPoint.Top);
 
-            var arcCommand = new PathCommands(PathCommandType.Arc, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top });
-            var end = new PathCommands(PathCommandType.End, _endPoint.Left, _endPoint.Top);
+            var arcCommand = new PathCommand(PathCommandType.Arc, new double[] { _radius, _radius, 0, Degrees > 180 ? 1 : 0, 1, _endPoint.Left, _endPoint.Top });
+            var end = new PathCommand(PathCommandType.End, _endPoint.Left, _endPoint.Top);
 
             //Get max and min values
             var localMax = GetTranslationMaxLocal(globalAreaBounds.Width, globalAreaBounds.Height);
@@ -265,7 +265,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// AKA line along scale/explosion vector
         /// </summary>
         /// <param name="moveCenter"></param>
-        private void AddDebugLines(PathCommands moveCenter, BoundingBox bounds)
+        private void AddDebugLines(PathCommand moveCenter, BoundingBox bounds)
         {
             DebugItems = new List<RenderItem>();
 
@@ -274,16 +274,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _debugBoundsPath.Style.BorderColor = "red";
             _debugBoundsPath.Style.FillColor = "transparent";
             _debugBoundsPath.Style.BorderWidth = 3;
-            var moveCenterDebug = new PathCommands(PathCommandType.Move, ExtremePoints.Left, ExtremePoints.Top);
+            var moveCenterDebug = new PathCommand(PathCommandType.Move, ExtremePoints.Left, ExtremePoints.Top);
             _debugBoundsPath.Commands.Add(moveCenterDebug);
 
             //Draw extremes/bounds
             //var lineToTopLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Top);
-            var lineToTopRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
+            var lineToTopRight = new PathCommand(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Top);
 
-            var lineToBottomRight = new PathCommands(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Bottom);
-            var lineToBottomLeft = new PathCommands(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
-            var end = new PathCommands(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
+            var lineToBottomRight = new PathCommand(PathCommandType.Line, ExtremePoints.Right, ExtremePoints.Bottom);
+            var lineToBottomLeft = new PathCommand(PathCommandType.Line, ExtremePoints.Left, ExtremePoints.Bottom);
+            var end = new PathCommand(PathCommandType.End, ExtremePoints.Left, ExtremePoints.Top);
 
             _debugBoundsPath.Commands.Add(lineToTopRight);
             _debugBoundsPath.Commands.Add(lineToBottomRight);

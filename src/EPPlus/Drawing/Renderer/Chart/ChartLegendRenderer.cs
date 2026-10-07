@@ -17,6 +17,7 @@ using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
@@ -37,6 +38,9 @@ namespace EPPlusImageRenderer.Svg
         double MaxHeight { get; }
         List<TextMeasurement> SeriesHeadersMeasure { get; }
         List<DrawingLegendSerie> SeriesIcon { get; }
+        eLegendPosition Position { get; }
+        EPPlusReadOnlyList<ExcelChartLegendEntry> Entries { get; }
+        ExcelTextBody TextBody { get; }
     }
     internal class ChartLegendRenderer : ChartDrawingObjectWithBackground, ILegendKeyContainer
     {
@@ -609,5 +613,10 @@ namespace EPPlusImageRenderer.Svg
         }
         public List<DrawingLegendSerie> SeriesIcon { get; } = new List<DrawingLegendSerie>();
 
+        public eLegendPosition Position => ChartRenderer.Chart.Legend?.Position ?? eLegendPosition.Right;
+
+        public EPPlusReadOnlyList<ExcelChartLegendEntry> Entries => ChartRenderer.Chart.Legend.Entries;
+
+        public ExcelTextBody TextBody => ChartRenderer.Chart.Legend.TextBody;
     }
 }

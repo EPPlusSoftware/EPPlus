@@ -75,15 +75,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     break;
                 case eMarkerStyle.Triangle:
                     item = new PathRenderItem(sc.Bounds);
-                    var cmd = new PathCommands(PathCommandType.Move, new double[] { xPath + halfSize, yPath + halfSize, xPath, yPath - halfSize, xPath - halfSize, yPath + halfSize });
+                    var cmd = new PathCommand(PathCommandType.Move, new double[] { xPath + halfSize, yPath + halfSize, xPath, yPath - halfSize, xPath - halfSize, yPath + halfSize });
                     ((PathRenderItem)item).Commands.Add(cmd);
-                    ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));
+                    ((PathRenderItem)item).Commands.Add(new PathCommand(PathCommandType.End));
                     break;
                 case eMarkerStyle.Diamond:
                     item = new PathRenderItem(sc.ChartArea.Rectangle);
-                    cmd = new PathCommands(PathCommandType.Move, new double[] { (xPath - halfSize), yPath, xPath, yPath + halfSize, xPath + halfSize, yPath, xPath, yPath - halfSize });
+                    cmd = new PathCommand(PathCommandType.Move, new double[] { (xPath - halfSize), yPath, xPath, yPath + halfSize, xPath + halfSize, yPath, xPath, yPath - halfSize });
                     ((PathRenderItem)item).Commands.Add(cmd);
-                    ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));
+                    ((PathRenderItem)item).Commands.Add(new PathCommand(PathCommandType.End));
                     break;
                 case eMarkerStyle.Dot:
                 case eMarkerStyle.Dash:
@@ -130,29 +130,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     var pathItem = new PathRenderItem(sc.Bounds);
                     if (m.Style == eMarkerStyle.Star)
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath, yPath + halfSize, xPath, yPath - halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath, yPath + halfSize, xPath, yPath - halfSize }));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath + halfSize, yPath - halfSize, xPath - halfSize, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath + halfSize, yPath - halfSize, xPath - halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
                     }
                     else if (m.Style == eMarkerStyle.X)
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath + halfSize, xPath + halfSize, yPath - halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath + halfSize, xPath + halfSize, yPath - halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                     }
                     else
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath, yPath - halfSize, xPath, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath, yPath - halfSize, xPath, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath, xPath + halfSize, yPath }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath, xPath + halfSize, yPath }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                     }
                     item = pathItem;
                     break;
