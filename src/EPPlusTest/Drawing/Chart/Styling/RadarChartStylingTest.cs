@@ -38,7 +38,7 @@ using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart.Styling
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RadarChartStylingTest : TestBase
     {
         static ExcelPackage _pck;

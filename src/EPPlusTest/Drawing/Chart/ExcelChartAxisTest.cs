@@ -35,7 +35,7 @@ using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExcelChartAxisTest : TestBase
     {
         private ExcelChartAxis axis;

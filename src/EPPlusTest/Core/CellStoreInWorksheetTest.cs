@@ -35,7 +35,7 @@ using OfficeOpenXml.Style;
 
 namespace EPPlusTest.Core
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class CellStoreInWorksheetTest : TestBase
     {
         static ExcelPackage _pck;
@@ -49,10 +49,21 @@ namespace EPPlusTest.Core
         {
             SaveAndCleanup(_pck);
         }
+
+        private static readonly object _lock = new object();
+
+        private static ExcelWorksheet AddWorksheet(string name)
+        {
+            lock (_lock)
+            {
+                return _pck.Workbook.Worksheets.Add(name);
+            }
+        }
+
         [TestMethod]
         public void Insert1()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Insert1");
+            var ws = AddWorksheet("Insert1");
             LoadData(ws);
 
             ws.InsertRow(2, 1000);
@@ -78,7 +89,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void Insert2()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Insert2-1");
+            var ws = AddWorksheet("Insert2-1");
             LoadData(ws);
 
             for (int i = 0; i < 32; i++)
@@ -100,7 +111,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void InsertTwoFrom5000()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Insert3");
+            var ws = AddWorksheet("Insert3");
             LoadData(ws, 5000);
 
             for (int i = 0; i < 5000; i += 4)
@@ -113,7 +124,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void InsertEveryOtherFrom5000()
         {
-            var ws = _pck.Workbook.Worksheets.Add("InsertOtherFrom5000");
+            var ws = AddWorksheet("InsertOtherFrom5000");
 
             LoadData(ws, 5000);
 
@@ -127,7 +138,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void EnumCellstore()
         {
-            var ws = _pck.Workbook.Worksheets.Add("enum");
+            var ws = AddWorksheet("enum");
 
             LoadData(ws, 5000);
 
@@ -140,7 +151,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void DeleteRows()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Delete");
+            var ws = AddWorksheet("Delete");
             LoadData(ws, 5000);
 
             ws.DeleteRow(2, 2);
@@ -158,7 +169,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void DeleteRowsFirst()
         {
-            var ws = _pck.Workbook.Worksheets.Add("DeleteFirst");
+            var ws = AddWorksheet("DeleteFirst");
             LoadData(ws, 5000);
 
             ws.DeleteRow(32, 30);
@@ -170,7 +181,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void DeleteInsert()
         {
-            var ws = _pck.Workbook.Worksheets.Add("DeleteInsert");
+            var ws = AddWorksheet("DeleteInsert");
             LoadData(ws, 5000);
 
             ws.DeleteRow(2, 33);
@@ -201,7 +212,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void FillInsertTest()
         {
-            var ws = _pck.Workbook.Worksheets.Add("FillInsert");
+            var ws = AddWorksheet("FillInsert");
 
             LoadData(ws, 500);
 
@@ -216,7 +227,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void CopyCellsTest()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyCells");
+            var ws = AddWorksheet("CopyCells");
 
             LoadData(ws, 100, isNumeric: true);
             ws.Cells["B1"].Formula = "SUM(A1:A500)";
@@ -236,7 +247,7 @@ namespace EPPlusTest.Core
             using (var package = new ExcelPackage())
             {
                 // Arrange
-                var worksheet = package.Workbook.Worksheets.Add("Test");
+                var worksheet = AddWorksheet("Test");
                 worksheet.Cells[1, 1].Value = "A";                      // If you remove this "anchor", the problem doesn't happen.
                 worksheet.Cells[1026, 1].Value = "B";
                 worksheet.Cells[1026, 2].Value = "B";
@@ -255,7 +266,7 @@ namespace EPPlusTest.Core
         public void ValidateColumnsAreCreatedIfSpan()
         {
 
-            var ws = _pck.Workbook.Worksheets.Add("ValidateColumnSpan");
+            var ws = AddWorksheet("ValidateColumnSpan");
             for (int i = 1; i < 11; i++)
             {
                 ws.Cells[i, 1].Value = "A";

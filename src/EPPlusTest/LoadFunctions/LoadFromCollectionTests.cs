@@ -665,7 +665,7 @@ namespace EPPlusTest.LoadFunctions
                 AnEnum.Blue
             };
 
-            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
+            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt1.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("EnumList");
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
@@ -675,6 +675,7 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+
         [TestMethod]
         public void LoadListOfEnumWithDescriptionTransposed()
         {
@@ -685,7 +686,7 @@ namespace EPPlusTest.LoadFunctions
                 AnEnum.Blue
             };
 
-            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
+            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt2.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("EnumList");
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
@@ -725,7 +726,7 @@ namespace EPPlusTest.LoadFunctions
                 new EnumClass(){Id=3, Enum=AnEnum.Green, NullableEnum = AnEnum.Red},
             };
 
-            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
+            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt1.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
@@ -755,7 +756,7 @@ namespace EPPlusTest.LoadFunctions
                 new EnumClass(){Id=3, Enum=AnEnum.Green, NullableEnum = AnEnum.Red},
             };
 
-            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
+            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt2.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1, true);
@@ -795,7 +796,7 @@ namespace EPPlusTest.LoadFunctions
             var l = new List<Company>();
             l.Add(new Company(1, "EPPlus Software AB", new Uri("https://epplussoftware.com")));
 
-            using (var package = OpenPackage("LoadFromCollectionAttr.xlsx", true))
+            using (var package = OpenPackage("LoadFromCollectionAttr_Transposed.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].LoadFromCollection(l, x => { x.UseBuiltInStylesForHyperlinks = true; x.Transpose = true; });

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeColumnRowTests : TestBase
     {
         static ExcelPackage _pck;

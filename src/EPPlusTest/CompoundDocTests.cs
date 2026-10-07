@@ -259,21 +259,7 @@ namespace EPPlusTest
             }
             Console.WriteLine("{0:HH.mm.ss}\tDone!!", DateTime.Now);
         }
-        [TestMethod, Ignore]
-        public void ReadPerfTest()
-        {
-            var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\sample7compdoctest.xlsx"), "");
-            //var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\sample7compdoctest_4.5.xlsx"), "");
-            //var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\sample7compdoctest.310k.xlsx"), "");
-        }
-        [TestMethod, Ignore]
-        public void ReadVbaIssue107()
-        {
-            //var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\report.xlsm"));
-            //var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\report411.xlsm"));
-            var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\sample7.xlsx"),"");
-            var vba = p.Workbook.VbaProject;
-        }
+
         [TestMethod]
         public void CompoundDocumentSmallValidate()
         {            
@@ -282,11 +268,9 @@ namespace EPPlusTest
             cd.Storage.DataStreams.Add("test1", new CompoundDocumentItem("test1", new byte[] { 1, 2, 3, 4 }));
             var ms = new MemoryStream();
             cd.Save(ms);
-            var fi = GetOutputFile("CompoundDocument", "small.bin");
-            File.WriteAllBytes(fi.FullName, ms.ToArray());
 
             //Load
-            var cdRead = new CompoundDocument(fi);
+            var cdRead = new CompoundDocument(ms.ToArray());
             Assert.AreEqual(1, cdRead.Storage.DataStreams.Count);
         }
         [TestMethod]
@@ -301,11 +285,9 @@ namespace EPPlusTest
             cd.Storage.DataStreams.Add("test5", new CompoundDocumentItem("test5", new byte[] { 1, 2, 3, 4 }));
             var ms = new MemoryStream();
             cd.Save(ms);
-            var fi = GetOutputFile("CompoundDocument", "small.bin");
-            File.WriteAllBytes(fi.FullName, ms.ToArray());
 
             //Read
-            var cdRead = new CompoundDocument(fi);
+            var cdRead = new CompoundDocument(ms.ToArray());
             Assert.AreEqual(5, cdRead.Storage.DataStreams.Count);
         }
     }

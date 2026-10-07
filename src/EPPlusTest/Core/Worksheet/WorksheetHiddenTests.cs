@@ -46,7 +46,7 @@ namespace EPPlusTest.Core
                 ws.Hidden = eWorkSheetHidden.Hidden;
                 Assert.AreEqual(eWorkSheetHidden.Hidden, ws.Hidden);
                 Assert.AreEqual(1, pck.Workbook.View.ActiveTab);
-                SaveWorkbook("HiddenSecondWorbook.xlsx", pck);
+                SaveWorkbook("HiddenSecondWorbook_1.xlsx", pck);
             }
         }
 
@@ -62,7 +62,7 @@ namespace EPPlusTest.Core
                 ws.Hidden = eWorkSheetHidden.VeryHidden;
                 Assert.AreEqual(eWorkSheetHidden.VeryHidden, ws.Hidden);
                 Assert.AreEqual(1, pck.Workbook.View.ActiveTab);
-                SaveWorkbook("VeryHiddenSecondWorbook.xlsx", pck);
+                SaveWorkbook("VeryHiddenSecondWorbook_1.xlsx", pck);
             }
         }
         [TestMethod]
@@ -77,7 +77,7 @@ namespace EPPlusTest.Core
                 ws.Hidden = eWorkSheetHidden.Hidden;
                 Assert.AreEqual(eWorkSheetHidden.Hidden, ws.Hidden);
                 Assert.AreEqual(1, pck.Workbook.View.ActiveTab);
-                SaveWorkbook("HiddenSecondWorbook.xlsx", pck);
+                SaveWorkbook("HiddenSecondWorbook_2.xlsx", pck);
             }
         }
 
@@ -93,7 +93,7 @@ namespace EPPlusTest.Core
                 ws.Hidden = eWorkSheetHidden.VeryHidden;
                 Assert.AreEqual(eWorkSheetHidden.VeryHidden, ws.Hidden);
                 Assert.AreEqual(1, pck.Workbook.View.ActiveTab);
-                SaveWorkbook("VeryHiddenSecondWorbook.xlsx", pck);
+                SaveWorkbook("VeryHiddenSecondWorbook_2.xlsx", pck);
             }
         }
     }

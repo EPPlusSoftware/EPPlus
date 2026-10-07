@@ -31,7 +31,7 @@ namespace EPPlus.Export.Pdf
     /// </summary>
     internal class ExcelPdf
     {
-        private PdfDocumentSettings _documentSettings; 
+        private PdfDocumentSettings _documentSettings;
         private PdfDictionaries _dictionaries;
         internal List<PdfObject> _document = new List<PdfObject>();
         private string _debugString;
@@ -342,7 +342,7 @@ namespace EPPlus.Export.Pdf
             //Create Page and Content
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
-                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];  
+                var pageLayout = (PdfPageLayout)layout.ChildObjects[i];
                 var page = AddPage(2, new List<int>(), pageLayout.Settings);
                 AddContent(pageLayout, page);
                 pages.pageObjectNumbers.Add(page.objectNumber);

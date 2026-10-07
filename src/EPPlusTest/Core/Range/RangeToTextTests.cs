@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeToTextTests : TestBase
     {
         static ExcelPackage _pck;

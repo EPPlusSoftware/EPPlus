@@ -34,7 +34,7 @@ using OfficeOpenXml.Filter;
 
 namespace EPPlusTest.Filter
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class DynamicFilterTest : TestBase
     {
         static ExcelPackage _pck;

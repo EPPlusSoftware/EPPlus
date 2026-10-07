@@ -33,7 +33,7 @@ using System;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ProtectedRangesTests : TestBase
     {
         static ExcelPackage _pck;

@@ -52,7 +52,7 @@ namespace EPPlusTest.ConditionalFormatting
     /// <summary>
     /// Test the Conditional Formatting feature
     /// </summary>
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ConditionalFormattingTests : TestBase
     {
         private static ExcelPackage _pck;
