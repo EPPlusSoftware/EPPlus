@@ -904,7 +904,6 @@ namespace EPPlusTest.Issues
 
 
         [TestMethod, Ignore("Disabled due to taking over 10 seconds on AppVeyor. /MA")]
-        [TestMethod]
         public void DimensionByValueIssue()
         {
             using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))
