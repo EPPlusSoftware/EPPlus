@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace EPPlusTest.FormulaParsing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
 
     public class DynamicArrayFormulaTests : TestBase
     {

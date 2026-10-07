@@ -145,10 +145,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var headerText = s.GetHeaderText(index);
-            var entry = chart.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+            var entry = parent.Entries?.FirstOrDefault(x => x.Index == index);
             if (entry == null || entry.Font.IsEmpty)
             {
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
             else
             {
@@ -406,8 +406,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         private static double GetItemPosition<T>(ChartRenderer chart, T parent, DrawingLegendSerie pSls, double entryWidth, double entryHeight, double iconLeft, double iconCenter, out double x, out double y) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var topOffset = 0D;
-            if (chart.Chart.Legend.Position == eLegendPosition.Top ||
-               chart.Chart.Legend.Position == eLegendPosition.Bottom)
+            if (parent.Position == eLegendPosition.Top ||
+               parent.Position == eLegendPosition.Bottom)
             {
                 if (pSls != null && iconLeft + entryWidth * 2 + parent.MarginItemsWidth + parent.RightMargin > parent.MaxWidth)
                 {

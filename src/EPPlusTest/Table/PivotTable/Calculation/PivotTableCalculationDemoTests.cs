@@ -7,7 +7,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableCalculationDemoTests : TestBase
     {
         static ExcelPackage _package;

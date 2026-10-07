@@ -82,19 +82,36 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                 ];
         }
 
-        private static Dictionary<string, Dictionary<string, RichValueDataType>> _dataTypes = new Dictionary<string, Dictionary<string, RichValueDataType>>();
+        // The lookup table is built completely by the type initializer, which the runtime guarantees
+        // runs once and is thread safe. After that the dictionaries are only read, never modified,
+        // so concurrent readers need no locking.
+        private static readonly Dictionary<string, Dictionary<string, RichValueDataType>> _dataTypes = CreateDataTypes();
 
-        private static void RegisterKeys(string structureName, List<ExcelRichValueStructureKey> keys)
+        private static Dictionary<string, Dictionary<string, RichValueDataType>> CreateDataTypes()
         {
-            if(!_dataTypes.ContainsKey(structureName))
+            var dataTypes = new Dictionary<string, Dictionary<string, RichValueDataType>>();
+            RegisterKeys(dataTypes, StructureTypes.Error, Errors.Propagated);
+            RegisterKeys(dataTypes, StructureTypes.Error, Errors.Field);
+            RegisterKeys(dataTypes, StructureTypes.Error, Errors.Spill);
+            RegisterKeys(dataTypes, StructureTypes.Error, Errors.WithSubType);
+            RegisterKeys(dataTypes, StructureTypes.LocalImage, LocalImage.Image);
+            RegisterKeys(dataTypes, StructureTypes.WebImage, WebImage.Image);
+            return dataTypes;
+        }
+
+        private static void RegisterKeys(Dictionary<string, Dictionary<string, RichValueDataType>> dataTypes, string structureName, List<ExcelRichValueStructureKey> keys)
+        {
+            Dictionary<string, RichValueDataType> structure;
+            if (!dataTypes.TryGetValue(structureName, out structure))
             {
-                _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+                structure = new Dictionary<string, RichValueDataType>();
+                dataTypes[structureName] = structure;
             }
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
-                if (!_dataTypes[structureName].ContainsKey(key.Name))
+                if (!structure.ContainsKey(key.Name))
                 {
-                    _dataTypes[structureName][key.Name] = key.DataType;
+                    structure[key.Name] = key.DataType;
                 }
             }
         }
@@ -130,18 +147,11 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         internal static RichValueDataType? GetKeyDataType(string structureName, string keyName)
         {
-            if(_dataTypes.Count == 0)
+            Dictionary<string, RichValueDataType> structure;
+            RichValueDataType dataType;
+            if (_dataTypes.TryGetValue(structureName, out structure) && structure.TryGetValue(keyName, out dataType))
             {
-                RegisterKeys(StructureTypes.Error, Errors.Propagated);
-                RegisterKeys(StructureTypes.Error, Errors.Field);
-                RegisterKeys(StructureTypes.Error, Errors.Spill);
-                RegisterKeys(StructureTypes.Error, Errors.WithSubType);
-                RegisterKeys(StructureTypes.LocalImage, LocalImage.Image);
-                RegisterKeys(StructureTypes.WebImage, WebImage.Image);
-            }
-            if(_dataTypes.ContainsKey(structureName) && _dataTypes[structureName].ContainsKey(keyName))
-            {
-                return _dataTypes[structureName][keyName];
+                return dataType;
             }
             return null;
         }

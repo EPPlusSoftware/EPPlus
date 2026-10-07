@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 namespace EPPlusTest.Table
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TableInsertTests : TestBase
     {
         static ExcelPackage _pck;

@@ -50,7 +50,7 @@ using System.Diagnostics;
 namespace EPPlusTest
 {
 
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class WorkSheetTest : TestBase
     {
         static ExcelPackage _pck;
@@ -855,6 +855,11 @@ namespace EPPlusTest
         {
             using (var pck = OpenPackage("WorksheetRead.xlsx"))
             {
+                if (pck.Workbook.Worksheets["Address"] == null || pck.Workbook.Worksheets["Comment"] == null)
+                {
+                    Assert.Inconclusive("WorksheetRead.xlsx is missing or incomplete. " +
+                        "Run the complete WorkSheetTest class once to generate it.");
+                }
                 var ws = TryGetWorksheet(pck, "Address");
                 var wsCopy = pck.Workbook.Worksheets.Add("Copied Address", ws);
 

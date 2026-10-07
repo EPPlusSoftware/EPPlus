@@ -34,7 +34,7 @@ using System.Drawing;
 
 namespace EPPlusTest.Drawing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class EffectReadTest : TestBase
     {
         static ExcelPackage _pck;

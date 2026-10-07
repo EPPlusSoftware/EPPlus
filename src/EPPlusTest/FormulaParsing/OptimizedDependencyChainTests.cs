@@ -7,7 +7,7 @@
 
 //namespace EPPlusTest.FormulaParsing
 //{
-//    [TestClass]
+//    [TestClass, DoNotParallelize]
 //    public class OptimizedDependencyChainTests : TestBase
 //    {
 //        //static ExcelPackage _package;

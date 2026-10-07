@@ -38,7 +38,7 @@ using OfficeOpenXml.Style;
 
 namespace EPPlusTest.Drawing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class FillTest : TestBase
     {
         static ExcelPackage _pck;

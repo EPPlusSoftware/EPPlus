@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class FormulaTableAddressTests : TestBase
     {
         private static ExcelPackage _package;

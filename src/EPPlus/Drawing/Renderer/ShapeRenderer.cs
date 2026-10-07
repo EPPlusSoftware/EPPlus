@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         {
             var pi = new PathRenderItem(parent);
             var coordinates = new List<double>();
-            PathCommands cmd = null;
+            PathCommand cmd = null;
             PathsBase pCmd = null;
             double cx = 0, cy = 0;
             foreach (var p in path.Paths)
@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                             pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
                             coordinates.Clear();
                         }
-                        pi.Commands.Add(new PathCommands(PathCommandType.End));
+                        pi.Commands.Add(new PathCommand(PathCommandType.End));
                         cmd = null;
                         break;
                 }
@@ -418,7 +418,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
         }
 
-        private static void HandleLine(ref double currentX, ref double currentY, ref double xe, ref double ye, PathCommands cmd, List<Coordinate> cmdCoordinates, ref int i)
+        private static void HandleLine(ref double currentX, ref double currentY, ref double xe, ref double ye, PathCommand cmd, List<Coordinate> cmdCoordinates, ref int i)
         {
             xe = cmd.Coordinates[i];
             ye = cmd.Coordinates[++i];
@@ -463,12 +463,12 @@ namespace OfficeOpenXml.Drawing.Renderer
                 xe = xec;
             }
         }
-        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
+        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommand cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
         {
             if (pp == null || pp.Type != p.Type)
             {
                 SetCmdCoordinats(cmd, p, coordinates);
-                cmd = new PathCommands(commandType);
+                cmd = new PathCommand(commandType);
                 pi.Commands.Add(cmd);
             }
             AddToCoordinates(path, coordinates, p);
@@ -478,7 +478,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             //var width = ((double)path.Width.Value / ExcelDrawing.EMU_PER_PIXEL);
             //var height = ((double)path.Height.Value / ExcelDrawing.EMU_PER_PIXEL);
             var arc = (ArcTo)p;
-            PathCommands c = null;
+            PathCommand c = null;
             startPointX = pCmd.EndX;
             startPointY = pCmd.EndY;
             if (startPointX != 0) startPointX /= ExcelDrawing.EMU_PER_POINT;
@@ -521,7 +521,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 var centerY = startPointY - (hR * Math.Sin(angleT));
                 var endX = (double)centerX + (wR * Math.Cos(angleTEnd));
                 var endY = (double)centerY + (hR * Math.Sin(angleTEnd));
-                c = new PathCommands(PathCommandType.Arc, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
+                c = new PathCommand(PathCommandType.Arc, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
                 pi.Commands.Add(c);
                 stA += aAdd;
                 swA -= aAdd;
@@ -541,7 +541,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         {
             return MConverter.DegreesToRadians(angle);
         }
-        protected static void SetCmdCoordinats(PathCommands cmd, PathsBase p, List<double> coordinates)
+        protected static void SetCmdCoordinats(PathCommand cmd, PathsBase p, List<double> coordinates)
         {
             if (cmd != null)
             {

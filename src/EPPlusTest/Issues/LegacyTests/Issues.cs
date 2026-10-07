@@ -3991,7 +3991,7 @@ namespace EPPlusTest
         [TestMethod]
         public void i763()
         {
-            using (var package = OpenPackage("i761.xlsx", true))
+            using (var package = OpenPackage("i763.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("Page1");
                 sheet.Cells["A1"].Value = 0;

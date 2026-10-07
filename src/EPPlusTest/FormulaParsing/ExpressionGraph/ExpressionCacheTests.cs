@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExpressionCacheTests : TestBase
     {
         static ExcelPackage _pck;

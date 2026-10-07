@@ -34,8 +34,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             bool differentOddEven = pdfSheet.Worksheet.HeaderFooter.differentOddEven;
             HasFirstPage = differentFirst;
             HasOddEvenPages = differentOddEven;
-            bool AlignWithMargins = pdfSheet.Worksheet.HeaderFooter.AlignWithMargins;
-            bool ScaleWithDocument = pdfSheet.Worksheet.HeaderFooter.ScaleWithDocument;
+            AlignWithMargins = pdfSheet.Worksheet.HeaderFooter.AlignWithMargins;
+            ScaleWithDocument = pdfSheet.Worksheet.HeaderFooter.ScaleWithDocument;
             PdfHeaderFooter entry = null;
             if (differentFirst)
             {
@@ -156,6 +156,21 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 entry.Content.ContentAligmnet = PdfTextMap.GetAlignmentData(entry);
                 PdfHeaderFooterEntries.Add(entry);
+            }
+
+            double hfScale = pageSettings.ContentScale;
+            if (ScaleWithDocument && hfScale != 1d)
+            {
+                foreach (var e in PdfHeaderFooterEntries)
+                {
+                    if (e.Content?.TextFragments != null)
+                    {
+                        foreach (var tf in e.Content.TextFragments)
+                            tf.Font.Size = (float)(tf.Font.Size * hfScale);
+                    }
+                    e.ImageWidth *= hfScale;
+                    e.ImageHeight *= hfScale;
+                }
             }
         }
 

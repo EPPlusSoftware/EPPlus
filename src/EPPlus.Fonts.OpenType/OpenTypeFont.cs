@@ -11,6 +11,7 @@
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.Subsetting;
 using EPPlus.Fonts.OpenType.Tables;
@@ -646,6 +647,11 @@ namespace EPPlus.Fonts.OpenType
 
         public OpenTypeFont CreateSubset(IEnumerable<char> usedChars)
         {
+            return CreateSubset(usedChars, false);
+        }
+
+        internal OpenTypeFont CreateSubset(IEnumerable<char> usedChars, bool addSubsetTag)
+        {
             // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
@@ -654,13 +660,17 @@ namespace EPPlus.Fonts.OpenType
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
 
             var subsetBuilder = new SubsetFontBuilder();
-
-            // Extract Unicode code points, correctly handling surrogate pairs.
-            // A string like "Hello 😀" contains 7 chars but 6 code points,
-            // because 😀 (U+1F600) is encoded as two UTF-16 surrogates.
             var codePoints = CodePointUtil.ExtractCodePoints(usedChars);
 
             var newFont = subsetBuilder.CreateSubset(this, codePoints);
+
+            if (addSubsetTag)
+            {
+                // Must happen BEFORE post-processing so lengths, checksums and any
+                // preprocessed table bytes are computed from the final name table.
+                var identity = new FontKey(GetEnglishFontFamilyName(), NameTable.GetSubfamilyEnum());
+                newFont.NameTable.ApplySubsetTag(SubsetTag.Create(identity, codePoints));
+            }
 
             var postProcessor = new SubsetPostProcessor();
             postProcessor.PostProcessSubset(newFont);

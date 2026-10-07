@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace EPPlusTest.Style
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class SlicerStyleTests : TestBase
     {
         static ExcelPackage _pck;

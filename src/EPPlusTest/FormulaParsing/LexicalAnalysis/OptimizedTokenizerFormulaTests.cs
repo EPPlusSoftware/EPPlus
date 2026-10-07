@@ -4,7 +4,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class OptimizedTokenizerFormulaTests : TestBase
     {
         static ExcelPackage _pck;

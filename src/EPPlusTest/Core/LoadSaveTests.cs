@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class LoadSaveTests : TestBase
     {
         static ExcelPackage _pck;

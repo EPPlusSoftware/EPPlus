@@ -39,7 +39,7 @@ using System.IO;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class DataPointsTest : TestBase
     {
         static ExcelPackage _pck;

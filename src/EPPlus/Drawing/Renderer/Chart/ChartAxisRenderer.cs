@@ -262,7 +262,7 @@ namespace EPPlusImageRenderer.Svg
             get;
             private set;
         } = false;
-
+        public bool IsCount { get; set; }
 
         /// <summary>
         /// Create a subGroup beneath the ParentGroup
@@ -502,6 +502,10 @@ namespace EPPlusImageRenderer.Svg
                         p.HorizontalAlignment = eTextAlignment.Center;
                     }
                     tb.ImportParagraph(p, 0, t);
+                }
+                else
+                {
+                    tb.AddText(t);
                 }
 
                 tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
@@ -767,10 +771,10 @@ namespace EPPlusImageRenderer.Svg
 
             var tms = new List<LineRenderItem>();
             double min, max, addMinor=0D;
-            if(double.IsNaN(parentUnit)==false && parentUnit==units)
-            {
-                addMinor = parentUnit / 2;
-            }
+            //if(double.IsNaN(parentUnit)==false && parentUnit==units)
+            //{
+            //    addMinor = parentUnit / 2;
+            //}
 
             if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis==false)
             {
@@ -807,17 +811,18 @@ namespace EPPlusImageRenderer.Svg
                 tickMarkWidthOutside = tickMarkWidth;
             }
 
-            var diff = min == 0 ? max - min : max - min + 1;
-            var maxPos = max == 0 ? max : max + 1;
+            var diff = IsCatAx() ? max - min + 1 : max - min;
+            var maxPos = IsCatAx() ? max + 1 : max;
 
             double d = min + addMinor;
-            while (d <= maxPos)
+            maxPos += units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
+            while (d <= maxPos )
             {
                 var addPosition = (d - min);
-                if (double.IsNaN(parentUnit) || 
-                    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
-                    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
-                {
+                //if (double.IsNaN(parentUnit) || 
+                //    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
+                //    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
+                //{
                     double x1, y1, x2, y2;
                     switch (Axis.ActualAxisPosition)
                     {
@@ -863,7 +868,7 @@ namespace EPPlusImageRenderer.Svg
                         tm.Style.BorderWidth = 0.75;
                     }
                     tms.Add(tm);
-                }
+                //}
                 if (units == 0) break;
                 switch (dateUnit)
                 {
@@ -887,7 +892,7 @@ namespace EPPlusImageRenderer.Svg
                         break;
                 }
             }
-                return tms;
+            return tms;
         }
 
         private bool IsMinorDateUnit(eTimeUnit dateUnit, double parentUnit, double d)
@@ -983,10 +988,10 @@ namespace EPPlusImageRenderer.Svg
             tm.X2 = x2;
             tm.Y2 = y2;
 
-            if(id == "xGridLine")
-            {
-                tm.Width = pa.Rectangle.Width;
-            }
+            //if(id == "xGridLine")
+            //{
+            //    tm.Width = pa.Rectangle.Width;
+            //}
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
             tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
 
@@ -1026,6 +1031,7 @@ namespace EPPlusImageRenderer.Svg
             switch (Axis.AxisType)
             {
                 case eAxisType.Cat:
+                case eAxisType.Date:
                     axisStyle = Chart.StyleManager.Style?.CategoryAxis;
                     break;
                 case eAxisType.Serie:
@@ -1107,6 +1113,7 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
+            IsCount = isCount;
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,

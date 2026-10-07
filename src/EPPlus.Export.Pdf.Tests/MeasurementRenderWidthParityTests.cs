@@ -125,7 +125,7 @@ namespace EPPlusTest.PDF
 
         private static double GetMeasuredWidth(PdfPageSettings settings, ExcelRangeBase range)
         {
-            var catalog = new PdfCatalog();
+            var catalog = new EPPlusToPdfWriter();
             var cells = catalog.GetCellCollectionFromRange(settings, range);
             return cells[range.Start.Row, range.Start.Column].TotalTextLength;
         }
@@ -134,7 +134,7 @@ namespace EPPlusTest.PDF
         {
             using (var stream = new MemoryStream())
             {
-                new PdfCatalog(settings, sheet).Save(stream);
+                new EPPlusToPdfWriter(settings, sheet).Save(stream);
                 return stream.ToArray();
             }
         }

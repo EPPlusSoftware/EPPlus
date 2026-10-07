@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class DatalabelTest : TestBase
     {
         static ExcelPackage _pck;

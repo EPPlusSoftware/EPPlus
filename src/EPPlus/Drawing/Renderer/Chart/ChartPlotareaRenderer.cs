@@ -102,6 +102,10 @@ namespace EPPlusImageRenderer.Svg
             {
                 vaHeight += ChartRenderer.Legend.Rectangle.Height + ChartRenderer.Legend.TopMargin;
             }
+            if(ChartRenderer.HasDataTable)
+            {
+                vaHeight += ChartRenderer.DataTable.Rectangle.Height + ChartRenderer.DataTable.TopMargin;
+            }
             return ChartRenderer.Bounds.Height - rect.GlobalTop - vaHeight - BottomMargin;
         }
 
@@ -152,7 +156,7 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
-            return right - rightAxisWidth-rect.GlobalLeft;
+            return right - rightAxisWidth - rect.GlobalLeft;
         }
         private double GetPlotAreaLeft()
         {

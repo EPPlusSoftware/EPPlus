@@ -36,7 +36,7 @@ using OfficeOpenXml.Drawing;
 
 namespace EPPlusTest
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class HyperLinkTest : TestBase
     {
         static ExcelPackage _pck;

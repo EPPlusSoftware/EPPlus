@@ -830,7 +830,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         {
             if (ws.Dimension == null) return 0; //If dimension is null, there are no cells to check, so return 0.
             int columnsToAdd = 0;
-            var catalog = new PdfCatalog();
+            var catalog = new EPPlusToPdfWriter();
             var lastColumn = ws.Dimension.End.Column;
             ExcelRangeBase lastColumnRange = ws.Cells[1, lastColumn, ws.Dimension.End.Row, lastColumn];
             var cc = catalog.GetCellCollectionFromRange(pageSettings, lastColumnRange);

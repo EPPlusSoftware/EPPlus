@@ -196,6 +196,23 @@ namespace EPPlus.Export.Pdf.Settings
             }
         }
 
+        private double _resolvedFitScale = 1d;
+        internal void SetResolvedFitScale(double s) { _resolvedFitScale = s; }
+
+        internal double ContentScale
+        {
+            get
+            {
+                if (_scaling == null) 
+                   return 1d;
+                if (_scaling.ScalingMode == ScalingMode.AdjustToNormalSize)
+                    return _scaling.Scale > 0d ? _scaling.Scale : 1d;
+                return _resolvedFitScale;
+            }
+        }
+        internal double EffectiveContentWidth => ContentBounds.Width / ContentScale;
+        internal double EffectiveContentHeight => ContentBounds.Height / ContentScale;
+
         /// <summary>
         /// GSUB (glyph substitution) features to request when shaping text for this export, e.g.
         /// ligatures and contextual alternates. Defaults to <see cref="GsubFeature.Liga"/> |

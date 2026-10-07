@@ -14,10 +14,12 @@ using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace EPPlus.Export.Pdf.Tests
 {
@@ -167,6 +169,35 @@ namespace EPPlus.Export.Pdf.Tests
                         "the referable font must be the Type0 font dict instead.");
                 }
             }
+        }
+
+        [TestMethod]
+        public void FontObjects_ForSubsetFont_ShareIdenticalTaggedName()
+        {
+            var engine = new OpenTypeFontEngine(cfg => cfg.SearchSystemDirectories = true);
+            if(engine.GetFontAvailability("Calibri") != FontAvailability.Exact)
+            {
+                Assert.Inconclusive("Calibri font is not available on this system. This test requires Calibri to be installed.");
+            }
+            var font = engine.LoadFont("Calibri");
+            var subset = new SingleFontSubsetter().Subset(font, new HashSet<int> { 65, 66, 67 }, true);
+
+            var resource = new PdfFontResource("Calibri", FontSubFamily.Regular, 1, new PdfPageSettings(engine));
+            resource.fontData = subset;
+
+            // Object numbers are arbitrary; they only need to be set in dependency order.
+            var descriptor = resource.GetFontDescriptorObject(10).RenderDictionary();
+            var cid = resource.GetCIDFontObject(11).RenderDictionary();
+            var type0 = resource.GetType0FontDictObject(12).RenderDictionary();
+
+            var rx = new Regex(@"/(?:BaseFont|FontName)\s+/(\S+)");
+            var names = new[] { descriptor, cid, type0 }
+                .Select(s => rx.Match(s).Groups[1].Value)
+                .ToList();
+
+            foreach (var n in names)
+                Assert.IsTrue(Regex.IsMatch(n, "^[A-Z]{6}\\+[^+\\s]+$"), n);
+            Assert.AreEqual(1, names.Distinct().Count(), string.Join(" | ", names.ToArray()));
         }
     }
 }

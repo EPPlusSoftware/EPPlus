@@ -665,7 +665,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
-            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommand(PathCommandType.Move, RenderCoordinates));
             pathItem.Style.FillColor = "none";
             pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
             pathItem.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);

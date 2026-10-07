@@ -12,7 +12,7 @@ using FakeItEasy;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class GetPivotDataTests_Sort : TestBase
 	{
 		private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;

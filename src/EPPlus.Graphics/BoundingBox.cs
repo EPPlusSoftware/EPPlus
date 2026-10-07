@@ -23,46 +23,22 @@ namespace EPPlus.Graphics
         /// <summary>
         /// Y pos (min)
         /// </summary>
-        public double Top
+        public virtual double Top
         {
             get { return LocalPosition.Y; }
             set
             {
                 LocalPosition = new Vector2(LocalPosition.X, value);
-                //var tmpHeight = Height != 0 ? Height : 0;
-
-                //var currentPosition = Transform.LocalPosition;
-                //currentPosition.Y = value;
-                //Transform.LocalPosition = currentPosition;
-
-                ////Recalculate bottom position correctly
-                ////if (tmpHeight != 0)
-                ////{
-                //    //Height = tmpHeight;
-                //    Bottom = Top + tmpHeight;
-                ////}
             }
         }
         /// <summary>
         /// X pos (min)
         /// </summary>
-        public double Left
+        public virtual double Left
         {
             get { return LocalPosition.X; }
             set
             {
-                //var tmpWidth = Width != 0 ? Width : 0;
-
-                //var currentPosition = Transform.LocalPosition;
-                //currentPosition.X = value;
-                //Transform.LocalPosition = currentPosition;
-
-                //Recalculate Right position correctly
-                //if (tmpWidth != 0)
-                //{
-                //Right = Left + tmpWidth;
-                //Width = tmpWidth;
-                //}
                 LocalPosition = new Vector2(value, LocalPosition.Y);
             }
         }

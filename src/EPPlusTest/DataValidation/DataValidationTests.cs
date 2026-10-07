@@ -617,7 +617,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ClearValidationAndAddressChangeWithSpacedAddresses()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress1.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3 B5 C3 E15:E17");
@@ -652,7 +652,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ClearValidationAndAddressChangeWithSpacedAddressesViaCells()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress2.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
 
@@ -681,7 +681,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ClearValidationOverARangeWithMultipleValidations()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress3.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
@@ -712,7 +712,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ClearValidationOverARangeWithMultipleValidations2()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress4.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
@@ -775,7 +775,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void DeleteRangeOneAddressTest()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress5.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
@@ -795,7 +795,7 @@ namespace EPPlusTest.DataValidation
         [ExpectedException(typeof(InvalidOperationException))]
         public void ClearSingular()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress6.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A9");
@@ -810,7 +810,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ClearSingularSpaceSeparated()
         {
-            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            using (var pck = OpenPackage("ClearDataValidationTestAdress7.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("ClearTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A9 A6 B12 C50");

@@ -35,7 +35,7 @@ using System.IO;
 
 namespace EPPlusTest.Drawing.Chart.Styling
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ColumnChartStylingTest : TestBase
     {
         static ExcelPackage _pck;

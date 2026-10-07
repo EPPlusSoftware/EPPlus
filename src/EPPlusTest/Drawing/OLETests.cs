@@ -168,7 +168,7 @@ namespace EPPlusTest.Drawing
         public void WriteEmbeddedOleObject()
         {
             //Write Generic Object
-            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic2.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile);
@@ -561,7 +561,7 @@ namespace EPPlusTest.Drawing
         public void CreateLinkOLEFromFileInfo()
         {
             //Write Generic Object
-            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic_Link.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             FileInfo fileInfo = new FileInfo(myFile);
@@ -587,7 +587,7 @@ namespace EPPlusTest.Drawing
         public void CreateEmbeddedOLEFromStream()
         {
             //Write Generic Object
-            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic_Stream.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             using (FileStream fileStream = new FileStream(myFile, FileMode.Open, FileAccess.Read))
@@ -603,7 +603,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void SetPosition()
         {
-            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            using (ExcelPackage pck = OpenPackage("OLETest1.xlsx", true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("OleSheet");
@@ -620,7 +620,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void TestingOLEObjectCopy()
         {
-            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            using (ExcelPackage pck = OpenPackage("OLETest2.xlsx", true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("OleSheet");
@@ -641,7 +641,7 @@ namespace EPPlusTest.Drawing
         public void NewAdd()
         {
             //Write Generic Object
-            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic_New.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");

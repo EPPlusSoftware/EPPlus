@@ -241,7 +241,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         {
 
         }
-        public List<PathCommands> Commands { get; } = new List<PathCommands>();
+        public List<PathCommand> Commands { get; } = new List<PathCommand>();
         public override RenderItem Clone()
         {
             var clone = new PathRenderItem(Parent);
