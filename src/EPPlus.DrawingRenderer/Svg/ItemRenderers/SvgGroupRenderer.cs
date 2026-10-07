@@ -37,6 +37,11 @@ namespace EPPlus.DrawingRenderer.Svg
                 {
                     _shapeRenderer.Render(renderItem);
                 }
+                else
+                {
+                    //Is not render item but its children could contain renderItems
+                    //Handle it as if it was a group?
+                }
             }
 
             OutputStream.Append("</g>");

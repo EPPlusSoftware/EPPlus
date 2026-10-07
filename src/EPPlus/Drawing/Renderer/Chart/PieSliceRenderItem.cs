@@ -217,8 +217,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CalculateExplosionDir();
             CalculateWidthHeight(prevSliceDegrees);
 
-
             _innerItems = new GroupRenderItem(_innerGroup, 0);
+            _innerItems.Name = "Inner_Items";
         }
 
         internal void ImportPathData(BoundingBox plotAreaBounds, BoundingBox globalAreaBounds, double sliceScaleFactor, double explosionOfPoint, double pieExplosion, int position)
@@ -356,10 +356,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.Left += _innerGroup.TranslationOffset.Left;
             _innerGroup.Top += _innerGroup.TranslationOffset.Top;
 
-            //The slice items post transform operations
+            ////The slice items post transform operations
             _innerItems.AddChildItem(_slicePath);
-            //The bounds and translations of the slice
-            _innerGroup.AddChildItem(_innerItems);
+            ////The bounds and translations of the slice
+            //_innerGroup.AddChildItem(_innerItems);
 
             if (DebugItems != null && DebugItems.Count > 0)
             {
