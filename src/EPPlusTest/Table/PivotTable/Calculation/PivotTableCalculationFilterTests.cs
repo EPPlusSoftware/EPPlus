@@ -11,7 +11,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using Castle.DynamicProxy;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableCalculationFilterTests : TestBase
     {
         static ExcelPackage _pck;

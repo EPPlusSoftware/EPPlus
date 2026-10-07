@@ -3745,7 +3745,7 @@ namespace OfficeOpenXml
         public void SaveAsPdf(string fileName)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfCatalog = new PdfCatalog(settings, this);
+            var pdfCatalog = new EPPlusToPdfWriter(settings, this);
             pdfCatalog.Save(fileName);
         }
 
@@ -3761,7 +3761,7 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new PdfCatalog(settings, this);
+                var pdfCatalog = new EPPlusToPdfWriter(settings, this);
                 pdfCatalog.Save(fileName);
             }, cancellationToken);
         }
@@ -3773,7 +3773,7 @@ namespace OfficeOpenXml
         public void SaveAsPdf(Stream stream)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfCatalog = new PdfCatalog(settings, this);
+            var pdfCatalog = new EPPlusToPdfWriter(settings, this);
             pdfCatalog.Save(stream);
         }
 
@@ -3789,7 +3789,7 @@ namespace OfficeOpenXml
             return Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new PdfCatalog(settings, this);
+                var pdfCatalog = new EPPlusToPdfWriter(settings, this);
                 pdfCatalog.Save(stream);
             }, cancellationToken);
         }

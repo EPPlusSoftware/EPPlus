@@ -10,7 +10,7 @@ using System.Data;
 using FakeItEasy;
 namespace EPPlusTest.Table.PivotTable
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableConditionalFormattingTests : TestBase
     {
         static ExcelPackage _pck;

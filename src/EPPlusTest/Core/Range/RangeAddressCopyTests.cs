@@ -35,23 +35,14 @@ using System.Linq;
 
 namespace EPPlusTest.Core.Range
 {
+    /// <summary>
+    /// Every test in this class works on its own in-memory ExcelPackage.
+    /// Output files (for visual inspection) must have a unique file name per test,
+    /// otherwise tests running in parallel will collide on the file system.
+    /// </summary>
     [TestClass]
     public class RangeAddressCopyTests : TestBase
     {
-        [TestInitialize]
-        public void DoInitialize()
-        {
-            var p = OpenPackage("PasteSpecial.xlsx", true);
-            SetUpPasteSpecial(p);
-            SaveAndCleanup(p);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-
-        }
-
         [TestMethod]
         public void ValidateCopyFormulasRow()
         {
@@ -361,7 +352,7 @@ namespace EPPlusTest.Core.Range
                 Assert.IsTrue(dv.ShowErrorMessage.Value);
                 Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
 
-                SaveWorkbook("dvcopy.xlsx", p);
+                SaveWorkbook("dvcopy_NewWorksheet.xlsx", p);
             }
         }
         [TestMethod]
@@ -388,7 +379,7 @@ namespace EPPlusTest.Core.Range
                     Assert.IsTrue(dv.ShowErrorMessage.Value);
                     Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
 
-                    SaveWorkbook("dvcopy.xlsx", p2);
+                    SaveWorkbook("dvcopy_NewPackage.xlsx", p2);
                 }
             }
         }
@@ -452,7 +443,7 @@ namespace EPPlusTest.Core.Range
                     Assert.AreEqual("3", cf2.Formula2);
                     Assert.AreEqual(ExcelFillStyle.Solid, cf2.Style.Fill.PatternType);
                     Assert.AreEqual(Color.Red.ToArgb(), cf2.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                    SaveWorkbook("cfcopy.xlsx", p2);
+                    SaveWorkbook("cfcopy_NewPackage.xlsx", p2);
                 }
             }
         }
@@ -592,7 +583,7 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(ExcelUnderLineType.None, ws.Cells["D6"].Style.Font.UnderLineType);
                 Assert.AreEqual(ExcelUnderLineType.None, ws.Cells["F8"].Style.Font.UnderLineType);
 
-                //SaveWorkbook("styleCopy.xlsx", p);
+                //SaveWorkbook("styleCopy_WithinWorkbook.xlsx", p);
             }
         }
         [TestMethod]
@@ -627,7 +618,7 @@ namespace EPPlusTest.Core.Range
                     Assert.AreEqual(ExcelUnderLineType.None, ws2.Cells["D6"].Style.Font.UnderLineType);
                     Assert.AreEqual(ExcelUnderLineType.None, ws2.Cells["F8"].Style.Font.UnderLineType);
 
-                    SaveWorkbook("styleCopy.xlsx", p2);
+                    SaveWorkbook("styleCopy_ToNewWorkbook.xlsx", p2);
                 }
             }
         }
@@ -689,7 +680,7 @@ namespace EPPlusTest.Core.Range
                     Assert.AreEqual("3", cf2.Formula2);
                     Assert.AreEqual(ExcelFillStyle.Solid, cf2.Style.Fill.PatternType);
                     Assert.AreEqual(Color.Red.ToArgb(), cf2.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                    SaveWorkbook("cfcopy.xlsx", p2);
+                    SaveWorkbook("cfcopy_TransposedNewPackage.xlsx", p2);
                 }
             }
         }
@@ -1304,10 +1295,21 @@ namespace EPPlusTest.Core.Range
             ws.Calculate();
         }
 
+        /// <summary>
+        /// Creates a new in-memory package prepared for the PasteSpecial tests.
+        /// Each test gets its own package, so the tests do not depend on a shared file.
+        /// </summary>
+        private ExcelPackage CreatePasteSpecialPackage()
+        {
+            var p = new ExcelPackage();
+            SetUpPasteSpecial(p);
+            return p;
+        }
+
         [TestMethod]
         public void PasteSpecial_Formulas()
         {
-            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            using (var p = CreatePasteSpecialPackage())
             {
                 var ws = p.Workbook.Worksheets[0];
                 var srcCell = ws.Cells["D3"];
@@ -1325,14 +1327,14 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("ROW()+COLUMN()", destCell.Formula);
                 Assert.AreNotEqual(2478d, destCell.Value);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("PasteSpecial_Formulas.xlsx", p);
             }
         }
 
         [TestMethod]
         public void PasteSpecial_Values()
         {
-            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            using (var p = CreatePasteSpecialPackage())
             {
                 var ws = p.Workbook.Worksheets[0];
                 var srcCell = ws.Cells["D3"];
@@ -1351,14 +1353,14 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(2478d, destCell.Value);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("PasteSpecial_Values.xlsx", p);
             }
         }
 
         [TestMethod]
         public void PasteSpecial_Formats()
         {
-            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            using (var p = CreatePasteSpecialPackage())
             {
                 var ws = p.Workbook.Worksheets[0];
                 var srcCell = ws.Cells["D3"];
@@ -1373,19 +1375,19 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Left.Style);
                 Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Top.Style);
                 Assert.AreEqual(ExcelBorderStyle.Dashed, destCell.Style.Border.Bottom.Style);
-                Assert.AreEqual(ws.ConditionalFormatting[0],destCell.ConditionalFormatting.GetConditionalFormattings()[0]);
+                Assert.AreEqual(ws.ConditionalFormatting[0], destCell.ConditionalFormatting.GetConditionalFormattings()[0]);
 
                 Assert.AreEqual("", destCell.Formula);
                 Assert.AreEqual(null, destCell.Value);
                 Assert.AreEqual(null, destCell.Comment);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("PasteSpecial_Formats.xlsx", p);
             }
         }
         [TestMethod]
         public void PasteSpecial_Comments()
         {
-            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            using (var p = CreatePasteSpecialPackage())
             {
                 var ws = p.Workbook.Worksheets[0];
                 var srcCell = ws.Cells["D3"];
@@ -1403,13 +1405,13 @@ namespace EPPlusTest.Core.Range
 
                 Assert.AreEqual(srcCell.Comment.Text, destCell.Comment.Text);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("PasteSpecial_Comments.xlsx", p);
             }
         }
         [TestMethod]
         public void PasteSpecial_Validation()
         {
-            using (var p = OpenPackage("PasteSpecial.xlsx"))
+            using (var p = CreatePasteSpecialPackage())
             {
                 var ws = p.Workbook.Worksheets[0];
                 var srcCell = ws.Cells["D3"];
@@ -1431,7 +1433,7 @@ namespace EPPlusTest.Core.Range
 
                 Assert.IsNotNull(validations);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("PasteSpecial_Validation.xlsx", p);
             }
         }
     }

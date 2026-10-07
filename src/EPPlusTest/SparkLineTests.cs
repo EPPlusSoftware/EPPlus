@@ -34,7 +34,7 @@ using OfficeOpenXml.Sparkline;
 
 namespace EPPlusTest
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class SparkLineTests : TestBase
     {
         static ExcelPackage _pck;

@@ -36,7 +36,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
     /// <summary>
     /// Remove the Ignore attributes from the testmethods if you want to run any of these tests
     /// </summary>
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class IntegrationTests : TestBase
     {
         static ExcelPackage _package;

@@ -35,7 +35,7 @@ using OfficeOpenXml;
 
 namespace EPPlusTest
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class CommentsTest : TestBase
     {
         static ExcelPackage _pck;

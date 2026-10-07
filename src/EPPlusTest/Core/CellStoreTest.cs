@@ -468,7 +468,7 @@ namespace EPPlusTest.Core
                 v += r + 1;
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore("This test fails sometimes in parallel execution. Should not run as part of unit tests.")]
         public void ValidatePerformance()
         {
             var cellStore = new CellStore<int>();

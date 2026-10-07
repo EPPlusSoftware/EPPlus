@@ -8,7 +8,7 @@ using OfficeOpenXml.Utils.FileUtils;
 
 namespace EPPlusTest.Drawing
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class PictureTests : TestBase
 	{
 		private static ExcelPackage _pck;
@@ -187,7 +187,7 @@ namespace EPPlusTest.Drawing
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
-				var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", PictureLocation.Link);
+				var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff'\0'", PictureLocation.Link);
 
 				SaveAndCleanup(package);
 			}
@@ -200,7 +200,7 @@ namespace EPPlusTest.Drawing
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
-				var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\\test???", PictureLocation.Link);
+				var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\\test???'\0'", PictureLocation.Link);
 
 				SaveAndCleanup(package);
 			}
@@ -214,7 +214,7 @@ namespace EPPlusTest.Drawing
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
-				var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\test???", PictureLocation.Link);
+				var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\test???'\0'", PictureLocation.Link);
 
 				SaveAndCleanup(package);
 			}
@@ -228,7 +228,7 @@ namespace EPPlusTest.Drawing
 			{
 				var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
-				var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", new ExcelHyperLink("https://www.google.com/"), PictureLocation.Link);
+				var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff'\0'", new ExcelHyperLink("https://www.google.com/"), PictureLocation.Link);
 
 				SaveAndCleanup(package);
 			}

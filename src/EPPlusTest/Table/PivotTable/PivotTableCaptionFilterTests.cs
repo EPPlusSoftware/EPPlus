@@ -5,7 +5,7 @@ using OfficeOpenXml.Table.PivotTable;
 
 namespace EPPlusTest.Table.PivotTable
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableCaptionFilterTests : TestBase
     {
         static ExcelPackage _pck;

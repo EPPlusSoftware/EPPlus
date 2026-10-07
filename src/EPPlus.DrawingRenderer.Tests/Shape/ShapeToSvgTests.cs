@@ -85,7 +85,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 d.TextAlignment = OfficeOpenXml.Drawing.eTextAlignment.Left;
                 d.TextAnchoring = OfficeOpenXml.Drawing.eTextAnchoringType.Bottom;
                 var svg = d.ToSvg();
-                SaveTextFileToWorkbook("svg\\rect.svg", svg);
+                SaveTextFileToWorkbook("svg/rect.svg", svg);
                 SaveAndCleanup(p);
             }
         }

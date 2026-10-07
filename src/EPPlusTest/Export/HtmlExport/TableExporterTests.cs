@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Export.HtmlExport
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TableExporterTests : TestBase
     {
         string _htmlOutput;

@@ -10,7 +10,7 @@ using OfficeOpenXml.Table.PivotTable;
 
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
-	[TestClass]
+	[TestClass, DoNotParallelize]
 	public class PivotTableCalculationGroupingTests : TestBase
 	{
 		static ExcelPackage _pck;

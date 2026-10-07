@@ -31,7 +31,7 @@ namespace EPPlus.Export.Pdf.Tests
 
         protected void SaveAsPdf(byte[] pdfBytes, string pdfFileName)
         {
-            if(!Directory.Exists(_worksheetPath))
+            if (!Directory.Exists(_worksheetPath))
             {
                 Assert.Inconclusive("Pdf Path not available in this environment");
             }
@@ -39,11 +39,11 @@ namespace EPPlus.Export.Pdf.Tests
             {
                 File.WriteAllBytes(Path.Combine(_pdfPath, pdfFileName), pdfBytes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Inconclusive("Could not write pdf file: " + ex.Message);
             }
-           
+
         }
 
         /// <summary>
@@ -56,8 +56,16 @@ namespace EPPlus.Export.Pdf.Tests
         /// </summary>
         protected void SaveAsPdf(ExcelWorksheet sheet, string pdfFileName, PdfPageSettings settings)
         {
-            string path = GetPdfFilePath(pdfFileName);
-            new PdfCatalog(settings, sheet).Save(path);
+            if (!pdfFileName.ToLower().EndsWith(".pdf"))
+            {
+                pdfFileName += ".pdf";
+            }
+            if (Directory.Exists(_pdfPath) == false)
+            {
+                Directory.CreateDirectory(_pdfPath);
+            }
+            var path = Path.Combine(_pdfPath, pdfFileName);
+            new EPPlusToPdfWriter(settings, sheet).Save(path);
         }
 
         /// <summary>
@@ -66,8 +74,12 @@ namespace EPPlus.Export.Pdf.Tests
         /// </summary>
         protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfPageSettings settings)
         {
-            string path = GetPdfFilePath(pdfFileName);
-            new PdfCatalog(settings, wb).Save(path);
+            if (!pdfFileName.ToLower().EndsWith(".pdf"))
+            {
+                pdfFileName += ".pdf";
+            }
+            var path = Path.Combine(_pdfPath, pdfFileName);
+            new EPPlusToPdfWriter(settings, wb).Save(path);
         }
 
         /// <summary>
@@ -78,9 +90,9 @@ namespace EPPlus.Export.Pdf.Tests
         {
             string path = GetPdfFilePath(pdfFileName);
             if (ranges.Count() > 1)
-                new PdfCatalog(settings, ranges).Save(path);
+                new EPPlusToPdfWriter(settings, ranges).Save(path);
             else
-                new PdfCatalog(settings, ranges[0]).Save(path);
+                new EPPlusToPdfWriter(settings, ranges[0]).Save(path);
         }
         private static string GetPdfFilePath(string pdfFileName)
         {
