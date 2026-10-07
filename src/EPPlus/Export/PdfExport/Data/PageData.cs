@@ -31,6 +31,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public double PrintTitleHeight;
         public PdfCellCollection Map;
         public PdfHeaderFooterCollection HeaderFooters;
+        public PdfAdditionalContent AddedContent;
         public Dictionary<string, MergedCellDrawInfo> MergedCells;
         public List<ImageDrawInfo> Images;
         public List<PrintTitleCellDraw> PrintTitleCells;

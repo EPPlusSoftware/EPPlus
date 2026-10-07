@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
     {
         internal static PdfPageSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
         {
+            bool stampNonCommercial = ExcelPackage.License.LicenseType == EPPlusLicenseType.NonCommercialOrganization;
             var settings = new PdfPageSettings(workbook.RenderContext.FontEngine);
             ApplyPrinterSettings(settings, eps);
             return settings;

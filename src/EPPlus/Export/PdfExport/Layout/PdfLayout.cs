@@ -154,7 +154,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
                                     if (sourceMap != null)
                                     {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info, info.X, info.Y, info.Width, info.Height);
+                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info.X, info.Y, info.Width, info.Height);
                                         text.Name = map.Name;
                                         text.GidsAndCharMap(dictionaries);
                                         text.SetupClipping(info.X, info.Y, info.Width, info.Height);
@@ -200,7 +200,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, x, y, effectiveWidth, rowHeight);
+                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, x, y, effectiveWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
                                     if (NeedsClipping(map, pages[j], row, col))
@@ -396,6 +396,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 }
                             }
                         }
+                    }
+                    if (page.AddedContent != null && page.AddedContent.content?.TextLines != null && page.AddedContent.content.TextLines.Count > 0)
+                    {
+                        var content = page.AddedContent.content;
+                        int last = content.TextLines.Count - 1;
+                        var descent = content.TextLines[last].LargestDescent;
+                        var ascent = content.TextLines[last].LargestAscent;
+                        var sx = 10d;
+                        var sy = descent + 2d;
+                        var width = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                        var cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
+                        cellcont.IsAddedContent = true;
+                        cellcont.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(cellcont);
+                        sy = pageSettings.PageSize.HeightPu - (descent + ascent + 4d);
+                        cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
+                        cellcont.IsAddedContent = true;
+                        cellcont.GidsAndCharMap(dictionaries);
+                        pageLayout.AddChild(cellcont);
                     }
                     PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>
@@ -623,7 +642,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             if (cell.TextLines != null && cell.TextLines.Count > 0)
             {
                 var info = new MergedCellDrawInfo { X = x, Y = y, Width = width, Height = height };
-                var text = new PdfCellContentLayout(pageSettings, dictionaries, cell, info, x, y, width, height);
+                var text = new PdfCellContentLayout(pageSettings, dictionaries, cell, x, y, width, height);
                 text.Name = namePrefix + "_Text";
                 text.IsHeading = true;
                 text.GidsAndCharMap(dictionaries);
@@ -727,7 +746,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (map.TextLines == null || map.TextLines.Count == 0) continue;
                 if (s.ClipWidth <= 0d || s.ClipHeight <= 0d) continue;
 
-                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, new MergedCellDrawInfo(), s.X, s.Y, s.Width, s.Height);
+                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, s.X, s.Y, s.Width, s.Height);
                 text.Name = "Spill_" + map.Name;
                 text.IsPrintTitle = s.IsPrintTitle;
                 text.GidsAndCharMap(dictionaries);
@@ -753,7 +772,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 if (map.TextLines != null && map.TextLines.Count > 0)
                 {
                     var info = new MergedCellDrawInfo { X = t.X, Y = t.Y, Width = t.Width, Height = t.Height };
-                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, info, t.X, t.Y, t.Width, t.Height);
+                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, t.X, t.Y, t.Width, t.Height);
                     text.Name = map.Name;
                     text.IsPrintTitle = true;
                     text.GidsAndCharMap(dictionaries);
@@ -938,6 +957,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = AssignRangeToPages(pageSettings, range, pages);
                     pages = MapPage(range, pages);
                     pages = GetHeaderFooter(range, pages, pdfSheet);
+                    pages = GetAdditionalContent(pages, pdfSheet);
                     pages = PrecomputeMergedCells(pageSettings, range, pages);
                     pages = PrecomputeSpillCells(pageSettings, range, pages);
                     pages = PrecomputePrintTitleCells(pageSettings, pdfSheet, range, pages);
@@ -957,6 +977,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages = AssignRangeToPages(pageSettings, pdfSheet.CommentsAndNotes, pages);
                     pages = MapPage(pdfSheet.CommentsAndNotes, pages);
                     pages = GetHeaderFooter(pdfSheet.CommentsAndNotes, pages, pdfSheet);
+                    pages = GetAdditionalContent(pages, pdfSheet);
                     pageSettings.ShowHeadings = savedShowHeadings;
                     pages.IsCommentsPage = true;
                     pages.Settings = pageSettings;
@@ -1698,6 +1719,17 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;
+            return pdfPages;
+        }
+
+        private static Pages GetAdditionalContent(Pages pdfPages, PdfWorksheet pdfSheet)
+        {
+            for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
+                var page = pdfPages.Page[i];
+                page.AddedContent = pdfSheet.AdditionalContent;
+                pdfPages.Page[i] = page;
+            }
             return pdfPages;
         }
 

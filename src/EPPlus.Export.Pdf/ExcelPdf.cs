@@ -184,9 +184,10 @@ namespace EPPlus.Export.Pdf
             var cells = pageLayout.ChildObjects.Where(t =>
                                                      (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
-                                                    !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle)) &&
+                                                    !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle || ccl.IsAddedContent)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
             var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
+            var AdditionalContent = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsAddedContent && !(pageSettings.AdditionalContent != "null"));
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
             var contentStream = new PdfContentStream(_document.Count + 1);
@@ -278,6 +279,10 @@ namespace EPPlus.Export.Pdf
                     case PdfCellBorderLayout borderLayout:
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
+            }
+            foreach (var content in AdditionalContent)
+            {
+                contentStream.AddCellContentLayout(content, _dictionaries, pageSettings);
             }
             contentStream.AddCommand("Q");
             _document.Add(contentStream);
