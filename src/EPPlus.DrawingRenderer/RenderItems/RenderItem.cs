@@ -145,7 +145,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         }
         public GroupRenderItem(BoundingBox parent, double rotation) : base(parent)
         {
-            Rotation = rotation;
+            LocalRotation = rotation;
         }
 
         public GroupRenderItem() : base()
