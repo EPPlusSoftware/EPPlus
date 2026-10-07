@@ -36,7 +36,7 @@ using System.Threading;
 
 namespace EPPlusTest.Filter
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class CustomFilter : TestBase
     {
         static ExcelPackage _pck;

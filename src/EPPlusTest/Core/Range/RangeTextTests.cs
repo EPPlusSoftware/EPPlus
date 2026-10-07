@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeTextTests : TestBase
     {
         static ExcelPackage _pck;

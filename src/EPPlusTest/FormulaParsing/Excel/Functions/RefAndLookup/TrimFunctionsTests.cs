@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TrimFunctionsTests : TestBase
     {
         [TestMethod]

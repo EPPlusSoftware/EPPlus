@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Table.PivotTable
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class PivotTableAutoSortTests : TestBase
     {
         static ExcelPackage _pck;

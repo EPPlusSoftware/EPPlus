@@ -30,17 +30,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Threading;
 
 namespace EPPlusTest.Style
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TableStyleTests : TestBase
     {
         static ExcelPackage _pck;

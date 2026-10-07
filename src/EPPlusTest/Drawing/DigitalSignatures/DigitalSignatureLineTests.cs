@@ -1,20 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Drawing;
-using System.IO;
-using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.EMF;
+using System;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
     [TestClass]
     public class DigitalSignatureLineTests : TestBase
     {
-        const string SubFolder = "DigSig\\SignatureLines\\";
+        private static readonly string SubFolder = Path.Combine("DigSig", "SignatureLines");
 
         X509Certificate2 GetSelfCert()
         {
@@ -38,7 +39,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            CreatePathIfNotExists(_worksheetPath + SubFolder);
+            CreatePathIfNotExists(Path.Combine(_worksheetPath, SubFolder));
         }
 
         [ClassCleanup]
@@ -46,12 +47,23 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
         }
 
+        private ExcelPackage OpenExcelPackage(string fileName, bool delete = false)
+        {
+            var path = Path.Combine(_worksheetPath, SubFolder, fileName);
+            var file = new FileInfo(path);
+            if (delete && file.Exists)
+            {
+                file.Delete();
+            }
+            return new ExcelPackage(path);
+        }
+
         [TestMethod]
         public void CreateAndReadDefaultSignatureLine()
         {
             var wsName = "SignatureLineWorksheet";
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLine_Default.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -61,7 +73,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLine_Default.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -84,7 +96,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var wsName = "SignatureLineStamps";
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLine_Stamp.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -93,7 +105,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLine_Stamp.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -123,7 +135,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string AlternativeText = "Alt text";
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLines.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -168,7 +180,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("UnsignedSignatureLines.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -238,7 +250,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLines.xlsx", true))
+            using (ExcelPackage package = OpenExcelPackage("SignedSignatureLines.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
@@ -260,7 +272,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLinesResaved.xlsx", true))
+            using (ExcelPackage package = OpenExcelPackage("SignedSignatureLinesResaved.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
@@ -273,7 +285,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLinesResaved.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("SignedSignatureLinesResaved.xlsx"))
             {
                 var wb = package.Workbook;
 
@@ -475,9 +487,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CreateSignAndResaveSigLineFullInfo()
         {
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
-            var fileName = $"{SubFolder}SignedSignatureLinesResavedFullInfo.xlsx";
+            var fileName = "SignedSignatureLinesResavedFullInfo.xlsx";
 
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
@@ -512,7 +524,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage(fileName))
+            using (ExcelPackage package = OpenExcelPackage(fileName))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
@@ -584,7 +596,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void CreateSignatureLineWithALLWithoutSignatureAndSpecialSymbols()
         {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_ALL.xlsx", true))
+            using (ExcelPackage package = OpenExcelPackage("DigSig_SignatureLine_ALL.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
@@ -600,7 +612,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_ALL.xlsx"))
+            using (ExcelPackage package = OpenExcelPackage("DigSig_SignatureLine_ALL.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
@@ -719,9 +731,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignatureLinePixels()
         {
-            var fileName = $"{SubFolder}SizingSigLine.xlsx";
+            var fileName = "SizingSigLine.xlsx";
 
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("SomeWs");
@@ -772,9 +784,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignatureLinesShouldBeRead()
         {
-            var fileName = $"{SubFolder}readSizingSigLine.xlsx";
+            var fileName = "readSizingSigLine.xlsx";
 
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage(fileName, true))
             {
                 var ws = package.Workbook.Worksheets.Add("aWs");
 
@@ -789,7 +801,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage(fileName))
+            using (ExcelPackage package = OpenExcelPackage(fileName))
             {
                 var ws = package.Workbook.Worksheets[0];
 
@@ -805,9 +817,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignatureLinesShouldBeReadCorrectlyAfterSettingPixelSize()
         {
-            var fileName = $"{SubFolder}SetPixelSizeSignatureLine.xlsx";
+            var fileName = "SetPixelSizeSignatureLine.xlsx";
 
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage(fileName, true))
             {
                 var ws = package.Workbook.Worksheets.Add("SetPixelSize");
 
@@ -821,7 +833,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage(fileName))
+            using (ExcelPackage package = OpenExcelPackage(fileName))
             {
                 var ws = package.Workbook.Worksheets[0];
 
@@ -835,9 +847,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void DeleteSignatureLine()
         {
-            var fileName = $"{SubFolder}SignatureLineDelete.xlsx";
-
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage("SignatureLineDelete.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("SetPixelSize");
 
@@ -857,9 +867,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void DeleteSignatureLineAndAddAgain()
         {
-            var fileName = $"{SubFolder}SignatureLineDeleteReAdd.xlsx";
 
-            using (ExcelPackage package = OpenPackage(fileName, true))
+            using (ExcelPackage package = OpenExcelPackage("SignatureLineDeleteReAdd.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("SetPixelSize");
 

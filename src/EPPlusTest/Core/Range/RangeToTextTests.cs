@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class RangeToTextTests : TestBase
     {
         static ExcelPackage _pck;
@@ -513,7 +513,7 @@ namespace EPPlusTest.Core.Range
                 var text = ws.Cells["A1:A2"].ToText();
 
                 //Assert
-                Assert.AreEqual("RichText 1\r\nRichText 2", text);
+                Assert.AreEqual($"RichText 1{Environment.NewLine}RichText 2", text);
                 Assert.AreEqual(3, ws.Cells["A2"].RichText.Count);
                 Assert.AreEqual(Color.Red.ToArgb(), ws.Cells["A2"].RichText[1].Color.ToArgb());
             }

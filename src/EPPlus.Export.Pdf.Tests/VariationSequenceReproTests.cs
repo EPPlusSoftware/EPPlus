@@ -88,7 +88,7 @@ namespace EPPlus.Export.Pdf.Tests
                 // rather than silently writing an unreadable file.
                 using (var stream = new MemoryStream())
                 {
-                    new PdfCatalog(settings, sheet).Save(stream);
+                    new EPPlusToPdfWriter(settings, sheet).Save(stream);
                     AssertLooksLikePdf(stream.ToArray());
                 }
 

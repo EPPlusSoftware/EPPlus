@@ -10,7 +10,7 @@ using System.IO;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ChartExTests : TestBase
     {
         static ExcelPackage _pck;

@@ -178,6 +178,11 @@ namespace EPPlus.Fonts.OpenType.GenericFontWidths
             _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Bold), CSF(1.38f, 1.34f, 1.21f, 1.2f));
             _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Italic), CSF(1.10f, 1.09f, 1.10f, 1.2f));
             _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.BoldItalic), CSF(1.38f, 1.32f, 1.2f, 1.2f));
+
+            _fonts.Add(GetKey(FontMetricsFamilies.Consolas, FontSubFamilies.Regular), CSF(1.10f, 1.10f, 1.10f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Consolas, FontSubFamilies.Bold), CSF(1.13f, 1.13f, 1.13f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Consolas, FontSubFamilies.Italic), CSF(1.13f, 1.13f, 1.13f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Consolas, FontSubFamilies.BoldItalic), CSF(1.13f, 1.13f, 1.13f));
         }
 
         public float GetScaleFactor(uint key, float width)
