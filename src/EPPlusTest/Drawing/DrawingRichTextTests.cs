@@ -10,7 +10,7 @@ namespace EPPlusTest.Drawing
 {
     namespace EPPlusTest.Drawing
     {
-        [TestClass]
+        [TestClass, DoNotParallelize]
         public class DrawingRichTextTests : TestBase
         {
             static ExcelPackage _pck;

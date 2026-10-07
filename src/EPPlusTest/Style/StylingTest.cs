@@ -38,7 +38,7 @@ using System.Threading;
 
 namespace EPPlusTest.Style
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class StylingTest : TestBase
     {
         static ExcelPackage _pck;

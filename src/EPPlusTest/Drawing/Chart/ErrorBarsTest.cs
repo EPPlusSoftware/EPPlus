@@ -38,7 +38,7 @@ using System.Drawing;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ErrorBarsTest : TestBase
     {
         static ExcelPackage _pck;

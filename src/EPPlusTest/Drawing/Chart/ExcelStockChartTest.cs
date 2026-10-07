@@ -38,7 +38,7 @@ using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExcelStockChartTest : StockChartTestBase
     {
         static ExcelPackage _pck;

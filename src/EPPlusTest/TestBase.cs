@@ -114,17 +114,67 @@ namespace EPPlusTest
         }
 
         /// <summary>
-        /// Saves and disposes a package
+        /// Saves the package if it contains any worksheets, and optionally disposes it.
         /// </summary>
-        /// <param name="pck"></param>
-        /// <param name="dispose"></param>
-        protected static void SaveAndCleanup(ExcelPackage pck, bool dispose=true)
+        /// <param name="pck">The package to save. Nothing is done if it is null, for example when [ClassInitialize] failed.</param>
+        /// <param name="dispose">If true, the package is disposed, also when saving fails, so no file handles are left open.</param>
+        /// <remarks>
+        /// MSTest prints only the message and the outer stack trace for exceptions thrown from [ClassCleanup].
+        /// ExcelPackage.Save wraps the real error in an InvalidOperationException, so the inner exception,
+        /// including its stack trace, is appended to the message. The exception type is kept, so tests using
+        /// [ExpectedException(typeof(InvalidOperationException))] still work.
+        /// </remarks>
+        protected static void SaveAndCleanup(ExcelPackage pck, bool dispose = true)
         {
-            if (pck.Workbook.Worksheets.Count > 0)
+            if (pck == null)
             {
-                pck.Save();
+                return;
             }
-            if(dispose) pck.Dispose();
+
+            try
+            {
+                if (pck.Workbook.Worksheets.Count > 0)
+                {
+                    pck.Save();
+                }
+            }
+            catch (InvalidOperationException ex) when (ex.InnerException != null)
+            {
+                if (dispose)
+                {
+                    DisposeAfterFailure(pck);
+                }
+                throw new InvalidOperationException(ex.Message + Environment.NewLine + ex.InnerException, ex);
+            }
+            catch
+            {
+                if (dispose)
+                {
+                    DisposeAfterFailure(pck);
+                }
+                throw;
+            }
+
+            if (dispose)
+            {
+                pck.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Disposes a package after a failed save. Any exception from Dispose is ignored, since the
+        /// package may be in a broken state and the original exception is the one that matters.
+        /// </summary>
+        private static void DisposeAfterFailure(ExcelPackage pck)
+        {
+            try
+            {
+                pck.Dispose();
+            }
+            catch
+            {
+                // Intentionally ignored, see summary.
+            }
         }
 
         protected static bool ExistsPackage(string name)

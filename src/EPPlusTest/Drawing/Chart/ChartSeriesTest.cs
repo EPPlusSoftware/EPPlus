@@ -20,7 +20,7 @@ using System.Xml;
 
 namespace EPPlusTest.Drawing.Chart
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ChartSeriesTest : TestBase
     {
         static ExcelPackage _pck;

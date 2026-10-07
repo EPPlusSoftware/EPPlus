@@ -28,18 +28,17 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Drawing;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Security;
 
 namespace EPPlusTest.Table
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class TableTests : TestBase
     {
         static ExcelPackage _pck;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class AutofitTests : TestBase
     {
         static ExcelPackage _pck;
@@ -53,10 +53,12 @@ namespace EPPlusTest
         [TestMethod]
         public void AutoFitColumn()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Autofit2");
+            using var pck = OpenPackage("Autofit2.xlsx", true);
+            var ws = pck.Workbook.Worksheets.Add("Sheet1");
             ws.Cells["A1:A10"].Value = "Auto fit column that is veeery long...";
             ws.Cells["A1:A10"].Style.Font.Name = "Arial";
             ws.Columns[1].AutoFit();
+            SaveAndCleanup(pck);
         }
 
         [TestMethod]
@@ -115,7 +117,8 @@ namespace EPPlusTest
         [TestMethod]
         public void AutoFitColumnsWithAutoFilter()
         {
-            var ws = _pck.Workbook.Worksheets.Add("AutofitAutoFilter");
+            using var pck = OpenPackage("AutoFitColumnsWithAutoFilter.xlsx", true);
+            var ws = pck.Workbook.Worksheets.Add("Sheet1");
             ws.Cells["A1"].Value = "hour";
             ws.Cells["B1"].Value = "minute";
             ws.Cells["A2"].Value = 12;
@@ -132,6 +135,7 @@ namespace EPPlusTest
             // resulting in a narrow width matching "hour" / "minute".
             Assert.IsTrue(ws.Column(1).Width < 12d, $"Column 1 width should be small but was {ws.Column(1).Width}");
             Assert.IsTrue(ws.Column(2).Width < 12d, $"Column 2 width should be small but was {ws.Column(2).Width}");
+            SaveAndCleanup(pck);
         }
 
         [TestMethod]

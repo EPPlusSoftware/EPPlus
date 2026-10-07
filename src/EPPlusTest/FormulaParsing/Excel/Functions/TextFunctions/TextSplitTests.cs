@@ -226,7 +226,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void TextSplitFull2Test()
         {
-            using var package = OpenPackage("TextSplit.xlsx", true);
+            using var package = OpenPackage("TextSplit_FullTest2.xlsx", true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "ScottxMatsXJimmyxxCameron-xLutherXJoshxx";
             sheet.Cells["D3"].Formula = "TEXTSPLIT(A1, \"x\",\"-\",1,1,\"Greger\")";
@@ -245,7 +245,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         [TestMethod]
         public void TextSplit_ShouldReturnNAerrorDefault()
         {
-            using var package = OpenPackage("TextSplit.xlsx", true);
+            using var package = OpenPackage("TextSplit_NAError.xlsx", true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "ScottxMatsXJimmyxxCameron-xLutherXJoshxx";
             sheet.Cells["D3"].Formula = "TEXTSPLIT(A1, \"x\",\"-\",1,1)";
