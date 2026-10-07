@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Interfaces
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}\r\n</body>\r\n</html>");
+        string GetSinglePage(string htmlDocument = "<!DOCTYPE html>{2}<html>{2}<head>{2}<style type=\"text/css\">{2}{1}</style></head>{2}<body>{2}{0}{2}</body>{2}</html>");
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Interfaces
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}\r\n</body>\r\n</html>");
+        Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>{2}<html>{2}<head>{2}<style type=\"text/css\">{2}{1}</style></head>{2}<body>{2}{0}{2}</body>{2}</html>");
 
         /// <summary>
         /// Exports the css part of an <see cref="ExcelTable"/> to a html string

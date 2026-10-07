@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.GlobalConfiguration
 {
 #if (Core)
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ConfigurePackageTests
     {
         [TestMethod]

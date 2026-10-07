@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Export.PdfExport
     /// The constructors only store the input - they do not perform any work. Call <see cref="Save(string)"/>
     /// or <see cref="Save(Stream)"/> to actually build the PDF and write it to disk/stream.
     /// </summary>
-    internal class PdfCatalog
+    internal class EPPlusToPdfWriter
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
@@ -47,26 +47,26 @@ namespace OfficeOpenXml.Export.PdfExport
         private readonly PdfPageSettings _pageSettings;
         private readonly Action<Action<Transform>> _build;
 
-        public PdfCatalog() { }
+        public EPPlusToPdfWriter() { }
 
         //
         // CONSTRUCTORS FOR MULTIPLE WORKSHEETS AS INPUT
         //
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
             _pageSettings = pageSettings;
             var worksheets = workbook.Worksheets.ToArray();
             _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
             _pageSettings = pageSettings;
             _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
             : this(pageSettings, worksheets.ToArray())
         {
         }
@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR SINGLE WORKSHEET AS INPUT
         //
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
             _pageSettings = pageSettings;
             _build = writePdf => BuildPdf(pageSettings, worksheet, writePdf);
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Export.PdfExport
         // CONSTRUCTORS FOR RANGE AS INPUT
         //
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase range)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             _pageSettings = pageSettings;
             _build = writePdf => BuildPdfFromRange(pageSettings, range, writePdf);
@@ -190,13 +190,13 @@ namespace OfficeOpenXml.Export.PdfExport
             }
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
             _pageSettings = pageSettings;
             _build = writePdf => HandleRangeCollection(pageSettings, ranges, writePdf);
         }
 
-        public PdfCatalog(PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
+        public EPPlusToPdfWriter(PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
             : this(pageSettings, ranges.ToArray())
         {
         }
@@ -487,7 +487,6 @@ namespace OfficeOpenXml.Export.PdfExport
             if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
             {
                 var printTitlesName = worksheet.Names["_xlnm.Print_Titles"];
-
                 if (printTitlesName.Addresses == null)
                 {
                     pdfSheet.PrintTitleRowFrom = printTitlesName._fromRow;

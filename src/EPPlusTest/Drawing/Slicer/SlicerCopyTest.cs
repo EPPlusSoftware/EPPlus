@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Drawing.Slicer
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class SlicerCopyTest : TestBase
     {
         static ExcelPackage _pck;

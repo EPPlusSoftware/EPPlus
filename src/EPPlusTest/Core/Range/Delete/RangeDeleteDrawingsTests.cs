@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range.Delete
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class WorksheetRangeInsertDeleteDrawingsTests : TestBase
     {
         public static ExcelPackage _pck;

@@ -376,7 +376,7 @@ namespace EPPlusTest.PDF
             var ws = p.Workbook.Worksheets[0];
             var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
-            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            var pdfCatalog = new EPPlusToPdfWriter(pageSettings, ws);
             pdfCatalog.Save(ms);
             AssertLooksLikePdf(ms.ToArray());
         }
@@ -674,7 +674,7 @@ namespace EPPlusTest.PDF
             pageSettings.ShowGridLines = false;
             pageSettings.ShowHeadings = false;
 
-            var pdfCatalog = new PdfCatalog(pageSettings, ws);
+            var pdfCatalog = new EPPlusToPdfWriter(pageSettings, ws);
             pdfCatalog.Save(outputPath);
 
         }
@@ -813,7 +813,7 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    var pdfCatalog = new EPPlusToPdfWriter(settings, package.Workbook);
                     pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
@@ -880,7 +880,7 @@ namespace EPPlusTest.PDF
                 byte[] pdf;
                 using (var ms = new MemoryStream())
                 {
-                    var pdfCatalog = new PdfCatalog(settings, package.Workbook);
+                    var pdfCatalog = new EPPlusToPdfWriter(settings, package.Workbook);
                     pdfCatalog.Save(ms);
                     pdf = ms.ToArray();
                 }
@@ -978,7 +978,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("EPPlus Sample 3.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            string path = _pdfPath + "EPPlus Sample 3.pdf";
+            string path = _pdfPath + "EPPlus Sample 3 hf1.pdf";
             ws.SaveAsPdf(path);
         }
 
@@ -987,7 +987,7 @@ namespace EPPlusTest.PDF
         {
             using var p = CreateWorkbook();
             var ws = p.Workbook.Worksheets[0];
-            string path = _pdfPath + "EPPlus Sample 4.pdf";
+            string path = _pdfPath + "EPPlus Sample 3 hf2.pdf";
             ws.SaveAsPdf(path);
         }
         public ExcelPackage CreateWorkbook()
@@ -1129,6 +1129,184 @@ namespace EPPlusTest.PDF
         }
 
         [TestMethod]
+        public void ScalingTests()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.Scale = 50;
+            string path = _pdfPath + "ScalingTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void ScalingTestFitToPage()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.RepeatRows = new ExcelAddress("1:2");
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 2;
+            ws.PrinterSettings.FitToHeight = 3;
+            string path = _pdfPath + "ScalingTest2.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+
+        private static int CountPdfPages(string path)
+        {
+            var text = Encoding.ASCII.GetString(File.ReadAllBytes(path));
+            return Regex.Matches(text, @"/Type\s*/Page\b").Count;
+        }
+
+        private static ExcelWorksheet AddGrid(ExcelPackage p, int rows, int cols, string name = "Sheet1")
+        {
+            var ws = p.Workbook.Worksheets.Add(name);
+            for (int r = 1; r <= rows; r++)
+                for (int c = 1; c <= cols; c++)
+                    ws.Cells[r, c].Value = $"R{r}C{c}";
+            ws.PrinterSettings.PaperSize = ePaperSize.A4;
+            ws.PrinterSettings.Orientation = eOrientation.Portrait;
+            return ws;
+        }
+
+        private static int SaveAndCount(ExcelWorksheet ws, string name)
+        {
+            string path = _pdfPath + name + ".pdf";
+            ws.SaveAsPdf(path);
+            return CountPdfPages(path);
+        }
+
+        [TestMethod]
+        public void Percentage_ChangesPageCount()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 120, cols: 20);   // multi-page both directions
+
+            ws.PrinterSettings.Scale = 100; int at100 = SaveAndCount(ws, "pct_100");
+            ws.PrinterSettings.Scale = 50; int at50 = SaveAndCount(ws, "pct_50");
+            ws.PrinterSettings.Scale = 200; int at200 = SaveAndCount(ws, "pct_200");
+
+            Assert.IsTrue(at100 > 1, "sheet should be multi-page at 100%");
+            Assert.IsTrue(at50 < at100, $"50% ({at50}) should use fewer pages than 100% ({at100})");
+            Assert.IsTrue(at200 > at100, $"200% ({at200}) should use more pages than 100% ({at100})");
+        }
+
+        [TestMethod]
+        public void Fit_WidthBudget_Exact()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 3, cols: 60);
+            Assert.IsTrue(SaveAndCount(ws, "fitw_base") > 2, "sheet should span >2 page-columns at 100%");
+
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToHeight = 0;
+            ws.PrinterSettings.FitToWidth = 1;
+            Assert.AreEqual(1, SaveAndCount(ws, "fitw_1"));
+
+            ws.PrinterSettings.FitToWidth = 2;
+            Assert.AreEqual(2, SaveAndCount(ws, "fitw_2"));
+        }
+
+        [TestMethod]
+        public void Fit_HeightBudget_Exact()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 300, cols: 3);
+            Assert.IsTrue(SaveAndCount(ws, "fith_base") > 3);
+
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 0;
+            ws.PrinterSettings.FitToHeight = 3;
+            Assert.AreEqual(3, SaveAndCount(ws, "fith_3"));
+
+            ws.PrinterSettings.FitToHeight = 1;
+            Assert.AreEqual(1, SaveAndCount(ws, "fith_1"));
+        }
+
+        [TestMethod]
+        public void Fit_OneByOne_SinglePage()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 200, cols: 30);
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 1;
+            ws.PrinterSettings.FitToHeight = 1;
+            Assert.AreEqual(1, SaveAndCount(ws, "fit_1x1"));
+        }
+
+        [TestMethod]
+        public void Fit_DoesNotEnlargeSmallSheet()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 3, cols: 3);
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 2;
+            ws.PrinterSettings.FitToHeight = 2;
+            Assert.AreEqual(1, SaveAndCount(ws, "fit_small"));
+        }
+
+        [TestMethod]
+        public void Fit_IgnoresManualPageBreaks()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 300, cols: 3);
+            ws.Row(150).PageBreak = true;
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 0;
+            ws.PrinterSettings.FitToHeight = 2;
+            Assert.AreEqual(2, SaveAndCount(ws, "fit_break"));
+        }
+
+        [TestMethod]
+        public void Fit_WithHeadings_HonorsBudget()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 300, cols: 3);
+            ws.PrinterSettings.ShowHeaders = true;
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 0;
+            ws.PrinterSettings.FitToHeight = 3;
+            Assert.AreEqual(3, SaveAndCount(ws, "fit_headings"));
+        }
+
+        [TestMethod]
+        public void Fit_WithPrintTitles_HonorsBudget()
+        {
+            using var p = new ExcelPackage();
+            var ws = AddGrid(p, rows: 300, cols: 3);
+            ws.PrinterSettings.RepeatRows = new ExcelAddress("1:2");
+            ws.PrinterSettings.FitToPage = true;
+            ws.PrinterSettings.FitToWidth = 0;
+            ws.PrinterSettings.FitToHeight = 3;
+            Assert.AreEqual(3, SaveAndCount(ws, "fit_titles"));
+        }
+
+        [TestMethod]
+        public void MultiSheet_PerSheetScaling_IsIsolated()
+        {
+            using var p = new ExcelPackage();
+            var plain = AddGrid(p, rows: 300, cols: 3, name: "Plain");
+            var scaled = AddGrid(p, rows: 300, cols: 3, name: "Scaled");
+
+            int plainAlone = SaveAndCount(plain, "multi_plain");
+            int scaledUnscaled = SaveAndCount(scaled, "multi_scaled_off");
+
+            scaled.PrinterSettings.FitToPage = true;
+            scaled.PrinterSettings.FitToWidth = 1;
+            scaled.PrinterSettings.FitToHeight = 1;
+            int scaledAlone = SaveAndCount(scaled, "multi_scaled_on");
+
+            Assert.AreEqual(1, scaledAlone, "fit 1x1 should put the scaled sheet on one page");
+            Assert.IsTrue(scaledUnscaled > scaledAlone, "scaling should actually reduce the scaled sheet");
+
+            string combinedPath = _pdfPath + "multi_combined.pdf";
+            p.Workbook.SaveAsPdf(combinedPath);
+            int combined = CountPdfPages(combinedPath);
+
+            Assert.AreEqual(plainAlone + scaledAlone, combined,
+                $"combined ({combined}) should equal plain ({plainAlone}) + scaled ({scaledAlone}) - " +
+                "per-sheet scaling must stay isolated");
+        }
         public void TableDxfStyleTest()
         {
             using var p = OpenTemplatePackage("TableDxfStylePdf1.xlsx");

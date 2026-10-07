@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Core
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class LoadSaveTests : TestBase
     {
         static ExcelPackage _pck;
@@ -181,8 +181,8 @@ namespace EPPlusTest.Core
             }
 
             //Assert
-            var expectedText = "\"dog 1\"\"\"\"\"\"\",\"dog 2\"\"\"\"\"\"\",\"dog 3\"\"\"\"\"\"\"\r\n"
-            + "\"cat 1\",\"cat 2\",\"cat 3\"\"\"\"\"\r\n"
+            var expectedText = $"\"dog 1\"\"\"\"\"\"\",\"dog 2\"\"\"\"\"\"\",\"dog 3\"\"\"\"\"\"\"{Environment.NewLine}"
+            + $"\"cat 1\",\"cat 2\",\"cat 3\"\"\"\"\"{Environment.NewLine}"
             + "\"mouse 1\"\"\"\"\",\"mouse 2\"\"\"\"\",\"mouse 3\"\"\"\"\""; 
 
             Assert.AreEqual(expectedText, result);

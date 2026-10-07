@@ -37,7 +37,7 @@ namespace EPPlusTest.ConditionalFormatting
     /// <summary>
     /// Test the Conditional Formatting feature
     /// </summary>
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class CF_QuadTree : TestBase
     {
         private static ExcelPackage _pck;

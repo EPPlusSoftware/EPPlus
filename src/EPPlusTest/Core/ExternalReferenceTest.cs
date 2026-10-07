@@ -9,7 +9,7 @@ using System.IO;
 
 namespace EPPlusTest.Core
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ExternalLinksTest : TestBase
     {
         //static ExcelPackage _pck;

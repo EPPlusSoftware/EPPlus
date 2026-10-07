@@ -10,12 +10,12 @@ using System.Xml;
 
 namespace EPPlusTest.Data
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
 
     public class ConnectionTests : TestBase
     {
         private static ExcelPackage _pck;
-        [ClassInitialize]
+        [ClassInitialize, DoNotParallelize]
         public static void Init(TestContext context)
         {
             InitBase();

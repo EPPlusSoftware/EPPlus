@@ -43,7 +43,7 @@ using System.Reflection;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusTest.Drawing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ThemeTest : TestBase
     {
         internal static ExcelPackage _pck;

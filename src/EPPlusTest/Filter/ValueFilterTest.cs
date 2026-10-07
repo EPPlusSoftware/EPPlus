@@ -37,7 +37,7 @@ using System.Linq;
 
 namespace EPPlusTest.Filter
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
     public class ValueFilter : TestBase
     {
         static ExcelPackage _pck;

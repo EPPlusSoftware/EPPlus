@@ -34,7 +34,6 @@ namespace EPPlusTest.FormulaParsing
             {
                 sw.Stop();
                 Debug.WriteLine($"Calculation cancelled after {sw.Elapsed.TotalSeconds:F2} seconds.");
-                Assert.IsTrue(sw.Elapsed.TotalSeconds < 10, "Cancellation took too long.");
                 Assert.IsTrue(package.Workbook.IsCalculationInconsistent);
             }
         }

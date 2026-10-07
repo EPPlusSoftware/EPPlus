@@ -15,6 +15,7 @@ using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
+using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
@@ -926,6 +927,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 var pdfSheet = pdfSheets[si];
                 var pageSettings = sheetSettings[si];
 
+                if (pdfSheet.Ranges.Count > 0)
+                {
+                    ResolveFitScale(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
+                }
                 for (int ri = 0; ri < pdfSheet.Ranges.Count; ri++)
                 {
                     var range = pdfSheet.Ranges[ri];
@@ -1481,8 +1486,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
         {
-            var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.ContentBounds.Width));
-            var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.ContentBounds.Height));
+            var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.EffectiveContentWidth));
+            var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.EffectiveContentHeight));
 
             if (pageSettings.ShowHeadings)
             {
@@ -1491,24 +1496,27 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     prev = xPages;
                     range.AdditionalWidth = xPages * ((rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth));
-                    xPages = (int)Math.Max(1, Math.Ceiling((range.TotalWidth + range.AdditionalWidth) / pageSettings.ContentBounds.Width));
+                    xPages = (int)Math.Max(1, Math.Ceiling((range.TotalWidth + range.AdditionalWidth) / pageSettings.EffectiveContentWidth));
                 } while (prev != xPages);
                 do
                 {
                     prev = yPages;
                     range.AdditionalHeight = yPages * pdfSheet.Worksheet.DefaultRowHeight;
-                    yPages = (int)Math.Max(1, Math.Ceiling((range.TotalHeight + range.AdditionalHeight) / pageSettings.ContentBounds.Height));
+                    yPages = (int)Math.Max(1, Math.Ceiling((range.TotalHeight + range.AdditionalHeight) / pageSettings.EffectiveContentHeight));
                 } while (prev != yPages);
             }
-            for (int i = range.Range._fromCol; i <= range.Range._toCol; i++)
+            if (pageSettings.Scaling?.ScalingMode != ScalingMode.FitToPages)
             {
-                if (pdfSheet.Worksheet.Column(i).PageBreak)
-                    xPages++;
-            }
-            for (int i = range.Range._fromRow; i <= range.Range._toRow; i++)
-            {
-                if (pdfSheet.Worksheet.Row(i).PageBreak)
-                    yPages++;
+                for (int i = range.Range._fromCol; i <= range.Range._toCol; i++)
+                {
+                    if (pdfSheet.Worksheet.Column(i).PageBreak)
+                        xPages++;
+                }
+                for (int i = range.Range._fromRow; i <= range.Range._toRow; i++)
+                {
+                    if (pdfSheet.Worksheet.Row(i).PageBreak)
+                        yPages++;
+                }
             }
             ComputePrintTitleDimensions(pdfSheet, range, out range.PrintTitleHeight, out range.PrintTitleWidth);
             range.PrintTitleRowTo = pdfSheet.PrintTitleRowFrom >= 0 ? pdfSheet.PrintTitleRowTo : -1;
@@ -1584,7 +1592,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 int actualCol = range.Range._fromCol + col;
                 bool reserveTitle = titleWidth > 0d && printTitleColTo >= 0 && (range.Map.FromColumn + segStartIdx) > printTitleColTo;
                 double effectiveAdded = addedWidth + (reserveTitle ? titleWidth : 0d);
-                if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.ContentBounds.Width)
+                if (width + range.ColWidths[col] + effectiveAdded >= pageSettings.EffectiveContentWidth)
                 {
                     if (col == segStartIdx)
                     {
@@ -1600,7 +1608,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     continue;
                 }
                 width += range.ColWidths[col];
-                if (worksheet.Column(actualCol).PageBreak)
+                if (pageSettings.Scaling?.ScalingMode != ScalingMode.FitToPages && worksheet.Column(actualCol).PageBreak)
                 {
                     segments.Add(new PageSegment(range.Map.FromColumn + segStartIdx, range.Map.FromColumn + col));
                     segStartIdx = col + 1;
@@ -1622,7 +1630,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 int actualRow = range.Range._fromRow + row;
                 bool reserveTitle = titleHeight > 0d && printTitleRowTo >= 0 && (range.Map.FromRow + segStartIdx) > printTitleRowTo;
                 double effectiveAdded = addedHeight + (reserveTitle ? titleHeight : 0d);
-                if (height + range.RowHeights[row].Height + effectiveAdded >= pageSettings.ContentBounds.Height)
+                if (height + range.RowHeights[row].Height + effectiveAdded >= pageSettings.EffectiveContentHeight)
                 {
                     segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row - 1));
                     segStartIdx = row;
@@ -1631,7 +1639,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     continue;
                 }
                 height += range.RowHeights[row].Height;
-                if (worksheet.Row(actualRow).PageBreak)
+                if (pageSettings.Scaling?.ScalingMode != ScalingMode.FitToPages && worksheet.Row(actualRow).PageBreak)
                 {
                     segments.Add(new PageSegment(range.Map.FromRow + segStartIdx, range.Map.FromRow + row));
                     segStartIdx = row + 1;
@@ -2029,7 +2037,49 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
         {
-            return System.Math.Min(cellWidth, pageSettings.PageSize.WidthPu - cellX);
+            double s = pageSettings.ContentScale;
+            double pageRightNatural = pageSettings.ContentBounds.Left
+                                    + (pageSettings.PageSize.WidthPu - pageSettings.ContentBounds.Left) / s;
+            return System.Math.Min(cellWidth, pageRightNatural - cellX);
+        }
+
+        private static void ResolveFitScale(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
+        {
+            var scaling = pageSettings.Scaling;
+            if (scaling == null || scaling.ScalingMode != ScalingMode.FitToPages) return;
+
+            int N = scaling.PagesWide;   // 0 = automatic
+            int M = scaling.PagesTall;
+            var worksheet = range.Range.Worksheet;
+
+            // Same per-page reservations the real pagination uses (both are per-page constants — no circularity).
+            double addedWidth = pageSettings.ShowHeadings
+                ? (rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (System.Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth)
+                : 0d;
+            double addedHeight = pageSettings.ShowHeadings ? pdfSheet.Worksheet.DefaultRowHeight : 0d;
+
+            ComputePrintTitleDimensions(pdfSheet, range, out double titleHeight, out double titleWidth);
+            int titleColTo = pdfSheet.PrintTitleColFrom >= 0 ? pdfSheet.PrintTitleColTo : -1;
+            int titleRowTo = pdfSheet.PrintTitleRowFrom >= 0 ? pdfSheet.PrintTitleRowTo : -1;
+
+            bool Fits(double s)
+            {
+                pageSettings.SetResolvedFitScale(s);
+                bool okW = N <= 0 || GetColumnSegments(pageSettings, range, worksheet, addedWidth, titleWidth, titleColTo).Count <= N;
+                bool okH = M <= 0 || GetRowSegments(pageSettings, range, worksheet, addedHeight, titleHeight, titleRowTo).Count <= M;
+                return okW && okH;
+            }
+
+            if (Fits(1.0d)) { pageSettings.SetResolvedFitScale(1.0d); return; }   // fits at 100% → don't shrink
+
+            // Largest scale in [0.1, 1.0] whose real pagination fits N×M (monotonic: fewer pages as scale shrinks).
+            double lo = 0.1d, hi = 1.0d;
+            for (int i = 0; i < 50; i++)
+            {
+                double mid = (lo + hi) * 0.5d;
+                if (Fits(mid)) lo = mid; else hi = mid;
+            }
+            pageSettings.SetResolvedFitScale(lo);
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing
 {
-    [TestClass]
+    [TestClass, DoNotParallelize]
 
     public class ArrayFormulaTests : TestBase
     {
