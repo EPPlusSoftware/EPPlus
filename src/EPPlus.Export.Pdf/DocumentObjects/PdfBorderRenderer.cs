@@ -51,7 +51,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         public void RenderBorder(PdfContentStream contentStream)
         {
-            contentStream.AddCommand($"% Border Start: {Name}");
             contentStream.AddCommand("q");
             if (Top != null) RenderBorder(contentStream, Top);
             if (Bottom != null) RenderBorder(contentStream, Bottom);
@@ -60,12 +59,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (DiagonalUp != null) RenderBorder(contentStream, DiagonalUp);
             if (DiagonalDown != null) RenderBorder(contentStream, DiagonalDown);
             contentStream.AddCommand("Q");
-            contentStream.AddCommand($"% Border End: {Name}");
         }
 
         private void RenderBorder(PdfContentStream contentStream, PdfCellBorderData border)
         {
-            contentStream.AddCommand($"% Border Type Start: {border.LineType.ToString()}");
             double x1 = X, y1 = Y, x2 = X, y2 = Y;
             switch (border.LineType)
             {
@@ -132,7 +129,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 contentStream.AddCommand($"{x1.ToPdfStringF4()} {y1.ToPdfStringF4()} m");
                 contentStream.AddCommand($"{x2.ToPdfStringF4()} {y2.ToPdfStringF4()} l");
                 contentStream.AddCommand("S");
-                contentStream.AddCommand($"% Border Type End: {border.LineType.ToString()}");
                 return;
             }
             switch (border.BorderStyle)
@@ -182,7 +178,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             contentStream.AddCommand($"{x1.ToPdfStringF4()} {y1.ToPdfStringF4()} m");
             contentStream.AddCommand($"{x2.ToPdfStringF4()} {y2.ToPdfStringF4()} l");
             contentStream.AddCommand("S");
-            contentStream.AddCommand($"% Border Type End: {border.LineType.ToString()}");
         }
 
         private void DrawBasicBorder(PdfContentStream contentStream, PdfCellBorderData border, double width, string dash)
