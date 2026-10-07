@@ -191,7 +191,6 @@ namespace EPPlus.Export.Pdf
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
             var contentStream = new PdfContentStream(_document.Count + 1);
-            contentStream.AddCommand($"% {pageLayout.Name} start");
             //Start page content clipping rectangle.
             contentStream.AddCommand("q");
             contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
@@ -202,17 +201,14 @@ namespace EPPlus.Export.Pdf
             }
             foreach (PdfCellLayout fill in cells.OfType<PdfCellLayout>())
             {
-                contentStream.AddCommand($"% CELL FILL : {fill.Name}");
                 contentStream.AddCellLayout(fill, GetPatternLabel(fill));
             }
             foreach (PdfCellContentLayout content in cells.OfType<PdfCellContentLayout>())
             {
-                contentStream.AddCommand($"% CELL TEXT : {content.Name}");
                 contentStream.AddCellContentLayout(content, _dictionaries, pageSettings);
             }
             foreach (PdfCellBorderLayout border in cells.OfType<PdfCellBorderLayout>())
             {
-                contentStream.AddCommand($"% CELL BORDER : {border.Name}");
                 contentStream.AddBorderLayout(border);
             }
             foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
@@ -224,13 +220,11 @@ namespace EPPlus.Export.Pdf
             }
             //Close the clipping rectangle.
             contentStream.AddCommand("Q");
-            contentStream.AddCommand($"% Margin Clip End");
             //Add headings
             contentStream.AddCommand("q");
             contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
             foreach (var heading in headingLayouts)
             {
-                contentStream.AddCommand($"% HEADING : {heading.Name}");
                 switch (heading)
                 {
                     case PdfCellLayout layout:
@@ -269,7 +263,6 @@ namespace EPPlus.Export.Pdf
             contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
             foreach (var titleCell in printTitleLayouts)
             {
-                contentStream.AddCommand($"% PRINT TITLE : {titleCell.Name}");
                 switch (titleCell)
                 {
                     case PdfCellLayout layout:
@@ -280,14 +273,13 @@ namespace EPPlus.Export.Pdf
                         contentStream.AddBorderLayout(borderLayout); break;
                 }
             }
+            contentStream.AddCommand("Q");
             foreach (var content in AdditionalContent)
             {
                 contentStream.AddCellContentLayout(content, _dictionaries, pageSettings);
             }
-            contentStream.AddCommand("Q");
             _document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
-            contentStream.AddCommand($"% {pageLayout.Name} end");
         }
 
         //Add Info
