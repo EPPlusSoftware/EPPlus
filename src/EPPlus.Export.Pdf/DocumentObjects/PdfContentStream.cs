@@ -60,18 +60,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (cell.Size.X <= 0d || cell.Size.Y <= 0d) return;
             if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PatternStyle != ExcelFillStyle.Solid)
             {
-                commands.Add($"% Pattern Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add("/Pattern cs");
                 commands.Add($"/{label} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("f");
                 commands.Add("Q");
-                commands.Add($"% Pattern End: {cell.Name}");
             }
             else if (cell.CellFillData.BackgroundColor != Color.Empty && cell.CellFillData.PatternStyle == ExcelFillStyle.Solid)
             {
-                commands.Add($"% Solid Fill Start: {cell.Name}");
                 commands.Add("q");
                 commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
                 commands.Add(cell.CellFillData.BackgroundColor.ToFillCommand());
@@ -79,11 +76,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("B");
                 commands.Add("Q");
-                commands.Add($"% Solid Fill End: {cell.Name}");
             }
             else if (cell.CellFillData.PatternStyle != ExcelFillStyle.None)
             {
-                commands.Add($"% Pattern Start: {cell.Name}");
                 if (cell.CellFillData.BackgroundColor != Color.Empty)
                 {
                     commands.Add("q");
@@ -94,14 +89,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     commands.Add("B");
                     commands.Add("Q");
                 }
-
                 commands.Add("q");
                 commands.Add("/Pattern cs");
                 commands.Add($"/{label} scn");
                 commands.Add($"{cell.LocalPosition.X.ToPdfString()} {cell.LocalPosition.Y.ToPdfString()} {cell.Size.X.ToPdfString()} {cell.Size.Y.ToPdfString()} re");
                 commands.Add("f");
                 commands.Add("Q");
-                commands.Add($"% Pattern End: {cell.Name}");
             }
         }
 
@@ -372,12 +365,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
         {
-            commands.Add($"% Content Start: {cell.Name}");
             commands.Add("q");
             if (cell.Clip) AddClipping(cell);
             AddText(cell, cell.LocalPosition, cell.CellAlignmentData.TextRotation, dictionaries, pageSettings);
             commands.Add("Q");
-            commands.Add($"% Content End: {cell.Name}");
         }
 
         private void AddClipping(PdfCellContentLayout cell)
@@ -389,8 +380,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
-
-            commands.Add($"% Gridlines Start");
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(Color.Black.ToFillCommand());
@@ -413,24 +402,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("f");
             commands.Add("Q");
-            commands.Add($"% Gridlines End");
         }
 
         public void AddImage(string label, double x, double y, double width, double height)
         {
-            commands.Add($"% Image Start: {label}");
             commands.Add("q");
             commands.Add($"{width.ToPdfString()} 0 0 {height.ToPdfString()} {x.ToPdfString()} {y.ToPdfString()} cm");
             commands.Add($"/{label} Do");
             commands.Add("Q");
-            commands.Add($"% Image End: {label}");
         }
         public void AddPrintTitleGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
 
-            commands.Add($"% Print Title Gridlines Start");
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(Color.Black.ToFillCommand());
@@ -453,7 +438,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("f");
             commands.Add("Q");
-            commands.Add($"% Print Title Gridlines End");
         }
 
         public void AddOuterGridBorder(Transform pageLayout)
@@ -461,7 +445,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
 
-            commands.Add($"% Gridlines Border Start");
             commands.Add("q");
             commands.Add("1.0 w");
             commands.Add("2 J");
@@ -474,14 +457,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("S");
             commands.Add("Q");
-            commands.Add($"% Gridlines Border End");
         }
 
         public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;
-            commands.Add($"% Margin Clip Start");
             if (pl.BorderLines.Count == 0) return;
             double top = double.MinValue;
             double bottom = double.MaxValue;

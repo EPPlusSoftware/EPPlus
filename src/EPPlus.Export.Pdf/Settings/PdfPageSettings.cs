@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType;
-using OfficeOpenXml;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Collections.Generic;
 
@@ -241,6 +240,8 @@ namespace EPPlus.Export.Pdf.Settings
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";
 
+        internal string AdditionalContent;
+
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
@@ -270,6 +271,7 @@ namespace EPPlus.Export.Pdf.Settings
             c.GposFeatures = GposFeatures;
             c.Debug = Debug;
             c.PrintAsText = PrintAsText;
+            c.AdditionalContent = AdditionalContent;
             return c;
         }
     }

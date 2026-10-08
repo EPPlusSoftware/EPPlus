@@ -29,6 +29,7 @@ namespace EPPlus.Export.Pdf.Layout
         public bool Clip;
         public Rect Clipping;
         public bool IsHeaderFooter;
+        public bool IsAddedContent;
         public bool IsHeading;
         public bool IsPrintTitle;
         public TextLayoutEngine textLayoutEngine;
@@ -40,7 +41,7 @@ namespace EPPlus.Export.Pdf.Layout
 
         public List<PdfShapedText> ShapedTexts { get; set; }
 
-        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell, MergedCellDrawInfo mergedCellInfo, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             Z = 2;
@@ -100,20 +101,7 @@ namespace EPPlus.Export.Pdf.Layout
             double newX = x;
             switch (CellAlignmentData.HorizontalAlignment)
             {
-                case ExcelHorizontalAlignment.Fill:
-                case ExcelHorizontalAlignment.General:
-                    if (double.TryParse(text, out double value))
-                    {
-                        newX = x + (width - textLength) - padding;
-                    }
-                    else
-                    {
-                        newX = x + padding;
-                    }
-                    break;
                 case ExcelHorizontalAlignment.Left:
-                case ExcelHorizontalAlignment.Justify:
-                case ExcelHorizontalAlignment.Distributed:
                     newX = x + padding;
                     break;
                 case ExcelHorizontalAlignment.Center:
@@ -122,6 +110,20 @@ namespace EPPlus.Export.Pdf.Layout
                     break;
                 case ExcelHorizontalAlignment.Right:
                     newX = x + (width - textLength) - padding;
+                    break;
+                case ExcelHorizontalAlignment.Distributed:
+                case ExcelHorizontalAlignment.Justify:
+                case ExcelHorizontalAlignment.Fill:
+                case ExcelHorizontalAlignment.General:
+                default:
+                    if (double.TryParse(text, out double value))
+                    {
+                        newX = x + (width - textLength) - padding;
+                    }
+                    else
+                    {
+                        newX = x + padding;
+                    }
                     break;
             }
             return newX;
