@@ -42,6 +42,8 @@ namespace EPPlusImageRenderer.Svg
         ExcelChartTitleStandard _title;
         string _titleText;
         ChartRenderer _svgChart;
+        internal bool Overlay { get { return _title.Overlay; } }
+
         /// <summary>
         /// 
         /// </summary>
@@ -248,6 +250,30 @@ namespace EPPlusImageRenderer.Svg
         internal override Color? GetDefaultBorderColor()
         {
             return DefaultBorderColor;
+        }
+
+        internal double GetBottomOverlay(double overlayValue=0)
+        {
+            if(_title.Overlay)
+            {
+                return overlayValue;
+            }
+            else
+            {
+                return Rectangle.GlobalBottom;
+            }
+        }
+
+        internal double GetHeightOverlay(double overlayValue=0)
+        {
+            if (_title.Overlay)
+            {
+                return overlayValue;
+            }
+            else
+            {
+                return TextBox?.GetActualHeight() ?? overlayValue;                
+            }
         }
     }
 }

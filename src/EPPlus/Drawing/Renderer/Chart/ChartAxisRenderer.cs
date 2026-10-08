@@ -235,7 +235,16 @@ namespace EPPlusImageRenderer.Svg
             }
             return widest;
         }
+        //internal GetAxisWidthForPlotarea()
+        //{
 
+        //}
+        //internal double GetAxisHeightForPlotarea()
+        //{
+        //    var pa = ChartRenderer.Plotarea;
+
+        //    var 
+        //}
         public List<object> Values
         {
             get;
@@ -352,9 +361,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
-                Textboxes = new ChartAxisTextBoxes(ChartRenderer);
-                Textboxes.AxisName = $"Axis_{Axis.Index}_Textboxes";
-                Textboxes.TextBoxes = GetAxisValueTextBoxes();  
+                Textboxes = new ChartAxisTextBoxes(ChartRenderer)
+                {
+                    AxisName = $"Axis_{Axis.Index}_Textboxes",
+                    TextBoxes = GetAxisValueTextBoxes()
+                };
             }
         }
 
@@ -544,7 +555,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     var min = ConvertUtil.GetValueDouble(Values[0]);
                     var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min) / MinorUnit;
+                    var minUnit = (max - min+1) / MinorUnit;
                     majorWidth = Rectangle.Width / minUnit;
                 }
                 else
@@ -685,7 +696,7 @@ namespace EPPlusImageRenderer.Svg
                     double majorWidth;
                     if (IsDateAutoAxis || IsDateScale)
                     {
-                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
                     }
                     else
                     {
