@@ -159,6 +159,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         }
 
         public Coordinate GroupScale = null;
+        public double GroupRotation { get; set;}
 
         public GroupRenderItem(BoundingBox parent, double rotation, Transform rotationPoint = null) : this(0, 0)
         {

@@ -88,7 +88,18 @@ namespace EPPlus.DrawingRenderer.Svg
 
         string GetRotationStr(GroupRenderItem item)
         {
-            if (double.IsNaN(item.LocalRotation) == false && item.LocalRotation != 0)
+            if(double.IsNaN(item.GroupRotation) == false && item.GroupRotation!= 0)
+            {
+                string rot = item.GroupRotation.ToString(CultureInfo.InvariantCulture);
+
+                if (item.RotationPoint != null && item.RotationPoint != item.TranslationOffset)
+                {
+                    rot += $", {item.RotationPoint.Left.PointToPixelString()}, {item.RotationPoint.Top.PointToPixelString()}" + " ";
+                }
+
+                return string.Format(transformRotate, rot);
+            }
+            else if (double.IsNaN(item.LocalRotation) == false && item.LocalRotation != 0)
             {
                 string rot = item.LocalRotation.ToString(CultureInfo.InvariantCulture);
 

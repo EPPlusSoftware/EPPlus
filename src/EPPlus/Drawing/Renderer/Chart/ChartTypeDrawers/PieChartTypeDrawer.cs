@@ -200,7 +200,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //Read and set Starting angle offset as a rotation on the container
             //This way no rotation messes with the other calculations
             var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
-            _groupItem.Rotation = angleOffset;
+            _groupItem.GroupRotation = angleOffset;
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();

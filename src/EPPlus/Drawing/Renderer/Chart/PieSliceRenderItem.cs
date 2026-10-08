@@ -689,7 +689,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             Transform transform = new Transform();
             transform.Parent = _innerGroup.Parent;
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left - _innerGroup.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top- _innerGroup.Top);
-            transform.LocalRotation = _innerGroup.LocalRotation;
             return transform;
         }
 
