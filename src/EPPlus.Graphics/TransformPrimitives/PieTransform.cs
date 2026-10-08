@@ -6,25 +6,29 @@ using System.Text;
 
 namespace EPPlus.Graphics.TransformPrimitives
 {
-    internal class PieTransform : TransformCircle
+    public class PieTransform : TransformCircle
     {
-        PieSliceCollection Slices = new PieSliceCollection();
+        public PieSliceCollection Slices = new PieSliceCollection();
 
-        internal PieTransform(double radius) : base(radius)
+        public PieTransform(Transform parent, double radius) : base(parent, radius) { }
+
+        public PieTransform(double radius) : base(radius) { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SlicePercentages">Between 0 and 1</param>
+        public void GenerateSlicesAndClearPrevious(IEnumerable<double> SlicePercentages)
         {
-
-        }
-
-        void GenerateSlices(IEnumerable<double> SlicePercentages)
-        {
-            
-
-            double startDegrees = 0;
+            double prevSliceDegrees = 0;
+            Slices.Clear();
 
             foreach (var percentage in SlicePercentages)
             {
-                PieSliceBase slice = new PieSliceBase(startDegrees, percentage * 360, Circle);
+                var degrees = percentage * 360d;
+                PieSliceBase slice = new PieSliceBase(prevSliceDegrees, prevSliceDegrees + degrees, Circle);
                 Slices.Add(slice, percentage);
+                prevSliceDegrees = prevSliceDegrees + slice.EndDegrees;
             }
         }
     }

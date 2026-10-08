@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EPPlus.Graphics.Primitives
 {
-    internal class PrimitiveCircle
+    public class PrimitiveCircle
     {
         internal Vector2 Center;
         internal double Radius;

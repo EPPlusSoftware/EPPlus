@@ -6,15 +6,15 @@ using System.Text;
 
 namespace EPPlus.Graphics.Primitives
 {
-    internal class PieSliceBase
+    public class PieSliceBase
     {
         Vector2 _startPoint;
         Vector2 _endPoint;
         Vector2 _midPoint;
 
-        internal Vector2 StartPoint 
-        { 
-            get 
+        public Vector2 StartPoint
+        {
+            get
             {
                 CalculateSliceArcPoints();
                 return _startPoint;
@@ -25,7 +25,7 @@ namespace EPPlus.Graphics.Primitives
             }
         }
 
-        internal Vector2 EndPoint
+        public Vector2 EndPoint
         {
             get
             {
@@ -38,7 +38,7 @@ namespace EPPlus.Graphics.Primitives
             }
         }
 
-        internal Vector2 MidPoint
+        public Vector2 MidPoint
         {
             get
             {
@@ -50,6 +50,12 @@ namespace EPPlus.Graphics.Primitives
                 _midPoint = value;
             }
         }
+
+        /// <summary>
+        /// Vector from center of circle to outer middle of Pie-Slice
+        /// This is the vector the slice is translated along in a pie-explosion
+        /// </summary>
+        public Vector2 ExplosionVector { get { return MidPoint - Circle.Center; } }
 
         internal double StartDegrees;
         internal double EndDegrees;

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using EPPlus.Graphics.TransformPrimitives;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -49,6 +50,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         internal override Color? DefaultFillColor => null;
 
         internal override Color? DefaultBorderColor => null;
+
+        PieTransform pieTransform;
 
         public PieChartTypeDrawer(ChartRenderer chart, ExcelPieChart chartType) : base(chart, chartType)
         {

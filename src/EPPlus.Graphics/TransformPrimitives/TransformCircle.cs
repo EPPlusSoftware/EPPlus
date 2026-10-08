@@ -8,9 +8,9 @@ using EPPlus.Graphics.Primitives;
 namespace EPPlus.Graphics.TransformPrimitives
 {
     //Position refers to the center of the circle
-    internal class TransformCircle : Transform
+    public class TransformCircle : Transform
     {
-        protected PrimitiveCircle Circle;
+        public PrimitiveCircle Circle;
 
         protected double Radius { get { return Circle.Radius; } }
 

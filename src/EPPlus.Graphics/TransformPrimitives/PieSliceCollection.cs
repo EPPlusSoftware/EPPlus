@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace EPPlus.Graphics.TransformPrimitives
 {
-    internal class PieSliceCollection : IEnumerable<PieSliceBase>
+    public class PieSliceCollection : IEnumerable<PieSliceBase>
     {
         const double MaximumDegrees = 360;
         //double totalDegrees = 0;
@@ -45,7 +45,23 @@ namespace EPPlus.Graphics.TransformPrimitives
 
         public void Clear()
         {
-
+            _slices.Clear();
+            _percentages.Clear();
         }
+
+        /// <summary>
+        /// Collection containing the richtext objects
+        /// </summary>
+        /// <param name="Index"></param>
+        /// <returns></returns>
+        public PieSliceBase this[int Index]
+        {
+            get
+            {
+                var item = _slices[Index];
+                return item;
+            }
+        }
+
     }
 }
