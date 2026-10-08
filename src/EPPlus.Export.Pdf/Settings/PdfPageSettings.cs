@@ -22,6 +22,11 @@ namespace EPPlus.Export.Pdf.Settings
     /// </summary>
     public class PdfPageSettings
     {
+        internal string Author { get; set; }
+        internal string Title { get; set; }
+        internal string LicenseType { get; set; }
+        internal string LicenseHolder { get; set; }
+
         private OpenTypeFontEngine _fontEngine;
         /// <summary>
         /// Get the current font engine that is being used by EPPlus.

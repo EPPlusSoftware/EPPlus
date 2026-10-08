@@ -25,6 +25,10 @@ namespace EPPlus.Export.Pdf.Settings
         internal int FirstPageNumber;
         internal bool Debug;
         internal bool PrintAsText;
+        internal string LicenseType;
+        internal string LicenseHolder;
+        internal string Title;
+        internal string Author;
 
         internal static PdfDocumentSettings From(PdfPageSettings s)
         {
@@ -38,6 +42,10 @@ namespace EPPlus.Export.Pdf.Settings
                 FirstPageNumber = s.FirstPageNumber,
                 Debug = s.Debug,
                 PrintAsText = s.PrintAsText,
+                LicenseType = s.LicenseType,
+                LicenseHolder = s.LicenseHolder,
+                Title = s.Title,
+                Author = s.Author,
             };
         }
 

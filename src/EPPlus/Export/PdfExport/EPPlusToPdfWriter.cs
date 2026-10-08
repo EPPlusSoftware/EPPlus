@@ -138,6 +138,7 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, worksheet.Workbook);
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet pdfSheet = null;
@@ -183,6 +184,7 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, range.Worksheet.Workbook);
             pageSettings.defaultFontName = range.Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet pdfSheet = null;
@@ -218,6 +220,7 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, ranges[0].Worksheet.Workbook);
             pageSettings.defaultFontName = ranges[0].Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet[] pdfSheets = null;
@@ -288,6 +291,33 @@ namespace OfficeOpenXml.Export.PdfExport
 
 
         //Private Methods
+
+        private void GetLicenseInfo(PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        {
+            pageSettings.Title = string.IsNullOrEmpty(workbook.Properties.Title)
+                                 ? workbook._package.File == null
+                                     ? "Untitled EPPlus Workbook"
+                                     : string.IsNullOrEmpty(workbook._package.File.Name)
+                                         ? "Untitled EPPlus Workbook"
+                                         : workbook._package.File.Name
+                                 : workbook.Properties.Title;
+
+            pageSettings.Author = string.IsNullOrEmpty(workbook.Properties.Author)
+                                  ? string.IsNullOrEmpty(ExcelPackage.License.LegalName)
+                                      ? "Unnamed Author using EPPLus"
+                                      : ExcelPackage.License.LegalName
+                                  : workbook.Properties.Author;
+
+            pageSettings.LicenseType = IsFullEdition
+                                       ? "Commercial License"
+                                       : ExcelPackage.License.LicenseType == EPPlusLicenseType.NonCommercialOrganization
+                                           ? "Non-Commercial License for Organization"
+                                           : "Personal Non-Commercial License";
+
+            pageSettings.LicenseHolder = string.IsNullOrEmpty(ExcelPackage.License.LegalName)
+                                         ? "Unnamed License holder using EPPLus"
+                                         : ExcelPackage.License.LegalName;
+        }
 
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
         {
