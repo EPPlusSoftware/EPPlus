@@ -554,5 +554,39 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             // If everything got stripped
             return sb.Length > 0 ? sb.ToString() : "UnknownPSName";
         }
+
+        /// <summary>
+        /// Prefixes the full font name (nameID 4) and PostScript name (nameID 6) with a
+        /// PDF subset tag such as "ABCDEF+", in every platform record. The family and
+        /// subfamily records (nameID 1, 2, 16, 17) are intentionally left untouched, since
+        /// they are used for font identity and matching.
+        /// </summary>
+        internal void ApplySubsetTag(string tag)
+        {
+            if (string.IsNullOrEmpty(tag))
+                throw new ArgumentException("Subset tag cannot be empty.", "tag");
+            if (NameRecords == null) return;
+
+            foreach (var record in NameRecords)
+            {
+                if (record.RecordType != NameRecordTypes.FullFontName &&
+                    record.RecordType != NameRecordTypes.PostScriptName)
+                    continue;
+                if (string.IsNullOrEmpty(record.Name) || HasSubsetTag(record.Name))
+                    continue;
+
+                record.Name = tag + record.Name;
+            }
+        }
+
+        private static bool HasSubsetTag(string name)
+        {
+            if (name.Length < 8 || name[6] != '+') return false;
+            for (int i = 0; i < 6; i++)
+            {
+                if (name[i] < 'A' || name[i] > 'Z') return false;
+            }
+            return true;
+        }
     }
 }
