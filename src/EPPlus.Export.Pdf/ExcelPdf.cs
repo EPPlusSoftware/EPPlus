@@ -283,9 +283,9 @@ namespace EPPlus.Export.Pdf
         }
 
         //Add Info
-        private PdfInfoObject AddInfoObject(string workBookName = "")
+        private PdfInfoObject AddInfoObject()
         {
-            var info = new PdfInfoObject(_document.Count + 1, workBookName);
+            var info = new PdfInfoObject(_document.Count + 1, _documentSettings);
             _document.Add(info);
             return info;
         }
