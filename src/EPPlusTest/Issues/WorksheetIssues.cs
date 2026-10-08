@@ -902,7 +902,8 @@ namespace EPPlusTest.Issues
             ws.Cells["C1:D2"].AutoFitColumns();
         }
 
-        [TestMethod]
+
+        [TestMethod, Ignore("Disabled due to taking over 10 seconds on AppVeyor. /MA")]
         public void DimensionByValueIssue()
         {
             using (var p = OpenTemplatePackage("DimensionByValueError.xlsx"))

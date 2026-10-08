@@ -93,7 +93,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
         private void GenerateCharacterMappings(StringBuilder sb)
         {
-            var sortedMappings = CharacterMappings.OrderBy(kvp => kvp.Key).ToList();
+            var sortedMappings = CharacterMappings
+               .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
+               .OrderBy(kvp => kvp.Key)
+               .ToList();
             var ranges = new List<CharacterRange>();
             var individualMappings = new List<CharacterMapping>();
             for (int i = 0; i < sortedMappings.Count; i++)
@@ -143,7 +146,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             // Output ranges
             if (ranges.Count > 0)
             {
-                sb.AppendFormat($"{ranges.Count} beginbfrange");
+                sb.AppendFormat($"{ranges.Count} beginbfrange\n");
                 foreach (var range in ranges)
                 {
                     sb.AppendFormat($"<{FormatCode(range.Start)}> <{FormatCode(range.End)}> <{FormatUnicode(range.UnicodeStart)}>\n");
@@ -160,12 +163,23 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                     sb.AppendFormat($"{batch.Count} beginbfchar\n");
                     foreach (var mapping in batch)
                     {
-                        string hex = ((int)mapping.Unicode[0]).ToString("X4");
-                        sb.AppendFormat($"<{FormatCode(mapping.Code)}> <{hex}>\n");
+                        sb.AppendFormat($"<{FormatCode(mapping.Code)}> <{ToUtf16BeHex(mapping.Unicode)}>\n");
                     }
                     sb.Append("endbfchar\n");
                 }
             }
+        }
+
+        private static string ToUtf16BeHex(string text)
+        {
+            // .NET strings are already UTF-16, so every char is one UTF-16BE code unit
+            // and surrogate pairs come out correctly without any special handling.
+            var sb = new StringBuilder(text.Length * 4);
+            foreach (char c in text)
+            {
+                sb.Append(((int)c).ToString("X4"));
+            }
+            return sb.ToString();
         }
 
         private bool TryParseSimpleUnicode(string hexString, out int unicodeValue)

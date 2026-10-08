@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EPPlus.Fonts.OpenType.Tests.Subsetting
@@ -169,6 +170,61 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             Assert.IsFalse(provider.PrimaryFont.IsSubset,
                 "An EmbedWhole font must be embedded whole, not subsetted.");
+        }
+
+        private static readonly Regex TaggedName = new Regex("^[A-Z]{6}\\+.+$");
+
+        [TestMethod]
+        public void Build_EmbedWholeFont_HasNoSubsetTag()
+        {
+            var engine = CreateEngineWithCallback(info => FontEmbeddingDecision.EmbedWhole);
+            RequireFont(engine, "Roboto", FontSubFamily.Regular);
+            var original = engine.LoadFont("Roboto");
+
+            var builder = new DocumentFontSubsetBuilder(engine);
+            builder.AddText("Roboto", FontSubFamily.Regular, "ABC");
+            builder.Build();
+
+            var embedded = builder.GetFontsToEmbed().Single();
+
+            Assert.IsFalse(TaggedName.IsMatch(embedded.Font.FullName), embedded.Font.FullName);
+            Assert.AreEqual(original.FullName, embedded.Font.FullName);
+            Assert.IsFalse(embedded.Font.IsSubset);
+        }
+
+        [TestMethod]
+        public void Build_SubsetDecision_HasSubsetTag()
+        {
+            var engine = CreateEngineWithCallback(info => FontEmbeddingDecision.Subset);
+            RequireFont(engine, "Roboto", FontSubFamily.Regular);
+
+            var builder = new DocumentFontSubsetBuilder(engine);
+            builder.AddText("Roboto", FontSubFamily.Regular, "ABC");
+            builder.Build();
+
+            var embedded = builder.GetFontsToEmbed().Single();
+
+            Assert.IsTrue(embedded.Font.IsSubset);
+            Assert.IsTrue(TaggedName.IsMatch(embedded.Font.FullName), embedded.Font.FullName);
+        }
+
+        [TestMethod]
+        public void Build_SkippedFont_FallsBackToTaggedLastResortSubset()
+        {
+            // Skip for everything: the request is served by the built-in last-resort font,
+            // which is seeded as Subset and must therefore be tagged too.
+            var engine = CreateEngineWithCallback(info => FontEmbeddingDecision.Skip);
+            RequireFont(engine, "Roboto", FontSubFamily.Regular);
+
+            var builder = new DocumentFontSubsetBuilder(engine);
+            builder.AddText("Roboto", FontSubFamily.Regular, "ABC");
+            builder.Build();
+
+            var embedded = builder.GetFontsToEmbed().Single();
+
+            Assert.IsTrue(TaggedName.IsMatch(embedded.Font.FullName), embedded.Font.FullName);
+            Assert.IsTrue(embedded.Font.FullName.Contains("Archivo"), embedded.Font.FullName);
+            Assert.IsNotNull(builder.GetShapingProvider("Roboto", FontSubFamily.Regular));
         }
     }
 }
