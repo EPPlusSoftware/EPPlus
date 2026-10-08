@@ -158,6 +158,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
             TranslationOffset = new Graphics.TranformPoint(localXPos, localYPos);
         }
 
+        public Coordinate GroupScale = null;
 
         public GroupRenderItem(BoundingBox parent, double rotation, Transform rotationPoint = null) : this(0, 0)
         {
@@ -222,7 +223,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 TransformOrigin = TransformOrigin,
                // GroupTransform = GroupTransform,
                 RotationPoint = RotationPoint,
-               // Scale = Scale,
+               GroupScale = GroupScale,
             };
             CloneBase(item);
             foreach(var child in ChildObjects)            

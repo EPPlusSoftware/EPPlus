@@ -240,7 +240,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             _sliceScaleFactor = sliceScaleFactor;
             //Translate and scale path
-            //_innerGroup.Scale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
+            _innerGroup.GroupScale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
             CalculateLargestRectWithinCircleSegment();
 
@@ -618,7 +618,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var point = new TranformPoint();
 
             //Ensure the cx/cy offset
-            point.Parent = _innerGroup.TranslationOffset.Parent;
+            point.Parent = _innerGroup;
             point.Left = xPoint;
             point.Top = yPoint;
 

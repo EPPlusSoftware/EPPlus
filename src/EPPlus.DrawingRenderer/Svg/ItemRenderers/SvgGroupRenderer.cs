@@ -50,7 +50,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             string positionStr = "";
             string rotationStr = GetRotationStr(item);
-            //string scalingStr = GetScalingStr(item);
+            string scalingStr = GetScalingStr(item);
 
 
             //if (item.TranslationOffset != null && (item.TranslationOffset.Left == 0 && item.TranslationOffset.Top == 0) == false)
@@ -60,7 +60,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             positionStr = string.Format("translate({0}, {1})", item.Left.PointToPixelString(), item.Top.PointToPixelString()) + " ";
 
-            return positionStr + rotationStr; //+ scalingStr;
+            return positionStr + rotationStr + scalingStr;
         }
         string GetTransformOrigin(GroupRenderItem item)
         {
@@ -74,17 +74,17 @@ namespace EPPlus.DrawingRenderer.Svg
         }
 
 
-        //string GetScalingStr(GroupRenderItem item)
-        //{
-        //    var scaleStr = string.Empty;
+        string GetScalingStr(GroupRenderItem item)
+        {
+            var scaleStr = string.Empty;
 
-        //    if (item.Scale != null)
-        //    {
-        //        scaleStr = string.Format(transformScale, item.Scale.X.ToString(CultureInfo.InvariantCulture), item.Scale.Y.ToString(CultureInfo.InvariantCulture)) + " ";
-        //    }
+            if (item.GroupScale != null)
+            {
+                scaleStr = string.Format(transformScale, item.GroupScale.X.ToString(CultureInfo.InvariantCulture), item.GroupScale.Y.ToString(CultureInfo.InvariantCulture)) + " ";
+            }
 
-        //    return scaleStr;
-        //}
+            return scaleStr;
+        }
 
         string GetRotationStr(GroupRenderItem item)
         {
