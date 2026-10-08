@@ -295,9 +295,11 @@ namespace OfficeOpenXml.Export.PdfExport
         private void GetLicenseInfo(PdfPageSettings pageSettings, ExcelWorkbook workbook)
         {
             pageSettings.Title = string.IsNullOrEmpty(workbook.Properties.Title)
-                                 ? string.IsNullOrEmpty(workbook._package.File.Name)
+                                 ? workbook._package.File == null
                                      ? "Untitled EPPlus Workbook"
-                                     : workbook._package.File.Name
+                                     : string.IsNullOrEmpty(workbook._package.File.Name)
+                                         ? "Untitled EPPlus Workbook"
+                                         : workbook._package.File.Name
                                  : workbook.Properties.Title;
 
             pageSettings.Author = string.IsNullOrEmpty(workbook.Properties.Author)
