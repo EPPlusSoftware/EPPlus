@@ -13,6 +13,7 @@
 using EPPlus.Fonts.OpenType.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -32,6 +33,17 @@ namespace EPPlus.Fonts.OpenType
         /// </summary>
         public OpenTypeFont Subset(OpenTypeFont font, HashSet<int> codePoints)
         {
+            return Subset(font, codePoints, false);
+        }
+
+        /// <summary>
+        /// Produces a subset of <paramref name="font"/> containing only the glyphs required for
+        /// <paramref name="codePoints"/>. Returns the font unchanged when it is already a subset
+        /// or when no code points are supplied. If subsetting fails, the original font is returned
+        /// so the caller always receives an embeddable instance.
+        /// </summary>
+        public OpenTypeFont Subset(OpenTypeFont font, HashSet<int> codePoints, bool addSubsetTag)
+        {
             if (font == null)
                 throw new ArgumentNullException("font");
 
@@ -41,14 +53,12 @@ namespace EPPlus.Fonts.OpenType
             try
             {
                 var chars = CodePointUtil.CodePointsToString(codePoints);
-                return font.CreateSubset(chars);
+                return font.CreateSubset(chars, addSubsetTag);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    "Warning: could not subset '" +
-                    (font.NameTable != null ? font.NameTable.GetFullFontName() : "(unknown)") +
-                    "': " + ex.Message);
+                Debug.WriteLine("Subsetting failed for font " + font.GetEnglishFontFamilyName() + ": " + ex.Message);
+                // unchanged
                 return font;
             }
         }
