@@ -611,6 +611,19 @@ namespace EPPlusImageRenderer.Svg
         {
             return DefaultBorderColor;
         }
+
+        internal double GetBottomOverlay(double overlayValue)
+        {
+            if (Chart.Legend.Overlay)
+            {
+                return overlayValue;
+            }
+            else
+            {
+                return Rectangle.GlobalBottom;
+            }
+        }
+
         public List<DrawingLegendSerie> SeriesIcon { get; } = new List<DrawingLegendSerie>();
 
         public eLegendPosition Position => ChartRenderer.Chart.Legend?.Position ?? eLegendPosition.Right;
@@ -618,5 +631,7 @@ namespace EPPlusImageRenderer.Svg
         public EPPlusReadOnlyList<ExcelChartLegendEntry> Entries => ChartRenderer.Chart.Legend.Entries;
 
         public ExcelTextBody TextBody => ChartRenderer.Chart.Legend.TextBody;
+
+        public bool Overlay => ChartRenderer.Chart.Legend.Overlay;
     }
 }

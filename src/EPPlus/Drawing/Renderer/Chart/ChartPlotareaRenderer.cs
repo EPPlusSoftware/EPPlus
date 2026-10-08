@@ -88,17 +88,18 @@ namespace EPPlusImageRenderer.Svg
                         vaHeight = secAxis.Title?.Rectangle?.Height??0D;
                     }
                 }
-                vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.TextBox?.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
+
+                vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.GetHeightOverlay(0) ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
             }
             else
             {
                 var bottomAx = GetAxisByPosition(eAxisPosition.Bottom);
                 if(bottomAx!=null) //Title is always placed on bottom.
                 {
-                    vaHeight = bottomAx.Title?.TextBox?.GetActualHeight() ?? 0D;
+                    vaHeight = bottomAx.Title?.GetHeightOverlay(0) ?? 0D;
                 }
             }
-            if (Chart.Legend?.Position == eLegendPosition.Bottom)
+            if (Chart.Legend?.Position == eLegendPosition.Bottom && Chart.Legend.Overlay==false)
             {
                 vaHeight += ChartRenderer.Legend.Rectangle.Height + ChartRenderer.Legend.TopMargin;
             }
@@ -114,7 +115,7 @@ namespace EPPlusImageRenderer.Svg
             var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right);
             var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
             var lp = ChartRenderer.Chart.Legend?.Position;
-            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null ?
+            var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null && ChartRenderer.Legend.Overlay==false ?
                         ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
@@ -161,7 +162,8 @@ namespace EPPlusImageRenderer.Svg
         private double GetPlotAreaLeft()
         {
             var left = LeftMargin;
-            if(ChartRenderer.Chart.Legend?.Position == eLegendPosition.Left)
+            var legend = ChartRenderer.Chart.Legend;
+            if (legend?.Position == eLegendPosition.Left && legend.Overlay == false)
             {
                 left += ChartRenderer.Legend.Rectangle.Width + ChartRenderer.Legend.RightMargin;
             }
@@ -175,13 +177,13 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (leftAxis.Title!=null)
+                if (leftAxis.Title!=null && leftAxis.Title.Overlay==false)
                 {
                     left += leftAxis.Title.TextBox.GetActualWidth();
                 }
                 if (leftAxis.Rectangle != null)
                 {
-                    left += leftAxis.Rectangle.Width + 1.5;
+                    left += (leftAxis.Rectangle?.Width ?? 0) + 1.5;
                 }
                 if(leftSecondAxis!=null)
                 {
@@ -194,19 +196,19 @@ namespace EPPlusImageRenderer.Svg
         {
             double haHeight = 0;
             var topAxis = GetAxisActualByPosition(eActualAxisPosition.Top);
-            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.TopSecond);
+            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.TopSecond);            
             if (topAxis == null)
             {
                 //If the axis is not on the top, we should check if there is an axis that has the position on the top. If there is, we should reserve space for the title of the axis. This can happen when LabelPosition is set to Low and the axis is on the bottom, but the position of the axis is set to top.
                 topAxis = GetAxisByPosition(eAxisPosition.Top);
-                haHeight = (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis?.Title?.Rectangle.Height ?? 0D);
+                haHeight = (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis?.Title?.GetHeightOverlay() ?? 0D);
             }
             else
             {
-                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.TextBox?.GetActualHeight() ?? 0D);
+                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.Rectangle.Bottom : ChartRenderer.Title?.Rectangle?.GlobalBottom ?? TopMargin) + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? TopMargin) + haHeight;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)

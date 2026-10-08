@@ -311,23 +311,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             return displayValues;
         }
-
-        private RenderItem GetIcon(ChartRenderer svgChart, ExcelChart ct, ExcelChartStandardSerie serie, DrawingLegendSerie pSls, int serieIndex, int index, double entryWidth, double entryHeight)
-        {
-            if(ct.IsTypeLine())
-            {
-                return LegendIconRenderer.GetLineSeriesIcon(svgChart, this, serie, pSls, entryWidth, entryHeight);
-            }
-            else if(ct.IsTypeBar() || ct.IsTypeColumn())
-            {
-                return LegendIconRenderer.GetBarSeriesIcon(svgChart, ct, this, (ExcelBarChartSerie)serie, pSls, entryWidth, entryHeight, serieIndex, index);
-            }
-            else
-            {
-                return LegendIconRenderer.GetPieSeriesIcon(svgChart, ct, this, (ExcelPieChartSerie)serie, pSls, entryWidth, entryHeight, index);
-            }
-        }
-
         private List<DrawingTextBody> AddSerieValues(ChartRenderer svgChart, double maxWidth, double maxHeight, ExcelChartSerie serie)
         {
             var ret = new List<DrawingTextBody>();
