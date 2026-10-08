@@ -35,8 +35,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         double? SummedSeries = null;
 
+        GroupRenderItem DatalabelsGroup;
+
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartDataLabel dlbl, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
+            DatalabelsGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            DatalabelsGroup.Name = "Dlbl_SeriesGroup";
+
             _serieIndex = index;
             _origIndex = index;
             _dlbl = dlbl;
@@ -202,9 +207,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var DatalabelsGroup = new GroupRenderItem(ChartRenderer.ChartArea.Rectangle);
-
-            DatalabelsGroup.Name = "Dlbl_SeriesGroup";
+            DatalabelsGroup.Left = ChartRenderer.Plotarea.Group.Left;
+            DatalabelsGroup.Top = ChartRenderer.Plotarea.Group.Top;
 
             if (rotation != double.NaN)
             {
@@ -227,7 +231,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
-                dataLabels[i].AppendRenderItems(DatalabelsGroup.ChildObjects);
+                dataLabels[i].PrepareForRenderAndAddToParent(DatalabelsGroup);
             }
 
             renderItems.Add(DatalabelsGroup);

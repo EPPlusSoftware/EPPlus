@@ -33,11 +33,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[1];
+                var ws = p.Workbook.Worksheets[4];
 
-                var explosion = ws.Drawings["PieExplosion30"];
+                var manySlices = ws.Drawings["ManySlices_Rot"];
 
-                var explodeSvg = explosion.ToSvg();
+                var manySlicesSvg = manySlices.ToSvg();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
