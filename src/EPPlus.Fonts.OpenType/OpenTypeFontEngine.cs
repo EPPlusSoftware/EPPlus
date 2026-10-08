@@ -10,10 +10,12 @@
  *************************************************************************************************
   05/13/2026         EPPlus Software AB           Per-instance font engine. Replaces static OpenTypeFonts.
   09/02/2026         EPPlus Software AB           Extracted FontStore and ShaperCache; added measurement shaper
+  10/08/2026         EPPlus Software AB           Font logging; replaced Debug.WriteLine in ResolveEmbeddingDecision
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontCache;
 using EPPlus.Fonts.OpenType.FontResolver;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Logging;
 using EPPlus.Fonts.OpenType.Scanner;
 using EPPlus.Fonts.OpenType.TextShaping;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -21,7 +23,6 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace EPPlus.Fonts.OpenType
@@ -42,6 +43,11 @@ namespace EPPlus.Fonts.OpenType
         private readonly EpplusFontConfiguration _configuration;
         private readonly FontStore _fontStore;
         private readonly ShaperCache _shaperCache = new ShaperCache();
+
+        // Web substitutions already reported, so the log carries one line per font rather than
+        // one per call. GetFamilyForTarget runs for every measurement. Guarded by _logLock.
+        private readonly object _logLock = new object();
+        private HashSet<string> _reportedWebSubstitutions;
 
         private bool _disposed;
 
@@ -114,6 +120,15 @@ namespace EPPlus.Fonts.OpenType
         internal FontStore FontStore
         {
             get { return _fontStore; }
+        }
+
+        /// <summary>
+        /// The configured logger, or one that is never enabled. Read on each use, so a logger
+        /// assigned after construction is picked up.
+        /// </summary>
+        private IFontLogger Logger
+        {
+            get { return _configuration.ActiveLogger; }
         }
 
         // -----------------------------------------------------------------------------------------
@@ -320,28 +335,50 @@ namespace EPPlus.Fonts.OpenType
 
         internal FontEmbeddingDecision ResolveEmbeddingDecision(OpenTypeFont font)
         {
+            var logger = Logger;
+
             var restriction = font.Os2Table != null
                 ? font.Os2Table.GetEmbeddingRestriction()
                 : FontEmbeddingRestriction.None;
 
-            if (font.NameTable != null && EmbeddedFonts.IsBundledFamily(font.GetEnglishFontFamilyName()))
-                return FontEmbeddingDecision.Subset;
-
             var fontName = font.NameTable != null ? font.NameTable.GetFullFontName() : null;
+
+            if (font.NameTable != null && EmbeddedFonts.IsBundledFamily(font.GetEnglishFontFamilyName()))
+            {
+                LogEmbedding(logger, FontLogSeverity.Debug, fontName, restriction,
+                    FontEmbeddingDecision.Subset, "bundled font");
+                return FontEmbeddingDecision.Subset;
+            }
+
             var callback = _configuration.GetEmbeddingCallback();
             if (callback != null)
             {
                 var decision = callback(new FontEmbeddingInfo(fontName, restriction));
                 if (decision != FontEmbeddingDecision.Default)
+                {
+                    LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
+                        decision, "decided by the OnFontEmbedding callback");
                     return decision;   // user override wins
+                }
             }
-
-            Debug.WriteLine($"ResolveEmbeddingDecision: {fontName} restriction={restriction} callback={(callback != null)}");
 
             // No callback, or callback returned Default → derive from the restriction.
             switch (restriction)
             {
                 case FontEmbeddingRestriction.NoEmbedding:
+                    if (FontLog.IsEnabled(logger, FontLogSeverity.Error))
+                    {
+                        FontLog.Write(
+                            logger,
+                            FontLogSeverity.Error,
+                            FontLogEventType.EmbeddingDecision,
+                            string.Format(
+                                "Embedding '{0}' refused: fsType declares a restricted license and no OnFontEmbedding callback permitted it.",
+                                DisplayName(fontName)),
+                            fontName,
+                            null);
+                    }
+
                     // Default policy: fail loud. User must opt in via the callback.
                     throw new InvalidOperationException(
                         string.Format(
@@ -350,8 +387,12 @@ namespace EPPlus.Fonts.OpenType
                             "EmbedWhole from IEpplusFontConfiguration.OnFontEmbedding.",
                             string.IsNullOrWhiteSpace(fontName) ? "(unknown)" : fontName));
                 case FontEmbeddingRestriction.NoSubsetting:
+                    LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
+                        FontEmbeddingDecision.EmbedWhole, "fsType forbids subsetting");
                     return FontEmbeddingDecision.EmbedWhole;
                 default:
+                    LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
+                        FontEmbeddingDecision.Subset, "default policy");
                     return FontEmbeddingDecision.Subset;
             }
         }
@@ -392,6 +433,7 @@ namespace EPPlus.Fonts.OpenType
                 GenericFontTextShaper alwaysShaper;
                 if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out alwaysShaper))
                 {
+                    LogMetricsUsed(fontName, subFamily, "MetricsFallback is set to Always");
                     return alwaysShaper;
                 }
                 // No metrics for this family. Fall through to normal resolution rather than
@@ -415,6 +457,12 @@ namespace EPPlus.Fonts.OpenType
                 GenericFontTextShaper metricsShaper;
                 if (GenericFontTextShaper.TryCreate(fontName, FontSubFamilyConverter.ToStyles(subFamily), out metricsShaper))
                 {
+                    LogMetricsUsed(
+                        fontName,
+                        subFamily,
+                        font == null
+                            ? "the font resolver returned no font"
+                            : "font resolution ended at the last-resort font " + FontLog.Describe(font));
                     return metricsShaper;
                 }
             }
@@ -496,9 +544,82 @@ namespace EPPlus.Fonts.OpenType
             if (_configuration.WebFontSubstitutions.TryGetValue(fontName, out substitute)
                 && string.IsNullOrEmpty(substitute) == false)
             {
+                LogWebSubstitution(fontName, substitute);
                 return substitute;
             }
             return fontName;
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // Logging
+        // -----------------------------------------------------------------------------------------
+
+        private void LogMetricsUsed(string fontName, FontSubFamily subFamily, string reason)
+        {
+            var logger = Logger;
+            if (!FontLog.IsEnabled(logger, FontLogSeverity.Information))
+                return;
+
+            FontLog.Write(
+                logger,
+                FontLogSeverity.Information,
+                FontLogEventType.MeasurementMetricsUsed,
+                string.Format(
+                    "Font '{0}' {1}: measured from serialized font metrics, not a font file ({2}).",
+                    fontName, subFamily, reason),
+                fontName,
+                null);
+        }
+
+        private void LogWebSubstitution(string fontName, string substitute)
+        {
+            var logger = Logger;
+            if (!FontLog.IsEnabled(logger, FontLogSeverity.Debug))
+                return;
+
+            lock (_logLock)
+            {
+                if (_reportedWebSubstitutions == null)
+                    _reportedWebSubstitutions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                if (!_reportedWebSubstitutions.Add(fontName))
+                    return;
+            }
+
+            FontLog.Write(
+                logger,
+                FontLogSeverity.Debug,
+                FontLogEventType.WebFontSubstitution,
+                string.Format("Font '{0}' -> '{1}' for the web render target.", fontName, substitute),
+                fontName,
+                substitute);
+        }
+
+        private static void LogEmbedding(
+            IFontLogger logger,
+            FontLogSeverity severity,
+            string fontName,
+            FontEmbeddingRestriction restriction,
+            FontEmbeddingDecision decision,
+            string reason)
+        {
+            if (!FontLog.IsEnabled(logger, severity))
+                return;
+
+            FontLog.Write(
+                logger,
+                severity,
+                FontLogEventType.EmbeddingDecision,
+                string.Format(
+                    "Embedding '{0}': fsType restriction {1} -> {2} ({3}).",
+                    DisplayName(fontName), restriction, decision, reason),
+                fontName,
+                null);
+        }
+
+        private static string DisplayName(string fontName)
+        {
+            return string.IsNullOrEmpty(fontName) ? "(unknown)" : fontName;
         }
     }
 }

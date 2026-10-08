@@ -9,14 +9,15 @@
   Date               Author                       Change
  *************************************************************************************************
   09/02/2026         EPPlus Software AB           Extracted from OpenTypeFontEngine
+  10/08/2026         EPPlus Software AB           Added Logger
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Fonts;
 
 namespace EPPlus.Fonts.OpenType.FontCache
 {
     /// <summary>
-    /// The font-loading surface a font provider depends on: resolution, availability, and the
-    /// configured per-script fallback chains. Nothing else.
+    /// The font-loading surface a font provider depends on: resolution, availability, the
+    /// configured per-script fallback chains, and the logger. Nothing else.
     ///
     /// It exists so <see cref="DefaultFontProvider"/> does not depend on
     /// <see cref="OpenTypeFontEngine"/>. A glyph provider has no business reaching the engine's
@@ -24,6 +25,13 @@ namespace EPPlus.Fonts.OpenType.FontCache
     /// </summary>
     internal interface IFontSource
     {
+        /// <summary>
+        /// The logger that receives font and glyph selection events. Never null — when no logger
+        /// is configured this is a logger that is never enabled. Read on each use, so a logger
+        /// attached later is picked up.
+        /// </summary>
+        IFontLogger Logger { get; }
+
         /// <summary>
         /// The configured fallback chain for a Unicode script, or null if none is configured.
         /// An empty array means fallback is explicitly disabled for that script.
