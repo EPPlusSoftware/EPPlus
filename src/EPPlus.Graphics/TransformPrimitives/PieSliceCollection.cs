@@ -16,6 +16,7 @@ namespace EPPlus.Graphics.TransformPrimitives
 
         double totalValue = 0;
 
+        List<double> _percentages = new List<double>();
         List<PieSliceBase> _slices = new List<PieSliceBase>();
 
         internal PieSliceCollection()
@@ -23,9 +24,10 @@ namespace EPPlus.Graphics.TransformPrimitives
 
         }
 
-        public void Add(PieSliceBase slice)
+        public void Add(PieSliceBase slice, double percentage)
         {
-
+            _percentages.Add(percentage);
+            _slices.Add(slice);
         }
 
         public IEnumerator<PieSliceBase> GetEnumerator()
@@ -39,6 +41,11 @@ namespace EPPlus.Graphics.TransformPrimitives
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Clear()
+        {
+
         }
     }
 }

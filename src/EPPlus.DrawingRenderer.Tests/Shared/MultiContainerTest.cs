@@ -86,6 +86,33 @@ namespace EPPlus.DrawingRenderer.Tests.Shared
         }
 
         [TestMethod]
+        public void VerifySimpleChildContentNegativeTopLeft()
+        {
+            var world = new BoundingBox(0, 0, 500, 500);
+
+            var container = new MultiContainerItem(world);
+
+            container.Left = 5;
+            container.Top = 5;
+
+            var child1 = new BoundingBox();
+            child1.Left = -3;
+            child1.Top = -3;
+
+            child1.Width = 25;
+            child1.Height = 16;
+
+            child1.Parent = container;
+
+            Assert.AreEqual(child1.Left, container.ContentLeft);
+            Assert.AreEqual(child1.Top, container.ContentTop);
+            Assert.AreEqual(child1.Width, container.ContentWidth);
+            Assert.AreEqual(child1.Height, container.ContentHeight);
+            Assert.AreEqual(child1.Width + child1.Left, container.ContentRight);
+            Assert.AreEqual(child1.Height + child1.Top, container.ContentBottom);
+        }
+
+        [TestMethod]
         public void VerifyGrandChildContentTopLeftNegative()
         {
             var world = new GroupRenderItem();
@@ -165,33 +192,6 @@ namespace EPPlus.DrawingRenderer.Tests.Shared
             //ExtremeRightBottom.Style.FillOpacity = 0.2d;
 
             //GenerateSvgFile("VerifyGrandChildContentTopLeftNegative", world, world.ChildObjects.ToArray());
-        }
-
-        [TestMethod]
-        public void VerifySimpleChildContentNegativeTopLeft()
-        {
-            var world = new BoundingBox(0, 0, 500, 500);
-
-            var container = new MultiContainerItem(world);
-
-            container.Left = 5;
-            container.Top = 5;
-
-            var child1 = new BoundingBox();
-            child1.Left = -3;
-            child1.Top = -3;
-
-            child1.Width = 25;
-            child1.Height = 16;
-
-            child1.Parent = container;
-
-            Assert.AreEqual(child1.Left, container.ContentLeft);
-            Assert.AreEqual(child1.Top, container.ContentTop);
-            Assert.AreEqual(child1.Width, container.ContentWidth);
-            Assert.AreEqual(child1.Height, container.ContentHeight);
-            Assert.AreEqual(child1.Width + child1.Left, container.ContentRight);
-            Assert.AreEqual(child1.Height + child1.Top, container.ContentBottom);
         }
     }
 }
