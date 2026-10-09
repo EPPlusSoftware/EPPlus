@@ -11,6 +11,7 @@
   02/27/2026         EPPlus Software AB           Initial implementation
   05/06/2026         EPPlus Software AB           Property-based transactional configuration
   05/20/2026         EPPlus Software AB           Added per-script glyph fallback configuration
+  10/08/2026         EPPlus Software AB           Added Logger for font and glyph selection diagnostics
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -72,17 +73,6 @@ namespace OfficeOpenXml.Interfaces.Fonts
         void SetScriptFallback(UnicodeScript script, params string[] fallbackFontNames);
 
         /// <summary>
-        /// Restores all settings to factory defaults:
-        /// <list type="bullet">
-        ///   <item>Clears <see cref="FontDirectories"/>.</item>
-        ///   <item>Sets <see cref="SearchSystemDirectories"/> to <c>true</c>.</item>
-        ///   <item>Restores the default <see cref="FontResolver"/> (with Archivo Narrow built-in fallback).</item>
-        ///   <item>Clears <see cref="FontFallbacks"/>.</item>
-        ///   <item>Restores the default per-script glyph fallback chains.</item>
-        /// </list>
-        /// </summary>
-    
-        /// <summary>
         /// Whether text measurement may fall back to serialized font metrics when the requested
         /// font is not available as a font file. Defaults to
         /// <see cref="MetricsFallbackMode.WhenFontMissing"/>.
@@ -92,6 +82,18 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// </summary>
         MetricsFallbackMode MetricsFallback { get; set; }
 
+        /// <summary>
+        /// Restores all settings to factory defaults:
+        /// <list type="bullet">
+        ///   <item>Clears <see cref="FontDirectories"/>.</item>
+        ///   <item>Sets <see cref="SearchSystemDirectories"/> to <c>true</c>.</item>
+        ///   <item>Restores the default <see cref="FontResolver"/> (with Archivo Narrow built-in fallback).</item>
+        ///   <item>Clears <see cref="FontFallbacks"/>.</item>
+        ///   <item>Restores the default per-script glyph fallback chains.</item>
+        ///   <item>Restores <see cref="MetricsFallback"/> and <see cref="WebFontSubstitutions"/> to their defaults.</item>
+        ///   <item>Sets <see cref="Logger"/> to <c>null</c>.</item>
+        /// </list>
+        /// </summary>
         void Reset();
 
         /// <summary>
@@ -116,6 +118,24 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// Set a value to null or an empty string to keep the original font.
         /// </summary>
         IDictionary<string, string> WebFontSubstitutions { get; }
+
+        /// <summary>
+        /// Receives diagnostic events that explain which fonts are chosen and why: font-level
+        /// fallbacks, script and glyph fallbacks, glyphs that no font can supply, metrics-based
+        /// measurement and embedding decisions. Defaults to <c>null</c>, which disables logging.
+        /// </summary>
+        /// <remarks>
+        /// The logger is read each time a decision is made, so it can be set or replaced at any
+        /// time. Fonts that are already cached are not resolved again, so set it inside the
+        /// ConfigureFonts callback to get the complete picture. The logger is called from
+        /// whichever thread triggers the work and must be thread-safe; an exception it throws is
+        /// swallowed. EPPlus never disposes a logger — a logger the caller creates is the
+        /// caller's to clean up.
+        ///
+        /// <see cref="OfficeOpenXml.Interfaces.Fonts.FontLogSeverity.Debug"/> events can be
+        /// numerous. Use <see cref="IFontLogger.IsEnabled"/> to filter them out.
+        /// </remarks>
+        IFontLogger Logger { get; set; }
     }
 
 }

@@ -9,8 +9,10 @@
   Date               Author                       Change
  *************************************************************************************************
   09/02/2026         EPPlus Software AB           Extracted from OpenTypeFontEngine
+  10/08/2026         EPPlus Software AB           Font logging
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontResolver;
+using EPPlus.Fonts.OpenType.Logging;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,10 @@ namespace EPPlus.Fonts.OpenType.FontCache
         private readonly IFontResolver _resolver;
         private readonly EpplusFontConfiguration _configuration;
 
+        // DefaultFontResolver logs the reason for each decision itself. A custom resolver does
+        // not, so for those the store reports a substitution it can observe from the outside.
+        private readonly bool _resolverExplainsItself;
+
         private bool _disposed;
 
         internal FontStore(IFontResolver resolver, EpplusFontConfiguration configuration)
@@ -43,6 +49,13 @@ namespace EPPlus.Fonts.OpenType.FontCache
 
             _resolver = resolver;
             _configuration = configuration;
+            _resolverExplainsItself = resolver is DefaultFontResolver;
+        }
+
+        /// <inheritdoc/>
+        public IFontLogger Logger
+        {
+            get { return _configuration.ActiveLogger; }
         }
 
         // -----------------------------------------------------------------------------------------
@@ -58,7 +71,11 @@ namespace EPPlus.Fonts.OpenType.FontCache
             ThrowIfDisposed();
 
             if (ignoreCache)
-                return ResolveAndCreate(_resolver, fontName, subFamily);
+            {
+                var uncached = ResolveAndCreate(_resolver, fontName, subFamily);
+                LogLoaded(fontName, subFamily, uncached);
+                return uncached;
+            }
 
             string lockKey = BuildCacheKey(fontName, subFamily);
             object fontLock;
@@ -83,6 +100,11 @@ namespace EPPlus.Fonts.OpenType.FontCache
                 _fontCache.BeginCache(lockKey);
 
                 var font = ResolveAndCreate(_resolver, fontName, subFamily);
+
+                // Only reached on a cache miss, so this reports each font once per engine.
+                // Held under the per-font lock, which only blocks other loads of the same font.
+                LogLoaded(fontName, subFamily, font);
+
                 if (font == null)
                 {
                     // BeginCache left a not-loaded placeholder. Nothing will ever complete it,
@@ -166,6 +188,63 @@ namespace EPPlus.Fonts.OpenType.FontCache
         {
             if (_disposed)
                 throw new ObjectDisposedException("OpenTypeFontEngine");
+        }
+
+        // -----------------------------------------------------------------------------------------
+        // Logging
+        // -----------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Reports the outcome of a resolver call. An unresolved font is a warning. A resolved font
+        /// is debug output, except when a custom resolver returned a different family than was
+        /// asked for, which nothing else would explain.
+        /// </summary>
+        private void LogLoaded(string fontName, FontSubFamily subFamily, OpenTypeFont font)
+        {
+            var logger = Logger;
+
+            if (font == null)
+            {
+                if (FontLog.IsEnabled(logger, FontLogSeverity.Warning))
+                {
+                    FontLog.Write(
+                        logger,
+                        FontLogSeverity.Warning,
+                        FontLogEventType.FontNotResolved,
+                        string.Format("Requested font '{0}' {1} could not be resolved: the font resolver returned no font.", fontName, subFamily),
+                        fontName,
+                        null);
+                }
+                return;
+            }
+
+            if (!FontLog.IsEnabled(logger, FontLogSeverity.Debug)
+                && (_resolverExplainsItself || !FontLog.IsEnabled(logger, FontLogSeverity.Information)))
+            {
+                return;
+            }
+
+            var resolvedFamily = FontLog.FamilyOf(font);
+            var substituted = resolvedFamily != null
+                && !string.Equals(fontName, resolvedFamily, StringComparison.OrdinalIgnoreCase);
+
+            var severity = substituted && !_resolverExplainsItself
+                ? FontLogSeverity.Information
+                : FontLogSeverity.Debug;
+
+            if (!FontLog.IsEnabled(logger, severity))
+                return;
+
+            // For DefaultFontResolver the preceding FontFallback event explains the substitution.
+            // A custom resolver does not, so say here that it was the resolver that substituted.
+            var message = substituted
+                ? string.Format(
+                    "Requested font '{0}' {1} was loaded using font '{2}'{3}.",
+                    fontName, subFamily, FontLog.Describe(font),
+                    _resolverExplainsItself ? string.Empty : " (substituted by the font resolver)")
+                : string.Format("Requested font '{0}' {1} was loaded.", fontName, subFamily);
+
+            FontLog.Write(logger, severity, FontLogEventType.FontLoaded, message, fontName, resolvedFamily);
         }
 
         // -----------------------------------------------------------------------------------------
