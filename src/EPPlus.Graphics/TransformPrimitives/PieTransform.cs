@@ -28,7 +28,7 @@ namespace EPPlus.Graphics.TransformPrimitives
                 var degrees = percentage * 360d;
                 PieSliceBase slice = new PieSliceBase(prevSliceDegrees, prevSliceDegrees + degrees, Circle);
                 Slices.Add(slice, percentage);
-                prevSliceDegrees = prevSliceDegrees + slice.EndDegrees;
+                prevSliceDegrees = slice.EndDegrees;
             }
         }
     }
