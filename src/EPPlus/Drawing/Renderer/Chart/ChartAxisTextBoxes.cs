@@ -26,9 +26,10 @@ namespace EPPlusImageRenderer.Svg
         internal string AxisName = "";
 
         internal override Color? DefaultFillColor { get; }
-
-        internal ChartAxisTextBoxes(ChartRenderer chart) : base(chart)
+        internal ChartAxisRenderer _axis;
+        internal ChartAxisTextBoxes(ChartAxisRenderer axis) : base(axis.ChartRenderer)
         {
+            _axis = axis;
             DefaultFillColor = Color.Transparent;
         }
 
@@ -43,13 +44,17 @@ namespace EPPlusImageRenderer.Svg
         {
             if (TextBoxes != null && TextBoxes.Count > 0)
             {
-                var AxisTxtBoxGroup = new GroupRenderItem(ChartRenderer.Bounds);
-                AxisTxtBoxGroup.Name = AxisName;
+                var axisTxtBoxGroup = new GroupRenderItem(ChartRenderer.Bounds);
+                axisTxtBoxGroup.Name = AxisName;
+                axisTxtBoxGroup.Top = _axis.Rectangle.Top;
+                axisTxtBoxGroup.Left = _axis.Rectangle.Left;
+                _axis.Rectangle.Top = 0;
+                _axis.Rectangle.Left = 0;
                 foreach (var tb in TextBoxes)
                 {
-                    tb.AppendRenderItems(AxisTxtBoxGroup.ChildObjects);
+                    tb.AppendRenderItems(axisTxtBoxGroup.ChildObjects);
                 }
-                renderItems.Add(AxisTxtBoxGroup);
+                renderItems.Add(axisTxtBoxGroup);
             }
 
         }
