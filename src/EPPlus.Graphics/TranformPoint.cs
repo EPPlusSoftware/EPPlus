@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EPPlus.Graphics
 {
-    public class Point : Transform
+    public class TranformPoint : Transform
     {
         public double Top
         {
@@ -26,12 +26,12 @@ namespace EPPlus.Graphics
             }
         }
 
-        public Point()
+        public TranformPoint()
         {
             
         }
 
-        public Point(double x, double y)
+        public TranformPoint(double x, double y)
         {
             Left = x;
             Top = y;

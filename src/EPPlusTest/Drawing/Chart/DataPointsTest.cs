@@ -161,7 +161,6 @@ namespace EPPlusTest.Drawing.Chart
                 var dlbl = sChart.Series[2].DataLabel.DataLabels.Add(2);
                 sChart.Series[2].DataLabel.DataLabels.Add(1);
 
-
                 dlbl.ShowSeriesName = true;
                 dlbl.Fill.Color = Color.Red;
 

@@ -16,7 +16,8 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             StringBuilder sb = OutputStream;
             //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
-            switch (path.CompoundLineStyle)
+            var style = path.Style;
+            switch (style.CompoundLineStyle)
             {
                 case CompoundLineStyle.Single:
                     RenderPathItem(path, null, null, null);
@@ -25,28 +26,28 @@ namespace EPPlus.DrawingRenderer.Svg
                     var name = $"double-stroke-{Guid.NewGuid().ToString()}";
                     sb.Append($"<defs><mask id=\"{name}\">");
 
-                    RenderPathItem(path, path.BorderWidth, "white", null);
-                    RenderPathItem(path, path.BorderWidth * (3D / 7D), "black", null);
-                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{path.BorderColor}\" mask=\"url(#{name})\" />");
+                    RenderPathItem(path, style.BorderWidth, "white", null);
+                    RenderPathItem(path, style.BorderWidth * (3D / 7D), "black", null);
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{style.BorderColor}\" mask=\"url(#{name})\" />");
                     break;
                 case CompoundLineStyle.DoubleThickThin:
-                    WriteThickThin(path, (path.BorderWidth ?? 1D) * 1D / 7D);
+                    WriteThickThin(path, (style.BorderWidth ?? 1D) * 1D / 7D);
                     break;
                 case CompoundLineStyle.DoubleThinThick:
-                    WriteThickThin(path, ((path.BorderWidth ?? 1D) * 1D / 7D) * -1);
+                    WriteThickThin(path, ((style.BorderWidth ?? 1D) * 1D / 7D) * -1);
                     break;
                 case CompoundLineStyle.TripleThinThickThin:
                     var guid = Guid.NewGuid().ToString();
-                    var gapOffset = 5 * (path.BorderWidth??1D) / 16;
+                    var gapOffset = 5 * (style.BorderWidth??1D) / 16;
                     name = $"triple-stroke-{guid}";
                     sb.Append($"<defs>");
                     sb.Append($"<filter id=\"gap-left-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\"><feOffset dx=\"0\" dy=\"-{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
                     sb.Append($"<filter id=\"gap-right-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\"><feOffset dx=\"0\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
                     sb.Append($"<mask id=\"{name}\">");
-                    RenderPathItem(path, path.BorderWidth, "white", null);
-                    RenderPathItem(path, path.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
-                    RenderPathItem(path, path.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
-                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{path.BorderColor}\" mask=\"url(#{name})\" />");
+                    RenderPathItem(path, style.BorderWidth, "white", null);
+                    RenderPathItem(path, style.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
+                    RenderPathItem(path, style.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{style.BorderColor}\" mask=\"url(#{name})\" />");
                     break;
             }
         }
@@ -61,7 +62,7 @@ namespace EPPlus.DrawingRenderer.Svg
             RenderCompoundItems(path, borderWidth, color, filter);
         }
 
-        private void RenderPathCommand(PathCommands pc)
+        private void RenderPathCommand(PathCommand pc)
         {
             OutputStream.Append(pc.Type.AsCommandChar());
             for (int i = 0; i < pc.Coordinates.Length; i++)
@@ -91,9 +92,9 @@ namespace EPPlus.DrawingRenderer.Svg
             OutputStream.Append("<defs>");
             OutputStream.Append($"<filter id=\"{gapFilterName}\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\"><feOffset in=\"SourceGraphic\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\"/></filter>");
             OutputStream.Append($"<mask id=\"{name}\">");
-            RenderPathItem(path, path.BorderWidth, "white", null);
-            RenderPathItem(path, path.BorderWidth * (1 / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
-            OutputStream.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{path.BorderColor}\" mask=\"url(#{name})\" />");
+            RenderPathItem(path, path.Style.BorderWidth, "white", null);
+            RenderPathItem(path, path.Style.BorderWidth * (1 / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
+            OutputStream.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{path.Style.BorderColor}\" mask=\"url(#{name})\" />");
         }
     } 
 }

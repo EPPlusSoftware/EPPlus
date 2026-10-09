@@ -135,12 +135,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public double ClippingHeight { get; protected set; } = double.NaN;
         public TextRunRenderItem(BoundingBox parent) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
         }
 
         public TextRunRenderItem(BoundingBox parent, string text, int origRtIdx) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
             _currentText = text;
             OriginalRtIdx = origRtIdx;
         }
@@ -153,7 +153,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportRichTextData(IRichTextFormatSimple rt)
         {
             InitializeBase(rt);
-            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            Style.FillColor = "#" + rt.FontColor.To6CharHexStringImage();
             _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : (eDrawingUnderLineType)rt.UnderlineType;
             _underlineColor = rt.UnderlineColor;
         }
@@ -161,7 +161,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public void ImportRichTextData(IRichTextFormatDrawing rt)
         {
             InitializeBase(rt);
-            FillColor = "#" + rt.FontColor.To6CharHexStringImage();
+            Style.FillColor = "#" + rt.FontColor.To6CharHexStringImage();
             _baseline = rt.Baseline;
             _strikeType = (int)rt.StrikeType == -1 ? eDrawingStrikeType.No : rt.StrikeType;
             _underLineType = (int)rt.UnderlineType == -1 ? eDrawingUnderLineType.None : rt.UnderlineType;
@@ -170,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected void InitializeBase(IFontFormatBase font)
         {
             //Should be ascent-only?
-            Bounds.Height = font.Size;
+            Height = font.Size;
             FontSizeInPixels = ((double)font.Size).PointToPixel(true);
             //Copy, as callers pass shared instances (e.g. the paragraph default font) and the
             //run adjusts its own size for sub- and superscript.
@@ -187,7 +187,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         /// <param name="font"></param>
         private TextRunRenderItem(BoundingBox parent, string origText, string currentText, IFontFormatBase font) : base(parent)
         {
-            Bounds.Name = "TextRun";
+            Name = "TextRun";
 
             //possibly no longer neccesary
             _originalText = origText;
@@ -195,7 +195,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _currentText = currentText;
 
             //Should be ascent-only?
-            Bounds.Height = font.Size;
+            Height = font.Size;
 
             //Possibly no longer neccesary
             Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
@@ -220,9 +220,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         internal protected void CalculateClippingHeightFromTextBodyParent()
         {
             //To get clipping height we need to get the textbody bounds
-            if (Bounds.Parent != null && Bounds.Parent.Parent != null && Bounds.Parent.Parent.Parent != null)
+            if (Parent != null && Parent.Parent != null && Parent.Parent.Parent != null)
             {
-                ClippingHeight = Bounds.Parent.Parent.Parent.Position.Y + Bounds.Parent.Parent.Parent.Size.Y;
+                ClippingHeight = Parent.Parent.Parent.Position.Y + Parent.Parent.Parent.Size.Y;
             }
         }
     }

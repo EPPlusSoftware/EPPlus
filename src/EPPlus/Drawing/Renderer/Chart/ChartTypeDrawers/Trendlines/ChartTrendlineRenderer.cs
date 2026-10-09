@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -30,7 +31,7 @@ using System.Linq;
 using System.Text;
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal class ChartTrendlineRenderer : ChartDrawingDefaultObject
+    internal class ChartTrendlineRenderer : ChartDrawingObject
     {
         private ExcelChartTrendline _trendline;
         private double[] _ySerie;
@@ -124,7 +125,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle.Bounds, x, y, width, height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
@@ -191,9 +192,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            DataLabel.Rectangle.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
-            DataLabel.Rectangle.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
         private void AddLblText(DrawingTextBox lbl, string labelText)
@@ -661,13 +662,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateRenderCoordinates();
             CreateDatalabel();
         }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
-            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommands(PathCommandType.Move, RenderCoordinates));
-            pathItem.FillColor = "none";
-            pathItem.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
-            pathItem.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
+            var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
+            pathItem.Commands.Add(new EPPlusImageRenderer.PathCommand(PathCommandType.Move, RenderCoordinates));
+            pathItem.Style.FillColor = "none";
+            pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
+            pathItem.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
 
@@ -785,34 +786,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-
-        internal override Color? GetDefaultFillColor()
-        {
-            return GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
-        }
-
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
         internal override Color? GetDefaultBorderColor()
         {
-            //We only get here if the node is null or empty
-            var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
-            ////Kept here in case needed in future for effect etc.
-            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
-            return lineColor;
+            return DefaultBorderColor;
         }
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
         internal override Color? DefaultBorderColor
         {
             get
             {
-                return GetDefaultBorderColor();
-                //var borderStyleFill = ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill;
-                //if (borderStyleFill.IsEmpty == false && borderStyleFill.SolidFill != null && borderStyleFill.SolidFill.Color.ColorType != eDrawingColorType.Scheme)
-                //{
-                //    return ChartRenderer.Theme.FormatScheme.BorderStyle[0].Fill?.Color;
-                //}
-                //else
-                //{
-                //    return null;
-                //}
+                var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
+                ////Kept here in case needed in future for effect etc.
+                //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+                return lineColor;
             }
         }
     }

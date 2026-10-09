@@ -24,16 +24,24 @@ namespace EPPlus.DrawingRenderer.Svg
             string fillPropery = "";
 
             //We may need special handling for fill-color 'none' as it is sometimes transparent and sometimes un-applied.
-            if (string.IsNullOrEmpty(item.FillColor) == false)
+            if (string.IsNullOrEmpty(item.Style.FillColor) == false)
             {
-                fillPropery = $" fill=\"{item.FillColor}\" ";
+                fillPropery = $" fill=\"{item.Style.FillColor}\" ";
             }
 
-            OutputStream.Append($"<g class=\"{item.Bounds.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
+            OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
 
-            foreach (var childItem in item.RenderItems)
+            foreach (var childItem in item.ChildObjects)
             {
-                _shapeRenderer.Render(childItem);
+                if (childItem is RenderItem renderItem)
+                {
+                    _shapeRenderer.Render(renderItem);
+                }
+                else
+                {
+                    //Is not render item but its children could contain renderItems
+                    //Handle it as if it was a group?
+                }
             }
 
             OutputStream.Append("</g>");
@@ -50,7 +58,7 @@ namespace EPPlus.DrawingRenderer.Svg
             //    positionStr = string.Format(transformTranslate, item.TranslationOffset.Left.PointToPixelString(), item.TranslationOffset.Top.PointToPixelString()) + " ";
             //}
 
-            positionStr = string.Format("translate({0}, {1})", item.Bounds.Left.PointToPixelString(), item.Bounds.Top.PointToPixelString()) + " ";
+            positionStr = string.Format("translate({0}, {1})", item.Left.PointToPixelString(), item.Top.PointToPixelString()) + " ";
 
             return positionStr + rotationStr + scalingStr;
         }
@@ -70,9 +78,9 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             var scaleStr = string.Empty;
 
-            if (item.Scale != null)
+            if (item.GroupScale != null)
             {
-                scaleStr = string.Format(transformScale, item.Scale.X.ToString(CultureInfo.InvariantCulture), item.Scale.Y.ToString(CultureInfo.InvariantCulture)) + " ";
+                scaleStr = string.Format(transformScale, item.GroupScale.X.ToString(CultureInfo.InvariantCulture), item.GroupScale.Y.ToString(CultureInfo.InvariantCulture)) + " ";
             }
 
             return scaleStr;
@@ -80,9 +88,20 @@ namespace EPPlus.DrawingRenderer.Svg
 
         string GetRotationStr(GroupRenderItem item)
         {
-            if (double.IsNaN(item.Rotation) == false && item.Rotation!=0)
+            if(double.IsNaN(item.GroupRotation) == false && item.GroupRotation!= 0)
             {
-                string rot = item.Rotation.ToString(CultureInfo.InvariantCulture);
+                string rot = item.GroupRotation.ToString(CultureInfo.InvariantCulture);
+
+                if (item.RotationPoint != null && item.RotationPoint != item.TranslationOffset)
+                {
+                    rot += $", {item.RotationPoint.Left.PointToPixelString()}, {item.RotationPoint.Top.PointToPixelString()}" + " ";
+                }
+
+                return string.Format(transformRotate, rot);
+            }
+            else if (double.IsNaN(item.LocalRotation) == false && item.LocalRotation != 0)
+            {
+                string rot = item.LocalRotation.ToString(CultureInfo.InvariantCulture);
 
                 if (item.RotationPoint != null && item.RotationPoint != item.TranslationOffset)
                 {

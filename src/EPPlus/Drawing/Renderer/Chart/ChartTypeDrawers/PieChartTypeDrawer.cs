@@ -15,7 +15,9 @@ using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
+using EPPlus.Graphics.TransformPrimitives;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -43,7 +45,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
         /// </summary>
         double _radius;
 
-        Point _circleCenter;
+        TranformPoint _circleCenter;
+
+        internal override Color? DefaultFillColor => null;
+
+        internal override Color? DefaultBorderColor => null;
+
+        PieTransform pieTransform;
 
         public PieChartTypeDrawer(ChartRenderer chart, ExcelPieChart chartType) : base(chart, chartType)
         {
@@ -52,10 +60,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         void RenderDebugEllipse()
         {
-            var circ = new EllipseRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var circ = new EllipseRenderItem(ChartRenderer.Plotarea.Rectangle);
 
-            circ.Bounds.Left = _circleCenter.Left;
-            circ.Bounds.Top = _circleCenter.Top;
+            circ.Left = _circleCenter.Left;
+            circ.Top = _circleCenter.Top;
 
             circ.Rx = _radius;
             circ.Ry = _radius;
@@ -63,12 +71,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             circ.Cx = _circleCenter.Left;
             circ.Cy = _circleCenter.Top;
 
-            circ.FillColor = "transparent";
-            circ.FillOpacity = 0.3d;
-            circ.BorderColor = "purple";
-            circ.BorderWidth = 10;
+            circ.Style.FillColor = "transparent";
+            circ.Style.FillOpacity = 0.3d;
+            circ.Style.BorderColor = "purple";
+            circ.Style.BorderWidth = 10;
 
-            _groupItem.RenderItems.Add(circ);
+            _groupItem.ChildObjects.Add(circ);
         }
 
         Coordinate CalculateLocalPointOnCircle(double degrees)
@@ -91,7 +99,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
                 //Create and add slice
-                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem.Bounds, _circleCenter, _radius, valPercent, prevDegrees);
+                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem, _circleCenter, _radius, valPercent, prevDegrees);
                 Slices.Add(slice);
 
                 //Next slice will need to be calculated starting from the degrees of this slice
@@ -101,10 +109,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         void CalculateLocalCenterAndRadius()
         {
-            _circleCenter = new Point();
-            _circleCenter.Parent = _groupItem.TranslationOffset;
-            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Bounds.Width / 2;
-            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Bounds.Height / 2;
+            _circleCenter = new TranformPoint();
+            _circleCenter.Parent = _groupItem.Parent;
+            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Width / 2d;
+            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Height / 2d;
+
+            
 
             _groupItem.RotationPoint = _circleCenter;
 
@@ -174,7 +184,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
 
             Slices[position].ImportPathData(
-                ChartRenderer.Plotarea.Rectangle.Bounds, ChartRenderer.Bounds,
+                ChartRenderer.Plotarea.Rectangle, ChartRenderer.Bounds,
                 _sliceScaleFactor, explosion, _pieExplosionPercent, position);
 
             Slices[position].ImportStlyeInfo(serie, chartType, position);
@@ -183,17 +193,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         internal override void DrawSeries()
         {
-            _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
+            _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group);
 
-            Rectangle.Bounds.Name = "ChartDrawer";
-            _groupItem.Bounds.Name = "OuterGroupChartDrawer";
+            Rectangle.Name = "ChartDrawer";
+            _groupItem.Name = "OuterGroupChartDrawer";
 
             var chartType = (ExcelPieChart)_chartType;
 
             //Read and set Starting angle offset as a rotation on the container
             //This way no rotation messes with the other calculations
             var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
-            _groupItem.Rotation = angleOffset;
+            _groupItem.GroupRotation = angleOffset;
 
             LoadSeriesValues(chartType);
             CalculateLocalCenterAndRadius();
@@ -257,7 +267,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         {
                             var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
-                            var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Bounds.Width, Rectangle.Bounds.Height);
+                            var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Width, Rectangle.Height);
 
                             var ctrToMid = Slices[j].GetWholeVectorCenterToMid();
                             var startPt = new Transform();
@@ -297,21 +307,41 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //RenderDebugEllipse();
 
             ChartAreaRenderItems.Add(_groupItem);
-            //Series Labels
-            foreach (var dataLabel in serieDataLabels)
+
+            ////This works but does not put them last in the render order in svg
+            ////Pie charts only use the first serie
+            //if (serieDataLabels != null && serieDataLabels.Count > 0)
+            //{
+            //    serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
+            //}
+
+            //////Series Labels
+            ////foreach (var dataLabel in serieDataLabels)
+            ////{
+            ////    //dataLabel.AppendRenderItems(SeriesRenderItems);
+            ////    //if(serieDataLabels.Count =)
+            ////    ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
+            ////}
+        }
+
+        public override void AppendRenderItems(List<Transform> renderItems)
+        {
+            //renderItems.AddRange(ChartAreaRenderItems);
+            //ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
+            if (serieDataLabels != null && serieDataLabels.Count > 0)
             {
-                dataLabel.AppendRenderItems(SeriesRenderItems);
+                serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        internal override Color? GetDefaultFillColor()
         {
-            //renderItems.AddRange(ChartAreaRenderItems);
-            ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
-            if (SeriesRenderItems != null && SeriesRenderItems.Count > 0)
-            {
-                ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
-            }
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

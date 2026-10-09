@@ -73,7 +73,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var catAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
                 var valAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
                 var yBottom = GetAxisBaseY(catAxis, valAxis);
-                var bb = ChartRenderer.Plotarea.Group.Bounds;
+                var bb = ChartRenderer.Plotarea.Group;
                 var dl = new LineRenderItem(bb)
                 {
                     X1 = x,
@@ -81,10 +81,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     Y1 = yTop,
                     Y2 = yBottom,                    
                 };
-                dl.Bounds.Name = $"DropLine {i/2 + 1}";
+                dl.Name = $"DropLine {i/2 + 1}";
                 //TODO: DropLines should actually use the "Other Lines" DefaultDrawingObject
-                dl.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, () => DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
-                dl.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
+                dl.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, () => DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
+                dl.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
                 
                 _dropLines.Add(dl);
             }
@@ -172,7 +172,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 xAxis = ChartRenderer.HorizontalAxis;
             }
 
-            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+            var linePath = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
             var dataPointOverrides = new List<LineRenderItem>();
             var coords = new List<double>();
             var markerItems = new List<RenderItem>();
@@ -205,7 +205,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);
-                    pt.Parent = ChartRenderer.Plotarea.Rectangle.Bounds;
+                    pt.Parent = ChartRenderer.Plotarea.Rectangle;
                 }
                 if(hasErrorBars)
                 {
@@ -223,6 +223,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         //Default values in excel
                         pt.Width = 5;
                         pt.Height = 5;
+                        pt.Name = $"Line_DataPoint{dataPoints.Count}";
                         dataPoints.Add(pt);
                     }
                 }
@@ -230,7 +231,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (i > 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
-                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                    var lineDp = new LineRenderItem(ChartRenderer.Plotarea.Rectangle);
                     lineDp.X1 = coords[coords.Count - 4];
                     lineDp.Y1 = coords[coords.Count - 3];
                     lineDp.X2 = xPos;
@@ -245,26 +246,26 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         else
                         {
                             var mi = markerItems[markerItems.Count - 1];
-                            markerItems[i].SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
-                            markerItems[i].SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
+                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
+                            markerItems[i].Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
                                 serie.Border.Fill.Style != eFillStyle.NoFill, 
                                 ()=> ChartRenderer.Theme.FormatScheme.FillStyle[0].Color);
                         }
                     }
-                    lineDp.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
-                    lineDp.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
+                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
+                    lineDp.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
                     dataPointOverrides.Add(lineDp);
                 }
             }
             
             CreateDropLine(chartType, coords);
 
-            linePath.Commands.Add(new PathCommands(PathCommandType.Move, coords.ToArray()));
-            linePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
-            linePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
-            linePath.FillColor = "none";    //No fill for line
-            linePath.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
-            linePath.LineJoin = LineJoin.Round;
+            linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+            linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
+            linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
+            linePath.Style.FillColor = "none";    //No fill for line
+            linePath.Style.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
+            linePath.Style.LineJoin = LineJoin.Round;
             SeriesRenderItems.Add(linePath);
             SeriesRenderItems.AddRange(dataPointOverrides);
             SeriesRenderItems.AddRange(markerItems);
@@ -286,27 +287,35 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (pt != null)
             {
-                pt.Width = ls.Bounds.Width;
-                pt.Height = ls.Bounds.Height;
+                pt.Width = ls.Width;
+                pt.Height = ls.Height;
                 dataPoints.Add(pt);
             }
         }
 
         internal override Color? DefaultBorderColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+
+        internal override Color? DefaultFillColor => null;
+
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
-            //SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
-            //ChartRenderer.Plotarea.Group.AddSubGroupingOfRenderItems("Linechart_SeriesItems", SeriesRenderItems);
-            GroupRenderItem SerieGroup = new GroupRenderItem(ChartRenderer.Plotarea.Group.Bounds);
-            SerieGroup.Bounds.Name = "LineChart_SeriesItems";
+            GroupRenderItem SerieGroup = new GroupRenderItem(ChartRenderer.Plotarea.Group);
+            SerieGroup.Name = "LineChart_SeriesItems";
 
             SeriesRenderItems.ForEach(x => SerieGroup.AddChildItem(x));
 
-            ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
-            ////ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
-            //SeriesRenderItems.ForEach(x=> ChartRenderer.Plotarea.Group.AddChildItem(x));
+            //ChartRenderer.Plotarea.Group.AddChildItem(SerieGroup);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
-
 }

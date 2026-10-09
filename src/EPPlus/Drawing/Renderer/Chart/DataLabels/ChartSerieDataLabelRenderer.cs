@@ -6,13 +6,14 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class ChartSerieDataLabelRenderer : ChartDrawingObject
+    internal class ChartSerieDataLabelRenderer : ChartDrawingObjectWithBackground
     {
         //positioning is handled by parent item via these
         private List<SvgDataLabelPoint> dataLabels = new List<SvgDataLabelPoint>();
@@ -26,20 +27,29 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         ExcelChartDataLabel _dlbl;
 
         internal double rotation = double.NaN;
-        internal Graphics.Point rotationPoint = null;
+        internal Graphics.TranformPoint rotationPoint = null;
 
         internal override Color? DefaultFillColor { get; }
 
+        internal override Color? DefaultBorderColor => null;
+
         double? SummedSeries = null;
+
+        GroupRenderItem DatalabelsGroup;
 
         public ChartSerieDataLabelRenderer(ChartRenderer chart, ExcelChartDataLabel dlbl, BoundingBox maxBounds, ExcelChartStandardSerie serie, List<object> xValues, List<object> yValues, int index) : base(chart)
         {
+            DatalabelsGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            DatalabelsGroup.Name = "Dlbl_SeriesGroup";
+
             _serieIndex = index;
             _origIndex = index;
             _dlbl = dlbl;
-            plotAreaBounds = chart.Plotarea.Group.Bounds;
+            plotAreaBounds = chart.Plotarea.Group;
 
             DefaultFillColor =  dlbl.Fill != null && dlbl.Fill.Color.IsEmpty == false ? dlbl.Fill.Color : Color.Transparent;
+
+            Rectangle.Name = "SerieDataLabel";
 
 
             if(yValues != null && yValues.Count != 0)
@@ -73,7 +83,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     var yVal = yValues == null ? null : yValues[i];
                     var xVal = xValues == null ? null : xValues[i];
-                    AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    if (dlblSerie == null)
+                    {
+                        AddDatalabel(serie, dlbl, xVal, yValues[i], maxBounds);
+                    }
+                    else
+                    {
+                        AddDatalabel(serie, dlblSerie, xVal, yValues[i], maxBounds);
+                    }
                     //Bit strange but in e.g. pie charts each datapoint counts as a new series for the purposes of legendIcons etc.
                     _serieIndex++;
                 }
@@ -107,11 +124,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
         
-        private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
+        private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
             if (ChartRenderer.Legend == null)
             {
-                seriesIcon = ChartRenderer.GetSeriesIcon(serie, _serieIndex, maxBounds);
+                seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
             }
             else
             {
@@ -120,9 +137,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                 var clonedIcon = seriesIconOrig.Clone();
 
-                if (seriesIconOrig.FillColor == null && seriesIconOrig.GradientFill != null)
+                if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
                 {
-                    clonedIcon.GradientFill = seriesIconOrig.GradientFill;
+                    clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
                 }
 
                 if (clonedIcon is LineRenderItem lineIcon)
@@ -141,26 +158,32 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds)
+        private RenderItem GetSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
             //We MUST create a new icon per series. For pie chart each data point is a new series
             //Therefore check if _origIndex matches
             if (seriesIcon == null || _origIndex != _serieIndex)
             {
-                CreateSeriesIcon(serie, maxBounds);
+                CreateSeriesIcon(serie, maxBounds, entryHeight);
+                return seriesIcon;
             }
-
-            return seriesIcon;
+            else
+            {
+                return seriesIcon.Clone();
+            }
         }
 
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
             var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
-            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
 
-            if(dataLabel.ShowLegendKey)
+            var dlblName = $"DatalabelPoint_{dataLabels.Count}";
+            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
+            newDataLabel.DataLabelPointContainer.Name = dlblName;
+
+            if (dataLabel.ShowLegendKey)
             {
-                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds));
+                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds, newDataLabel.Rectangle.Height)); //TODO: Check if Rectangle.Height matches entry height
             }
 
             dataLabels.Add(newDataLabel);
@@ -182,37 +205,46 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var plotAreaGroup = new GroupRenderItem(plotAreaBounds);
+            DatalabelsGroup.Left = ChartRenderer.Plotarea.Group.Left;
+            DatalabelsGroup.Top = ChartRenderer.Plotarea.Group.Top;
 
-            plotAreaGroup.Left = plotAreaBounds.Position.X;
-            plotAreaGroup.Top = plotAreaBounds.Position.Y;
-
-            if(rotation != double.NaN)
+            if (rotation != double.NaN)
             {
-                if(rotationPoint != null)
+                if (rotationPoint != null)
                 {
-                    plotAreaGroup.RotationPoint = rotationPoint;
+                    DatalabelsGroup.RotationPoint = rotationPoint;
                 }
-                plotAreaGroup.Rotation = rotation;
+                DatalabelsGroup.Rotation = rotation;
             }
 
             if (_dlbl.Fill.IsEmpty == false)
             {
-                Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
-                plotAreaGroup.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
+                DatalabelsGroup.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _dlbl.Fill, null);
             }
 
-            renderItems.Add(plotAreaGroup);
-            for(int i = 0; i< dataLabels.Count; i++) 
+            for (int i = 0; i < dataLabels.Count; i++)
             {
-                if(rotation != double.NaN)
+                if (rotation != double.NaN)
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
-                dataLabels[i].AppendRenderItems(plotAreaGroup.RenderItems);
+                dataLabels[i].PrepareForRenderAndAddToParent(DatalabelsGroup);
             }
+
+            renderItems.Add(DatalabelsGroup);
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

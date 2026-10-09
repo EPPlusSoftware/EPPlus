@@ -258,7 +258,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
-                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle.Bounds);
+                var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle);
                 var yPos = valAx.GetPositionInPlotarea(y);
                 double xPos;
                 if (isColumn)
@@ -342,16 +342,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (i >= 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
-                    SetFillDataPoint(Chart, serie, i, rect, dp, Chart.StyleManager.Style?.SeriesLine);
+                    SetFillDataPoint(Chart, serie, i, rect.Style, dp, Chart.StyleManager.Style?.SeriesLine);
                 }
                 else
                 {
-                    SetFillSerie(Chart, chartType, serie, position, i, rect);
+                    SetFillSerie(Chart, chartType, serie, position, i, rect.Style);
                 }
 
-                rect.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
+                rect.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
-                dataPoints.Add(rect.Bounds);
+                dataPoints.Add(rect);
 
                 SeriesRenderItems.Add(rect);
 
@@ -390,12 +390,22 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.AddRange(ChartAreaRenderItems);
             SeriesRenderItems.ForEach(x => ChartRenderer.Plotarea.Group.AddChildItem(x));
         }
         internal override Color? DefaultFillColor => ChartRenderer.Theme.ColorScheme.Accent1.GetColor();
         internal override Color? DefaultBorderColor => null;
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
+        }
     }
 }

@@ -323,7 +323,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateByWidthAllowDiagonal(List<object> values, double min, double max, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var ax = options.Axis;
-            var plotAreaWidth = options.ChartSize.Bounds.Width;
+            var plotAreaWidth = options.ChartSize.Width;
             int interval;
             eTimeUnit unit;
             string format = GetNumberFormat(options);
@@ -458,7 +458,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 interval = 1;
                 unit = eTimeUnit.Days;
             }
-            if(blockSize < 15)
+            else if(blockSize < 15)
             {
                 interval = 7;
                 unit = eTimeUnit.Days;
@@ -503,6 +503,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         interval = 7; //Week
                         break;
                     case 7:
+                        interval = 14;
+                        break;
+                    case 14:
                         interval = 1; //Month
                         unit = eTimeUnit.Months;
                         break;
@@ -513,14 +516,36 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
             else if (unit == eTimeUnit.Months)
             {
-                unit = eTimeUnit.Years;
+                switch (interval)
+                {
+                    case 1:
+                        interval = 2;
+                        break;
+                    case 2:
+                        interval = 3; //Week
+                        break;
+                    case 3:
+                        interval = 6;
+                        break;
+                    default:
+                        interval = 1;
+                        unit = eTimeUnit.Years;
+                        break;
+                }
             }
             else if (unit == eTimeUnit.Years)
             {
-                interval++;
+                var magnitude = Math.Pow(10, Math.Floor(Math.Log10(interval)));
+                var fraction = interval / magnitude;
+
+                double nice;
+                if (fraction <= 1) nice = 2;
+                else if (fraction <= 2) nice = 5;
+                else nice = 10;
+
+                interval = (int)Math.Round(nice * magnitude);
             }
         }
-
         private static bool FitAsHorizontalText(ITextShaper shaper, float fontSize, double min, double max, int interval, eTimeUnit unit, double width)
         {
             var minMargin = 2; //2 Points

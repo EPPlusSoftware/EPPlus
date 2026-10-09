@@ -3,10 +3,11 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.Svg;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
-    internal class PointLines : ChartDrawingObject
+    internal class PointLines : ChartDrawingObjectWithBackground
     {
         internal List<LineRenderItem> RenderLines = new List<LineRenderItem>();
 
@@ -15,6 +16,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         private List<string> ptColors = new List<string> { "red", "green", "blue", "yellow" };
 
         private BoundingBox parentBounds;
+
+        internal override Color? DefaultFillColor => Color.Black;
+
+        internal override Color? DefaultBorderColor => Color.Black;
 
         private PointLines(ChartRenderer cr) : base(cr)
         {
@@ -25,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             parentBounds = parent;
 
-            Rectangle.Bounds.Parent = parent;
+            Rectangle.Parent = parent;
             ConnectionPoints = connectionPoints;
 
             UpdateLines();
@@ -38,26 +43,36 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             for (int i = 0; i < ConnectionPoints.Points.Count; i++)
             {
                 var cPoint = ConnectionPoints.Points[i];
-                var cPointLine = new LineRenderItem(Rectangle.Bounds);
+                var cPointLine = new LineRenderItem(Rectangle);
                 cPointLine.X1 = 0;
                 cPointLine.Y1 = 0;
                 cPointLine.X2 = cPoint.X;
                 cPointLine.Y2 = cPoint.Y;
 
-                cPointLine.BorderWidth = 1;
-                cPointLine.BorderColor = ptColors[i];
+                cPointLine.Style.BorderWidth = 1;
+                cPointLine.Style.BorderColor = ptColors[i];
                 RenderLines.Add(cPointLine);
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            GroupRenderItem gItem = new GroupRenderItem(Rectangle.Bounds);
+            GroupRenderItem gItem = new GroupRenderItem(Rectangle);
             renderItems.Add(gItem);
             foreach (var line in RenderLines)
             {
-                gItem.RenderItems.Add(line);
+                gItem.ChildObjects.Add(line);
             }
+        }
+
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
         }
     }
 }

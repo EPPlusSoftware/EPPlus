@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
             var parentBounds = shape.GetBoundingBox();
             var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
-            shapeGroup.Bounds.Name = "ShapeGroup";
+            shapeGroup.Name = "ShapeGroup";
 
             RenderItems.Add(shapeGroup);
 
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             {
                 foreach (var path in shape.CustomGeom.DrawingPaths)
                 {
-                    shapeGroup.RenderItems.Add(AddFromPaths(Bounds, path));
+                    shapeGroup.ChildObjects.Add(AddFromPaths(Bounds, path));
                 }
             }
             else
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     if (path.Fill != PathFillMode.None)
                     {
-                        shapeGroup.RenderItems.Add(AddFromPaths(parentBounds, path, true, false));
+                        shapeGroup.ChildObjects.Add(AddFromPaths(parentBounds, path, true, false));
                     }
                 }
 
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 {
                     if (path.Stroke)
                     {
-                        shapeGroup.RenderItems.Add(AddFromPaths(parentBounds, path, false, true));
+                        shapeGroup.ChildObjects.Add(AddFromPaths(parentBounds, path, false, true));
                     }
                 }
 
@@ -105,9 +105,9 @@ namespace OfficeOpenXml.Drawing.Renderer
                     if (shapeDef.TextBoxRect != null)
                     {
                         InsetTextBox = new RectRenderItem(Bounds);
-                        InsetTextBox.Bounds.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
-                        InsetTextBox.Bounds.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
-                        InsetTextBox.FillOpacity = 0.3d;
+                        InsetTextBox.Left = (float)shapeDef.TextBoxRect.LeftValue.PixelToPoint();
+                        InsetTextBox.Top = (float)shapeDef.TextBoxRect.TopValue.PixelToPoint();
+                        InsetTextBox.Style.FillOpacity = 0.3d;
 
                         if (shape.TextBody.TextAutofit != eTextAutofit.ShapeAutofit)
                         {
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Renderer
 
                     if (InsetTextBox != null)
                     {
-                        InsetTextBox.FillOpacity = 0.3d;
+                        InsetTextBox.Style.FillOpacity = 0.3d;
                     }
 
                     TextBody = CreateTextBodyItem(shape.TextBody);
@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         {
             var pi = new PathRenderItem(parent);
             var coordinates = new List<double>();
-            PathCommands cmd = null;
+            PathCommand cmd = null;
             PathsBase pCmd = null;
             double cx = 0, cy = 0;
             foreach (var p in path.Paths)
@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                             pi.Commands[pi.Commands.Count - 1].Coordinates = coordinates.ToArray();
                             coordinates.Clear();
                         }
-                        pi.Commands.Add(new PathCommands(PathCommandType.End));
+                        pi.Commands.Add(new PathCommand(PathCommandType.End));
                         cmd = null;
                         break;
                 }
@@ -183,26 +183,27 @@ namespace OfficeOpenXml.Drawing.Renderer
             }
             var shape = (ExcelShape)Drawing;
             var shapeDefaultStyle = Theme.ObjectDefaults.ShapeDefinition.Style;
+            var style = pi.Style;
             if (drawFill)
             {
-                pi.FillColorSource = path.Fill;
-                pi.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.FillReference.ShapeColor));
+                style.FillColorSource = path.Fill;
+                style.SetDrawingPropertiesFill(Theme, shape.Fill, shape.ThemeStyles.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.FillReference.ShapeColor));
             }
             else
             {
-                pi.FillColorSource = PathFillMode.None;
-                pi.FillColor = "none";
+                style.FillColorSource = PathFillMode.None;
+                style.FillColor = "none";
             }
 
             if (drawBorder)
             {
-                pi.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
-                pi.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.BorderReference.ShapeColor), 0.75d);
+                style.BorderColorSource = path.Stroke ? PathFillMode.Norm : PathFillMode.None;
+                style.SetDrawingPropertiesBorder(Theme, shape.Border, shape.ThemeStyles.BorderReference.Color, path.Stroke, ()=> ColorConverter.GetThemeColor(Theme, shapeDefaultStyle.BorderReference.ShapeColor), 0.75d);
             }
             else
             {
-                pi.BorderColorSource = PathFillMode.None;
-                pi.BorderColor = "none";
+                style.BorderColorSource = PathFillMode.None;
+                style.BorderColor = "none";
             }
 
             return pi;
@@ -214,22 +215,24 @@ namespace OfficeOpenXml.Drawing.Renderer
                 double l=0, t=0, r=1, b=1;
                 foreach(var item in RenderItems)
                 {
-                    item.GetBounds(out var il, out var it, out var ir, out var ib);
-                    if(il<l)
+                    if(item is RenderItem ri)
                     {
-                        l = il;
-                    }
-                    if(it<t)
-                    {
-                        t = it;
-                    }
-                    if(ir>r)
-                    {
-                        r = ir;
-                    }
-                    if(ib>b)
-                    {
-                        b = ib;
+                        if(ri.GlobalLeft<l)
+                        {
+                            l = ri.GlobalLeft;
+                        }
+                        if(ri.GlobalTop<t)
+                        {
+                            t = ri.GlobalTop;
+                        }
+                        if(ri.GlobalRight > r)
+                        {
+                            r = ri.GlobalRight;
+                        }
+                        if(ri.GlobalBottom > b)
+                        {
+                            b = ri.GlobalBottom;
+                        }
                     }
                 }
                 return $"{(Bounds.Left).PointToPixelString()},{Bounds.Top.PointToPixelString()},{Bounds.Right.PointToPixelString()},{Bounds.Bottom.PointToPixelString()}";
@@ -241,8 +244,8 @@ namespace OfficeOpenXml.Drawing.Renderer
             {
                 GetShapeInnerBound(out double x, out double y, out double width, out double height);
                 InsetTextBox = new RectRenderItem(Bounds);
-                InsetTextBox.Bounds.Left = x.PixelToPoint();
-                InsetTextBox.Bounds.Top = y.PixelToPoint();
+                InsetTextBox.Left = x.PixelToPoint();
+                InsetTextBox.Top = y.PixelToPoint();
                 InsetTextBox.Width = width.PixelToPoint();
                 InsetTextBox.Height = height.PixelToPoint();
                 //InsetTextBox.Bounds.Parent = RenderTextbox.Parent; //TODO:Check that textBody is correct.
@@ -251,7 +254,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             double l, r, t, b;
             bodyOrig.GetInsetsOrDefaults(out l, out t, out r, out b);
 
-            MarginTextBox = new RectRenderItem(InsetTextBox.Bounds);
+            MarginTextBox = new RectRenderItem(InsetTextBox);
 
             MarginTextBox.Top = t;
             MarginTextBox.Left = l;
@@ -259,42 +262,45 @@ namespace OfficeOpenXml.Drawing.Renderer
             MarginTextBox.Height = InsetTextBox.Height - b - t;
 
             var insetGrp = new GroupRenderItem(this.Bounds);
-            insetGrp.Bounds.Left = InsetTextBox.Left;
-            insetGrp.Bounds.Top = InsetTextBox.Top;
-            insetGrp.Bounds.Name = $"{Drawing.Name}_InsetTextBox_Pos";
+            insetGrp.Left = InsetTextBox.Left;
+            insetGrp.Top = InsetTextBox.Top;
+            insetGrp.Name = $"{Drawing.Name}_InsetTextBox_Pos";
 
-            var marginGroup = new GroupRenderItem(insetGrp.Bounds);
+            var marginGroup = new GroupRenderItem(insetGrp);
             marginGroup.Left = MarginTextBox.Left;
             marginGroup.Top = MarginTextBox.Top;
-            marginGroup.Bounds.Name = $"{Drawing.Name}_MarginTextbox_Pos";
-            insetGrp.AddChildItem(marginGroup);
+            marginGroup.Name = $"{Drawing.Name}_MarginTextbox_Pos";
+            //insetGrp.AddChildItem(marginGroup);
 
             //grp.Bounds.Position = MarginTextBox.Bounds.Position;
             //grp.TranslationOffset = new Point(InsetTextBox.Left, InsetTextBox.Top);
             //grp.Bounds.Position = new EPPlus.Graphics.Geometry.Vector2(InsetTextBox.GlobalLeft, InsetTextBox.GlobalRight);
             //grp.AddChildItem(InsetTextBox);
             //grp.AddChildItem(MarginTextBox);
-            RenderItems.Add(insetGrp);
+            //RenderItems.Add(insetGrp);
 
             //RenderItems.Add(InsetTextBox);
             //RenderItems.Add(MarginTextBox);
 
             //Left and Top are already set by MarginTextBox we need not set them again
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox.Bounds, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
-            txtBodyItem.Bounds.Name = $"{Drawing.Name}_TxtBodyItem";
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            txtBodyItem.Name = $"{Drawing.Name}_TxtBodyItem";
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 
-            foreach(var paragraph in txtBodyItem.Paragraphs)
-            {
-                paragraph.Bounds.Name = $"{Drawing.Name}_{paragraph.Bounds.Name}";
-            }
+            txtBodyItem.Parent = marginGroup;
 
-            txtBodyItem.AppendRenderItems(marginGroup.RenderItems);
+            foreach (var paragraph in txtBodyItem.Paragraphs)
+            {
+                paragraph.Name = $"{Drawing.Name}_{paragraph.Name}";
+            }
+            //txtBodyItem.AppendRenderItems(marginGroup.ChildObjects);
             //txtBodyItem.Left += InsetTextBox.Left;
             //txtBodyItem.Top += InsetTextBox.Top;
 
+            RenderItems.Add(insetGrp);
+
             //ChartAreaRenderItems.Add(new SvgEndGroupItem(this, Bounds));
-            
+
             return txtBodyItem;
         }
 
@@ -341,75 +347,78 @@ namespace OfficeOpenXml.Drawing.Renderer
             x = y = 0;
             width = xe = Bounds.Width;
             height = ye = Bounds.Height;
-            foreach (var ri in RenderItems)
+            foreach (var item in RenderItems)
             {
-                switch (ri.Type)
+                if (item is RenderItem ri)
                 {
-                    case RenderItemType.Rect:
-                        var rectItem = (RectRenderItem)ri;
-                        x = rectItem.Left;
-                        y = rectItem.Top;
-                        width = rectItem.Width;
-                        height = rectItem.Height;
-                        break;
-                    case RenderItemType.Path:
-                        var pathItem = (PathRenderItem)ri;
-                        foreach (var cmd in pathItem.Commands)
-                        {
-                            var cmdCoordinates = new List<Coordinate>();
-                            for (int i = 0; i < cmd.Coordinates.Length; i++)
+                    switch (ri.Type)
+                    {
+                        case RenderItemType.Rect:
+                            var rectItem = (RectRenderItem)ri;
+                            x = rectItem.Left;
+                            y = rectItem.Top;
+                            width = rectItem.Width;
+                            height = rectItem.Height;
+                            break;
+                        case RenderItemType.Path:
+                            var pathItem = (PathRenderItem)ri;
+                            foreach (var cmd in pathItem.Commands)
                             {
-                                switch (cmd.Type)
+                                var cmdCoordinates = new List<Coordinate>();
+                                for (int i = 0; i < cmd.Coordinates.Length; i++)
                                 {
-                                    case PathCommandType.Move:
-                                        if (i == 0)
-                                        {
-                                            currentX = cmd.Coordinates[i];
-                                            currentY = cmd.Coordinates[++i];
-                                        }
-                                        else
-                                        {
+                                    switch (cmd.Type)
+                                    {
+                                        case PathCommandType.Move:
+                                            if (i == 0)
+                                            {
+                                                currentX = cmd.Coordinates[i];
+                                                currentY = cmd.Coordinates[++i];
+                                            }
+                                            else
+                                            {
+                                                HandleLine(ref currentX, ref currentY, ref xe, ref ye, cmd, cmdCoordinates, ref i);
+                                            }
+                                            break;
+                                        case PathCommandType.VerticalLine:
+                                            HandleVertical(y, ref currentY, ref xe, cmd.Coordinates[i]);
+                                            break;
+                                        case PathCommandType.HorizontalLine:
+                                            HandleHorizontal(x, ref currentX, ref xe, cmd.Coordinates[i]);
+                                            break;
+                                        case PathCommandType.Line:
                                             HandleLine(ref currentX, ref currentY, ref xe, ref ye, cmd, cmdCoordinates, ref i);
-                                        }
-                                        break;
-                                    case PathCommandType.VerticalLine:
-                                        HandleVertical(y, ref currentY, ref xe, cmd.Coordinates[i]);
-                                        break;
-                                    case PathCommandType.HorizontalLine:
-                                        HandleHorizontal(x, ref currentX, ref xe, cmd.Coordinates[i]);
-                                        break;
-                                    case PathCommandType.Line:
-                                        HandleLine(ref currentX, ref currentY, ref xe, ref ye, cmd, cmdCoordinates, ref i);
-                                        break;
-                                    case PathCommandType.CubicBézier:
-                                        if (currentX > x)
-                                        {
-                                            x = currentX;
-                                        }
-                                        if (currentY > y)
-                                        {
-                                            y = currentY;
-                                        }
-                                        i += 4;
-                                        break;
+                                            break;
+                                        case PathCommandType.CubicBézier:
+                                            if (currentX > x)
+                                            {
+                                                x = currentX;
+                                            }
+                                            if (currentY > y)
+                                            {
+                                                y = currentY;
+                                            }
+                                            i += 4;
+                                            break;
 
+                                    }
                                 }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
-            }
-            if (xe != double.MinValue)
-            {
-                width = xe - x;
-            }
-            if (ye != double.MinValue)
-            {
-                height = ye - y;
+                if (xe != double.MinValue)
+                {
+                    width = xe - x;
+                }
+                if (ye != double.MinValue)
+                {
+                    height = ye - y;
+                }
             }
         }
 
-        private static void HandleLine(ref double currentX, ref double currentY, ref double xe, ref double ye, PathCommands cmd, List<Coordinate> cmdCoordinates, ref int i)
+        private static void HandleLine(ref double currentX, ref double currentY, ref double xe, ref double ye, PathCommand cmd, List<Coordinate> cmdCoordinates, ref int i)
         {
             xe = cmd.Coordinates[i];
             ye = cmd.Coordinates[++i];
@@ -454,12 +463,12 @@ namespace OfficeOpenXml.Drawing.Renderer
                 xe = xec;
             }
         }
-        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommands cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
+        protected static void AddCmd(PathRenderItem pi, DrawingPath path, List<double> coordinates, ref PathCommand cmd, PathsBase pp, PathsBase p, PathCommandType commandType)
         {
             if (pp == null || pp.Type != p.Type)
             {
                 SetCmdCoordinats(cmd, p, coordinates);
-                cmd = new PathCommands(commandType);
+                cmd = new PathCommand(commandType);
                 pi.Commands.Add(cmd);
             }
             AddToCoordinates(path, coordinates, p);
@@ -469,7 +478,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             //var width = ((double)path.Width.Value / ExcelDrawing.EMU_PER_PIXEL);
             //var height = ((double)path.Height.Value / ExcelDrawing.EMU_PER_PIXEL);
             var arc = (ArcTo)p;
-            PathCommands c = null;
+            PathCommand c = null;
             startPointX = pCmd.EndX;
             startPointY = pCmd.EndY;
             if (startPointX != 0) startPointX /= ExcelDrawing.EMU_PER_POINT;
@@ -512,7 +521,7 @@ namespace OfficeOpenXml.Drawing.Renderer
                 var centerY = startPointY - (hR * Math.Sin(angleT));
                 var endX = (double)centerX + (wR * Math.Cos(angleTEnd));
                 var endY = (double)centerY + (hR * Math.Sin(angleTEnd));
-                c = new PathCommands(PathCommandType.Arc, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
+                c = new PathCommand(PathCommandType.Arc, wR, hR, 0, 0, swA < 0 ? 0 : 1, endX, endY);
                 pi.Commands.Add(c);
                 stA += aAdd;
                 swA -= aAdd;
@@ -532,7 +541,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         {
             return MConverter.DegreesToRadians(angle);
         }
-        protected static void SetCmdCoordinats(PathCommands cmd, PathsBase p, List<double> coordinates)
+        protected static void SetCmdCoordinats(PathCommand cmd, PathsBase p, List<double> coordinates)
         {
             if (cmd != null)
             {

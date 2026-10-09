@@ -2,6 +2,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers;
 using EPPlus.Export.ImageRenderer.Utils;
+using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -14,8 +15,6 @@ using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
-    internal abstract class ChartTypeDrawer : ChartDrawingObject
+    internal abstract class ChartTypeDrawer : ChartDrawingObjectWithBackground
     {
         internal protected ExcelChart _chartType;
         internal List<ChartTrendlineRenderer> Trendlines { get; } = new List<ChartTrendlineRenderer>();
@@ -149,8 +148,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
         }
 
-        public List<RenderItem> SeriesRenderItems { get; } = new List<RenderItem>();
-        public List<RenderItem> ChartAreaRenderItems { get; } = new List<RenderItem>();
+        public List<Transform> SeriesRenderItems { get; } = new List<Transform>();
+        public List<Transform> ChartAreaRenderItems { get; } = new List<Transform>();
         internal static List<ChartTypeDrawer> Create(ChartRenderer svgChart)
         {
             var drawers = new List<ChartTypeDrawer>();
@@ -233,30 +232,30 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
-        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItem item, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
+        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
 
-            item.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
-            item.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
+            style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
+            style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItem item)
+        internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (ct.VaryColors)
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
             else
             {
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
-                item.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
-            item.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
+            style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
         private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
