@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Settings;
 using System;
 using System.IO;
 using System.Text;
@@ -18,11 +19,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 {
     internal class PdfInfoObject : PdfObject
     {
-        public string Title;
+        internal string Title;
+        internal string LicenseType;
+        internal string LicenseHolder;
+        internal string Author;
 
-        public PdfInfoObject(int objectNumber, string Title, int version = 0) : base(objectNumber, version)
+        public PdfInfoObject(int objectNumber, PdfDocumentSettings documentSettings, int version = 0) : base(objectNumber, version)
         {
-            this.Title = Title;
+            Title = documentSettings.Title;
+            Author = documentSettings.Author;
+            LicenseType = documentSettings.LicenseType;
+            LicenseHolder = documentSettings.LicenseHolder;
         }
 
         internal override string RenderDictionary()
@@ -34,10 +41,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             string pdfDate = string.Format("D:{0:yyyyMMddHHmmss}{1}{2:00}'{3:00}'", now, sign, offset.Hours, offset.Minutes);
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Title ({Title})\n" +
-                            $"   /Author (EPPlus)\n" +
-                            $"   /Subject (EPPlus PDF Export)\n" +
-                            $"   /Keywords (EPPlus, EPPlus Software)" +
-                            $"   /Creator (EPPlus Software)\n" +
+                            $"   /Author ({Author})\n" +
+                            $"   /Subject (EPPlus PDF Export with {LicenseType} for {LicenseHolder})\n" +
+                            $"   /Keywords (EPPlus, EPPlus Software, PDF, Export, {LicenseType}, {LicenseHolder})" +
+                            $"   /Creator (EPPlus Software {LicenseType}, {LicenseHolder})\n" +
                             $"   /Producer (EPPlus Software PDF Exporter)\n" +
                             $"   /CreationDate ({pdfDate})\n" +
                             $"   /ModDate ({pdfDate})\n" +
@@ -53,10 +60,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             offset = offset.Duration();
             string pdfDate = string.Format("D:{0:yyyyMMddHHmmss}{1}{2:00}'{3:00}'", now, sign, offset.Hours, offset.Minutes);
             WriteAscii(bw, $"<< /Title ({Title})\n" +
-                           $"   /Author (EPPlus)\n" +
-                           $"   /Subject (EPPlus PDF Export)\n" +
-                           $"   /Keywords (EPPlus, EPPlus Software)\n" +
-                           $"   /Creator (EPPlus Software)\n" +
+                           $"   /Author ({Author})\n" +
+                           $"   /Subject (EPPlus PDF Export with {LicenseType} for {LicenseHolder})\n" +
+                           $"   /Keywords (EPPlus, EPPlus Software, PDF, Export, {LicenseType}, {LicenseHolder})" +
+                           $"   /Creator (EPPlus Software {LicenseType}, {LicenseHolder})\n" +
                            $"   /Producer (EPPlus Software PDF Exporter)\n" +
                            $"   /CreationDate ({pdfDate})\n" +
                            $"   /ModDate ({pdfDate})\n" +

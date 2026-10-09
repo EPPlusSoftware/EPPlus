@@ -26,7 +26,7 @@ before_build:
 build:
   verbosity: minimal
 test_script:
-- cmd: dotnet test ./src/EPPlus.sln --configuration Release --no-restore
+- cmd: dotnet test ./src/EPPlus.sln --configuration Release --no-restore --no-build
 
 artifacts:
 - path: '**\*.nupkg'

@@ -25,6 +25,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public List<PdfRange> Ranges = null;
         public PdfRange CommentsAndNotes;
         public PdfHeaderFooterCollection HeaderFooters = null;
+        public PdfAdditionalContent AdditionalContent = null;
         public double ZeroCharWidth;
         public int ToRow;
         public int PrintTitleRowFrom = -1;
