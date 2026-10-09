@@ -12,12 +12,9 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Export.Renderer;
-using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
@@ -28,21 +25,15 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -79,9 +70,13 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            if (AutoAxisType == eAxisType.Cat || IsDateAutoAxis || IsDateScale)
+            if(AutoAxisType == eAxisType.Cat && !(IsDateAutoAxis || IsDateScale))
             {
-                MinorUnit = ax.MinorUnit ?? 1; 
+                MinorUnit = (ax.MinorUnit ?? MajorUnit) / 2D;
+            }
+            else if(IsDateAutoAxis || IsDateScale)
+            {
+                MinorUnit = ax.MinorUnit ?? 1;
             }
             else
             {
@@ -265,7 +260,6 @@ namespace EPPlusImageRenderer.Svg
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
         public bool IsDateAutoAxis { get; set; }
-        public bool IsNumericAutoAxis { get; set; } //TODO: Not used? Removed if not used.
         public bool IsDateScale
         {
             get;
@@ -782,16 +776,13 @@ namespace EPPlusImageRenderer.Svg
 
             var tms = new List<LineRenderItem>();
             double min, max, addMinor=0D;
-            //if(double.IsNaN(parentUnit)==false && parentUnit==units)
-            //{
-            //    addMinor = parentUnit / 2;
-            //}
+
 
             if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis==false)
             {
-                min = 0;
-                if(AxisValues != null)
-                {
+                min = 1;
+                //if(AxisValues != null)
+                //{
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
                         max = AxisValues.Count;
@@ -800,11 +791,11 @@ namespace EPPlusImageRenderer.Svg
                     {
                         max = AxisValues.Count - 1;
                     }
-                }
-                else
-                {
-                    max = 0;
-                }
+                //}
+                //else
+                //{
+                //    max = 0;
+                //}
             }
             else
             {
@@ -1060,7 +1051,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                if (AutoAxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis==false)
+                if(AutoAxisType == eAxisType.Cat && IsDateAutoAxis==false)
                 {
                     var majorHeight = ChartRenderer.Plotarea.Rectangle.Height / Max;
                     if(startValue)
@@ -1087,7 +1078,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (Axis.AxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis == false)
+                if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis == false)
                 {
                     var majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
                     if (startValue)
@@ -1275,7 +1266,6 @@ namespace EPPlusImageRenderer.Svg
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
                 orientation = eTextOrientation.Horizontal;
-                IsNumericAutoAxis = false;
             }
 
             return l;
