@@ -211,7 +211,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
                         logger,
                         FontLogSeverity.Warning,
                         FontLogEventType.FontNotResolved,
-                        string.Format("Font '{0}' {1}: the font resolver returned no font.", fontName, subFamily),
+                        string.Format("Requested font '{0}' {1} could not be resolved: the font resolver returned no font.", fontName, subFamily),
                         fontName,
                         null);
                 }
@@ -235,9 +235,14 @@ namespace EPPlus.Fonts.OpenType.FontCache
             if (!FontLog.IsEnabled(logger, severity))
                 return;
 
+            // For DefaultFontResolver the preceding FontFallback event explains the substitution.
+            // A custom resolver does not, so say here that it was the resolver that substituted.
             var message = substituted
-                ? string.Format("Font '{0}' {1} was loaded as '{2}'.", fontName, subFamily, FontLog.Describe(font))
-                : string.Format("Font '{0}' {1} loaded.", fontName, subFamily);
+                ? string.Format(
+                    "Requested font '{0}' {1} was loaded using font '{2}'{3}.",
+                    fontName, subFamily, FontLog.Describe(font),
+                    _resolverExplainsItself ? string.Empty : " (substituted by the font resolver)")
+                : string.Format("Requested font '{0}' {1} was loaded.", fontName, subFamily);
 
             FontLog.Write(logger, severity, FontLogEventType.FontLoaded, message, fontName, resolvedFamily);
         }

@@ -95,7 +95,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             // 1.  special case for Archivo Narrow which is distributed as last-resort-font with EPPlus
             if (string.Equals("archivo narrow", fontName, StringComparison.OrdinalIgnoreCase))
             {
-                LogResolved(logger, fontName, subFamily, "the embedded last-resort font was requested");
+                LogResolved(logger, fontName, subFamily, "it is the embedded last-resort font");
                 return EmbeddedFonts.LoadArchivoNarrow(subFamily).RawData;
             }
 
@@ -185,7 +185,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                 logger,
                 FontLogSeverity.Debug,
                 FontLogEventType.FontResolved,
-                string.Format("Font '{0}' {1}: {2}.", fontName, subFamily, reason),
+                string.Format("Requested font '{0}' {1} was resolved: {2}.", fontName, subFamily, reason),
                 fontName,
                 fontName);
         }
@@ -206,7 +206,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                 FontLogSeverity.Information,
                 FontLogEventType.FontFallback,
                 string.Format(
-                    "Font '{0}' {1} -> '{2}' ({3}: {4}).",
+                    "Requested font '{0}' {1} has no exact match; resolved using fallback font '{2}' ({3}: {4}).",
                     fontName, subFamily, matchedName, chainKind, FontLog.JoinNames(chain)),
                 fontName,
                 matchedName);
@@ -224,7 +224,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
                 return;
 
             var message = string.Format(
-                "Font '{0}' {1} -> '{2}' (last resort: no exact match; user chain: {3}; built-in chain: {4}).",
+                "Requested font '{0}' {1} has no exact match and no fallback was found; using last-resort font '{2}' (user chain: {3}; built-in chain: {4}).",
                 fontName, subFamily, LastResortFamily,
                 FontLog.JoinNames(userFallbacks), FontLog.JoinNames(builtinFallbacks));
 
