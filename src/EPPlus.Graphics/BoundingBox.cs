@@ -190,5 +190,8 @@ namespace EPPlus.Graphics
                 return $"{Left} {Top} {Width} {Height}";
             } 
         }
+
+        //We've got a huge problem.
+        //Rotation breaks our terms of "top" and "left" as parental points may have rotated the item meaning we may return a "top" that is on the global bottom of the item
     }
 }

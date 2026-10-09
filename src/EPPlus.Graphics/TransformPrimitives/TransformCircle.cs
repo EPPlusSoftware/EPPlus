@@ -8,21 +8,29 @@ using EPPlus.Graphics.Primitives;
 namespace EPPlus.Graphics.TransformPrimitives
 {
     //Position refers to the center of the circle
-    public class TransformCircle : Transform
+    public class TransformCircle : BoundingBox
     {
         public PrimitiveCircle Circle;
 
-        protected double Radius { get { return Circle.Radius; } }
+        public double Radius { get { return Circle.Radius; } }
 
         internal TransformCircle(double radius) : base()
         {
             Circle = new PrimitiveCircle(Vector2.Zero, radius);
+            Width = radius; Height = radius;
         }
 
-        internal TransformCircle(Transform parent, double radius) : base(Vector2.Zero, Vector2.One, parent)
+        internal TransformCircle(PrimitiveCircle circle) : base()
         {
-            Circle = new PrimitiveCircle(Vector2.Zero, radius);
+            Circle = circle;
+            Width = Circle.Radius; Height = Circle.Radius;
         }
+
+
+        //internal TransformCircle(Transform parent, double radius) : base(Vector2.Zero, Vector2.One, parent)
+        //{
+        //    Circle = new PrimitiveCircle(Vector2.Zero, radius);
+        //}
 
         internal Vector2 GetPointOnCircleGlobal(double degrees)
         {
