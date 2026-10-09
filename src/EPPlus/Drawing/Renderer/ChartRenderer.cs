@@ -127,8 +127,8 @@ namespace EPPlusImageRenderer
             {
                 horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
                 horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
-                horizontalAxis.Line?.X1 = (float)horizontalAxis.Rectangle.Left;
-                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Right;
+                horizontalAxis.Line?.X1 = (float)0;
+                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Width;
 
                 if (horizontalAxis.Line != null)
                 {
@@ -143,22 +143,22 @@ namespace EPPlusImageRenderer
                         {
                             horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
                         }
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = 0;
                     }
                     else if (axisPos == eActualAxisPosition.BottomSecond)
                     {
                         horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Top;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = 0;
                     }
                     else if (axisPos == eActualAxisPosition.Top)
                     {
                         horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = (float)Plotarea.Group.Top;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Height;
                     }
                     else
                     {
                         horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Bottom;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Height;
                     }
                 }
 
@@ -176,7 +176,7 @@ namespace EPPlusImageRenderer
                         var topDiff = HorizontalAxis.Rectangle.Top - newtop;
                         HorizontalAxis.Rectangle.Top = newtop;
                         HorizontalAxis.Rectangle.Height += topDiff;
-                        HorizontalAxis.Line?.Y1 = HorizontalAxis.Line.Y2 = newtop;
+                        //HorizontalAxis.Line?.Y1 = HorizontalAxis.Line.Y2 = topDiff;
                     }
                 }
             }
@@ -268,8 +268,8 @@ namespace EPPlusImageRenderer
             {
                 verticalAxis.Rectangle.Top = Plotarea.Group.Top;
                 verticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                verticalAxis.Line?.Y1 = (float)verticalAxis.Rectangle.Top;
-                verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Bottom;
+                verticalAxis.Line?.Y1 = (float)0;
+                verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Height;
                 var axisPos = verticalAxis.Axis.ActualAxisPosition;
 
                 if(verticalAxis.Line != null)
@@ -277,22 +277,22 @@ namespace EPPlusImageRenderer
                     if (axisPos == eActualAxisPosition.Left)
                     {
                         verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.Rectangle.Width;
                     }
                     else if (axisPos == eActualAxisPosition.LeftSecond)
                     {
                         verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)verticalAxis.Rectangle.Width;
                     }
                     else if (axisPos == eActualAxisPosition.Right)
                     {
                         verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)0;
                     }
                     else
                     {
                         verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)Plotarea.Group.Left + Plotarea.Rectangle.Width;
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)0;
                     }
                 }
             }
@@ -307,7 +307,7 @@ namespace EPPlusImageRenderer
                     Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
                     var leftDiff = newLeft - VerticalAxis.Rectangle.Width;
                     VerticalAxis.Rectangle.Left = leftDiff;
-                    VerticalAxis.Line?.X1 = VerticalAxis.Line.X2 = newLeft;
+                    //VerticalAxis.Line?.X1 = VerticalAxis.Line.X2 = newLeft;
                 }
             }
 
@@ -467,6 +467,8 @@ namespace EPPlusImageRenderer
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             
+
+
             DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
