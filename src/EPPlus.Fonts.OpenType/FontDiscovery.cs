@@ -16,6 +16,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace EPPlus.Fonts.OpenType
 {
@@ -86,6 +87,29 @@ namespace EPPlus.Fonts.OpenType
                 : FontFormat.Ttf;
 
             return format == target;
+        }
+
+        /// <summary>
+        /// Returns information about all font faces found in the given directories and,
+        /// optionally, the system font directories. Fonts are scanned for metadata only,
+        /// they are not fully loaded. Faces inside a TTC collection are returned as separate entries.
+        /// </summary>
+        public static List<FontFaceInfo> GetAllFontFaces(
+            IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            var locations = DefaultFontLocations.GetLocationsCollection(fontDirectories, searchSystemDirectories);
+            return FontScannerV2.EnumerateAllFaces(locations);
+        }
+
+        /// <summary>
+        /// Returns the directories that are searched for fonts, in search order.
+        /// </summary>
+        public static List<string> GetFontDirectories(
+            IEnumerable<string> fontDirectories = null,
+            bool searchSystemDirectories = true)
+        {
+            return DefaultFontLocations.GetLocationsCollection(fontDirectories, searchSystemDirectories);
         }
     }
 }

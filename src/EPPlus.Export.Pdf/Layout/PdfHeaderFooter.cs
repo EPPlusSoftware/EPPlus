@@ -32,7 +32,7 @@ namespace EPPlus.Export.Pdf.Layout
     internal enum HeaderFooterSection
     {
         Header = 0,
-        Footer = 1
+        Footer = 1,
     }
 
     internal class PdfHeaderFooter

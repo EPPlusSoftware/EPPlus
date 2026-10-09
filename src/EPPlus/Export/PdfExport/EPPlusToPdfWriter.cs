@@ -40,6 +40,13 @@ namespace OfficeOpenXml.Export.PdfExport
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
+        private static bool IsFullEdition
+        {
+            get
+            { 
+                return (int) ExcelPackage.License.LicenseType == (int) EPPlusLicenseType.Commercial;
+            }
+        }
 
         // Captures which "build" method to run (worksheet collection, single worksheet or range
         // collection) together with the data it needs, but NOT the destination (file/stream).
@@ -75,7 +82,7 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             // Match the single-worksheet path: resolve the default font before building.
             pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-
+            pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet[] pdfSheets = null;
             try
             {
@@ -122,9 +129,18 @@ namespace OfficeOpenXml.Export.PdfExport
             _build = writePdf => BuildPdf(pageSettings, worksheet, writePdf);
         }
 
+        private static string AddAdditionalContent()
+        {
+            if (IsFullEdition)
+                return "FullEdition";
+            return "null";
+        }
+
         private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, worksheet.Workbook);
             pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
+            pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet pdfSheet = null;
             try
             {
@@ -168,8 +184,9 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, range.Worksheet.Workbook);
             pageSettings.defaultFontName = range.Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-
+            pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet pdfSheet = null;
             try
             {
@@ -203,8 +220,9 @@ namespace OfficeOpenXml.Export.PdfExport
 
         private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
         {
+            GetLicenseInfo(pageSettings, ranges[0].Worksheet.Workbook);
             pageSettings.defaultFontName = ranges[0].Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-
+            pageSettings.AdditionalContent = AddAdditionalContent();
             PdfWorksheet[] pdfSheets = null;
             try
             {
@@ -274,6 +292,33 @@ namespace OfficeOpenXml.Export.PdfExport
 
         //Private Methods
 
+        private void GetLicenseInfo(PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        {
+            pageSettings.Title = string.IsNullOrEmpty(workbook.Properties.Title)
+                                 ? workbook._package.File == null
+                                     ? "Untitled EPPlus Workbook"
+                                     : string.IsNullOrEmpty(workbook._package.File.Name)
+                                         ? "Untitled EPPlus Workbook"
+                                         : workbook._package.File.Name
+                                 : workbook.Properties.Title;
+
+            pageSettings.Author = string.IsNullOrEmpty(workbook.Properties.Author)
+                                  ? string.IsNullOrEmpty(ExcelPackage.License.LegalName)
+                                      ? "Unnamed Author using EPPLus"
+                                      : ExcelPackage.License.LegalName
+                                  : workbook.Properties.Author;
+
+            pageSettings.LicenseType = IsFullEdition
+                                       ? "Commercial License"
+                                       : ExcelPackage.License.LicenseType == EPPlusLicenseType.NonCommercialOrganization
+                                           ? "Non-Commercial License for Organization"
+                                           : "Personal Non-Commercial License";
+
+            pageSettings.LicenseHolder = string.IsNullOrEmpty(ExcelPackage.License.LegalName)
+                                         ? "Unnamed License holder using EPPLus"
+                                         : ExcelPackage.License.LegalName;
+        }
+
         private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
         {
             return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
@@ -314,6 +359,9 @@ namespace OfficeOpenXml.Export.PdfExport
         internal void ShapeTextInPdfWorksheet(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             IterateCells(pdfSheet, cell => PdfTextShaper.ShapeText(pageSettings, _dictionaries, cell));
+
+            if (pdfSheet.AdditionalContent != null)
+                PdfTextShaper.ShapeText(pageSettings, _dictionaries, pdfSheet.AdditionalContent.content);
         }
 
         private void IterateCells(PdfWorksheet pdfSheet, System.Action<PdfCell> action)
@@ -363,6 +411,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
+            GetAdditionalContent(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             ReadDrawings(pdfSheet);
             return pdfSheet;
@@ -379,6 +428,7 @@ namespace OfficeOpenXml.Export.PdfExport
             pdfSheet.Ranges[0] = GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
+            GetAdditionalContent(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             ReadDrawings(pdfSheet);
             return pdfSheet;
@@ -427,6 +477,7 @@ namespace OfficeOpenXml.Export.PdfExport
             GetMaps(pageSettings, pdfSheet, pdfSheet.Ranges);
             GetPrintTitles(pageSettings, pdfSheet);
             GetHeaderFooter(pageSettings, pdfSheet);
+            GetAdditionalContent(pageSettings, pdfSheet);
             GetCommentsAndNotes(pageSettings, pdfSheet);
             ReadDrawings(pdfSheet);
             return pdfSheet;
@@ -553,6 +604,11 @@ namespace OfficeOpenXml.Export.PdfExport
                     if (isTitleCol) cell.IsPrintTitleCol = true;
                 }
             }
+        }
+
+        private void GetAdditionalContent(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
+        {
+            pdfSheet.AdditionalContent = string.IsNullOrEmpty(pageSettings.AdditionalContent) ? null : new PdfAdditionalContent(pageSettings, _dictionaries, pdfSheet.Worksheet);
         }
 
         private void GetHeaderFooter(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)

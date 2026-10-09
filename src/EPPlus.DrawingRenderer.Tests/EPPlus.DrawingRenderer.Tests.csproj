@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net462</TargetFrameworks>
+	  <TargetFrameworks>net481;net8.0</TargetFrameworks>
+	  <!-- Build servers only build and test .NET 8. Pass -p:TestAllFrameworks=true to include all frameworks. -->
+	  <TargetFrameworks Condition="'$(CI)' == 'true' And '$(TestAllFrameworks)' != 'true'">net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
