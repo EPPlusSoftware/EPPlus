@@ -310,8 +310,6 @@ namespace OfficeOpenXml.Core.Worksheet
             //Update data validation references
             foreach (ExcelDataValidation dv in ws.DataValidations)
             {
-                //var commaAddress = dv.Address.AddressCommaSeparated;
-                //ExcelAddress commaSeparatedAddress = new ExcelAddress(commaAddress);
                 var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
                 {
@@ -321,7 +319,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (dv.Address.Address != newAddress.Address)
                     {
-                        dv.SetAddress(newAddress.AddressSpaceSeparated);
+                        dv.SetAddress(newAddress.Address);
                     }
                 }
             }

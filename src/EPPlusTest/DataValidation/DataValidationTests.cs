@@ -1303,6 +1303,29 @@ namespace EPPlusTest.DataValidation
             ws.Cells[1, 1, 4, 4].DataValidation.ClearDataValidation();
         }
 
+        [TestMethod]
+        public void SpaceAddressesSheets()
+        {
+            using (var pck = OpenPackage("DV_CommaSeparated.xlsx", true))
+            {
+                // GIVEN a data validation over two areas, D16:D20 and D28
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1 and stuff");
+
+                sheet1.Cells["D20"].Value = 5;
+                sheet1.Cells["G21"].Value = 10;
+
+                var dv = sheet1.DataValidations.AddAnyValidation("D20,G21");
+                dv.ShowInputMessage = true;
+                dv.PromptTitle = "Hello";
+                dv.Prompt = "I'm validated";
+
+                Assert.AreEqual("D20,G21", dv.Address.Address);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+
         //Generated test by user from #2571
         //Note that currently the column-tests are unneccesary and unrelated to the actual bug
         //However they are not neccesarily bad tests to have for future-proofing.
@@ -1313,26 +1336,16 @@ namespace EPPlusTest.DataValidation
             using (var pck = new ExcelPackage())
             {
                 // GIVEN a data validation over two areas, D16:D20 and D28
-                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1 and stuff");
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var dv = sheet1.Cells["D16:D20 D28"].DataValidation.AddListDataValidation();
+                dv.Formula.Values.Add("Option A");
+                dv.Formula.Values.Add("Option B");
 
+                // WHEN 4 rows are inserted between the two areas
+                sheet1.InsertRow(24, 4);
 
-                sheet1.DataValidations.AddAnyValidation("D20,D21");
-
-                //var anAddress = sheet1.Cells["'Sheet1 and stuff'!D16:D20 'Sheet1 and stuff'!D28"];
-
-                //var test = anAddress.FullAddressAbsolute;
-
-                var test2 = sheet1.Cells["C3:C5"];
-                //anAddress.AddressSpaceSeparated
-                //var dv = sheet1.Cells["D16:D20,D28"].DataValidation.AddListDataValidation();
-                //dv.Formula.Values.Add("Option A");
-                //dv.Formula.Values.Add("Option B");
-
-                //// WHEN 4 rows are inserted between the two areas
-                //sheet1.InsertRow(24, 4);
-
-                //// THEN the second area is shifted down by 4 rows
-                //Assert.AreEqual("D16:D20 D32", dv.Address.Address);
+                // THEN the second area is shifted down by 4 rows
+                Assert.AreEqual("D16:D20,D32", dv.Address.Address);
             }
         }
 
@@ -1351,7 +1364,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.InsertRow(10, 2);
 
                 // THEN both areas are shifted down by 2 rows
-                Assert.AreEqual("D18:D22 D30", dv.Address.Address);
+                Assert.AreEqual("D18:D22,D30", dv.Address.Address);
             }
         }
 
@@ -1370,7 +1383,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteRow(24, 2);
 
                 // THEN the second area is shifted up by 2 rows
-                Assert.AreEqual("D16:D20 D26", dv.Address.Address);
+                Assert.AreEqual("D16:D20,D26", dv.Address.Address);
             }
         }
 
@@ -1389,7 +1402,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteRow(10, 2);
 
                 // THEN both areas are shifted up by 2 rows
-                Assert.AreEqual("D14:D18 D26", dv.Address.Address);
+                Assert.AreEqual("D14:D18,D26", dv.Address.Address);
             }
         }
 
@@ -1408,7 +1421,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.InsertRow(10, 2);
 
                 // THEN both areas are shifted down by 2 rows
-                Assert.AreEqual("D19 L19", dv.Address.Address);
+                Assert.AreEqual("D19,L19", dv.Address.Address);
             }
         }
 
@@ -1427,7 +1440,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteRow(10, 2);
 
                 // THEN both areas are shifted up by 2 rows
-                Assert.AreEqual("D15 L15", dv.Address.Address);
+                Assert.AreEqual("D15,L15", dv.Address.Address);
             }
         }
 
@@ -1446,7 +1459,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.InsertRow(20, 2);
 
                 // THEN both areas are extended by 2 rows
-                Assert.AreEqual("G17:G28 L17:L28", dv.Address.Address);
+                Assert.AreEqual("G17:G28,L17:L28", dv.Address.Address);
             }
         }
 
@@ -1465,7 +1478,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteRow(18, 9);
 
                 // THEN both areas are reduced to the first row
-                Assert.AreEqual("G17 L17", dv.Address.Address);
+                Assert.AreEqual("G17,L17", dv.Address.Address);
             }
         }
 
@@ -1484,7 +1497,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.InsertColumn(6, 2);
 
                 // THEN the second area is shifted right by 2 columns
-                Assert.AreEqual("D16:D20 J16:J20", dv.Address.Address);
+                Assert.AreEqual("D16:D20,J16:J20", dv.Address.Address);
             }
         }
 
@@ -1503,7 +1516,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.InsertColumn(2, 2);
 
                 // THEN both areas are shifted right by 2 columns
-                Assert.AreEqual("F16:F20 J16:J20", dv.Address.Address);
+                Assert.AreEqual("F16:F20,J16:J20", dv.Address.Address);
             }
         }
 
@@ -1522,7 +1535,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteColumn(6, 1);
 
                 // THEN the second area is shifted left by 1 column
-                Assert.AreEqual("D16:D20 G16:G20", dv.Address.Address);
+                Assert.AreEqual("D16:D20,G16:G20", dv.Address.Address);
             }
         }
 
@@ -1541,7 +1554,7 @@ namespace EPPlusTest.DataValidation
                 sheet1.DeleteColumn(2, 1);
 
                 // THEN both areas are shifted left by 1 column
-                Assert.AreEqual("C16:C20 G16:G20", dv.Address.Address);
+                Assert.AreEqual("C16:C20,G16:G20", dv.Address.Address);
             }
         }
         #endregion

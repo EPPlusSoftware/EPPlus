@@ -12,7 +12,7 @@ namespace OfficeOpenXml.DataValidation
     /// <summary>
     /// Handling for ExcelAdress updates of DataValidations
     /// </summary>
-    public class ExcelDatavalidationAddress : ExcelAddress
+    internal class ExcelDatavalidationAddress : ExcelAddress
     {
         ExcelDataValidation _val;
         ExcelAddress addressBeforeChange;
@@ -20,19 +20,19 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDatavalidationAddress(string address, ExcelDataValidation val) : base(address) 
         {
             _val = val;
-            var splitAddresses = address.Split(new char[] { ' ' });
-            if(splitAddresses.Count() > 1)
-            {
-                if(_addresses == null)
-                {
-                    _addresses = new List<ExcelAddressBase>();
-                }
+            //var splitAddresses = address.Split(new char[] { ' ' });
+            //if(splitAddresses.Count() > 1)
+            //{
+            //    if(_addresses == null)
+            //    {
+            //        _addresses = new List<ExcelAddressBase>();
+            //    }
 
-                foreach(var sAddress in splitAddresses)
-                {
-                    Addresses.Add(new ExcelAddress(sAddress));
-                }
-            }
+            //    foreach(var sAddress in splitAddresses)
+            //    {
+            //        Addresses.Add(new ExcelAddress(sAddress));
+            //    }
+            //}
         }
 
         /// <summary>

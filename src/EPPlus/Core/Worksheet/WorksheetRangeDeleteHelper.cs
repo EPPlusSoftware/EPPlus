@@ -614,7 +614,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    dv.SetAddress(newAddress.AddressSpaceSeparated);
+                    dv.SetAddress(newAddress.Address);
                 }
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
