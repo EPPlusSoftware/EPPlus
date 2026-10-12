@@ -11,6 +11,23 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
     public class PieChartTests : TestBase
     {
 
+
+        [TestMethod]
+        public void ReadAndExportSimple()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var explosion = ws.Drawings["FewChart"];
+
+                var explodeSvg = explosion.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\fewChart_new.svg", explodeSvg);
+            }
+        }
+
         [TestMethod]
         public void ReadAndExportSimpleExplosion()
         {

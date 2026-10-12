@@ -2,6 +2,8 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
+using EPPlus.Graphics.Primitives;
+using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -13,6 +15,7 @@ using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -27,7 +30,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// The holder of the actual items, AFTER origin/translations
         /// </summary>
         GroupRenderItem _innerItems;
-        TranformPoint _circleCenter;
+        BoundingBox _circleCenter;
 
         /// <summary>
         /// How many percent of the pie this represents
@@ -37,10 +40,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal double Degrees { get; private set; }
 
         TranformPoint _startPoint;
-        TranformPoint _startPointHalf;
         TranformPoint _midPoint;
         TranformPoint _endPoint;
-        TranformPoint _endPointHalf;
 
         internal override System.Drawing.Color? DefaultFillColor { get; }
 
@@ -182,7 +183,56 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, TranformPoint circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset) : base(renderer)
+        {
+            DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
+            Rectangle.Parent = parent;
+            _radius = slice.Circle.Radius;
+            _percent = percentOfPie;
+            Degrees = _percent * 360d;
+
+            _circleCenter = circleCenter;
+            _innerGroup = new GroupRenderItem(parent, 0, circleCenter);
+            _innerGroup.Parent = _innerGroup.TranslationOffset;
+            _innerGroup.Name = "InnerGroupChartDrawer";
+
+            _startPoint = slice.StartPoint;
+            _endPoint = slice.EndPoint;
+            _midPoint = slice.MidPoint;
+
+            //Excel's circle begins drawing from the top and increases towards the right
+            //Rotate points -90 degrees take note of global pos, reparent then set them back to the position
+            circleCenter.LocalRotation = firstSliceOffset;
+
+            var posStart = _startPoint.Position;
+            var posEnd = _endPoint.Position;
+            var posMid = _midPoint.Position;
+
+            _startPoint.Parent = _innerGroup;
+            _endPoint.Parent = _innerGroup;
+            _midPoint.Parent = _innerGroup;
+
+            _startPoint.Position = posStart;
+            _endPoint.Position = posEnd;
+            _midPoint.Position = posMid;
+
+            circleCenter.LocalRotation = 0;
+
+            //We must calculate transforms from the outer midpoint.
+            //This is to ensure that point never leaves the parent container
+            _innerGroup.TransformOrigin = GetMidPointLocal();
+
+            CalculateExplosionDir();
+            //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
+            //slice.ExtremePoints.Parent = _innerGroup;
+            ExtremePoints = slice;
+            ExtremePoints.Parent = _innerGroup;
+
+            _innerItems = new GroupRenderItem(_innerGroup, 0);
+            _innerItems.Name = "Inner_Items";
+        }
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, BoundingBox circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
             _prevSliceDegrees = prevSliceDegrees;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
@@ -199,13 +249,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
-            _startPointHalf = CalculateLocalPointOnCircleHalfRadius(prevSliceDegrees);
 
             //The degrees of the midpoint
             var halfDegrees = Degrees / 2;
 
             _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
-            _endPointHalf = CalculateLocalPointOnCircleHalfRadius(Degrees + prevSliceDegrees);
 
             //We add prev at this point since we don't want to halve the previous angle only the current one
             _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
@@ -242,7 +290,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Translate and scale path
             _innerGroup.GroupScale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
-            CalculateLargestRectWithinCircleSegment();
+            //CalculateLargestRectWithinCircleSegment();
 
             //Add the actual commands
             _slicePath.Commands.Add(moveCenter);

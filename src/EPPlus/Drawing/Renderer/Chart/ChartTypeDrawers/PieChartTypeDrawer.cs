@@ -95,15 +95,33 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //(or the 90 degree offset in the first slice)
             var prevDegrees = _startDegrees;
 
+            List<double> valPercents = new List<double>();
+            
+
             for (int i = 0; i < valValues.Count; i++)
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
-                //Create and add slice
-                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem, _circleCenter, _radius, valPercent, prevDegrees);
-                Slices.Add(slice);
+                valPercents.Add(valPercent);
 
-                //Next slice will need to be calculated starting from the degrees of this slice
-                prevDegrees = slice.Degrees + prevDegrees;
+                ////Create and add slice
+                //PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem, _circleCenter, _radius, valPercent, prevDegrees);
+                //Slices.Add(slice);
+
+                ////Next slice will need to be calculated starting from the degrees of this slice
+                //prevDegrees = slice.Degrees + prevDegrees;
+            }
+
+
+            pieTransform = new PieTransform(_radius);
+            pieTransform.Parent = _circleCenter.Parent;
+            pieTransform.Position = _circleCenter.Position;
+            pieTransform.Name = "Pie_Transform";
+
+            pieTransform.GenerateSlicesAndClearPrevious(valPercents);
+            for(int i = 0; i < valPercents.Count; i++)
+            {
+                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees);
+                Slices.Add(renderSlice);
             }
         }
 
