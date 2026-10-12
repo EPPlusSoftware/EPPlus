@@ -174,7 +174,6 @@ namespace OfficeOpenXml.Drawing.Renderer
                         cmd = null;
                         break;
                 }
-                //p.TranslateCoordiantesToPointsAndDegrees(ExcelDrawing.EMU_PER_POINT, 1);
                 pCmd = p;
             }
             if (coordinates.Count > 0)

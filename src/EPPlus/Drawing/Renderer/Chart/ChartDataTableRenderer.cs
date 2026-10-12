@@ -248,7 +248,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
 
         const float MarginIconText = 1.5f;
-        private double GetLegendColWidth()
+        internal double GetLegendColWidth()
         {
             if (SeriesIcon.Count == 0) return 0;
             var w = SeriesIcon.Max(x=>x.Textbox.Width);
@@ -306,7 +306,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var displayValues = new List<string>();
             foreach (var v in values)
             {
-                var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                string s;
+                if(v is object[] array)
+                {
+                    s = ValueToTextHandler.FormatValue(array[3], false, nf, null, out bool isValidFormat);
+                }
+                else
+                {
+                    s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                }
                 displayValues.Add(s);
             }
             return displayValues;
@@ -454,13 +462,13 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         private double GetTop()
         {
             var bottom = ChartRenderer.Plotarea.Rectangle.Bottom;
-            if (ChartRenderer.HorizontalAxis?.Axis.Deleted == false && (ChartRenderer.HorizontalAxis.Rectangle?.Bottom??0) > bottom)
+            if (ChartRenderer.HorizontalAxis?.Axis.Deleted == false && (ChartRenderer.HorizontalAxis.Rectangle?.GlobalBottom??0) > bottom)
             {
-                bottom = ChartRenderer.HorizontalAxis.Rectangle.Bottom;
+                bottom = ChartRenderer.HorizontalAxis.Rectangle.GlobalBottom;
             }
-            if (ChartRenderer.SecondHorizontalAxis?.Axis.Deleted == false && (ChartRenderer.SecondHorizontalAxis.Rectangle?.Bottom ?? 0) > bottom)
+            if (ChartRenderer.SecondHorizontalAxis?.Axis.Deleted == false && (ChartRenderer.SecondHorizontalAxis.Rectangle?.GlobalBottom ?? 0) > bottom)
             {
-                bottom = ChartRenderer.SecondHorizontalAxis.Rectangle.Bottom;
+                bottom = ChartRenderer.SecondHorizontalAxis.Rectangle.GlobalBottom;
             }
             return bottom+TopMargin;
         }
