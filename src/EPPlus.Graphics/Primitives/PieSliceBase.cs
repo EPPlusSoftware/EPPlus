@@ -95,7 +95,7 @@ namespace EPPlus.Graphics.Primitives
             _endPoint = Circle.GetPointOnCircle(EndDegrees);
 
             //The degrees of the midpoint
-            var halfDegrees = EndDegrees / 2;
+            var halfDegrees = SweepAngleInDegrees / 2d;
 
             //We add prev at this point since we don't want to halve the previous angle only the current one
             _midPoint = Circle.GetPointOnCircle(halfDegrees + StartDegrees);
