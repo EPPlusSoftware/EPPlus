@@ -250,6 +250,7 @@ namespace OfficeOpenXml.DataValidation
             }
 
             //ensure address is always comma-separated
+            //(works since wsName is no longer included at this point)
             if(address.Contains(" "))
             {
                 address = address.Replace(' ', ',');

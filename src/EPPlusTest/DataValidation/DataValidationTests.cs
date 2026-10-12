@@ -39,6 +39,7 @@ using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1324,7 +1325,6 @@ namespace EPPlusTest.DataValidation
                 SaveAndCleanup(pck);
             }
         }
-
 
         //Generated test by user from #2571
         //Note that currently the column-tests are unneccesary and unrelated to the actual bug
