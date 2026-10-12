@@ -1766,10 +1766,14 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                      : ps.Margins.FooterPu;
             return new Vector2(x, y);
         }
-        private static (double Left, double Width) HeaderFooterBox(PdfPageSettings ps, bool alignWithMargins)=> alignWithMargins
-                                                                                                                ? (ps.Margins.LeftPu, ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu)
-                                                                                                                : (0d, ps.PageSize.WidthPu);
+        private static (double Left, double Width) HeaderFooterBox(PdfPageSettings ps, bool alignWithMargins)
+        {
+            if (alignWithMargins)
+                return (ps.Margins.LeftPu, ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu);
 
+            double d = UnitConversion.MmToPoints(19.05);
+            return (d, ps.PageSize.WidthPu - 2d * d);
+        }
         private static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries, PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
         {
             text.IsHeaderFooter = true;
