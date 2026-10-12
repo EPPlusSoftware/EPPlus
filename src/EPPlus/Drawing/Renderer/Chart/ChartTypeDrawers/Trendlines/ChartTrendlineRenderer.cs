@@ -53,8 +53,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
-                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
-                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(_xSerie.Count)));
+                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(_xSerie[0])));
+                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(_xSerie[xSerie.Count-1])));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
@@ -713,7 +713,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (isLine)
                 {
-                    coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X+1));
+                    var x = catAxis.Min + Coordinates[i].X;
+                    coordinates.Add(catAxis.GetPositionInPlotarea(x));
                     coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
                 }
                 else
@@ -780,7 +781,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     sum -= _ySerie[i - period + 1];
                 }
             }
-        }
+        }   
 
         private double GetLinearValueAtPosition(double x)
         {
