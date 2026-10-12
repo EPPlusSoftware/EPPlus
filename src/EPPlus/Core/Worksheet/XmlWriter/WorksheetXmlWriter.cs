@@ -646,12 +646,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
         private void SetCalcAttributesForArrayFormula(bool hasFlags, CellStoreEnumerator<ExcelValue> cse, ref string mdAttrForFTag)
         {
+            // #2572: Reset so attributes from a previous cell are not carried over to this cell.
+            mdAttrForFTag = "";
             //Set calc attributes for array formula. We preserve them from load only at this point.
             if (hasFlags)
             {
                 if (_ws._flags.Exists(cse.Row, cse.Column))
                 {
-                    mdAttrForFTag = "";
                     if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
                     {
                         mdAttrForFTag = $" aca=\"1\"";
@@ -663,6 +664,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 }
             }
         }
+
         private string GenerateArrayFormulaXml(string cTag, string fTag, string cellAddress, string styleID, string mdAttr, string mdAttrForFTag, string refAddress, object value, string formula, string prefix)
         {
             var cellType = ConvertUtil.GetCellType(value, true);
