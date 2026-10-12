@@ -19,6 +19,7 @@ using EPPlus.Export.Pdf.Settings.PdfPageSizes;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Geometry;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
@@ -244,6 +245,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     if (page.HeaderFooters != null)
                     {
+                        pageLayout.ScaleHeaderFooterWithDocument = page.HeaderFooters.ScaleWithDocument;
                         var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
                         if (leftH != null && !leftH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages))
@@ -252,10 +254,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
+                            text.ScaleAnchorX = hfx;                 // left edge
+                            text.ScaleAnchorY = hfy + ascent;
                             text.Name = "LeftHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Left, pageSettings);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
                         if (centerH != null && !centerH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages))
@@ -265,10 +267,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
+                            text.ScaleAnchorX = hfx + hfWidth / 2d;
+                            text.ScaleAnchorY = hfy + ascent;
                             text.Name = "CenterHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Center, pageSettings);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
                         if (rightH != null && !rightH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages))
@@ -277,10 +279,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
+                            text.ScaleAnchorX = hfx;
+                            text.ScaleAnchorY = hfy + ascent;
                             text.Name = "RightHeader";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Right, pageSettings);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
                         if (leftF != null && !leftF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages))
@@ -290,10 +292,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var hfx = pageSettings.Margins.LeftPu;
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
+                            text.ScaleAnchorX = hfx;
+                            text.ScaleAnchorY = hfy - descent;
                             text.Name = "LeftFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Left, pageSettings);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
                         if (centerF != null && !centerF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages))
@@ -302,11 +304,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var descent = centerF.Content.TextLines[last].LargestDescent;
                             var hfx = pageSettings.PageSize.WidthPu / 2d;
                             var hfy = pageSettings.Margins.FooterPu + descent;
+                            var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
+                            text.ScaleAnchorX = hfx + hfWidth / 2d;
+                            text.ScaleAnchorY = hfy - descent;
                             text.Name = "CenterFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Center, pageSettings);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
                         if (rightF != null && !rightF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages))
@@ -316,10 +319,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                             var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
+                            text.ScaleAnchorX = hfx;
+                            text.ScaleAnchorY = hfy - descent;
                             text.Name = "RightFooter";
-                            text.IsHeaderFooter = true;
-                            text.GidsAndCharMap(dictionaries);
-                            pageLayout.AddChild(text);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Right, pageSettings);
                         }
                         double hfContentLeft = pageSettings.Margins.LeftPu;
                         double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
@@ -372,17 +375,17 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
                                                 : pageSettings.Margins.FooterPu + descent;
                                 double textY = System.Math.Min(naturalBaseline, imgBottom + descent);
-
+                                var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(hfSection, hfAlign, pageSettings) };
                                 double cursor = runStart;
                                 if (beforeRun != null)
                                 {
-                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
+                                    part.Items.Add(PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
                                 }
                                 cursor += beforeWidth;
 
                                 if (canEmbed)
                                 {
-                                    pageLayout.AddChild(new PdfImageLayout(cursor, imgTop, imgW, imgH)
+                                    part.Items.Add(new PdfImageLayout(cursor, imgTop, imgW, imgH)
                                     {
                                         ImageBytes = hf.ImageBytes,
                                         IsHeaderFooter = true,
@@ -392,8 +395,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 cursor += imgW;
                                 if (afterRun != null)
                                 {
-                                    pageLayout.AddChild(PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
+                                    part.Items.Add(PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
                                 }
+                                if (part.Items.Count > 0)
+                                    pageLayout.HeaderFooterParts.Add(part);
                             }
                         }
                     }
@@ -1744,6 +1749,29 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             SubstitutePageNumbers(pageSettings, dictionaries, hf, pageNumber, totalPages);
             return hf.Content != null && hf.Content.TextLines != null && hf.Content.TextLines.Count > 0;
+        }
+
+        private static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps)
+        {
+            double left = ps.Margins.LeftPu;
+            double width = ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu;
+            double x = align == HeaderFooterAlignment.Left ? left
+                     : align == HeaderFooterAlignment.Right ? left + width
+                     : left + width / 2d;
+            double y = section == HeaderFooterSection.Header
+                     ? ps.PageSize.HeightPu - ps.Margins.HeaderPu
+                     : ps.Margins.FooterPu;
+            return new Vector2(x, y);
+        }
+
+        private static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries,
+            PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps)
+        {
+            text.IsHeaderFooter = true;
+            text.GidsAndCharMap(dictionaries);
+            var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(section, align, ps) };
+            part.Items.Add(text);
+            pageLayout.HeaderFooterParts.Add(part);
         }
 
         private static void ApplyPageNumbers(PdfHeaderFooter hf, int pageNumber, int totalPages)

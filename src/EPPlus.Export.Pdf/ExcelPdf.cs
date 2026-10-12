@@ -186,7 +186,7 @@ namespace EPPlus.Export.Pdf
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                     !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle || ccl.IsAddedContent)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
-            var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
+            //var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var AdditionalContent = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsAddedContent && !(pageSettings.AdditionalContent != "null"));
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
@@ -246,18 +246,56 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddCommand("Q");
             }
             //Add header and footer.
-            foreach (var hf in headerFooterLayouts)
+            //foreach (var hf in headerFooterLayouts)
+            //{
+            //    if (pageLayout.ScaleHeaderFooterWithDocument)
+            //    {
+            //        contentStream.AddCommand("q");
+            //        contentStream.AddContentScale(contentScale, hf.ScaleAnchorX, hf.ScaleAnchorY);
+            //    }
+            //    contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
+            //    if (pageLayout.ScaleHeaderFooterWithDocument)
+            //    {
+            //        contentStream.AddCommand("Q");
+            //    }
+            //}
+            ////Add images
+            //foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
+            //{
+            //    if (!image.IsHeaderFooter) continue;
+            //    var imageResource = _dictionaries.AddImage(image.ImageBytes);
+            //    contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+            //    if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
+            //}
+            //Add header and footer — each part scaled about its own pivot
+            foreach (var part in pageLayout.HeaderFooterParts)
             {
-                contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
+                bool scaleHf = pageLayout.ScaleHeaderFooterWithDocument;
+                if (scaleHf)
+                {
+                    contentStream.AddCommand("q");
+                    contentStream.AddContentScale(contentScale, part.ScalePivot.X, part.ScalePivot.Y);
+                }
+
+                foreach (var item in part.Items)
+                {
+                    switch (item)
+                    {
+                        case PdfCellContentLayout text:
+                            contentStream.AddCellContentLayout(text, _dictionaries, pageSettings);
+                            break;
+                        case PdfImageLayout image:
+                            var imageResource = _dictionaries.AddImage(image.ImageBytes);
+                            contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
+                            if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
+                            break;
+                    }
+                }
+
+                if (scaleHf)
+                    contentStream.AddCommand("Q");
             }
-            //Add images
-            foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
-            {
-                if (!image.IsHeaderFooter) continue;
-                var imageResource = _dictionaries.AddImage(image.ImageBytes);
-                contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
-                if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
-            }
+
             //Add print titles
             contentStream.AddCommand("q");
             contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
