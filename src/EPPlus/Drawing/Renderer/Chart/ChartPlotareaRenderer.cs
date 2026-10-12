@@ -189,6 +189,14 @@ namespace EPPlusImageRenderer.Svg
                 {
                     left += leftSecondAxis.Rectangle.Width;
                 }
+                if(ChartRenderer.HasDataTable)
+                {
+                    var fc = ChartRenderer.DataTable.GetLegendColWidth() + LeftMargin;
+                    if(fc>left)
+                    {
+                        left = fc;
+                    }
+                }
             }
             return left;
         }

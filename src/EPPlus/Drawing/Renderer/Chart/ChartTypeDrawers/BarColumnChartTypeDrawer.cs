@@ -12,6 +12,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -256,7 +257,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
+                var y = ConvertUtil.GetValueDouble(valValues[valValues.Count-i-1], false, false);
                 
                 var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle);
                 var yPos = valAx.GetPositionInPlotarea(y);

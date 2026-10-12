@@ -50,6 +50,7 @@ namespace EPPlusImageRenderer.Svg
                 axisTxtBoxGroup.Left = _axis.Rectangle.Left;
                 _axis.Rectangle.Top = 0;
                 _axis.Rectangle.Left = 0;
+                _axis.Rectangle.Parent = axisTxtBoxGroup;
                 foreach (var tb in TextBoxes)
                 {
                     tb.AppendRenderItems(axisTxtBoxGroup.ChildObjects);

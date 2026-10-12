@@ -1258,7 +1258,7 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
-                for (var v = res.Min; v <= res.Max; v += res.MajorInterval)
+                for (var v = res.Min; Math.Round(v,12) <= Math.Round(res.Max,12); v += res.MajorInterval)
                 {
                     l.Add(v);
                     if (res.MajorInterval == 0) break;
