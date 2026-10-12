@@ -248,81 +248,83 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         pageLayout.ScaleHeaderFooterWithDocument = page.HeaderFooters.ScaleWithDocument;
                         var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
                         var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
+                        bool alignHf = page.HeaderFooters.AlignWithMargins;
+                        var (hfBoxLeft, hfBoxWidth) = HeaderFooterBox(pageSettings, alignHf);
                         if (leftH != null && !leftH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages))
                         {
                             var ascent = leftH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfx = hfBoxLeft;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
                             text.ScaleAnchorX = hfx;                 // left edge
                             text.ScaleAnchorY = hfy + ascent;
                             text.Name = "LeftHeader";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Left, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Left, pageSettings, alignHf);
                         }
                         var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
                         if (centerH != null && !centerH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages))
                         {
                             var ascent = centerH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfx = hfBoxLeft;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+                            var hfWidth = hfBoxWidth;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
                             text.ScaleAnchorX = hfx + hfWidth / 2d;
                             text.ScaleAnchorY = hfy + ascent;
                             text.Name = "CenterHeader";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Center, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Center, pageSettings, alignHf);
                         }
                         var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
                         if (rightH != null && !rightH.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages))
                         {
                             var ascent = rightH.Content.TextLines[0].LargestAscent;
-                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                            var hfx = hfBoxLeft + hfBoxWidth;
                             var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
                             text.ScaleAnchorX = hfx;
                             text.ScaleAnchorY = hfy + ascent;
                             text.Name = "RightHeader";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Right, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Right, pageSettings, alignHf);
                         }
                         var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
                         if (leftF != null && !leftF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages))
                         {
                             int last = leftF.Content.TextLines.Count - 1;
                             var descent = leftF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.Margins.LeftPu;
+                            var hfx = hfBoxLeft;
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
                             text.ScaleAnchorX = hfx;
                             text.ScaleAnchorY = hfy - descent;
                             text.Name = "LeftFooter";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Left, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Left, pageSettings, alignHf);
                         }
                         var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
                         if (centerF != null && !centerF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages))
                         {
                             int last = centerF.Content.TextLines.Count - 1;
                             var descent = centerF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.PageSize.WidthPu / 2d;
+                            var hfx = hfBoxLeft;
                             var hfy = pageSettings.Margins.FooterPu + descent;
-                            var hfWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, 0, 0);
+                            var hfWidth = hfBoxWidth;
+                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, hfWidth, 0);
                             text.ScaleAnchorX = hfx + hfWidth / 2d;
                             text.ScaleAnchorY = hfy - descent;
                             text.Name = "CenterFooter";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Center, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Center, pageSettings, alignHf);
                         }
                         var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
                         if (rightF != null && !rightF.HasImage && ShapeHeaderFooterText(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages))
                         {
                             int last = rightF.Content.TextLines.Count - 1;
                             var descent = rightF.Content.TextLines[last].LargestDescent;
-                            var hfx = pageSettings.PageSize.WidthPu - pageSettings.Margins.RightPu;
+                            var hfx = hfBoxLeft + hfBoxWidth;
                             var hfy = pageSettings.Margins.FooterPu + descent;
                             var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
                             text.ScaleAnchorX = hfx;
                             text.ScaleAnchorY = hfy - descent;
                             text.Name = "RightFooter";
-                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Right, pageSettings);
+                            AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Right, pageSettings, alignHf);
                         }
                         double hfContentLeft = pageSettings.Margins.LeftPu;
                         double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
@@ -375,7 +377,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
                                                 : pageSettings.Margins.FooterPu + descent;
                                 double textY = System.Math.Min(naturalBaseline, imgBottom + descent);
-                                var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(hfSection, hfAlign, pageSettings) };
+                                var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(hfSection, hfAlign, pageSettings, alignHf) };
                                 double cursor = runStart;
                                 if (beforeRun != null)
                                 {
@@ -1751,10 +1753,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return hf.Content != null && hf.Content.TextLines != null && hf.Content.TextLines.Count > 0;
         }
 
-        private static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps)
+        private static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
         {
-            double left = ps.Margins.LeftPu;
-            double width = ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu;
+            //double left = ps.Margins.LeftPu;
+            //double width = ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu;
+            var (left, width) = HeaderFooterBox(ps, alignWithMargins);
             double x = align == HeaderFooterAlignment.Left ? left
                      : align == HeaderFooterAlignment.Right ? left + width
                      : left + width / 2d;
@@ -1763,13 +1766,15 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                      : ps.Margins.FooterPu;
             return new Vector2(x, y);
         }
+        private static (double Left, double Width) HeaderFooterBox(PdfPageSettings ps, bool alignWithMargins)=> alignWithMargins
+                                                                                                                ? (ps.Margins.LeftPu, ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu)
+                                                                                                                : (0d, ps.PageSize.WidthPu);
 
-        private static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries,
-            PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps)
+        private static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries, PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
         {
             text.IsHeaderFooter = true;
             text.GidsAndCharMap(dictionaries);
-            var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(section, align, ps) };
+            var part = new PdfHeaderFooterPart { ScalePivot = HeaderFooterPivot(section, align, ps, alignWithMargins) };
             part.Items.Add(text);
             pageLayout.HeaderFooterParts.Add(part);
         }
