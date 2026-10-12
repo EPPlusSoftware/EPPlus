@@ -183,6 +183,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
+        BoundingBox largestInscribedRectangle;
+
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset) : base(renderer)
         {
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
@@ -217,6 +219,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _midPoint.Position = posMid;
 
             circleCenter.LocalRotation = 0;
+
+            largestInscribedRectangle = slice.LargestInscribedRectangle;
 
             //We must calculate transforms from the outer midpoint.
             //This is to ensure that point never leaves the parent container
@@ -750,7 +754,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal BoundingBox GetBounds()
         {
-            BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
+            BoundingBox box = largestInscribedRectangle;
             box.Parent = ExtremePoints.Parent;
             box.Left = ExtremePoints.Left;
             return box;
