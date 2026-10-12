@@ -11,7 +11,9 @@
   02/27/2026         EPPlus Software AB           Replaces FontResolutionConfig
   05/06/2026         EPPlus Software AB           Property-based transactional configuration
   05/20/2026         EPPlus Software AB           Added per-script glyph fallback configuration
+  10/08/2026         EPPlus Software AB           Added Logger for font and glyph selection diagnostics
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Logging;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
 using System.Collections.Generic;
@@ -28,8 +30,9 @@ namespace EPPlus.Fonts.OpenType.FontResolver
     /// properties at different times: <see cref="FontDirectories"/> and
     /// <see cref="SearchSystemDirectories"/> are read once while the resolver is built, so
     /// changing them after the callback returns has no effect, whereas
-    /// <see cref="FontFallbacks"/>, the per-script chains and
-    /// <see cref="MetricsFallback"/> are read on each font resolution and so do take effect.
+    /// <see cref="FontFallbacks"/>, the per-script chains,
+    /// <see cref="MetricsFallback"/> and <see cref="Logger"/> are read on each font resolution
+    /// and so do take effect.
     /// Callers should not rely on either behaviour; treat the configuration as fixed once the
     /// callback returns and create a new engine to change it.
     /// </summary>
@@ -63,6 +66,18 @@ namespace EPPlus.Fonts.OpenType.FontResolver
 
         /// <inheritdoc/>
         public IFontResolver FontResolver { get; set; }
+
+        /// <inheritdoc/>
+        public IFontLogger Logger { get; set; }
+
+        /// <summary>
+        /// The configured logger, or a logger that is never enabled when none is configured.
+        /// Never null, so callers can use it without a null check.
+        /// </summary>
+        internal IFontLogger ActiveLogger
+        {
+            get { return Logger ?? NullFontLogger.Instance; }
+        }
 
         /// <inheritdoc/>
         public void OnFontEmbedding(Func<FontEmbeddingInfo, FontEmbeddingDecision> callback)
@@ -115,6 +130,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
             ApplyDefaultScriptFallbacks();
             _webFontSubstitutions.Clear();
             ApplyDefaultWebFontSubstitutions();
+            Logger = null;
         }
 
         // -----------------------------------------------------------------------------------------
