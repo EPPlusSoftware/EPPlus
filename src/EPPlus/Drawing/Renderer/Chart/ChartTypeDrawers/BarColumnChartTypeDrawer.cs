@@ -257,7 +257,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                var y = ConvertUtil.GetValueDouble(valValues[valValues.Count-i-1], false, false);
+                var y = ConvertUtil.GetValueDouble(valValues[i], false, false);
                 
                 var rect = new RectRenderItem(ChartRenderer.Plotarea.Rectangle);
                 var yPos = valAx.GetPositionInPlotarea(y);
