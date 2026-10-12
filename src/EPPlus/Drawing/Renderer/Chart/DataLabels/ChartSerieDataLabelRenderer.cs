@@ -210,7 +210,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             DatalabelsGroup.Left = ChartRenderer.Plotarea.Group.Left;
             DatalabelsGroup.Top = ChartRenderer.Plotarea.Group.Top;
 
-            if (rotation != double.NaN)
+            if (double.IsNaN(rotation) == false)
             {
                 if (rotationPoint != null)
                 {
@@ -227,7 +227,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             for (int i = 0; i < dataLabels.Count; i++)
             {
-                if (rotation != double.NaN)
+                if (double.IsNaN(rotation) == false)
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
