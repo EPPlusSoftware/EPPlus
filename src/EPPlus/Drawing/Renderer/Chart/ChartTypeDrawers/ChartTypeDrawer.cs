@@ -235,7 +235,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index, chart.Style);
+            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
 
             style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
@@ -248,18 +248,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
 
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index, chart.Style);
+                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
             else
             {
-                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex, chart.Style);
+                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index, eChartStyle style)
+        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
         {
             Color baseColor;
             var baseColorIndex = index % 6;
