@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sorting;
@@ -1691,7 +1692,7 @@ namespace EPPlusTest.Issues
 
                 List<int> intValues = new List<int>();
 
-                foreach(var cell in range)
+                foreach (var cell in range)
                 {
                     intValues.Add(cell.GetValue<int>());
                 }
@@ -1811,7 +1812,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void s1069()
         {
-            using(var package = OpenTemplatePackage("s1069.xlsx"))
+            using (var package = OpenTemplatePackage("s1069.xlsx"))
             {
                 var setPrecision = package.Workbook.FullPrecision;
                 Assert.AreEqual(setPrecision, false);
@@ -1819,7 +1820,7 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("precisionTextResult.xlsx", package);
                 Assert.AreEqual(false, package.Workbook.FullPrecision);
             }
-        }  
+        }
 
         [TestMethod]
         public void i1069_roundtrip()
@@ -1834,7 +1835,7 @@ namespace EPPlusTest.Issues
             }
             using (var p = OpenPackage(file))
                 Assert.IsFalse(p.Workbook.FullPrecision);
-            
+
             using (var p = OpenPackage(file))
             {
                 p.Workbook.FullPrecision = true;
@@ -1843,6 +1844,79 @@ namespace EPPlusTest.Issues
             using (var p = OpenPackage(file))
                 Assert.IsTrue(p.Workbook.FullPrecision);
         }
+
+        [TestMethod]
+        public void s1085()
+        {
+            using (var p = OpenTemplatePackage("s1085.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["E1"].Calculate();
+                var value = ws.Cells["E1"].Value;
+                Assert.AreEqual(true, value);
+            }
+        }
+
+        [TestMethod]
+        public void s1085SUMIF2()
+        {
+            using (var p = OpenTemplatePackage("s1085.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["B14"].Calculate();
+                var value1 = ws.Cells["B14"].Value;
+                var d = (double)value1;
+
+                ws.Cells["G1"].Calculate();
+                var value2 = ws.Cells["G1"].Value;
+                var d2 = (double)value2;
+
+                Debug.WriteLine(d.ToString("R"));
+                Debug.WriteLine(d2.ToString("R"));
+                Debug.WriteLine(BitConverter.DoubleToInt64Bits(d));
+                //Debug.WriteLine(BitConverter.DoubleToInt64Bits(-275589.79));
+                Debug.WriteLine(BitConverter.DoubleToInt64Bits(-d2));
+
+                Assert.AreEqual(-275589.79, value1);
+            }
+        }
+
+        [TestMethod]
+        public void s1085_Bisect()
+        {
+            using var p = OpenTemplatePackage("s1085.xlsx");
+            var calc = p.Workbook.Worksheets["Calculation"];
+            var rep = p.Workbook.Worksheets["Report"];
+            p.Workbook.Calculate();
+
+            void Dump(string sheet, string addr, long expected)
+            {
+                var ws = p.Workbook.Worksheets[sheet];
+                var d = Convert.ToDouble(ws.Cells[addr].Value);
+                var b = BitConverter.DoubleToInt64Bits(d);
+                Debug.WriteLine($"{sheet}!{addr,-4} {d:R,-22} bits={b} {(b == expected ? "OK" : "<<< AVVIKER")}");
+            }
+
+            Dump("Calculation", "G7", 4671489920961368556);
+            Dump("Calculation", "G8", 4671770395382497935);
+            Dump("Calculation", "G9", 4687233969865212559);
+            Dump("Report", "D2", -4551882115893407252);
+            Dump("Report", "D3", -4535382919311230239);
+            Dump("Calculation", "B14", -4534893827848813937);
+            Dump("Calculation", "G1", 4688478209005961871);
+        }
+
+        [TestMethod]
+        public void KahanSum_NegativeTerms()
+        {
+            KahanSum s = 0d;
+            s += -20957.33;
+            s += -254632.46;
+
+            Assert.AreEqual(
+                BitConverter.DoubleToInt64Bits(-275589.79),
+                BitConverter.DoubleToInt64Bits(s.Get()));
+        }    
     }
 }
 
