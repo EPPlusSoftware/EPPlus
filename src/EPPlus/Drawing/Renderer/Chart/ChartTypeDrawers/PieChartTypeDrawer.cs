@@ -98,7 +98,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             List<double> valPercents = new List<double>();
             
 
-            for (int i = 0; i < valValues.Count; i++)
+            for (int i = 0; i < _serieValuesAsDoubles.Count; i++)
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
                 valPercents.Add(valPercent);
@@ -189,7 +189,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     continue;
                 }
                 _serieValuesAsDoubles.Add(dValue);
-                _totalOfSerieValues += _serieValuesAsDoubles[i];
+                _totalOfSerieValues += dValue;
             }
         }
 

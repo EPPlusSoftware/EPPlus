@@ -235,7 +235,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
+            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index, chart.Style);
 
             style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
@@ -246,25 +246,34 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (ct.VaryColors)
             {
+
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
+                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index, chart.Style);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
             else
             {
-                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
+                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex, chart.Style);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
             }
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index, eChartStyle style)
         {
             Color baseColor;
             var baseColorIndex = index % 6;
             if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
             {
                 baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
+                //if (style == eChartStyle.None)
+                //{
+                //    baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
+                //}
+                //else
+                //{
+                //    baseColor = 
+                //}
             }
             else
             {
