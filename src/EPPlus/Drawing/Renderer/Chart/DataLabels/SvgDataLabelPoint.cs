@@ -34,7 +34,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         List<LineRenderItem> _leaderLines = new List<LineRenderItem>();
         Coordinate _manualLayoutOffset = new Coordinate (0, 0);
         PointLines _connectionPointLines;
+
         eLabelPosition _labelPosition;
+
+        internal eLabelPosition labelPosition { get { return _labelPosition; } }
+
+        internal Rect GlobalTextBounds
+        { 
+            get 
+            {
+                var glbl = _txtBox.TextBody.GetGlobalBoundingbox();
+                glbl.Bottom = glbl.Top + _txtBox.TextBody.GroupHeight - _txtBox.TopMargin - _txtBox.BottomMargin;
+                glbl.Right = glbl.Left + _txtBox.TextBody.GroupWidth - _txtBox.LeftMargin/2d;
+                return glbl; 
+            } 
+        }
+
         internal double CounterRotation = double.NaN;
 
         internal override Color? DefaultFillColor { get; }
@@ -666,6 +681,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         SetInOut(endToBaseVector, endPoint.LocalPosition, true);
                         //ApplyBestFitExtraMargin(endToBaseVector, true, 5d);
                     }
+
+
+
                     break;
                 default:
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");

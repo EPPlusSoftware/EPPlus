@@ -10,11 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Globalization;
-using EPPlus.Graphics.Geometry;
+using System.Linq;
+using System.Net.NetworkInformation;
 
 namespace EPPlus.Graphics
 {
@@ -348,6 +349,43 @@ namespace EPPlus.Graphics
                    t2 >= t1 &&
                    r2 <= r1 &&
                    b2 <= b1;
+        }
+
+        public static Vector2 GetIntersectAdjustVector(Rect bbox, Rect bbCompare)
+        {
+            // When positive this bb intersects with bbCompare
+            var distRight = bbox.Right - bbCompare.Left;
+            var distLeft = bbCompare.Right - bbox.Left;
+            var distTop = bbox.Bottom - bbCompare.Top;
+            var distBottom = bbCompare.Bottom - bbox.Top;
+
+            Vector2 adjustVector = Vector2.Zero;
+
+            //Find the smallest distance to adjust 
+            if (distRight > 0 || distLeft > 0 || distTop > 0 || distBottom > 0)
+            {
+                var minimumDist = distRight;
+                adjustVector = new Vector2(-distRight, 0);
+
+                if (distLeft < minimumDist)
+                {
+                    minimumDist = distLeft;
+                    adjustVector = new Vector2(distLeft, 0);
+                }
+
+                if (distTop < minimumDist)
+                {
+                    minimumDist = distTop;
+                    adjustVector = new Vector2(0, -distTop);
+                }
+                if (distBottom < minimumDist)
+                {
+                    minimumDist = distBottom;
+                    adjustVector = new Vector2(0, distBottom);
+                }
+            }
+
+            return adjustVector;
         }
 
         public string ToHierarchyString(int indentLevel = 0)

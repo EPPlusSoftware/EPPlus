@@ -8,8 +8,10 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -126,35 +128,42 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         
         private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
-            if (ChartRenderer.Legend == null)
+            try
             {
-                seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
+                if (ChartRenderer.Legend == null)
+                {
+                    seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
+                }
+                else
+                {
+                    var legendItem = ChartRenderer.Legend;
+
+                    var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                    var clonedIcon = seriesIconOrig.Clone();
+
+                    if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
+                    {
+                        clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
+                    }
+
+                    if (clonedIcon is LineRenderItem lineIcon)
+                    {
+                        lineIcon.Y1 = 0;
+                        lineIcon.Y2 = 0;
+                    }
+                    else if (clonedIcon is RectRenderItem rectIcon)
+                    {
+                        rectIcon.Left = 0;
+                        rectIcon.Top = 0;
+                    }
+
+
+                    seriesIcon = clonedIcon;
+                }
             }
-            else
+            catch(Exception e)
             {
-                var legendItem = ChartRenderer.Legend;
-
-                var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
-                var clonedIcon = seriesIconOrig.Clone();
-
-                if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
-                {
-                    clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
-                }
-
-                if (clonedIcon is LineRenderItem lineIcon)
-                {
-                    lineIcon.Y1 = 0;
-                    lineIcon.Y2 = 0;
-                }
-                else if (clonedIcon is RectRenderItem rectIcon)
-                {
-                    rectIcon.Left = 0;
-                    rectIcon.Top = 0;
-                }
-
-
-                seriesIcon = clonedIcon;
+                throw new Exception("Something went wrong in datalabel renderer SeriesIcon", e);
             }
         }
 
@@ -231,7 +240,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
+
                 dataLabels[i].PrepareForRenderAndAddToParent(DatalabelsGroup);
+            }
+
+            //With semi-final positions check if any of the BestFit ones overlap
+            for (int i = 0; i < dataLabels.Count; i++)
+            {
+                var currentLabel = dataLabels[i];
+                //var currentLabelRect = new Rect(c)
+
+                if(currentLabel.labelPosition == eLabelPosition.BestFit)
+                {
+                    for (int j = 0; j < i; j++)
+                    {
+                        var bbCurrent = currentLabel.GlobalTextBounds;
+                        var bbCompare = dataLabels[j].GlobalTextBounds;
+
+                        if (Transform.Intersects(bbCurrent, bbCompare))
+                        {
+                            var adjustVector = Transform.GetIntersectAdjustVector(bbCurrent, bbCompare);
+
+                            if((adjustVector.X == 0 && adjustVector.Y == 0) == false)
+                            {
+                                currentLabel.DataLabelPointContainer.Left += adjustVector.X;
+                                currentLabel.DataLabelPointContainer.Top += adjustVector.Y;
+                            }
+                        }
+                    }
+                }
             }
 
             renderItems.Add(DatalabelsGroup);

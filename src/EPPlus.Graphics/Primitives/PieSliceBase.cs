@@ -66,6 +66,12 @@ namespace EPPlus.Graphics.Primitives
 
         internal PieSliceBase(double startDegrees, double endDegrees, PrimitiveCircle circle)
         {
+            //Allow for single 100% slice
+            if(endDegrees == 360)
+            {
+                endDegrees = 359.99;
+            }
+
             Circle = circle;
             Initialize(startDegrees, endDegrees);
         }

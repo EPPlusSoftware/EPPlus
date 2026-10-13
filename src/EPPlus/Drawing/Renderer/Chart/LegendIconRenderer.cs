@@ -8,6 +8,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
@@ -464,6 +465,28 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return topOffset;
         }
 
+        private static ExcelChartDataPointCollection GetDataPointsFromSeries(ExcelChartStandardSerie s)
+        {
+            if(s is ExcelPieChartSerie ps)
+            {
+                return ps.DataPoints;
+            }
+            else
+            {
+                try
+                {
+                    var bs = (ExcelBarChartSerie)s;
+                    return bs.DataPoints;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidCastException("File:LegendIconRenderer.cs Method:GetDataPointsFromSeries. " +
+                        "Likely failing to cast a ExcelChartStandardSerie to barChartSerie. " +
+                        "Add new option instead.", ex);
+                }
+            }
+        }
+
         internal static RenderItem GetSeriesIcon(ChartRenderer chartRenderer, BoundingBox parentItem, ExcelChartStandardSerie s, int index, double entryHeight)
         {
             const float MarginExtra = 1.5f;
@@ -493,10 +516,12 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 item.Width = iconHeight;
                 item.Height = iconHeight;
                 var chart = chartRenderer.Chart;
-                var bs = (ExcelBarChartSerie)s;
-                if (index >= 0 && bs.DataPoints.ContainsKey(index))
+
+                var dataPoints = GetDataPointsFromSeries(s);
+
+                if (index >= 0 && dataPoints.ContainsKey(index))
                 {
-                    var dp = bs.DataPoints[index];
+                    var dp = dataPoints[index];
                     ChartTypeDrawer.SetFillDataPoint(chart, s, index, item.Style, dp, chart.StyleManager.Style?.SeriesLine);
                 }
                 else
