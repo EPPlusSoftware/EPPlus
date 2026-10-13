@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics.Geometry;
+using System.Collections.Generic;
 
 namespace EPPlus.Graphics
 {
@@ -98,5 +99,13 @@ namespace EPPlus.Graphics
         /// Y-position from parent Transform position
         /// </summary>
         public double Y;
+
+        public void GetEachVertex(out Vector2 TopLeft, out Vector2 TopRight, out Vector2 BottomLeft, out Vector2 BottomRight)
+        {
+            TopLeft = new Vector2(Left, Top);
+            TopRight = new Vector2(Right, Top);
+            BottomLeft = new Vector2(Left, Bottom);
+            BottomRight = new Vector2(Right, Bottom);
+        }
     }
 }

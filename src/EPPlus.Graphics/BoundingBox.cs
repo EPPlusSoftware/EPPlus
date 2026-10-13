@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 
@@ -189,6 +190,43 @@ namespace EPPlus.Graphics
             { 
                 return $"{Left} {Top} {Width} {Height}";
             } 
+        }
+
+        public Vector2 CollisionCheck(BoundingBox bbCompare)
+        {
+            // When positive this bb intersects with bbCompare
+            var distRight = GlobalRight - bbCompare.GlobalLeft;
+            var distLeft = bbCompare.GlobalRight - GlobalLeft;
+            var distTop = GlobalBottom - bbCompare.GlobalTop;
+            var distBottom = bbCompare.GlobalBottom - GlobalTop;
+
+            Vector2 adjustVector = Vector2.Zero;
+
+            //Find the smallest distance to adjust 
+            if (distRight > 0 || distLeft > 0 || distTop > 0 || distBottom > 0)
+            {
+                var minimumDist = distRight;
+                adjustVector = new Vector2(-distRight, 0);
+
+                if (distLeft < minimumDist)
+                {
+                    minimumDist = distLeft;
+                    adjustVector = new Vector2(distLeft, 0);
+                }
+
+                if (distTop < minimumDist)
+                {
+                    minimumDist = distTop;
+                    adjustVector = new Vector2(0, -distTop);
+                }
+                if (distBottom < minimumDist)
+                {
+                    minimumDist = distBottom;
+                    adjustVector = new Vector2(0, distBottom);
+                }
+            }
+
+            return adjustVector;
         }
 
         //We've got a huge problem.

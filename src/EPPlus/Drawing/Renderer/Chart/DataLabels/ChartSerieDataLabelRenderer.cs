@@ -8,8 +8,10 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Utils.TypeConversion;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -231,7 +233,57 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     dataLabels[i].CounterRotation = -rotation;
                 }
+
                 dataLabels[i].PrepareForRenderAndAddToParent(DatalabelsGroup);
+            }
+
+            //With semi-final positions check if any of the BestFit ones overlap
+            for (int i = 0; i < dataLabels.Count; i++)
+            {
+                var currentLabel = dataLabels[i];
+                //var currentLabelRect = new Rect(c)
+
+                if(currentLabel.labelPosition == eLabelPosition.BestFit)
+                {
+                    for (int j = 0; j < i; j++)
+                    {
+                        var bbCurrent = currentLabel.GlobalTextBounds;
+                        var bbCompare = dataLabels[j].GlobalTextBounds;
+
+                        if (Transform.Intersects(bbCurrent, bbCompare))
+                        {
+                            var adjustVector = Transform.GetIntersectAdjustVector(bbCurrent, bbCompare);
+
+                            if((adjustVector.X == 0 && adjustVector.Y == 0) == false)
+                            {
+                                currentLabel.DataLabelPointContainer.Left += adjustVector.X;
+                                currentLabel.DataLabelPointContainer.Top += adjustVector.Y;
+                            }
+                            ////var centerXCurrent = bbCurrent.Right - bbCurrent.Left;
+                            ////var centerYCurrent = bbCurrent.Bottom - bbCurrent.Top;
+
+                            ////var centerXCompare = bbCompare.Right - bbCompare.Left;
+                            ////var centerYCompare = bbCompare.Bottom - bbCompare.Top;
+
+
+                            ////bbCurrent.le
+
+                            //var OffsetVector = new Vector2(bbCompare.Left - bbCurrent.Left, 0);
+                            ////Vector2 dirOffset = OffsetVector / OffsetVector.Length;
+
+                            //currentLabel.DataLabelPointContainer.Left += OffsetVector.X;
+
+                            ////If we still intersect (likely in y)
+                            //if (Transform.Intersects(currentLabel.GlobalTextBounds, dataLabels[j].GlobalTextBounds))
+                            //{
+                            //    var OffsetVectorY = new Vector2(0, dataLabels[j].GlobalTextBounds.Bottom - currentLabel.GlobalTextBounds.Bottom);
+                            //    currentLabel.DataLabelPointContainer.Top += OffsetVectorY.Y;
+                            //}
+                            //currentLabel.DataLabelPointContainer.Left *= bbCompare.Right;
+                            //currentLabel.DataLabelPointContainer.Top += OffsetVector.Y;
+                        }
+                    }
+                }
             }
 
             renderItems.Add(DatalabelsGroup);
