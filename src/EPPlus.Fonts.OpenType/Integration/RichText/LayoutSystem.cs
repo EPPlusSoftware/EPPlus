@@ -103,6 +103,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         currCharInfo.IsSeparator = true;
                         SeparatorIndicies.Add(allCharIdx);
                     }
+                    else if(c == '\n')
+                    {
+                        currCharInfo.IsSeparator = true;
+                        SeparatorIndicies.Add(allCharIdx);
+                    }
 
                     spanIndex++;
                     allCharIdx++;
@@ -132,6 +137,13 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     SubParagraphs.Add(section);
                     lastParagraphIdx = sepIdx;
                 }
+                else if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == UnicodeCategory.LineSeparator || FullText[sepIdx] == '\n')
+                {
+                    ParagraphSeparatorIndicies.Add(sepIdx);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx - 1, GetFullText, GetSection);
+                    SubParagraphs.Add(section);
+                    lastParagraphIdx = sepIdx;
+                }
             }
 
             var lastSection = new Paragraph(lastParagraphIdx, FullTextLength-1, GetFullText, GetSection);
@@ -141,7 +153,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <summary>
         /// Seperating input into style-runs
         /// </summary>
-        void Itemization()
+        void  Itemization()
         {
             var subParagraphStartIdx = SubParagraphs[0].FullTextStart;
             var currIdx = subParagraphStartIdx;

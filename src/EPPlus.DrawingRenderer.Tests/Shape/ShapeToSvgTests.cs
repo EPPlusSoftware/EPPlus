@@ -756,5 +756,20 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void MultipleLineBreaksWithinASingleTextrun()
+        {
+            using(var p = OpenTemplatePackage("2.4-CreateAFileSystemReport.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var myShape = ws.Drawings[0].As.Shape;
+
+                var txtBoxSvg = myShape.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\txtboxParagraphsSvg.svg", txtBoxSvg);
+            }
+        }
     }
 }

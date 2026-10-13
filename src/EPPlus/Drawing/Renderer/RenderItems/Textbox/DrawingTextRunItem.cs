@@ -35,7 +35,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         internal void ImportTextRunBase(ExcelParagraphTextRunBase run, IFontFormatBase measuredFont)
         {
             InitializeBase(measuredFont);
-            _currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
+
+            //Text is imported elsewhere Do NOT add the below line back.
+            //Empty lines have no text and to replace it with original run.Text
+            //is to replace every new line with the entirety of the original textfragment
+            //This comment is to be kept as it is easy to believe this function Should import text otherwise
+            //_currentText = string.IsNullOrEmpty(_currentText) ? run.Text : _currentText;
+
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
             ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
