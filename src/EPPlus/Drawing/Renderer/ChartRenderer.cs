@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer
                     {
                         Plotarea.Rectangle.Height += HorizontalAxis.Rectangle.Height;
                         VerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                        VerticalAxis.Line.Y2 = (float)VerticalAxis.Rectangle.Bottom;
+                        VerticalAxis.Line.Y2 = (float)VerticalAxis.Rectangle.Height;
                         newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top; //Get the new position after the resize of the plotarea
                         var topDiff = HorizontalAxis.Rectangle.Top - newtop;
                         HorizontalAxis.Rectangle.Top = newtop;
