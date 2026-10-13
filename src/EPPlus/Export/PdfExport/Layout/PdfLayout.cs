@@ -1755,8 +1755,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
         {
-            //double left = ps.Margins.LeftPu;
-            //double width = ps.PageSize.WidthPu - ps.Margins.LeftPu - ps.Margins.RightPu;
             var (left, width) = HeaderFooterBox(ps, alignWithMargins);
             double x = align == HeaderFooterAlignment.Left ? left
                      : align == HeaderFooterAlignment.Right ? left + width

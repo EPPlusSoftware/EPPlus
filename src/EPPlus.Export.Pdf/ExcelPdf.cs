@@ -246,28 +246,6 @@ namespace EPPlus.Export.Pdf
                 contentStream.AddCommand("Q");
             }
             //Add header and footer.
-            //foreach (var hf in headerFooterLayouts)
-            //{
-            //    if (pageLayout.ScaleHeaderFooterWithDocument)
-            //    {
-            //        contentStream.AddCommand("q");
-            //        contentStream.AddContentScale(contentScale, hf.ScaleAnchorX, hf.ScaleAnchorY);
-            //    }
-            //    contentStream.AddCellContentLayout(hf, _dictionaries, pageSettings);
-            //    if (pageLayout.ScaleHeaderFooterWithDocument)
-            //    {
-            //        contentStream.AddCommand("Q");
-            //    }
-            //}
-            ////Add images
-            //foreach (PdfImageLayout image in pageLayout.ChildObjects.OfType<PdfImageLayout>())
-            //{
-            //    if (!image.IsHeaderFooter) continue;
-            //    var imageResource = _dictionaries.AddImage(image.ImageBytes);
-            //    contentStream.AddImage(imageResource.Label, image.LocalPosition.X, image.LocalPosition.Y, image.Size.X, image.Size.Y);
-            //    if (PdfImageXObject.ProducesSoftMask(image.ImageBytes)) page.HasTransparency = true;
-            //}
-            //Add header and footer — each part scaled about its own pivot
             foreach (var part in pageLayout.HeaderFooterParts)
             {
                 bool scaleHf = pageLayout.ScaleHeaderFooterWithDocument;
@@ -295,7 +273,6 @@ namespace EPPlus.Export.Pdf
                 if (scaleHf)
                     contentStream.AddCommand("Q");
             }
-
             //Add print titles
             contentStream.AddCommand("q");
             contentStream.AddContentScale(contentScale, scaleAnchorX, scaleAnchorY);
