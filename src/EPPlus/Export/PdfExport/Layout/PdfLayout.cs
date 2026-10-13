@@ -26,6 +26,7 @@ using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -204,8 +205,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     var text = new PdfCellContentLayout(pageSettings, dictionaries, map, x, y, effectiveWidth, rowHeight);
                                     text.Name = map.Name;
                                     text.GidsAndCharMap(dictionaries);
-                                    if (NeedsClipping(map, pages[j], row, col))
-                                        text.SetupClipping(x, y, effectiveWidth, rowHeight);
+                                    var (clipX, clipW, spillLeft, spillRight) = GetOverflowClip(map, pages[j], row, col, x, effectiveWidth);
+                                    text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
                                     pageLayout.AddChild(text);
                                 }
                             }
@@ -621,6 +622,60 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             return false;
         }
+        private static (double clipX, double clipW, bool spillLeft, bool spillRight) GetOverflowClip(PdfCell map, Page page, int row, int col, double x, double effectiveWidth)
+        {
+            double clipX = x, clipW = effectiveWidth;
+            var a = map.ContentAligmnet;
+            if (a == null)
+                return (clipX, clipW, false, false);
+            var L = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left;
+            var G = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
+            var R = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right;
+            var C = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center;
+            var F = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Fill;
+            var h = a.HorizontalAlignment;
+            if (h == F || a.WrapText || map.TotalTextLength <= map.ColumnWidth)
+                return (clipX, clipW, false, false);
+            double ScanRight()
+            {
+                double w = 0d;
+                for (int c = col + 1; c <= page.ToColumn; c++)
+                {
+                    var n = page.Map[row, c];
+                    if (!string.IsNullOrEmpty(n.Text)) break;
+                    w += n.ColumnWidth;
+                }
+                return w;
+            }
+            double ScanLeft()
+            {
+                double w = 0d;
+                for (int c = col - 1; c >= page.FromColumn; c--)
+                {
+                    var n = page.Map[row, c];
+                    if (!string.IsNullOrEmpty(n.Text)) break;
+                    w += n.ColumnWidth;
+                }
+                return w;
+            }
+            if (h == L || h == G)
+            {
+                clipW = effectiveWidth + ScanRight();
+                return (clipX, clipW, false, true);
+            }
+            if (h == R)
+            {
+                double extra = ScanLeft();
+                return (x - extra, effectiveWidth + extra, true, false);
+            }
+            if (h == C)
+            {
+                double left = ScanLeft(), right = ScanRight();
+                return (x - left, effectiveWidth + left + right, true, true);
+            }
+            return (clipX, clipW, false, false);
+        }
+
 
         private static bool HasBorder(PdfCellStyle cellStyle)
         {
