@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// A collection of the individual datapoints
         /// </summary>
-        public ExcelChartDataPointCollection DataPoints
+        public ExcelChartDataPointCollection    DataPoints
         {
             get
             {

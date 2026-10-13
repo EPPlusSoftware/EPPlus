@@ -16,10 +16,11 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using System.Collections.Generic;
 using System.Drawing;
+using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAreaRenderer : ChartDrawingDefaultObject
+    internal class ChartAreaRenderer : ChartDrawingObjectWithBackground
     {
         public ChartAreaRenderer(ChartRenderer sc, SvgRenderOptions options) : base(sc)
         {
@@ -38,7 +39,7 @@ namespace EPPlusImageRenderer.Svg
         internal override Color? DefaultFillColor { get => GetDefaultFillColor(); }
         internal override Color? DefaultBorderColor { get => GetDefaultBorderColor(); }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.Add(Rectangle);
         }

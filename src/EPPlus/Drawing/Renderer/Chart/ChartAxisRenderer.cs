@@ -12,12 +12,9 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
-using EPPlus.Export.ImageRenderer;
-using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Export.Renderer;
-using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
@@ -28,25 +25,19 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartAxisRenderer : ChartDrawingDefaultObject, IDrawingChartAxis
+    internal class ChartAxisRenderer : ChartDrawingObjectWithBackground, IDrawingChartAxis
     {
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
 
@@ -79,9 +70,13 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            if (AutoAxisType == eAxisType.Cat || IsDateAutoAxis || IsDateScale)
+            if(AutoAxisType == eAxisType.Cat && !(IsDateAutoAxis || IsDateScale))
             {
-                MinorUnit = ax.MinorUnit ?? 1; 
+                MinorUnit = (ax.MinorUnit ?? MajorUnit) / 2D;
+            }
+            else if(IsDateAutoAxis || IsDateScale)
+            {
+                MinorUnit = ax.MinorUnit ?? 1;
             }
             else
             {
@@ -122,13 +117,13 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                Rectangle.FillColor = "none";
+                Rectangle.Style.FillColor = "none";
 
-                Line = new LineRenderItem(Rectangle.Bounds);
-                Line.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
-                if(Line.BorderWidth < 1)
+                Line = new LineRenderItem(Rectangle);
+                Line.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
+                if(Line.Style.BorderWidth < 1)
                 {
-                    Line.BorderWidth = 1;
+                    Line.Style.BorderWidth = 1;
                 }
             }
         }
@@ -235,7 +230,16 @@ namespace EPPlusImageRenderer.Svg
             }
             return widest;
         }
+        //internal GetAxisWidthForPlotarea()
+        //{
 
+        //}
+        //internal double GetAxisHeightForPlotarea()
+        //{
+        //    var pa = ChartRenderer.Plotarea;
+
+        //    var 
+        //}
         public List<object> Values
         {
             get;
@@ -256,12 +260,12 @@ namespace EPPlusImageRenderer.Svg
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
         public bool IsDateAutoAxis { get; set; }
-        public bool IsNumericAutoAxis { get; set; } //TODO: Not used? Removed if not used.
         public bool IsDateScale
         {
             get;
             private set;
         } = false;
+        public bool IsCount { get; set; }
 
         /// <summary>
         /// Create a subGroup beneath the ParentGroup
@@ -276,48 +280,47 @@ namespace EPPlusImageRenderer.Svg
             if (Items != null)
             {
                 //Create subGroup
-                var subGroup = new GroupRenderItem(parentGroup.Bounds);
-                subGroup.Bounds.Name = subGroupName;
+                var subGroup = new GroupRenderItem(parentGroup);
+                subGroup.Name = subGroupName;
 
                 //Add items to subGroup
                 foreach (var renderItem in Items)
                 {
-                    subGroup.RenderItems.Add(renderItem);
+                    subGroup.ChildObjects.Add(renderItem);
                 }
-
-                //Add subGroup to parent group
-                parentGroup.RenderItems.Add(subGroup);
             }
         }
 
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var AxisGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            AxisGroup.Bounds.Name = $"Axis_{Axis.Index}";
+            var axisGroup = new GroupRenderItem(ChartRenderer.Bounds);
+            axisGroup.Name = $"Axis_{Axis.Index}";
+            axisGroup.Top = Rectangle.Top;
+            axisGroup.Left = Rectangle.Left;
 
-            Title?.AppendRenderItems(AxisGroup.RenderItems);
+            Title?.AppendRenderItems(renderItems);
             //Title?.Render(sb);
-            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) AxisGroup.RenderItems.Add(Rectangle);
+            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) axisGroup.ChildObjects.Add(Rectangle);
 
             var plotareaGroup = ChartRenderer.Plotarea.Group;
 
             AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
             AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
 
-            if (Line != null) AxisGroup.RenderItems.Add(Line);
+            if (Line != null) axisGroup.ChildObjects.Add(Line);
 
             var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            TickMarkGroup.Bounds.Name = $"Axis_{Axis.Index}_TickMarkGroup";
+            TickMarkGroup.Name = $"Axis_{Axis.Index}_TickMarkGroup";
 
             AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
             AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
 
             if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
             {
-                AxisGroup.RenderItems.Add(TickMarkGroup);
+                axisGroup.ChildObjects.Add(TickMarkGroup);
             }
 
-            renderItems.Add(AxisGroup);
+            renderItems.Add(axisGroup);
 
             //The axis text boxes is rendered later as they have a higher Z-order.
         }
@@ -354,9 +357,11 @@ namespace EPPlusImageRenderer.Svg
 
             if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
             {
-                Textboxes = new ChartAxisTextBoxes(ChartRenderer);
-                Textboxes.AxisName = $"Axis_{Axis.Index}_Textboxes";
-                Textboxes.TextBoxes = GetAxisValueTextBoxes();  
+                Textboxes = new ChartAxisTextBoxes(this)
+                {
+                    AxisName = $"Axis_{Axis.Index}_Textboxes",
+                    TextBoxes = GetAxisValueTextBoxes()
+                };
             }
         }
 
@@ -475,7 +480,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle.Bounds, x, y, width, height, maxWidth, maxHeight);
+                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, x, y, width, height, maxWidth, maxHeight);
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
@@ -495,16 +500,22 @@ namespace EPPlusImageRenderer.Svg
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
-                if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                if (p != null)
                 {
-                    //Horizontal axises are always center aligned visually
-                    //Should be broken out as input to ImportParagraph instead of changing the base item
-                    p.HorizontalAlignment = eTextAlignment.Center;
+                    if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                    {
+                        //Horizontal axises are always center aligned visually
+                        //Should be broken out as input to ImportParagraph instead of changing the base item
+                        p.HorizontalAlignment = eTextAlignment.Center;
+                    }
+                    tb.ImportParagraph(p, 0, t);
+                }
+                else
+                {
+                    tb.AddText(t);
                 }
 
-                tb.ImportParagraph(p, 0, t);
-
-                tb.Rectangle.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+                tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
                 if (widest < tb.Width)
                 {
@@ -540,7 +551,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     var min = ConvertUtil.GetValueDouble(Values[0]);
                     var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min) / MinorUnit;
+                    var minUnit = (max - min+1) / MinorUnit;
                     majorWidth = Rectangle.Width / minUnit;
                 }
                 else
@@ -605,6 +616,43 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            else if(LabelOrientation==eTextOrientation.Horizontal)
+            {
+                double majorWidth;
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                if (IsDateAutoAxis || IsDateScale)
+                {
+                    var min = ConvertUtil.GetValueDouble(Values[0]);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var minUnit = (max - min) / MinorUnit;
+                    majorWidth = Rectangle.Width / minUnit;
+                }
+                else
+                {
+                    majorWidth = Rectangle.Width / AxisValues.Count;
+                }
+                foreach (var tb in ret)
+                {
+                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
+                    {
+                        tb.Left +=  -tb.Width / 2;
+                    }
+                    else
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
+                    }
+                }
+            }
 
             return ret;
         }
@@ -618,7 +666,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.IsVertical)
             {
-                return Rectangle.Left;
+                return 0;
             }
             else
             {
@@ -633,7 +681,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         majorWidth = Rectangle.Width / (AxisValues.Count - 1);
                     }
-                    var majorTickStartingPosition = Rectangle.Left + majorWidth * i;
+                    var majorTickStartingPosition = majorWidth * i;
                     return majorTickStartingPosition;
                 }
                 else
@@ -644,14 +692,14 @@ namespace EPPlusImageRenderer.Svg
                     double majorWidth;
                     if (IsDateAutoAxis || IsDateScale)
                     {
-                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
                     }
                     else
                     {
                         majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
                     }
                     
-                    return Rectangle.Left + majorWidth;
+                    return majorWidth;
                 }
                 //}
             }
@@ -665,9 +713,9 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eTextOrientation.Vertical:
                     case eTextOrientation.Diagonal:
-                        return Rectangle.Bottom;
+                        return Rectangle.Height;
                     default:
-                        return Rectangle.Bottom - height - TopMargin;
+                        return Rectangle.Height - height - TopMargin;
                 }
             }
             else if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
@@ -677,33 +725,33 @@ namespace EPPlusImageRenderer.Svg
                     case eTextOrientation.Vertical:
                         if (Axis.LabelPosition == eTickLabelPosition.Low)
                         {
-                            return Rectangle.Bottom - width;
+                            return Rectangle.Height - width;
                         }
                         else
                         {
-                            return Rectangle.Top;
+                            return 0;
                         }
                     case eTextOrientation.Diagonal:
                         if (Axis.LabelPosition == eTickLabelPosition.Low)
                         {
-                            return Rectangle.Bottom - (width + height)* COS45;
+                            return Rectangle.Height - (width + height)* COS45;
                         }
                         else
                         {
-                            return Rectangle.Top;
+                            return 0;
                         }
                     default:
                         if (Axis.LabelPosition == eTickLabelPosition.Low)
                         {
-                            return Rectangle.Bottom - height;
+                            return Rectangle.Height - height;
                         }
                         else if (Axis.LabelPosition == eTickLabelPosition.NextTo)
                         {
-                            return Rectangle.Top + BottomMargin;
+                            return BottomMargin;
                         }
                         else //TODO:Add support for hight.
                         {
-                            return Rectangle.Top + BottomMargin;
+                            return BottomMargin;
                         }
                 }
             }
@@ -712,12 +760,12 @@ namespace EPPlusImageRenderer.Svg
                 if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
                     var majorHeight = Rectangle.Height / (AxisValues.Count);
-                    return Rectangle.Top + majorHeight * (AxisValues.Count - i) - ((majorHeight / 2) + height / 2);
+                    return majorHeight * (AxisValues.Count - i) - ((majorHeight / 2) + height / 2);
                 }
                 else
                 {
                     var majorHeight = Rectangle.Height / (AxisValues.Count-1);
-                    return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
+                    return majorHeight * (AxisValues.Count - i - 1);
                     //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
                 }
             }
@@ -730,16 +778,13 @@ namespace EPPlusImageRenderer.Svg
 
             var tms = new List<LineRenderItem>();
             double min, max, addMinor=0D;
-            if(double.IsNaN(parentUnit)==false && parentUnit==units)
-            {
-                addMinor = parentUnit / 2;
-            }
+
 
             if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis==false)
             {
-                min = 0;
-                if(AxisValues != null)
+                if (AxisValues != null)
                 {
+                    min = 1;
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
                         max = AxisValues.Count;
@@ -751,6 +796,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
+                    min = 0;
                     max = 0;
                 }
             }
@@ -770,47 +816,48 @@ namespace EPPlusImageRenderer.Svg
                 tickMarkWidthOutside = tickMarkWidth;
             }
 
-            var diff = min == 0 ? max - min : max - min + 1;
-            var maxPos = max == 0 ? max : max + 1;
+            var diff = IsCatAx() ? max - min + 1 : max - min;
+            var maxPos = IsCatAx() ? max + 1 : max;
 
             double d = min + addMinor;
-            while (d <= maxPos)
+            maxPos += units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
+            while (d <= maxPos )
             {
                 var addPosition = (d - min);
-                if (double.IsNaN(parentUnit) || 
-                    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
-                    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
-                {
+                //if (double.IsNaN(parentUnit) || 
+                //    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
+                //    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
+                //{
                     double x1, y1, x2, y2;
                     switch (Axis.ActualAxisPosition)
                     {
                         case eActualAxisPosition.Left:
                         case eActualAxisPosition.LeftSecond:
-                            y1 = (float)(Rectangle.Top + Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                            y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
                             y2 = y1;                            
-                            x1 = (float)Rectangle.Right - tickMarkWidthOutside;
-                            x2 = (float)Rectangle.Right + tickMarkWidthInside;
+                            x1 = (float)Rectangle.Width - tickMarkWidthOutside;
+                            x2 = (float)Rectangle.Width + tickMarkWidthInside;
                             break;
                         case eActualAxisPosition.Right:
                         case eActualAxisPosition.RightSecond:
-                            y1 = (float)(Rectangle.Top + Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                            y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
                             y2 = y1;
-                            x1 = (float)Rectangle.Left - tickMarkWidthInside;
-                            x2 = (float)Rectangle.Left + tickMarkWidthOutside;
+                            x1 = (float)-tickMarkWidthInside;
+                            x2 = (float)tickMarkWidthOutside;
                             break;
                         case eActualAxisPosition.Top:
                         case eActualAxisPosition.TopSecond:
-                            x1 = (float)(Rectangle.Left + (addPosition / diff * Rectangle.Width));
+                            x1 = (float)((addPosition / diff * Rectangle.Width));
                             x2 = x1;
-                            y1 = (float)Rectangle.Bottom - tickMarkWidthOutside;
-                            y2 = (float)Rectangle.Bottom + tickMarkWidthInside;
+                            y1 = (float)Rectangle.Height - tickMarkWidthOutside;
+                            y2 = (float)Rectangle.Height + tickMarkWidthInside;
                             break;
                         case eActualAxisPosition.Bottom:
                         case eActualAxisPosition.BottomSecond:
-                            x1 = (float)(Rectangle.Left + (addPosition / diff * Rectangle.Width));
+                            x1 = (float)((addPosition / diff * Rectangle.Width));
                             x2 = x1;
-                            y1 = (float)Rectangle.Top - tickMarkWidthInside;
-                            y2 = (float)Rectangle.Top + tickMarkWidthOutside;
+                            y1 = (float)-tickMarkWidthInside;
+                            y2 = (float)tickMarkWidthOutside;
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position");
@@ -820,13 +867,13 @@ namespace EPPlusImageRenderer.Svg
                     tm.Y1 = y1;
                     tm.X2 = x2;
                     tm.Y2 = y2;
-                    tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
-                    if(tm.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                    tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
+                    if(tm.Style.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
                     {
-                        tm.BorderWidth = 0.75;
+                        tm.Style.BorderWidth = 0.75;
                     }
                     tms.Add(tm);
-                }
+                //}
                 if (units == 0) break;
                 switch (dateUnit)
                 {
@@ -850,7 +897,7 @@ namespace EPPlusImageRenderer.Svg
                         break;
                 }
             }
-                return tms;
+            return tms;
         }
 
         private bool IsMinorDateUnit(eTimeUnit dateUnit, double parentUnit, double d)
@@ -889,23 +936,23 @@ namespace EPPlusImageRenderer.Svg
             var pa = ChartRenderer.Plotarea;
             var diff = Max - min;
 
-            List<EPPlus.Graphics.Point> points = new List<EPPlus.Graphics.Point>();
+            List<EPPlus.Graphics.TranformPoint> points = new List<EPPlus.Graphics.TranformPoint>();
             var group = ChartRenderer.Plotarea.Group;
             for (double d = min; d <= Max; d += units)
             {
-                if(d==min && Line!=null && Line.BorderWidth>0) continue;
+                //if(d==min && Line!=null && Line.BorderWidth>0) continue; //TODO: Check this. Removed as min is not always the first gridline, and this causes the first gridline to be missing in some cases.
                 if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
                 {
                     switch (Axis.AxisPosition)
                     {
                         case eAxisPosition.Left:
                         case eAxisPosition.Right:
-                            points.Add(new EPPlus.Graphics.Point(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
+                            points.Add(new EPPlus.Graphics.TranformPoint(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
                             break;
                         case eAxisPosition.Top:
                         case eAxisPosition.Bottom:
                             var xValue = (float)(((d - min) / diff * pa.Rectangle.Width));
-                            points.Add(new EPPlus.Graphics.Point(xValue, 0f));
+                            points.Add(new EPPlus.Graphics.TranformPoint(xValue, 0f));
                             break;
                         default:
                             throw new InvalidOperationException("Invalid axis position.");
@@ -946,14 +993,14 @@ namespace EPPlusImageRenderer.Svg
             tm.X2 = x2;
             tm.Y2 = y2;
 
-            if(id == "xGridLine")
-            {
-                tm.Bounds.Width = pa.Rectangle.Width;
-            }
+            //if(id == "xGridLine")
+            //{
+            //    tm.Width = pa.Rectangle.Width;
+            //}
             //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
-            tm.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
+            tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
 
-            tm.DefId = id;
+            tm.Style.DefId = id;
 
             tms.Add(tm);
 
@@ -989,6 +1036,7 @@ namespace EPPlusImageRenderer.Svg
             switch (Axis.AxisType)
             {
                 case eAxisType.Cat:
+                case eAxisType.Date:
                     axisStyle = Chart.StyleManager.Style?.CategoryAxis;
                     break;
                 case eAxisType.Serie:
@@ -1006,7 +1054,7 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                if (AutoAxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis==false)
+                if(AutoAxisType == eAxisType.Cat && IsDateAutoAxis==false)
                 {
                     var majorHeight = ChartRenderer.Plotarea.Rectangle.Height / Max;
                     if(startValue)
@@ -1033,7 +1081,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                if (Axis.AxisType == eAxisType.Cat && IsNumericAutoAxis == false && IsDateAutoAxis == false)
+                if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis == false)
                 {
                     var majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
                     if (startValue)
@@ -1070,6 +1118,7 @@ namespace EPPlusImageRenderer.Svg
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
+            IsCount = isCount;
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
@@ -1164,7 +1213,7 @@ namespace EPPlusImageRenderer.Svg
                 AxisScale res;
                 if (ax.IsVertical)
                 {
-                    res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Bounds.Height, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                    res = DateAxisScaleCalculator.CalculateByWidthHeight(options.ChartSize.Height, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                 }
                 else
                 {
@@ -1220,7 +1269,6 @@ namespace EPPlusImageRenderer.Svg
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
                 orientation = eTextOrientation.Horizontal;
-                IsNumericAutoAxis = false;
             }
 
             return l;
@@ -1287,6 +1335,7 @@ namespace EPPlusImageRenderer.Svg
         {
             return GetDefaultBorderColorForElement(ChartElement.Axis, (int)Chart.Style);
         }
+        internal override Color? DefaultBorderColor => GetDefaultBorderColor();
 
         internal double GetCrossesValue()
         {

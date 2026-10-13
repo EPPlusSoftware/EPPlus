@@ -12,9 +12,9 @@ namespace EPPlus.DrawingRenderer
     {
         IBasicIShapesRenderer<T> BasicShapesRenderer { get; }
         T OutputStream { get; }
-        bool PreRender(List<RenderItem> items);
+        bool PreRender(List<Transform> items);
         BoundingBox Bounds { get; }
         string ViewBox { get; set; }
-        bool Render(List<RenderItem> items);
+        bool Render(List<Transform> items);
     }
 }

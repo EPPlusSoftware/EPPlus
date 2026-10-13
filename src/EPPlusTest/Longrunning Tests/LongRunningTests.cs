@@ -27,8 +27,6 @@ namespace EPPlusTest.LongRunning
             var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
             return newCert;
         }
-
-
         [ClassInitialize]
         public static void Init(TestContext context)
         {

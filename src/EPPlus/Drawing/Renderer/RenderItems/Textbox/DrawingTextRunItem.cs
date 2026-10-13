@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
             ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
-            SetClippingHeightToCurrentTextBoxBottom((BoundingBox)Bounds.Parent);
+            SetClippingHeightToCurrentTextBoxBottom(Parent);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             //Parent and clipping height must be calculated dependent on content
             ImportExcelStyleInfo(font.Fill, font.Italic, font.Bold, font.UnderLine, font.UnderLineColor, font.Strike);
             //Assumes texbox uses auto-size?
-            AdjustParentAndSetClippingHeight((BoundingBox)Bounds.Parent);
+            AdjustParentAndSetClippingHeight((BoundingBox)Parent);
         }
 
         /// <summary>
@@ -149,13 +149,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             if (fill.IsEmpty == false && fill.Style == eFillStyle.SolidFill)
             {
-                FillColor = "#" + fill.Color.To6CharHexString();
+                Style.FillColor = "#" + fill.Color.To6CharHexString();
             }
 
             //Backup? Should probably be removed or fallback
             if (fill.Style == eFillStyle.SolidFill)
             {
-                FillColor = "#" + fill.Color.To6CharHexString();
+                Style.FillColor = "#" + fill.Color.To6CharHexString();
             }
         }
 
@@ -168,7 +168,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _strikeType = (eDrawingStrikeType)strikeType;
         }
 
-        void SetClippingHeightToCurrentTextBoxBottom(BoundingBox parent)
+        void SetClippingHeightToCurrentTextBoxBottom(Transform parent)
         {
             //To get clipping height we need to get the textbody bounds
             if (parent != null && parent.Parent != null && parent.Parent.Parent != null)

@@ -16,8 +16,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             Parent = parent;
             _group = new GroupRenderItem(Parent);
-            _rectangle = new RectRenderItem(_group.Bounds);
-            _marginGroup = new GroupRenderItem(_group.Bounds);
+            _group.Name = "Textbox_Group";
+            _rectangle = new RectRenderItem(_group);
+            _rectangle.Name = "Textbox_BG";
+            _marginGroup = new GroupRenderItem(_group);
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);
             //TextBody.MaxWidth = maxWidth;
             //TextBody.MaxHeight = maxHeight;
@@ -30,8 +32,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public string Name 
         { 
-            get { return _group.Bounds.Name; } 
-            set { _group.Bounds.Name = value; } 
+            get { return _group.Name; } 
+            set { _group.Name = value; } 
         }
 
         //The origin point of the entire textbox itself (its outermost left and top point)
@@ -45,8 +47,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             get
             {
-                _rectangle.Bounds.Width = Width;
-                _rectangle.Bounds.Height = Height;
+                _rectangle.Width = Width;
+                _rectangle.Height = Height;
                 return _rectangle;
             }
             set
@@ -63,37 +65,37 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             set 
             {   _textBody = value; 
                 //Margins should affect textbody global position in real-time
-                _textBody.Bounds.Parent = _marginGroup.Bounds; 
+                _textBody.Parent = _marginGroup; 
             } 
         }
         public double Left 
         {
             get
             {
-                return _group.Bounds.Left;
+                return _group.Left;
 
             }
             set
             {
-                _group.Bounds.Left = value;
+                _group.Left = value;
             }
         }
         public double Top 
         { 
             get
             {
-                return _group.Bounds.Top;
+                return _group.Top;
             }
             set
             {
-                _group.Bounds.Top = value;
+                _group.Top = value;
             } 
         }
         public double Width
         { 
             get 
             {
-                 return LeftMargin + (TextBody?.Bounds?.Width ?? 0D) + RightMargin + TextBody.Left;
+                 return LeftMargin + (TextBody?.Width ?? 0D) + RightMargin + TextBody.Left;
             } 
         }
         public double WidthRotated
@@ -110,7 +112,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             get
             {
-                return TopMargin + (TextBody?.Bounds.Height ?? 0d) + BottomMargin + TextBody.Top;
+                return TopMargin + (TextBody?.Height ?? 0d) + BottomMargin + TextBody.Top;
             }
         }
         public double HeightWithRotation 
@@ -188,51 +190,48 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         {
             return Top + GetActualHeight();
         }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
-        {
-            var rect = Rectangle;
 
+        public void PrepareForRender()
+        {
             //As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
-            _group.Bounds.Left = Left;
-            _group.Bounds.Top = Top;
-            _group.Bounds.Width = Width;
-            _group.Bounds.Height = Height;
+            _group.Left = Left;
+            _group.Top = Top;
+            _group.Width = Width;
+            _group.Height = Height;
 
             _group.TextAnchor = TextAnchor.ToEnumString();
-            renderItems.Add(_group);
-            rect.Top = 0;
-            rect.Left = 0;
+            Rectangle.Top = 0;
+            Rectangle.Left = 0;
 
             if (TextBody.AutoSize)
             {
                 TextBody.ApplyAutoSize();
             }
 
-            rect.Width = Width;
-            rect.Height = Height;
+            Rectangle.Width = Width;
+            Rectangle.Height = Height;
 
             var titleItem = new TitleRenderItem("TextBox group");
-            _group.RenderItems.Add(titleItem);
+            _group.ChildObjects.Add(titleItem);
             //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
             if (TextAnchor == eTextAnchor.Middle)
             {
-                _group.Bounds.Left += -(rect.Bounds.Width / 2);
+                _group.Left += -(Rectangle.Width / 2);
             }
             else if (TextAnchor == eTextAnchor.End)
             {
                 if (Math.Abs(Rotation) == 45)
                 {
                     const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
-                    _group.Bounds.Left += -(rect.Bounds.Width * COS45);
-                    _group.Bounds.Top += (rect.Bounds.Width * COS45);
+                    _group.Left += -(Rectangle.Width * COS45);
+                    _group.Top += (Rectangle.Width * COS45);
                 }
                 else
                 {
-                    _group.Bounds.Left += rect.Bounds.Height / 2;
-                    _group.Bounds.Top += (rect.Bounds.Width);
+                    _group.Left += Rectangle.Height / 2;
+                    _group.Top += (Rectangle.Width);
                 }
             }
-            _group.RenderItems.Add(rect);
 
             //The textbox should be in local-space.
             //If e.g. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
@@ -242,9 +241,66 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             var marginTitleItem = new TitleRenderItem("TextBox Margin Group");
             _marginGroup.AddChildItem(marginTitleItem);
+        }
+        public override void AppendRenderItems(List<Transform> renderItems)
+        {
+            PrepareForRender();
+            renderItems.Add(_group);
+            //var rect = Rectangle;
 
-            _group.AddChildItem(_marginGroup);
-            TextBody.AppendRenderItems(_marginGroup.RenderItems);
+            ////As the rect item is inside the group, we set the left and right to the group and top and left on the rect to 0.
+            //_group.Left = Left;
+            //_group.Top = Top;
+            //_group.Width = Width;
+            //_group.Height = Height;
+
+            //_group.TextAnchor = TextAnchor.ToEnumString();
+            //renderItems.Add(_group);
+            //rect.Top = 0;
+            //rect.Left = 0;
+
+            //if (TextBody.AutoSize)
+            //{
+            //    TextBody.ApplyAutoSize();
+            //}
+
+            //rect.Width = Width;
+            //rect.Height = Height;
+
+            //var titleItem = new TitleRenderItem("TextBox group");
+            //_group.ChildObjects.Add(titleItem);
+            ////The rect shound encapse the text element, so we need to set the left depending on the text anchor.
+            //if (TextAnchor == eTextAnchor.Middle)
+            //{
+            //    _group.Left += -(rect.Width / 2);
+            //}
+            //else if (TextAnchor == eTextAnchor.End)
+            //{
+            //    if (Math.Abs(Rotation) == 45)
+            //    {
+            //        const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+            //        _group.Left += -(rect.Width * COS45);
+            //        _group.Top += (rect.Width * COS45);
+            //    }
+            //    else
+            //    {
+            //        _group.Left += rect.Height / 2;
+            //        _group.Top += (rect.Width);
+            //    }
+            //}
+            //_group.ChildObjects.Add(rect);
+
+            ////The textbox should be in local-space.
+            ////If e.g. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
+            ////Therefore a group in-between should hold the margins
+            //_marginGroup.Left = LeftMargin;
+            //_marginGroup.Top = TopMargin;
+
+            //var marginTitleItem = new TitleRenderItem("TextBox Margin Group");
+            //_marginGroup.AddChildItem(marginTitleItem);
+
+            //_group.AddChildItem(_marginGroup);
+            //TextBody.AppendRenderItems(_marginGroup.ChildObjects);
         }
         /// <summary>
         /// How the text is anchored.

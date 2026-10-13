@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         public ExcelWorkbook Workbook => Drawing._drawings.Worksheet.Workbook;
         //internal ITextMeasurer TextMeasurer { get; }
         internal RenderContext RenderContext { get; }
-        public List<RenderItem> RenderItems { get; } = new List<RenderItem>();
+        public List<Transform> RenderItems { get; } = new List<Transform>();
         internal BoundingBox Bounds = new BoundingBox();
     }
 }

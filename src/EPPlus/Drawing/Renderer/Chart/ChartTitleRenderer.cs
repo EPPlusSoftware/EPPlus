@@ -37,11 +37,13 @@ using System.Text;
 
 namespace EPPlusImageRenderer.Svg
 {
-    internal class ChartTitleRenderer : ChartDrawingObject
+    internal class ChartTitleRenderer : ChartDrawingObjectWithBackground
     {
         ExcelChartTitleStandard _title;
         string _titleText;
         ChartRenderer _svgChart;
+        internal bool Overlay { get { return _title.Overlay; } }
+
         /// <summary>
         /// 
         /// </summary>
@@ -105,8 +107,8 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
             //Default NoFill for title and axis titles if not set
-            Rectangle.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
-            Rectangle.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
+            Rectangle.Style.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
+            Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -193,7 +195,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void InitTextBox(double maxWidth, double maxHeight)
         {
-            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle.Bounds, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, maxWidth, maxHeight);
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
@@ -221,19 +223,57 @@ namespace EPPlusImageRenderer.Svg
             get; private set;
         }
         internal override RectRenderItem Rectangle { get => TextBox.Rectangle; set => base.Rectangle = value; }
-        public override void AppendRenderItems(List<RenderItem> renderItems)
+
+        internal override Color? DefaultFillColor => null;
+
+        internal override Color? DefaultBorderColor => null;
+
+        public override void AppendRenderItems(List<Transform> renderItems)
         {
             TextBox.Name = $"{Chart.Name}_Title_Rect";
             var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();
             if (p != null)
             {
                 TextBox.TextBody.FontColorString = "#" + p.DefaultRunProperties.Fill.Color.ToColorString();
-                TextBox.Rectangle.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
+                TextBox.Rectangle.Style.SetDrawingPropertiesFill(_svgChart.Theme, _title.Fill, _svgChart.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
                 //Default is actually NoLine
-                TextBox.Rectangle.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
+                TextBox.Rectangle.Style.SetDrawingPropertiesBorder(_svgChart.Theme, _title.Border, _svgChart.Chart.StyleManager.Style?.Title.BorderReference.Color, _title.Border.Fill.Style != eFillStyle.NoFill, () => DefaultBorderColor, 0.75);
             }
             TextBox.AppendRenderItems(renderItems);
         }
 
+        internal override Color? GetDefaultFillColor()
+        {
+            return DefaultFillColor;
+        }
+
+        internal override Color? GetDefaultBorderColor()
+        {
+            return DefaultBorderColor;
+        }
+
+        internal double GetBottomOverlay(double overlayValue=0)
+        {
+            if(_title.Overlay)
+            {
+                return overlayValue;
+            }
+            else
+            {
+                return Rectangle.GlobalBottom;
+            }
+        }
+
+        internal double GetHeightOverlay(double overlayValue=0)
+        {
+            if (_title.Overlay)
+            {
+                return overlayValue;
+            }
+            else
+            {
+                return TextBox?.GetActualHeight() ?? overlayValue;                
+            }
+        }
     }
 }

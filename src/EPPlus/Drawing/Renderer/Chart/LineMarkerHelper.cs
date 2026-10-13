@@ -18,30 +18,34 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, ExcelChartMarker marker, double x, double y, bool isLegend)
         {
             RenderItem item = GetMarkerRenderItem(sc, x, y, isLegend, marker);
-            if (marker.Fill.IsEmpty == false)
-            {
-                item?.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-            }
-            else if (ls.Fill.IsEmpty)
-            {
-                item?.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, sc.Theme.ColorScheme.Accent1.GetColor());
-            }
-            else
-            {
-                item?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
-            }
-
-            if (marker.Border.Width > 0)
-            {
-                if (marker.Border.Fill.IsEmpty)
+            var style = item?.Style;
+            if (style != null)
+            { 
+                if (marker.Fill.IsEmpty == false)
                 {
-                    //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
-                    item?.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    style.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+                }
+                else if (ls.Fill.IsEmpty)
+                {
+                    style.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, sc.Theme.ColorScheme.Accent1.GetColor());
                 }
                 else
                 {
-                    //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
-                    item?.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                        style?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+                }
+
+                if (marker.Border.Width > 0)
+                {
+                    if (marker.Border.Fill.IsEmpty)
+                    {
+                        //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
+                        style.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    }
+                    else
+                    {
+                        //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
+                        style.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                    }
                 }
             }
             return item;
@@ -71,15 +75,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     break;
                 case eMarkerStyle.Triangle:
                     item = new PathRenderItem(sc.Bounds);
-                    var cmd = new PathCommands(PathCommandType.Move, new double[] { xPath + halfSize, yPath + halfSize, xPath, yPath - halfSize, xPath - halfSize, yPath + halfSize });
+                    var cmd = new PathCommand(PathCommandType.Move, new double[] { xPath + halfSize, yPath + halfSize, xPath, yPath - halfSize, xPath - halfSize, yPath + halfSize });
                     ((PathRenderItem)item).Commands.Add(cmd);
-                    ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));
+                    ((PathRenderItem)item).Commands.Add(new PathCommand(PathCommandType.End));
                     break;
                 case eMarkerStyle.Diamond:
-                    item = new PathRenderItem(sc.ChartArea.Rectangle.Bounds);
-                    cmd = new PathCommands(PathCommandType.Move, new double[] { (xPath - halfSize), yPath, xPath, yPath + halfSize, xPath + halfSize, yPath, xPath, yPath - halfSize });
+                    item = new PathRenderItem(sc.ChartArea.Rectangle);
+                    cmd = new PathCommand(PathCommandType.Move, new double[] { (xPath - halfSize), yPath, xPath, yPath + halfSize, xPath + halfSize, yPath, xPath, yPath - halfSize });
                     ((PathRenderItem)item).Commands.Add(cmd);
-                    ((PathRenderItem)item).Commands.Add(new PathCommands(PathCommandType.End));
+                    ((PathRenderItem)item).Commands.Add(new PathCommand(PathCommandType.End));
                     break;
                 case eMarkerStyle.Dot:
                 case eMarkerStyle.Dash:
@@ -126,29 +130,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     var pathItem = new PathRenderItem(sc.Bounds);
                     if (m.Style == eMarkerStyle.Star)
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath, yPath + halfSize, xPath, yPath - halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath, yPath + halfSize, xPath, yPath - halfSize }));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath + halfSize, yPath - halfSize, xPath - halfSize, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath + halfSize, yPath - halfSize, xPath - halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
                     }
                     else if (m.Style == eMarkerStyle.X)
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath + halfSize, xPath + halfSize, yPath - halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath + halfSize, xPath + halfSize, yPath - halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                     }
                     else
                     {
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath, yPath - halfSize, xPath, yPath + halfSize }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath, yPath - halfSize, xPath, yPath + halfSize }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.Move, new double[] { xPath - halfSize, yPath, xPath + halfSize, yPath }));
-                        pathItem.Commands.Add(new PathCommands(PathCommandType.End));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath, xPath + halfSize, yPath }));
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                     }
                     item = pathItem;
                     break;
@@ -173,7 +177,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 Width = size,
                 Height = size
             };
-            item?.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+            item.Style.SetDrawingPropertiesFill(sc.Theme, ls.Marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
             return item;
         }
 

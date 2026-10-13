@@ -19,6 +19,10 @@ using System.Collections.Generic;
 using OfficeOpenXml.Utils;
 using System.Threading;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Globalization;
+
+
 
 #if !NET35
 using System.Threading.Tasks;
@@ -863,7 +867,7 @@ namespace OfficeOpenXml.Drawing
                 factor = 90;
                 v = v.Substring(0, v.Length - 2);
             }
-            if (double.TryParse(v, out double value))
+            if (double.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
             {
                 return value * factor;
             }

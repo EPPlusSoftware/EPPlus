@@ -12,6 +12,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
     {
 
         [TestMethod]
+        public void ReadAndExportSimpleExplosion()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+
+                var explosion = ws.Drawings["PieExplosion30"];
+
+                var explodeSvg = explosion.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\pie30_new.svg", explodeSvg);
+            }
+        }
+
+        [TestMethod]
         public void ReadAndCreateSvgsAll()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
@@ -19,9 +35,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[4];
 
-                var explosion = ws.Drawings["ExplosionAll"];
+                var manySlices = ws.Drawings["ManySlices_Rot"];
 
-                var explodeSvg = explosion.ToSvg();
+                var manySlicesSvg = manySlices.ToSvg();
 
                 for (int i = 0; i < p.Workbook.Worksheets.Count; i++)
                 {
@@ -100,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
 
                 for (int i = 0; i < ws.Drawings.Count; i++)
                 {
-                    var c = ws.Drawings[i];
+                    var c = ws.Drawings[1];
                     var svg = c.ToSvg();
                     SaveTextFileToWorkbook($"svg\\Pie{i}.svg", svg);
                 }

@@ -14,8 +14,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
     [TestClass]
     public class SvgStandAloneTests : TestBase
-    {
-
+    {        
+        public SvgStandAloneTests()
+        {
+#if (Core)            
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
+        }
         private GroupRenderItem GenerateShapeRenderer()
         {
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
@@ -25,13 +30,12 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             var baseGroup = new GroupRenderItem(bounds);
 
-            var background = new RectRenderItem(baseGroup.Bounds);
+            var background = new RectRenderItem(baseGroup);
 
             background.Width = bounds.Width;
             background.Height = bounds.Height;
-            background.FillColor = "aliceBlue";
+            background.Style.FillColor = "aliceBlue";
 
-            baseGroup.AddChildItem(background);
             return baseGroup;
         }
 
@@ -41,23 +45,23 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             var baseGroup = new GroupRenderItem(bounds);
 
-            var background = new RectRenderItem(baseGroup.Bounds);
+            var background = new RectRenderItem(baseGroup);
 
             background.Width = bounds.Width;
             background.Height = bounds.Height;
-            background.FillColor = "aliceBlue";
+            background.Style.FillColor = "aliceBlue";
 
-            baseGroup.AddChildItem(background);
+            //baseGroup.AddChildItem(background);
             return baseGroup;
         }
 
-        private void GenerateSvgFile(string fileName, BoundingBox bounds, params RenderItem[] items)
+        private void GenerateSvgFile(string fileName, BoundingBox bounds, params Transform[] items)
         {
 
             StringBuilder sb = new StringBuilder();
             var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, new SvgRenderOptions());
 
-            List<RenderItem> renderItems = items.ToList();
+            List<Transform> renderItems = items.ToList();
             svgShapeRenderer.Render(renderItems);
 
             var svg = sb.ToString();
@@ -69,7 +73,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         public void SvgRectTest()
         {
             var baseGroup = GenerateShapeRenderer();
-            GenerateSvgFile("rectStandAlone", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("rectStandAlone", baseGroup, baseGroup);
         }
 
         [TestMethod]
@@ -85,32 +89,30 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rt.SubFamily = OfficeOpenXml.Interfaces.Fonts.FontSubFamily.Regular;
             rt.Size = 12f;
 
-            var textRun = new SvgTextRunRenderItem(baseGroup.Bounds, rt, rt.Text, true);
+            var textRun = new SvgTextRunRenderItem(baseGroup, rt, rt.Text, true);
 
             //Add size of text since svg renders text upwards from the start point.
             textRun.YPosition = rt.Size;
 
-            baseGroup.AddChildItem(textRun);
-
-            GenerateSvgFile("textRunStandAlone", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("textRunStandAlone", baseGroup, baseGroup);
         }
 
         private void GenerateTextBodyFile(string fileName, GroupRenderItem baseGroup, SvgTextBodyRenderItem textBody)
         {
             StringBuilder sb = new StringBuilder();
             var options = new SvgRenderOptions();
-            var svgShapeRenderer = new SvgShapeRenderer(baseGroup.Bounds, sb, options);
+            var svgShapeRenderer = new SvgShapeRenderer(baseGroup, sb, options);
 
-            var background = new RectRenderItem(baseGroup.Bounds);
+            var background = new RectRenderItem(baseGroup);
 
-            background.Width = baseGroup.Bounds.Width;
-            background.Height = baseGroup.Bounds.Height;
-            background.FillColor = "aliceBlue";
+            background.Width = baseGroup.Width;
+            background.Height = baseGroup.Height;
+            background.Style.FillColor = "aliceBlue";
 
             baseGroup.AddChildItem(textBody);
             baseGroup.AddChildItem(background);
 
-            List<RenderItem> items = new List<RenderItem>() { baseGroup };
+            var items = new List<Transform>() { baseGroup };
 
             svgShapeRenderer.Render(items);
 
@@ -133,7 +135,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             }
 
             var renderContext = new RenderContext(() => engine);
-            var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup.Bounds, true);
+            var textBody = new SvgTextBodyRenderItem(renderContext, baseGroup, true);
             //Aptos Narrow is Default font for a text that does not define its own font'
             //As we do not have it, this fallbacks to archivo narrow and then to Old Metrics for Aptos
             var paragraph = textBody.AddParagraph("Hello");
@@ -144,10 +146,10 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rtItem.FontColor = Color.DarkGreen;
             var para2 = textBody.AddParagraph(rtItem);
 
-            textBody.AddChildItem(paragraph);
-            textBody.AddChildItem(para2);
+            //textBody.AddChildItem(paragraph);
+            //textBody.AddChildItem(para2);
 
-            baseGroup.AddChildItem(textBody);
+            //baseGroup.AddChildItem(textBody);
 
             return textBody;
         }
@@ -157,7 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         {
             var baseGroup = GenerateGroupRenderItem();
             var textBody = GenerateTextBody(baseGroup);
-            GenerateSvgFile("standAloneTextBody", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("standAloneTextBody", baseGroup, baseGroup);
         }
 
         [TestMethod]
@@ -181,17 +183,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             //new day beckons is the largest line in the centered paragraph[0]
             //Assert that the first line has been centered appropriately
-            Assert.AreEqual(9.890869140625d, textBody.Paragraphs[0].Runs[0].Bounds.Left, delta);
-            Assert.AreEqual(33.142333984375d, textBody.Paragraphs[0].Runs[1].Bounds.Left, delta);
-            Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
-            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
+            Assert.AreEqual(9.890869140625d, textBody.Paragraphs[0].Runs[0].Left, delta);
+            Assert.AreEqual(33.142333984375d, textBody.Paragraphs[0].Runs[1].Left, delta);
+            Assert.AreEqual(59.509033203125d, textBody.Paragraphs[0].Runs[2].Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Left);
 
-            Assert.AreEqual(5.08, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
-            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
+            Assert.AreEqual(5.08, textBody.Paragraphs[1].Runs[0].Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Left);
 
             //Assert that the second paragraph has been moved correctly
-            Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Bounds.Top);
-            GenerateSvgFile("textBodyAlignCenter", baseGroup.Bounds, baseGroup);
+            Assert.AreEqual(26.85546875d, textBody.Paragraphs[1].Top);
+            GenerateSvgFile("textBodyAlignCenter", baseGroup, baseGroup);
         }
         [TestMethod]
         public void SvgTextBodyTestRightAlignmentGenerated()
@@ -214,15 +216,15 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             double delta = 0.001;
 
             //Assert that the first line has been aligned correctly
-            Assert.AreEqual(19.78173828125d, textBody.Paragraphs[0].Runs[0].Bounds.Left, delta);
-            Assert.AreEqual(43.033203125d, textBody.Paragraphs[0].Runs[1].Bounds.Left, delta);
-            Assert.AreEqual(69.39990234375d, textBody.Paragraphs[0].Runs[2].Bounds.Left, delta);
-            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Bounds.Left);
+            Assert.AreEqual(19.78173828125d, textBody.Paragraphs[0].Runs[0].Left, delta);
+            Assert.AreEqual(43.033203125d, textBody.Paragraphs[0].Runs[1].Left, delta);
+            Assert.AreEqual(69.39990234375d, textBody.Paragraphs[0].Runs[2].Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[0].Runs[3].Left);
 
-            Assert.AreEqual(10.16d, textBody.Paragraphs[1].Runs[0].Bounds.Left, delta);
-            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Bounds.Left);
+            Assert.AreEqual(10.16d, textBody.Paragraphs[1].Runs[0].Left, delta);
+            Assert.AreEqual(0d, textBody.Paragraphs[1].Runs[1].Left);
 
-            GenerateSvgFile("textBodyAlignRight", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("textBodyAlignRight", baseGroup, baseGroup);
         }
 
         [TestMethod]
@@ -242,18 +244,18 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textBody.AutoSize = false;
             textBody.Height = 500;
 
-            textBody.Bounds.Top = 0;
+            textBody.Top = 0;
             textBody.VerticalAlignment = TextAnchoringType.Center;
-            textBody.Bounds.Top = textBody.GetAlignmentVertical();
+            textBody.Top = textBody.GetAlignmentVertical();
 
             double delta = 0.001;
 
-            GenerateSvgFile("textBodyAlignVCenter", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("textBodyAlignVCenter", baseGroup, baseGroup);
 
             //This appears to be entirely accurate when comparing to excel
-            Assert.AreEqual(215.02026414871216, textBody.Bounds.Top, delta);
+            Assert.AreEqual(215.02026414871216, textBody.Top, delta);
             //This is our old expected value.
-            //Assert.AreEqual(180.04052829742432d, textBody.Bounds.Top, delta);
+            //Assert.AreEqual(180.04052829742432d, textBody.Top, delta);
             //Interestingly 500/2 = 250
             //and 250 - 35 = 215 
             //And 215 - 35 = 180
@@ -278,21 +280,21 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textBody.AutoSize = false;
             textBody.Height = 500;
 
-            textBody.Bounds.Top = 0;
+            textBody.Top = 0;
             textBody.VerticalAlignment = TextAnchoringType.Bottom;
-            textBody.Bounds.Top = textBody.GetAlignmentVertical();
+            textBody.Top = textBody.GetAlignmentVertical();
 
             double delta = 0.001;
-            Assert.AreEqual(430.04052829742432d, textBody.Bounds.Top, delta);
+            Assert.AreEqual(430.04052829742432d, textBody.Top, delta);
 
-            GenerateSvgFile("textBodyAlignVBottom", baseGroup.Bounds, baseGroup);
+            GenerateSvgFile("textBodyAlignVBottom", baseGroup, baseGroup);
         }
 
         private RenderTextbox GenerateTextBox(out GroupRenderItem group)
         {
             group = GenerateGroupRenderItem();
 
-            var textbox = new RenderTextbox(group.Bounds, 500d, 500d);
+            var textbox = new RenderTextbox(group, 500d, 500d);
             var engine = new OpenTypeFontEngine(x => x.SearchSystemDirectories = true);
             var rc = new RenderContext(() => engine);
 
@@ -301,7 +303,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
             }
 
-            textbox.TextBody = new SvgTextBodyRenderItem(rc, group.Bounds, true);
+            textbox.TextBody = new SvgTextBodyRenderItem(rc, group, true);
 
             var paragraph = textbox.TextBody.AddParagraph("Hello");
 
@@ -311,7 +313,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             rtItem.FontColor = Color.DarkGreen;
             var para2 = textbox.TextBody.AddParagraph(rtItem);
 
-            textbox.Rectangle.FillColor = "#F9F6C4";
+            textbox.Rectangle.Style.FillColor = "#F9F6C4";
 
             return textbox;
         }
@@ -320,14 +322,14 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         public void BasicTextBox()
         {
             var textbox = GenerateTextBox(out GroupRenderItem group);
-            textbox.AppendRenderItems(group.RenderItems);
+            textbox.PrepareForRender();
 
             double delta = 0.001;
 
             Assert.AreEqual(115.2d, textbox.Width, delta, $"textbox.Width was {textbox.Width}, not 107.952 as expected");
             Assert.AreEqual(34.979735851287842d, textbox.Height, delta, $"textbox.Height was {textbox.Height}, not 34.978 as expected");
 
-            GenerateSvgFile("BasicTextBox", group.Bounds, group);
+            GenerateSvgFile("BasicTextBox", group, group);
         }
 
         [TestMethod]
@@ -340,22 +342,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.LeftMargin = 10d;
             textbox.TopMargin = 10d;
 
-            textbox.AppendRenderItems(group.RenderItems);
+            textbox.PrepareForRender();
 
             //Assert local position unchanged
             Assert.AreEqual(0d, textbox.TextBody.Left);
             Assert.AreEqual(0d, textbox.TextBody.Top);
 
             //Assert global position changed
-            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.X);
-            Assert.AreEqual(10d, textbox.TextBody.Bounds.Position.Y);
+            Assert.AreEqual(10d, textbox.TextBody.Position.X);
+            Assert.AreEqual(10d, textbox.TextBody.Position.Y);
 
             //Assert width and height changed by margins
             Assert.AreEqual(125.2, textbox.Width, delta);
             Assert.AreEqual(44.979735851287842d, textbox.Height, delta);
 
 
-            GenerateSvgFile("MarginTextBox", group.Bounds, group);
+            GenerateSvgFile("MarginTextBox", group, group);
         }
 
 
@@ -371,13 +373,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.RightMargin = 10d;
             textbox.BottomMargin = 10d;
 
-            textbox.AppendRenderItems(group.RenderItems);
+            textbox.PrepareForRender();
 
             //Assert width and height changed by margins
             Assert.AreEqual(135.2d, textbox.Width, delta);
             Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
 
-            GenerateSvgFile("AllMarginsTextBox", group.Bounds, group);
+            GenerateSvgFile("AllMarginsTextBox", group, group);
         }
 
 
@@ -404,13 +406,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             textbox.RightMargin = 10d;
             textbox.BottomMargin = 10d;
 
-            textbox.AppendRenderItems(group.RenderItems);
+            textbox.PrepareForRender();
 
             //Assert width and height changed by margins and textbody
             Assert.AreEqual(150.2d, textbox.Width, delta);
             Assert.AreEqual(69.979735851287842d, textbox.Height, delta);
 
-            GenerateSvgFile("TextAnchor_TextBox", group.Bounds, group);
+            GenerateSvgFile("TextAnchor_TextBox", group, group);
         }
     }
 }

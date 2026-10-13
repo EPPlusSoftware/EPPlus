@@ -36,8 +36,8 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                top = SeriesIcon.Bounds.Top;
-                left = SeriesIcon.Bounds.Left;
+                top = SeriesIcon.Top;
+                left = SeriesIcon.Left;
             }
         }
     }

@@ -13,37 +13,38 @@ namespace EPPlus.DrawingRenderer.Svg
         public override void Render(LineRenderItem item)
         {
             var li = (LineRenderItem)item;
+            var style = li.Style;
             StringBuilder sb = OutputStream;
             //Draw transparent lines to create the compond line effect, as SVG does not support compound lines natively
-            switch (li.CompoundLineStyle)
+            switch (style.CompoundLineStyle)
             {
                 case CompoundLineStyle.Double:
-                    li.LineCap = LineCap.Flat;
+                    style.LineCap = LineCap.Flat;
                     var name = $"double-stroke-{Guid.NewGuid().ToString()}";
                     sb.Append($"<defs><mask id=\"{name}\">");
 
-                    RenderLineItem(li, li.BorderWidth, "white", null);
-                    RenderLineItem(li, li.BorderWidth * (3D / 7D), "black", null);
-                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{li.BorderColor}\" mask=\"url(#{name})\" />");
+                    RenderLineItem(li, style.BorderWidth, "white", null);
+                    RenderLineItem(li, style.BorderWidth * (3D / 7D), "black", null);
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{style.BorderColor}\" mask=\"url(#{name})\" />");
                     break;
                 case CompoundLineStyle.DoubleThickThin:
-                    WriteThickThin(li, "double-thick-thin-stroke-{0}", (li.BorderWidth ?? 1D) * 1D / 7D);
+                    WriteThickThin(li, "double-thick-thin-stroke-{0}", (style.BorderWidth ?? 1D) * 1D / 7D);
                     break;
                 case CompoundLineStyle.DoubleThinThick:
-                    WriteThickThin(li, "double-thin-thick-stroke-{0}", ((li.BorderWidth ?? 1D) * 1D / 7D) * -1);
+                    WriteThickThin(li, "double-thin-thick-stroke-{0}", ((style.BorderWidth ?? 1D) * 1D / 7D) * -1);
                     break;
                 case CompoundLineStyle.TripleThinThickThin:
                     var guid = Guid.NewGuid().ToString();
-                    var gapOffset = 5 * li.BorderWidth.Value / 16;
+                    var gapOffset = 5 * style.BorderWidth.Value / 16;
                     name = $"triple-stroke-{guid}";
                     sb.Append($"<defs>");
                     sb.Append($"<filter id=\"gap-left-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"-{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
                     sb.Append($"<filter id=\"gap-right-{guid}\" x=\"-500%\" y=\"-500%\" width=\"1100%\" height=\"1100%\" filterUnits=\"userSpaceOnUse\"><feOffset dx=\"0\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\" /></filter>");
                     sb.Append($"<mask id=\"{name}\">");
-                    RenderLineItem(li, li.BorderWidth, "white", null);
-                    RenderLineItem(li, li.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
-                    RenderLineItem(li, li.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
-                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{li.BorderColor}\" mask=\"url(#{name})\" />");
+                    RenderLineItem(li, style.BorderWidth, "white", null);
+                    RenderLineItem(li, style.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-left-{guid})\"");
+                    RenderLineItem(li, style.BorderWidth * (1D / 8D), "black", $"filter=\"url(#gap-right-{guid})\"");
+                    sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{style.BorderColor}\" mask=\"url(#{name})\" />");
                     break;
                 default:
                     RenderLineItem(li, null, null, null);
@@ -59,9 +60,9 @@ namespace EPPlus.DrawingRenderer.Svg
             sb.Append("<defs>");
             sb.Append($"<filter id=\"{gapFilterName}\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\" filterUnits=\"userSpaceOnUse\"><feOffset in=\"SourceGraphic\" dy=\"{gapOffset.PointToPixel().ToString(CultureInfo.InvariantCulture)}\"/></filter>");
             sb.Append($"<mask id=\"{name}\">");
-            RenderLineItem(li, li.BorderWidth, "white", null);
-            RenderLineItem(li, li.BorderWidth * (1D / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
-            sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{li.BorderColor}\" mask=\"url(#{name})\" />");
+            RenderLineItem(li, li.Style.BorderWidth, "white", null);
+            RenderLineItem(li, li.Style.BorderWidth * (1D / 4D), "black", $"filter=\"url(#{gapFilterName})\"");
+            sb.Append($"</mask></defs><rect width=\"100%\" height=\"100%\" fill=\"{li.Style.BorderColor}\" mask=\"url(#{name})\" />");
         }
         internal string Suffix = "px";
 

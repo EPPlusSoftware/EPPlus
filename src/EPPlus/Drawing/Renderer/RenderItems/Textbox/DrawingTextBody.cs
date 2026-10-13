@@ -38,10 +38,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         {
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
-            Bounds.Left = left;
-            Bounds.Top = top;
-            Bounds.Width = maxWidth;
-            Bounds.Height = maxHeight;
+            Left = left;
+            Top = top;
+            Width = maxWidth;
+            Height = maxHeight;
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
         }
@@ -51,28 +51,28 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             bool isFirst = Paragraphs.Count == 0;
             Text = text;
 
-            var paragraph = CreateParagraph(this, item, Bounds, text);
-            paragraph.Bounds.Name = $"Paragraph{Paragraphs.Count}";
-            paragraph.Bounds.Top = startingY;
+            var paragraph = CreateParagraph(this, item, this, text);
+            paragraph.Name = $"Paragraph{Paragraphs.Count}";
+            paragraph.Top = startingY;
 
             if (AutoSize)
             {
                 if (Paragraphs.Count == 0)
                 {
-                    Bounds.Height = paragraph.Bounds.Height;
-                    if(Bounds.Height == 0)
+                    Height = paragraph.Height;
+                    if(Height == 0)
                     {
-                        Bounds.Height = 3d;
+                        Height = 3d;
                     }
                 }
                 else
                 {
-                    Bounds.Height += paragraph.Bounds.Height;
+                    Height += paragraph.Height;
                 }
 
-                if (Bounds.Width < paragraph.Bounds.Width || (Bounds.Width == MaxWidth && Paragraphs.Count == 0))
+                if (Width < paragraph.Width || (Width == MaxWidth && Paragraphs.Count == 0))
                 {
-                    Bounds.Width = paragraph.Bounds.Width;
+                    Width = paragraph.Width;
                 }
             }
             Paragraphs.Add(paragraph);
@@ -91,19 +91,19 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 switch (p.HorizontalAlignment)
                 {
                     case TextAlignment.Left:
-                        p.Bounds.Left = 0;
+                        p.Left = 0;
                         break;
                     case TextAlignment.Center:
-                        p.Bounds.Left = (Bounds.Width / 2) - (p.Bounds.Width / 2);
+                        p.Left = (Width / 2) - (p.Width / 2);
                         break;
                     case TextAlignment.Right:
-                        p.Bounds.Left = Bounds.Right - p.Bounds.Width;
+                        p.Left = Right - p.Width;
                         break;
                     case TextAlignment.Distributed:
                     case TextAlignment.Justified:
                     case TextAlignment.JustifiedLow:
                     case TextAlignment.ThaiDistributed:
-                        p.Bounds.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
+                        p.Left = 0;                    //TODO: Set left for now as we do not support distributed spacing yet
                         break;
                 }
             }
@@ -160,14 +160,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 var addedPara = Paragraphs.Last();
                 //addedPara.HorizontalAlignment = defaultAlignment;
 
-                currentHeight = addedPara.Bounds.Bottom;
-                largestWidth = Math.Max(largestWidth, addedPara.Bounds.Width);
+                currentHeight = addedPara.Bottom;
+                largestWidth = Math.Max(largestWidth, addedPara.Width);
             }
 
 
             if (Paragraphs != null && Paragraphs.Count() > 0 && AutoSize)
             {
-                Bounds.Height = currentHeight;
+                Height = currentHeight;
             }
 
             //Ensure contentBounds are calculated and paragraphs don't overlap
@@ -180,15 +180,15 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 SetHorizontalAlignmentPosition();
             }
 
-            Bounds.Top = GetAlignmentVertical();
+            Top = GetAlignmentVertical();
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)
         //{
         //    SvgGroupItem groupItem;
-        //    if (Bounds.Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
+        //    if (Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
         //    {
-        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Bounds.Rotation);
+        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Rotation);
         //    }
         //    else
         //    {

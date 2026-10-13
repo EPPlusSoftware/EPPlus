@@ -20,9 +20,9 @@ using System.Text;
 
 namespace EPPlusImageRenderer
 {
-    public class PathCommands 
+    public class PathCommand 
     {
-        public PathCommands(PathCommandType type, params double[] coordinates)
+        public PathCommand(PathCommandType type, params double[] coordinates)
         {
             Type = type;
             Coordinates = coordinates;
@@ -30,9 +30,9 @@ namespace EPPlusImageRenderer
         //public SvgRenderItem RenderItem{ get; set;}
         public PathCommandType Type { get; }
         public double[] Coordinates { get; set; }
-        public PathCommands Clone()
+        public PathCommand Clone()
         {
-            return new PathCommands(Type)
+            return new PathCommand(Type)
             {
                 Coordinates = (double[])Coordinates.Clone(),
             };

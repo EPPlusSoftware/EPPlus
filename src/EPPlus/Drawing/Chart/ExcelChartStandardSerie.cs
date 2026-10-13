@@ -1077,6 +1077,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return "";
             }
         }
+
         #endregion
     }
 }
