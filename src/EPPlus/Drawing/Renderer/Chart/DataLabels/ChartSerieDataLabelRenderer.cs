@@ -128,35 +128,42 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         
         private void CreateSeriesIcon(ExcelChartStandardSerie serie, BoundingBox maxBounds, double entryHeight)
         {
-            if (ChartRenderer.Legend == null)
+            try
             {
-                seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
+                if (ChartRenderer.Legend == null)
+                {
+                    seriesIcon = LegendIconRenderer.GetSeriesIcon(ChartRenderer, maxBounds, serie, _serieIndex, entryHeight);
+                }
+                else
+                {
+                    var legendItem = ChartRenderer.Legend;
+
+                    var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                    var clonedIcon = seriesIconOrig.Clone();
+
+                    if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
+                    {
+                        clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
+                    }
+
+                    if (clonedIcon is LineRenderItem lineIcon)
+                    {
+                        lineIcon.Y1 = 0;
+                        lineIcon.Y2 = 0;
+                    }
+                    else if (clonedIcon is RectRenderItem rectIcon)
+                    {
+                        rectIcon.Left = 0;
+                        rectIcon.Top = 0;
+                    }
+
+
+                    seriesIcon = clonedIcon;
+                }
             }
-            else
+            catch(Exception e)
             {
-                var legendItem = ChartRenderer.Legend;
-
-                var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
-                var clonedIcon = seriesIconOrig.Clone();
-
-                if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)
-                {
-                    clonedIcon.Style.GradientFill = seriesIconOrig.Style.GradientFill;
-                }
-
-                if (clonedIcon is LineRenderItem lineIcon)
-                {
-                    lineIcon.Y1 = 0;
-                    lineIcon.Y2 = 0;
-                }
-                else if (clonedIcon is RectRenderItem rectIcon)
-                {
-                    rectIcon.Left = 0;
-                    rectIcon.Top = 0;
-                }
-
-
-                seriesIcon = clonedIcon;
+                throw new Exception("Something went wrong in datalabel renderer SeriesIcon", e);
             }
         }
 
@@ -259,28 +266,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                                 currentLabel.DataLabelPointContainer.Left += adjustVector.X;
                                 currentLabel.DataLabelPointContainer.Top += adjustVector.Y;
                             }
-                            ////var centerXCurrent = bbCurrent.Right - bbCurrent.Left;
-                            ////var centerYCurrent = bbCurrent.Bottom - bbCurrent.Top;
-
-                            ////var centerXCompare = bbCompare.Right - bbCompare.Left;
-                            ////var centerYCompare = bbCompare.Bottom - bbCompare.Top;
-
-
-                            ////bbCurrent.le
-
-                            //var OffsetVector = new Vector2(bbCompare.Left - bbCurrent.Left, 0);
-                            ////Vector2 dirOffset = OffsetVector / OffsetVector.Length;
-
-                            //currentLabel.DataLabelPointContainer.Left += OffsetVector.X;
-
-                            ////If we still intersect (likely in y)
-                            //if (Transform.Intersects(currentLabel.GlobalTextBounds, dataLabels[j].GlobalTextBounds))
-                            //{
-                            //    var OffsetVectorY = new Vector2(0, dataLabels[j].GlobalTextBounds.Bottom - currentLabel.GlobalTextBounds.Bottom);
-                            //    currentLabel.DataLabelPointContainer.Top += OffsetVectorY.Y;
-                            //}
-                            //currentLabel.DataLabelPointContainer.Left *= bbCompare.Right;
-                            //currentLabel.DataLabelPointContainer.Top += OffsetVector.Y;
                         }
                     }
                 }
