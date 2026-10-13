@@ -341,7 +341,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     //Delete all previous serie child nodes
                     //If this is not done it will generate a corrupt workbook if there are any previous child nodes
                     var topnodeXSeries = TopNode.SelectSingleNode(_xSeriesTopPath, NameSpaceManager);
-                    topnodeXSeries.RemoveAll();
+                    topnodeXSeries?.RemoveAll();
 
                     GetLitValues(value, out double[] numLit, out string[] strLit);
                     if (strLit != null)
@@ -384,7 +384,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     //Delete all previous x-serie child nodes
                     //If this is not done it will generate a corrupt workbook if there are any previous child nodes
                     var topnodeXSeries = TopNode.SelectSingleNode(_xSeriesTopPath, NameSpaceManager);
-                    topnodeXSeries.RemoveAll();
+                    topnodeXSeries?.RemoveAll();
 
                     GetLitValues(_xSeries, out double[] numLit, out string[] strLit);
                     NumberLiteralsX = numLit;
