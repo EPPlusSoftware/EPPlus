@@ -203,6 +203,8 @@ namespace EPPlus.Export.Pdf.Settings
         private double _resolvedFitScale = 1d;
         internal void SetResolvedFitScale(double s) { _resolvedFitScale = s; }
 
+        internal bool ScaleHeaderWithDocument { get; set; }
+
         internal double ContentScale
         {
             get

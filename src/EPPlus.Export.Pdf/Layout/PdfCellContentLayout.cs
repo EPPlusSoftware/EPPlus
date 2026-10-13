@@ -36,6 +36,8 @@ namespace EPPlus.Export.Pdf.Layout
         public TextLineCollection TextLines;
         public double LeftTextSpillLength = 0d;
         public double RightTextSpillLength = 0d;
+        public double ScaleAnchorX;
+        public double ScaleAnchorY;
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
 
