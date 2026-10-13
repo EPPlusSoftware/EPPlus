@@ -512,7 +512,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                         else
@@ -646,12 +646,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
         private void SetCalcAttributesForArrayFormula(bool hasFlags, CellStoreEnumerator<ExcelValue> cse, ref string mdAttrForFTag)
         {
+            // #2572: Reset so attributes from a previous cell are not carried over to this cell.
+            mdAttrForFTag = "";
             //Set calc attributes for array formula. We preserve them from load only at this point.
             if (hasFlags)
             {
                 if (_ws._flags.Exists(cse.Row, cse.Column))
                 {
-                    mdAttrForFTag = "";
                     if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
                     {
                         mdAttrForFTag = $" aca=\"1\"";
@@ -663,6 +664,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 }
             }
         }
+
         private string GenerateArrayFormulaXml(string cTag, string fTag, string cellAddress, string styleID, string mdAttr, string mdAttrForFTag, string refAddress, object value, string formula, string prefix)
         {
             var cellType = ConvertUtil.GetCellType(value, true);
@@ -1154,7 +1156,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             return cache.ToString();
         }
 
-        private string GetXMLCFExt(string prefix, ExcelConditionalFormattingRule format, int i, int count)
+        private string GetXMLCFExt(string prefix, string mainPrefix, ExcelConditionalFormattingRule format, int i, int count)
         {
             var cache = new StringBuilder();
 
@@ -1349,7 +1351,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{{{uid}}}\">");
                 cache.Append($"<{prefix}iconSet ");
 
-                 cache.Append($"iconSet=\"{iconSetString}\"");
+                cache.Append($"iconSet=\"{iconSetString}\"");
 
                 if (showValue == false)
                 {
@@ -1514,7 +1516,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 if (format.Style.HasValue)
                 {
-                    WriteStyle(cache, prefix, format);
+                    // Sc1083: The dxf children belong to the main schema, so they need the main prefix.
+                    WriteStyle(cache, prefix, mainPrefix, format);
                 }
             }
             cache.Append($"</{prefix}cfRule>");
@@ -1578,7 +1581,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 foreach (var rule in pivotCFs)
                 {
-                    cache.Append(GetXMLCFExt(prefix, rule, 0, 1));
+                    // Sc1083: Pass mainPrefix so elements from the main schema get the worksheet's namespace prefix.
+                    cache.Append(GetXMLCFExt(prefix, mainPrefix, rule, 0, 1));
                 }
 
                 foreach (var ruleList in addressDict)
@@ -1586,7 +1590,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     for (int i = 0; i < ruleList.Value.Count; i++)
                     {
                         var format = ruleList.Value[i];
-                        cache.Append(GetXMLCFExt(prefix, ruleList.Value[i], i, ruleList.Value.Count));
+                        // Sc1083: Pass mainPrefix so elements from the main schema get the worksheet's namespace prefix.
+                        cache.Append(GetXMLCFExt(prefix, mainPrefix, ruleList.Value[i], i, ruleList.Value.Count));
                     }
                 }
 
@@ -1637,11 +1642,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             return returnString;
         }
 
-        private string WriteCfIcon(ExcelConditionalFormattingIconDataBarValue icon, bool gteCheck = true)
+        private string WriteCfIcon(string prefix, ExcelConditionalFormattingIconDataBarValue icon, bool gteCheck = true)
         {
             StringBuilder cache = new StringBuilder();
 
-            cache.Append($"<cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+            cache.Append($"<{prefix}cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\" ");
 
             if (icon.Formula != null)
             {
@@ -1736,7 +1741,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     cache.Append($"<{prefix}color");
 
-                    if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)  
+                    if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
                     {
                         cache.Append($" auto=\"1\"");
                     }
@@ -1913,12 +1918,14 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (j == 0)
                     {
-                        cache.Append(WriteCfIcon(iconList[j], false));
+                        // Sc1083: Pass the prefix so cfvo gets the same namespace as the rest of the worksheet.
+                        cache.Append(WriteCfIcon(prefix, iconList[j], false));
 
                     }
                     else
                     {
-                        cache.Append(WriteCfIcon(iconList[j]));
+                        // Sc1083: Pass the prefix so cfvo gets the same namespace as the rest of the worksheet.
+                        cache.Append(WriteCfIcon(prefix, iconList[j]));
                     }
                 }
 
@@ -2013,45 +2020,46 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             cache.Append($"/>");
         }
 
-        void WriteStyle(StringBuilder cache, string prefix, ExcelConditionalFormattingRule format)
+        void WriteStyle(StringBuilder cache, string prefix, string mainPrefix, ExcelConditionalFormattingRule format)
         {
+            // #2572: dxf itself is in the x14 namespace (prefix), but its children belong to the main schema (mainPrefix).
             if (format.Style.HasValue)
             {
                 cache.Append($"<{prefix}dxf>");
 
                 if (format.Style.Font.HasValue)
                 {
-                    cache.Append($"<font>");
+                    cache.Append($"<{mainPrefix}font>");
 
                     if (format.Style.Font.Bold == true)
                     {
-                        cache.Append($"<b/>");
+                        cache.Append($"<{mainPrefix}b/>");
                     }
 
                     if (format.Style.Font.Italic == true)
                     {
                         if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
                         {
-                            cache.Append("<b val=\"0\"/>");
+                            cache.Append($"<{mainPrefix}b val=\"0\"/>");
                         }
-                        cache.Append($"<i/>");
+                        cache.Append($"<{mainPrefix}i/>");
                     }
 
                     if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
                     {
-                        cache.Append("<b val=\"0\"/>");
-                        cache.Append("<i val=\"0\"/>");
+                        cache.Append($"<{mainPrefix}b val=\"0\"/>");
+                        cache.Append($"<{mainPrefix}i val=\"0\"/>");
                     }
 
                     if (format.Style.Font.Strike == true)
                     {
-                        cache.Append($"<strike/>");
+                        cache.Append($"<{mainPrefix}strike/>");
 
                     }
 
                     if (format.Style.Font.Underline.HasValue == true)
                     {
-                        cache.Append($"<u");
+                        cache.Append($"<{mainPrefix}u");
                         if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
                         {
                             cache.Append(" val=\"double\"");
@@ -2061,23 +2069,23 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     if (format.Style.Font.Color.HasValue == true)
                     {
-                        cache.Append(WriteColorOption("color", format.Style.Font.Color));
+                        cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Font.Color));
                     }
 
-                    cache.Append("</font>");
+                    cache.Append($"</{mainPrefix}font>");
                 }
 
                 if (format.Style.NumberFormat.HasValue)
                 {
                     var numberFormat = format.Style.NumberFormat.Format.EncodeXMLAttribute();
 
-                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                    cache.Append($"<{mainPrefix}numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
                         $"formatCode = \"{numberFormat}\"/>");
                 }
 
                 if (format.Style.Fill.HasValue)
                 {
-                    cache.Append("<fill>");
+                    cache.Append($"<{mainPrefix}fill>");
 
                     switch (format.Style.Fill.Style)
                     {
@@ -2085,28 +2093,28 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             if (format.Style.Fill.PatternType != null && format.Style.Fill.PatternType != ExcelFillStyle.None)
                             {
-                                cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType.ToEnumString()}\">");
+                                cache.Append($"<{mainPrefix}patternFill patternType=\"{format.Style.Fill.PatternType.ToEnumString()}\">");
                             }
                             else
                             {
-                                cache.Append("<patternFill>");
+                                cache.Append($"<{mainPrefix}patternFill>");
                             }
 
                             if (format.Style.Fill.PatternColor.HasValue)
                             {
-                                cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
+                                cache.Append(WriteColorOption($"{mainPrefix}fgColor", format.Style.Fill.PatternColor));
                             }
 
                             if (format.Style.Fill.BackgroundColor.HasValue)
                             {
-                                cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
+                                cache.Append(WriteColorOption($"{mainPrefix}bgColor", format.Style.Fill.BackgroundColor));
                             }
 
-                            cache.Append("</patternFill>");
+                            cache.Append($"</{mainPrefix}patternFill>");
                             break;
                         case Style.eDxfFillStyle.GradientFill:
 
-                            cache.Append("<gradientFill");
+                            cache.Append($"<{mainPrefix}gradientFill");
 
                             if (format.Style.Fill.Gradient.GradientType != null)
                             {
@@ -2139,59 +2147,59 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
 
                             cache.Append(">");
-                            cache.Append("<stop position=\"0\">");
+                            cache.Append($"<{mainPrefix}stop position=\"0\">");
 
-                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
+                            cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Fill.Gradient.Colors[0].Color));
 
-                            cache.Append("</stop>");
-                            cache.Append("<stop position=\"1.0\">");
+                            cache.Append($"</{mainPrefix}stop>");
+                            cache.Append($"<{mainPrefix}stop position=\"1.0\">");
 
-                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
+                            cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Fill.Gradient.Colors[1].Color));
 
-                            cache.Append("</stop>");
+                            cache.Append($"</{mainPrefix}stop>");
 
-                            cache.Append("</gradientFill>");
+                            cache.Append($"</{mainPrefix}gradientFill>");
 
                             break;
                     }
-                    cache.Append("</fill>");
+                    cache.Append($"</{mainPrefix}fill>");
                 }
 
                 if (format.Style.Border.HasValue)
                 {
-                    cache.Append("<border>");
+                    cache.Append($"<{mainPrefix}border>");
 
                     if (format.Style.Border.Left.HasValue)
                     {
-                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
-                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
-                        cache.Append("</left>");
+                        cache.Append($"<{mainPrefix}left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Border.Left.Color));
+                        cache.Append($"</{mainPrefix}left>");
                     }
 
                     if (format.Style.Border.Right.HasValue)
                     {
-                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
-                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
-                        cache.Append("</right>");
+                        cache.Append($"<{mainPrefix}right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Border.Right.Color));
+                        cache.Append($"</{mainPrefix}right>");
                     }
 
                     if (format.Style.Border.Top.HasValue)
                     {
-                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
-                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
-                        cache.Append("</top>");
+                        cache.Append($"<{mainPrefix}top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Border.Top.Color));
+                        cache.Append($"</{mainPrefix}top>");
                     }
 
                     if (format.Style.Border.Bottom.HasValue)
                     {
-                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
-                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
-                        cache.Append("</bottom>");
+                        cache.Append($"<{mainPrefix}bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                        cache.Append(WriteColorOption($"{mainPrefix}color", format.Style.Border.Bottom.Color));
+                        cache.Append($"</{mainPrefix}bottom>");
                     }
 
-                    cache.Append("<vertical/>");
-                    cache.Append("<horizontal/>");
-                    cache.Append("</border>");
+                    cache.Append($"<{mainPrefix}vertical/>");
+                    cache.Append($"<{mainPrefix}horizontal/>");
+                    cache.Append($"</{mainPrefix}border>");
                 }
 
                 cache.Append($"</{prefix}dxf>");
