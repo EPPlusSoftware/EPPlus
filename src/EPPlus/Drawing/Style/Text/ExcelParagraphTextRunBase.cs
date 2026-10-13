@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing
 
             if (string.IsNullOrEmpty(mf.FontFamily) || mf.Size <= 0 || float.IsNaN(mf.Size))
             {
-                var defaultMeasurementFont = _paragraph.DefaultRunProperties.GetMeasureFont();
+                var defaultMeasurementFont = _paragraph.DefaultRunProperties.GetMeasureFont(null);
 
                 if (string.IsNullOrEmpty(mf.FontFamily))
                 {
@@ -640,10 +640,18 @@ namespace OfficeOpenXml.Drawing
         /// Export to OpenTypeFormat
         /// </summary>
         /// <returns></returns>
-        internal IRichTextFormatDrawing ExportToImageRendererFormat()
+        internal IRichTextFormatDrawing ExportToImageRendererFormat(MeasurementFont defaultFont)
         {
             //This is neccesary for the baseline to be applied to the fontsize correctly
-            var measureFont = GetMeasurementFont();
+            MeasurementFont measureFont;
+            if (ExistsNode(_sizePath))
+            {
+                measureFont = GetMeasurementFont();
+            }
+            else
+            {
+                measureFont = defaultFont;
+            }
 
             var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
 

@@ -57,7 +57,7 @@ namespace EPPlusImageRenderer.Svg
         internal ChartLegendRenderer(ChartRenderer sc) : base(sc)
         {
 
-            var mf = Chart.Font.GetMeasureFont();
+            var mf = Chart.Font.GetMeasureFont(DefaultFonts2007Style.Legend);
             var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var _ttMeasurer = new OpenTypeFontTextMeasurer(shaper);
 
@@ -338,12 +338,12 @@ namespace EPPlusImageRenderer.Svg
             if (entry == null || entry.Font.IsEmpty)
             {
                 font = l.Font;
-                mf = l.Font.GetMeasureFont();
+                mf = l.Font.GetMeasureFont(DefaultFonts2007Style.Legend);
             }
             else
             {
                 font = entry.Font;
-                mf = entry.Font.GetMeasureFont();
+                mf = entry.Font.GetMeasureFont(DefaultFonts2007Style.Legend);
             }
 
             if (_ttMeasurer == null)
@@ -556,7 +556,7 @@ namespace EPPlusImageRenderer.Svg
             tbWidth = Rectangle.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(RenderContext, Chart, Rectangle, DefaultFonts2007Style.DataLabels, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var entry = Chart.Legend.Entries.FirstOrDefault(x => x.Index == entryIndex);
             var headerText = tl.GetName(serieIndex);

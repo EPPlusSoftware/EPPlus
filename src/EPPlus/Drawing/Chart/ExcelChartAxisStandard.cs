@@ -75,7 +75,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        const string _majorTickMark = "c:majorTickMark/@val";
+        const string _majorTickMarkParent = "c:majorTickMark";
+        const string _majorTickMark = $"{_majorTickMarkParent}/@val";
         /// <summary>
         /// Get or Sets the major tick marks for the axis. 
         /// </summary>
@@ -86,7 +87,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = GetXmlNodeString(_majorTickMark);
                 if (string.IsNullOrEmpty(v))
                 {
-                    return eAxisTickMark.Cross;
+                    if (ExistsNode(_majorTickMarkParent))
+                    {
+                        return eAxisTickMark.Cross;
+                    }
+                    return eAxisTickMark.None;
                 }
                 else
                 {
@@ -105,7 +110,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(_majorTickMark, value.ToString().ToLower(CultureInfo.InvariantCulture));
             }
         }
-        const string _minorTickMark = "c:minorTickMark/@val";
+        const string _minorTickMarkParent = "c:majorTickMark";
+        const string _minorTickMark = $"{_minorTickMarkParent }/@val";
         /// <summary>
         /// Get or Sets the minor tick marks for the axis. 
         /// </summary>
@@ -116,7 +122,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = GetXmlNodeString(_minorTickMark);
                 if (string.IsNullOrEmpty(v))
                 {
-                    return eAxisTickMark.Cross;
+                    if (ExistsNode(_minorTickMarkParent))
+                    {
+                        return eAxisTickMark.Cross;
+                    }
+                    return eAxisTickMark.None;
                 }
                 else
                 {

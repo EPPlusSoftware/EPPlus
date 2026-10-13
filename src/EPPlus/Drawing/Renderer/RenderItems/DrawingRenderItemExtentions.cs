@@ -207,7 +207,7 @@ namespace EPPlusImageRenderer.RenderItems
             DrawingRenderGradientFill gradFill = null;
             double opacity = 1d;
 
-            if (border == null)
+            if (border == null || border.IsEmpty)
             {
                 if (hasBorder)
                 {

@@ -258,7 +258,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
         {
             Color baseColor;
             var baseColorIndex = index % 6;

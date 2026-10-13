@@ -20,6 +20,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
@@ -125,12 +126,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, x, y, width, height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, DefaultFonts2007Style.DataLabels, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.Bounds, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.Bounds, DefaultFonts2007Style.DataLabels, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
                 if (x > 0)
                 {
                     DataLabel.Left = x;

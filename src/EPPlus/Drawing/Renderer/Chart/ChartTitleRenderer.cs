@@ -22,10 +22,12 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -83,7 +85,7 @@ namespace EPPlusImageRenderer.Svg
             if (t.Layout.HasLayout) //Only for the main chart title, axis titles don't support manual layout in Excel.
             {
 
-                InitTextBox(maxWidth, maxHeight);
+                InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.Title);
                 var mr = GetRectFromManualLayout(sc, t.Layout);
                 TextBox.Top = mr.Top;
                 TextBox.Left = mr.Left;
@@ -92,7 +94,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (axis == null)
                 {
-                    InitTextBox(maxWidth, maxHeight);
+                    InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.Title);
                     TextBox.Top = (float)6;                                       //6 point for the chart title standard offset.
                     TextBox.Left = (float)(sc.Bounds.Width - TextBox.Width) / 2;
                 }
@@ -102,7 +104,7 @@ namespace EPPlusImageRenderer.Svg
                     maxWidth = sc.Bounds.Width * (isVertical ? 0.2 : 0.8);   //Max Width.
                     maxHeight = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
 
-                    InitTextBox(maxWidth, maxHeight);
+                    InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.AxisTitle);
                     SetAxisTitleRect(sc, axis);
                 }
             }
@@ -193,9 +195,9 @@ namespace EPPlusImageRenderer.Svg
             return defaultText;
         }
 
-        internal void InitTextBox(double maxWidth, double maxHeight)
+        internal void InitTextBox(double maxWidth, double maxHeight, MeasurementFont defaultFont)
         {
-            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, defaultFont, maxWidth, maxHeight);
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;

@@ -72,11 +72,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             MeasurementFont mf;
             if(_dataTable.HasFont)
             {
-                mf = _dataTable.Font.GetMeasureFont();
+                mf = _dataTable.Font.GetMeasureFont(DefaultFonts2007Style.DataTable);
             }
             else
             {
-                mf = Chart.Font.GetMeasureFont();
+                mf = Chart.Font.GetMeasureFont(DefaultFonts2007Style.DataTable);
             }
 
             _marginItemsWidth = mf.Size / 2;
@@ -101,9 +101,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             double entryWidth = 0, entryHeight=0;
             var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _);
             var horizontaValues = GetFormattedValues(svgChart, values);
+            var defaultFont = new MeasurementFont() { Size = 10 };
             foreach (var v in horizontaValues)
             {
-                var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, defaultFont, true);
                 if (paragraph == null)
                 {
                     tb.AddParagraph(v);
@@ -159,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     var l=new List<DrawingTextBody>();
                     foreach (var v in formattedValues)
                     {
-                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, true);
+                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                         if (paragraph == null)
                         {
                             tb.AddParagraph(v.ToString());
@@ -331,7 +332,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     var range = ws.Cells[a.Address];
                     foreach (var cell in range)
                     {
-                        var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                        var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                         tb.AddParagraph(cell.Text);
                         ret.Add(tb);
                     }
@@ -341,7 +342,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 foreach (var se in serie.StringLiteralsY)
                 {
-                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                     tb.AddParagraph(se);
                     ret.Add(tb);
                 }
@@ -350,7 +351,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 foreach (var nl in serie.NumberLiteralsY)
                 {
-                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                     tb.AddParagraph(nl.ToString());
                     ret.Add(tb);
                 }

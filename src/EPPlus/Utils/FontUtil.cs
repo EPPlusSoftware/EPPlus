@@ -6,7 +6,7 @@ namespace OfficeOpenXml.Utils
 {
     internal class FontUtil
     {
-        internal static MeasurementFont GetMeasureFont(string latinFont, string complexFont, string eastAsianFont, float size, MeasurementFontStyles style, ExcelPackage pck)
+        internal static MeasurementFont GetMeasureFont(string latinFont, string complexFont, string eastAsianFont, float size, MeasurementFontStyles style, ExcelPackage pck, bool SetDefault=true)
         {
             var mf = new MeasurementFont()
             {
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Utils
                     }
                 }
 
-                if (mf.Size <= 0 || double.IsNaN(mf.Size))
+                if (SetDefault && (mf.Size <= 0 || double.IsNaN(mf.Size)))
                 {
                     mf.Size = ns.Style.Font.Size;
                 }

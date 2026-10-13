@@ -9,6 +9,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 tbWidth = parent.Rectangle.Width - tbLeft;
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
                 var headerText = cv.ToString();
@@ -113,7 +114,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -142,7 +143,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
 
             var headerText = s.GetHeaderText(index);
             var entry = parent.Entries?.FirstOrDefault(x => x.Index == index);
@@ -242,7 +243,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
                 sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
 
                 //si.Left += sls.Textbox.LeftMargin;
@@ -295,7 +296,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index), 3);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -309,6 +310,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             return line;
         }
+
+
         internal static RectRenderItem GetBarSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var item = new RectRenderItem(parent.Rectangle);

@@ -8,8 +8,10 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Font;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -24,20 +26,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
     public class DrawingTextBody : RenderTextBody
     {
         internal ExcelDrawing _drawing;
+        internal MeasurementFont _defaultFont;
+        internal ExcelTheme Theme { get; private set; }
 
-        internal ExcelTheme Theme { get; }
-
-        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, bool autoSize, bool clampedToParent = false) : base(renderContext, parent, autoSize)
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, MeasurementFont defaultFont, bool autoSize, bool clampedToParent = false) : base(renderContext, parent, autoSize)
         {
-            _drawing = drawing;
-            Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            Init(drawing, defaultFont);
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
         }
-        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderContext, parent, autoSize)
+        public DrawingTextBody(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, MeasurementFont defaultFont, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : base(renderContext, parent, autoSize)
         {
-            _drawing = drawing;
-            Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            Init(drawing, defaultFont);
             Left = left;
             Top = top;
             Width = maxWidth;
@@ -46,11 +46,18 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             MaxHeight = maxHeight;
         }
 
+        private void Init(ExcelDrawing drawing, MeasurementFont defaultFont)
+        {
+            _drawing = drawing;
+            Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
+            _defaultFont = defaultFont;
+            _defaultFont.FontFamily = Theme.FontScheme.MinorFont.FirstOrDefault(x => x is ExcelDrawingFontSpecial fs && fs.Type == eFontType.Latin)?.Typeface ?? "Aptos Narrow";
+        }
+
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null, bool applyDefaultMargins = false)
         {
             bool isFirst = Paragraphs.Count == 0;
             Text = text;
-
             var paragraph = CreateParagraph(this, item, this, text);
             paragraph.Name = $"Paragraph{Paragraphs.Count}";
             paragraph.Top = startingY;
