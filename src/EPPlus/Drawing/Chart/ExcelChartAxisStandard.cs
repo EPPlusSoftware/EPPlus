@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         return eAxisTickMark.Cross;
                     }
-                    return eAxisTickMark.None;
+                    return eAxisTickMark.Out;
                 }
                 else
                 {
