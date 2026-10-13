@@ -148,7 +148,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var entry = parent.Entries?.FirstOrDefault(x => x.Index == index);
             if (entry == null || entry.Font.IsEmpty)
             {
-                sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                if (parent.TextBody.Paragraphs.Count > 0)
+                {
+                    sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                }
+                else
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }   
             }
             else
             {

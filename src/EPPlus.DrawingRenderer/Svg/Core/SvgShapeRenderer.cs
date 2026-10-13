@@ -157,16 +157,16 @@ namespace EPPlus.DrawingRenderer
             }
             else if (style.BlipFill != null)
             {
-                var key = style.BlipFill.GetKey();
+                var key = style.BlipFill.GetKey() + style.FillColorSource;
 
                 if (_defsCache.TryGetValue(key, out string? name) == false)
                 {
                     if (style.FillColorSource != PathFillMode.Norm)
-                    {
-                        style.FilterName = GetFilterName(ix);
+                    {                        
+                        style.FilterName = $"Url(#{name})";
                     }
 
-                    name = WriteBlip("Blip", defSb, hs, item, ref filter);
+                    name = WriteBlip("Blip", defSb, hs, item, name, ref filter);
                     _defsCache[key] = name;
                 }
                 style.FillColor = $"Url(#{name})";
@@ -244,7 +244,7 @@ namespace EPPlus.DrawingRenderer
             return $"item{ix}Filter";
         }
 
-        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, ref string filter)
+        private string WriteBlip(string namePrefix, StringBuilder defSb, HashSet<string> hs, RenderItem item, string filterName, ref string filter)
         {
             var style = item.Style;
             var name = $"{namePrefix}";
@@ -256,16 +256,16 @@ namespace EPPlus.DrawingRenderer
                     switch (fillMode)
                     {
                         case PathFillMode.Lighten:
-                            filter = $"<filter id=\"{style.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0.4\r\n0 0.6 0 0 0.4\r\n0 0 0.6 0 0.4\r\n0 0 0 1 0\" />";
+                            filter = $"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0.4\r\n0 0.6 0 0 0.4\r\n0 0 0.6 0 0.4\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.LightenLess:
-                            filter = $"<filter id=\"{style.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0.196\r\n0 0.804 0 0 0.196\r\n0 0 0.804 0 0.196\r\n0 0 0 1 0\" />";
+                            filter = $"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0.196\r\n0 0.804 0 0 0.196\r\n0 0 0.804 0 0.196\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.DarkenLess:
-                            filter = $"<filter id=\"{style.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0\r\n0 0.804 0 0 0\r\n0 0 0.804 0 0\r\n0 0 0 1 0\" />";
+                            filter = $"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.804 0 0 0 0\r\n0 0.804 0 0 0\r\n0 0 0.804 0 0\r\n0 0 0 1 0\" />";
                             break;
                         case PathFillMode.Darken:
-                            filter = $"<filter id=\"{style.FilterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0\r\n0 0.6 0 0 0\r\n0 0 0.6 0 0\r\n0 0 0 1 0\" />";
+                            filter = $"<filter id=\"{filterName}\"><feColorMatrix type=\"matrix\"\r\n values=\"0.6 0 0 0 0\r\n0 0.6 0 0 0\r\n0 0 0.6 0 0\r\n0 0 0 1 0\" />";
                             break;
                     }
                 }
