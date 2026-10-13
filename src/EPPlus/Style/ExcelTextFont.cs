@@ -382,7 +382,7 @@ namespace OfficeOpenXml.Style
         {
             var tm = _pictureRelationDocument.Package.Settings.TextSettings.PrimaryTextMeasurer;
             _pictureRelationDocument.Package.Workbook.Styles.GetNormalStyle();
-            MeasurementFont f = GetMeasureFont();
+            MeasurementFont f = GetMeasureFont(null);
             var b = tm.MeasureText(text, f);
             textWidth = b.Width;
             textHeight = b.Height;
@@ -796,8 +796,17 @@ namespace OfficeOpenXml.Style
             if (strikeout) Strike = eStrikeType.Single;
         }
 
-        internal MeasurementFont GetMeasureFont()
+        internal MeasurementFont GetMeasureFont(MeasurementFont defaultFont)
         {                        
+            if(IsEmpty && defaultFont!=null)
+            {
+                if(string.IsNullOrEmpty(defaultFont.FontFamily))
+                {
+                    var theme = _pictureRelationDocument.Package.Workbook.ThemeManager.GetOrCreateTheme();
+                    defaultFont.FontFamily = theme.GetFontByCode("+mn-lt");
+                }
+                return defaultFont;
+            }
             return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
         }
 

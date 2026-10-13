@@ -9,6 +9,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
@@ -95,6 +96,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         return eLabelPosition.Center;
                     case eChartType.Line:
                     case eChartType.LineStacked:
+                    case eChartType.LineStacked100:
+                    case eChartType.LineMarkers:
+                    case eChartType.LineMarkersStacked:
+                    case eChartType.LineMarkersStacked100:
                     case eChartType.XYScatterLines:
                     case eChartType.Bubble:
                         return eLabelPosition.Right;
@@ -208,7 +213,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 }
             }
 
-            var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, maxBounds.Width, maxBounds.Height);
+            var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.DataLabels, maxBounds.Width, maxBounds.Height);
             //txtBox.Left += Rectangle.Left;
             //txtBox.Top += Rectangle.Top;
             txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);

@@ -249,10 +249,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                             markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
                             markerItems[i].Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
                                 serie.Border.Fill.Style != eFillStyle.NoFill, 
-                                ()=> ChartRenderer.Theme.FormatScheme.FillStyle[0].Color);
+                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index));
                         }
                     }
-                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
+                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
                     lineDp.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
                     dataPointOverrides.Add(lineDp);
                 }
@@ -261,7 +261,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateDropLine(chartType, coords);
 
             linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
-            linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => DefaultBorderColor, 3);
+            linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line
             linePath.Style.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..

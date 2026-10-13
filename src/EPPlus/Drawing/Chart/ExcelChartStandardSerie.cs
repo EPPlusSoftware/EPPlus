@@ -173,7 +173,20 @@ namespace OfficeOpenXml.Drawing.Chart
             SetXmlNodeString("c:idx/@val", id);
             SetXmlNodeString("c:order/@val", id);
         }
-
+        internal int Index
+        {
+            get
+            {
+                return GetXmlNodeInt("c:idx/@val");
+            }
+        }
+        internal int Order
+        {
+            get
+            {
+                return GetXmlNodeInt("c:order/@val");
+            }
+        }
         internal bool HasDataLabelRange()
         {
             return ExistsNode(dlblRangePath);

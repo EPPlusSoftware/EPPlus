@@ -23,6 +23,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -173,7 +174,7 @@ namespace EPPlusImageRenderer.Svg
         {
             //The shaper is obtained through the render context so the family is substituted
             //for the render target, matching the font used in the output.
-            var mf = ax.Font.GetMeasureFont();
+            var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
             var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var fontSize = mf.Size;
             var lineHeight = shaper.GetLineHeightInPoints(fontSize);
@@ -214,7 +215,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetTextWidest(ExcelChartAxisStandard ax)
         {
-            var mf = ax.Font.GetMeasureFont();
+            var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
             var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var tm = new OpenTypeFontTextMeasurer(shaper);
             
@@ -372,7 +373,7 @@ namespace EPPlusImageRenderer.Svg
 
             //All labels share the axis font. The shaper is obtained through the render context
             //so the family is substituted for the render target, matching the font used in the output.
-            var mf = Axis.Font.GetMeasureFont();
+            var mf = Axis.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
             var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var fontSize = mf.Size;
             var lineHeight = shaper.GetLineHeightInPoints(fontSize);
@@ -480,7 +481,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, x, y, width, height, maxWidth, maxHeight);
+                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
@@ -1133,7 +1134,7 @@ namespace EPPlusImageRenderer.Svg
 
             //All axis labels share the axis font. The shaper is obtained through the render context
             //so the family is substituted for the render target, matching the font used in the output.
-            var mf = ax.Font.GetMeasureFont();
+            var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
             var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var fontSize = mf.Size;
 

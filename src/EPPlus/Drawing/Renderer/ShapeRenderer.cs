@@ -21,6 +21,7 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.Drawing;
@@ -282,7 +283,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             //RenderItems.Add(MarginTextBox);
 
             //Left and Top are already set by MarginTextBox we need not set them again
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox, DefaultFonts2007Style.Shape, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.Name = $"{Drawing.Name}_TxtBodyItem";
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 

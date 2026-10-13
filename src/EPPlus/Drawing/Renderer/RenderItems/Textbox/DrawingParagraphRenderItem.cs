@@ -57,7 +57,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             HorizontalAlignment = (TextAlignment)(int)p.HorizontalAlignment;
             ImportMarginAndIndent(p);
 
-            DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont());
+            if(p.DefaultRunProperties.Size<0)
+            {
+                DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
+            }
+            else
+            {
+                DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont(textBody._defaultFont));
+            }
 
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
 
@@ -121,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateRichText(ExcelDrawingTextRunCollection runs)
         {
-            var lstOfRichText = runs.ExportToImageRendererFormat();
+            var lstOfRichText = runs.ExportToImageRendererFormat(((DrawingTextBody)ParentTextBody)._defaultFont);
             foreach (var rt in lstOfRichText)
             {
                 //Added directly, not via AddRichTextBase, as ImportStyles relies on a 1:1 index
@@ -192,7 +199,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         }
                         Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
-                    else if(p.DefaultRunProperties.Fill != null)
+                    else if(p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty==false)
                     {
                         Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }

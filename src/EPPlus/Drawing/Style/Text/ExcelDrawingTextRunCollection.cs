@@ -10,17 +10,18 @@
  *************************************************************************************************
     9/11/2025         EPPlus Software AB       EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Utils;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Interfaces.RichText;
-using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.DrawingRenderer.RenderItems.Textbox;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -166,12 +167,12 @@ namespace OfficeOpenXml.Drawing
             return GetEnumerator();
         }
 
-        internal List<IRichTextFormatDrawing> ExportToImageRendererFormat()
+        internal List<IRichTextFormatDrawing> ExportToImageRendererFormat(MeasurementFont defaultFont)
         {
             List<IRichTextFormatDrawing> RtFormatList = new List<IRichTextFormatDrawing>();
             foreach (var item in _textRuns)
             {
-                RtFormatList.Add(item.ExportToImageRendererFormat());
+                RtFormatList.Add(item.ExportToImageRendererFormat(defaultFont));
             }
             return RtFormatList;
         }
