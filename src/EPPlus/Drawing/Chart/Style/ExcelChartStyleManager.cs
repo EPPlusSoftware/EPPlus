@@ -993,7 +993,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             ThemeOverridePart = p.CreatePart(ThemeOverrideUri, ContentTypes.contentTypeThemeOverride);
 
             ThemeOverrideXml = new XmlDocument();
-            ThemeOverrideXml.Load(partToCopy.GetStream());
+            XmlHelper.LoadXmlSafe(ThemeOverrideXml, partToCopy.GetStream());
 
             foreach (var themeRel in partToCopy.GetRelationships())
             {
