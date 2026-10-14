@@ -275,7 +275,29 @@ namespace EPPlusImageRenderer.Svg
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.PlotArea2d, (int)Chart.Style);
+            var chartId = (int)Chart.Style;
+
+            //Support for older chartStyles
+            //Pie charts are strange and do not color plot area, at id 33 and up other charts do
+            if (ChartRenderer.Chart.ChartType == eChartType.Pie && chartId < 149)
+            {
+                if(chartId > 100)
+                {
+                    chartId -= 100;
+                }
+
+                if(chartId > 40)
+                {
+                    return Color.Black;
+                }
+                else
+                {
+                    return Color.White;
+                }
+            }
+
+
+            return GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.PlotArea2d, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()

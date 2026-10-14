@@ -22,6 +22,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -39,6 +40,42 @@ namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
     {
+        internal Color? GetDefaultFontColor()
+        {
+            var chartId = (int)Chart.Style;
+
+            if(chartId == 209)
+            {
+                chartId = 102;
+            }
+
+            //In modern files the styles exist at ids 101->148 
+            if(chartId > 100 && chartId < 148)
+            {
+                chartId = chartId - 100;
+            }
+
+            //Support for old chart styles 1-48
+            //Chart styles  40 -> 48 are black background with white text
+            if (chartId > 0 && chartId < 41)
+            {
+                return Color.Black;
+            }
+            else if(chartId> 41 && chartId < 49)
+            {
+                return Color.White;
+            }
+
+            //We only get here if the node is null or empty
+            var themedLine = ChartDrawingObject.GetThemedLine(Theme, ChartElement.MajorGridLines, (int)Chart.Style, false, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
+        }
+
+        // From the docs: 'The default font color is the same as the Axis & Major Gridlines Line Color'
+        internal Color? InbuiltStyleFontColor => GetDefaultFontColor();
+
         public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
         {
             SetChartArea(options);

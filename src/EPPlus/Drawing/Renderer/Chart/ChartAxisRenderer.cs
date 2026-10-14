@@ -1329,12 +1329,12 @@ namespace EPPlusImageRenderer.Svg
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.Axis, (int)Chart.Style);
+            return GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.Axis, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()
         {
-            return GetDefaultBorderColorForElement(ChartElement.Axis, (int)Chart.Style);
+            return GetDefaultBorderColorForElement(ChartRenderer.Theme, ChartElement.Axis, (int)Chart.Style);
         }
         internal override Color? DefaultBorderColor => GetDefaultBorderColor();
 

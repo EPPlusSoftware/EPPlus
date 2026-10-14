@@ -66,6 +66,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double BottomMargin { get; set; }
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
+        /// <summary>
+        /// Default to black if unset
+        /// </summary>
         public string FontColorString { get; set; }
 
         

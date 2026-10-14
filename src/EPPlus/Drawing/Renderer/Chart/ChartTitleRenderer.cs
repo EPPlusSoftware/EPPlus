@@ -14,6 +14,7 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
@@ -198,6 +199,7 @@ namespace EPPlusImageRenderer.Svg
         internal void InitTextBox(double maxWidth, double maxHeight, MeasurementFont defaultFont)
         {
             TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, defaultFont, maxWidth, maxHeight);
+            TextBox.TextBody.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;

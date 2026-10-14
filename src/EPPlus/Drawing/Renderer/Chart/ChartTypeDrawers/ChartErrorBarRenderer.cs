@@ -250,7 +250,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
         internal override Color? GetDefaultBorderColor()
         {
             //We only get here if the node is null or empty
-            var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _errorbars.Border.Fill != null && _errorbars.Border.Fill.IsEmpty, out Color? lineColor);
+            var themedLine = GetThemedLine(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style, _errorbars.Border.Fill != null && _errorbars.Border.Fill.IsEmpty, out Color? lineColor);
             ////Kept here in case needed in future for effect etc.
             //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
             return lineColor;
@@ -273,6 +273,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             }
         }
 
-        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style);
     }
 }

@@ -383,6 +383,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var dp = serie.DataPoints[position];
                 ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
+                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
             }
             else
             {
@@ -398,7 +399,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //    }
             //}
             //_slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
-            //_slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
             //_slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 

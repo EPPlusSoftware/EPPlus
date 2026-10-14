@@ -362,12 +362,12 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.DataTable, (int)Chart.Style);
+            return GetDefaultFillColorForElement(ChartRenderer.Theme,ChartElement.DataTable, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()
         {
-            return GetDefaultBorderColorForElement(ChartElement.DataTable, (int)Chart.Style);
+            return GetDefaultBorderColorForElement(ChartRenderer.Theme,ChartElement.DataTable, (int)Chart.Style);
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)

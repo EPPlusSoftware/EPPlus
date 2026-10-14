@@ -788,7 +788,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style);
         internal override Color? GetDefaultBorderColor()
         {
             return DefaultBorderColor;
@@ -802,7 +802,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             get
             {
-                var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
+                var themedLine = GetThemedLine(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
                 ////Kept here in case needed in future for effect etc.
                 //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
                 return lineColor;
