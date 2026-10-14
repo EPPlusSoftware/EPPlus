@@ -23,6 +23,7 @@ using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System.Data;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -1307,11 +1308,32 @@ namespace EPPlusTest.PDF
                 $"combined ({combined}) should equal plain ({plainAlone}) + scaled ({scaledAlone}) - " +
                 "per-sheet scaling must stay isolated");
         }
-        public void TableDxfStyleTest()
+
+        [TestMethod]
+        public void TableDxfStyleTest1()
         {
             using var p = OpenTemplatePackage("TableDxfStylePdf1.xlsx");
             var ws = p.Workbook.Worksheets[0];
             string path = _pdfPath + "TableDxfStylePdf1.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void TableDxfStyleTest2()
+        {
+            using var p = OpenTemplatePackage("TableDxfStylePdf2.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "TableDxfStylePdf2.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void PdfIsDraftTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.Draft = true;
+            string path = _pdfPath + "DraftTest1.pdf";
             ws.SaveAsPdf(path);
         }
     }

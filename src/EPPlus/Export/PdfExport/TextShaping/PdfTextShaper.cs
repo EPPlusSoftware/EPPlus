@@ -83,6 +83,19 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
                 cell.TextFragments[i] = tf;
                 cell.ShapedTexts[i] = st;
             }
+            if (cell.ContentAligmnet?.ShrinkToFit == true && cell.ContentAligmnet?.WrapText != true && cell.ContentAligmnet?.IsVertical != true)
+            {
+                double hInset = 1.4d;
+                double cw = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
+                double avail = cw - 2d * hInset;
+                if (avail > 0 && totalTextLength > avail)
+                {
+                    float shrink = (float)(avail / totalTextLength);
+                    foreach (var tf in cell.TextFragments)
+                        tf.Font.Size *= shrink;
+                    totalTextLength *= shrink;
+                }
+            }
             if (cell.TextLayoutEngine != null)
             {
                 double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
