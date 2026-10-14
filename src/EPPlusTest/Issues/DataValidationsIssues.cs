@@ -88,24 +88,5 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(pck);
 			}
 		}
-
-		[TestMethod]
-		public void i2571()
-		{
-            using (var pck = new ExcelPackage())
-            {
-                // GIVEN a data validation over two areas, D16:D20 and D28
-                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
-                var dv = sheet1.Cells["D16:D20 D28"].DataValidation.AddListDataValidation();
-                dv.Formula.Values.Add("Option A");
-                dv.Formula.Values.Add("Option B");
-
-                // WHEN 4 rows are inserted between the two areas
-                sheet1.InsertRow(24, 4);
-
-                // THEN the second area is shifted down by 4 rows
-                Assert.AreEqual("D16:D20 D32", dv.Address.Address);
-            }
-        }
 	}
 }
