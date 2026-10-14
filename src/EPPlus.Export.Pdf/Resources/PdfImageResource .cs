@@ -25,10 +25,10 @@ namespace EPPlus.Export.Pdf.Resources
             ImageBytes = imageBytes;
         }
 
-        public PdfImageXObject GetImageObject(int objectNumber, int version = 0)
+        public PdfImageXObject GetImageObject(int objectNumber, bool blackAndWhite, int version = 0)
         {
             this.objectNumber = objectNumber;
-            return new PdfImageXObject(objectNumber, ImageBytes, version);
+            return new PdfImageXObject(objectNumber, ImageBytes, blackAndWhite, version);
         }
     }
 }

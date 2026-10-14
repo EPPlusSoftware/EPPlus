@@ -30,7 +30,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal byte[] SoftMaskData { get; }
         internal int SoftMaskObjectNumber { get; set; }
 
-        public PdfImageXObject(int objectNumber, byte[] imageBytes, int version = 0)
+        public PdfImageXObject(int objectNumber, byte[] imageBytes, bool blackAndWhite, int version = 0)
             : base(objectNumber, version)
         {
             byte[] icoDib = null;
@@ -46,6 +46,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
+                if (blackAndWhite) GrayscaleRgb(icoRgb);
                 _bytes = PdfFlate.CompressLeaveOpen(icoRgb);
                 if (icoAlpha != null)
                 {
@@ -55,7 +56,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             else if (JpegDecoder.IsJpeg(imageBytes))
             {
-                _bytes = imageBytes;
+                _bytes = blackAndWhite ? JpegBlackWhiteHelper.MakeGrayscale(imageBytes) : imageBytes;
                 Filter = "DCTDecode";
                 BitsPerComponent = 8;
                 JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
@@ -81,10 +82,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 {
                     BitsPerComponent = 8;
                     ColorSpace = colorType == 6 ? "/DeviceRGB" : "/DeviceGray";
-                    PngDecoder.DecodePngWithAlpha(imageBytes, width, height, colorType, out byte[] color, out byte[] alpha);
+                    PngDecoder.DecodePngWithAlpha(imageBytes, width, height, blackAndWhite, colorType, out byte[] color, out byte[] alpha);
                     _bytes = color;
                     SoftMaskData = alpha;
                     HasSoftMask = true;
+                }
+                else if (colorType == 2 && blackAndWhite)
+                {
+                    BitsPerComponent = 8;
+                    ColorSpace = "/DeviceRGB";
+                    PngDecoder.DecodePngTruecolor(imageBytes, width, height, blackAndWhite, out byte[] grayRgb);
+                    _bytes = grayRgb;
                 }
                 else
                 {
@@ -98,6 +106,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                             colors = 1;
                             break;
                         case 3:
+                            if (blackAndWhite && palette != null)
+                                GrayscaleRgb(palette);
                             int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
                             ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
                             colors = 1;
@@ -124,6 +134,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
+                if (blackAndWhite) GrayscaleRgb(bmpRgb);
                 _bytes = PdfFlate.CompressLeaveOpen(bmpRgb);
             }
             else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
@@ -132,6 +143,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
+                if (blackAndWhite) GrayscaleRgb(gifRgb);
                 _bytes = PdfFlate.CompressLeaveOpen(gifRgb);
                 if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha); HasSoftMask = true; }
             }
@@ -142,6 +154,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
+                if (blackAndWhite) GrayscaleRgb(tifRgb);
                 _bytes = PdfFlate.CompressLeaveOpen(tifRgb);
                 if (tifAlpha != null)
                 {
@@ -168,6 +181,15 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             BitsPerComponent = 8;
             ColorSpace = "/DeviceGray";
             Filter = "FlateDecode";
+        }
+
+        internal static void GrayscaleRgb(byte[] rgb)
+        {
+            for (int i = 0; i + 2 < rgb.Length; i += 3)
+            {
+                byte y = (byte)(0.2126 * rgb[i] + 0.7152 * rgb[i + 1] + 0.0722 * rgb[i + 2] + 0.5);
+                rgb[i] = rgb[i + 1] = rgb[i + 2] = y;
+            }
         }
 
         internal static PdfImageXObject CreateSoftMask(int objectNumber, byte[] deflatedGray, int width, int height) => new PdfImageXObject(objectNumber, 0, deflatedGray, width, height);

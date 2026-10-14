@@ -1336,5 +1336,15 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "DraftTest1.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void PdfIsBlackAndWhiteTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.BlackAndWhite = true;
+            string path = _pdfPath + "BlackAndWhiteTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }

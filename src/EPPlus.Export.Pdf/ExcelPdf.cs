@@ -137,7 +137,7 @@ namespace EPPlus.Export.Pdf
         {
             foreach (var image in _dictionaries.Images)
             {
-                var img = image.Value.GetImageObject(_document.Count + 1);
+                var img = image.Value.GetImageObject(_document.Count + 1, _documentSettings.BlackAndWhite);
                 if (img.HasSoftMask)
                 {
                     var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
