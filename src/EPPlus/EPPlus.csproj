@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.4.2.0</AssemblyVersion>
-		<FileVersion>7.4.2.0</FileVersion>
-		<Version>7.4.2</Version>
+		<TargetFrameworks>net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<AssemblyVersion>7.4.3.0</AssemblyVersion>
+		<FileVersion>7.4.3.0</FileVersion>
+		<Version>7.4.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -534,7 +534,7 @@
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
 		<NeutralLanguage />
-		<LangVersion>latest</LangVersion>
+		<LangVersion>12.0</LangVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>

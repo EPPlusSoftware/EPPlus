@@ -778,13 +778,25 @@ namespace OfficeOpenXml.Drawing
             var type = Encoding.ASCII.GetString(b);
             return type;
         }
-#endregion
-#region Svg
+        #endregion
+        #region Svg
+        private static XmlTextReader CreateSvgReader(MemoryStream ms)
+        {
+            var reader = new XmlTextReader(ms);
+#if NET35
+            reader.ProhibitDtd = true;
+#else
+            reader.DtdProcessing = DtdProcessing.Ignore;
+#endif
+            reader.XmlResolver = null;
+            return reader;
+        }
+
         private static bool IsSvg(MemoryStream ms, ref double width, ref double height)
         {
             try
             {
-                using (var reader = new XmlTextReader(ms))
+                using (var reader = CreateSvgReader (ms))
                 {
                     while (reader.Read())
                     {
@@ -834,7 +846,7 @@ namespace OfficeOpenXml.Drawing
             try
             {
                 ms.Position = 0;
-                var reader = new XmlTextReader(ms);
+                var reader = CreateSvgReader(ms);
                 while (reader.Read())
                 {
                     if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
