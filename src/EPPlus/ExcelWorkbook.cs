@@ -331,7 +331,10 @@ namespace OfficeOpenXml
 #else
 				var xr = new XmlTextReader(part.GetStream());
 #endif
-				int index = 0;
+#if NET35
+				xr.ProhibitDtd = true;
+#endif
+                int index = 0;
 				while (xr.Read())
 				{
 					if (xr.LocalName == "si" && xr.NodeType == XmlNodeType.Element)
