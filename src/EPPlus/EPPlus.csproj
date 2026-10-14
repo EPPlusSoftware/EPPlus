@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.3.2.0</AssemblyVersion>
-		<FileVersion>7.3.2.0</FileVersion>
-		<Version>7.3.2</Version>
+		<TargetFrameworks>net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<AssemblyVersion>7.3.3.0</AssemblyVersion>
+		<FileVersion>7.3.3.0</FileVersion>
+		<Version>7.3.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.3.2
+			EPPlus 7.3.3
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,8 +26,12 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 7.3.3
+			* Security patch (GHSA-f4h2-2r6m-w59r). See
+			https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
 			## Version 7.3.2
-			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+			* Minor features and bug fixes.
 
 			## Version 7.3.1
 			* Minor features and bug fixes.
@@ -519,7 +523,7 @@
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
 		<NeutralLanguage />
-		<LangVersion>latest</LangVersion>
+		<LangVersion>12.0</LangVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
