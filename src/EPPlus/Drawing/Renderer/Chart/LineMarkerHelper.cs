@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             { 
                 if (marker.Fill.IsEmpty == false)
                 {
-                    style.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+                    style.SetDrawingPropertiesFill(sc.Theme, marker.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
                 }
                 else if (ls.Fill.IsEmpty)
                 {
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 else
                 {
-                        style?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
+                    style?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
                 }
 
                 if (marker.Border.Width > 0)
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     else
                     {
                         //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
-                        style.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                        style.SetDrawingPropertiesBorder(sc.Theme, marker.Border, sc.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, ls.Marker.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                     }
                 }
             }
