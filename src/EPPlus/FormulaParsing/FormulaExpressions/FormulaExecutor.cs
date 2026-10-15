@@ -207,6 +207,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     if(t.TokenType == TokenType.OpeningParenthesis)
                     {
                         openingParenthesis++;
+                        if (lambdaSettings == null) lambdaSettings = new LambdaFormulaSettings();
                         lambdaSettings.AddLambdaToken(tokenIx);
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;

@@ -37,7 +37,8 @@ namespace OfficeOpenXml
             _package = package;
         }
         /// <summary>
-        /// Do not call garbage collection when ExcelPackage is disposed.
+        /// If true (the default), <see cref="GC.Collect()"/> is called when the
+        /// ExcelPackage is disposed. Set to false to skip the collection.
         /// </summary>
         public bool DoGarbageCollectOnDispose { get; set; } = true;
         
