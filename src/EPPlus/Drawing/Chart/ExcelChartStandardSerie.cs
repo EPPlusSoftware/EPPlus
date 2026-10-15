@@ -338,6 +338,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (value.StartsWith("=", StringComparison.OrdinalIgnoreCase)) value = value.Substring(1);
                 if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase))
                 {
+                    //Delete all previous serie child nodes
+                    //If this is not done it will generate a corrupt workbook if there are any previous child nodes
+                    var topnodeXSeries = TopNode.SelectSingleNode(_xSeriesTopPath, NameSpaceManager);
+                    topnodeXSeries?.RemoveAll();
+
                     GetLitValues(value, out double[] numLit, out string[] strLit);
                     if (strLit != null)
                     {
@@ -376,6 +381,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_xSeries.StartsWith("=", StringComparison.OrdinalIgnoreCase)) _xSeries = _xSeries.Substring(1);
                 if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase))
                 {
+                    //Delete all previous x-serie child nodes
+                    //If this is not done it will generate a corrupt workbook if there are any previous child nodes
+                    var topnodeXSeries = TopNode.SelectSingleNode(_xSeriesTopPath, NameSpaceManager);
+                    topnodeXSeries?.RemoveAll();
+
                     GetLitValues(_xSeries, out double[] numLit, out string[] strLit);
                     NumberLiteralsX = numLit;
                     StringLiteralsX = strLit;
