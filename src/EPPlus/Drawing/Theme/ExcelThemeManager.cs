@@ -69,8 +69,8 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 _defaultTheme = StyleResourceManager.GetItem("DefaultTheme.Xml");
             }
-            var themeXml = new XmlDocument();   
-            themeXml.LoadXml(_defaultTheme);
+            var themeXml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(themeXml, _defaultTheme, System.Text.Encoding.UTF8);
             Load(themeXml);
         }
         internal ExcelTheme GetOrCreateTheme()
