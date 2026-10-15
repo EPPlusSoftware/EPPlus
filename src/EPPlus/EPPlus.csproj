@@ -26,13 +26,17 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 7.5.4
+			* Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162).
+			See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
 			## Version 7.5.3
-			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+			* Minor features and bug fixes.
 
 			## Version 7.5.2
-			* Pivot tables could crash 
+			* Pivot tables could crash
 			* Reading linked images was failed if a relation attribute existed but did not have a value.
-			* Minor features and bug fixes. 
+			* Minor features and bug fixes.
 
 			## Version 7.5.1
 			* Minor features and bug fixes.
