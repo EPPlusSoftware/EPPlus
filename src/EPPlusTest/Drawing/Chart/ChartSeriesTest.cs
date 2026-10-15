@@ -458,5 +458,48 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.AreEqual(item3, cache[2]);
             }
         }
+
+
+        //In Epplus 8.7.1 and earlier this would generate a corrupt workbook
+        [TestMethod]
+        public void LitteralsOnExistingCharts()
+        {
+            using (var p = OpenPackage("ExistingSerieLitterals.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("ws1");
+
+                ws.Cells["C3:C6"].Formula = "ROW()*2";
+                ws.Cells["B3"].Value = "Value1";
+                ws.Cells["B4"].Value = "Value2";
+                ws.Cells["B5"].Value = "Value3";
+
+                ws.Calculate();
+
+                var chart = ws.Drawings.AddLineChart("rangeChart", eLineChartType.Line);
+                chart.Series.Add(ws.Cells["C3:C6"], ws.Cells["B3:B5"]);
+
+                SaveAndCleanup(p);
+            }
+
+
+            using (var p = OpenPackage("ExistingSerieLitterals.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var lineChart = ws.Drawings[0].As.Chart.LineChart;
+
+                lineChart.Series[0].XSeries = $"{{'Test{1}','Test{2}'}}";
+
+                var xSeriesNode = lineChart.ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea/c:lineChart/c:ser/c:cat", lineChart.NameSpaceManager);
+
+                //If any of these fail then Workbook is corrupt. Cat node should only have one of either numRef, strRef or numLit, strLit
+                //e.g. numRef and then strLit results in corrupt workbook
+                Assert.AreEqual("c:strLit", xSeriesNode.ChildNodes[0].Name);
+                Assert.AreEqual(1, xSeriesNode.ChildNodes.Count);
+
+                var output = GetOutputFile("", "ExistingSerieLitterals_reRead.xlsx");
+                p.SaveAs(output);
+            }
+        }
     }
 }

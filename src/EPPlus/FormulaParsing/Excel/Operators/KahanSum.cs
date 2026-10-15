@@ -11,6 +11,7 @@
   27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public KahanSum Add(double d)
         {
             var t = _sum + d;
-            if (_sum >= d)
+            if (Math.Abs(_sum) >= Math.Abs(d))
             {
                 _c += (_sum - t) + d; // If sum is bigger, low - order digits of input[i] are lost.
             }

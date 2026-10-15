@@ -22,6 +22,8 @@ using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.Utils.Image;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 
 
 #if NETFULL
@@ -141,8 +143,16 @@ namespace OfficeOpenXml.Drawing
                     {
                         container.RelPic = LinkedImageRel;
                         Image = new ExcelImage(this);
-                        FileInfo ImageFile = new FileInfo(LinkedImageRel.TargetUri.LocalPath);
-                        LoadImageLinked(ImageFile);
+
+                        string adjustedPath = LinkedImageRel.TargetUri.IsAbsoluteUri ? LinkedImageRel.TargetUri.LocalPath : LinkedImageRel.TargetUri.OriginalString;
+
+                        //We need not "embed" as that is handled above but if we're a pure
+                        //"link" we may want to load the linked image if it exists/the path is absolute
+                        if(LinkedImageRel.TargetUri.IsAbsoluteUri && LinkedImageRel.TargetUri.IsFile)
+                        {
+                            FileInfo ImageFile = new FileInfo(adjustedPath);
+                            LoadImageLinked(ImageFile);
+                        }
                     }
                 }
             }
@@ -232,13 +242,17 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void LoadImageLinked(FileInfo ImageFile)
+        internal void LoadImageLinked(FileInfo ImageFile, string origImagePath = "")
         {
             var uri = new Uri($"file:///{string.Format(ImageFile.FullName, CultureInfo.InvariantCulture)}");
             var type = PictureStore.GetPictureType(ImageFile.Extension);
             if (ImageFile.Exists)
             {
                 LoadImageWithoutSavingToPackage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            }
+            else
+            {
+                uri = new Uri(string.Format(origImagePath, CultureInfo.InvariantCulture), UriKind.Relative);
             }
 
             ContentType = PictureStore.GetContentType(type.ToString());
