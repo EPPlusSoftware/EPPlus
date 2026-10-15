@@ -12,7 +12,7 @@ namespace OfficeOpenXml.DataValidation
     /// <summary>
     /// Handling for ExcelAdress updates of DataValidations
     /// </summary>
-    public class ExcelDatavalidationAddress : ExcelAddress
+    internal class ExcelDatavalidationAddress : ExcelAddress
     {
         ExcelDataValidation _val;
         ExcelAddress addressBeforeChange;
