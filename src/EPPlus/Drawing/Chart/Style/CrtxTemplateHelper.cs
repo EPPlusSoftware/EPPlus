@@ -53,11 +53,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                                 break;
                             case ExcelPackage.schemaChartStyleRelationships:
                                 styleXml = new XmlDocument();
-                                XmlHelper.LoadXmlSafe(styleXml, chartPart.GetStream());
+                                XmlHelper.LoadXmlSafe(styleXml, part.GetStream());
                                 break;
                             case ExcelPackage.schemaChartColorStyleRelationships:
                                 colorsXml = new XmlDocument();
-                                XmlHelper.LoadXmlSafe(colorsXml, chartPart.GetStream());
+                                XmlHelper.LoadXmlSafe(colorsXml, part.GetStream());
                                 break;
                         }
                     }
