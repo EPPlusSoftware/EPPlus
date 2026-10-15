@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using EPPlus.Graphics.TransformPrimitives;
+using System.Buffers.Binary;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -127,17 +128,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         void CalculateLocalCenterAndRadius()
         {
+            double shrinkFactor = 1;
+            if (_shouldShrink == true)
+            {
+                shrinkFactor = 0.8632625d;
+            }
+
             _circleCenter = new TranformPoint();
             _circleCenter.Parent = _groupItem.Parent;
-            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Width / 2d;
-            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Height / 2d;
-
-            
+            _circleCenter.Left = (ChartRenderer.Plotarea.Rectangle.Width / 2d);
+            _circleCenter.Top = (ChartRenderer.Plotarea.Rectangle.Height / 2d);
 
             _groupItem.RotationPoint = _circleCenter;
 
-            _radius = Math.Min(_circleCenter.Left, _circleCenter.Top);
+
+            _radius = Math.Min(_circleCenter.Left * shrinkFactor, _circleCenter.Top * shrinkFactor);
         }
+
+        bool _shouldShrink = false;
 
         void LoadSeriesValues(ExcelPieChart chartType)
         {
@@ -165,6 +173,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         else
                         {
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        }
+
+                        if((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                        {
+                            _shouldShrink = true;
                         }
 
                         serieDataLabels.Add(datalabel);
@@ -224,6 +237,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             _groupItem.GroupRotation = angleOffset;
 
             LoadSeriesValues(chartType);
+
             CalculateLocalCenterAndRadius();
             if (serieDataLabels.Count > 0)
             {

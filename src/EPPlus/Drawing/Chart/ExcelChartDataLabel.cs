@@ -29,6 +29,8 @@ namespace OfficeOpenXml.Drawing.Chart
         internal string NsPrefix { private set; get; }
         private readonly string _formatPath;
         private readonly string _sourceLinkedPath;
+        private string _richTextPath = "";
+        private string _defTxBodyPath = "";
 
         internal ExcelChartDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string nsPrefix)
            : base(ns,node)
@@ -38,6 +40,8 @@ namespace OfficeOpenXml.Drawing.Chart
             NsPrefix = nsPrefix;
             _formatPath = $"{nsPrefix}:numFmt/@formatCode";
             _sourceLinkedPath = $"{nsPrefix}:numFmt/@sourceLinked";
+            _defTxBodyPath = $"{NsPrefix}:txPr/a:bodyPr";
+            _richTextPath = $"{nsPrefix}:tx/{nsPrefix}:rich";
         }
         #region "Public properties"
         /// <summary>
@@ -258,6 +262,8 @@ namespace OfficeOpenXml.Drawing.Chart
             
         }
 
+        ExcelTextBody _defaultTextBody = null;
+
         ExcelTextBody _textBody = null;
         /// <summary>
         /// Access to text body properties
@@ -268,7 +274,12 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
+                    _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
+                    var firstDefaultRunProperties = _defaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
+                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+
+                    //Set property without updating xml
+                    _textBody.Paragraphs.FirstDefaultRunProperties = _defaultTextBody.Paragraphs.FirstDefaultRunProperties;
                 }
                 return _textBody;
             }

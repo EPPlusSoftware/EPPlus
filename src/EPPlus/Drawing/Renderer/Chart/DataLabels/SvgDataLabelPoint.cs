@@ -78,6 +78,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             Rectangle = new RectRenderItem(DataLabelPointContainer);
             Rectangle.Name = "Datapoint_Rect";
             Rectangle.Style.FillColor = "none";
+
+            var txtbody = standard.TextBody;
+            var paras = standard.TextBody.Paragraphs;
         }
 
         eLabelPosition GetDefaultPositionBasedOnChartType(ExcelChartDataLabel standardDatalabel)
@@ -166,6 +169,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
+            var txtBdy = dataLabel.TextBody;
+            var paragraphCount = dataLabel.TextBody.Paragraphs.Count();
 
             if (dataLabel.ShowSeriesName)
             {
@@ -649,11 +654,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
 
                     //Subtract standard excel margin of 2pt
-                    bool CanFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
-                    bool CanFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
+                    bool canFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
+                    bool canFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
 
-                    if (CanFitWidth && CanFitHeight)
+                    if (canFitWidth && canFitHeight)
                     {
+                        bool canFitHalfWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width/2d;
+                        bool canFitHalfHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height/2d;
                         //maxBoundsPieSlice.Width
                         //_txtBox.TextBody.Width
                         //var startLeft =  maxBoundsPieSlice.LocalPosition.X;
@@ -663,7 +670,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //var endY = maxBoundsPieSlice.LocalPosition.Y - maxBoundsPieSlice.Height;
 
                         //TODO: make input parameter in pie chart
-                        bool canFitInCenter = false;
+                        bool canFitInCenter = canFitHalfHeight && canFitHalfWidth;
                         if (canFitInCenter)
                         {
                             Rectangle.Left += centerPoint.LocalPosition.X;
