@@ -816,7 +816,7 @@ namespace OfficeOpenXml.Drawing
             try
             {
                 ms.Position = 0;
-                var reader = new XmlTextReader(ms);
+                var reader = XmlHelper.CreateXmlReaderSafe(ms);
                 while (reader.Read())
                 {
                     if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)

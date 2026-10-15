@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 {
                     var chartPart = p.GetPart(chartRel.TargetUri);
                     chartXml = new XmlDocument();
-                    chartXml.Load(chartPart.GetStream());
+                    XmlHelper.LoadXmlSafe(chartXml, chartPart.GetStream());
                     var rels = chartPart.GetRelationships();
                     foreach (var rel in rels)
                     {
