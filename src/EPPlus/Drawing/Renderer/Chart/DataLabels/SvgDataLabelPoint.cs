@@ -169,53 +169,58 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
-            var txtBdy = dataLabel.TextBody;
-            var paragraphCount = dataLabel.TextBody.Paragraphs.Count();
-
-            if (dataLabel.ShowSeriesName)
-            {
-                var idx = Array.IndexOf(serie._chart.Series.ToArray(), serie);
-                dlblStrings.Add(serie.GetHeaderText(idx));
-            }
-            if (dataLabel.ShowCategory)
-            {
-                if (xValue.IsNumeric())
-                {
-                    xValue = Math.Round((double)xValue, 6);
-                }
-                dlblStrings.Add(xValue.ToString());
-            }
-            if (dataLabel.ShowValue)
-            {
-                if (yValue != null)
-                {
-                    if(yValue.IsNumeric())
-                    {
-                        yValue = Math.Round((double)yValue,6);
-                    }
-                    dlblStrings.Add(yValue.ToString());
-                }
-            }
-            if(dataLabel.ShowPercent)
-            {
-                if(summedYValue != null)
-                {
-                    double percent = ConvertUtil.GetValueDouble(yValue) / summedYValue.Value;
-                    percent *= 100;
-                    dlblStrings.Add($"{Math.Round(percent, 0)}%");
-                }
-            }
-
-            var separator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
-
             string finalString = "";
-            for (int j = 0; j < dlblStrings.Count; j++)
+
+            if (dataLabel.Text == null)
             {
-                finalString += dlblStrings[j];
-                if (j != dlblStrings.Count - 1)
+                if (dataLabel.ShowSeriesName)
                 {
-                    finalString += separator;
+                    var idx = Array.IndexOf(serie._chart.Series.ToArray(), serie);
+                    dlblStrings.Add(serie.GetHeaderText(idx));
                 }
+                if (dataLabel.ShowCategory)
+                {
+                    if (xValue.IsNumeric())
+                    {
+                        xValue = Math.Round((double)xValue, 6);
+                    }
+                    dlblStrings.Add(xValue.ToString());
+                }
+                if (dataLabel.ShowValue)
+                {
+                    if (yValue != null)
+                    {
+                        if (yValue.IsNumeric())
+                        {
+                            yValue = Math.Round((double)yValue, 6);
+                        }
+                        dlblStrings.Add(yValue.ToString());
+                    }
+                }
+                if (dataLabel.ShowPercent)
+                {
+                    if (summedYValue != null)
+                    {
+                        double percent = ConvertUtil.GetValueDouble(yValue) / summedYValue.Value;
+                        percent *= 100;
+                        dlblStrings.Add($"{Math.Round(percent, 0)}%");
+                    }
+                }
+
+                var separator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
+
+                for (int j = 0; j < dlblStrings.Count; j++)
+                {
+                    finalString += dlblStrings[j];
+                    if (j != dlblStrings.Count - 1)
+                    {
+                        finalString += separator;
+                    }
+                }
+            }
+            else
+            {
+                finalString = dataLabel.Text;
             }
 
             var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.DataLabels, maxBounds.Width, maxBounds.Height);
@@ -249,6 +254,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 txtBox.ImportParagraph(dataLabel.TextBody.Paragraphs[0], 0, finalString);
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
+                txtBox.TextBody.ChildObjects.RemoveAt(0);
             }
 
             //Ensure nothing has defaulted to 11
@@ -659,8 +665,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                     if (canFitWidth && canFitHeight)
                     {
-                        bool canFitHalfWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width/2d;
-                        bool canFitHalfHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height/2d;
+                        //bool canFitHalfWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width/2d;
+                        //bool canFitHalfHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height/2d;
                         //maxBoundsPieSlice.Width
                         //_txtBox.TextBody.Width
                         //var startLeft =  maxBoundsPieSlice.LocalPosition.X;
@@ -670,7 +676,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                         //var endY = maxBoundsPieSlice.LocalPosition.Y - maxBoundsPieSlice.Height;
 
                         //TODO: make input parameter in pie chart
-                        bool canFitInCenter = canFitHalfHeight && canFitHalfWidth;
+                        bool canFitInCenter = false;
                         if (canFitInCenter)
                         {
                             Rectangle.Left += centerPoint.LocalPosition.X;

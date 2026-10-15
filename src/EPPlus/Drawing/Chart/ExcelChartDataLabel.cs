@@ -313,6 +313,10 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 if (LinkedCell == null)
                 {
+                    if(TextBody.Paragraphs.Count <= 0)
+                    {
+                        return null;
+                    }
                     return TextBody.Paragraphs.Text;
                 }
                 else
