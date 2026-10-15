@@ -290,7 +290,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (parent.Rectangle.Width < parent.MaxWidth)
                 {
                     parent.Rectangle.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
-                    parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    if(position == eLegendPosition.Bottom)
+                    {
+                        parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    }
                 }
             }
             pSls = null;
