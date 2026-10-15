@@ -27,8 +27,8 @@
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
 		## Version 7.1.4
-		* Security patch (GHSA-f4h2-2r6m-w59r). See
-		https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+		* Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162).
+		See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
 		## Version 7.1.3
 		* Bug fixes
@@ -586,5 +586,17 @@
 		<None Update="readme.md">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+	  <PackageReference Include="System.Text.Json" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+	  <PackageReference Include="System.Text.Json" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+	  <PackageReference Include="System.Text.Json" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+	  <PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 </Project>
