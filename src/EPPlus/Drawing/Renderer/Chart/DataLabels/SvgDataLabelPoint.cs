@@ -214,6 +214,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
 
             var txtBox = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.DataLabels, maxBounds.Width, maxBounds.Height);
+            txtBox.TextBody.Style.FillColor = "#" + ChartRenderer.GetDefaultFontColor().Value.ToColorString();
             //txtBox.Left += Rectangle.Left;
             //txtBox.Top += Rectangle.Top;
             txtBox.ImportTextBodyAndParagraphs(dataLabel.TextBody, false);

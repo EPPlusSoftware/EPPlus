@@ -11,6 +11,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,6 +67,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 var tbHeight = tm.Height;
                 sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
                 //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
                 var headerText = cv.ToString();
@@ -116,6 +118,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             var tbHeight = tm.Height;
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
             //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
             var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
@@ -145,7 +148,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             var tbHeight = entryHeight;
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-
+            sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
             var headerText = s.GetHeaderText(index);
             var entry = parent.Entries?.FirstOrDefault(x => x.Index == index);
             if (entry == null || entry.Font.IsEmpty)
@@ -245,6 +248,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 var tbHeight = tm.Height;
                 sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
                 sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
 
                 //si.Left += sls.Textbox.LeftMargin;
@@ -286,7 +290,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (parent.Rectangle.Width < parent.MaxWidth)
                 {
                     parent.Rectangle.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
-                    parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    if(position == eLegendPosition.Bottom)
+                    {
+                        parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    }
                 }
             }
             pSls = null;

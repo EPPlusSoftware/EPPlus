@@ -145,7 +145,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
                 DefaultParagraphFont = new FontFormatBase(defaultFont);
-                Style.FillColor = "black";
             }
         }
 

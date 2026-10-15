@@ -244,9 +244,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
+
+            //if (chart.StyleManager != null && chart.StyleManager.Style == null && chart.Style != eChartStyle.None)
+            //{
+            //    chart.StyleManager.SetChartStyle((int)chart.Style+100);
+            //}
+
             if (ct.VaryColors)
             {
-
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
@@ -265,15 +270,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var baseColorIndex = index % 6;
             if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
             {
+                //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
                 baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
-                //if (style == eChartStyle.None)
-                //{
-                //    baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
-                //}
-                //else
-                //{
-                //    baseColor = 
-                //}
             }
             else
             {

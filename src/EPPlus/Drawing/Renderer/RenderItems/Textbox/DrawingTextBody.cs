@@ -188,6 +188,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Top = GetAlignmentVertical();
+
+            //Style.FillColor = FontColorString;
         }
 
         //internal override void AppendRenderItems(List<RenderItem> renderItems)

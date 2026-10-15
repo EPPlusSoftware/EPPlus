@@ -86,7 +86,7 @@ namespace EPPlusImageRenderer.Svg
             return l;
         }
 
-        private Color GetSchemeColorTint(eSchemeColor sColor, double tint = 0.0d)
+        private static Color GetSchemeColorTint(ExcelTheme theme, eSchemeColor sColor, double tint = 0.0d)
         {
             if (tint < 0)
             {
@@ -96,7 +96,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 tint = 1 - tint;
             }
-            var schemeClr = tc.ColorConverter.GetSchemeColor(ChartRenderer.Theme, sColor);
+            var schemeClr = tc.ColorConverter.GetSchemeColor(theme, sColor);
             var tintedSchemeColor = tc.ColorConverter.ApplyTintDrawing(schemeClr, tint);
             return tintedSchemeColor;
         }
@@ -139,7 +139,7 @@ namespace EPPlusImageRenderer.Svg
             return rect;
         }
 
-        internal Color? GetStyleColorOrDefault(int styleId, Color col1, Color col2, Color col3, Color col4)
+        internal static Color? GetStyleColorOrDefault(int styleId, Color col1, Color col2, Color col3, Color col4)
         {
             Color? themeColor = null;
             //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
@@ -182,17 +182,22 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="lineColor">The line color with fill styles etc applied</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        protected ExcelThemeLine GetThemedLine(ChartElement element, int ChartStyleId, bool nodeIsEmpty, out Color? lineColor)
+        internal static ExcelThemeLine GetThemedLine(ExcelTheme theme, ChartElement element, int ChartStyleId, bool nodeIsEmpty, out Color? lineColor)
         {
+            //Built-in chart styles after 2010 have essentially moved from 1->48 to 101->148
+            if (ChartStyleId > 100 && ChartStyleId < 149)
+            {
+                ChartStyleId = ChartStyleId - 100;
+            }
             //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
             //Alternatively it's an unkown or unset style which should also default to style2
             var styleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
 
             //Everything defaults to subtle style except Area and Floor at certain styles
-            var AreaOrFloorOrOther = (ChartElement.ChartArea | ChartElement.Floor | ChartElement.OtherLines);
+            var AreaOrFloorOrOther = (ChartElement.ChartArea | ChartElement.Floor | ChartElement.OtherLines | ChartElement.MajorGridLines);
             if (AreaOrFloorOrOther.HasFlag(element))
             {
-                var themedLine = ChartRenderer.Theme.FormatScheme.BorderStyle[0];
+                var themedLine = theme.FormatScheme.BorderStyle[0];
 
                 //When the node exists but is empty Excel does not apply default styles
                 //It directly applies the themedLineColor
@@ -209,7 +214,7 @@ namespace EPPlusImageRenderer.Svg
 
                     if (isSchemeColor)
                     {
-                        lineColor = GetDefaultBorderColorForElement(element, styleId);
+                        lineColor = GetDefaultBorderColorForElement(theme, element, styleId);
 
                         if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0 && lineColor.HasValue)
                         {
@@ -227,9 +232,9 @@ namespace EPPlusImageRenderer.Svg
                     return themedLine;
                 }
 
-                lineColor = GetDefaultBorderColorForElement(element, styleId);
+                lineColor = GetDefaultBorderColorForElement(theme, element, styleId);
 
-                var themeColor = tc.ColorConverter.GetThemeColor(ChartRenderer.Theme, themedLine.Fill.SolidFill.Color);
+                var themeColor = tc.ColorConverter.GetThemeColor(theme, themedLine.Fill.SolidFill.Color);
                 if (themedLine.HasFill == false)
                 {
                     //Node exists but has no fill. Excel considers this the same as transparent/noFill
@@ -237,7 +242,7 @@ namespace EPPlusImageRenderer.Svg
                     return themedLine;
                 }
 
-                if (styleId < 41 || element == ChartElement.OtherLines)
+                if (styleId < 41 || element == ChartElement.OtherLines || element == ChartElement.MajorGridLines)
                 {
                     if (themedLine.Fill.SolidFill.Color.Transforms.Count > 0)
                     {
@@ -281,6 +286,12 @@ namespace EPPlusImageRenderer.Svg
         /// <exception cref="InvalidOperationException"></exception>
         protected ExcelDrawingFill GetThemedFill(ChartElement element, int ChartStyleId, out Color? fillColor)
         {
+            //Built-in chart styles after 2010 have essentially moved from 1->48 to 101->148
+            if (ChartStyleId > 100 && ChartStyleId < 149)
+            {
+                ChartStyleId = ChartStyleId - 100;
+            }
+
             //Chart style can only be above 48 if it is Style102 which in this case should be equivalent with style2
             //Alternatively it's an unkown or unset style which should also default to style2
             var styleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
@@ -289,7 +300,7 @@ namespace EPPlusImageRenderer.Svg
 
             if ((ChartElement.Floor | ChartElement.Walls).HasFlag(element))
             {
-                fillColor = GetDefaultFillColorForElement(element, styleId);
+                fillColor = GetDefaultFillColorForElement(ChartRenderer.Theme, element, styleId);
                 var themedFill = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
 
                 if (styleId > 32)
@@ -322,8 +333,13 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        protected Color? GetDefaultBorderColorForElement(ChartElement element, int ChartStyleId)
+        internal static Color? GetDefaultBorderColorForElement(ExcelTheme theme, ChartElement element, int ChartStyleId)
         {
+            //Built-in chart styles after 2010 have essentially moved from 1->48 to 101->148
+            if (ChartStyleId > 100 && ChartStyleId < 149)
+            {
+                ChartStyleId = ChartStyleId - 100;
+            }
             //return Color.Empty;
 
             if ((ChartElement.Axis | ChartElement.MajorGridLines).HasFlag(element))
@@ -331,42 +347,42 @@ namespace EPPlusImageRenderer.Svg
                 //There's only really two options in this particular case
                 if (ChartStyleId <= 32)
                 {
-                    return GetSchemeColorTint(eSchemeColor.Text1, 0.75d);
+                    return GetSchemeColorTint(theme, eSchemeColor.Text1, 0.75d);
                 }
                 else
                 {
-                    return GetSchemeColorTint(eSchemeColor.Dark1, 0.75d);
+                    return GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.75d);
                 }
             }
             else if (element.HasFlag(ChartElement.MinorGridLines))
             {
-                var retCol = GetSchemeColorTint(eSchemeColor.Text1, 0.5d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 0.5d);
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Dark1, 0.9d);
+                var retCol = GetSchemeColorTint(theme, eSchemeColor.Text1, 0.5d);
+                var retCol2and3 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.5d);
+                var retCol4 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.9d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
             }
             else if ((ChartElement.ChartArea | ChartElement.DataTable | ChartElement.Floor).HasFlag(element))
             {
-                var retCol = GetSchemeColorTint(eSchemeColor.Text1, 0.75d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 0.75d);
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Text1, 1d);
+                var retCol = GetSchemeColorTint(theme, eSchemeColor.Text1, 0.75d);
+                var retCol2and3 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.75d);
+                var retCol4 = GetSchemeColorTint(theme, eSchemeColor.Text1, 1d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
             }
             else
             {
                 //Other lines should technically always be the enum here but keep it as Else just in case
-                var retCol = GetSchemeColorTint(eSchemeColor.Text1, 1d);
-                var retCol2and3 = GetSchemeColorTint(eSchemeColor.Dark1, 1d);
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Text1, 1d);
+                var retCol = GetSchemeColorTint(theme, eSchemeColor.Text1, 1d);
+                var retCol2and3 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 1d);
+                var retCol4 = GetSchemeColorTint(theme, eSchemeColor.Text1, 1d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2and3, retCol2and3, retCol4);
             }
         }
 
 
-        private Color? GetDefaultAccent(int ChartStyleId)
+        private static Color? GetDefaultAccent(ExcelTheme theme, int ChartStyleId)
         {
             if (ChartStyleId < 35 || ChartStyleId > 40)
             {
@@ -375,31 +391,37 @@ namespace EPPlusImageRenderer.Svg
             }
             //35 == accent1, 36 == accent2 etc.
             var accentColor = (eSchemeColor.Accent1 + (ChartStyleId) - 35);
-            return GetSchemeColorTint(accentColor, 0.2d);
+            return GetSchemeColorTint(theme, accentColor, 0.2d);
         }
 
-        protected Color? GetDefaultFillColorForElement(ChartElement element, int ChartStyleId)
+        internal static Color? GetDefaultFillColorForElement(ExcelTheme theme, ChartElement element, int ChartStyleId)
         {
+            //Built-in chart styles after 2010 have essentially moved from 1->48 to 101->148
+            if(ChartStyleId > 100 && ChartStyleId < 149)
+            {
+                ChartStyleId = ChartStyleId - 100;
+            }
+
             ChartStyleId = ChartStyleId > (int)eChartStyle.Style48 ? (int)eChartStyle.Style2 : ChartStyleId;
 
             if (element.HasFlag(ChartElement.ChartArea))
             {
-                var retCol = GetSchemeColorTint(eSchemeColor.Background1);
-                var retCol2And3 = GetSchemeColorTint(eSchemeColor.Text1);
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Background1);
+                var retCol = GetSchemeColorTint(theme, eSchemeColor.Background1);
+                var retCol2And3 = GetSchemeColorTint(theme, eSchemeColor.Light1);
+                var retCol4 = GetSchemeColorTint(theme,eSchemeColor.Dark1);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2And3, retCol2And3, retCol4);
             }
             else if ((ChartElement.Floor | ChartElement.Walls | ChartElement.PlotArea2d).HasFlag(element))
             {
-                var retCol = GetSchemeColorTint(eSchemeColor.Background1);
-                var retCol2 = GetSchemeColorTint(eSchemeColor.Background1, 0.2d);
+                var retCol = GetSchemeColorTint(theme, eSchemeColor.Background1);
+                var retCol2 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.2d);
                 Color? retCol3 = Color.Empty;
-                if (ChartStyleId > 35 && ChartStyleId < 40)
+                if (ChartStyleId > 34 && ChartStyleId < 41)
                 {
-                    retCol3 = GetDefaultAccent(ChartStyleId);
+                    retCol3 = GetDefaultAccent(theme, ChartStyleId);
                 }
-                var retCol4 = GetSchemeColorTint(eSchemeColor.Background1, 0.95d);
+                var retCol4 = GetSchemeColorTint(theme, eSchemeColor.Dark1, 0.95d);
 
                 return GetStyleColorOrDefault(ChartStyleId, retCol, retCol2, retCol3.Value, retCol4);
             }

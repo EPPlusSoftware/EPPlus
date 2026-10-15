@@ -156,7 +156,12 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
 
-            Color defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
+            Color? defaultTextColor = null;
+            ////Set to hardcoded fallback only if parent doesn't have color
+            //if (string.IsNullOrEmpty(defaultFontColor))
+            //{
+            //    defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
+            //}
 
             //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
@@ -207,8 +212,8 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     }
                     else
                     {
-                        //Should never happen.
-                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        ////Should never happen.
+                        //Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }

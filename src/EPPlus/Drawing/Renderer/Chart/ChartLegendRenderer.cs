@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -448,6 +449,7 @@ namespace EPPlusImageRenderer.Svg
                             case eChartType.PieExploded:
                                 if (ix == 0)
                                 {
+                                    var preCount = SeriesIcon?.Count ?? 0;
                                     LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                     pSls = null;
                                     sls = null;
@@ -471,8 +473,10 @@ namespace EPPlusImageRenderer.Svg
                                 break;
                             }
                         }
+
                         if (sls != null)
                         {
+                            sls.Textbox.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
                             SeriesIcon.Add(sls);
                         }
                         //SeriesIcon.Add(sls);
