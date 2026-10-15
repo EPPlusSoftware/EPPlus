@@ -184,18 +184,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         private void AddDatalabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, BoundingBox maxBounds)
         {
-            var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
-
-            var dlblName = $"DatalabelPoint_{dataLabels.Count}";
-            newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
-            newDataLabel.DataLabelPointContainer.Name = dlblName;
-
-            if (dataLabel.ShowLegendKey)
+            //We don't add it if it's specified to be deleted
+            if (dataLabel.HasDeleteNode == false)
             {
-                newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds, newDataLabel.Rectangle.Height)); //TODO: Check if Rectangle.Height matches entry height
-            }
+                var newDataLabel = new SvgDataLabelPoint(ChartRenderer, dataLabel, DefaultFillColor);
 
-            dataLabels.Add(newDataLabel);
+                var dlblName = $"DatalabelPoint_{dataLabels.Count}";
+                newDataLabel.ImportDataLabel(serie, dataLabel, xValue, yValue, defaultParagraph, maxBounds, _defaultMargins, SummedSeries);
+                newDataLabel.DataLabelPointContainer.Name = dlblName;
+
+                if (dataLabel.ShowLegendKey)
+                {
+                    newDataLabel.AddSeriesIcon(GetSeriesIcon(serie, maxBounds, newDataLabel.Rectangle.Height)); //TODO: Check if Rectangle.Height matches entry height
+                }
+
+                dataLabels.Add(newDataLabel);
+            }
         }
 
         internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)

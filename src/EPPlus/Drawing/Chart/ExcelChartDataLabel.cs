@@ -32,16 +32,21 @@ namespace OfficeOpenXml.Drawing.Chart
         private string _richTextPath = "";
         private string _defTxBodyPath = "";
 
+        private string fontPropertiesPath = "";
+
+        internal bool HasDeleteNode => GetXmlNodeBool($"{NsPrefix}:delete");
+
         internal ExcelChartDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string nsPrefix)
            : base(ns,node)
        {
             _nodeName = nodeName;
             _chart = chart;
             NsPrefix = nsPrefix;
-            _formatPath = $"{nsPrefix}:numFmt/@formatCode";
-            _sourceLinkedPath = $"{nsPrefix}:numFmt/@sourceLinked";
+            _formatPath = $"{NsPrefix}:numFmt/@formatCode";
+            _sourceLinkedPath = $"{NsPrefix}:numFmt/@sourceLinked";
             _defTxBodyPath = $"{NsPrefix}:txPr/a:bodyPr";
-            _richTextPath = $"{nsPrefix}:tx/{nsPrefix}:rich";
+            _richTextPath = $"{NsPrefix}:tx/{NsPrefix}:rich";
+            fontPropertiesPath = $"{NsPrefix}:txPr";
         }
         #region "Public properties"
         /// <summary>
@@ -222,7 +227,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_font == null)
                {
-                   _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
+                   _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
                }
                return _font;
            }
@@ -276,7 +281,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
                     var firstDefaultRunProperties = _defaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
-                    _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+                    if(ExistsNode($"{_richTextPath}/a:bodyPr"))
+                    {
+                        _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+                    }
+                    else
+                    {
+                        _textBody = _defaultTextBody;
+                    }
 
                     //Set property without updating xml
                     _textBody.Paragraphs.FirstDefaultRunProperties = _defaultTextBody.Paragraphs.FirstDefaultRunProperties;
@@ -284,6 +296,84 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
+
+        /// <summary>
+        /// The pure text string in this datalabel
+        /// Source could be either TextBody or LinkedCell
+        /// If the datalabel has a Delete node returns string.Empty
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                if(HasDeleteNode)
+                {
+                    return string.Empty;
+                }
+
+                if (LinkedCell == null)
+                {
+                    return TextBody.Paragraphs.Text;
+                }
+                else
+                {
+                    if (LinkedCell.IsSingleCell == false)
+                    {
+                        string combinedString = "";
+                        string separator = " ";
+                        foreach (var address in LinkedCell)
+                        {
+                            combinedString += address.Text + separator;
+                        }
+                        return combinedString;
+                    }
+                    return LinkedCell.Text;
+                }
+            }
+        }
+
+        public ExcelRangeBase LinkedCell
+        {
+            get
+            {
+                var a = GetXmlNodeString($"{NsPrefix}:tx/{NsPrefix}:strRef/c:f");
+                if (ExcelCellBase.IsValidAddress(a))
+                {
+                    var address = new ExcelAddressBase(a);
+                    ExcelWorksheet ws;
+                    if (string.IsNullOrEmpty(address.WorkSheetName))
+                    {
+                        ws = _chart.WorkSheet;
+                    }
+                    else
+                    {
+                        ws = _chart.WorkSheet.Workbook.Worksheets[address.WorkSheetName];
+                    }
+                    if (ws == null) return null;
+                    return ws.Cells[address.LocalAddress];
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    DeleteNode($"{NsPrefix}:tx/{NsPrefix}:strRef");
+                    DeleteNode($"{NsPrefix}:txPr");
+                    fontPropertiesPath = $"{NsPrefix}:tx/{NsPrefix}:rich";
+                }
+                else
+                {
+                    DeleteNode($"{NsPrefix}:tx/{NsPrefix}:rich");
+                    SetXmlNodeString($"{NsPrefix}:tx/{NsPrefix}:strRef/c:f", value.FullAddressAbsolute);
+                    var cache = CreateNode($"{NsPrefix}:tx/{NsPrefix}:strRef/c:strCache", false, true);
+                    cache.InnerXml = $"<c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>{value.Text}</c:v></c:pt>";
+                    fontPropertiesPath = $"{NsPrefix}:txPr";
+                }
+                _font = null;
+            }
+        }
+
         #endregion
         #region "Position Enum Translation"
         /// <summary>

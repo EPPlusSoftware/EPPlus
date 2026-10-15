@@ -457,13 +457,19 @@ namespace EPPlusTest.Drawing.Chart
                 //var sLabel6 = seriesDlbl.DataLabels[5];
                 //var sLabel7 = seriesDlbl.DataLabels[6];
 
-                
-
                 var paragraphs = sLabel1.TextBody.Paragraphs;
 
+                //Ensure can read custom paragraph
                 Assert.AreEqual(1, paragraphs.Count);
                 Assert.AreEqual("Biggest", paragraphs.Text);
 
+                //Ensure can read empty custom paragraphs
+                Assert.AreEqual(string.Empty, sLabel2.Text);
+
+                Assert.AreEqual("Delta", sLabel3.Text);
+                Assert.AreEqual("Data!$Z$5", sLabel3.LinkedCell.FullAddress);
+
+                Assert.AreEqual(string.Empty, sLabel4.Text);
                 SaveAndCleanup(p);
             }
         }
