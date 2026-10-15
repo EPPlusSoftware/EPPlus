@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
+using Microsoft.VisualBasic;
 using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,14 @@ internal class ValueAxisScaleCalculator
 {
     internal static AxisScale Calculate(double dataMin, double dataMax, double chartHeightPixels, AxisOptions axisOptions = null)
     {
-        return GetNumberScale(ref dataMin, ref dataMax, chartHeightPixels, ref axisOptions);
+        if (axisOptions.Axis.LogBase > 1)
+        {
+            return GetLogScale(ref dataMin, ref dataMax, chartHeightPixels, ref axisOptions);
+        }
+        else
+        {
+            return GetNumberScale(ref dataMin, ref dataMax, chartHeightPixels, ref axisOptions);
+        }
     }
 
     private static AxisScale GetNumberScale(ref double dataMin, ref double dataMax, double chartHeightPixels, ref AxisOptions axisOptions)
@@ -237,5 +245,23 @@ internal class ValueAxisScaleCalculator
             ticks.Add(Math.Round(tickValue, 10)); // Round to avoid floating point errors
         }
         return ticks;
+    }
+    private static double FloorLog(double v, double b) => (int)Math.Floor(Math.Log(v) / Math.Log(b));
+    private static double CeilLog(double v, double b) => (int)Math.Ceiling(Math.Log(v) / Math.Log(b));
+
+    private static AxisScale GetLogScale(ref double dataMin, ref double dataMax, double chartHeightPixels, ref AxisOptions axisOptions)
+    {
+        var res = new AxisScale();
+        var ax = axisOptions.Axis;
+        var b = ax.LogBase.Value;
+        var expMin = FloorLog(dataMin, b);
+        var expMax = CeilLog(dataMax, b);
+        if (res.Min == res.Max) res.Max++;        // all values equal, or one exact power
+        var unit = axisOptions.LockedInterval ?? b;
+        res.Min = Math.Pow(unit, expMin);
+        res.Max = Math.Pow(unit, expMax);
+        res.MajorInterval = b;
+
+        return res;
     }
 }

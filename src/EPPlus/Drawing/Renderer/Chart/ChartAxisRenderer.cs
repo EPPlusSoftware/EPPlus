@@ -162,10 +162,20 @@ namespace EPPlusImageRenderer.Svg
                     var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
                     nf = new ExcelFormatTranslator(sdFormat, 14);
                 }
-            }
+            }            
             foreach (var v in CategoryAxisScaleCalculator.GetUniqueValues(values))
             {
-                var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                string s;
+                if (ax.DisplayUnit > 1)
+                {
+                    var d = ConvertUtil.GetValueDouble(v, false, true);
+                    d /= ax.DisplayUnit;
+                    s = ValueToTextHandler.FormatValue(d, false, nf, null, out bool isValidFormat);
+                }
+                else
+                {
+                    s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                }
                 displayValues.Add(s);
             }
             return displayValues;
@@ -777,11 +787,88 @@ namespace EPPlusImageRenderer.Svg
         {
             var axisStyle = GetAxisStyleEntry();
 
+            if((Axis.LogBase ?? 1) > 1)
+            {
+                return AddTickmarksLogarithmic(units, parentUnit, tickMarkWidth, type, axisStyle);
+            }
+            else
+            {
+                return AddTickmarksLinear(units, dateUnit, tickMarkWidth, type, axisStyle);
+            }
+        }
+
+        private List<LineRenderItem> AddTickmarksLogarithmic(double units, double parentUnit, double tickMarkWidth, eAxisTickMark type, ExcelChartStyleEntry axisStyle)
+        {
             var tms = new List<LineRenderItem>();
-            double min, max, addMinor=0D;
 
+            GetTickmarkWidths(type, tickMarkWidth, out double tickMarkWidthInside, out double tickMarkWidthOutside);
+            var diff = Max - Min;
+            var logBase = (Axis.LogBase ?? 1);
+            var isLogBase = logBase > 1;
+            double d = Min;
+            var maxPos = Max + units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
+            while (d <= maxPos)
+            {
+                var addPosition = (d - Min);
+                double x1, y1, x2, y2;
+                switch (Axis.ActualAxisPosition)
+                {
+                    case eActualAxisPosition.Left:
+                    case eActualAxisPosition.LeftSecond:
+                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y2 = y1;
+                        x1 = (float)Rectangle.Width - tickMarkWidthOutside;
+                        x2 = (float)Rectangle.Width + tickMarkWidthInside;
+                        break;
+                    case eActualAxisPosition.Right:
+                    case eActualAxisPosition.RightSecond:
+                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y2 = y1;
+                        x1 = (float)-tickMarkWidthInside;
+                        x2 = (float)tickMarkWidthOutside;
+                        break;
+                    case eActualAxisPosition.Top:
+                    case eActualAxisPosition.TopSecond:
+                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x2 = x1;
+                        y1 = (float)Rectangle.Height - tickMarkWidthOutside;
+                        y2 = (float)Rectangle.Height + tickMarkWidthInside;
+                        break;
+                    case eActualAxisPosition.Bottom:
+                    case eActualAxisPosition.BottomSecond:
+                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x2 = x1;
+                        y1 = (float)-tickMarkWidthInside;
+                        y2 = (float)tickMarkWidthOutside;
+                        break;
+                    default:
+                        throw new InvalidOperationException("Invalid axis position");
+                }
+                var tm = new LineRenderItem(ChartRenderer.Bounds);
+                tm.X1 = x1;
+                tm.Y1 = y1;
+                tm.X2 = x2;
+                tm.Y2 = y2;
+                tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
+                if (tm.Style.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                {
+                    tm.Style.BorderWidth = 0.75;
+                }
+                tms.Add(tm);
 
-            if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis==false)
+                if (units == 0) break;
+                d *= units;
+            }
+            return tms;
+        }
+
+        private List<LineRenderItem> AddTickmarksLinear(double units, eTimeUnit? dateUnit, double tickMarkWidth, eAxisTickMark type, ExcelChartStyleEntry axisStyle)
+        {
+            var tms = new List<LineRenderItem>();
+            GetTickmarkWidths(type, tickMarkWidth, out double tickMarkWidthInside, out double tickMarkWidthOutside);
+
+            double min, max;
+            if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis == false)
             {
                 if (AxisValues != null)
                 {
@@ -807,74 +894,61 @@ namespace EPPlusImageRenderer.Svg
                 max = Max;
             }
 
-            double tickMarkWidthInside=0, tickMarkWidthOutside=0;
-            if(type==eAxisTickMark.In || type==eAxisTickMark.Cross)
-            {
-                tickMarkWidthInside = tickMarkWidth;
-            }
-            if(type==eAxisTickMark.Out || type == eAxisTickMark.Cross)
-            {
-                tickMarkWidthOutside = tickMarkWidth;
-            }
-
             var diff = IsCatAx() ? max - min + 1 : max - min;
             var maxPos = IsCatAx() ? max + 1 : max;
-
-            double d = min + addMinor;
+            var logBase = (Axis.LogBase ?? 1);
+            var isLogBase = logBase > 1;
+            double d = min;
             maxPos += units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
-            while (d <= maxPos )
+            while (d <= maxPos)
             {
                 var addPosition = (d - min);
-                //if (double.IsNaN(parentUnit) || 
-                //    (dateUnit.HasValue==false && addPosition % parentUnit != 0) || 
-                //    (dateUnit.HasValue==true && IsMinorDateUnit(dateUnit.Value, parentUnit, d)))
-                //{
-                    double x1, y1, x2, y2;
-                    switch (Axis.ActualAxisPosition)
-                    {
-                        case eActualAxisPosition.Left:
-                        case eActualAxisPosition.LeftSecond:
-                            y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
-                            y2 = y1;                            
-                            x1 = (float)Rectangle.Width - tickMarkWidthOutside;
-                            x2 = (float)Rectangle.Width + tickMarkWidthInside;
-                            break;
-                        case eActualAxisPosition.Right:
-                        case eActualAxisPosition.RightSecond:
-                            y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
-                            y2 = y1;
-                            x1 = (float)-tickMarkWidthInside;
-                            x2 = (float)tickMarkWidthOutside;
-                            break;
-                        case eActualAxisPosition.Top:
-                        case eActualAxisPosition.TopSecond:
-                            x1 = (float)((addPosition / diff * Rectangle.Width));
-                            x2 = x1;
-                            y1 = (float)Rectangle.Height - tickMarkWidthOutside;
-                            y2 = (float)Rectangle.Height + tickMarkWidthInside;
-                            break;
-                        case eActualAxisPosition.Bottom:
-                        case eActualAxisPosition.BottomSecond:
-                            x1 = (float)((addPosition / diff * Rectangle.Width));
-                            x2 = x1;
-                            y1 = (float)-tickMarkWidthInside;
-                            y2 = (float)tickMarkWidthOutside;
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid axis position");
-                    }
-                    var tm = new LineRenderItem(ChartRenderer.Bounds);
-                    tm.X1 = x1;
-                    tm.Y1 = y1;
-                    tm.X2 = x2;
-                    tm.Y2 = y2;
-                    tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
-                    if(tm.Style.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
-                    {
-                        tm.Style.BorderWidth = 0.75;
-                    }
-                    tms.Add(tm);
-                //}
+                double x1, y1, x2, y2;
+                switch (Axis.ActualAxisPosition)
+                {
+                    case eActualAxisPosition.Left:
+                    case eActualAxisPosition.LeftSecond:
+                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y2 = y1;
+                        x1 = (float)Rectangle.Width - tickMarkWidthOutside;
+                        x2 = (float)Rectangle.Width + tickMarkWidthInside;
+                        break;
+                    case eActualAxisPosition.Right:
+                    case eActualAxisPosition.RightSecond:
+                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y2 = y1;
+                        x1 = (float)-tickMarkWidthInside;
+                        x2 = (float)tickMarkWidthOutside;
+                        break;
+                    case eActualAxisPosition.Top:
+                    case eActualAxisPosition.TopSecond:
+                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x2 = x1;
+                        y1 = (float)Rectangle.Height - tickMarkWidthOutside;
+                        y2 = (float)Rectangle.Height + tickMarkWidthInside;
+                        break;
+                    case eActualAxisPosition.Bottom:
+                    case eActualAxisPosition.BottomSecond:
+                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x2 = x1;
+                        y1 = (float)-tickMarkWidthInside;
+                        y2 = (float)tickMarkWidthOutside;
+                        break;
+                    default:
+                        throw new InvalidOperationException("Invalid axis position");
+                }
+                var tm = new LineRenderItem(ChartRenderer.Bounds);
+                tm.X1 = x1;
+                tm.Y1 = y1;
+                tm.X2 = x2;
+                tm.Y2 = y2;
+                tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, axisStyle?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
+                if (tm.Style.BorderWidth < 0.75) //Excel seems to have this as minimum width for tick marks, so we enforce it here to make sure they are visible.
+                {
+                    tm.Style.BorderWidth = 0.75;
+                }
+                tms.Add(tm);
+
                 if (units == 0) break;
                 switch (dateUnit)
                 {
@@ -882,7 +956,7 @@ namespace EPPlusImageRenderer.Svg
                         d = DateTime.FromOADate(d).AddYears((int)units).ToOADate();
                         break;
                     case eTimeUnit.Months:
-                        if (units>=1D)
+                        if (units >= 1D)
                         {
                             d = DateTime.FromOADate(d).AddMonths((int)units).ToOADate();
                         }
@@ -899,6 +973,28 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
             return tms;
+        }
+
+        private void GetTickmarkWidths(eAxisTickMark type, double tickMarkWidth, out double tickMarkWidthInside, out double tickMarkWidthOutside)
+        {
+            if (type == eAxisTickMark.In || type == eAxisTickMark.Cross)
+            {
+                tickMarkWidthInside = tickMarkWidth;
+            }
+            else
+            {
+                tickMarkWidthInside = 0;
+            }
+
+            if (type == eAxisTickMark.Out || type == eAxisTickMark.Cross)
+            {
+                tickMarkWidthOutside = tickMarkWidth;
+            }
+            else
+            {
+                tickMarkWidthOutside = 0;
+            }
+
         }
 
         private bool IsMinorDateUnit(eTimeUnit dateUnit, double parentUnit, double d)
@@ -942,8 +1038,8 @@ namespace EPPlusImageRenderer.Svg
             for (double d = min; d <= Max; d += units)
             {
                 //if(d==min && Line!=null && Line.BorderWidth>0) continue; //TODO: Check this. Removed as min is not always the first gridline, and this causes the first gridline to be missing in some cases.
-                if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
-                {
+                //if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
+                //{
                     switch (Axis.AxisPosition)
                     {
                         case eAxisPosition.Left:
@@ -958,7 +1054,7 @@ namespace EPPlusImageRenderer.Svg
                         default:
                             throw new InvalidOperationException("Invalid axis position.");
                     }
-                }
+                //}
                 if (units == 0) break;
             }
 
@@ -970,7 +1066,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 case eAxisPosition.Left:
                 case eAxisPosition.Right:
-                    id = "xGridLine";
+                    id = $"x{(double.IsNaN(parentUnit)?"Major":"Minor")}GridLine";
                     y1 = (float)points.Last().Top;
                     y2 = y1;
                     x1 = (float)0;
@@ -978,7 +1074,7 @@ namespace EPPlusImageRenderer.Svg
                     break;
                 case eAxisPosition.Top:
                 case eAxisPosition.Bottom:
-                    id = "yGridLine";
+                    id = $"y{(double.IsNaN(parentUnit) ? "Major" : "Minor")}GridLine";
                     x1 = (float)points[0].Left;
                     x2 = x1;
                     y1 = 0;
@@ -1014,12 +1110,12 @@ namespace EPPlusImageRenderer.Svg
             for(int i = 0; i < points.Count; i++)
             {
                 var refItem = new UseReferenceRenderItem(ChartRenderer.Bounds, "#" + id);
-                if(id == "xGridLine")
+                if(Axis.IsVertical)
                 {
                     refItem.X = 0f;
                     refItem.Y = offsetY*i;
                 }
-                else if(id == "yGridLine")
+                else 
                 {
                     refItem.X = offsetX*i;
                     refItem.Y = 0f;
@@ -1258,12 +1354,25 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options);
-                for (var v = res.Min; Math.Round(v,12) <= Math.Round(res.Max,12); v += res.MajorInterval)
+                var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options); 
+                if (ax.LogBase > 1)
                 {
-                    l.Add(v);
-                    if (res.MajorInterval == 0) break;
+                    for (var v = res.Min; Math.Round(v, 12) <= Math.Round(res.Max, 12); v *= res.MajorInterval)
+                    {
+                        l.Add(v);
+                        if (res.MajorInterval == 0) break;
+                    }
+                    ShrinkList(l, 12);
                 }
+                else
+                {
+                    for (var v = res.Min; Math.Round(v, 12) <= Math.Round(res.Max, 12); v += res.MajorInterval)
+                    {
+                        l.Add(v);
+                        if (res.MajorInterval == 0) break;
+                    }
+                }
+
 
                 min = res.Min;
                 max = res.Max;
@@ -1275,6 +1384,17 @@ namespace EPPlusImageRenderer.Svg
             return l;
         }
 
+        private void ShrinkList(List<object> l, int max)
+        {
+            while(l.Count > max)
+            { 
+                var c = l.Count-1;
+                for(int i=0;i<c--;i+=1)
+                {
+                    l.RemoveAt(i);
+                }
+            }
+        }
         /// <summary>
         /// Adjust the min and max values based on the values in the chart objects, such as trendlines. This is needed to make sure that the trendlines are visible in the chart and not cut off because the axis scale is based on the data series only.
         /// </summary>
