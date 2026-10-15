@@ -965,14 +965,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelPicture AddPicture(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
-
-            //var packageLocation = _package.File.FullName.Replace(_package.File.Name, "");
-            //Uri imageUri = new Uri(new Uri(packageLocation), ImagePath);
-            //FileInfo verifyFile = null;
-
-            //verifyFile = new FileInfo(imageUri);
-            var test = new FileInfo(ImagePath);
-            return AddPicture(Name, test, null, Location, null, ImagePath);
+            return AddPicture(Name, new FileInfo(ImagePath), null, Location, null, ImagePath);
         }
         /// <summary>
         /// Adds a picture to the worksheet
