@@ -18,7 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.4.2
+			EPPlus 7.4.3
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,8 +26,12 @@
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+			## Version 7.4.3
+			* Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162).
+			See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
 			## Version 7.4.2
-			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+			* Minor features and bug fixes.
 
 			## Version 7.4.1
 			* Updated for vulnerability in System.Text.Json - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
