@@ -1435,6 +1435,18 @@ namespace OfficeOpenXml
             XmlReader reader = XmlReader.Create(sr, settings);
             xmlDoc.Load(reader);
         }
+        internal static XmlTextReader CreateXmlReaderSafe(Stream stream, WhitespaceHandling whitespaceHandling=WhitespaceHandling.All)
+        {
+            var xr = new XmlTextReader(stream);
+            xr.WhitespaceHandling = whitespaceHandling;
+#if (NET35)
+            xr.ProhibitDtd = true;
+#else
+            xr.DtdProcessing = DtdProcessing.Prohibit;
+#endif
+            return xr;
+        }
+
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
             using (var stream = EPPlusMemoryManager.GetStream(encoding.GetBytes(xml)))

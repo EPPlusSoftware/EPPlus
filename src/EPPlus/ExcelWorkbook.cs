@@ -365,16 +365,7 @@ namespace OfficeOpenXml
             if (_package.ZipPackage.PartExists(SharedStringsUri))
             {
                 Packaging.ZipPackagePart part = _package.ZipPackage.GetPart(SharedStringsUri);
-#if Core
-                var xr = XmlReader.Create(part.GetStream(), new XmlReaderSettings()
-                {
-                    DtdProcessing = DtdProcessing.Prohibit,
-                    IgnoreWhitespace = true,
-                });
-
-#else
-				var xr = new XmlTextReader(part.GetStream());
-#endif
+                var xr = XmlHelper.CreateXmlReaderSafe(part.GetStream(), WhitespaceHandling.Significant);
                 int index = 0;
                 while (xr.Read())
                 {
