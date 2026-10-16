@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.0.8.0</AssemblyVersion>
-		<FileVersion>8.0.8.0</FileVersion>
-		<Version>8.0.8</Version>
+		<AssemblyVersion>8.0.9.0</AssemblyVersion>
+		<FileVersion>8.0.9.0</FileVersion>
+		<Version>8.0.9</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
