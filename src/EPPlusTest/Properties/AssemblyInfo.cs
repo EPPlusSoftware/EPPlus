@@ -63,3 +63,6 @@
 //[assembly: AssemblyVersion("1.0.0.0")]
 //[assembly: AssemblyFileVersion("1.0.0.0")]
 //#endif
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+[assembly: Parallelize(Workers = 1, Scope = ExecutionScope.ClassLevel)]
