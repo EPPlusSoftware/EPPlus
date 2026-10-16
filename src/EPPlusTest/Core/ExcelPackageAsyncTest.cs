@@ -37,6 +37,7 @@ namespace EPPlusTest.Core
      * Note that some of these tests will fail the first time they are runned as they read the files created by other tests.
      ************************************************************************************************************************/
     [TestClass]
+    [DoNotParallelize]
     public class ExcelPackageAsyncTest : TestBase
     {
         private const int noRows= 10000;
