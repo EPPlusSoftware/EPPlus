@@ -811,8 +811,14 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     var majorHeight = Rectangle.Height / (AxisValues.Count-1);
-                    return majorHeight * (AxisValues.Count - i - 1);
-                    //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
+                    if(Axis.Orientation==eAxisOrientation.MinMax)
+                    {
+                        return majorHeight * (AxisValues.Count - i - 1);
+                    }
+                    else
+                    {
+                        return majorHeight * i;
+                    }
                 }
             }
 
@@ -851,28 +857,28 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eActualAxisPosition.Left:
                     case eActualAxisPosition.LeftSecond:
-                        y1 = GetPositionInPlotareaLog(d);
+                        y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)Rectangle.Width - tickMarkWidthOutside;
                         x2 = (float)Rectangle.Width + tickMarkWidthInside;
                         break;
                     case eActualAxisPosition.Right:
                     case eActualAxisPosition.RightSecond:
-                        y1 = GetPositionInPlotareaLog(d);
+                        y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)-tickMarkWidthInside;
                         x2 = (float)tickMarkWidthOutside;
                         break;
                     case eActualAxisPosition.Top:
                     case eActualAxisPosition.TopSecond:
-                        x1 = GetPositionInPlotareaLog(d);
+                        x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)Rectangle.Height - tickMarkWidthOutside;
                         y2 = (float)Rectangle.Height + tickMarkWidthInside;
                         break;
                     case eActualAxisPosition.Bottom:
                     case eActualAxisPosition.BottomSecond:
-                        x1 = GetPositionInPlotareaLog(d);
+                        x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)-tickMarkWidthInside;
                         y2 = (float)tickMarkWidthOutside;
@@ -1162,12 +1168,12 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eAxisPosition.Left:
                     case eAxisPosition.Right:
-                        var y = GetPositionInPlotareaLog(d);
+                        var y = GetPositionInPlotarea(d);
                         points.Add(new TranformPoint(0f, y));
                         break;
                     case eAxisPosition.Top:
                     case eAxisPosition.Bottom:
-                        var x = GetPositionInPlotareaLog(d);
+                        var x = GetPositionInPlotarea(d);
                         points.Add(new TranformPoint(x, 0f));
                         break;
                     default:
@@ -1253,7 +1259,7 @@ namespace EPPlusImageRenderer.Svg
 
             return axisStyle;
         }
-        internal double GetPositionInPlotareaLog(double val, bool startValue = false)
+        private double GetPositionInPlotareaLog(double val, bool startValue = false)
         {
             var diff = (Max - Min) + 1;
             double logMax = Math.Log(diff, Axis.LogBase.Value);
@@ -1270,14 +1276,28 @@ namespace EPPlusImageRenderer.Svg
         }
         internal double GetPositionInPlotarea(double val, bool startValue=false)
         {
+            double pos;
             if (Axis.LogBase.HasValue)
             {
-                return GetPositionInPlotareaLog(val, startValue);
+                pos = GetPositionInPlotareaLog(val, startValue);
             }
             else
             {
-                return GetPositionInPlotAreaLinear(val, startValue);
+                pos = GetPositionInPlotAreaLinear(val, startValue);
             }
+
+            if(Axis.Orientation==eAxisOrientation.MaxMin)
+            {
+                if(Axis.IsVertical)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height-pos;
+                }
+                else
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width - pos;
+                }
+            }
+            return pos;
         }
 
         private double GetPositionInPlotAreaLinear(double val, bool startValue)
