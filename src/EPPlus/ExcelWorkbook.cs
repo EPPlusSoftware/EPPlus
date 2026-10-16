@@ -359,6 +359,9 @@ namespace OfficeOpenXml
 #else
 				var xr = new XmlTextReader(part.GetStream());
 #endif
+#if NET35
+				xr.ProhibitDtd = true;
+#endif
                 int index = 0;
                 while (xr.Read())
                 {

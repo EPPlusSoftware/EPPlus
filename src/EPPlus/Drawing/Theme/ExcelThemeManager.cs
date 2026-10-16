@@ -79,8 +79,8 @@ namespace OfficeOpenXml.Drawing.Theme
                     _defaultTheme = StyleResourceManager.GetItem("defaulttheme2022.Xml");
                 }
             }
-            var themeXml = new XmlDocument();   
-            themeXml.LoadXml(_defaultTheme);
+            var themeXml = new XmlDocument();
+            XmlHelper.LoadXmlSafe(themeXml, _defaultTheme, System.Text.Encoding.UTF8);
             Load(themeXml);
         }
         internal ExcelTheme GetOrCreateTheme()
