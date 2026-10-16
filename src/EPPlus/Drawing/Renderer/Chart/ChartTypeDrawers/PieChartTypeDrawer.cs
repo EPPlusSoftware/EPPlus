@@ -5,20 +5,21 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
+using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using EPPlus.Graphics.TransformPrimitives;
-using System.Buffers.Binary;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -114,14 +115,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
 
             pieTransform = new PieTransform(_radius);
+            pieTransform.GenerateSlicesAndClearPrevious(valPercents);
+
+            //var translationGroup = new GroupRenderItem();
+            //translationGroup.Name = "ControlGroup_PieSlices";
+            //translationGroup.Left = ChartRenderer.Bounds.Width / 2d;
+            //translationGroup.Top = ChartRenderer.Bounds.Height / 2d;
+
+            //ChartRenderer.RenderItems.Add(translationGroup);
+
+            //for (int i = 0; i < pieTransform.Slices.Count(); i++)
+            //{
+            //    var pieSliceSimple = new PieSliceSimple(pieTransform.Slices[i], pieTransform);
+            //    pieSliceSimple.ImportPathData(translationGroup, i);
+            //}
+
             pieTransform.Parent = _circleCenter.Parent;
             pieTransform.Position = _circleCenter.Position;
             pieTransform.Name = "Pie_Transform";
 
-            pieTransform.GenerateSlicesAndClearPrevious(valPercents);
-            for(int i = 0; i < valPercents.Count; i++)
+            for (int i = 0; i < valPercents.Count; i++)
             {
-                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees);
+                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees);
+                prevDegrees = renderSlice.Degrees + prevDegrees;
                 Slices.Add(renderSlice);
             }
         }

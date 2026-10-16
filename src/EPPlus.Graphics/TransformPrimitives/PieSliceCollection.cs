@@ -50,6 +50,11 @@ namespace EPPlus.Graphics.TransformPrimitives
             Percentages.Clear();
         }
 
+        public double Count()
+        {
+            return _slices.Count();
+        }
+
         /// <summary>
         /// Collection containing the richtext objects
         /// </summary>

@@ -61,9 +61,11 @@ namespace EPPlus.Graphics.TransformPrimitives
 
         public double EndDegrees;
 
+        public double Degrees;
+
         public BoundingBox LargestInscribedRectangle { get; private set; }
 
-        internal PieSliceTransform(PieSliceBase sliceBase, TransformCircle parent = null) : base()
+        internal protected PieSliceTransform(PieSliceBase sliceBase, TransformCircle parent = null) : base()
         {
             Left = sliceBase.ExtremePoints.Left;
             Top = sliceBase.ExtremePoints.Top;
@@ -91,10 +93,12 @@ namespace EPPlus.Graphics.TransformPrimitives
 
             StartDegrees = sliceBase.StartDegrees;
             EndDegrees = sliceBase.EndDegrees;
+            Degrees = sliceBase.SweepAngleInDegrees;
 
-            //Top and bottom positions could potentially be added
-            //But as of right now this is only used to determine if it is possible to place a text of a certain size inside the slice or not.
-            LargestInscribedRectangle = new BoundingBox(sliceBase.LargestWidthRectangle, sliceBase.LargestHeightRectangle);
+            ////Top and bottom positions could potentially be added
+            ////But as of right now this is only used to determine if it is possible to place a text of a certain size inside the slice or not.
+            //LargestInscribedRectangle = new BoundingBox(sliceBase.LargestWidthRectangle, sliceBase.LargestHeightRectangle);
+            LargestInscribedRectangle = new BoundingBox(sliceBase.ContentRect.Left, sliceBase.ContentRect.Top, sliceBase.ContentRect.Right - sliceBase.ContentRect.Left, sliceBase.ContentRect.Bottom - sliceBase.ContentRect.Top);
         }
     }
 }

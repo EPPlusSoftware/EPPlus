@@ -3,9 +3,14 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Primitives;
+using EPPlus.Graphics.TransformPrimitives;
+using EPPlusImageRenderer;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Drawing;
 using System.Text;
@@ -413,6 +418,32 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(69.979735851287842d, textbox.Height, delta);
 
             GenerateSvgFile("TextAnchor_TextBox", group, group);
+        }
+
+        [TestMethod]
+        public void CreatePieSlice()
+        {
+            var baseGroup = GenerateGroupRenderItem();
+
+            baseGroup.Width = 500d;
+            baseGroup.Height = 500d;
+
+            var pTrans = new PieTransform(75d);
+            pTrans.GenerateSlicesAndClearPrevious(new List<double>() { 0.3333, 0.3333, 0.3333 });
+
+            var translationGroup = new GroupRenderItem(baseGroup);
+            translationGroup.Left = 250;
+            translationGroup.Top = 250;
+
+            for (int i = 0; i< pTrans.Slices.Count(); i++)
+            {
+                var pieSliceSimple = new PieSliceSimple(pTrans.Slices[i], pTrans);
+                pieSliceSimple.ImportPathData(translationGroup, i);
+            }
+
+            GenerateSvgFile("SinglePieSlice", baseGroup, baseGroup);
+
+            //pTrans.Slices.
         }
     }
 }

@@ -162,6 +162,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+            //ExtremePoints.Position = _circleCenter.Position;
             ExtremePoints.Parent = _innerGroup;
         }
 
@@ -185,7 +186,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         BoundingBox largestInscribedRectangle;
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset) : base(renderer)
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
         {
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Parent = parent;
@@ -209,14 +210,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var posStart = _startPoint.Position;
             var posEnd = _endPoint.Position;
             var posMid = _midPoint.Position;
+            //var posExtreme = ExtremePoints.Position;
 
             _startPoint.Parent = _innerGroup;
             _endPoint.Parent = _innerGroup;
             _midPoint.Parent = _innerGroup;
+            //ExtremePoints.Parent = _innerGroup;
 
             _startPoint.Position = posStart;
             _endPoint.Position = posEnd;
             _midPoint.Position = posMid;
+            //ExtremePoints.Position = posExtreme;
 
             circleCenter.LocalRotation = 0;
 
@@ -227,10 +231,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _innerGroup.TransformOrigin = GetMidPointLocal();
 
             CalculateExplosionDir();
+            CalculateWidthHeight(prevDegrees);
             //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
             //slice.ExtremePoints.Parent = _innerGroup;
-            ExtremePoints = slice;
-            ExtremePoints.Parent = _innerGroup;
+            //ExtremePoints = slice;
+            //ExtremePoints.Parent = _innerGroup;
 
             _innerItems = new GroupRenderItem(_innerGroup, 0);
             _innerItems.Name = "Inner_Items";
@@ -302,7 +307,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(arcCommand);
 
             //Change to != -1 to activate debug items
-            if (position == -1)
+            if (position != -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);

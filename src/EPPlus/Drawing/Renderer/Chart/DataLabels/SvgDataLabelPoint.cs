@@ -662,7 +662,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //Subtract standard excel margin of 2pt
                     bool canFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
                     bool canFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
-
+                    //if(_txtBox.TextBody.Paragraphs != null && _txtBox.TextBody.Paragraphs[0].Lines[0].Text.Contains("Epsilon"))
+                    //{
+                    //    string test = "wait";
+                    //}
                     if (canFitWidth && canFitHeight)
                     {
                         //bool canFitHalfWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width/2d;

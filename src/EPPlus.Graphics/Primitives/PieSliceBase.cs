@@ -203,6 +203,9 @@ namespace EPPlus.Graphics.Primitives
         internal double ContentRectangleTop { get; private set; }
         internal double ContentRectangleLeft { get; private set; }
 
+        //For when the pie-slice is "facing" right
+        internal Rect ContentRect;
+
         //See Internal Docs: "Inscribed Rectangle" in Atlassian for details
         void CalculateLargestRectWithinCircleSegment()
         {
@@ -222,24 +225,47 @@ namespace EPPlus.Graphics.Primitives
 
                 var angleForYTriangle = angleForTriangle + 0.64d;
 
+
                 var yTriangle = (Math.Sin(GeoMathUtils.DegreesToRadians(angleForYTriangle)) * Circle.Radius);// add 1 for small rounding fault making too small
                 var xTriangle = (Math.Cos(GeoMathUtils.DegreesToRadians(angleForTriangle)) * Circle.Radius);
 
-                yTriangle *= 2d;
-
-                //Normalize just in case
-                var dirOnly = ExplosionVector / ExplosionVector.Length;
-
-                LargestWidthRectangle = xTriangle;
-                LargestHeightRectangle = yTriangle;
-
+                //yTriangle *= 2d;
 
                 var angleForTopLeftCalc = SweepAngleInDegrees / 2d;
 
-                ContentRectangleLeft = yTriangle / Math.Tan(GeoMathUtils.DegreesToRadians(angleForTopLeftCalc));
-                //Up is considered negative y direction and the center of the circle is local origin
-                ContentRectangleTop = -yTriangle/2d;
+                //Distance between midpoint and rect start
+                var b = yTriangle / Math.Tan(GeoMathUtils.DegreesToRadians(angleForTopLeftCalc));
 
+                var widthRect = xTriangle - b;
+
+                LargestWidthRectangle = widthRect;
+                LargestHeightRectangle = yTriangle * 2;
+
+                ContentRectangleLeft = Circle.Center.X + b;
+                //Up is considered negative y direction and the center of the circle is local origin
+                ContentRectangleTop = Circle.Center.Y - yTriangle;
+
+                var RotToPlaceSectorAtOriginalFacing = SweepAngleInDegrees * 2;
+
+                Transform circleCenter = new Transform();
+                circleCenter.LocalPosition = new Vector2(Circle.Center.X, Circle.Center.Y);
+
+                Transform t1 = new Transform();
+                Transform t2 = new Transform();
+                t1.Parent = circleCenter;
+                t2.Parent = circleCenter;
+
+                t1.LocalPosition = new Vector2(b, -yTriangle);
+                t1.Size = new Vector2(xTriangle, yTriangle);
+                t2.LocalPosition = new Vector2(xTriangle, yTriangle);
+                circleCenter.Rotation = RotToPlaceSectorAtOriginalFacing;
+
+                /*new Rect(ContentRectangleLeft, ContentRectangleTop, LargestWidthRectangle + ContentRectangleLeft, ContentRectangleTop + LargestHeightRectangle);*/
+
+                ContentRect = t1.GetGlobalBoundingbox();
+
+               //Normalize just in case
+               var dirOnly = ExplosionVector / ExplosionVector.Length;
 
                 ////special case for quadrant -,-
                 ////Y positive because of cartesian coord system
