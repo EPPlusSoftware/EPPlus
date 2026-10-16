@@ -125,12 +125,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var headerText = s.GetHeaderText(index);
             if (entry == null || entry.Font.IsEmpty)
             {
-                //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                if(chart.Chart.Legend.TextBody.Paragraphs.Count==0)
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }
+                else
+                {
+                    sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.First(), 0, headerText);
+                }
             }
             else
             {
-                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
                 sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
         }

@@ -1,9 +1,20 @@
 # Features / Fixed issues - EPPlus 8
+## Version 8.7.2
+* Fixed security advisory GHSA-f4h2-2r6m-w59r.
+* Updated System.Security.Cryptography.Xml and System.Security.Cryptography.Pkcs to address security vulnerabilities (CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008, CVE-2026-70162).
+* Fixed an issue where a defined name containing a LAMBDA function could cause an unhandled exception on calculate.
+* `ExcelDrawings.AddPicture` now allows references to external files that do not exist.
 ## Version 9.0.0-preview
 * Pdf export of ranges and tables.
 * SVG export of shapes and charts (supports line-, column-, bar-, pie and combo charts).
 * The HTML export will now optionally include shapes and supported chart types as SVGs.
 * Added 'Layout' property to 'ExcelChartTrendlineLabel' class.
+* Fixed a rounding issue in `ExcelRangeBase.GetValue<T>` when `T` is `TimeSpan`.
+* Fixed namespace prefix issues that caused corrupt workbooks when using templates created with the Open XML SDK.
+* Fixed a floating-point rounding issue with negative numbers in formula calculation.
+* Fixed handling of multiple addresses in data validations. Use comma-separated addresses in the `ExcelRangeBase.Cells` indexer.
+* Fixed an issue with chart series when overwriting an array source.
+
 ## Version 8.7.1
 ### Fixed issues
 * Fixed an issue where saving a worksheet with a ´rowBreak´ element that has an xml prefix could cause a corrupt workbook. This could occur if the worksheet xml had been updated by the OOXML SDK.

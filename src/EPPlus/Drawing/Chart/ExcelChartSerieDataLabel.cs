@@ -95,7 +95,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal ExcelRangeBase DataLabelRange { get; private set; } = null;
 
-
         ExcelChartStandardSerie GetParentSeries()
         {
             //TODO: The way we aquire the Series instance here is clumsy.

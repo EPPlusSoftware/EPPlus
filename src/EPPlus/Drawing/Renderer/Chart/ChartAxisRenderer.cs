@@ -43,7 +43,30 @@ namespace EPPlusImageRenderer.Svg
         private const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
 
         internal override System.Drawing.Color? DefaultFillColor { get; }
-
+        int _axisMaxItems=-1;
+        internal int AxisMaxItems 
+        {
+            get
+            {
+                if (_axisMaxItems<0)
+                {
+                    var mf = Axis.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
+                    var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
+                    if (Axis.IsVertical)
+                    {
+                        var lineHeight = shaper.GetLineHeightInPoints(mf.Size);
+                        _axisMaxItems = (int)(ChartRenderer.Plotarea.Rectangle.Height / lineHeight * 0.8);
+                    }
+                    else
+                    {
+                        var lineWidth = mf.Size*5; //Estimate the width of a character in points. This is a rough estimate and may not be accurate for all fonts.
+                        _axisMaxItems = (int)(Rectangle.Width / GetTextWidest(Axis) * 1.3);
+                    }
+                    //_axisMaxItems -= _axisMaxItems % 2; //Removed for now
+                }
+                return _axisMaxItems;
+            }
+        }
         internal ChartAxisRenderer(ChartRenderer sc, ExcelChartAxisStandard ax) : base(sc)
         {
             Axis = ax;
@@ -144,7 +167,14 @@ namespace EPPlusImageRenderer.Svg
         }
         private double GetAutoMinUnit(double majorUnit)
         {
-            return majorUnit / 5;
+            if (Axis.LogBase.HasValue)
+            {
+                return 1;
+            }
+            else
+            {
+                return majorUnit / 5;
+            }
         }
 
         internal ExcelChartAxisStandard Axis { get; }
@@ -341,12 +371,17 @@ namespace EPPlusImageRenderer.Svg
         {
             if (Axis.Deleted == false)
             {
+                if((Axis.LogBase ?? 1) > 1)
+                {
+                    ShrinkList(AxisValues, AxisMaxItems);
+                }
+
                 if (Axis.MajorTickMark != eAxisTickMark.None)
                 {
                     MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
                 }
 
-                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit)
+                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit && (Axis.LogBase.HasValue==false || Axis.LogBase > 2))
                 {
                     MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
                 }
@@ -776,8 +811,14 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     var majorHeight = Rectangle.Height / (AxisValues.Count-1);
-                    return majorHeight * (AxisValues.Count - i - 1);
-                    //return Rectangle.Top + majorHeight * (AxisValues.Count - i - 1);
+                    if(Axis.Orientation==eAxisOrientation.MinMax)
+                    {
+                        return majorHeight * (AxisValues.Count - i - 1);
+                    }
+                    else
+                    {
+                        return majorHeight * i;
+                    }
                 }
             }
 
@@ -806,6 +847,7 @@ namespace EPPlusImageRenderer.Svg
             var logBase = (Axis.LogBase ?? 1);
             var isLogBase = logBase > 1;
             double d = Min;
+            double minorUnit = 1;
             var maxPos = Max + units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
             while (d <= maxPos)
             {
@@ -815,28 +857,28 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eActualAxisPosition.Left:
                     case eActualAxisPosition.LeftSecond:
-                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)Rectangle.Width - tickMarkWidthOutside;
                         x2 = (float)Rectangle.Width + tickMarkWidthInside;
                         break;
                     case eActualAxisPosition.Right:
                     case eActualAxisPosition.RightSecond:
-                        y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
+                        y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)-tickMarkWidthInside;
                         x2 = (float)tickMarkWidthOutside;
                         break;
                     case eActualAxisPosition.Top:
                     case eActualAxisPosition.TopSecond:
-                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)Rectangle.Height - tickMarkWidthOutside;
                         y2 = (float)Rectangle.Height + tickMarkWidthInside;
                         break;
                     case eActualAxisPosition.Bottom:
                     case eActualAxisPosition.BottomSecond:
-                        x1 = (float)((addPosition / diff * Rectangle.Width));
+                        x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)-tickMarkWidthInside;
                         y2 = (float)tickMarkWidthOutside;
@@ -857,8 +899,20 @@ namespace EPPlusImageRenderer.Svg
                 tms.Add(tm);
 
                 if (units == 0) break;
-                d *= units;
+                if (double.IsNaN(parentUnit))
+                {
+                    d *= units;
+                }
+                else
+                {
+                    d += minorUnit;
+                    if ((d%parentUnit)==0)
+                    {
+                        minorUnit *= parentUnit;
+                    }
+                }
             }
+            ShrinkList(tms, AxisMaxItems);
             return tms;
         }
 
@@ -1020,53 +1074,17 @@ namespace EPPlusImageRenderer.Svg
         {
             var axisStyle = GetAxisStyleEntry();
 
-            var tms = new List<RenderItem>();
-            double min;
-            if (Axis.AxisType == eAxisType.Cat)
-            {
-                min = 0;
-            }
-            else
-            {
-                min = Min;
-            }
-            var pa = ChartRenderer.Plotarea;
-            var diff = Max - min;
-
-            List<EPPlus.Graphics.TranformPoint> points = new List<EPPlus.Graphics.TranformPoint>();
-            var group = ChartRenderer.Plotarea.Group;
-            for (double d = min; d <= Max; d += units)
-            {
-                //if(d==min && Line!=null && Line.BorderWidth>0) continue; //TODO: Check this. Removed as min is not always the first gridline, and this causes the first gridline to be missing in some cases.
-                //if (double.IsNaN(parentUnit) || (d % parentUnit != 0))
-                //{
-                    switch (Axis.AxisPosition)
-                    {
-                        case eAxisPosition.Left:
-                        case eAxisPosition.Right:
-                            points.Add(new EPPlus.Graphics.TranformPoint(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
-                            break;
-                        case eAxisPosition.Top:
-                        case eAxisPosition.Bottom:
-                            var xValue = (float)(((d - min) / diff * pa.Rectangle.Width));
-                            points.Add(new EPPlus.Graphics.TranformPoint(xValue, 0f));
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid axis position.");
-                    }
-                //}
-                if (units == 0) break;
-            }
+            var points = GetGridLinePositions(units, parentUnit);
 
             float x1, y1, x2, y2;
 
             string id = "";
-
+            var pa = ChartRenderer.Plotarea;
             switch (Axis.AxisPosition)
             {
                 case eAxisPosition.Left:
                 case eAxisPosition.Right:
-                    id = $"x{(double.IsNaN(parentUnit)?"Major":"Minor")}GridLine";
+                    id = $"x{(double.IsNaN(parentUnit) ? "Major" : "Minor")}GridLine";
                     y1 = (float)points.Last().Top;
                     y2 = y1;
                     x1 = (float)0;
@@ -1089,35 +1107,30 @@ namespace EPPlusImageRenderer.Svg
             tm.Y1 = y1;
             tm.X2 = x2;
             tm.Y2 = y2;
-
-            //if(id == "xGridLine")
-            //{
-            //    tm.Width = pa.Rectangle.Width;
-            //}
-            //var lineWidth = lineItem.Width <= 0 ? 0.75 : lineItem.Width;
             tm.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, lineItem, styleEntry?.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
-
             tm.Style.DefId = id;
+
+            var tms = new List<RenderItem>();
 
             tms.Add(tm);
 
-            var distX = (float)points.Last().Left - points[0].Left;
-            var distY = points[0].Top - (float)points.Last().Top;
+            //var distX = (float)points.Last().Left - points[0].Left;
+            //var distY = points[0].Top - (float)points.Last().Top;
 
-            var offsetX = distX / (points.Count-1);
-            var offsetY = distY / (points.Count-1);
+            //var offsetX = distX / (points.Count - 1);
+            //var offsetY = distY / (points.Count - 1);
 
-            for(int i = 0; i < points.Count; i++)
+            for (int i = 1; i < points.Count; i++)
             {
                 var refItem = new UseReferenceRenderItem(ChartRenderer.Bounds, "#" + id);
-                if(Axis.IsVertical)
+                if (Axis.IsVertical)
                 {
                     refItem.X = 0f;
-                    refItem.Y = offsetY*i;
+                    refItem.Y = points[i].Top;
                 }
-                else 
+                else
                 {
-                    refItem.X = offsetX*i;
+                    refItem.X = points[i].Left;
                     refItem.Y = 0f;
                 }
                 tms.Add(refItem);
@@ -1125,6 +1138,106 @@ namespace EPPlusImageRenderer.Svg
 
 
             return tms;
+        }
+
+        private List<TranformPoint> GetGridLinePositions(double units, double parentUnit)
+        {
+            if ((Axis.LogBase ?? 1) > 1)
+            {
+                var list = GetGridLinePositionsLogarithmic(units, parentUnit);
+                if (double.IsNaN(parentUnit))
+                {
+                    ShrinkList(list, AxisMaxItems);
+                }
+                return list;
+            }
+            return GetGridLinePositionsLinear(units);
+        }
+
+        private List<TranformPoint> GetGridLinePositionsLogarithmic(double units, double parentUnit)
+        {
+            var pa = ChartRenderer.Plotarea;
+            var points = new List<EPPlus.Graphics.TranformPoint>();
+            var group = ChartRenderer.Plotarea.Group;
+            var minorUnit = 1D;
+            var maxPos = Max + units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
+            var d = Min;
+            while (d <= maxPos)
+            {
+                switch (Axis.AxisPosition)
+                {
+                    case eAxisPosition.Left:
+                    case eAxisPosition.Right:
+                        var y = GetPositionInPlotarea(d);
+                        points.Add(new TranformPoint(0f, y));
+                        break;
+                    case eAxisPosition.Top:
+                    case eAxisPosition.Bottom:
+                        var x = GetPositionInPlotarea(d);
+                        points.Add(new TranformPoint(x, 0f));
+                        break;
+                    default:
+                        throw new InvalidOperationException("Invalid axis position.");
+                }
+                if (units == 0) break;
+                if(double.IsNaN(parentUnit))
+                {
+                    d *= units;
+                }
+                else
+                {
+                    if (double.IsNaN(parentUnit))
+                    {
+                        d *= units;
+                    }
+                    else
+                    {
+                        d += minorUnit;
+                        if ((d % (minorUnit * parentUnit)) == 0)
+                        {
+                            minorUnit *= parentUnit;
+                        }
+                    }
+                }
+            }
+            return points;
+        }
+
+        private List<TranformPoint> GetGridLinePositionsLinear(double units)
+        {
+            double min;
+            if (IsCount)
+            {
+                min = 0;
+            }
+            else
+            {
+                min = Min;
+            }
+            var pa = ChartRenderer.Plotarea;
+            var diff = Max - min;
+
+            var points = new List<EPPlus.Graphics.TranformPoint>();
+            var group = ChartRenderer.Plotarea.Group;
+            for (double d = min; d <= Max; d += units)
+            {
+                switch (Axis.AxisPosition)
+                {
+                    case eAxisPosition.Left:
+                    case eAxisPosition.Right:
+                        points.Add(new EPPlus.Graphics.TranformPoint(0f, (float)(pa.Rectangle.Height - ((d - min) / diff * pa.Rectangle.Height))));
+                        break;
+                    case eAxisPosition.Top:
+                    case eAxisPosition.Bottom:
+                        var xValue = (float)(((d - min) / diff * pa.Rectangle.Width));
+                        points.Add(new EPPlus.Graphics.TranformPoint(xValue, 0f));
+                        break;
+                    default:
+                        throw new InvalidOperationException("Invalid axis position.");
+                }
+                if (units == 0) break;
+            }
+            return points;
         }
 
         private ExcelChartStyleEntry GetAxisStyleEntry()
@@ -1146,15 +1259,55 @@ namespace EPPlusImageRenderer.Svg
 
             return axisStyle;
         }
+        private double GetPositionInPlotareaLog(double val, bool startValue = false)
+        {
+            var diff = (Max - Min) + 1;
+            double logMax = Math.Log(diff, Axis.LogBase.Value);
+            double fraction = Math.Log(val, Axis.LogBase.Value);
 
+            if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
+            {
+                return ChartRenderer.Plotarea.Rectangle.Height-(fraction / logMax * ChartRenderer.Plotarea.Rectangle.Height);
+            }
+            else
+            {
+                return fraction / logMax * ChartRenderer.Plotarea.Rectangle.Width;
+            }                    
+        }
         internal double GetPositionInPlotarea(double val, bool startValue=false)
+        {
+            double pos;
+            if (Axis.LogBase.HasValue)
+            {
+                pos = GetPositionInPlotareaLog(val, startValue);
+            }
+            else
+            {
+                pos = GetPositionInPlotAreaLinear(val, startValue);
+            }
+
+            if(Axis.Orientation==eAxisOrientation.MaxMin)
+            {
+                if(Axis.IsVertical)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height-pos;
+                }
+                else
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width - pos;
+                }
+            }
+            return pos;
+        }
+
+        private double GetPositionInPlotAreaLinear(double val, bool startValue)
         {
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
-                if(AutoAxisType == eAxisType.Cat && IsDateAutoAxis==false)
+                if (AutoAxisType == eAxisType.Cat && IsDateAutoAxis == false)
                 {
                     var majorHeight = ChartRenderer.Plotarea.Rectangle.Height / Max;
-                    if(startValue)
+                    if (startValue)
                     {
                         return majorHeight * val;
                     }
@@ -1187,18 +1340,18 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween==eCrossBetween.Between)
+                        if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                         {
-                            return majorWidth * (val-1) + (majorWidth / 2);
+                            return majorWidth * (val - 1) + (majorWidth / 2);
                         }
                         else
                         {
                             majorWidth = ChartRenderer.Plotarea.Rectangle.Width / (Max - 1);
-                            return majorWidth * (val-1);
+                            return majorWidth * (val - 1);
                         }
                     }
                 }
-                else if((AutoAxisType == eAxisType.Date) && IsDateScale==false)
+                else if ((AutoAxisType == eAxisType.Date) && IsDateScale == false)
                 {
                     if (val < Min || val > Max) return double.NaN;
                     var diff = Max - Min + 1;
@@ -1212,6 +1365,7 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
+
         protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
             var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
@@ -1362,7 +1516,6 @@ namespace EPPlusImageRenderer.Svg
                         l.Add(v);
                         if (res.MajorInterval == 0) break;
                     }
-                    ShrinkList(l, 12);
                 }
                 else
                 {
@@ -1384,12 +1537,12 @@ namespace EPPlusImageRenderer.Svg
             return l;
         }
 
-        private void ShrinkList(List<object> l, int max)
+        private void ShrinkList<T>(List<T> l, int max)
         {
             while(l.Count > max)
             { 
                 var c = l.Count-1;
-                for(int i=0;i<c--;i+=1)
+                for(int i=1;i<c--;i+=1)
                 {
                     l.RemoveAt(i);
                 }

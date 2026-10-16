@@ -31,6 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -374,6 +375,42 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(isEmpty);
         }
 
+        [TestMethod]
+        public void i2558()
+        {
+            using(var p = OpenTemplatePackage("TestTime.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets.First();
+                var cell = worksheet.Cells[1, 1];
+
+                var rawValue = cell.Value;
+                var valueAsString = cell.GetValue<string>();
+                var valueAsTimeSpan = cell.GetValue<TimeSpan>();
+
+                Console.WriteLine($"Raw value     : {cell.Value}");
+                Console.WriteLine($"Raw type      : {cell.Value?.GetType()}");
+                Console.WriteLine($"Number format : {cell.Style.Numberformat.Format}");
+
+                var time = cell.GetValue<TimeSpan>();
+
+                Console.WriteLine($"TimeSpan      : {time:c}");
+                Console.WriteLine($"Hours         : {time.Hours}");
+                Console.WriteLine($"Minutes       : {time.Minutes}");
+                Console.WriteLine($"Seconds       : {time.Seconds}");
+                Console.WriteLine($"Ticks         : {time.Ticks}");
+
+                var expected = new TimeSpan(6, 10, 0);
+                var matches =
+                    valueAsTimeSpan.Hours == expected.Hours &&
+                    valueAsTimeSpan.Minutes == expected.Minutes &&
+                    valueAsTimeSpan.Seconds == expected.Seconds;
+
+                Assert.AreEqual(expected, valueAsTimeSpan);
+                //Console.WriteLine($"Actual   : {valueAsTimeSpan:hh\\:mm\\:ss}");
+                //Console.WriteLine($"Expected : {expected:hh\\:mm\\:ss}");
+                //Console.WriteLine(matches ? "PASS" : "FAIL");
+            }
+        }
 
 #if NET6_0_OR_GREATER
         [TestMethod]

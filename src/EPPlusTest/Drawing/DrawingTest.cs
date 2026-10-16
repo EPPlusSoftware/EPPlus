@@ -916,7 +916,7 @@ namespace EPPlusTest
             pck.SaveAs(new FileInfo("c:\\temp\\chartseriesnew.xlsx"));
         }
         [TestMethod]
-        public void ChartWorksheet()
+        public void _0_ChartWorksheet()
         {
             var wsChart = _pck.Workbook.Worksheets.AddChart("ChartWorksheet", eChartType.Bubble3DEffect);
             var ws = _pck.Workbook.Worksheets.Add("data");
@@ -926,7 +926,7 @@ namespace EPPlusTest
             wsChart.Chart.Series[0].Header = "Serie";
         }
         [TestMethod]
-        public void ReadChartWorksheet()
+        public void _1_ReadChartWorksheet()
         {
             //Setup
             var wsName = "ChartWorksheet";
