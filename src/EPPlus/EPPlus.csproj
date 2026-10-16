@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>8.4.2.0</AssemblyVersion>
-		<FileVersion>8.4.2.0</FileVersion>
-		<Version>8.4.2</Version>
+		<AssemblyVersion>8.4.3.0</AssemblyVersion>
+		<FileVersion>8.4.3.0</FileVersion>
+		<Version>8.4.3</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 8.4.2
+			EPPlus 8.4.3
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+			## Version 8.4.3
+			* Security patch (Github advisory GHSA-f4h2-2r6m-w59r, CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008)
 
 			## Version 8.4.2
 			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
@@ -551,6 +554,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			8.4.3			20261016 Security patch (Github advisory GHSA-f4h2-2r6m-w59r, CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008)
 			8.4.2			20260204 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 			8.4.1			20260112 Minor bug fixes.
 			8.4.0			20251212 Updated target frameworks. Minor bug fixes.
@@ -752,18 +756,18 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="9.0.3" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.3" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.21" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3" />
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.21" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="10.0.0" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="10.0.0" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="10.0.13" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="10.0.0" />
-		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.0" />
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="10.0.13" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />

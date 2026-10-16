@@ -127,7 +127,7 @@ namespace OfficeOpenXml.DigitalSignatures
                 PreserveWhitespace = true,                
             };
             //Full read only REALLY relevant for verification of signature
-            _doc.Load(part.GetStream());
+            XmlHelper.LoadXmlSafe(_doc, part.GetStream());
             var isVerified = IsValid;
 
             //Read signing method
