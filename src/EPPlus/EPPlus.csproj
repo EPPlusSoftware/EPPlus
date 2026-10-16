@@ -379,8 +379,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 		Version history
+		7.0.11			20261016 Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162).
 		7.0.10			20240311 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
-		7.0.9			20240215 Minor bug fixes. 
+		7.0.9			20240215 Minor bug fixes.
 		7.0.8			20240124 Minor bug fixes.
 		7.0.7			20240119 Minor bug fixes.
 		7.0.6			20240110 Minor bug fixes.
