@@ -412,6 +412,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.2.3			20261016 Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162)
 			7.2.2			20240724 Minor features and bug fixes.
 			7.2.1			20240702 Minor bug fixes.
 			7.2.0           20240618 Pivot table calculation. Import/Export of fixed width text files. Improvment export of Conditional formatting. Copy of drawings. Transpose functionality.
