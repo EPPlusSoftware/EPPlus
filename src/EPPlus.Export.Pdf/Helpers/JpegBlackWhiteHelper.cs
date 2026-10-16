@@ -22,8 +22,30 @@ namespace EPPlus.Export.Pdf.Helpers
     {
         internal static byte[] MakeGrayscale(byte[] jpeg)
         {
-            try { return TryTransform(jpeg) ?? jpeg; }
+            try
+            {
+                if (FindSofMarker(jpeg) == 0xC2)                 // progressive
+                    return JpegProgressiveHelper.ToGrayBaseline(jpeg) ?? jpeg;
+                return TryTransform(jpeg) ?? jpeg;               // your existing baseline/YCCK transcoder
+            }
             catch { return jpeg; }
+        }
+
+        private static int FindSofMarker(byte[] d)
+        {
+            if (d == null || d.Length < 4 || (d[0] & 0xFF) != 0xFF || (d[1] & 0xFF) != 0xD8) return -1;
+            int i = 2;
+            while (i + 1 < d.Length)
+            {
+                if ((d[i] & 0xFF) != 0xFF) { i++; continue; }
+                int m = d[i + 1] & 0xFF;
+                if (m == 0xFF) { i++; continue; }
+                if (m == 0xD8 || m == 0xD9 || (m >= 0xD0 && m <= 0xD7)) { i += 2; continue; }
+                if (m >= 0xC0 && m <= 0xCF && m != 0xC4 && m != 0xC8 && m != 0xCC) return m;  // SOFn
+                if (m == 0xDA) return -1;                        // reached the scan, no SOF found
+                i += 2 + (((d[i + 2] & 0xFF) << 8) | (d[i + 3] & 0xFF));
+            }
+            return -1;
         }
 
         private sealed class Huff
@@ -115,7 +137,7 @@ namespace EPPlus.Export.Pdf.Helpers
                     }
                 }
             }
-            public void FlushToByte() { if (cnt > 0) Write(0x7F, 8 - cnt); } // pad with 1-bits (libjpeg-style)
+            public void FlushToByte() { if (cnt > 0) Write(0x7F, 8 - cnt); }
             private int rst;
             public void EmitRst() { FlushToByte(); Out.Add(0xFF); Out.Add((byte)(0xD0 + (rst & 7))); rst++; }
         }
@@ -129,8 +151,8 @@ namespace EPPlus.Export.Pdf.Helpers
             var cid = new int[4]; var cH = new int[4]; var cV = new int[4];
             int W = 0, H = 0, Hmax = 1, Vmax = 1, dri = 0;
             int sosEnd = -1, scanTermMarker = -1;
-            // SOS component -> (sofIndex, Td, Ta)
             int sNs = 0; var sSof = new int[4]; var sTd = new int[4]; var sTa = new int[4];
+            int adobeTransform = -1;
 
             int i = 2;
             while (i + 1 < d.Length)
@@ -138,18 +160,18 @@ namespace EPPlus.Export.Pdf.Helpers
                 if ((d[i] & 0xFF) != 0xFF) { i++; continue; }
                 int m = d[i + 1] & 0xFF;
                 if (m == 0xFF) { i++; continue; }
-                if (m == 0xD9) break;                               // EOI
+                if (m == 0xD9) break;
                 if (m == 0xC2 || m == 0xC3 || (m >= 0xC5 && m <= 0xCB) || (m >= 0xCD && m <= 0xCF))
-                    return null;                                    // progressive / arithmetic / unsupported
+                    return null;                                   // progressive / arithmetic / unsupported
                 int seg = ((d[i + 2] & 0xFF) << 8) | (d[i + 3] & 0xFF);
                 int p = i + 4;
 
-                if (m == 0xC0 || m == 0xC1)                         // SOF0 / SOF1 (baseline / ext. sequential)
+                if (m == 0xC0 || m == 0xC1)                        // SOF0 / SOF1 (baseline / ext. sequential)
                 {
                     H = ((d[p + 1] & 0xFF) << 8) | (d[p + 2] & 0xFF);
                     W = ((d[p + 3] & 0xFF) << 8) | (d[p + 4] & 0xFF);
                     comps = d[p + 5] & 0xFF;
-                    if (comps != 3) return null;                    // only YCbCr handled here
+                    if (comps != 3 && comps != 4) return null;
                     for (int cc = 0; cc < comps; cc++)
                     {
                         int q = p + 6 + cc * 3;
@@ -160,7 +182,13 @@ namespace EPPlus.Export.Pdf.Helpers
                         if (cV[cc] > Vmax) Vmax = cV[cc];
                     }
                 }
-                else if (m == 0xC4)                                 // DHT (may hold several tables)
+                else if (m == 0xEE && seg >= 14 &&
+                         d[p] == (byte)'A' && d[p + 1] == (byte)'d' && d[p + 2] == (byte)'o' &&
+                         d[p + 3] == (byte)'b' && d[p + 4] == (byte)'e')
+                {
+                    adobeTransform = d[p + 11] & 0xFF;
+                }
+                else if (m == 0xC4)                                // DHT (may hold several tables)
                 {
                     int q = p, segEnd = i + 2 + seg;
                     while (q < segEnd)
@@ -174,8 +202,8 @@ namespace EPPlus.Export.Pdf.Helpers
                         if (tc == 0) dcT[th] = t; else acT[th] = t;
                     }
                 }
-                else if (m == 0xDD) { dri = ((d[p] & 0xFF) << 8) | (d[p + 1] & 0xFF); } // DRI
-                else if (m == 0xDA)                                 // SOS
+                else if (m == 0xDD) { dri = ((d[p] & 0xFF) << 8) | (d[p + 1] & 0xFF); }  // DRI
+                else if (m == 0xDA)                                // SOS
                 {
                     sNs = d[p] & 0xFF;
                     for (int s = 0; s < sNs; s++)
@@ -185,8 +213,7 @@ namespace EPPlus.Export.Pdf.Helpers
                         int sof = 0; for (int cc = 0; cc < comps; cc++) if (cid[cc] == selId) sof = cc;
                         sSof[s] = sof; sTd[s] = (tdta >> 4) & 0xF; sTa[s] = tdta & 0xF;
                     }
-                    sosEnd = p + 1 + sNs * 2 + 3;                   // after Ss,Se,Ah/Al
-                    // find the marker that terminates the entropy stream
+                    sosEnd = p + 1 + sNs * 2 + 3;                  // after Ss, Se, Ah/Al
                     int j = sosEnd;
                     while (j + 1 < d.Length)
                     {
@@ -203,7 +230,10 @@ namespace EPPlus.Export.Pdf.Helpers
             }
 
             if (sosEnd < 0 || scanTermMarker < 0 || W == 0 || H == 0) return null;
-            if (sNs != 3) return null;
+
+            bool threeYcbcr = comps == 3 && sNs == 3 && adobeTransform != 0;
+            bool fourYcck = comps == 4 && sNs == 4 && adobeTransform == 2;   //            transform 0 on 3 comps = RGB, leave alone
+            if (!threeYcbcr && !fourYcck) return null;
 
             var br = new BitReader(d, sosEnd, scanTermMarker);
             var bw = new BitWriter();
@@ -220,15 +250,15 @@ namespace EPPlus.Export.Pdf.Helpers
                 {
                     var dc = dcT[sTd[s]]; var ac = acT[sTa[s]];
                     if (dc == null || ac == null) return null;
-                    bool luma = sSof[s] == 0;
-                    int blocks = cH[sSof[s]] * cV[sSof[s]];
-
+                    bool passthrough = sSof[s] != 1 && sSof[s] != 2;
+                    int blocks = cH[sSof[s]] * cV[sSof[s]];            //            zero only chroma (indices 1,2);
+                                                                       //            keep Y (0) and, for YCCK, K (3)
                     for (int b = 0; b < blocks; b++)
                     {
                         // ---- DC ----
                         int t = Decode(br, dc);
                         int dcBits = br.Bits(t);
-                        if (luma)
+                        if (passthrough)
                         {
                             if (dc.EncLen[t] == 0) return null;
                             bw.Write(dc.EncCode[t], dc.EncLen[t]);
@@ -242,12 +272,12 @@ namespace EPPlus.Export.Pdf.Helpers
                             int run = rs >> 4, size = rs & 0xF;
                             if (size == 0)
                             {
-                                if (luma) { if (ac.EncLen[rs] == 0) return null; bw.Write(ac.EncCode[rs], ac.EncLen[rs]); }
-                                if (run != 15) break;              // EOB
-                                k += 16; continue;                 // ZRL
+                                if (passthrough) { if (ac.EncLen[rs] == 0) return null; bw.Write(ac.EncCode[rs], ac.EncLen[rs]); }
+                                if (run != 15) break;                   // EOB
+                                k += 16; continue;                      // ZRL
                             }
                             int acBits = br.Bits(size);
-                            if (luma)
+                            if (passthrough)
                             {
                                 if (ac.EncLen[rs] == 0) return null;
                                 bw.Write(ac.EncCode[rs], ac.EncLen[rs]);
@@ -256,11 +286,11 @@ namespace EPPlus.Export.Pdf.Helpers
                             k += run + 1;
                         }
 
-                        if (!luma)                                  // emit one neutral (zero) chroma block
+                        if (!passthrough)
                         {
                             if (dc.EncLen[0] == 0 || ac.EncLen[0] == 0) return null;
-                            bw.Write(dc.EncCode[0], dc.EncLen[0]);   // DC category 0 (diff 0)
-                            bw.Write(ac.EncCode[0], ac.EncLen[0]);   // AC EOB
+                            bw.Write(dc.EncCode[0], dc.EncLen[0]);      // DC category 0 (diff 0)
+                            bw.Write(ac.EncCode[0], ac.EncLen[0]);      // AC EOB
                         }
                     }
                 }
@@ -269,8 +299,8 @@ namespace EPPlus.Export.Pdf.Helpers
             bw.FlushToByte();
 
             var outp = new List<byte>(d.Length);
-            for (int k = 0; k < sosEnd; k++) outp.Add(d[k]);        // headers + SOS header, verbatim
-            outp.AddRange(bw.Out);                                  // re-encoded entropy stream
+            for (int k = 0; k < sosEnd; k++) outp.Add(d[k]);            // headers + SOS header, verbatim
+            outp.AddRange(bw.Out);                                      // re-encoded entropy stream
             for (int k = scanTermMarker; k < d.Length; k++) outp.Add(d[k]); // EOI + trailer, verbatim
             return outp.ToArray();
         }

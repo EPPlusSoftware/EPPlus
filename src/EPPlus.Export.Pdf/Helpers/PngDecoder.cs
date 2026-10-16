@@ -172,7 +172,7 @@ namespace EPPlus.Export.Pdf.Helpers
                 }
                 var swap = prev; prev = cur; cur = swap;
             }
-            if (blackAndWhite && colorType == 6)        // <-- raw RGB, BEFORE compression
+            if (blackAndWhite && colorType == 6)
                 PdfImageXObject.GrayscaleRgb(color);
             deflatedColor = PdfFlate.CompressLeaveOpen(color);
             deflatedAlpha = PdfFlate.CompressLeaveOpen(alpha);

@@ -56,20 +56,32 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             else if (JpegDecoder.IsJpeg(imageBytes))
             {
-                _bytes = blackAndWhite ? JpegBlackWhiteHelper.MakeGrayscale(imageBytes) : imageBytes;
-                Filter = "DCTDecode";
-                BitsPerComponent = 8;
-                JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
-                Width = width;
-                Height = height;
-                if (components == 4)
+                if (blackAndWhite && JpegCmykHelper.TryDecode(imageBytes, out int gw, out int gh, out byte[] grayPixels))
                 {
-                    ColorSpace = "/DeviceCMYK";
-                    if (adobe) Decode = "[ 1 0 1 0 1 0 1 0 ]";
+                    Width = gw;
+                    Height = gh;
+                    BitsPerComponent = 8;
+                    ColorSpace = "/DeviceGray";
+                    Filter = "FlateDecode";
+                    _bytes = PdfFlate.CompressLeaveOpen(grayPixels);
                 }
                 else
                 {
-                    ColorSpace = components == 1 ? "/DeviceGray" : "/DeviceRGB";
+                    JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
+                    _bytes = blackAndWhite ? JpegBlackWhiteHelper.MakeGrayscale(imageBytes) : imageBytes;
+                    Filter = "DCTDecode";
+                    BitsPerComponent = 8;
+                    Width = width;
+                    Height = height;
+                    if (components == 4)
+                    {
+                        ColorSpace = "/DeviceCMYK";
+                        if (adobe) Decode = "[ 1 0 1 0 1 0 1 0 ]";
+                    }
+                    else
+                    {
+                        ColorSpace = components == 1 ? "/DeviceGray" : "/DeviceRGB";
+                    }
                 }
             }
             else if (PngDecoder.IsPng(imageBytes))
