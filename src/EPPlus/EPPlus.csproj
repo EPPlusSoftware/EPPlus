@@ -544,6 +544,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			8.3.2			20261016 Security patch (Github advisory GHSA-f4h2-2r6m-w59r, CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008)
 			8.3.1			20251128 Minor bug fixes.
 			8.3.0			20251120 Connections and query tables support. Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 			8.2.1			20251012 Minor bug fixes.
