@@ -36,6 +36,7 @@ using System.Linq;
 namespace EPPlusTest.Core.Range
 {
     [TestClass]
+    [DoNotParallelize]
     public class RangeAddressCopyTests : TestBase
     {
         [TestInitialize]
