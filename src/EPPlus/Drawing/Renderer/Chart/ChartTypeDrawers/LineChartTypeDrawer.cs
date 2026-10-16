@@ -192,7 +192,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     x = ConvertUtil.GetValueDouble(xValues[i], false, true);
                 }
 
-                var y = ConvertUtil.GetValueDouble(yValues[i], false, true);
+                var y = ConvertUtil.GetValueDouble(yValues[i], false, true);                
                 var xPos = xAxis.GetPositionInPlotarea(x);
                 var yPos = yAxis.GetPositionInPlotarea(y);
 

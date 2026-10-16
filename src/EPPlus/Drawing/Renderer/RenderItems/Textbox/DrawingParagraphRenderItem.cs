@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null)
             : base(renderContext, parent, textBody, false)
         {
-            IsFirstParagraph = p == p._paragraphs[0];
+            IsFirstParagraph = p!=null && p == p._paragraphs[0];
             DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
             ImportStyleInfo(textBody, p);
             HorizontalAlignment = (TextAlignment)(int)p.HorizontalAlignment;

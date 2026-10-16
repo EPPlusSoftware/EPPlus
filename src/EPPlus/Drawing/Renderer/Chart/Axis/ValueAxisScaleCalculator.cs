@@ -254,12 +254,12 @@ internal class ValueAxisScaleCalculator
         var res = new AxisScale();
         var ax = axisOptions.Axis;
         var b = ax.LogBase.Value;
-        var expMin = FloorLog(dataMin, b);
+        //var expMin = FloorLog(dataMin, b);
         var expMax = CeilLog(dataMax, b);
-        if (res.Min == res.Max) res.Max++;        // all values equal, or one exact power
         var unit = axisOptions.LockedInterval ?? b;
-        res.Min = Math.Pow(unit, expMin);
-        res.Max = Math.Pow(unit, expMax);
+        res.Min = axisOptions.LockedMin ?? 1;
+        res.Max = axisOptions.LockedMax ?? Math.Pow(unit, expMax);
+        if (res.Max <= res.Min) res.Max = res.Min * unit;
         res.MajorInterval = b;
 
         return res;
