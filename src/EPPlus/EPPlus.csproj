@@ -423,8 +423,9 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.3.3			20261016 Security patch (GHSA-f4h2-2r6m-w59r, CVE-2026-84008 and CVE-2026-70162)
 			7.3.2			20240917 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			7.3.1			20240905 Minor features and bug fixes. 
+			7.3.1			20240905 Minor features and bug fixes.
 			7.3.0			20240820 Precision as displayed support in formula calculation.
 			7.2.2			20240724 Minor features and bug fixes.
 			7.2.1			20240702 Minor bug fixes.
