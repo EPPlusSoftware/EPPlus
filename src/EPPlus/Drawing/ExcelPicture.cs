@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Drawing
                         {
                             if (adjustedPath.StartsWith("file:///"))
                             {
-                                adjustedPath = intendedPath.Substring("file:///".Length);
+                                adjustedPath = adjustedPath.Substring("file:///".Length);
                             }
                             FileInfo ImageFile = new FileInfo(adjustedPath);
                         
