@@ -26,7 +26,7 @@ namespace EPPlus.Export.Pdf.Helpers
             {
                 if (FindSofMarker(jpeg) == 0xC2)                 // progressive
                     return JpegProgressiveHelper.ToGrayBaseline(jpeg) ?? jpeg;
-                return TryTransform(jpeg) ?? jpeg;               // your existing baseline/YCCK transcoder
+                return TryTransform(jpeg) ?? jpeg;
             }
             catch { return jpeg; }
         }
