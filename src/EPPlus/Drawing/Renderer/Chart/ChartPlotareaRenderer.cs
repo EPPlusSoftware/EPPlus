@@ -221,19 +221,19 @@ namespace EPPlusImageRenderer.Svg
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
         {
-            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.ActualAxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
                 return ChartRenderer.HorizontalAxis;
             }
-            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == pos)
             {
                 return ChartRenderer.VerticalAxis;
             }
-            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
                 return ChartRenderer.SecondHorizontalAxis;
             }
-            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisTextboxPosition == pos)
             {
                 return ChartRenderer.SecondVerticalAxis;
             }
