@@ -1703,7 +1703,7 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
 
-        //Edited test for bug i2586
+        //Edited tests for issue #2585. Tests originally written by issue-reporter
         [TestMethod]
         public void InsertRow_UnderLastTableDataRow_ExtendDataValidation()
         {
