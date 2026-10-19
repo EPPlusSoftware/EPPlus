@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Down);
-                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
+                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);

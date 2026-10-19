@@ -1168,6 +1168,7 @@ namespace OfficeOpenXml
             {
                 var fromRow = setFixed && _fromRowFixed ? _fromRow : _fromRow + rows;
                 if (fromRow > ExcelPackage.MaxRows) return null;
+                //CHECK THIS ON MONDAY!!!
                 return new ExcelAddressBase(GetRow(fromRow, setRefOnMinMax), _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
