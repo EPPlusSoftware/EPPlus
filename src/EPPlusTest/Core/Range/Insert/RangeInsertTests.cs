@@ -1677,7 +1677,7 @@ namespace EPPlusTest.Core.Range.Insert
         }
         #endregion
 
-        // THIS FAILS:
+        #region i2585-related tests
         [TestMethod]
         public void InsertRow_AtFirstTableDataRow_ExtendDataValidation()
         {
@@ -1693,16 +1693,31 @@ namespace EPPlusTest.Core.Range.Insert
                 dv.Formula.Values.Add("Yes");
                 dv.Formula.Values.Add("No");
 
-                //wks.Cells["A2"].Insert(eShiftTypeInsert.EntireRow)
-                //dv.Address.
-
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    wks.Cells["A2"].Insert(eShiftTypeInsert.EntireRow);
-                //    //wks.Cells[2, 1, 2, 1].EntireRow.Range.Insert(eShiftTypeInsert.Down);
-                //    //wks.Cells["A2"].EntireRow.Range.Insert(eShiftTypeInsert.EntireRow);
-                //}
                 // WHEN we insert 3 rows at the first data row, so the original data row becomes the last row of the table
+                wks.InsertRow(2, 3);
+
+                // THEN there is still a single data validation, and it ends up at the bottom
+                // Ensure we do not copy the data validation upwards by default as Excel does not.
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual("A5", wks.DataValidations[0].Address.Address);
+            }
+        }
+
+        //Edited test for bug i2586
+        [TestMethod]
+        public void InsertRow_UnderLastTableDataRow_ExtendDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and one data row, where the first column of the data row has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B2"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
                 wks.InsertRow(3, 3, 2);
 
                 // THEN there is still a single data validation, and it covers every data row in the table
@@ -1711,7 +1726,6 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
 
-        // THIS PASSES:
         [TestMethod]
         public void InsertRow_BetweenTableDataRows_ExtendDataValidation()
         {
@@ -1735,5 +1749,6 @@ namespace EPPlusTest.Core.Range.Insert
                 Assert.AreEqual("A2:A6", wks.DataValidations[0].Address.Address);
             }
         }
+        #endregion
     }
 }
