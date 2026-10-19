@@ -319,6 +319,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (dv.Address.Address != newAddress.Address)
                     {
+                        ws.DataValidations.dvQuadTree.UpdateAddress(dv.Address, newAddress, dv);
                         dv.SetAddress(newAddress.Address);
                     }
                 }

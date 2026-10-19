@@ -316,7 +316,15 @@ namespace OfficeOpenXml.Core
                     {
                         if (_sourceRange._worksheet == _destinationRange._worksheet)
                         {
-                            dv.SetAddress(dv.Address + "," + newAddress);
+                            var unifiedAddress = dv.Address.UnifyAddressesIfPossible(dv.Address, new ExcelAddressBase(newAddress));
+                            if (unifiedAddress != null)
+                            {
+                                dv.SetAddress(unifiedAddress.Address);
+                            }
+                            else
+                            {
+                                dv.SetAddress(dv.Address + "," + newAddress);
+                            }
                             dv._ws.DataValidations.UpdateRangeDictionary(dv);
                         }
                         else
@@ -404,8 +412,8 @@ namespace OfficeOpenXml.Core
                 var colOffset = address._fromCol - _sourceRange._fromCol;
                 var fr = Math.Min(Math.Max(_destinationRange._fromRow + rowOffset, 1), ExcelPackage.MaxRows);
                 var fc = Math.Min(Math.Max(_destinationRange._fromCol + colOffset, 1), ExcelPackage.MaxColumns);
-                address = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? new ExcelAddressBase(fc, fr, Math.Min(fc + address.Columns - 1, ExcelPackage.MaxColumns), Math.Min(fr + address.Rows - 1, ExcelPackage.MaxRows)) :
-                                                                                                new ExcelAddressBase(fr, fc, Math.Min(fr + address.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + address.Columns-1, ExcelPackage.MaxColumns));
+                address = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? new ExcelAddressBase(fc, fr, Math.Min(fc + _destinationRange.Columns - 1, ExcelPackage.MaxColumns), Math.Min(fr + _destinationRange.Rows - 1, ExcelPackage.MaxRows)) :
+                                                                                                new ExcelAddressBase(fr, fc, Math.Min(fr + _destinationRange.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + _destinationRange.Columns-1, ExcelPackage.MaxColumns));
                 return address.Address;
             }
             return "";

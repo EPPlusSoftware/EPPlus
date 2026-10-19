@@ -1677,6 +1677,8 @@ namespace EPPlusTest.Core.Range.Insert
         }
         #endregion
 
+
+        //Edited tests for issue #2585. Tests originally written by issue-reporter
         #region i2585-related tests
         [TestMethod]
         public void InsertRow_AtFirstTableDataRow_ExtendDataValidation()
@@ -1703,7 +1705,6 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
 
-        //Edited tests for issue #2585. Tests originally written by issue-reporter
         [TestMethod]
         public void InsertRow_UnderLastTableDataRow_ExtendDataValidation()
         {
@@ -1722,6 +1723,42 @@ namespace EPPlusTest.Core.Range.Insert
 
                 // THEN there is still a single data validation, and it covers every data row in the table
                 Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual("A2:A5", wks.DataValidations[0].Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRow_UnderLastTableDataRow_VerifyQuadRangeUpdates()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and one data row, where the first column of the data row has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B2"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
+                wks.InsertRow(2, 3, 2);
+
+                var validationsAtOldAddress = wks.Cells["A2"].DataValidation.GetDataValidations();
+
+                //Verify data validation does not remain at old address
+                Assert.AreEqual(0, validationsAtOldAddress.Count);
+
+                var validationsAtNewAddress = wks.Cells["A5"].DataValidation.GetDataValidations();
+
+                //Verify data validation does exist at new address
+                Assert.AreEqual(1, validationsAtNewAddress.Count);
+
+                //Copy the moved validation and apply it to the new rows
+                wks.Cells["A5"].Copy(wks.Cells["A2:A4"], ExcelRangeCopyOnly.Validations);
+
+                // THEN there is still a single data validation, and it covers every data row in the table
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                //Verify copying Also unified the addresses instead of comma separating if possible
                 Assert.AreEqual("A2:A5", wks.DataValidations[0].Address.Address);
             }
         }

@@ -1168,7 +1168,6 @@ namespace OfficeOpenXml
             {
                 var fromRow = setFixed && _fromRowFixed ? _fromRow : _fromRow + rows;
                 if (fromRow > ExcelPackage.MaxRows) return null;
-                //CHECK THIS ON MONDAY!!!
                 return new ExcelAddressBase(GetRow(fromRow, setRefOnMinMax), _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
@@ -2189,6 +2188,48 @@ namespace OfficeOpenXml
                 ret._address = sb.ToString();
             }
             return ret;
+        }
+
+        //Merge/Unify two addresses
+        //e.g. if an address is 'A2:A4, A5' it could also be written as one unified range 'A2:A5' instead of comma separated
+        //NOTE: Has NOTHING to do with MergedCells or the like.
+        //This is purely if the addresses are continous and could be described as a singular range.
+        internal ExcelAddressBase UnifyAddressesIfPossible(ExcelAddressBase address1, ExcelAddressBase address2)
+        {
+            //For this to be possible without including cells that are not part of the original expression
+            //At least one of either row or col range must be identical
+            bool colRangeIsIdentical = address1.Columns == address2.Columns && address1._fromCol == address2._fromCol;
+            bool rowRangeIsIdentical = address1.Rows == address2.Rows && address1._fromRow == address2._fromRow;
+
+            if (colRangeIsIdentical)
+            {
+                if(address2._toRow + 1 == address1._fromRow)
+                {
+                    //Address2 above addres1
+                    return new ExcelAddressBase(address2._fromRow, address2._fromCol, address1._toRow, address2._toCol);
+                }
+                else if(address1._toRow + 1 == address2._fromRow)
+                {
+                    //Address1 is above address2
+                    return new ExcelAddressBase(address1._fromRow, address1._fromCol, address2._toRow, address1._toCol);
+                }
+            }
+
+            if (rowRangeIsIdentical)
+            {
+                if (address2._toCol + 1 == address1._fromCol)
+                {
+                    //Address2 left of Address1
+                    return new ExcelAddressBase(address2._fromRow, address2._fromCol, address2._toRow, address1._toCol);
+                }
+                else if (address1._toCol + 1 == address2._fromCol)
+                {
+                    //Address1 is left of address2
+                    return new ExcelAddressBase(address1._fromRow, address1._fromCol, address2._toRow, address2._toCol);
+                }
+            }
+
+            return null;
         }
     }
 }

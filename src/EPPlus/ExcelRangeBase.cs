@@ -2105,7 +2105,7 @@ namespace OfficeOpenXml
                 var allDestinations = Destination.GetAllAddresses();
                 foreach (var currDest in allDestinations)
                 {
-                    //Arguably this is unnecessary as it should not be possible.
+                    //Arguably it is unnecessary to place this inside an if as adddresses must be null to get here.
                     if (currDest.Addresses == null)
                     {
                         var helper = new RangeCopyHelper(this, new ExcelRangeBase(Destination.Worksheet, currDest.Address), excelRangeCopyOptionFlags);
