@@ -44,6 +44,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public double HeadingHeight;
         public double UsedWidth;
         public double UsedHeight;
+        public bool IsCommentsPage;
     }
 
     internal struct Pages

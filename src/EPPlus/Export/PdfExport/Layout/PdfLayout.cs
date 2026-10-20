@@ -1078,6 +1078,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.IsCommentsPage = true;
                     pages.Settings = pageSettings;
                     pages.SheetIndex = si;
+                    pages.IsCommentsPage = true;
+                    for (int k = 0; k < pages.Page.Length; k++)
+                        pages.Page[k].IsCommentsPage = true;
                     PagesCollection.Add(pages);
                 }
             }
@@ -2175,8 +2178,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static double GetOriginX(PdfPageSettings pageSettings, Page page)
         {
             if (!pageSettings.CenterOnPageHorizontally) return pageSettings.ContentBounds.Left;
-
-            var offset = (pageSettings.ContentBounds.Width - page.UsedWidth) / 2d;
+            var contentWidth = page.IsCommentsPage ? pageSettings.ContentBounds.Width : pageSettings.EffectiveContentWidth;
+            var offset = (contentWidth - page.UsedWidth) / 2d;
             return pageSettings.ContentBounds.Left + Math.Max(0d, offset);
         }
 
@@ -2186,8 +2189,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static double GetOriginY(PdfPageSettings pageSettings, Page page)
         {
             if (!pageSettings.CenterOnPageVertically) return pageSettings.ContentBounds.Top;
-
-            var offset = (pageSettings.ContentBounds.Height - page.UsedHeight) / 2d;
+            var contentHeight = page.IsCommentsPage ? pageSettings.ContentBounds.Height : pageSettings.EffectiveContentHeight;
+            var offset = (contentHeight - page.UsedHeight) / 2d;
             return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
         }
 
