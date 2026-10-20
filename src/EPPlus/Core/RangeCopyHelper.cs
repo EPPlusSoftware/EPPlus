@@ -289,6 +289,8 @@ namespace OfficeOpenXml.Core
                     string newAddress = "";
                     if (dv.Address.Addresses == null)
                     {
+                        //Get the range of actual validations within the source range
+                        //As the source range can include empty data etc.
                         newAddress = HandleAddress(dv.Address);
                     }
                     else
@@ -412,8 +414,8 @@ namespace OfficeOpenXml.Core
                 var colOffset = address._fromCol - _sourceRange._fromCol;
                 var fr = Math.Min(Math.Max(_destinationRange._fromRow + rowOffset, 1), ExcelPackage.MaxRows);
                 var fc = Math.Min(Math.Max(_destinationRange._fromCol + colOffset, 1), ExcelPackage.MaxColumns);
-                address = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? new ExcelAddressBase(fc, fr, Math.Min(fc + _destinationRange.Columns - 1, ExcelPackage.MaxColumns), Math.Min(fr + _destinationRange.Rows - 1, ExcelPackage.MaxRows)) :
-                                                                                                new ExcelAddressBase(fr, fc, Math.Min(fr + _destinationRange.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + _destinationRange.Columns-1, ExcelPackage.MaxColumns));
+                address = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose) ? new ExcelAddressBase(fc, fr, Math.Min(fc + address.Columns - 1, ExcelPackage.MaxColumns), Math.Min(fr + address.Rows - 1, ExcelPackage.MaxRows)) :
+                                                                                                new ExcelAddressBase(fr, fc, Math.Min(fr + address.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + address.Columns-1, ExcelPackage.MaxColumns));
                 return address.Address;
             }
             return "";
