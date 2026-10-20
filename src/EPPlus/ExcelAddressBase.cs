@@ -37,7 +37,7 @@ namespace OfficeOpenXml
         internal string _ws;
         internal string _address;
 
-        internal enum eAddressCollition
+        internal enum eAddressCollision
         {
             No,
             Partly,
@@ -434,8 +434,8 @@ namespace OfficeOpenXml
         internal bool IsInside(ExcelAddressBase effectedAddress)
         {
             var c = Collide(effectedAddress);
-            return c == ExcelAddressBase.eAddressCollition.Equal ||
-                   c == ExcelAddressBase.eAddressCollition.Inside;
+            return c == ExcelAddressBase.eAddressCollision.Equal ||
+                   c == ExcelAddressBase.eAddressCollision.Inside;
         }
         /// <summary>
         /// Address is an defined name
@@ -1088,39 +1088,39 @@ namespace OfficeOpenXml
             }
         }
         #region Address manipulation methods
-        internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs = false)
+        internal eAddressCollision Collide(ExcelAddressBase address, bool ignoreWs = false)
         {
             if (ignoreWs == false && address.WorkSheetName != WorkSheetName &&
                 string.IsNullOrEmpty(address.WorkSheetName) == false &&
                 string.IsNullOrEmpty(WorkSheetName) == false)
             {
-                return eAddressCollition.No;
+                return eAddressCollision.No;
             }
 
             return Collide(address._fromRow, address._fromCol, address._toRow, address._toCol);
         }
-        internal eAddressCollition Collide(int row, int col)
+        internal eAddressCollision Collide(int row, int col)
         {
             return Collide(row, col, row, col);
         }
-        internal eAddressCollition Collide(int fromRow, int fromCol, int toRow, int toCol)
+        internal eAddressCollision Collide(int fromRow, int fromCol, int toRow, int toCol)
         {
             if (DoNotCollide(fromRow, fromCol, toRow, toCol))
             {
-                return eAddressCollition.No;
+                return eAddressCollision.No;
             }
             else if (fromRow == _fromRow && fromCol == _fromCol &&
                     toRow == _toRow && toCol == _toCol)
             {
-                return eAddressCollition.Equal;
+                return eAddressCollision.Equal;
             }
             else if (fromRow >= _fromRow && toRow <= _toRow &&
                      fromCol >= _fromCol && toCol <= _toCol)
             {
-                return eAddressCollition.Inside;
+                return eAddressCollision.Inside;
             }
             else
-                return eAddressCollition.Partly;
+                return eAddressCollision.Partly;
         }
 
         internal bool DoNotCollide(int fromRow, int fromCol, int toRow, int toCol)

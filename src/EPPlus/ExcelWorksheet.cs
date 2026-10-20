@@ -286,7 +286,7 @@ namespace OfficeOpenXml
                     if (!used.Contains(v) && _list[v] != null)
                     {
                         var adr = new ExcelAddressBase(_list[v]);
-                        if (!(Destination.Collide(adr) == ExcelAddressBase.eAddressCollition.Inside || Destination.Collide(adr) == ExcelAddressBase.eAddressCollition.Equal))
+                        if (!(Destination.Collide(adr) == ExcelAddressBase.eAddressCollision.Inside || Destination.Collide(adr) == ExcelAddressBase.eAddressCollision.Equal))
                         {
                             throw (new InvalidOperationException(string.Format("Can't delete/overwrite merged cells. A range is partly merged with the another merged range. {0}", adr._address)));
                         }

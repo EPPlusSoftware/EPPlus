@@ -450,7 +450,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var delSparklineGroups = new List<ExcelSparklineGroup>();
             foreach (var slg in range.Worksheet.SparklineGroups)
             {
-                if (slg.DateAxisRange != null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollition.Inside)
+                if (slg.DateAxisRange != null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollision.Inside)
                 {
                     string address;
                     if (shift == eShiftTypeDelete.Up)
@@ -468,13 +468,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 var delSparklines = new List<ExcelSparkline>();
                 foreach (var sl in slg.Sparklines)
                 {
-                    if (range.Collide(sl.Cell.Row, sl.Cell.Column) >= ExcelAddressBase.eAddressCollition.Inside)
+                    if (range.Collide(sl.Cell.Row, sl.Cell.Column) >= ExcelAddressBase.eAddressCollision.Inside)
                     {
                         delSparklines.Add(sl);
                     }
                     else if (shift == eShiftTypeDelete.Up)
                     {
-                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollision.Inside ||
                             range.CollideFullRow(sl.RangeAddress._fromRow, sl.RangeAddress._toRow))
                         {
                             sl.RangeAddress = sl.RangeAddress.DeleteRow(range._fromRow, range.Rows);
@@ -487,7 +487,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {
-                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollision.Inside
                              ||
                             range.CollideFullColumn(sl.RangeAddress._fromCol, sl.RangeAddress._toCol))
                         {
@@ -512,10 +512,10 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void DeleteFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
         {
             var ws = range.Worksheet;
-            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
+            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollision.No)
             {
                 var firstRow = new ExcelAddress(ws.AutoFilter.Address._fromRow, ws.AutoFilter.Address._fromCol, ws.AutoFilter.Address._fromRow, ws.AutoFilter.Address._toCol);
-                if (range.Collide(firstRow, true) >= ExcelAddressBase.eAddressCollition.Inside)
+                if (range.Collide(firstRow, true) >= ExcelAddressBase.eAddressCollision.Inside)
                 {
                     ws.AutoFilter.Address = null;
                 }
@@ -671,7 +671,7 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 var collide = affectedAddress.Collide(address);
-                if (collide == ExcelAddressBase.eAddressCollition.Partly)
+                if (collide == ExcelAddressBase.eAddressCollision.Partly)
                 {
                     var addressToShift = ShiftAddress(address, affectedAddress, deleteRange, shift);
 
@@ -701,7 +701,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
                 }
-                else if (collide != ExcelAddressBase.eAddressCollition.No)
+                else if (collide != ExcelAddressBase.eAddressCollision.No)
                 {
                     return ShiftAddress(address, affectedAddress, deleteRange, shift);
                 }
@@ -833,7 +833,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (workSheetName == ws.Name)
                     {
-                        if (effectedRange.Collide(new ExcelAddressBase(sf.Address)) != ExcelAddressBase.eAddressCollition.No)
+                        if (effectedRange.Collide(new ExcelAddressBase(sf.Address)) != ExcelAddressBase.eAddressCollision.No)
                         {
                             ExcelAddressBase a;
                             if (shift == eShiftTypeDelete.Up)

@@ -398,7 +398,7 @@ namespace OfficeOpenXml
         private bool IsActiveCellInSelection(ExcelAddressBase ac, ExcelAddressBase sd)
         {
             var c = sd.Collide(ac);
-            if (c == ExcelAddressBase.eAddressCollition.Equal || c == ExcelAddressBase.eAddressCollition.Inside)
+            if (c == ExcelAddressBase.eAddressCollision.Equal || c == ExcelAddressBase.eAddressCollision.Inside)
             {
                 return true;
             }
@@ -409,7 +409,7 @@ namespace OfficeOpenXml
                     foreach (var sds in sd.Addresses)
                     {
                         c = sds.Collide(ac);
-                        if (c == ExcelAddressBase.eAddressCollition.Equal || c == ExcelAddressBase.eAddressCollition.Inside)
+                        if (c == ExcelAddressBase.eAddressCollision.Equal || c == ExcelAddressBase.eAddressCollision.Inside)
                         {
                             return true;
                         }

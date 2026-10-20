@@ -930,7 +930,7 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C4:C7"].Insert(eShiftTypeInsert.Right);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
         }
 
         [TestMethod]
@@ -942,8 +942,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C4:C7"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B14")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E9:E12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B14")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E9:E12")));
         }
 
         [TestMethod]
@@ -955,8 +955,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C6:C7"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E10")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E10")));
         }
 
         [TestMethod]
@@ -968,8 +968,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11"].Insert(eShiftTypeInsert.Down);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertRow()
@@ -980,8 +980,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertColumn()
@@ -992,8 +992,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireColumn);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("D2:D10")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("G5:G8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("D2:D10")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("G5:G8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertDownMiddle()
@@ -1004,8 +1004,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B3"].Insert(eShiftTypeInsert.Down);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
 
 
