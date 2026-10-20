@@ -207,14 +207,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 yield return (tableRow & 1) != 0 ? ts.FirstRowStripe                    // 4
                                                  : ts.SecondRowStripe;                  // 5
 
-            if (lastCol) yield return ts.LastColumn;                                   // 6
+            if (lastCol) yield return ts.LastColumn;                                    // 6
             if (firstCol) yield return ts.FirstColumn;                                  // 7
-            if (total) yield return ts.TotalRow;                                     // 8
-            if (header) yield return ts.HeaderRow;                                    // 9
+            if (total) yield return ts.TotalRow;                                        // 8
+            if (header) yield return ts.HeaderRow;                                      // 9
             if (header && firstCol) yield return ts.FirstHeaderCell;                    // 10
-            if (header && lastCol) yield return ts.LastHeaderCell;                     // 11
-            if (total && firstCol) yield return ts.FirstTotalCell;                     // 12
-            if (total && lastCol) yield return ts.LastTotalCell;                      // 13
+            if (header && lastCol) yield return ts.LastHeaderCell;                      // 11
+            if (total && firstCol) yield return ts.FirstTotalCell;                      // 12
+            if (total && lastCol) yield return ts.LastTotalCell;                        // 13
         }
 
         // Overlay only the font properties `src` actually specifies onto `dst`. All members are on the base type.

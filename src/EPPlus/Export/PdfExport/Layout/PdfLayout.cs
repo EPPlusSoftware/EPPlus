@@ -89,6 +89,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int i = 0; i < pdfPages.Count; i++)
             {
                 var pageSettings = pdfPages[i].Settings;
+                bool isDraft = pageSettings.Draft;
                 if (pdfPages[i].SheetIndex != currentSheetIndex)
                 {
                     currentSheetIndex = pdfPages[i].SheetIndex;
@@ -140,17 +141,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     pages[j].MergedCells.TryGetValue(key, out info))
                                 {
                                     //Fill
-                                    var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
-                                    var fill = new PdfCellLayout(info.X, info.Y, info.Width, info.Height);
-                                    SetFill(dictionaries, cellStyle, map.Text, fill);
-                                    fill.Name = map.Name;
-                                    fill.UpdateShadingPositionMatrix(pageSettings);
-                                    pageLayout.AddChild(fill);
-                                    //In-cell picture
-                                    var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
-                                    if (picMap != null)
+                                    if (!isDraft)
                                     {
-                                        AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
+                                        var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
+                                        var fill = new PdfCellLayout(info.X, info.Y, info.Width, info.Height);
+                                        SetFill(dictionaries, cellStyle, map.Text, fill);
+                                        fill.Name = map.Name;
+                                        fill.UpdateShadingPositionMatrix(pageSettings);
+                                        pageLayout.AddChild(fill);
+                                        //In-cell picture
+                                        var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
+                                        if (picMap != null)
+                                        {
+                                            AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
+                                        }
                                     }
                                     //Text
                                     var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
@@ -162,26 +166,29 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                         pageLayout.AddChild(text);
                                     }
-                                    if (map.Main != null)
+                                    if (!isDraft)
                                     {
-                                        var mergeMainStyle = map.Main.CellStyle;
-                                        if (HasDiagonalBorder(mergeMainStyle))
+                                        if (map.Main != null)
                                         {
-                                            var diagBorder = new PdfCellBorderLayout(
-                                                isMerged: false,
-                                                corners: MergedCellCorners.All,
-                                                info: info,
-                                                x: info.X,
-                                                y: info.Y,
-                                                width: info.Width,
-                                                height: info.Height);
-                                            SetBorderStyle(mergeMainStyle, diagBorder);
-                                            diagBorder.Name = map.Name;
-                                            diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                            diagBorder.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                            pageLayout.AddChild(diagBorder);
+                                            var mergeMainStyle = map.Main.CellStyle;
+                                            if (HasDiagonalBorder(mergeMainStyle))
+                                            {
+                                                var diagBorder = new PdfCellBorderLayout(
+                                                    isMerged: false,
+                                                    corners: MergedCellCorners.All,
+                                                    info: info,
+                                                    x: info.X,
+                                                    y: info.Y,
+                                                    width: info.Width,
+                                                    height: info.Height);
+                                                SetBorderStyle(mergeMainStyle, diagBorder);
+                                                diagBorder.Name = map.Name;
+                                                diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                                diagBorder.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                                diagBorder.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                                diagBorder.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                                pageLayout.AddChild(diagBorder);
+                                            }
                                         }
                                     }
                                     drawnMergedCells.Add(key);
@@ -192,13 +199,16 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                 var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
                                 var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
                                 //Fill
-                                var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
-                                SetFill(dictionaries, map.CellStyle, map.Text, fill);
-                                fill.UpdateShadingPositionMatrix(pageSettings);
-                                fill.Name = map.Name;
-                                pageLayout.AddChild(fill);
-                                //In-cell picture
-                                AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
+                                if (!isDraft)
+                                {
+                                    var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
+                                    SetFill(dictionaries, map.CellStyle, map.Text, fill);
+                                    fill.UpdateShadingPositionMatrix(pageSettings);
+                                    fill.Name = map.Name;
+                                    pageLayout.AddChild(fill);
+                                    //In-cell picture
+                                    AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
+                                }
                                 //Text
                                 if (map.TextLines != null && map.TextLines.Count > 0)
                                 {
@@ -210,38 +220,44 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     pageLayout.AddChild(text);
                                 }
                             }
-                            //Border
-                            var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
-                            if (HasBorder(map.CellStyle))
+                            if (!isDraft)
                             {
-                                var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
-                                SetBorderStyle(map.CellStyle, border);
-                                border.Name = map.Name;
-                                if (map.Merged && map.MergedAddress != null)
+                                //Border
+                                var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
+                                if (HasBorder(map.CellStyle))
                                 {
-                                    var addr = map.MergedAddress;
-                                    if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                    if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                    if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                    if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                    var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
+                                    SetBorderStyle(map.CellStyle, border);
+                                    border.Name = map.Name;
+                                    if (map.Merged && map.MergedAddress != null)
+                                    {
+                                        var addr = map.MergedAddress;
+                                        if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                        if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                        if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                        if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                                    }
+                                    SetDoubleBorderMiterFlags(pages[j], row, col, border);
+                                    pageLayout.AddChild(border);
                                 }
-                                SetDoubleBorderMiterFlags(pages[j], row, col, border);
-                                pageLayout.AddChild(border);
                             }
                             x += map.ColumnWidth;
                         }
                         y -= rowHeight;
                         x = contentStartX;
                     }
-                    if (page.Images != null)
+                    if (!isDraft)
                     {
-                        foreach (var img in page.Images)
+                        if (page.Images != null)
                         {
-                            pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
+                            foreach (var img in page.Images)
                             {
-                                ImageBytes = img.ImageBytes,
-                                Name = img.Name,
-                            });
+                                pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
+                                {
+                                    ImageBytes = img.ImageBytes,
+                                    Name = img.Name,
+                                });
+                            }
                         }
                     }
                     if (page.HeaderFooters != null)
@@ -424,7 +440,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         cellcont.GidsAndCharMap(dictionaries);
                         pageLayout.AddChild(cellcont);
                     }
-                    PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
+                    if(!isDraft)
+                        PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>
                     {
                         int cmp = a.Z.CompareTo(b.Z);
@@ -710,7 +727,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 text.GidsAndCharMap(dictionaries);
                 pageLayout.AddChild(text);
             }
-            AddHeadingCellBorder(pageLayout, x, y, width, height);
+            if(!pageSettings.Draft)
+                AddHeadingCellBorder(pageLayout, x, y, width, height);
         }
 
         private static void AddHeadingCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, double contentStartX, double contentStartY, double headingWidth, double headingHeight, string fontName, float fontSize, ExcelFill fill)
@@ -732,15 +750,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     x, GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
                 x += colWidth;
             }
-            double y = contentStartY;
-            for (int row = page.FromRow; row <= page.ToRow; row++)
+            if (!pageSettings.Draft)
             {
-                double rowHeight = page.RowHeights[row - page.FromRow];
-                if (rowHeight == 0d) { y -= rowHeight; continue; }
-                string rowNum = row.ToString();
-                AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum,
-                    GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
-                y -= rowHeight;
+                double y = contentStartY;
+                for (int row = page.FromRow; row <= page.ToRow; row++)
+                {
+                    double rowHeight = page.RowHeights[row - page.FromRow];
+                    if (rowHeight == 0d) { y -= rowHeight; continue; }
+                    string rowNum = row.ToString();
+                    AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum,
+                        GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
+                    y -= rowHeight;
+                }
             }
         }
 
