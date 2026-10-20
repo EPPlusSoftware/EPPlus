@@ -322,6 +322,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             startPt.Parent = innerGroup.Parent;
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
+                            //var rectStart = new RectRenderItem();
+                            //rectStart.Style.FillColor = "red";
+                            //rectStart.Width = 5;
+                            //rectStart.Height = 5;
+                            //rectStart.Position = startPt.Position;
+
+                            //ChartRenderer.RenderItems.Add(rectStart);
+
+
+
+                            //var rectEnd = new RectRenderItem();
+                            //rectEnd.Style.FillColor = "blue";
+                            //rectEnd.Width = 5;
+                            //rectEnd.Height = 5;
+                            //rectEnd.Position = innerGroup.Position;
+
+                            //ChartRenderer.RenderItems.Add(rectEnd);
+
                             //var maxBoundsForBestFit = new BoundingBox();
                             //maxBoundsForBestFit.Parent = innerGroup;
 
