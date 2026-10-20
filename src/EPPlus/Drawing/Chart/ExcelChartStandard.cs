@@ -792,7 +792,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal override ExcelChartTitle GetTitle()
         {
-            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
+            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c", 0);
         }
         /// <summary>
         /// True if the chart has a title

@@ -233,6 +233,10 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
+                if(LabelPosition==eTickLabelPosition.NextTo && CrossesAt.HasValue)
+                {
+                    return eActualAxisPosition.ByValueOrCategory;
+                }
                 var ap = AxisPosition;
                 if (ap == eAxisPosition.Left)
                 {
@@ -247,7 +251,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else if (ap == eAxisPosition.Bottom)
                 {
-                    if (CrossingAxis.Crosses == eCrosses.Max)
+                    if (LabelPosition == eTickLabelPosition.High)
                     {
                         return eActualAxisPosition.Top;
                     }
@@ -260,55 +264,72 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
-                        if (ax?.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.Left;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.LeftSecond;
-                        }
+                        return eActualAxisPosition.Left;
                     }
                     else
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
-                        if (ax?.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.RightSecond;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.Right;
-                        }
+                        return eActualAxisPosition.Right;
                     }
+
+                    //if (LabelPosition == eTickLabelPosition.Low)
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.Left;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.LeftSecond;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.RightSecond;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.Right;
+                    //    }
+                    //}
                 }
                 else  //Top
                 {
-                    if (LabelPosition == eTickLabelPosition.Low)
+                    if (LabelPosition == eTickLabelPosition.High)
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
-                        if (ax.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.Bottom;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.BottomSecond;
-                        }
+                        return eActualAxisPosition.Bottom;
                     }
                     else
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
-                        if (ax?.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.TopSecond;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.Top;
-                        }
+                        return eActualAxisPosition.Top;
                     }
+                    //if (LabelPosition == eTickLabelPosition.Low)
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                    //    if (ax.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.Bottom;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.BottomSecond;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.TopSecond;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.Top;
+                    //    }
+                    //}
                 }
             }
         }
@@ -338,7 +359,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c");
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", IsVertical?270 : 0);
             }
             return _title;
         }

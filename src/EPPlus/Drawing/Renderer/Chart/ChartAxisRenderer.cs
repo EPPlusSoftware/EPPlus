@@ -416,13 +416,72 @@ namespace EPPlusImageRenderer.Svg
                 Textboxes = new ChartAxisTextBoxes(this)
                 {
                     AxisName = $"Axis_{Axis.Index}_Textboxes",
-                    TextBoxes = GetAxisValueTextBoxes()
+                    TextBoxes = GetAxisValueTextBoxes(out double widest, out double highest)
                 };
+
+                //Adjust position of the axis textboxes so they adjust to the width or height
+                if (AdjustPosBySize)
+                {
+                    if (Axis.IsVertical)
+                    {     
+                        if(ChartRenderer.VerticalAxis==this || ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        {
+                            Rectangle.Left -= Rectangle.Width;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        {
+                            Rectangle.Top -= Rectangle.Height;
+                        }
+                        else
+                        {
+                            if(Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                            {
+                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Top - TopMargin - Rectangle.Height;
+                            }
+                            else
+                            {
+                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
+                            }
+                        }
+                    }
+                }
+                
+                if (Axis.IsVertical && ChartRenderer.VerticalAxis != this && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
+                {
+                    if (Axis.AxisTextboxPosition == eActualAxisPosition.Right)
+                    {
+                        Rectangle.Left = ChartRenderer.VerticalAxis.Rectangle.Right + LeftMargin;
+                    }
+                    else
+                    {
+                        Rectangle.Left = ChartRenderer.VerticalAxis.Rectangle.Left - Rectangle.Width - LeftMargin;
+                    }
+                }
+                else if(Axis.IsVertical==false && Axis.IsVertical && ChartRenderer.VerticalAxis != this && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
+                {
+                    if (Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
+                    {
+                        Rectangle.Top = ChartRenderer.VerticalAxis.Rectangle.Bottom + TopMargin;
+                    }
+                    else
+                    {
+                        Rectangle.Top = ChartRenderer.VerticalAxis.Rectangle.Top - Rectangle.Height - TopMargin;
+                    }
+                }
+
             }
         }
 
-        private List<DrawingTextBox> GetAxisValueTextBoxes()
+        private List<DrawingTextBox> GetAxisValueTextBoxes(out double widest, out double highest)
         {
+            widest = highest = 0;
             var ret = new List<DrawingTextBox>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
 
@@ -463,7 +522,7 @@ namespace EPPlusImageRenderer.Svg
                         break;
                 }
             }
-            double widest = 0;
+
             for (var i = 0; i < AxisValues.Count; i++)
             {
                 var v = Values[i];
@@ -577,13 +636,17 @@ namespace EPPlusImageRenderer.Svg
                 {
                     widest = tb.Width;
                 }
+                if(highest < tb.Height)
+                {
+                    highest = tb.Height;
+                }
                 ret.Add(tb);
             }
 
             if (Axis.IsVertical)
             {
                 //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
-                if (Axis.AxisPosition == eAxisPosition.Left)
+                if (Axis.AxisTextboxPosition == eActualAxisPosition.Left)
                 {
                     foreach (var tb in ret)
                     {
@@ -807,9 +870,9 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else //TODO:Add support for hight.
                         {
-                            var top = ChartRenderer.Plotarea.Group.Top + height;
-                            Rectangle.Height += Rectangle.Height - top;
-                            Rectangle.Top = top;
+                            //var top = ChartRenderer.Plotarea.Group.Top + height;
+                            //Rectangle.Height += Rectangle.Height - top;
+                            //Rectangle.Top = top;
                             return 0;
                         }
                 }
@@ -1610,6 +1673,13 @@ namespace EPPlusImageRenderer.Svg
             return GetDefaultBorderColorForElement(ChartRenderer.Theme, ChartElement.Axis, (int)Chart.Style);
         }
         internal override Color? DefaultBorderColor => GetDefaultBorderColor();
+
+
+
+        /// <summary>
+        /// If the axis is left or top, the position of the axis is adjusted by the size of the axis. 
+        /// </summary>
+        internal bool AdjustPosBySize { get; set; } = false;
 
         internal double GetCrossesValue()
         {
