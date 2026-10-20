@@ -1336,5 +1336,33 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "DraftTest1.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void PdfIsBlackAndWhiteTest1()
+        {
+            using var p = OpenTemplatePackage("PDFTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.BlackAndWhite = true;
+            string path = _pdfPath + "BlackAndWhiteTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
+        [TestMethod]
+        public void PdfIsBlackAndWhiteTest2()
+        {
+            using var p = OpenTemplatePackage("CMYK.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.BlackAndWhite = true;
+            string path = _pdfPath + "BlackAndWhiteTest2.pdf";
+            ws.SaveAsPdf(path);
+        }
+        [TestMethod]
+        public void PdfIsBlackAndWhiteTest3()
+        {
+            using var p = OpenTemplatePackage("ProgressiveJPEG.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.BlackAndWhite = true;
+            string path = _pdfPath + "BlackAndWhiteTest3.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }

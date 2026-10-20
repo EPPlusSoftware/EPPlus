@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using System.IO;
 using System.Text;
 
@@ -73,7 +74,45 @@ namespace EPPlus.Export.Pdf.Helpers
             }
         }
 
-        internal static void DecodePngWithAlpha(byte[] pngBytes, int width, int height, int colorType, out byte[] deflatedColor, out byte[] deflatedAlpha)
+        internal static void DecodePngTruecolor(byte[] pngBytes, int width, int height, bool blackAndWhite, out byte[] deflatedRgb)
+        {
+            const int channels = 3;
+            byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
+            int stride = width * channels;
+            var rgb = new byte[width * height * channels];
+            var prev = new byte[stride];
+            var cur = new byte[stride];
+            int pos = 0, ci = 0;
+            for (int y = 0; y < height; y++)
+            {
+                int filter = pos < filtered.Length ? filtered[pos++] : 0;
+                for (int x = 0; x < stride; x++)
+                {
+                    int raw = pos < filtered.Length ? filtered[pos++] : 0;
+                    int a = x >= channels ? cur[x - channels] : 0;
+                    int b = prev[x];
+                    int c = x >= channels ? prev[x - channels] : 0;
+                    int val;
+                    switch (filter)
+                    {
+                        case 1: val = raw + a; break;
+                        case 2: val = raw + b; break;
+                        case 3: val = raw + ((a + b) >> 1); break;
+                        case 4: val = raw + Paeth(a, b, c); break;
+                        default: val = raw; break;
+                    }
+                    cur[x] = (byte)(val & 0xFF);
+                }
+                System.Array.Copy(cur, 0, rgb, ci, stride);
+                ci += stride;
+                var swap = prev; prev = cur; cur = swap;
+            }
+            if (blackAndWhite)
+                PdfImageXObject.GrayscaleRgb(rgb);
+            deflatedRgb = PdfFlate.CompressLeaveOpen(rgb);
+        }
+
+        internal static void DecodePngWithAlpha(byte[] pngBytes, int width, int height, bool blackAndWhite, int colorType, out byte[] deflatedColor, out byte[] deflatedAlpha)
         {
             int channels = colorType == 6 ? 4 : 2;
             int colorChannels = colorType == 6 ? 3 : 1;
@@ -133,6 +172,8 @@ namespace EPPlus.Export.Pdf.Helpers
                 }
                 var swap = prev; prev = cur; cur = swap;
             }
+            if (blackAndWhite && colorType == 6)
+                PdfImageXObject.GrayscaleRgb(color);
             deflatedColor = PdfFlate.CompressLeaveOpen(color);
             deflatedAlpha = PdfFlate.CompressLeaveOpen(alpha);
         }

@@ -29,6 +29,7 @@ namespace EPPlus.Export.Pdf.Settings
         internal string LicenseHolder;
         internal string Title;
         internal string Author;
+        internal bool BlackAndWhite;
 
         internal static PdfDocumentSettings From(PdfPageSettings s)
         {
@@ -46,6 +47,7 @@ namespace EPPlus.Export.Pdf.Settings
                 LicenseHolder = s.LicenseHolder,
                 Title = s.Title,
                 Author = s.Author,
+                BlackAndWhite = s.BlackAndWhite
             };
         }
 
