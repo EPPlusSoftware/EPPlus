@@ -1753,12 +1753,17 @@ namespace EPPlusTest.Core.Range.Insert
                 //Verify data validation does exist at new address
                 Assert.AreEqual(1, validationsAtNewAddress.Count);
 
-                //Copy the moved validation and apply it to the new rows
-                wks.Cells["A5"].Copy(wks.Cells["A2:A4"], ExcelRangeCopyOnly.Validations);
+                for(int i = 0; i < 3; i++)
+                {
+                    //Copy the moved validation and apply it to the new rows
+                    wks.Cells["A5"].Copy(wks.Cells[2 + i, 1], ExcelRangeCopyOnly.Validations);
+                }
 
                 // THEN there is still a single data validation, and it covers every data row in the table
                 Assert.AreEqual(1, wks.DataValidations.Count);
                 //Verify copying Also unified the addresses instead of comma separating if possible
+                Assert.AreEqual("A5,A2,A3,A4", wks.DataValidations[0].Address.Address);
+                wks.DataValidations[0].Address.UnifyAddresses();
                 Assert.AreEqual("A2:A5", wks.DataValidations[0].Address.Address);
             }
         }

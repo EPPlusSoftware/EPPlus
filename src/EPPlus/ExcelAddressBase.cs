@@ -2190,6 +2190,70 @@ namespace OfficeOpenXml
             return ret;
         }
 
+        internal void UnifyAddresses()
+        {
+            if (Addresses != null)
+            {
+                var orderedAddresses = Addresses.OrderBy(x => x.Address).ToList();
+                var lastAddress = orderedAddresses[0];
+                List<ExcelAddressBase> unifiedAddresses = new List<ExcelAddressBase>();
+                List<ExcelAddressBase> terminationAddresses = new List<ExcelAddressBase>();
+
+                for (int i = 1; i < orderedAddresses.Count; i++)
+                {
+                    var unitedAddr = UnifyAddressesIfPossible(lastAddress, orderedAddresses[i]);
+                    if (unitedAddr != null)
+                    {
+                        terminationAddresses.Add(orderedAddresses[i]);
+                        if (unifiedAddresses.Count == 0)
+                        {
+                            terminationAddresses.Add(orderedAddresses[0]);
+                            unifiedAddresses.Add(unitedAddr);
+                        }
+                        else if(unifiedAddresses.Last() != lastAddress)
+                        {
+                            unifiedAddresses.Add(unitedAddr);
+                        }
+                        else if(unifiedAddresses.Last() == lastAddress)
+                        {
+                            unifiedAddresses[unifiedAddresses.Count - 1] = unitedAddr;
+                        }
+
+                        lastAddress = unitedAddr;
+                    }
+                    else
+                    {
+                        lastAddress = orderedAddresses[i];
+                    }
+                }
+
+                foreach(var adr in terminationAddresses)
+                {
+                    Addresses.Remove(adr);
+                }
+                foreach(var adr in unifiedAddresses)
+                {
+                    Addresses.Add(adr);
+                }
+
+                if(Addresses.Count == 1 && unifiedAddresses.Count == 1)
+                {
+                    _address = unifiedAddresses[0].Address;
+                    Addresses.Clear();
+                }
+                else
+                {
+                    string fullAddress = string.Empty;
+                    foreach(var adr in Addresses)
+                    {
+                        if (fullAddress != string.Empty) fullAddress += ",";
+                        fullAddress = adr.Address;
+                    }
+                    _address = fullAddress;
+                }
+            }
+        }
+
         //Merge/Unify two addresses
         //e.g. if an address is 'A2:A4, A5' it could also be written as one unified range 'A2:A5' instead of comma separated
         //NOTE: Has NOTHING to do with MergedCells or the like.

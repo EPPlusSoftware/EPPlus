@@ -291,6 +291,7 @@ namespace OfficeOpenXml.Core
                     {
                         //Get the range of actual validations within the source range
                         //As the source range can include empty data etc.
+                        //Then move that range to top left of destination
                         newAddress = HandleAddress(dv.Address);
                     }
                     else
@@ -319,14 +320,15 @@ namespace OfficeOpenXml.Core
                         if (_sourceRange._worksheet == _destinationRange._worksheet)
                         {
                             var unifiedAddress = dv.Address.UnifyAddressesIfPossible(dv.Address, new ExcelAddressBase(newAddress));
-                            if (unifiedAddress != null)
-                            {
-                                dv.SetAddress(unifiedAddress.Address);
-                            }
-                            else
-                            {
-                                dv.SetAddress(dv.Address + "," + newAddress);
-                            }
+                            //if (unifiedAddress != null)
+                            //{
+                            //    dv.SetAddress(unifiedAddress.Address);
+                            //}
+                            //else
+                            //{
+                            //    dv.SetAddress(dv.Address + "," + newAddress);
+                            //}
+                            dv.SetAddress(dv.Address + "," + newAddress);
                             dv._ws.DataValidations.UpdateRangeDictionary(dv);
                         }
                         else
@@ -407,7 +409,9 @@ namespace OfficeOpenXml.Core
                     if (inAddress == null) return "";
                 }
             }
-            if (inAddress.Collide(_sourceRange) != eAddressCollision.No)
+
+            var collision = inAddress.Collide(_sourceRange);
+            if (collision != eAddressCollision.No)
             {
                 var address = _sourceRange.Intersect(inAddress);
                 var rowOffset = address._fromRow - _sourceRange._fromRow;
