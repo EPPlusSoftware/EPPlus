@@ -646,7 +646,7 @@ namespace EPPlusTest.DataValidation
             {
                 var ws2 = pck2.Workbook.Worksheets[0];
                 var address = ws2.DataValidations[0].Address;
-                Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollition.No);
+                Assert.IsTrue(address.Collide(new ExcelAddressBase("A3")) == ExcelAddressBase.eAddressCollision.No);
             }
         }
 

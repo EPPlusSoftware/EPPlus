@@ -106,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (ExcelCellBase.IsValidAddress(address))
                 {
                     var addressBase = new ExcelAddressBase(address);
-                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollision.No)
                     {
                         if (insertType == eShiftTypeDelete.Left)
                         {
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (ExcelCellBase.IsValidAddress(address))
                 {
                     var addressBase = new ExcelAddressBase(address);
-                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollision.No)
                     {
                         if(insertType == eShiftTypeInsert.Right)
                         {

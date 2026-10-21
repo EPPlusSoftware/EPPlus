@@ -195,8 +195,8 @@ namespace OfficeOpenXml.Core
             foreach (var table in _sourceRange.Worksheet.PivotTables)
             {
                 var ac = _sourceRange.Collide(table.Address);
-                if (ac == eAddressCollition.Inside ||
-                    ac == eAddressCollition.Equal)
+                if (ac == eAddressCollision.Inside ||
+                    ac == eAddressCollision.Equal)
                 {
                     tablesToCopy.Add(table);
                 }
@@ -210,8 +210,8 @@ namespace OfficeOpenXml.Core
             foreach(var table in _sourceRange.Worksheet.Tables)
             {
                 var ac = _sourceRange.Collide(table.Range);
-                if (ac == eAddressCollition.Inside ||
-                    ac == eAddressCollition.Equal)
+                if (ac == eAddressCollision.Inside ||
+                    ac == eAddressCollision.Equal)
                 {
                     tablesToCopy.Add(table); 
                 }
@@ -289,6 +289,9 @@ namespace OfficeOpenXml.Core
                     string newAddress = "";
                     if (dv.Address.Addresses == null)
                     {
+                        //Get the range of actual validations within the source range
+                        //As the source range can include empty data etc.
+                        //Then move that range to top left of destination
                         newAddress = HandleAddress(dv.Address);
                     }
                     else
@@ -316,6 +319,15 @@ namespace OfficeOpenXml.Core
                     {
                         if (_sourceRange._worksheet == _destinationRange._worksheet)
                         {
+                            var unifiedAddress = dv.Address.UnifyAddressesIfPossible(dv.Address, new ExcelAddressBase(newAddress));
+                            //if (unifiedAddress != null)
+                            //{
+                            //    dv.SetAddress(unifiedAddress.Address);
+                            //}
+                            //else
+                            //{
+                            //    dv.SetAddress(dv.Address + "," + newAddress);
+                            //}
                             dv.SetAddress(dv.Address + "," + newAddress);
                             dv._ws.DataValidations.UpdateRangeDictionary(dv);
                         }
@@ -397,7 +409,9 @@ namespace OfficeOpenXml.Core
                     if (inAddress == null) return "";
                 }
             }
-            if (inAddress.Collide(_sourceRange) != eAddressCollition.No)
+
+            var collision = inAddress.Collide(_sourceRange);
+            if (collision != eAddressCollision.No)
             {
                 var address = _sourceRange.Intersect(inAddress);
                 var rowOffset = address._fromRow - _sourceRange._fromRow;
@@ -872,9 +886,9 @@ namespace OfficeOpenXml.Core
                 {
                     var adr = new ExcelAddress(worksheet.Name, worksheet.MergedCells._list[csem.Value]);
                     var collideResult = _sourceRange.Collide(adr);
-                    if (collideResult != eAddressCollition.No)
+                    if (collideResult != eAddressCollision.No)
                     {
-                        if(collideResult == eAddressCollition.Partly)
+                        if(collideResult == eAddressCollision.Partly)
                         {
                             //Partial merge of the address take only if more than one cell intersects.
                             var intersectingCells = _sourceRange.Intersect(adr);

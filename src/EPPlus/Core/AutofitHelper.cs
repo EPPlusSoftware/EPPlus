@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Core
                 Dictionary<MeasurementFont, int> textLengthCache = new Dictionary<MeasurementFont, int>();
                 foreach (var af in afAddr)
                 {
-                    if (af.Collide(fromRow, col, toRow, col) != eAddressCollition.No)
+                    if (af.Collide(fromRow, col, toRow, col) != eAddressCollision.No)
                     {
                         var cell = worksheet.Cells[af._fromRow, col];
                         var cellStyleId = styles.CellXfs[cell.StyleID];

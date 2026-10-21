@@ -37,7 +37,7 @@ namespace OfficeOpenXml
         internal string _ws;
         internal string _address;
 
-        internal enum eAddressCollition
+        internal enum eAddressCollision
         {
             No,
             Partly,
@@ -434,8 +434,8 @@ namespace OfficeOpenXml
         internal bool IsInside(ExcelAddressBase effectedAddress)
         {
             var c = Collide(effectedAddress);
-            return c == ExcelAddressBase.eAddressCollition.Equal ||
-                   c == ExcelAddressBase.eAddressCollition.Inside;
+            return c == ExcelAddressBase.eAddressCollision.Equal ||
+                   c == ExcelAddressBase.eAddressCollision.Inside;
         }
         /// <summary>
         /// Address is an defined name
@@ -1088,39 +1088,39 @@ namespace OfficeOpenXml
             }
         }
         #region Address manipulation methods
-        internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs = false)
+        internal eAddressCollision Collide(ExcelAddressBase address, bool ignoreWs = false)
         {
             if (ignoreWs == false && address.WorkSheetName != WorkSheetName &&
                 string.IsNullOrEmpty(address.WorkSheetName) == false &&
                 string.IsNullOrEmpty(WorkSheetName) == false)
             {
-                return eAddressCollition.No;
+                return eAddressCollision.No;
             }
 
             return Collide(address._fromRow, address._fromCol, address._toRow, address._toCol);
         }
-        internal eAddressCollition Collide(int row, int col)
+        internal eAddressCollision Collide(int row, int col)
         {
             return Collide(row, col, row, col);
         }
-        internal eAddressCollition Collide(int fromRow, int fromCol, int toRow, int toCol)
+        internal eAddressCollision Collide(int fromRow, int fromCol, int toRow, int toCol)
         {
             if (DoNotCollide(fromRow, fromCol, toRow, toCol))
             {
-                return eAddressCollition.No;
+                return eAddressCollision.No;
             }
             else if (fromRow == _fromRow && fromCol == _fromCol &&
                     toRow == _toRow && toCol == _toCol)
             {
-                return eAddressCollition.Equal;
+                return eAddressCollision.Equal;
             }
             else if (fromRow >= _fromRow && toRow <= _toRow &&
                      fromCol >= _fromCol && toCol <= _toCol)
             {
-                return eAddressCollition.Inside;
+                return eAddressCollision.Inside;
             }
             else
-                return eAddressCollition.Partly;
+                return eAddressCollision.Partly;
         }
 
         internal bool DoNotCollide(int fromRow, int fromCol, int toRow, int toCol)
@@ -2188,6 +2188,112 @@ namespace OfficeOpenXml
                 ret._address = sb.ToString();
             }
             return ret;
+        }
+
+        internal void UnifyAddresses()
+        {
+            if (Addresses != null)
+            {
+                var orderedAddresses = Addresses.OrderBy(x => x.Address).ToList();
+                var lastAddress = orderedAddresses[0];
+                List<ExcelAddressBase> unifiedAddresses = new List<ExcelAddressBase>();
+                List<ExcelAddressBase> terminationAddresses = new List<ExcelAddressBase>();
+
+                for (int i = 1; i < orderedAddresses.Count; i++)
+                {
+                    var unitedAddr = UnifyAddressesIfPossible(lastAddress, orderedAddresses[i]);
+                    if (unitedAddr != null)
+                    {
+                        terminationAddresses.Add(orderedAddresses[i]);
+                        if (unifiedAddresses.Count == 0)
+                        {
+                            terminationAddresses.Add(orderedAddresses[0]);
+                            unifiedAddresses.Add(unitedAddr);
+                        }
+                        else if(unifiedAddresses.Last() != lastAddress)
+                        {
+                            unifiedAddresses.Add(unitedAddr);
+                        }
+                        else if(unifiedAddresses.Last() == lastAddress)
+                        {
+                            unifiedAddresses[unifiedAddresses.Count - 1] = unitedAddr;
+                        }
+
+                        lastAddress = unitedAddr;
+                    }
+                    else
+                    {
+                        lastAddress = orderedAddresses[i];
+                    }
+                }
+
+                foreach(var adr in terminationAddresses)
+                {
+                    Addresses.Remove(adr);
+                }
+                foreach(var adr in unifiedAddresses)
+                {
+                    Addresses.Add(adr);
+                }
+
+                if(Addresses.Count == 1 && unifiedAddresses.Count == 1)
+                {
+                    _address = unifiedAddresses[0].Address;
+                    Addresses.Clear();
+                }
+                else
+                {
+                    string fullAddress = string.Empty;
+                    foreach(var adr in Addresses)
+                    {
+                        if (fullAddress != string.Empty) fullAddress += ",";
+                        fullAddress = adr.Address;
+                    }
+                    _address = fullAddress;
+                }
+            }
+        }
+
+        //Merge/Unify two addresses
+        //e.g. if an address is 'A2:A4, A5' it could also be written as one unified range 'A2:A5' instead of comma separated
+        //NOTE: Has NOTHING to do with MergedCells or the like.
+        //This is purely if the addresses are continous and could be described as a singular range.
+        internal ExcelAddressBase UnifyAddressesIfPossible(ExcelAddressBase address1, ExcelAddressBase address2)
+        {
+            //For this to be possible without including cells that are not part of the original expression
+            //At least one of either row or col range must be identical
+            bool colRangeIsIdentical = address1.Columns == address2.Columns && address1._fromCol == address2._fromCol;
+            bool rowRangeIsIdentical = address1.Rows == address2.Rows && address1._fromRow == address2._fromRow;
+
+            if (colRangeIsIdentical)
+            {
+                if(address2._toRow + 1 == address1._fromRow)
+                {
+                    //Address2 above addres1
+                    return new ExcelAddressBase(address2._fromRow, address2._fromCol, address1._toRow, address2._toCol);
+                }
+                else if(address1._toRow + 1 == address2._fromRow)
+                {
+                    //Address1 is above address2
+                    return new ExcelAddressBase(address1._fromRow, address1._fromCol, address2._toRow, address1._toCol);
+                }
+            }
+
+            if (rowRangeIsIdentical)
+            {
+                if (address2._toCol + 1 == address1._fromCol)
+                {
+                    //Address2 left of Address1
+                    return new ExcelAddressBase(address2._fromRow, address2._fromCol, address2._toRow, address1._toCol);
+                }
+                else if (address1._toCol + 1 == address2._fromCol)
+                {
+                    //Address1 is left of address2
+                    return new ExcelAddressBase(address1._fromRow, address1._fromCol, address2._toRow, address2._toCol);
+                }
+            }
+
+            return null;
         }
     }
 }

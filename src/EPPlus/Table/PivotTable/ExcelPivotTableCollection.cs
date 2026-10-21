@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             foreach (var t in _pivotTables)
             {
-                if (t.Address.Collide(Range) != ExcelAddressBase.eAddressCollition.No)
+                if (t.Address.Collide(Range) != ExcelAddressBase.eAddressCollision.No)
                 {
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
@@ -334,7 +334,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The first pivot table in the range</returns>
         internal ExcelPivotTable GetByAddress(ExcelRange range)
         {
-            return _pivotTables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
+            return _pivotTables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollision.No);
         }
     }
 }

@@ -1217,7 +1217,7 @@ namespace OfficeOpenXml
                     {
                         var address = new ExcelAddressBase(t.Value);
                         if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, adrWs)) && !setFixed) ||
-                                address.Collide(effectedRange) == ExcelAddressBase.eAddressCollition.No)
+                                address.Collide(effectedRange) == ExcelAddressBase.eAddressCollision.No)
                         {
                             f += address.Address;
                             continue;
