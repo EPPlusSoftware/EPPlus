@@ -1454,7 +1454,7 @@ namespace OfficeOpenXml
             {
                 WorksheetRangeDeleteHelper.DeleteColumn(_worksheet, _fromCol, Columns);
             }
-            else if (shift == eShiftTypeDelete.EntireRow || (_fromCol <= 1 && _toRow >= ExcelPackage.MaxColumns))
+            else if (shift == eShiftTypeDelete.EntireRow || (_fromCol <= 1 && _toCol >= ExcelPackage.MaxColumns))
             {
                 WorksheetRangeDeleteHelper.DeleteRow(_worksheet, _fromRow, Rows);
             }

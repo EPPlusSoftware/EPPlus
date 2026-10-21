@@ -257,6 +257,10 @@ namespace OfficeOpenXml
             {
                 if (namedRange._fromRow <= 0) continue;
                 var address = new ExcelAddressBase(namedRange.Address);
+                if(address?.Table!=null)
+                {
+                    continue;
+                }
                 if (rows > 0 && address._toCol <= upperLimit && address._fromCol >= lowerLimint)
                 {
                     address = namedRange.DeleteRow(rowFrom, rows,false,false);
