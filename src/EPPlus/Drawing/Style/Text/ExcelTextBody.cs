@@ -466,6 +466,8 @@ namespace OfficeOpenXml.Drawing
             bottom = BottomInsert;
         }
 
+        internal eTextAlignment defaultAlignment = eTextAlignment.Left;
+
         ExcelDrawingParagraphCollection _paragraphs = null;
         /// <summary>
         /// A collection of paragraphs within a rich text in a drawing object.
@@ -477,7 +479,7 @@ namespace OfficeOpenXml.Drawing
                 if(_paragraphs==null)
                 {
                     var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
-                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
+                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml, defaultAlignment);
                 }
                 return _paragraphs;
             }

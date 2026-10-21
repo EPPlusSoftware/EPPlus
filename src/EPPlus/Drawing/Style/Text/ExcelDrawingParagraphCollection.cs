@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing
         internal Action<ExcelDrawingParagraph> _removeParagraphCallback = null;
         internal Action<ExcelParagraphTextRunBase> _removeTextRunCallback = null;
         internal ExcelTextBody _tb;
-        internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nsm, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml) : base(nsm, topNode)
+        internal ExcelDrawingParagraphCollection(IPictureRelationDocument prd, XmlNamespaceManager nsm, XmlNode topNode, string path, string[] schemaNodeOrder, Action initXml, eTextAlignment defaultAlignment = eTextAlignment.Left) : base(nsm, topNode)
         {
             _prd = prd;
             var rootNode = GetNode(path);
@@ -46,6 +46,7 @@ namespace OfficeOpenXml.Drawing
                 foreach (XmlElement pn in pNodes)
                 {
                     var paragraph = new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml);
+                    paragraph.defaultAlignment = defaultAlignment;
                     _paragraphs.Add(paragraph);
                     //if (_paragraphs.Count == 1 && FirstDefaultRunProperties == null)
                     //{

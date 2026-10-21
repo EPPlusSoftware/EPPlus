@@ -19,8 +19,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Net;
 
-using EPPlus.Graphics.Geometry;
-
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
     internal class PieSliceRenderItem : ChartDrawingObjectWithBackground
@@ -264,14 +262,23 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                var k = (circleCenter.Position.Y - _endPoint.Position.Y) / (circleCenter.Position.X - _endPoint.Position.X);
-                var m = _endPoint.Position.Y - k * _endPoint.Position.X;
+                var kClockWise = (circleCenter.Position.Y - _endPoint.Position.Y) / (circleCenter.Position.X - _endPoint.Position.X);
+                var mClockWise = _endPoint.Position.Y - kClockWise * _endPoint.Position.X;
 
                 //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
-                var xVal = (_startPoint.Position.Y - m) / k;
+                var xVal = (_startPoint.Position.Y - mClockWise) / kClockWise;
                 var lessX = Math.Min(xVal, _startPoint.Position.X);
                 var moreX = Math.Max(xVal, _startPoint.Position.X);
                 txtBoxWidth = moreX - lessX;
+
+                var kCounterClock = (circleCenter.Position.Y - _startPoint.Position.Y) / (circleCenter.Position.X - _startPoint.Position.X);
+                var mCounterClock = _startPoint.Position.Y - kClockWise * _startPoint.Position.X;
+
+                //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
+                var yVal = (_endPoint.Position.X - mClockWise) / kClockWise;
+                var lessY = Math.Min(yVal, _endPoint.Position.X);
+                var moreY = Math.Max(yVal, _endPoint.Position.X);
+                txtBoxHeight = moreY - lessY;
 
                 //var degreesToRadiansMultiplier = (Math.Round((double)System.Math.PI, 14) / 180d);
                 ////Drawing a line from the uppermost point towards the center
@@ -314,7 +321,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ////maxY = Math.Max(maxY, midPointInsideSlice.Y);
             }
 
-            largestInscribedRectangleOuter = new RectRenderItem(_innerGroup);
+            largestInscribedRectangleOuter = new RectRenderItem();
+            largestInscribedRectangleOuter.Parent = _innerGroup;
             largestInscribedRectangleOuter.Top = minY;
             largestInscribedRectangleOuter.Left = minX;
             largestInscribedRectangleOuter.Width = txtBoxWidth;
@@ -847,8 +855,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal BoundingBox GetBounds()
         {
-            BoundingBox box = largestInscribedRectangleOuter;
-            //box.Parent = ExtremePoints.Parent;
+            BoundingBox box = new BoundingBox();
+            box.Width = largestInscribedRectangleOuter.Width;
+            box.Height = largestInscribedRectangleOuter.Height;
+            box.Parent = ExtremePoints.Parent;
             //box.Left = ExtremePoints.Left;
             return box;
         }

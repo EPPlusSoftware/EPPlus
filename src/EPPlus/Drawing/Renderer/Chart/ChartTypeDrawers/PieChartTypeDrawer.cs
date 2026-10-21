@@ -163,6 +163,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         bool _shouldShrink = false;
 
+        List<ExcelChartDataLabel> _serieLabels;
+
         void LoadSeriesValues(ExcelPieChart chartType)
         {
             //Load series values
@@ -181,22 +183,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     //Add Datalabel
                     if (chartType.HasDataLabel || serie.HasDataLabel)
                     {
-                        ChartSerieDataLabelRenderer datalabel;
-                        if (serie.HasDataLabel)
-                        {
-                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
-                        }
-                        else
-                        {
-                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
-                        }
+                        //ChartSerieDataLabelRenderer datalabel;
+                        //if (serie.HasDataLabel)
+                        //{
+                        //    //_serieLabels.Add(serie.DataLabel);
+                        //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        //}
+                        //else
+                        //{
+                        //    //_serieLabels.Add(chartType.DataLabel);
+                        //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        //}
 
-                        if((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                        if ((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
                         {
                             _shouldShrink = true;
                         }
 
-                        serieDataLabels.Add(datalabel);
+                        //serieDataLabels.Add(datalabel);
                     }
                 }
 
@@ -238,6 +242,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             Slices[position].AppendGroupItem(_groupItem);
         }
 
+        private ExcelChartSeries<ExcelPieChartSerie> _chartSeries;
+
         internal override void DrawSeries()
         {
             _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group);
@@ -251,6 +257,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //This way no rotation messes with the other calculations
             var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
             _groupItem.GroupRotation = angleOffset;
+
+             _chartSeries = chartType.Series;
 
             LoadSeriesValues(chartType);
 
@@ -313,6 +321,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                         if (chartType.HasDataLabel || serie.HasDataLabel)
                         {
+
                             var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
                             var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Width, Rectangle.Height);
@@ -344,6 +353,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             //maxBoundsForBestFit.Parent = innerGroup;
 
                             var bounds = Slices[j].GetBounds();
+
+                            ChartSerieDataLabelRenderer datalabel;
+                            if (serie.HasDataLabel)
+                            {
+                                datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, bounds, serie, catValues, valValues, 0);
+                            }
+                            else
+                            {
+                                datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, bounds, serie, catValues, valValues, 0);
+                            }
+                            serieDataLabels.Add(datalabel);
 
                             //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
                             //box.Parent = innerGroup;

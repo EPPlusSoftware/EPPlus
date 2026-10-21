@@ -268,8 +268,8 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         ExcelTextBody _defaultTextBody = null;
-
         ExcelTextBody _textBody = null;
+
         /// <summary>
         /// Access to text body properties
         /// </summary>
@@ -280,10 +280,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_textBody == null)
                 {
                     _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{NsPrefix}:txPr/a:bodyPr", SchemaNodeOrder, ((ExcelTextFontXml)Font).CreateTopNode);
+                    _defaultTextBody.defaultAlignment = eTextAlignment.Center;
                     var firstDefaultRunProperties = _defaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     if(ExistsNode($"{_richTextPath}/a:bodyPr"))
                     {
                         _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
+                        _textBody.defaultAlignment = eTextAlignment.Center;
                     }
                     else
                     {
@@ -313,7 +315,8 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 if (LinkedCell == null)
                 {
-                    if(TextBody.Paragraphs.Count <= 0)
+                    
+                    if(TextBody.Paragraphs.Count <= 0 || TextBody.Paragraphs[0].TextRuns.Count <= 0)
                     {
                         return null;
                     }
