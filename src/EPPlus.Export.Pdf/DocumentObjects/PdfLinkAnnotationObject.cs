@@ -19,7 +19,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             LowerLeftX = lowerLeftX;
             LowerLeftY = lowerLeftY;
             UpperRightX = upperRightX;
-            UpperRightX = upperRightY;
+            UpperRightY = upperRightY;
             Uri = uri;
         }
 

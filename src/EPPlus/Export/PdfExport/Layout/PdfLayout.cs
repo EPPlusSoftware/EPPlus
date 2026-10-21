@@ -481,7 +481,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         cellcont.GidsAndCharMap(dictionaries);
                         pageLayout.AddChild(cellcont);
                     }
-                    if(!isDraft)
+                    if (!isDraft)
                         PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>
                     {
@@ -811,7 +811,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 text.GidsAndCharMap(dictionaries);
                 pageLayout.AddChild(text);
             }
-            if(!pageSettings.Draft)
+            if (!pageSettings.Draft)
                 AddHeadingCellBorder(pageLayout, x, y, width, height);
         }
 
