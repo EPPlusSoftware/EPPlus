@@ -181,16 +181,21 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        if (axisPos == eAxisPosition.Bottom)
+                        double pos;
+                        if (horizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                         {
-                            horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = Plotarea.Rectangle.Height;
+                            pos = VerticalAxis.GetPositionInPlotarea(0);
+                        }
+                        else if (axisPos == eAxisPosition.Bottom)
+                        {
+                            pos = Plotarea.Rectangle.Height;
                         }
                         else
                         {
-                            horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = 0;
+                            pos=0;
                             horizontalAxis.AdjustPosBySize = true;
                         }
-                    }
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = pos;                    }
                 }
 
                 switch (horizontalAxis.Axis.LabelPosition)
@@ -199,9 +204,9 @@ namespace EPPlusImageRenderer
                         horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
                         break;
                     case eTickLabelPosition.Low:
-                        if (axisPos == eAxisPosition.Bottom)
+                        if (ax.AxisPosition == eAxisPosition.Bottom)
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalBottom;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + Plotarea.Rectangle.Height;
                             horizontalAxis.AdjustPosBySize = false;
                         }
                         else
@@ -211,7 +216,7 @@ namespace EPPlusImageRenderer
                         }
                         break;
                     case eTickLabelPosition.High:
-                        if (axisPos == eAxisPosition.Bottom)
+                        if (ax.AxisPosition == eAxisPosition.Bottom)
                         {
                             horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                             horizontalAxis.AdjustPosBySize = true;
@@ -333,12 +338,10 @@ namespace EPPlusImageRenderer
                     if (isSecondary)
                     {
                         axis = SecondHorizontalAxis;
-                        //axisX = SecondHorizontalAxis.GetPositionInPlotarea(SecondHorizontalAxis.GetAdjustedCrossesAt());
                     }
                     else
                     {
                         axis = HorizontalAxis;
-                        //axisX = HorizontalAxis.GetPositionInPlotarea(HorizontalAxis.GetAdjustedCrossesAt());
                     }
                     var v = axis.GetAdjustedCrossesAt();
                     if(v<=axis.Min)
@@ -351,7 +354,7 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        axisX = axis.GetPositionInPlotarea(v);
+                        axisX = axis.GetPositionInPlotarea(v);                        
                     }
 
                     verticalAxis.Line.X1 = verticalAxis.Line.X2 = axisX;
@@ -371,7 +374,25 @@ namespace EPPlusImageRenderer
                 switch(verticalAxis.Axis.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1 - verticalAxis.Rectangle.Width;
+                        if(ax.CrossesAt.HasValue==false)
+                        {
+                            if(verticalAxis.Line.X1 == 0)
+                            {
+                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                            }
+                            else
+                            {
+                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalRight + verticalAxis.RightMargin;
+                            }
+                        }
+                        else if(Plotarea.Rectangle.GlobalRight >= Plotarea.Group.GlobalLeft + verticalAxis.Line.X1)
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1 - verticalAxis.Rectangle.Width;
+                        }
+                        else
+                        {
+                            verticalAxis.Rectangle.Left = verticalAxis.Line.X1-verticalAxis.Rectangle.GlobalLeft;
+                        }
                         break;
                     case eTickLabelPosition.Low:
                         if (axisPos == eAxisPosition.Left)
@@ -381,7 +402,7 @@ namespace EPPlusImageRenderer
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft - verticalAxis.Rectangle.Width;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;
@@ -393,7 +414,7 @@ namespace EPPlusImageRenderer
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft - verticalAxis.Rectangle.Width;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;
