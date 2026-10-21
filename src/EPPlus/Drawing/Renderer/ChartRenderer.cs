@@ -121,7 +121,7 @@ namespace EPPlusImageRenderer
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
             AppendItems();
         }
-        private void SetAxisPositionsFromPlotarea()
+        private void SetAxisPositionsFromPlotarea() 
         {
             if (VerticalAxis != null)
             {
@@ -328,24 +328,32 @@ namespace EPPlusImageRenderer
 
                 if (ax.CrossesAt.HasValue)
                 {
-                    double axisX;                
+                    double axisX;
+                    ChartAxisRenderer axis;
                     if (isSecondary)
                     {
-                        axisX = SecondHorizontalAxis.GetPositionInPlotarea(verticalAxis.GetAdjustedCrossesAt());
+                        axis = SecondHorizontalAxis;
+                        //axisX = SecondHorizontalAxis.GetPositionInPlotarea(SecondHorizontalAxis.GetAdjustedCrossesAt());
                     }
                     else
                     {
-                        axisX = HorizontalAxis.GetPositionInPlotarea(ax.CrossesAt.Value);
+                        axis = HorizontalAxis;
+                        //axisX = HorizontalAxis.GetPositionInPlotarea(HorizontalAxis.GetAdjustedCrossesAt());
                     }
-
-                    if(axisX<0)
+                    var v = axis.GetAdjustedCrossesAt();
+                    if(v<=axis.Min)
                     {
                         axisX = 0;
                     }
-                    else if(axisX > Plotarea.Rectangle.Width)
+                    else if(v>=axis.Max)
                     {
-                        axisX = Plotarea.Rectangle.Width;
+                        axisX = Plotarea.Rectangle.GlobalRight;
                     }
+                    else
+                    {
+                        axisX = axis.GetPositionInPlotarea(v);
+                    }
+
                     verticalAxis.Line.X1 = verticalAxis.Line.X2 = axisX;
                 }
                 else
@@ -363,7 +371,7 @@ namespace EPPlusImageRenderer
                 switch(verticalAxis.Axis.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1 - verticalAxis.Rectangle.Width;
                         break;
                     case eTickLabelPosition.Low:
                         if (axisPos == eAxisPosition.Left)
@@ -373,7 +381,7 @@ namespace EPPlusImageRenderer
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft - verticalAxis.Rectangle.Width;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;
@@ -385,7 +393,7 @@ namespace EPPlusImageRenderer
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft - verticalAxis.Rectangle.Width;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;

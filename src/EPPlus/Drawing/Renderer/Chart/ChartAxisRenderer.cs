@@ -1703,19 +1703,24 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetAdjustedCrossesAt()
         {
-            if(Axis.CrossesAt.HasValue)
+            if(Axis.CrossingAxis !=null && Axis.CrossingAxis.CrossesAt.HasValue)
             {
-                if(Axis.CrossesAt < Min)
+                var ca = Axis.CrossingAxis.CrossesAt.Value;
+                if (ca < Min)
                 {
                     return Min;
                 }
-                else if(Axis.CrossesAt > Max)
+                else if(ca > Max)
                 {
                     return Max;
                 }
                 else
                 {
-                    return Axis.CrossesAt.Value;
+                    if(IsCount)
+                    {
+                        return ca-1;
+                    }
+                    return ca;
                 }   
             }
             else
