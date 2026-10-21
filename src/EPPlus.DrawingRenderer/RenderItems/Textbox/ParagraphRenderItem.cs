@@ -231,6 +231,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             double maxWidthInPoints;
             if(AutoSize)
             {
+                if(ParentTextBody != null)
+                {
+                    ParentMaxWidth = ParentTextBody.MaxWidth;
+                }
                 maxWidthInPoints = Math.Round(ParentMaxWidth - RightMargin - LeftMargin, 0, MidpointRounding.AwayFromZero);
             }
             else

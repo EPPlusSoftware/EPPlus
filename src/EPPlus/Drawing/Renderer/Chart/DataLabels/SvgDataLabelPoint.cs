@@ -140,10 +140,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_haveAdjustedForIcon == false)
             {
+                var originalTxtBoxWidth = _txtBox.TextBody.Width;
+
                 _txtBox.Left += iconWidth;
                 _seriesIcon.Left -= 0.75d;
                 Rectangle.Width += iconWidth + 0.75d;
                 LeftMargin += 4.5d;
+
+                var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
+                _txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (iconWidth + 0.75d + LeftMargin);
+                if (txtBoxWidth > _txtBox.TextBody.MaxWidth)
+                {
+                    _txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
+                    _txtBox.TextBody.RecalculateParagraphs();
+                    var netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
+
+                    Rectangle.Width += netChangeTxtBoxWidth;
+                }
                 //Rectangle.Left -= iconWidth + 0.75d;
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
 
@@ -260,7 +273,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //Ensure nothing has defaulted to 11
             foreach(var paragraph in txtBox.TextBody.Paragraphs)
             {
-                paragraph.DefaultParagraphFont.Size = 10f;
+                if(paragraph.DefaultParagraphFont.Size == 11f)
+                {
+                    paragraph.DefaultParagraphFont.Size = 10f;
+                }
             }
 
             txtBox.TextBody.RecalculateParagraphs();

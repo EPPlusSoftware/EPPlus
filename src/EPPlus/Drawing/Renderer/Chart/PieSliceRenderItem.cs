@@ -9,11 +9,13 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Net;
 
@@ -184,7 +186,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
-        BoundingBox largestInscribedRectangle;
+        RectRenderItem largestInscribedRectangleOuter;
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
         {
@@ -224,14 +226,108 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             circleCenter.LocalRotation = 0;
 
-            largestInscribedRectangle = slice.LargestInscribedRectangle;
-
             //We must calculate transforms from the outer midpoint.
             //This is to ensure that point never leaves the parent container
             _innerGroup.TransformOrigin = GetMidPointLocal();
 
             CalculateExplosionDir();
             CalculateWidthHeight(prevDegrees);
+
+            var minX = Math.Min(_startPoint.LocalPosition.X, _endPoint.LocalPosition.X);
+            minX = Math.Min(_midPoint.LocalPosition.X, minX);
+            var maxX = Math.Max(_startPoint.LocalPosition.X, _endPoint.LocalPosition.X);
+            maxX = Math.Max(_midPoint.LocalPosition.X, maxX);
+
+            var minY = Math.Min(_startPoint.LocalPosition.Y, _endPoint.LocalPosition.Y);
+            minY = Math.Min(_midPoint.LocalPosition.Y, minY);
+            var maxY = Math.Max(_startPoint.LocalPosition.Y, _endPoint.LocalPosition.Y);
+            maxY = Math.Max(_midPoint.LocalPosition.Y, maxY);
+
+            var circlePos = _innerGroup.TransformPointToLocal(circleCenter.Position);
+
+            var txtBoxWidth = maxX - minX;
+            var txtBoxHeight = maxY - minY;
+
+            if (ExistWithinRange(90, slice.StartDegrees, slice.EndDegrees) || ExistWithinRange(180, slice.StartDegrees, slice.EndDegrees) || ExistWithinRange(270, slice.StartDegrees, slice.EndDegrees))
+            {
+                //When passing over those points a direct line can be drawn to the center
+                //Which means we could have a larger space available
+                minX = Math.Min(minX, circlePos.X);
+                maxX = Math.Max(maxX, circlePos.X);
+                minY = Math.Min(minY, circlePos.Y);
+                maxY = Math.Max(maxY, circlePos.Y);
+
+               txtBoxWidth = maxX - minX;
+               txtBoxHeight = maxY - minY;
+            }
+            else
+            {
+                var kClockWise = (circleCenter.Position.Y - _endPoint.Position.Y) / (circleCenter.Position.X - _endPoint.Position.X);
+                var mClockWise = _endPoint.Position.Y - kClockWise * _endPoint.Position.X;
+
+                //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
+                var xVal = (_startPoint.Position.Y - mClockWise) / kClockWise;
+                var lessX = Math.Min(xVal, _startPoint.Position.X);
+                var moreX = Math.Max(xVal, _startPoint.Position.X);
+                txtBoxWidth = moreX - lessX;
+
+                var kCounterClock = (circleCenter.Position.Y - _startPoint.Position.Y) / (circleCenter.Position.X - _startPoint.Position.X);
+                var mCounterClock = _startPoint.Position.Y - kClockWise * _startPoint.Position.X;
+
+                //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
+                var yVal = (_endPoint.Position.X - mClockWise) / kClockWise;
+                var lessY = Math.Min(yVal, _endPoint.Position.X);
+                var moreY = Math.Max(yVal, _endPoint.Position.X);
+                txtBoxHeight = moreY - lessY;
+
+                //var degreesToRadiansMultiplier = (Math.Round((double)System.Math.PI, 14) / 180d);
+                ////Drawing a line from the uppermost point towards the center
+                ////Crosses the pie slice at an unknown point.
+                ////Split into two triangles we can figure it out
+                ////With the base of radius and the angle of sliceDegrees
+
+
+
+                ////var heightOfBothTriangles = _circleCenter.Position.Y - _startPoint.Position.Y;
+                ////The radius is the same length for both sides
+                //var degreesFromStartPoint = (180 - slice.Degrees) / 2;
+
+                //var distStartToEndPoint = _radius * Math.Tan(slice.Degrees);
+
+                //var diagonalToXLinePoint = _radius / Math.Cos(slice.Degrees * degreesToRadiansMultiplier);
+                //var yOffsetToXLinePoint = Math.Sin(slice.Degrees * degreesToRadiansMultiplier) * diagonalToXLinePoint;
+                //var xOffsetToXLinePoint = yOffsetToXLinePoint / Math.Tan(slice.Degrees * degreesToRadiansMultiplier);
+                //Vector2 xPoint = Vector2.One;
+                //if(_startPoint.Position.X < circleCenter.Position.X)
+                //{
+                //    xPoint = new Vector2(-1, xPoint.Y);
+                //}
+                //if(_startPoint.Position.Y < circleCenter.Position.Y)
+                //{
+                //    xPoint = new Vector2(xPoint.X, -1);
+                //}
+
+                //xPoint = new Vector2(circleCenter.Position.X + ( xPoint.X * xOffsetToXLinePoint), circleCenter.Position.Y + ( xPoint.Y * yOffsetToXLinePoint));
+
+                //var lessX = Math.Min(xPoint.X, _startPoint.Position.X);
+                //var moreX = Math.Max(xPoint.X, _startPoint.Position.X);
+
+                //txtBoxWidth = moreX - lessX;
+
+                ////var midPointInsideSlice = new Vector2(ExtremePoints.Left + ExtremePoints.Width/2d, ExtremePoints.Top + ExtremePoints.Height/2d);
+                ////minX = Math.Min(minX, midPointInsideSlice.X);
+                ////maxX = Math.Max(maxX, midPointInsideSlice.X);
+                ////minY = Math.Min(minY, midPointInsideSlice.Y);
+                ////maxY = Math.Max(maxY, midPointInsideSlice.Y);
+            }
+
+            largestInscribedRectangleOuter = new RectRenderItem();
+            largestInscribedRectangleOuter.Parent = _innerGroup;
+            largestInscribedRectangleOuter.Top = minY;
+            largestInscribedRectangleOuter.Left = minX;
+            largestInscribedRectangleOuter.Width = txtBoxWidth;
+            largestInscribedRectangleOuter.Height = txtBoxHeight;
+
             //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
             //slice.ExtremePoints.Parent = _innerGroup;
             //ExtremePoints = slice;
@@ -307,7 +403,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _slicePath.Commands.Add(arcCommand);
 
             //Change to != -1 to activate debug items
-            if (position != -1)
+            if (position == -1)
             {
                 //Visualize all points
                 AddDebugLines(moveCenter, plotAreaBounds);
@@ -759,9 +855,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal BoundingBox GetBounds()
         {
-            BoundingBox box = largestInscribedRectangle;
+            BoundingBox box = new BoundingBox();
+            box.Width = largestInscribedRectangleOuter.Width;
+            box.Height = largestInscribedRectangleOuter.Height;
             box.Parent = ExtremePoints.Parent;
-            box.Left = ExtremePoints.Left;
+            //box.Left = ExtremePoints.Left;
             return box;
         }
 
