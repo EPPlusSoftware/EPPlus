@@ -196,29 +196,29 @@ namespace EPPlusImageRenderer
                 switch (horizontalAxis.Axis.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        horizontalAxis.Rectangle.Top = Plotarea.Rectangle.GlobalTop + horizontalAxis.Line.Y1;
+                        horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
                         break;
                     case eTickLabelPosition.Low:
                         if (axisPos == eAxisPosition.Bottom)
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Rectangle.GlobalBottom;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalBottom;
                             horizontalAxis.AdjustPosBySize = false;
                         }
                         else
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Rectangle.GlobalTop;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                             horizontalAxis.AdjustPosBySize = true;
                         }
                         break;
                     case eTickLabelPosition.High:
                         if (axisPos == eAxisPosition.Bottom)
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Rectangle.GlobalTop;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                             horizontalAxis.AdjustPosBySize = true;
                         }
                         else
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Rectangle.GlobalBottom;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
                             horizontalAxis.AdjustPosBySize = false;
                         }
                         break;
@@ -237,11 +237,11 @@ namespace EPPlusImageRenderer
 
             if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Top)
             {
-                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() - horizontalAxis.Title.TextBox.GetActualHeight() - 1.5;
+                horizontalAxis.Title.TextBox.Top = GetTopAxisTitlePos() - horizontalAxis.Title.TextBox.GetActualHeight() - 1.5;
             }
             else
             {
-                horizontalAxis.Title.TextBox.Left = GetTopAxisTitlePos() - 1.5;
+                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() - 1.5;
             }
 
             //if (horizontalAxis.Axis.Deleted)
@@ -328,10 +328,10 @@ namespace EPPlusImageRenderer
 
                 if (ax.CrossesAt.HasValue)
                 {
-                    double axisX;
+                    double axisX;                
                     if (isSecondary)
                     {
-                        axisX = SecondHorizontalAxis.GetPositionInPlotarea(ax.CrossesAt.Value);
+                        axisX = SecondHorizontalAxis.GetPositionInPlotarea(verticalAxis.GetAdjustedCrossesAt());
                     }
                     else
                     {
@@ -363,40 +363,41 @@ namespace EPPlusImageRenderer
                 switch(verticalAxis.Axis.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalLeft + verticalAxis.Line.X1;
+                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
                         break;
                     case eTickLabelPosition.Low:
                         if (axisPos == eAxisPosition.Left)
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + Plotarea.Rectangle.Width;
                             verticalAxis.AdjustPosBySize = false;
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalLeft;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;
                     case eTickLabelPosition.High:
                         if (axisPos == eAxisPosition.Left)
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + Plotarea.Rectangle.Width;
                             verticalAxis.AdjustPosBySize = false;
                         }
                         else
                         {
-                            verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalLeft;
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
                             verticalAxis.AdjustPosBySize = true;
                         }
                         break;
                 }
             }
 
-            PlaceVerticalAxisTitle(verticalAxis);
+            //PlaceVerticalAxisTitle(verticalAxis);
         }
 
         private void PlaceVerticalAxisTitle(ChartAxisRenderer verticalAxis)
         {
+            if (verticalAxis == null || verticalAxis.Title == null) return;
             if (verticalAxis.Title != null)
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
@@ -510,7 +511,7 @@ namespace EPPlusImageRenderer
                 }
                 else
                 {
-                    return Math.Max(Plotarea.Rectangle.GlobalBottom, Math.Max(SecondHorizontalAxis.Rectangle.Bottom, VerticalAxis.Rectangle.Bottom));
+                    return Math.Max(Plotarea.Rectangle.GlobalBottom, Math.Max(SecondHorizontalAxis.Rectangle.Bottom, HorizontalAxis.Rectangle.Bottom));
                 }
             }
         }

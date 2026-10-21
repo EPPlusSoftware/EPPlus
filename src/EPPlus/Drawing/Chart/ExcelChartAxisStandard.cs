@@ -233,10 +233,10 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if(LabelPosition==eTickLabelPosition.NextTo && CrossesAt.HasValue)
-                {
-                    return eActualAxisPosition.ByValueOrCategory;
-                }
+                //if(LabelPosition==eTickLabelPosition.NextTo && CrossesAt.HasValue)
+                //{
+                //    return eActualAxisPosition.ByValueOrCategory;
+                //}
                 var ap = AxisPosition;
                 if (ap == eAxisPosition.Left)
                 {

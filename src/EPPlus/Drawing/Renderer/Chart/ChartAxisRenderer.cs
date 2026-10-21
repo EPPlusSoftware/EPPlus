@@ -1700,5 +1700,36 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
+
+        internal double GetAdjustedCrossesAt()
+        {
+            if(Axis.CrossesAt.HasValue)
+            {
+                if(Axis.CrossesAt < Min)
+                {
+                    return Min;
+                }
+                else if(Axis.CrossesAt > Max)
+                {
+                    return Max;
+                }
+                else
+                {
+                    return Axis.CrossesAt.Value;
+                }   
+            }
+            else
+            {
+                switch (Axis.Crosses)
+                {
+                    case eCrosses.Min:
+                        return Min;
+                    case eCrosses.Max:
+                        return Max;
+                    default:
+                        return 0D;
+                }
+            }
+        }
     }
 }
