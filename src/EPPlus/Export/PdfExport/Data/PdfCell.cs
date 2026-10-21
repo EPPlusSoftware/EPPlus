@@ -24,5 +24,8 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public byte[] CellPictureBytes;
         public double CellPicturePixelWidth;
         public double CellPicturePixelHeight;
+
+        public string HyperlinkUri;
+        public string HyperlinkInternal;
     }
 }

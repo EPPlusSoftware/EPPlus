@@ -98,6 +98,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         {
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
+
+                            var hl = cell.Hyperlink;
+                            if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
+                                tempMap.HyperlinkInternal = eh.ReferenceAddress;
+                            else if (hl != null)
+                                tempMap.HyperlinkUri = hl.OriginalString;
                         }
                     }
                     tempMap.CellStyle = cellStyle;

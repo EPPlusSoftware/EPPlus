@@ -31,6 +31,7 @@ namespace EPPlus.Export.Pdf.Layout
         public bool ScaleHeaderFooterWithDocument;
         internal List<PdfHeaderFooterPart> HeaderFooterParts = new List<PdfHeaderFooterPart>();
         internal PdfPageSettings Settings;
+        internal List<LinkDrawInfo> Links = new List<LinkDrawInfo>();
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height)
         { }

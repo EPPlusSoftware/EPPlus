@@ -169,6 +169,23 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         text.GidsAndCharMap(dictionaries);
                                         text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                         pageLayout.AddChild(text);
+
+                                        if (map.HyperlinkUri != null || map.HyperlinkInternal != null)
+                                        {
+                                            if (CanTightenLink(text))
+                                                AddTextLinks(pageLayout, text, info.X, info.X + info.Width,
+                                                             map.HyperlinkUri, map.HyperlinkInternal);
+                                            else
+                                                pageLayout.Links.Add(new LinkDrawInfo
+                                                {
+                                                    X = info.X,
+                                                    Y = info.Y - info.Height,
+                                                    Width = info.Width,
+                                                    Height = info.Height,
+                                                    Uri = map.HyperlinkUri,
+                                                    InternalAddress = map.HyperlinkInternal
+                                                });
+                                        }
                                     }
                                     if (!isDraft)
                                     {
@@ -225,6 +242,23 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     var (clipX, clipW, spillLeft, spillRight) = GetOverflowClip(map, pages[j], row, col, x, effectiveWidth);
                                     text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
                                     pageLayout.AddChild(text);
+
+                                    if (map.HyperlinkUri != null || map.HyperlinkInternal != null)
+                                    {
+                                        if (CanTightenLink(text))
+                                            AddTextLinks(pageLayout, text, clipX, clipX + clipW,
+                                                         map.HyperlinkUri, map.HyperlinkInternal);
+                                        else
+                                            pageLayout.Links.Add(new LinkDrawInfo
+                                            {
+                                                X = x,
+                                                Y = y - rowHeight,
+                                                Width = effectiveWidth,
+                                                Height = rowHeight,
+                                                Uri = map.HyperlinkUri,
+                                                InternalAddress = map.HyperlinkInternal
+                                            });
+                                    }
                                 }
                             }
                             if (!isDraft)
@@ -698,6 +732,49 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 return (x - left, effectiveWidth + left + right, true, true);
             }
             return (clipX, clipW, false, false);
+        }
+
+        private static bool CanTightenLink(PdfCellContentLayout text) =>
+            text?.TextLines != null && text.TextLines.Count > 0 &&
+            text.CellAlignmentData != null &&
+            !text.CellAlignmentData.IsVertical &&
+            text.CellAlignmentData.TextRotation == 0;
+
+        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string internalAddr, double padX = 1.0d, double padY = 1.5d)
+        {
+            double line0Width = text.TextLines[0].Width;
+            double originX = text.LocalPosition.X;   // aligned left of line 0
+            double baseY = text.LocalPosition.Y;   // baseline of line 0
+            for (int k = 0; k < text.TextLines.Count; k++)
+            {
+                var line = text.TextLines[k];
+                double offX = 0d;                    // mirrors PdfContentStream.AddText's per-line offset
+                switch (text.CellAlignmentData.HorizontalAlignment)
+                {
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Right:
+                        offX = line0Width - line.Width; break;
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Center:
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.CenterContinuous:
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Distributed:
+                        offX = (line0Width - line.Width) / 2d; break;
+                }
+                double lineLeft = originX + offX;
+                double boxLeft = System.Math.Max(lineLeft, clipLeft) - padX;
+                double boxRight = System.Math.Min(lineLeft + line.Width, clipRight) + padX;
+                if (line.Width > 0d && boxRight > boxLeft)
+                {
+                    pageLayout.Links.Add(new LinkDrawInfo
+                    {
+                        X = boxLeft,
+                        Y = baseY - line.LargestDescent - padY,
+                        Width = boxRight - boxLeft,
+                        Height = line.LargestAscent + line.LargestDescent + 2 * padY,
+                        Uri = uri,
+                        InternalAddress = internalAddr
+                    });
+                }
+                baseY -= (line.LargestAscent + line.LargestDescent);
+            }
         }
 
 

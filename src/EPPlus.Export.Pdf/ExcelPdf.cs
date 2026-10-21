@@ -295,6 +295,17 @@ namespace EPPlus.Export.Pdf
             }
             _document.Add(contentStream);
             page.contentObjectNumbers.Add(contentStream.objectNumber);
+            foreach (var link in pageLayout.Links)
+            {
+                if (string.IsNullOrEmpty(link.Uri)) continue;
+                double lowerLeftX = contentScale * link.X + (1 - contentScale) * scaleAnchorX;
+                double lowerLeftY = contentScale * link.Y + (1 - contentScale) * scaleAnchorY;
+                double upperRightX = contentScale * (link.X + link.Width) + (1 - contentScale) * scaleAnchorX;
+                double upperRightY = contentScale * (link.Y + link.Height) + (1 - contentScale) * scaleAnchorY;
+                var annot = new PdfLinkAnnotationObject(_document.Count + 1, lowerLeftX, lowerLeftY, upperRightX, upperRightY, link.Uri);
+                _document.Add(annot);
+                page.annotationObjectNumbers.Add(annot.objectNumber);
+            }
         }
 
         //Add Info
