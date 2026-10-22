@@ -101,9 +101,18 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
                             var hl = cell.Hyperlink;
                             if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
+                            {
                                 tempMap.HyperlinkInternal = eh.ReferenceAddress;
+                            }
                             else if (hl != null)
-                                tempMap.HyperlinkUri = hl.OriginalString;
+                            {
+                                tempMap.HyperlinkUri = NormalizeExternalTarget(hl.OriginalString);
+                            }
+                            else if (TryGetFormulaHyperlink(cell, out var formulaUri, out var formulaInternal))
+                            {
+                                tempMap.HyperlinkUri = formulaUri;
+                                tempMap.HyperlinkInternal = formulaInternal;
+                            }
                         }
                     }
                     tempMap.CellStyle = cellStyle;
@@ -1170,6 +1179,62 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             if (pattern == ExcelFillStyle.Solid)
                 return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());
             return true;
+        }
+
+        private static bool IsWebUri(string s) =>
+            s.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            s.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
+            s.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
+            s.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase);
+
+        private static bool TryGetFormulaHyperlink(ExcelRangeBase cell, out string uri, out string internalRef)
+        {
+            uri = null;
+            internalRef = null;
+
+            var f = cell.Formula;
+            if (string.IsNullOrEmpty(f)) return false;
+            f = f.TrimStart();
+            const string fn = "HYPERLINK(";
+            if (!f.StartsWith(fn, StringComparison.OrdinalIgnoreCase)) return false;
+            int i = fn.Length, start = i, depth = 0;
+            bool inString = false;
+            for (; i < f.Length; i++)
+            {
+                char c = f[i];
+                if (inString)
+                {
+                    if (c == '"')
+                    {
+                        if (i + 1 < f.Length && f[i + 1] == '"') i++;
+                        else inString = false;
+                    }
+                }
+                else if (c == '"') inString = true;
+                else if (c == '(') depth++;
+                else if (c == ')') { if (depth == 0) break; depth--; }
+                else if (c == ',' && depth == 0) break;
+            }
+            var arg0 = f.Substring(start, i - start).Trim();
+            if (arg0.Length < 2 || arg0[0] != '"' || arg0[arg0.Length - 1] != '"')
+                return false;
+            var target = arg0.Substring(1, arg0.Length - 2).Replace("\"\"", "\"").Trim();
+            if (target.Length == 0)
+                return false;
+            if (target[0] == '#')
+                internalRef = target.Substring(1);
+            else
+                uri = NormalizeExternalTarget(target);
+            return true;
+        }
+
+        private static string NormalizeExternalTarget(string target)
+        {
+            if (string.IsNullOrEmpty(target)) return null;
+            if (IsWebUri(target)) return target;
+            if (Uri.TryCreate(target, UriKind.Absolute, out var u))
+                return u.IsFile ? u.AbsoluteUri : target;
+            return null;
         }
     }
 }
