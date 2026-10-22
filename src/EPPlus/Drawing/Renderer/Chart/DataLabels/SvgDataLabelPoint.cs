@@ -11,6 +11,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
@@ -140,23 +141,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (_haveAdjustedForIcon == false)
             {
+                var origTxtBoxLeft = _txtBox.TextBody.Left;
                 var originalTxtBoxWidth = _txtBox.TextBody.Width;
-
                 _txtBox.Left += iconWidth;
                 _seriesIcon.Left -= 0.75d;
                 Rectangle.Width += iconWidth + 0.75d;
-                LeftMargin += 4.5d;
+                LeftMargin = iconWidth - 0.75d;
+                Rectangle.Left += LeftMargin;
 
-                var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
-                _txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (iconWidth + 0.75d + LeftMargin);
-                if (txtBoxWidth > _txtBox.TextBody.MaxWidth)
-                {
-                    _txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
-                    _txtBox.TextBody.RecalculateParagraphs();
-                    var netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
+                //var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
+                //_txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (iconWidth + 0.75d + LeftMargin);
+                //if (txtBoxWidth > _txtBox.TextBody.MaxWidth)
+                //{
+                //    _txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
+                //    _txtBox.TextBody.RecalculateParagraphs();
+                //    var netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
 
-                    Rectangle.Width += netChangeTxtBoxWidth;
-                }
+                //    Rectangle.Width += netChangeTxtBoxWidth;
+                //}
                 //Rectangle.Left -= iconWidth + 0.75d;
                 //It seems there is a hard-coded margin in excel of about 4.5pt (6px)
 
@@ -178,6 +180,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _haveAdjustedForIcon = true;
             }
         }
+
+        internal double limitTop { get; private set; }
+        internal double limitBottom { get; private set; }
 
         internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
@@ -247,7 +252,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             if (txtBox.TextBody.Paragraphs.Count == 0)
             {
-                if(defaultParagraph == null)
+                if (defaultParagraph == null)
                 {
                     //Default font size for an item within a drawing is 10pt if unspecified
                     var rtItem = new RichTextFormatSimple(finalString, "Aptos Narrow", 10f);
@@ -612,7 +617,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     "Please ensure that they share the same parent");
             }
 
-
             //--- Set parent point ---
             _parentPoint = new BoundingBox();
             _parentPoint.Parent = basePoint.Parent.Parent;
@@ -671,19 +675,58 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 case eLabelPosition.BestFit:
                     //Try to fit within object if possible. If not then as close to it as possible?
 
+                    limitTop = maxBoundsPieSlice.GlobalTop;
+                    limitBottom = maxBoundsPieSlice.GlobalBottom;
                     //var labelVector = new Vector2(_txtBox.Width, _txtBox.Height);
                     //bool CanFitWidth = _txtBox.Width < Math.Abs(endToBaseVector.X);
                     //bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
 
                     //Subtract standard excel margin of 2pt
-                    bool canFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
-                    bool canFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
+                    bool canFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width - 1.5d;
+                    bool canFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height - 1.5d;
+
+                    bool shouldWrap = _txtBox.TextBody.Width + LeftMargin > maxBoundsPieSlice.Width;
+
+
                     //if(_txtBox.TextBody.Paragraphs != null && _txtBox.TextBody.Paragraphs[0].Lines[0].Text.Contains("Epsilon"))
                     //{
                     //    string test = "wait";
                     //}
                     if (canFitWidth && canFitHeight)
                     {
+                        double netChangeTxtBoxWidth = 0;
+
+                        //The text by itself fits but it may be shoved outside by legend/may need to be wrapped
+                        var originalTxtBoxWidth = _txtBox.TextBody.Width;
+                        if (shouldWrap)
+                        {
+                            ////The text by itself fits but it may be shoved outside by legend/may need to be wrapped
+                            _txtBox.TextBody.MaxWidth = maxBoundsPieSlice.Width;
+                            _txtBox.TextBody.MaxHeight = maxBoundsPieSlice.Height;
+
+                            if (_seriesIcon != null)
+                            {
+                                var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
+                                _txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (_seriesIcon.Width + 0.75d + LeftMargin + _txtBox.RightMargin);
+                            }
+                            //Setting horizontalAlignment forces recalc of wrap
+                            _txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
+                            _txtBox.TextBody.RecalculateParagraphs();
+                            netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
+                        }
+
+                        //if (_seriesIcon != null)
+                        //{
+                        //    var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
+                        //    _txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (_seriesIcon.Width + 0.75d + LeftMargin + _txtBox.RightMargin);
+                        //}
+                        ////Setting horizontalAlignment forces recalc of wrap
+                        //_txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
+                        //_txtBox.TextBody.RecalculateParagraphs();
+                        //netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
+
+                        //contentGroup.Left -= netChangeTxtBoxWidth;
+
                         //bool canFitHalfWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width/2d;
                         //bool canFitHalfHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height/2d;
                         //maxBoundsPieSlice.Width
@@ -707,6 +750,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                             SetInOut(endToBaseVector, endPoint.LocalPosition, false);
                             //ApplyBestFitExtraMargin(endToBaseVector, false, 5d);
                         }
+
+                        Rectangle.Width += netChangeTxtBoxWidth;
+                        //////The text by itself fits but it may be shoved outside by legend/may need to be wrapped
+                        //var originalTxtBoxWidth = _txtBox.TextBody.Width;
+
+                        //_txtBox.TextBody.MaxWidth = maxBoundsPieSlice.Width;
+                        //_txtBox.TextBody.MaxHeight = maxBoundsPieSlice.Height;
+
+                        //if (_seriesIcon != null)
+                        //{
+                        //    var txtBoxWidth = Math.Abs(_txtBox.TextBody.GlobalLeft - _txtBox.TextBody.GlobalRight);
+                        //    _txtBox.TextBody.MaxWidth = _txtBox.TextBody.MaxWidth - (_seriesIcon.Width + 0.75d);
+                        //}
+                        ////Setting horizontalAlignment forces recalc of wrap
+                        //_txtBox.TextBody.Paragraphs.ForEach(x => x.HorizontalAlignment = x.HorizontalAlignment);
+                        //_txtBox.TextBody.RecalculateParagraphs();
+                        //var netChangeTxtBoxWidth = _txtBox.TextBody.Width - originalTxtBoxWidth;
+                        //Rectangle.Width += netChangeTxtBoxWidth;
                     }
                     else
                     {
@@ -806,20 +867,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             //renderItems.Add(parentPointGroup);
 
-            var group = new GroupRenderItem(DataLabelPointContainer);
-            group.Left = Rectangle.Left;
-            group.Top = Rectangle.Top;
+            var contentGroup = new GroupRenderItem(DataLabelPointContainer);
+            contentGroup.Left = Rectangle.Left;
+            contentGroup.Top = Rectangle.Top;
+            contentGroup.Name = "ContentGrp";
+
+            Rectangle.Left -= LeftMargin;
 
             var titleItem = new TitleRenderItem("DataLabel size adjustment + margin");
-            group.AddChildItem(titleItem);
+            contentGroup.AddChildItem(titleItem);
 
             //parentPointGroup.ChildObjects.Add(group);
 
-            group.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
-            group.Rotation = CounterRotation;
+            contentGroup.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
+            contentGroup.Rotation = CounterRotation;
             //_txtBox.Rectangle.Parent = group;
             //_txtBox.TextBody.Parent = group;
-            _txtBox.AppendRenderItems(group.ChildObjects);
+            _txtBox.AppendRenderItems(contentGroup.ChildObjects);
             //_txtBox.Rectangle.Parent = group;
             //group.AddChild(_txtBox.Rectangle);
             //_txtBox.TextBody.Parent = group;
@@ -829,7 +893,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 if (_connectionPointLines != null)
                 {
-                    _connectionPointLines.AppendRenderItems(group.ChildObjects);
+                    _connectionPointLines.AppendRenderItems(contentGroup.ChildObjects);
                 }
             }
 
@@ -841,7 +905,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     height = _txtBox.Height;
                 }
                 //Currently series icon always has a y1 y2 of 2
-                var iconGrp = new GroupRenderItem(group);
+                var iconGrp = new GroupRenderItem(contentGroup);
                 iconGrp.Name = "iconGrp_" + DataLabelPointContainer.Name;
                 iconGrp.Left = _seriesIcon.Left;
                 iconGrp.Top = (height / 2) - 2;
@@ -853,7 +917,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             {
                 foreach (var line in _leaderLines)
                 {
-                    line.Parent = group;
+                    line.Parent = contentGroup;
                     //group.ChildObjects.Add(line);
                 }
             }

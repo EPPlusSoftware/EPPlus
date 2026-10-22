@@ -510,6 +510,8 @@ namespace EPPlusImageRenderer
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
 
+            RenderItems.AddRange(DebugRenderItems);
+
             return true;
         }
         internal double GetPlotAreaTop()

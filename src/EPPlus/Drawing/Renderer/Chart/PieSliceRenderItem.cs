@@ -186,6 +186,20 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
+        double GetYLinear(double k, double m, double x)
+        {
+            //y = Kx+m
+            return k * x + m;
+        }
+
+        double GetXLinear(double k, double m, double y)
+        {
+            //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
+            var xVal = (y - m) / k;
+            return xVal;
+        }
+
+
         RectRenderItem largestInscribedRectangleOuter;
 
         public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
@@ -262,8 +276,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                var kClockWise = (circleCenter.Position.Y - _endPoint.Position.Y) / (circleCenter.Position.X - _endPoint.Position.X);
-                var mClockWise = _endPoint.Position.Y - kClockWise * _endPoint.Position.X;
+                var kClockWise = (_endPoint.Position.Y - circleCenter.Position.Y) / (_endPoint.Position.X - circleCenter.Position.X);
+                var mClockWise = _endPoint.Position.Y - (kClockWise * _endPoint.Position.X);
 
                 //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
                 var xVal = (_startPoint.Position.Y - mClockWise) / kClockWise;
@@ -271,14 +285,55 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var moreX = Math.Max(xVal, _startPoint.Position.X);
                 txtBoxWidth = moreX - lessX;
 
+                var lineForWidth = new PathRenderItem(null);
+
+                var moveStartPoint = new PathCommand(PathCommandType.Move, _startPoint.Position.X, _startPoint.Position.Y);
+                var lineToEndLine = new PathCommand(PathCommandType.Line, xVal, _startPoint.Position.Y);
+                var end = new PathCommand(PathCommandType.End, xVal, _startPoint.Position.Y);
+                lineForWidth.Commands.Add(moveStartPoint);
+                lineForWidth.Commands.Add(lineToEndLine);
+                //lineForWidth.Commands.Add(end);
+
+                lineForWidth.Style.BorderColor = "red";
+                lineForWidth.Style.BorderWidth = 1.5;
+
+                renderer.DebugRenderItems.Add(lineForWidth);
+
                 var kCounterClock = (circleCenter.Position.Y - _startPoint.Position.Y) / (circleCenter.Position.X - _startPoint.Position.X);
-                var mCounterClock = _startPoint.Position.Y - kClockWise * _startPoint.Position.X;
+                var mCounterClock = _startPoint.Position.Y - (kCounterClock * _startPoint.Position.X);
 
                 //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
-                var yVal = (_endPoint.Position.X - mClockWise) / kClockWise;
-                var lessY = Math.Min(yVal, _endPoint.Position.X);
-                var moreY = Math.Max(yVal, _endPoint.Position.X);
+                var yVal = _endPoint.Position.X *kCounterClock + mCounterClock;
+                //var yVal = (_endPoint.Position.X - mCounterClock) / kCounterClock;
+
+                var lessY = Math.Min(yVal, _endPoint.Position.Y);
+                var moreY = Math.Max(yVal, _endPoint.Position.Y);
                 txtBoxHeight = moreY - lessY;
+
+                var lineForHeight = new PathRenderItem(null);
+
+
+                var moveEndLine = new PathCommand(PathCommandType.Move, _endPoint.Position.X, _endPoint.Position.Y);
+                var lineToEndPLine = new PathCommand(PathCommandType.Line, _endPoint.Position.X, yVal);
+                //var endL = new PathCommand(PathCommandType.End, _startPoint.Position.X, yVal);
+
+                lineForHeight.Commands.Add(moveEndLine);
+                lineForHeight.Commands.Add(lineToEndPLine);
+                //lineForHeight.Commands.Add(endL);
+
+                lineForHeight.Style.BorderColor = "green";
+                lineForHeight.Style.BorderWidth = 1.5;
+
+                renderer.DebugRenderItems.Add(lineForHeight);
+
+                var weightY = 0;
+                var weightX = 0;
+
+                //maxX;
+                //maxY;
+
+                //var intersectPoint = new Vector2(_endPoint.Position.X, _startPoint.Position.Y);
+                //var largestBothPt = new Vector2(_startPoint.Position.X + (txtBoxWidth/2d), _startPoint.Position.Y+(txtBoxHeight/2d));
 
                 //var degreesToRadiansMultiplier = (Math.Round((double)System.Math.PI, 14) / 180d);
                 ////Drawing a line from the uppermost point towards the center
@@ -327,6 +382,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             largestInscribedRectangleOuter.Left = minX;
             largestInscribedRectangleOuter.Width = txtBoxWidth;
             largestInscribedRectangleOuter.Height = txtBoxHeight;
+
+            largestInscribedRectangleOuter.Style.FillColor = "blue";
+            largestInscribedRectangleOuter.Style.FillOpacity = 0.2d;
 
             //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
             //slice.ExtremePoints.Parent = _innerGroup;
@@ -859,6 +917,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             box.Width = largestInscribedRectangleOuter.Width;
             box.Height = largestInscribedRectangleOuter.Height;
             box.Parent = ExtremePoints.Parent;
+            box.Position = new Vector2(largestInscribedRectangleOuter.Position.X, largestInscribedRectangleOuter.Position.Y);
             //box.Left = ExtremePoints.Left;
             return box;
         }
