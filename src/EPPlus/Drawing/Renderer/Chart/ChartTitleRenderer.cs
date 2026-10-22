@@ -203,7 +203,6 @@ namespace EPPlusImageRenderer.Svg
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
-                TextBox.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {

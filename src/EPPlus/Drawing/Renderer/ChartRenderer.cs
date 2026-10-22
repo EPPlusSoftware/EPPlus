@@ -210,7 +210,7 @@ namespace EPPlusImageRenderer
                     case eTickLabelPosition.NextTo:
                         if(horizontalAxis.Line.Y1==0) //Top
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop -horizontalAxis.Rectangle.Height;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                         }
                         else
                         {
@@ -260,7 +260,7 @@ namespace EPPlusImageRenderer
             }
             else
             {
-                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() - 1.5;
+                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() + 1.5;
             }
 
             //if (horizontalAxis.Axis.Deleted)

@@ -508,7 +508,7 @@ namespace EPPlusImageRenderer.Svg
                         maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
                         break;
                     case eTextOrientation.Diagonal:
-                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45) / AxisValues.Count;
+                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45);
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     case eTextOrientation.Horizontal:
