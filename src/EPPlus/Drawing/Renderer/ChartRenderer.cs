@@ -184,7 +184,14 @@ namespace EPPlusImageRenderer
                         double pos;
                         if (horizontalAxis.Axis.Crosses == eCrosses.AutoZero)
                         {
-                            pos = VerticalAxis.GetPositionInPlotarea(0);
+                            if(VerticalAxis.Min < 0)
+                            {
+                                pos = VerticalAxis.GetPositionInPlotarea(0);
+                            }
+                            else
+                            {
+                                pos = VerticalAxis.GetPositionInPlotarea(VerticalAxis.Min);
+                            }
                         }
                         else if (axisPos == eAxisPosition.Bottom)
                         {
@@ -198,34 +205,41 @@ namespace EPPlusImageRenderer
                         horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = pos;                    }
                 }
 
-                switch (horizontalAxis.Axis.LabelPosition)
+                switch (ax.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
+                        if(horizontalAxis.Line.Y1==0) //Top
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop -horizontalAxis.Rectangle.Height;
+                        }
+                        else
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
+                        }
                         break;
                     case eTickLabelPosition.Low:
-                        if (ax.AxisPosition == eAxisPosition.Bottom)
-                        {
+                        //if (ax.AxisPosition == eAxisPosition.Bottom)
+                        //{
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                        //    horizontalAxis.AdjustPosBySize = true;
+                        //}
+                        //else
+                        //{
                             horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + Plotarea.Rectangle.Height;
                             horizontalAxis.AdjustPosBySize = false;
-                        }
-                        else
-                        {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
-                            horizontalAxis.AdjustPosBySize = true;
-                        }
+                        //}
                         break;
                     case eTickLabelPosition.High:
-                        if (ax.AxisPosition == eAxisPosition.Bottom)
-                        {
+                        //if (ax.AxisPosition == eAxisPosition.Bottom)
+                        //{
                             horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                             horizontalAxis.AdjustPosBySize = true;
-                        }
-                        else
-                        {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
-                            horizontalAxis.AdjustPosBySize = false;
-                        }
+                        //}
+                        //else
+                        //{
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
+                        //    horizontalAxis.AdjustPosBySize = false;
+                        //}
                         break;
                 }
             }
@@ -350,7 +364,7 @@ namespace EPPlusImageRenderer
                     }
                     else if(v>=axis.Max)
                     {
-                        axisX = Plotarea.Rectangle.GlobalRight;
+                        axisX = Plotarea.Rectangle.Right;
                     }
                     else
                     {
@@ -382,7 +396,7 @@ namespace EPPlusImageRenderer
                             }
                             else
                             {
-                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalRight + verticalAxis.RightMargin;
+                                verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
                             }
                         }
                         else if(Plotarea.Rectangle.GlobalRight >= Plotarea.Group.GlobalLeft + verticalAxis.Line.X1)

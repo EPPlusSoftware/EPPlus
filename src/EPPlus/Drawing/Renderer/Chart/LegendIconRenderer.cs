@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var line = new LineRenderItem(parent.Rectangle);
             line.Style.SetDrawingPropertiesFill(chart.Theme, tl.Fill, chart.Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, parent.DefaultFillColor);
             //Default is actually NoLine
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 0.75);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, () => ChartTrendlineRenderer.GetTrendlineColor(chart, true), 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 

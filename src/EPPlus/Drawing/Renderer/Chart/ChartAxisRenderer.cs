@@ -464,15 +464,15 @@ namespace EPPlusImageRenderer.Svg
                         Rectangle.Left = ChartRenderer.VerticalAxis.Rectangle.Left - Rectangle.Width - LeftMargin;
                     }
                 }
-                else if(Axis.IsVertical==false && Axis.IsVertical && ChartRenderer.VerticalAxis != this && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
+                else if(Axis.IsVertical==false && ChartRenderer.HorizontalAxis != this && ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
                 {
                     if (Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
                     {
-                        Rectangle.Top = ChartRenderer.VerticalAxis.Rectangle.Bottom + TopMargin;
+                        Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
                     }
                     else
                     {
-                        Rectangle.Top = ChartRenderer.VerticalAxis.Rectangle.Top - Rectangle.Height - TopMargin;
+                        Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Top - Rectangle.Height - TopMargin;
                     }
                 }
 
@@ -508,7 +508,7 @@ namespace EPPlusImageRenderer.Svg
                         maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
                         break;
                     case eTextOrientation.Diagonal:
-                        maxWidth = (Rectangle.Width + Rectangle.Height) / COS45;
+                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45) / AxisValues.Count;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     case eTextOrientation.Horizontal:
@@ -517,7 +517,11 @@ namespace EPPlusImageRenderer.Svg
                         break;
                     default: // custom
                         var radRot = MathHelper.Radians(Axis.TextBody.Rotation.Value);
-                        maxWidth = (Rectangle.Width * Math.Sin(radRot) + Rectangle.Height * Math.Cos(radRot));
+                        var sin = Math.Abs(Math.Sin(radRot));
+                        var cos = Math.Abs(Math.Cos(radRot));
+                        var width = Rectangle.Width;
+                        maxWidth = Rectangle.Width / ((Rectangle.Width * Math.Abs(Math.Sin(radRot)) + mf.Size * Math.Abs(Math.Cos(radRot))));
+                        //Rectangle.Width = Rectangle.Width
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                 }
@@ -565,11 +569,19 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    var rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                    double rot;
+                    if(LabelOrientation==eTextOrientation.Custom)
+                    {                        
+                        rot = Axis.TextBody?.RotationAdjustedForTextVertical??0D;
+                    }
+                    else
+                    {
+                        rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                    }
                     double cos = Math.Cos(MathHelper.Radians(rot));
                     double sin = Math.Sin(MathHelper.Radians(rot));
 
-                    if (LabelOrientation == eTextOrientation.Diagonal)
+                    if (LabelOrientation == eTextOrientation.Diagonal || LabelOrientation == eTextOrientation.Custom)
                     {
                         x = ticMarkX - (height / 2) * cos;
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
@@ -581,7 +593,7 @@ namespace EPPlusImageRenderer.Svg
                             y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
                         }
                     }
-                    else
+                    else 
                     {
                         x = ticMarkX - (height / 2);
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
@@ -607,6 +619,14 @@ namespace EPPlusImageRenderer.Svg
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     tb.Rotation = -90;
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
+                else if (LabelOrientation == eTextOrientation.Custom)
+                {
+                    tb.Rotation = Axis.TextBody?.Rotation ?? 0D; 
                     if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;
@@ -1282,8 +1302,8 @@ namespace EPPlusImageRenderer.Svg
 
             var points = new List<EPPlus.Graphics.TranformPoint>();
             var group = ChartRenderer.Plotarea.Group;
-            for (double d = min; d <= Max; d += units)
-            {
+            for (double d = min; d <= Max + units * 1e-12; d += units)
+                {
                 switch (Axis.AxisPosition)
                 {
                     case eAxisPosition.Left:
@@ -1594,7 +1614,7 @@ namespace EPPlusImageRenderer.Svg
                 max = res.Max;
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
-                orientation = eTextOrientation.Horizontal;
+                orientation = options.Axis.TextBody.RotationAdjustedForTextVertical !=0 ? eTextOrientation.Custom : eTextOrientation.Horizontal;
             }
 
             return l;

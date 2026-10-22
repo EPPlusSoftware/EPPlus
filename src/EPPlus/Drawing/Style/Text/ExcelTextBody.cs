@@ -176,6 +176,40 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
+        /// The rotation that is being applied to the text within the bounding box
+        /// </summary>
+        internal double RotationAdjustedForTextVertical
+        {
+            get
+            {
+                var rot = Rotation ?? 0D;
+                switch (VerticalText)
+                {
+                    case eTextVerticalType.Vertical270:
+                        return rot + 270;
+                    case eTextVerticalType.Vertical:
+                    case eTextVerticalType.EastAsianVertical:
+                    case eTextVerticalType.MongolianVertical:
+                        return rot + 90;
+                    default:
+                        if(Rotation==-1000)  //Special rotation for diagonal axis.
+                        {
+                            return 0;
+                        }
+                        return rot;
+                }
+            }
+        }
+        internal bool IsStackedText
+        {
+            get
+            {
+                return
+                  VerticalText == eTextVerticalType.WordArtVertical ||
+                  VerticalText == eTextVerticalType.WordArtVerticalRightToLeft;
+            }
+        }
+        /// <summary>
         /// The space between text columns in the text area
         /// </summary>
         public double SpaceBetweenColumns

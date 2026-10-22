@@ -298,7 +298,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else  //Top
                 {
-                    if (LabelPosition == eTickLabelPosition.High)
+                    if (LabelPosition == eTickLabelPosition.Low)
                     {
                         return eActualAxisPosition.Bottom;
                     }

@@ -61,8 +61,9 @@ namespace EPPlusImageRenderer.Svg
             rect.Top = rect.Left = 0;
             //Group.ChildObjects.Add(rect); //Dupl?
 
-            if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
-               Chart.Legend.Position == eLegendPosition.Left)
+            if(ChartRenderer.Legend!=null && 
+                (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
+                ((ExcelChartStandard)Chart).Legend.Layout.HasLayout==false)
             {
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
@@ -216,7 +217,7 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight + TopMargin;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos, int index)
