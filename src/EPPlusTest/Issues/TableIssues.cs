@@ -419,5 +419,31 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s2591()
+        {
+            using var package = OpenPackage("i2597.xlsx", true);
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A4"].Value = "Item";
+            sheet.Cells["B4"].Value = "Flag";
+            for (var row = 16300; row <= 16390; row++)
+            {
+                sheet.Cells[row, 1].Value = "Item " + row;
+                sheet.Cells[row, 2].Value = "Y";
+            }
+            sheet.Cells["D16389"].Value = "next to the table";
+            sheet.Tables.Add(sheet.Cells["A4:B16390"], "Table1");
+            package.Workbook.Names.AddFormula("FlagColumn", "Table1[Flag]");
+
+            SaveAndCleanup(package, false);
+            // save and reopen so the name is loaded from the file
+            using var reopened = new ExcelPackage(new MemoryStream(package.GetAsByteArray()));
+            var table = reopened.Workbook.Worksheets["Sheet1"].Tables["Table1"];
+            table.DeleteRow(83, 3); // the last 3 rows, 16388-16390
+            sheet = reopened.Workbook.Worksheets[0];
+            Assert.AreEqual(sheet.Cells["D16389"].Value, "next to the table");
+            Assert.IsNull(sheet.Cells["A16388"].Value);
+            SaveWorkbook("i2597-resaved.xlsx", reopened);
         }
     }
+}
