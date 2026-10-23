@@ -337,18 +337,20 @@ namespace OfficeOpenXml.Drawing.Chart
             string address;
             double[] numberLiterals;
             string[] stringLiterals;
-
+            int count;
             if(useX)
             {
                 address = XSeries;
                 numberLiterals = NumberLiteralsX;
                 stringLiterals = StringLiteralsX;
+                count = GetCount(Series, NumberLiteralsY, StringLiteralsY);
             }
             else
             {
                 address = Series;
                 numberLiterals = NumberLiteralsY;
                 stringLiterals = StringLiteralsY;
+                count = GetCount(XSeries, NumberLiteralsX, StringLiteralsX);
             }
 
             var isStacked = _chart.IsTypeStacked() && prevList != null;
@@ -362,6 +364,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         n += GetSerieValue(prevList, i);
                     }
                     list.Add(n);
+                    if (list.Count >= count)
+                    {
+                        return;
+                    }
                 }
             }
             else if (stringLiterals?.Length > 0)
@@ -369,6 +375,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 foreach (var s in stringLiterals)
                 {
                     list.Add(s);
+                    if (list.Count >= count)
+                    {
+                        return;
+                    }
                 }
             }
             else
@@ -376,25 +386,38 @@ namespace OfficeOpenXml.Drawing.Chart
                 var a = new ExcelAddressBase(address);
                 if (a.ExternalReferenceIndex > 0)
                 {
-                    GetExternalValues(list, useText, prevList, isStacked, a);
+                    GetExternalValues(list, useText, prevList, isStacked, a, count);
                 }
                 else
                 {
-                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a);
+                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a, count);
                 }
             }
         }
 
-        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a)
+        private int GetCount(string address, double[] numberLiterals, string[] stringLiterals)
+        {
+            if (ExcelAddressBase.IsValidAddress(address))
+            {
+                var a = new ExcelAddressBase(address);
+                return Math.Max(a.Rows, a.Columns);
+            }
+            else
+            {
+                return Math.Max(numberLiterals.Length, stringLiterals.Length);
+            }
+        }
+
+        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int count)
         {
             var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
             if (ws != null)
             {
-                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws);
+                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws, count);
             }
         }
 
-        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws)
+        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int count)
         {
             var range = ws.Cells[a.Address];
             var i = 0;
@@ -433,11 +456,16 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         list.Add(d);
                     }
+
+                    if(list.Count >= count)
+                    {
+                        return;
+                    }
                 }
             }
         }
 
-        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a)
+        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int count)
         {
             var wb = _chart.WorkSheet.Workbook;
             if (wb.ExternalLinks.Count > a.ExternalReferenceIndex) return;
@@ -471,6 +499,10 @@ namespace OfficeOpenXml.Drawing.Chart
                                     d += pv;
                                 }
                                 list.Add(d);
+                            }
+                            if(list.Count >= count)
+                            {
+                                return;
                             }
                         }
                     }
