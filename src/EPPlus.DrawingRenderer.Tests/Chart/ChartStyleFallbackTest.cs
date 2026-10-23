@@ -373,7 +373,7 @@ namespace EPPlus.DrawingRenderer.Tests.Chart
                     var secondResult = secondFill.Substring(6, 7).ToLower();
 
                     //Get the first stroke and extract the hexCode for the expected color
-                    var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke"));
+                    var firstStroke = svgSplitOnSpace.First(s => s.StartsWith("stroke="));
                     var strokeResult = firstStroke.Substring(8, 7).ToLower();
 
                     //Get the resulting width
