@@ -72,30 +72,34 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 var headerText = cv.ToString();
 
+                ExcelDrawingParagraph p=null;
                 if (parent is ChartLegendRenderer)
                 {
                     var entry = chart.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                     if (entry == null || entry.Font.IsEmpty)
                     {
-                        //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                        sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
                     }
                     else
                     {
-                        //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
-                        sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = entry.TextBody.Paragraphs.FirstOrDefault();
                     }
                 }
                 else if (parent is ChartDataTableRenderer)
                 {
                     if(chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.Any())
                     {
-                        sls.Textbox.ImportParagraph(chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.FirstOrDefault();
                     }
-                    else
-                    {
-                        sls.Textbox.AddParagraph(headerText);
-                    }
+                }
+
+                if(p==null)
+                {
+                    sls.Textbox.ImportParagraph(p, 0, headerText);
+                }
+                else
+                {
+                    sls.Textbox.AddParagraph(headerText);
                 }
                 parent.SeriesIcon.Add(sls);
                 pSls = sls;
@@ -366,7 +370,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var line = new LineRenderItem(parent.Rectangle);
             line.Style.SetDrawingPropertiesFill(chart.Theme, tl.Fill, chart.Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, parent.DefaultFillColor);
             //Default is actually NoLine
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 0.75);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, () => ChartTrendlineRenderer.GetTrendlineColor(chart, true), 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 

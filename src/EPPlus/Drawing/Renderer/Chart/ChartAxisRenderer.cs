@@ -125,8 +125,7 @@ namespace EPPlusImageRenderer.Svg
                     var aav = ax.ActualAxisPosition;
                     if (ax.IsVertical)
                     {
-                        if (aav == eActualAxisPosition.Left || 
-                            aav == eActualAxisPosition.LeftSecond)
+                        if (aav == eAxisPosition.Left)
                         {
                             Rectangle.Width = GetTextWidest(ax) + LeftMargin;
                         }
@@ -334,34 +333,45 @@ namespace EPPlusImageRenderer.Svg
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            var axisGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            axisGroup.Name = $"Axis_{Axis.Index}";
-            axisGroup.Top = Rectangle.Top;
-            axisGroup.Left = Rectangle.Left;
+            var plotareaGroup = ChartRenderer.Plotarea.Group;
+            if (Line != null)
+            {
 
+                var axisGroup = new GroupRenderItem(ChartRenderer.Plotarea.Rectangle);
+                axisGroup.Name = $"Axis_{Axis.Index}";
+                axisGroup.Top = Line.Y1;
+                axisGroup.Left = Line.X1;
+                if (Axis.IsVertical)
+                {
+                    Line.X1 = Line.X2 = 0;
+                }
+                else
+                {
+                    Line.Y1 = Line.Y2 = 0;
+                }
+
+                axisGroup.ChildObjects.Add(Line);
+                var TickMarkGroup = new GroupRenderItem(axisGroup);
+                TickMarkGroup.Name = $"Axis_{Axis.Index}_TickMarkGroup";
+
+                AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
+                AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
+
+                if (MinorTickMarkPositions != null || MajorTickMarkPositions != null)
+                {
+                    axisGroup.ChildObjects.Add(TickMarkGroup);
+                }
+
+                //renderItems.Add(axisGroup);
+                plotareaGroup.AddChildItem(axisGroup);
+            }
             Title?.AppendRenderItems(renderItems);
             //Title?.Render(sb);
-            if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) axisGroup.ChildObjects.Add(Rectangle);
+            //if(Rectangle!=null || Rectangle.Width==0 || Rectangle.Height==0) axisGroup.ChildObjects.Add(Rectangle);
 
-            var plotareaGroup = ChartRenderer.Plotarea.Group;
 
             AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, plotareaGroup);
             AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, plotareaGroup);
-
-            if (Line != null) axisGroup.ChildObjects.Add(Line);
-
-            var TickMarkGroup = new GroupRenderItem(ChartRenderer.Bounds);
-            TickMarkGroup.Name = $"Axis_{Axis.Index}_TickMarkGroup";
-
-            AddSubGroupingOfRenderItems("MinorTickMarkPositions", MinorTickMarkPositions, TickMarkGroup);
-            AddSubGroupingOfRenderItems("MajorTickMarkPositions", MajorTickMarkPositions, TickMarkGroup);
-
-            if(MinorTickMarkPositions != null || MajorTickMarkPositions != null)
-            {
-                axisGroup.ChildObjects.Add(TickMarkGroup);
-            }
-
-            renderItems.Add(axisGroup);
 
             //The axis text boxes is rendered later as they have a higher Z-order.
         }
@@ -406,13 +416,72 @@ namespace EPPlusImageRenderer.Svg
                 Textboxes = new ChartAxisTextBoxes(this)
                 {
                     AxisName = $"Axis_{Axis.Index}_Textboxes",
-                    TextBoxes = GetAxisValueTextBoxes()
+                    TextBoxes = GetAxisValueTextBoxes(out double widest, out double highest)
                 };
+
+                //Adjust position of the axis textboxes so they adjust to the width or height
+                if (AdjustPosBySize)
+                {
+                    if (Axis.IsVertical)
+                    {     
+                        if(ChartRenderer.VerticalAxis==this || ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        {
+                            Rectangle.Left -= Rectangle.Width;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        {
+                            Rectangle.Top -= Rectangle.Height;
+                        }
+                        else
+                        {
+                            if(Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                            {
+                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Top - TopMargin - Rectangle.Height;
+                            }
+                            else
+                            {
+                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
+                            }
+                        }
+                    }
+                }
+                
+                if (Axis.IsVertical && ChartRenderer.VerticalAxis != this && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
+                {
+                    if (Axis.AxisTextboxPosition == eActualAxisPosition.Right)
+                    {
+                        Rectangle.Left = ChartRenderer.VerticalAxis.Rectangle.Right + LeftMargin;
+                    }
+                    else
+                    {
+                        Rectangle.Left = ChartRenderer.VerticalAxis.Rectangle.Left - Rectangle.Width - LeftMargin;
+                    }
+                }
+                else if(Axis.IsVertical==false && ChartRenderer.HorizontalAxis != this && ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition == Axis.AxisTextboxPosition)
+                {
+                    if (Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
+                    {
+                        Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
+                    }
+                    else
+                    {
+                        Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Top - Rectangle.Height - TopMargin;
+                    }
+                }
+
             }
         }
 
-        private List<DrawingTextBox> GetAxisValueTextBoxes()
+        private List<DrawingTextBox> GetAxisValueTextBoxes(out double widest, out double highest)
         {
+            widest = highest = 0;
             var ret = new List<DrawingTextBox>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
 
@@ -439,7 +508,7 @@ namespace EPPlusImageRenderer.Svg
                         maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
                         break;
                     case eTextOrientation.Diagonal:
-                        maxWidth = (Rectangle.Width + Rectangle.Height) / COS45;
+                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45);
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     case eTextOrientation.Horizontal:
@@ -448,12 +517,16 @@ namespace EPPlusImageRenderer.Svg
                         break;
                     default: // custom
                         var radRot = MathHelper.Radians(Axis.TextBody.Rotation.Value);
-                        maxWidth = (Rectangle.Width * Math.Sin(radRot) + Rectangle.Height * Math.Cos(radRot));
+                        var sin = Math.Abs(Math.Sin(radRot));
+                        var cos = Math.Abs(Math.Cos(radRot));
+                        var width = Rectangle.Width;
+                        maxWidth = Rectangle.Width / ((Rectangle.Width * Math.Abs(Math.Sin(radRot)) + mf.Size * Math.Abs(Math.Cos(radRot))));
+                        //Rectangle.Width = Rectangle.Width
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                 }
             }
-            double widest = 0;
+
             for (var i = 0; i < AxisValues.Count; i++)
             {
                 var v = Values[i];
@@ -496,14 +569,22 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    var rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                    double rot;
+                    if(LabelOrientation==eTextOrientation.Custom)
+                    {                        
+                        rot = Axis.TextBody?.RotationAdjustedForTextVertical??0D;
+                    }
+                    else
+                    {
+                        rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                    }
                     double cos = Math.Cos(MathHelper.Radians(rot));
                     double sin = Math.Sin(MathHelper.Radians(rot));
 
-                    if (LabelOrientation == eTextOrientation.Diagonal)
+                    if (LabelOrientation == eTextOrientation.Diagonal || LabelOrientation == eTextOrientation.Custom)
                     {
                         x = ticMarkX - (height / 2) * cos;
-                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+                        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         {
                             y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
                         }
@@ -512,10 +593,10 @@ namespace EPPlusImageRenderer.Svg
                             y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
                         }
                     }
-                    else
+                    else 
                     {
                         x = ticMarkX - (height / 2);
-                        if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+                        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         {
                             y = ticMarkY + BottomMargin + 4;
                         }
@@ -530,7 +611,7 @@ namespace EPPlusImageRenderer.Svg
                 if (LabelOrientation == eTextOrientation.Diagonal)
                 {
                     tb.Rotation = -45;
-                    if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -538,7 +619,15 @@ namespace EPPlusImageRenderer.Svg
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     tb.Rotation = -90;
-                    if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
+                else if (LabelOrientation == eTextOrientation.Custom)
+                {
+                    tb.Rotation = Axis.TextBody?.Rotation ?? 0D; 
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;
                     }
@@ -567,13 +656,17 @@ namespace EPPlusImageRenderer.Svg
                 {
                     widest = tb.Width;
                 }
+                if(highest < tb.Height)
+                {
+                    highest = tb.Height;
+                }
                 ret.Add(tb);
             }
 
             if (Axis.IsVertical)
             {
                 //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
-                if (Axis.AxisPosition == eAxisPosition.Left)
+                if (Axis.AxisTextboxPosition == eActualAxisPosition.Left)
                 {
                     foreach (var tb in ret)
                     {
@@ -753,7 +846,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemTop(int i, double width, double height)
         {
-            if (Axis.ActualAxisPosition == eActualAxisPosition.Top || Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
+            if (Axis.ActualAxisPosition == eAxisPosition.Top)
             {
                 switch (LabelOrientation)
                 {
@@ -764,7 +857,7 @@ namespace EPPlusImageRenderer.Svg
                         return Rectangle.Height - height - TopMargin;
                 }
             }
-            else if (Axis.ActualAxisPosition == eActualAxisPosition.Bottom || Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
+            else if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
             {
                 switch(LabelOrientation)
                 {
@@ -797,7 +890,10 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else //TODO:Add support for hight.
                         {
-                            return BottomMargin;
+                            //var top = ChartRenderer.Plotarea.Group.Top + height;
+                            //Rectangle.Height += Rectangle.Height - top;
+                            //Rectangle.Top = top;
+                            return 0;
                         }
                 }
             }
@@ -855,29 +951,27 @@ namespace EPPlusImageRenderer.Svg
                 double x1, y1, x2, y2;
                 switch (Axis.ActualAxisPosition)
                 {
-                    case eActualAxisPosition.Left:
-                    case eActualAxisPosition.LeftSecond:
-                        y1 = GetPositionInPlotarea(d);
-                        y2 = y1;
-                        x1 = (float)Rectangle.Width - tickMarkWidthOutside;
-                        x2 = (float)Rectangle.Width + tickMarkWidthInside;
-                        break;
-                    case eActualAxisPosition.Right:
-                    case eActualAxisPosition.RightSecond:
+                    case eAxisPosition.Left:
+                    case eAxisPosition.Right:
+                    //    y1 = GetPositionInPlotarea(d);
+                    //    y2 = y1;
+                    //    x1 = (float)Rectangle.Width - tickMarkWidthOutside;
+                    //    x2 = (float)Rectangle.Width + tickMarkWidthInside;
+                    //    break;
+                    //case eAxisPosition.Right:
                         y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)-tickMarkWidthInside;
                         x2 = (float)tickMarkWidthOutside;
                         break;
-                    case eActualAxisPosition.Top:
-                    case eActualAxisPosition.TopSecond:
-                        x1 = GetPositionInPlotarea(d);
-                        x2 = x1;
-                        y1 = (float)Rectangle.Height - tickMarkWidthOutside;
-                        y2 = (float)Rectangle.Height + tickMarkWidthInside;
-                        break;
-                    case eActualAxisPosition.Bottom:
-                    case eActualAxisPosition.BottomSecond:
+                    case eAxisPosition.Top:
+                    case eAxisPosition.Bottom:
+                    //    x1 = GetPositionInPlotarea(d);
+                    //    x2 = x1;
+                    //    y1 = (float)Rectangle.Height - tickMarkWidthOutside;
+                    //    y2 = (float)Rectangle.Height + tickMarkWidthInside;
+                    //    break;
+                    //case eAxisPosition.Bottom:
                         x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)-tickMarkWidthInside;
@@ -950,8 +1044,6 @@ namespace EPPlusImageRenderer.Svg
 
             var diff = IsCatAx() ? max - min + 1 : max - min;
             var maxPos = IsCatAx() ? max + 1 : max;
-            var logBase = (Axis.LogBase ?? 1);
-            var isLogBase = logBase > 1;
             double d = min;
             maxPos += units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
             while (d <= maxPos)
@@ -960,29 +1052,25 @@ namespace EPPlusImageRenderer.Svg
                 double x1, y1, x2, y2;
                 switch (Axis.ActualAxisPosition)
                 {
-                    case eActualAxisPosition.Left:
-                    case eActualAxisPosition.LeftSecond:
+                    case eAxisPosition.Left:
                         y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
                         y2 = y1;
-                        x1 = (float)Rectangle.Width - tickMarkWidthOutside;
-                        x2 = (float)Rectangle.Width + tickMarkWidthInside;
+                        x1 = (float)-tickMarkWidthOutside;
+                        x2 = (float)+tickMarkWidthInside;
                         break;
-                    case eActualAxisPosition.Right:
-                    case eActualAxisPosition.RightSecond:
+                    case eAxisPosition.Right:
                         y1 = (float)(Rectangle.Height - (addPosition / diff * Rectangle.Height));
                         y2 = y1;
                         x1 = (float)-tickMarkWidthInside;
                         x2 = (float)tickMarkWidthOutside;
                         break;
-                    case eActualAxisPosition.Top:
-                    case eActualAxisPosition.TopSecond:
+                    case eAxisPosition.Top:
                         x1 = (float)((addPosition / diff * Rectangle.Width));
                         x2 = x1;
-                        y1 = (float)Rectangle.Height - tickMarkWidthOutside;
-                        y2 = (float)Rectangle.Height + tickMarkWidthInside;
+                        y1 = (float)-tickMarkWidthOutside;
+                        y2 = (float)+tickMarkWidthInside;
                         break;
-                    case eActualAxisPosition.Bottom:
-                    case eActualAxisPosition.BottomSecond:
+                    case eAxisPosition.Bottom:
                         x1 = (float)((addPosition / diff * Rectangle.Width));
                         x2 = x1;
                         y1 = (float)-tickMarkWidthInside;
@@ -1089,6 +1177,7 @@ namespace EPPlusImageRenderer.Svg
                     y2 = y1;
                     x1 = (float)0;
                     x2 = (float)pa.Rectangle.Width;
+                    points.Reverse(); //Reverse, so the for loop below gets the items in the correct order.
                     break;
                 case eAxisPosition.Top:
                 case eAxisPosition.Bottom:
@@ -1113,12 +1202,6 @@ namespace EPPlusImageRenderer.Svg
             var tms = new List<RenderItem>();
 
             tms.Add(tm);
-
-            //var distX = (float)points.Last().Left - points[0].Left;
-            //var distY = points[0].Top - (float)points.Last().Top;
-
-            //var offsetX = distX / (points.Count - 1);
-            //var offsetY = distY / (points.Count - 1);
 
             for (int i = 1; i < points.Count; i++)
             {
@@ -1219,8 +1302,8 @@ namespace EPPlusImageRenderer.Svg
 
             var points = new List<EPPlus.Graphics.TranformPoint>();
             var group = ChartRenderer.Plotarea.Group;
-            for (double d = min; d <= Max; d += units)
-            {
+            for (double d = min; d <= Max + units * 1e-12; d += units)
+                {
                 switch (Axis.AxisPosition)
                 {
                     case eAxisPosition.Left:
@@ -1531,7 +1614,7 @@ namespace EPPlusImageRenderer.Svg
                 max = res.Max;
                 majorUnit = res.MajorInterval;
                 dateUnit = null;
-                orientation = eTextOrientation.Horizontal;
+                orientation = options.Axis.TextBody.RotationAdjustedForTextVertical !=0 ? eTextOrientation.Custom : eTextOrientation.Horizontal;
             }
 
             return l;
@@ -1611,6 +1694,13 @@ namespace EPPlusImageRenderer.Svg
         }
         internal override Color? DefaultBorderColor => GetDefaultBorderColor();
 
+
+
+        /// <summary>
+        /// If the axis is left or top, the position of the axis is adjusted by the size of the axis. 
+        /// </summary>
+        internal bool AdjustPosBySize { get; set; } = false;
+
         internal double GetCrossesValue()
         {
             if (Axis.CrossingAxis.CrossesAt.HasValue)
@@ -1620,6 +1710,42 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 switch (Axis.CrossingAxis.Crosses)
+                {
+                    case eCrosses.Min:
+                        return Min;
+                    case eCrosses.Max:
+                        return Max;
+                    default:
+                        return 0D;
+                }
+            }
+        }
+
+        internal double GetAdjustedCrossesAt()
+        {
+            if(Axis.CrossingAxis !=null && Axis.CrossingAxis.CrossesAt.HasValue)
+            {
+                var ca = Axis.CrossingAxis.CrossesAt.Value;
+                if (ca < Min)
+                {
+                    return Min;
+                }
+                else if(ca > Max)
+                {
+                    return Max;
+                }
+                else
+                {
+                    if(IsCount)
+                    {
+                        return ca-1;
+                    }
+                    return ca;
+                }   
+            }
+            else
+            {
+                switch (Axis.Crosses)
                 {
                     case eCrosses.Min:
                         return Min;

@@ -34,11 +34,13 @@ namespace OfficeOpenXml.Drawing.Chart
         internal string _fontPropertiesPath = "";
         internal string _richTextPath = "";
         internal string _defTxBodyPath = "";
-        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
+        double _rotationDefault;
+        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault=0) :
             base(nameSpaceManager, node)
         {
             _chart = chart;
             _nsPrefix = nsPrefix;
+            _rotationDefault = rotationDefault;
             _fontPropertiesPath = $"{_nsPrefix}:txPr";
             _richTextPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
             _defTxBodyPath = $"{_nsPrefix}:txPr";
@@ -366,15 +368,19 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot", 0);
-                if (i < 0)
+                var d=GetXmlNodeDoubleNull($"{_fontPropertiesPath}/a:bodyPr/@rot");
+                if (d.HasValue)
                 {
-                    return 360 + (i / 60000);
+                    if (d.Value < 0)
+                    {
+                        return 360 + (d.Value / 60000);
+                    }
+                    else
+                    {
+                        return (d.Value / 60000);
+                    }
                 }
-                else
-                {
-                    return (i / 60000);
-                }
+                return _rotationDefault;
             }
             set
             {
@@ -445,7 +451,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTitleStandard : ExcelChartTitle
     {
-        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
+        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault) : base(chart, nameSpaceManager, node, nsPrefix, rotationDefault)
         {
         }
         /// <summary>

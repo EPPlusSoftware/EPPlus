@@ -142,7 +142,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
+            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
             DataLabel.ImportTextBodyAndParagraphs(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
@@ -193,8 +193,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
 
 
-            DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style?.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, Color.Transparent);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style?.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
             DataLabel.Rectangle.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
@@ -202,10 +202,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             int pIx = 0;
             var ix = labelText.IndexOf("|ss:");
-
+            var p = lbl.TextBody.Paragraphs.FirstOrDefault();
             while (ix >= 0 && ix < labelText.Length)
             {
-                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, ix - pIx));
+                if(p==null)
+                {
+                    lbl.AddText(labelText.Substring(pIx, ix - pIx));
+                    }
+                else
+                {
+                    p.AddText(labelText.Substring(pIx, ix - pIx));
+                }
                 var endIx = labelText.IndexOf("|", ix + 4);
                 var rt = new RichTextFormatDrawing(lbl.TextBody.Paragraphs[0].DefaultParagraphFont) { SuperScript = true, Text = labelText.Substring(ix + 4, endIx - ix - 4) };
                 lbl.TextBody.Paragraphs[0].AddRichText(rt);
@@ -221,7 +228,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //}
             if (pIx < labelText.Length)
             {
-                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                if (p == null)
+                {
+                    lbl.AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                }
+                else
+                {
+                    p.AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                }
             }
 
             //Should probably be a callback
@@ -668,7 +682,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommand(PathCommandType.Move, RenderCoordinates));
             pathItem.Style.FillColor = "none";
-            pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
+            pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
             pathItem.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
@@ -802,11 +816,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             get
             {
-                var themedLine = GetThemedLine(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
-                ////Kept here in case needed in future for effect etc.
-                //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
-                return lineColor;
+                return GetTrendlineColor(ChartRenderer, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty);
             }
+        }
+
+        internal static Color? GetTrendlineColor(ChartRenderer chartRenderer, bool hasBorder)
+        {
+            var themedLine = GetThemedLine(chartRenderer.Theme, ChartElement.OtherLines, (int)chartRenderer.Chart.Style, hasBorder, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
         }
     }
 }

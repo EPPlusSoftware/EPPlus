@@ -203,7 +203,6 @@ namespace EPPlusImageRenderer.Svg
             if (_title.Rotation != 0)
             {
                 TextBox.Rotation = _title.Rotation;
-                TextBox.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {
@@ -212,7 +211,14 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
-                TextBox.ImportParagraph(p, 0, _titleText);                
+                if(p==null)
+                {
+                    TextBox.AddText(_titleText);
+                }
+                else
+                {
+                    TextBox.ImportParagraph(p, 0, _titleText);
+                }
             }
 
             TextBox.LeftMargin = LeftMargin;

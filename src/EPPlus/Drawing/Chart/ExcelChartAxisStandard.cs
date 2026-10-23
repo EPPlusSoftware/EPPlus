@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(_majorTickMark, value.ToString().ToLower(CultureInfo.InvariantCulture));
             }
         }
-        const string _minorTickMarkParent = "c:majorTickMark";
+        const string _minorTickMarkParent = "c:minorTickMark";
         const string _minorTickMark = $"{_minorTickMarkParent }/@val";
         /// <summary>
         /// Get or Sets the minor tick marks for the axis. 
@@ -171,17 +171,83 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-        /// Returns the actual position of the axis, taking into account the position and the label position. 
-        /// For example, if the axis position is left and the label position is high, the actual position will be to the right of the plotarea.
+        /// Returns the actual position of the axis, taking into account the position and crosses (min or max). This affects how the tickmarks are drawn (inside/outside).
+        /// For example, if the axis position is left and the crosses is high, the actual position will be to the right of the plotarea.
         /// </summary>
-        public eActualAxisPosition ActualAxisPosition
+        public eAxisPosition  ActualAxisPosition
         {
             get
             {
                 var ap = AxisPosition;
-                if (ap == eAxisPosition.Left && LabelPosition == eTickLabelPosition.High)
+                if (ap == eAxisPosition.Left)
                 {
-                    return eActualAxisPosition.Right;
+                    if (Crosses == eCrosses.Max)
+                    {
+                        return eAxisPosition.Right;
+                    }
+                    else
+                    {
+                        return eAxisPosition.Left;
+                    }
+                }
+                else if (ap == eAxisPosition.Bottom)
+                {
+                    if(Crosses == eCrosses.Max)
+                    {
+                        return eAxisPosition.Top;
+                    }
+                    else
+                    {
+                        return eAxisPosition.Bottom;
+                    }
+                }
+                else if (ap == eAxisPosition.Right)
+                {
+                    if (Crosses == eCrosses.Min)
+                    {
+                        return eAxisPosition.Left;
+                    }
+                    else
+                    {
+                        return eAxisPosition.Right;
+                    }
+                }
+                else
+                {
+                    if (Crosses == eCrosses.Min)
+                    {
+                        return eAxisPosition.Bottom;
+                    }
+                    else
+                    { 
+                        return eAxisPosition.Top;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Returns the actual position of the axis, taking into account the position and the label position. 
+        /// For example, if the axis position is left and the label position is high, the actual position will be to the right of the plotarea.
+        /// </summary>
+        public eActualAxisPosition AxisTextboxPosition
+        {
+            get
+            {
+                //if(LabelPosition==eTickLabelPosition.NextTo && CrossesAt.HasValue)
+                //{
+                //    return eActualAxisPosition.ByValueOrCategory;
+                //}
+                var ap = AxisPosition;
+                if (ap == eAxisPosition.Left)
+                {
+                    if(LabelPosition == eTickLabelPosition.High)
+                    {
+                        return eActualAxisPosition.Right;
+                    }
+                    else
+                    {
+                        return eActualAxisPosition.Left;
+                    }
                 }
                 else if (ap == eAxisPosition.Bottom)
                 {
@@ -198,62 +264,76 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
-                        if (ax?.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.Left;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.LeftSecond;
-                        }
+                        return eActualAxisPosition.Left;
                     }
                     else
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
-                        if (ax?.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.RightSecond;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.Right;
-                        }
+                        return eActualAxisPosition.Right;
                     }
+
+                    //if (LabelPosition == eTickLabelPosition.Low)
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.Left;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.LeftSecond;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Left);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.RightSecond;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.Right;
+                    //    }
+                    //}
                 }
-                else if(ap==eAxisPosition.Top)
+                else  //Top
                 {
                     if (LabelPosition == eTickLabelPosition.Low)
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
-                        if (ax.LabelPosition == eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.Bottom;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.BottomSecond;
-                        }
+                        return eActualAxisPosition.Bottom;
                     }
                     else
                     {
-                        var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
-                        if (ax?.LabelPosition==eTickLabelPosition.High)
-                        {
-                            return eActualAxisPosition.TopSecond;
-                        }
-                        else
-                        {
-                            return eActualAxisPosition.Top;
-                        }
+                        return eActualAxisPosition.Top;
                     }
-                }
-                else
-                {
-                    return (eActualAxisPosition)ap;
+                    //if (LabelPosition == eTickLabelPosition.Low)
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                    //    if (ax.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.Bottom;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.BottomSecond;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    var ax = _chart.Axis.FirstOrDefault(x => x.AxisPosition == eAxisPosition.Bottom);
+                    //    if (ax?.LabelPosition == eTickLabelPosition.High)
+                    //    {
+                    //        return eActualAxisPosition.TopSecond;
+                    //    }
+                    //    else
+                    //    {
+                    //        return eActualAxisPosition.Top;
+                    //    }
+                    //}
                 }
             }
         }
+
         /// <summary>
         /// Chart axis title
         /// </summary>
@@ -279,7 +359,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c");
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", IsVertical?270 : 0);
             }
             return _title;
         }

@@ -61,8 +61,9 @@ namespace EPPlusImageRenderer.Svg
             rect.Top = rect.Left = 0;
             //Group.ChildObjects.Add(rect); //Dupl?
 
-            if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
-               Chart.Legend.Position == eLegendPosition.Left)
+            if(ChartRenderer.Legend!=null && 
+                (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
+                ((ExcelChartStandard)Chart).Legend.Layout.HasLayout==false)
             {
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
@@ -75,11 +76,11 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetPlotAreaHeight(RectRenderItem rect)
         {
-            var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom);
+            var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 0);
             double vaHeight = 0;
             if (bottomAxis!=null)
             {
-                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.BottomSecond);
+                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 1);
                 if(bottomSecondAxis==null)
                 {
                     var secAxis = ChartRenderer.SecondHorizontalAxis;
@@ -112,8 +113,8 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetPlotAreaWidth(RectRenderItem rect)
         {
-            var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right);
-            var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
+            var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right, 0);
+            var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Right, 1);
             var lp = ChartRenderer.Chart.Legend?.Position;
             var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null && ChartRenderer.Legend.Overlay==false ?
                         ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
@@ -168,8 +169,8 @@ namespace EPPlusImageRenderer.Svg
                 left += ChartRenderer.Legend.Rectangle.Width + ChartRenderer.Legend.RightMargin;
             }
 
-            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left);
-            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.LeftSecond);
+            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
+            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Left,1);
             if (leftAxis == null)
             {
                 leftAxis = GetAxisByPosition(eAxisPosition.Left);
@@ -203,8 +204,8 @@ namespace EPPlusImageRenderer.Svg
         private double GetPlotAreaTop()
         {
             double haHeight = 0;
-            var topAxis = GetAxisActualByPosition(eActualAxisPosition.Top);
-            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.TopSecond);            
+            var topAxis = GetAxisActualByPosition(eActualAxisPosition.Top,0);
+            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Top,1);            
             if (topAxis == null)
             {
                 //If the axis is not on the top, we should check if there is an axis that has the position on the top. If there is, we should reserve space for the title of the axis. This can happen when LabelPosition is set to Low and the axis is on the bottom, but the position of the axis is set to top.
@@ -216,27 +217,48 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + TopMargin + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight + TopMargin;
         }
 
-        private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
+        private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos, int index)
         {
-            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.ActualAxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.HorizontalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.HorizontalAxis;
+                }
+                else if (index == 1 && ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisTextboxPosition == pos)
+                {
+                    return ChartRenderer.SecondHorizontalAxis;
+                }
             }
-            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.VerticalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.VerticalAxis;
+                }
+                else if (index == 1 && ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisTextboxPosition == pos)
+                {
+                    return ChartRenderer.SecondVerticalAxis;
+                }
             }
-            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.SecondHorizontalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.SecondHorizontalAxis;
+                }
             }
-            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.SecondVerticalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.SecondVerticalAxis;
+                }
             }
+
             return null;
         }
         private ChartAxisRenderer GetAxisByPosition(eAxisPosition pos)

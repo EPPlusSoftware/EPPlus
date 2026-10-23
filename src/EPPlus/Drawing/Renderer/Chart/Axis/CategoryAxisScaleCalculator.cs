@@ -31,36 +31,57 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var interval = GetMinUnitVerticalText(displayValues.Count, textHeight, plotAreaWidth);
 
             //Get max text width when using diagonal text
-            var width = fontSize * Math.Sqrt(2);
-            var margin = fontSize * 0.5;
-
-            if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+            if (options.Axis.TextBody.RotationAdjustedForTextVertical!=0)
             {
-                if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth)) //Check horizontal
-                {
+                //var rot = options.Axis.TextBody.Rotation.Value;
+                //var width = fontSize * Math.Sqrt(1D/(rot % 90) / 90);
+                //var margin = fontSize * 0.5;
+                //if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                //{
                     return new AxisScale()
                     {
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
                         Max = displayValues.Count,
-                        TextOrientation = eTextOrientation.Horizontal,
+                        TextOrientation = eTextOrientation.Custom,
                         DisplayValues = displayValues
                     };
-                }
-                else
+                //}
+            }
+            else
+            {
+                var width = fontSize * Math.Sqrt(2);
+                var margin = fontSize * 0.5;
+                if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 {
-                    return new AxisScale()
+                    if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth)) //Check horizontal
                     {
-                        MajorInterval = interval,
-                        MinorInterval = 1,
-                        Min = 1,
-                        Max = displayValues.Count,
-                        TextOrientation = eTextOrientation.Diagonal,
-                        DisplayValues = displayValues
-                    };
+                        return new AxisScale()
+                        {
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            Min = 1,
+                            Max = displayValues.Count,
+                            TextOrientation = eTextOrientation.Horizontal,
+                            DisplayValues = displayValues
+                        };
+                    }
+                    else
+                    {
+                        return new AxisScale()
+                        {
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            Min = 1,
+                            Max = displayValues.Count,
+                            TextOrientation = eTextOrientation.Diagonal,
+                            DisplayValues = displayValues
+                        };
+                    }
                 }
             }
+
             if (interval != 1)
             {
                 var removeCount = interval - 1;
@@ -120,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MinorInterval = 1,
                 Min = 1,
                 Max = uniqeItems,
-                TextOrientation = eTextOrientation.Horizontal,
+                TextOrientation = (options.Axis.TextBody?.RotationAdjustedForTextVertical??0D) ==0 ? eTextOrientation.Horizontal : eTextOrientation.Custom,
                 DisplayValues = displayValues
             };
         }
