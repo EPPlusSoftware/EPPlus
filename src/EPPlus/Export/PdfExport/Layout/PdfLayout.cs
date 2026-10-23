@@ -120,6 +120,23 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     AddSpillCells(pageSettings, dictionaries, page, pageLayout);
                     AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
+                    if (!pdfPages[i].IsCommentsPage)
+                    {
+                        pageLayout.SheetName = pdfPages[i].SheetName;
+                        pageLayout.FromRow = page.FromRow;
+                        pageLayout.ToRow = page.ToRow;
+                        pageLayout.FromColumn = page.FromColumn;
+                        pageLayout.ToColumn = page.ToColumn;
+                        pageLayout.ColLeftX = BuildColumnXPositions(pageSettings, page);
+                        var rowTopY = new double[page.ToRow - page.FromRow + 1];
+                        double ry = contentStartY;
+                        for (int r = page.FromRow; r <= page.ToRow; r++)
+                        {
+                            rowTopY[r - page.FromRow] = ry;
+                            ry -= page.RowHeights[r - page.FromRow];
+                        }
+                        pageLayout.RowTopY = rowTopY;
+                    }
                     double y = contentStartY;
                     double x = contentStartX;
                     for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
@@ -170,11 +187,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                         pageLayout.AddChild(text);
 
-                                        if (map.HyperlinkUri != null || map.HyperlinkInternal != null)
+                                        if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
                                         {
                                             if (CanTightenLink(text))
                                                 AddTextLinks(pageLayout, text, info.X, info.X + info.Width,
-                                                             map.HyperlinkUri, map.HyperlinkInternal);
+                                                             map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol);
                                             else
                                                 pageLayout.Links.Add(new LinkDrawInfo
                                                 {
@@ -183,7 +200,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                     Width = info.Width,
                                                     Height = info.Height,
                                                     Uri = map.HyperlinkUri,
-                                                    InternalAddress = map.HyperlinkInternal
+                                                    InternalAddress = map.HyperlinkInternal,
+                                                    TargetSheet = map.HyperlinkTargetSheet,
+                                                    TargetRow = map.HyperlinkTargetRow,
+                                                    TargetColumn = map.HyperlinkTargetCol
                                                 });
                                         }
                                     }
@@ -243,11 +263,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
                                     pageLayout.AddChild(text);
 
-                                    if (map.HyperlinkUri != null || map.HyperlinkInternal != null)
+                                    if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
                                     {
                                         if (CanTightenLink(text))
                                             AddTextLinks(pageLayout, text, clipX, clipX + clipW,
-                                                         map.HyperlinkUri, map.HyperlinkInternal);
+                                                         map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol);
                                         else
                                             pageLayout.Links.Add(new LinkDrawInfo
                                             {
@@ -256,7 +276,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 Width = effectiveWidth,
                                                 Height = rowHeight,
                                                 Uri = map.HyperlinkUri,
-                                                InternalAddress = map.HyperlinkInternal
+                                                InternalAddress = map.HyperlinkInternal,
+                                                TargetSheet = map.HyperlinkTargetSheet,
+                                                TargetRow = map.HyperlinkTargetRow,
+                                                TargetColumn = map.HyperlinkTargetCol
                                             });
                                     }
                                 }
@@ -740,7 +763,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             !text.CellAlignmentData.IsVertical &&
             text.CellAlignmentData.TextRotation == 0;
 
-        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string internalAddr, double padX = 1.0d, double padY = 1.5d)
+        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string internalAddr, string targetSheet, int targetRow, int targetCol, double padX = 1.0d, double padY = 1.5d)
         {
             double line0Width = text.TextLines[0].Width;
             double originX = text.LocalPosition.X;   // aligned left of line 0
@@ -770,7 +793,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         Width = boxRight - boxLeft,
                         Height = line.LargestAscent + line.LargestDescent + 2 * padY,
                         Uri = uri,
-                        InternalAddress = internalAddr
+                        InternalAddress = internalAddr,
+                        TargetSheet = targetSheet,
+                        TargetRow = targetRow,
+                        TargetColumn = targetCol
                     });
                 }
                 baseY -= (line.LargestAscent + line.LargestDescent);
@@ -1041,8 +1067,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             double pageAbsTop = rowPrefix[page.FromRow - fromRow];
             double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
 
-            double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-            double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+            double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
 
             foreach (var drawing in drawings)
             {
@@ -1140,6 +1166,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
                     pages.Settings = pageSettings;
                     pages.SheetIndex = si;
+                    pages.SheetName = pdfSheet.Worksheet.Name;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -1155,6 +1182,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.IsCommentsPage = true;
                     pages.Settings = pageSettings;
                     pages.SheetIndex = si;
+                    pages.SheetName = pdfSheet.Worksheet.Name;
                     pages.IsCommentsPage = true;
                     for (int k = 0; k < pages.Page.Length; k++)
                         pages.Page[k].IsCommentsPage = true;

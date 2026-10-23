@@ -175,7 +175,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Content
-        private void AddContent(PdfPageLayout pageLayout, PdfPage page)
+        private void AddContent(PdfPageLayout pageLayout, PdfPage page, List<(PdfPageLayout Layout, int PageObj)> destIndex)
         {
             var pageSettings = pageLayout.Settings;
             double contentScale = pageSettings.ContentScale;
@@ -297,15 +297,48 @@ namespace EPPlus.Export.Pdf
             page.contentObjectNumbers.Add(contentStream.objectNumber);
             foreach (var link in pageLayout.Links)
             {
-                if (string.IsNullOrEmpty(link.Uri)) continue;
                 double lowerLeftX = contentScale * link.X + (1 - contentScale) * scaleAnchorX;
                 double lowerLeftY = contentScale * link.Y + (1 - contentScale) * scaleAnchorY;
                 double upperRightX = contentScale * (link.X + link.Width) + (1 - contentScale) * scaleAnchorX;
                 double upperRightY = contentScale * (link.Y + link.Height) + (1 - contentScale) * scaleAnchorY;
-                var annot = new PdfLinkAnnotationObject(_document.Count + 1, lowerLeftX, lowerLeftY, upperRightX, upperRightY, link.Uri);
+
+                PdfLinkAnnotationObject annot;
+                if (!string.IsNullOrEmpty(link.Uri))
+                {
+                    annot = new PdfLinkAnnotationObject(_document.Count + 1,
+                        lowerLeftX, lowerLeftY, upperRightX, upperRightY, link.Uri);
+                }
+                else if (link.TargetSheet != null && TryResolveDest(destIndex, link.TargetSheet, link.TargetRow, link.TargetColumn, out int destPageObj, out double destX, out double destY))
+                {
+                    annot = PdfLinkAnnotationObject.GoTo(_document.Count + 1,
+                        lowerLeftX, lowerLeftY, upperRightX, upperRightY, destPageObj, destX, destY);
+                }
+                else
+                {
+                    continue;
+                }
+
                 _document.Add(annot);
                 page.annotationObjectNumbers.Add(annot.objectNumber);
             }
+        }
+
+        private static bool TryResolveDest(List<(PdfPageLayout Layout, int PageObj)> index, string sheet, int row, int col, out int pageObj, out double x, out double y)
+        {
+            pageObj = 0; x = 0; y = 0;
+            foreach (var (L, obj) in index)
+            {
+                if (L.ColLeftX == null || L.SheetName == null) continue;
+                if (!string.Equals(L.SheetName, sheet, StringComparison.OrdinalIgnoreCase)) continue;
+                if (row < L.FromRow || row > L.ToRow || col < L.FromColumn || col > L.ToColumn) continue;
+
+                double scale = L.Settings.ContentScale;
+                x = scale * L.ColLeftX[col - L.FromColumn] + (1 - scale) * L.Settings.ContentBounds.Left;
+                y = scale * L.RowTopY[row - L.FromRow] + (1 - scale) * L.Settings.ContentBounds.Top;
+                pageObj = obj;
+                return true;
+            }
+            return false;
         }
 
         //Add Info
@@ -358,12 +391,18 @@ namespace EPPlus.Export.Pdf
             //Create Shadings
             AddShadingsData();
             //Create Page and Content
+            var pageObjs = new PdfPage[layout.ChildObjects.Count];
+            var destIndex = new List<(PdfPageLayout Layout, int PageObj)>();
             for (int i = 0; i < layout.ChildObjects.Count; i++)
             {
                 var pageLayout = (PdfPageLayout)layout.ChildObjects[i];
-                var page = AddPage(2, new List<int>(), pageLayout.Settings);
-                AddContent(pageLayout, page);
-                pages.pageObjectNumbers.Add(page.objectNumber);
+                pageObjs[i] = AddPage(2, new List<int>(), pageLayout.Settings);
+                destIndex.Add((pageLayout, pageObjs[i].objectNumber));
+                pages.pageObjectNumbers.Add(pageObjs[i].objectNumber);
+            }
+            for (int i = 0; i < layout.ChildObjects.Count; i++)
+            {
+                AddContent((PdfPageLayout)layout.ChildObjects[i], pageObjs[i], destIndex);
             }
             AddImageData();
             var info = AddInfoObject();

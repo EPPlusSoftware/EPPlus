@@ -102,16 +102,17 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                             var hl = cell.Hyperlink;
                             if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
                             {
-                                tempMap.HyperlinkInternal = eh.ReferenceAddress;
+                                if (TryResolveInternalLink(worksheet, eh.ReferenceAddress, out var ts, out var tr, out var tc))
+                                { tempMap.HyperlinkTargetSheet = ts; tempMap.HyperlinkTargetRow = tr; tempMap.HyperlinkTargetCol = tc; }
                             }
                             else if (hl != null)
-                            {
                                 tempMap.HyperlinkUri = NormalizeExternalTarget(hl.OriginalString);
-                            }
-                            else if (TryGetFormulaHyperlink(cell, out var formulaUri, out var formulaInternal))
+                            else if (TryGetFormulaHyperlink(cell, out var fUri, out var fInternal))
                             {
-                                tempMap.HyperlinkUri = formulaUri;
-                                tempMap.HyperlinkInternal = formulaInternal;
+                                if (fUri != null)
+                                    tempMap.HyperlinkUri = fUri;
+                                else if (fInternal != null && TryResolveInternalLink(worksheet, fInternal, out var ts, out var tr, out var tc))
+                                { tempMap.HyperlinkTargetSheet = ts; tempMap.HyperlinkTargetRow = tr; tempMap.HyperlinkTargetCol = tc; }
                             }
                         }
                     }
@@ -1235,6 +1236,29 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             if (Uri.TryCreate(target, UriKind.Absolute, out var u))
                 return u.IsFile ? u.AbsoluteUri : target;
             return null;
+        }
+
+        private static bool TryResolveInternalLink(ExcelWorksheet linkSheet, string target, out string targetSheet, out int row, out int col)
+        {
+            targetSheet = null; row = 0; col = 0;
+            if (string.IsNullOrEmpty(target)) return false;
+            var wb = linkSheet.Workbook;
+            if (target.IndexOf('!') < 0)
+            {
+                var name = wb.Names.ContainsKey(target) ? wb.Names[target]
+                         : linkSheet.Names.ContainsKey(target) ? linkSheet.Names[target] : null;
+                if (name != null)
+                {
+                    var ws = name.Worksheet ?? linkSheet;
+                    targetSheet = ws.Name; row = name.Start.Row; col = name.Start.Column;
+                    return row > 0 && col > 0;
+                }
+            }
+            var addr = new ExcelAddress(target);
+            var sheet = string.IsNullOrEmpty(addr.WorkSheetName) ? linkSheet : wb.Worksheets[addr.WorkSheetName];
+            if (sheet == null) return false;
+            targetSheet = sheet.Name; row = addr.Start.Row; col = addr.Start.Column;
+            return row > 0 && col > 0;
         }
     }
 }

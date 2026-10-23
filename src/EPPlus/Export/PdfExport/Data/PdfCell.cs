@@ -27,5 +27,9 @@ namespace OfficeOpenXml.Export.PdfExport.Data
 
         public string HyperlinkUri;
         public string HyperlinkInternal;
+
+        public string HyperlinkTargetSheet;
+        public int HyperlinkTargetRow;
+        public int HyperlinkTargetCol;
     }
 }

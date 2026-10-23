@@ -12,6 +12,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     {
         internal double LowerLeftX, LowerLeftY, UpperRightX, UpperRightY;
         internal string Uri;
+        internal bool IsGoTo;
+        internal int DestPageObj;
+        internal double DestX, DestY;
 
         public PdfLinkAnnotationObject(int objectNumber, double lowerLeftX, double lowerLeftY, double upperRightX, double upperRightY, string uri, int version = 0)
             : base(objectNumber, version)
@@ -23,13 +26,27 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             Uri = uri;
         }
 
+        public static PdfLinkAnnotationObject GoTo(int objectNumber,
+    double lowerLeftX, double lowerLeftY, double upperRightX, double upperRightY,
+    int destPageObj, double destX, double destY, int version = 0)
+        {
+            var a = new PdfLinkAnnotationObject(objectNumber,
+                lowerLeftX, lowerLeftY, upperRightX, upperRightY, null, version);
+            a.IsGoTo = true; a.DestPageObj = destPageObj; a.DestX = destX; a.DestY = destY;
+            return a;
+        }
+
         private string Body()
         {
+            string action = IsGoTo
+                ? $"/A << /S /GoTo /D [ {DestPageObj.ToPdfStringF0()} 0 R /XYZ {DestX.ToPdfStringF4()} {DestY.ToPdfStringF4()} null ] >>"
+                : $"/A << /S /URI /URI {Uri.ToPdfLiteral()} >>";
+
             return $"<< /Type /Annot /Subtype /Link\n" +
                    $"   /Rect [ {LowerLeftX.ToPdfStringF4()} {LowerLeftY.ToPdfStringF4()} {UpperRightX.ToPdfStringF4()} {UpperRightY.ToPdfStringF4()} ]\n" +
                    $"   /Border [ 0 0 0 ]\n" +
-                   $"   /F 4\n" +                                   // Print flag (PDF/A-friendly; Link needs no /AP)
-                   $"   /A << /Type /Action /S /URI /URI {Uri.ToPdfLiteral()} >> >>";
+                   $"   /F 4\n" +
+                   $"   {action} >>";
         }
 
         internal override string RenderDictionary()

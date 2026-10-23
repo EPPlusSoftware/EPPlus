@@ -32,6 +32,10 @@ namespace EPPlus.Export.Pdf.Layout
         internal List<PdfHeaderFooterPart> HeaderFooterParts = new List<PdfHeaderFooterPart>();
         internal PdfPageSettings Settings;
         internal List<LinkDrawInfo> Links = new List<LinkDrawInfo>();
+        public string SheetName;
+        public int FromRow, ToRow, FromColumn, ToColumn;
+        public double[] ColLeftX;
+        public double[] RowTopY;
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height)
         { }
