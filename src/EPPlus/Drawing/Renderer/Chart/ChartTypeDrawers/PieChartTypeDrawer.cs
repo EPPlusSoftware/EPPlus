@@ -354,6 +354,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                             var bounds = Slices[j].GetBounds();
 
+                            var textWidth = serieDataLabels[i].GetTextWidth(j);
+                            var adjustedBounds = Slices[j].GetAdjustedBounds(textWidth);
+
                             //ChartSerieDataLabelRenderer datalabel;
                             //if (serie.HasDataLabel)
                             //{
@@ -384,7 +387,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
                             ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
 
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, adjustedBounds);
                         }
                     }
                 }

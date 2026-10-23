@@ -11,6 +11,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net;
 using System.Security;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -200,6 +201,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 dataLabels.Add(newDataLabel);
             }
+        }
+
+        internal double GetTextWidth(int index)
+        {
+            if (dataLabels.Count > index)
+            {
+                return dataLabels[index].GlobalTextBounds.Width;
+            }
+            throw new InvalidOperationException("Index larger than collection");
         }
 
         internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
