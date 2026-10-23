@@ -499,7 +499,11 @@ namespace EPPlusImageRenderer.Svg
 
                             if (sls != null)
                             {
-                                sls.Textbox.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
+                                if(sls.Textbox != null)
+                                {
+                                    sls.Textbox.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
+                                }
+                                
                                 SeriesIcon.Add(sls);
                             }
                             pSls = sls;

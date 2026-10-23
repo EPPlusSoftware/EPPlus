@@ -300,6 +300,7 @@ namespace EPPlus.Graphics.Primitives
                 //Formula for largest (unrotated) rectangle within a semi-circle
                 LargestWidthRectangle = Math.Sqrt(2d) * Circle.Radius;
                 LargestHeightRectangle = (Math.Sqrt(2d) / 2d) * Circle.Radius;
+                ContentRect = new Rect(LargestWidthRectangle, LargestHeightRectangle);
             }
         }
 
