@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer
 
             //Support for old chart styles 1-48
             //Chart styles  40 -> 48 are black background with white text
-            if (chartId > 0 && chartId < 41)
+            if (chartId >= 0 && chartId < 41)
             {
                 return Color.Black;
             }

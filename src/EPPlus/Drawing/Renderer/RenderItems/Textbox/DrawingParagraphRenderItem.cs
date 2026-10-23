@@ -157,6 +157,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Color? defaultTextColor = null;
+            //textBody.Theme.ObjectDefaults.TextDefinition.DefaultTextBody.Paragraphs[0].DefaultRunProperties.Fill;
             ////Set to hardcoded fallback only if parent doesn't have color
             //if (string.IsNullOrEmpty(defaultFontColor))
             //{
