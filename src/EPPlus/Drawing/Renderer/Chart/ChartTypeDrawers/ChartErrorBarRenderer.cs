@@ -117,9 +117,17 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
             {
                 topValue = Values[index][2];
             }
+            else
+            {
+                topValue = Values[index][1];
+            }
             if(_errorbars.BarType == eErrorBarType.Minus || _errorbars.BarType == eErrorBarType.Both)
             {
                 bottomValue = Values[index][0];
+            }
+            else
+            {
+                bottomValue = Values[index][1];
             }
 
             //if (_errorbars.Direction == eErrorBarDirection.X )
@@ -203,26 +211,30 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers
                 if (_errorbars.NoEndCap == false)
                 {
                     //Bottom cap
-                    //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos-3, bottomPos, xPos+3, bottomPos));
-                    var bc = new LineRenderItem(ChartRenderer.Bounds)
+                    if (_errorbars.BarType == eErrorBarType.Minus || _errorbars.BarType == eErrorBarType.Both)
                     {
-                        X1 = xPos - 3,
-                        Y1 = bottomPos,
-                        X2 = xPos + 3,
-                        Y2 = bottomPos
-                    };
+                        var bc = new LineRenderItem(ChartRenderer.Bounds)
+                        {
+                            X1 = xPos - 3,
+                            Y1 = bottomPos,
+                            X2 = xPos + 3,
+                            Y2 = bottomPos
+                        };
+                        l.Add(bc);
+                    }
 
                     //Top cap
-                    //path.Commands.Add(new PathCommands(PathCommandType.Move, xPos - 3, topPos, xPos + 3, topPos));
-                    var tc = new LineRenderItem(ChartRenderer.Bounds)
+                    if (_errorbars.BarType == eErrorBarType.Plus || _errorbars.BarType == eErrorBarType.Both)
                     {
-                        X1 = xPos - 3,
-                        Y1 = topPos,
-                        X2 = xPos + 3,
-                        Y2 = topPos
-                    };
-                    l.Add(bc);
-                    l.Add(tc);
+                        var tc = new LineRenderItem(ChartRenderer.Bounds)
+                        {
+                            X1 = xPos - 3,
+                            Y1 = topPos,
+                            X2 = xPos + 3,
+                            Y2 = topPos
+                        };
+                        l.Add(tc);
+                    }
                 }
             }
             foreach (var ri in l)

@@ -337,7 +337,7 @@ namespace OfficeOpenXml.Drawing.Chart
             string address;
             double[] numberLiterals;
             string[] stringLiterals;
-            int count;
+            int? count;
             if(useX)
             {
                 address = XSeries;
@@ -364,7 +364,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         n += GetSerieValue(prevList, i);
                     }
                     list.Add(n);
-                    if (list.Count >= count)
+                    if (count.HasValue && list.Count >= count)
                     {
                         return;
                     }
@@ -375,7 +375,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 foreach (var s in stringLiterals)
                 {
                     list.Add(s);
-                    if (list.Count >= count)
+                    if (count.HasValue && list.Count >= count)
                     {
                         return;
                     }
@@ -395,20 +395,25 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private int GetCount(string address, double[] numberLiterals, string[] stringLiterals)
+        private int? GetCount(string address, double[] numberLiterals, string[] stringLiterals)
         {
             if (ExcelAddressBase.IsValidAddress(address))
             {
                 var a = new ExcelAddressBase(address);
                 return Math.Max(a.Rows, a.Columns);
             }
-            else
+            else if(numberLiterals!=null && numberLiterals.Length>0)
             {
-                return Math.Max(numberLiterals.Length, stringLiterals.Length);
+                return numberLiterals.Length;
             }
+            else if (stringLiterals != null && stringLiterals.Length > 0)
+            {
+                return stringLiterals.Length;
+            }
+            return null;
         }
 
-        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int count)
+        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count)
         {
             var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
             if (ws != null)
@@ -417,7 +422,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int count)
+        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int? count)
         {
             var range = ws.Cells[a.Address];
             var i = 0;
@@ -441,7 +446,7 @@ namespace OfficeOpenXml.Drawing.Chart
                             }
                             else
                             {
-                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], v.Value }); //Last value is for sorting.
+                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], v.Value });                //Last value is for sorting.
                             }
                         }
                     }
@@ -457,7 +462,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         list.Add(d);
                     }
 
-                    if(list.Count >= count)
+                    if(count.HasValue && list.Count >= count)
                     {
                         return;
                     }
@@ -465,7 +470,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int count)
+        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count)
         {
             var wb = _chart.WorkSheet.Workbook;
             if (wb.ExternalLinks.Count > a.ExternalReferenceIndex) return;
@@ -500,7 +505,7 @@ namespace OfficeOpenXml.Drawing.Chart
                                 }
                                 list.Add(d);
                             }
-                            if(list.Count >= count)
+                            if(count.HasValue && list.Count >= count)
                             {
                                 return;
                             }
