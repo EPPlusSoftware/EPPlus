@@ -48,10 +48,10 @@ namespace OfficeOpenXml.Drawing
                     var paragraph = new ExcelDrawingParagraph(this, prd, NameSpaceManager, pn, schemaNodeOrder, initXml);
                     paragraph.defaultAlignment = defaultAlignment;
                     _paragraphs.Add(paragraph);
-                    //if (_paragraphs.Count == 1 && FirstDefaultRunProperties == null)
-                    //{
-                    //    FirstDefaultRunProperties = paragraph.DefaultRunProperties;
-                    //}
+                    if (_paragraphs.Count == 1 && FirstDefaultRunProperties == null)
+                    {
+                        FirstDefaultRunProperties = paragraph.DefaultRunProperties;
+                    }
                 }
 
                 if (_paragraphs.Count == 0)
