@@ -31,22 +31,39 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var interval = GetMinUnitVerticalText(displayValues.Count, textHeight, plotAreaWidth);
 
             //Get max text width when using diagonal text
-            if (options.Axis.TextBody.RotationAdjustedForTextVertical!=0)
+            if (options.Axis.TextBody.RotationAdjustedForTextVertical != 0 )
             {
+                var orientationCustom = eTextOrientation.Custom;
+
+                if (options.Axis.TextBody.RotationAdjustedForTextVertical == 90)
+                {
+                    orientationCustom = eTextOrientation.Vertical;
+                }
+                else if(options.Axis.TextBody.RotationAdjustedForTextVertical == 45)
+                {
+                    orientationCustom = eTextOrientation.Diagonal;
+                }
+
+
                 //var rot = options.Axis.TextBody.Rotation.Value;
                 //var width = fontSize * Math.Sqrt(1D/(rot % 90) / 90);
                 //var margin = fontSize * 0.5;
                 //if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 //{
+                var width = fontSize * Math.Sqrt(2);
+                var margin = fontSize * 0.5;
+                if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                {
                     return new AxisScale()
                     {
                         MajorInterval = interval,
                         MinorInterval = 1,
                         Min = 1,
                         Max = displayValues.Count,
-                        TextOrientation = eTextOrientation.Custom,
+                        TextOrientation = orientationCustom,
                         DisplayValues = displayValues
                     };
+                }
                 //}
             }
             else
