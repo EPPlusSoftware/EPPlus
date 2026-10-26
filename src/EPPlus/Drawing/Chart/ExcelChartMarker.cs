@@ -62,7 +62,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v=GetXmlNodeInt("c:marker/c:size/@val");
                 if(v<0)
                 {
-                    return 5;   //Default value;
+                    if(ExistsNode("c:marker/c:size"))
+                    {
+                        return 5;   //Default value;
+                    }
+                    else
+                    {
+                        return 7;
+                    }
                 }
                 return v;
             }
@@ -154,6 +161,13 @@ namespace OfficeOpenXml.Drawing.Chart
                     _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:marker/c:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
+            }
+        }
+        public bool IsEmpty
+        {
+            get
+            {
+                return !ExistsNode("c:marker");
             }
         }
         void IDrawingStyleBase.CreatespPr()

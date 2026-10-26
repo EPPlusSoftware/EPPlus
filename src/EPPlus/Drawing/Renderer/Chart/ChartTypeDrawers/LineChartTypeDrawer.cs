@@ -8,6 +8,7 @@ using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -106,7 +107,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
                 var dataPoints = new List<BoundingBox>();
-                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints);
+                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -153,7 +154,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints)
+        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex)
         {            
             ChartAxisRenderer yAxis, xAxis;
             
@@ -178,12 +179,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var markerItems = new List<RenderItem>();
             var errorBars = new List<RenderItem>();
 
-            var hasMarker = serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None;
+            var hasMarker = chartType.HasTypeMarker || (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None);
             var hasErrorBars = serie.HasErrorBars();
-            for (var i = 0; i < yValues.Count; i++)
+            for(var i = 0; i < yValues.Count; i++)
             {
                 double x;
-                if (xValues == null || (xAxis.AutoAxisType==eAxisType.Cat && xValues.Count>0))
+                if (xValues == null || (xAxis.AutoAxisType==eAxisType.Cat && xValues.Count > 0))
                 {
                     x = (double)i + 1;
                 }
@@ -213,7 +214,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if (hasMarker)
                 {
-                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt);
+                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, serieIndex);
                 }
                 else
                 {
@@ -241,7 +242,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         if(hasMarker==false)
                         {
-                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt);
+                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt, i);
                         }
                         else
                         {
@@ -273,15 +274,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(errorBars);
         }
 
-        private void SetMarker(ExcelLineChartSerie serie, ExcelChartMarker marker, List<BoundingBox> dataPoints, List<RenderItem> markerItems, double xPos, double yPos, BoundingBox pt)
+        private void SetMarker(ExcelLineChartSerie serie, ExcelChartMarker marker, List<BoundingBox> dataPoints, List<RenderItem> markerItems, double xPos, double yPos, BoundingBox pt, int index)
         {
             float mx = (float)xPos;
             float my = (float)yPos;
-            var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, marker, mx, my, false);
-            if ((serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star) &&
-                serie.Marker.Fill.IsEmpty == false)
+            var ls = LineMarkerHelper.GetMarkerItem(ChartRenderer, serie, marker, mx, my, false, index);
+            if (serie.Marker.Style == eMarkerStyle.Plus || serie.Marker.Style == eMarkerStyle.X || serie.Marker.Style == eMarkerStyle.Star)
             {
-                markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
+                if (serie.Marker.Fill.IsEmpty == false)
+                {
+                    markerItems.Add(LineMarkerHelper.GetMarkerBackground(ChartRenderer, serie, mx, my, false));
+                }
+                if(serie.Marker.Border.IsEmpty)
+                {
+                    ls.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, ChartRenderer.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, index), 0.75d);
+                }
             }
             markerItems.Add(ls);
 

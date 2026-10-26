@@ -70,11 +70,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                //if (IsMarkersAllowed() == false)
-                //{
-                //    return null;
-                //}
-
                 if (_chartMarker == null)
                 {
                     _chartMarker = new ExcelChartMarker(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
