@@ -138,8 +138,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 else
                 {
                     var legendItem = ChartRenderer.Legend;
+                    RenderItem seriesIconOrig;
+                    if (_serieIndex >= legendItem.SeriesIcon.Count)
+                    {
+                        seriesIconOrig = legendItem.SeriesIcon[legendItem.SeriesIcon.Count-1].SeriesIcon;
+                    }
+                    else
+                    {
+                        seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
+                    }
 
-                    var seriesIconOrig = legendItem.SeriesIcon[_serieIndex].SeriesIcon;
                     var clonedIcon = seriesIconOrig.Clone();
 
                     if (seriesIconOrig.Style.FillColor == null && seriesIconOrig.Style.GradientFill != null)

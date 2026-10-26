@@ -184,6 +184,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
         internal double limitTop { get; private set; }
         internal double limitBottom { get; private set; }
 
+        double localRotation = 0;
+
         internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
@@ -282,6 +284,11 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 {
                     paragraph.DefaultParagraphFont.Size = 10f;
                 }
+            }
+
+            if(dataLabel.TextBody.Rotation != null)
+            {
+                localRotation = dataLabel.TextBody.Rotation.Value;
             }
 
             txtBox.TextBody.RecalculateParagraphs();
@@ -884,6 +891,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //_txtBox.Rectangle.Parent = group;
             //_txtBox.TextBody.Parent = group;
             _txtBox.AppendRenderItems(contentGroup.ChildObjects);
+            if(localRotation != 0)
+            {
+                _txtBox.Rotation = localRotation;
+            }
             //_txtBox.Rectangle.Parent = group;
             //group.AddChild(_txtBox.Rectangle);
             //_txtBox.TextBody.Parent = group;
