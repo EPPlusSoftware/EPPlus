@@ -587,15 +587,19 @@ namespace EPPlusImageRenderer.Svg
 
                     if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
-                        x = ticMarkX - (height / 2) * cos;
-                        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                        {
-                            y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
-                        }
-                        else //Top
-                        {
-                            y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
-                        }
+                        x = ticMarkX + width;
+                        //Width becomes height post-rotation
+                        //We are currently pre-rotation.
+                        y = ticMarkY - ((height / 2) * cos);
+                        //x = ticMarkX - (height / 2) * cos;
+                        //if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                        //{
+                        //    y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
+                        //}
+                        //else //Top
+                        //{
+                        //    y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
+                        //}
                     }
                     else if((rot == 90 || rot == -90))
                     {
