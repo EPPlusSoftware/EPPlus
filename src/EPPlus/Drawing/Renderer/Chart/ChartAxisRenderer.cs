@@ -233,6 +233,7 @@ namespace EPPlusImageRenderer.Svg
                             highest = lineHeight;
                         }
                         break;
+                    case eTextOrientation.Custom:
                     case eTextOrientation.Diagonal:
                         var diagonalHeight = shaper.Shape(s).GetWidthInPoints(fontSize) * COS45;
                         if (diagonalHeight > highest)
