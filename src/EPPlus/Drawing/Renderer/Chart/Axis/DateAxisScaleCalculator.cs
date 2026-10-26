@@ -330,97 +330,102 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var minString = DateTime.FromOADate(min).ToString(format);
             var textWidth = GetTextWidth(shaper, minString, fontSize);
             var textHeight = GetTextHeight(shaper, minString, fontSize);
+            bool lockedInterval;
             if (options.LockedInterval.HasValue)
             {
                 interval = (int)options.LockedInterval.Value;
                 unit = options.LockedIntervalUnit ?? eTimeUnit.Days;
+                lockedInterval = true;
             }
             else
             {
                 GetStartInterval(values.Count, max - min, out interval, out unit);
-                if (ax.TextBody.Rotation.HasValue == false || ax.TextBody.Rotation == -1000)
+                lockedInterval = false;
+            }
+
+            if (ax.TextBody.Rotation.HasValue == false || ax.TextBody.Rotation == -1000)
+            {
+                //Get interval for maximum width with vertical text.
+                while(lockedInterval==false && FitAsVerticalDiagonalText(min, max, interval, unit, textHeight, textHeight * 0.3, plotAreaWidth) == false)
                 {
-                    //Get interval for maximum width with vertical text.
-                    while (FitAsVerticalDiagonalText(min, max, interval, unit, textHeight, textHeight * 0.3, plotAreaWidth) == false)
+                    AddIntervall(ref interval, ref unit);
+                }
+
+                //Get max text width when using diagonal text
+                var width = fontSize * Math.Sqrt(2);
+                var margin = fontSize * 0.5;
+
+                if (FitAsVerticalDiagonalText(min, max, interval, unit, width, margin, plotAreaWidth)) //Check diagonal
+                {
+                    if (FitAsHorizontalText(shaper, fontSize, min, max, interval, unit, plotAreaWidth)) //Check horizontal
                     {
-                        AddIntervall(ref interval, ref unit);
+                        return new AxisScale()
+                        {
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            MinorDateUnit = unit,
+                            MajorDateUnit = unit,
+                            Min = min,
+                            Max = max,
+                            TextOrientation = eTextOrientation.Horizontal,
+                        };
                     }
-
-                    //Get max text width when using diagonal text
-                    var width = fontSize * Math.Sqrt(2);
-                    var margin = fontSize * 0.5;
-
-                    if (FitAsVerticalDiagonalText(min, max, interval, unit, width, margin, plotAreaWidth)) //Check diagonal
+                    else
                     {
-                        if (FitAsHorizontalText(shaper, fontSize, min, max, interval, unit, plotAreaWidth)) //Check horizontal
+                        return new AxisScale()
                         {
-                            return new AxisScale()
-                            {
-                                MajorInterval = interval,
-                                MinorInterval = 1,
-                                MinorDateUnit = unit,
-                                MajorDateUnit = unit,
-                                Min = min,
-                                Max = max,
-                                TextOrientation = eTextOrientation.Horizontal,
-                            };
-                        }
-                        else
-                        {
-                            return new AxisScale()
-                            {
-                                MajorInterval = interval,
-                                MinorInterval = 1,
-                                MinorDateUnit = unit,
-                                MajorDateUnit = unit,
-                                Min = min,
-                                Max = max,
-                                TextOrientation = eTextOrientation.Diagonal,
-                            };
-                        }
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            MinorDateUnit = unit,
+                            MajorDateUnit = unit,
+                            Min = min,
+                            Max = max,
+                            TextOrientation = eTextOrientation.Diagonal,
+                        };
                     }
                 }
-                else
+            }
+            else
+            {
+                var rot = ax.TextBody.Rotation.Value % 360;
+                if (rot < 0) rot = 360 + rot;
+                var sin = Math.Sin(MathHelper.Radians(rot));
+                var cos = Math.Cos(MathHelper.Radians(rot));
+                var width = textWidth * cos + textHeight * sin;
+                //Get interval for maximum width with vertical text.
+                while(lockedInterval == false && FitAsVerticalDiagonalText(min, max, interval, unit, width, width * 0.3, plotAreaWidth) == false)
                 {
-                    var rot = ax.TextBody.Rotation.Value % 360;
-                    var sin = Math.Sin(MathHelper.Radians(rot));
-                    var cos = Math.Cos(MathHelper.Radians(rot));
-                    var width = textWidth * cos + textHeight * sin;
-                    //Get interval for maximum width with vertical text.
-                    while (FitAsVerticalDiagonalText(min, max, interval, unit, width, width * 0.3, plotAreaWidth) == false)
-                    {
-                        AddIntervall(ref interval, ref unit);
-                    }
-                    eTextOrientation orientation;
-                    switch (rot)
-                    {
-                        case 45:
-                        case 315:
-                            orientation = eTextOrientation.Diagonal;
-                            break;
-                        case 90:
-                        case 270:
-                            orientation = eTextOrientation.Vertical;
-                            break;
-                        case 0:
-                        case 180:
-                            orientation = eTextOrientation.Horizontal;
-                            break;
-                        default:
-                            orientation = eTextOrientation.Custom;
-                            break;
-                    }
-                    return new AxisScale()
-                    {
-                        MajorInterval = interval,
-                        MinorInterval = 1,
-                        MinorDateUnit = unit,
-                        MajorDateUnit = unit,
-                        Min = min,
-                        Max = max,
-                        TextOrientation = orientation,
-                    };
+                    AddIntervall(ref interval, ref unit);
                 }
+                eTextOrientation orientation;
+                switch (rot)
+                {
+                    case 45:
+                    case 315:
+                        orientation = eTextOrientation.Diagonal;
+                        break;
+                    case 90:
+                    case 270:
+                        orientation = eTextOrientation.Vertical;
+                        break;
+                    case 0:
+                    case 180:
+                        orientation = eTextOrientation.Horizontal;
+                        break;
+                    default:
+                        orientation = eTextOrientation.Custom;
+                        break;
+                }
+                return new AxisScale()
+                {
+                    MajorInterval = interval,
+                    MinorInterval = 1,
+                    MinorDateUnit = unit,
+                    MajorDateUnit = unit,
+                    Min = min,
+                    Max = max,
+                    TextOrientation = orientation,
+                };
             }
 
             return new AxisScale()

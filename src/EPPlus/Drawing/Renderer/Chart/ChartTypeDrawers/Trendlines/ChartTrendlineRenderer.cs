@@ -55,7 +55,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 case eTrendLine.Linear:
                     CalculateLinear();
                     Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(_xSerie[0])));
-                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(_xSerie[xSerie.Count-1])));
+                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(xSerie.Count)));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();

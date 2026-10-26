@@ -190,7 +190,14 @@ namespace EPPlusImageRenderer
                             }
                             else
                             {
-                                pos = VerticalAxis.GetPositionInPlotarea(VerticalAxis.Min);
+                                if (axisPos == eAxisPosition.Bottom)
+                                {
+                                    pos = Plotarea.Rectangle.Height;
+                                }
+                                else
+                                {
+                                    pos = 0;
+                                }
                             }
                         }
                         else if (axisPos == eAxisPosition.Bottom)
