@@ -585,7 +585,7 @@ namespace EPPlusImageRenderer.Svg
                     double cos = Math.Cos(MathHelper.Radians(rot));
                     double sin = Math.Sin(MathHelper.Radians(rot));
 
-                    if (LabelOrientation == eTextOrientation.Diagonal || LabelOrientation == eTextOrientation.Custom)
+                    if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
                         x = ticMarkX - (height / 2) * cos;
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
@@ -596,6 +596,13 @@ namespace EPPlusImageRenderer.Svg
                         {
                             y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
                         }
+                    }
+                    else if((rot == 90 || rot == -90))
+                    {
+                        x = ticMarkX;
+                        //Width becomes height post-rotation
+                        //We are currently pre-rotation.
+                        y = ticMarkY - (width/2);
                     }
                     else 
                     {
@@ -624,7 +631,6 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
                     {
-                        tb.CenterRotationPoint();
                         tb.Rotation = 90;
                     }
                     else
@@ -661,6 +667,8 @@ namespace EPPlusImageRenderer.Svg
                 {
                     tb.AddText(t);
                 }
+
+                tb.CenterRotationPoint();
 
                 tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 

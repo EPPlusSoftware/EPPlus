@@ -1,6 +1,7 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Graphics;
+using System.Text.RegularExpressions;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
@@ -162,6 +163,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         public void CenterRotationPoint()
         {
+            _group.Width = Width;
+            _group.Height = Height;
             _group.SetRotationPointToCenterOfGroup();
         }
 
