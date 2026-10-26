@@ -303,6 +303,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //Remove dummy paragraph added by ImportTextBody
                 txtBox.TextBody.Paragraphs.RemoveAt(0);
                 txtBox.TextBody.ChildObjects.RemoveAt(0);
+                txtBox.TextBody.Paragraphs[0].Top = 0;
             }
 
             //Ensure nothing has defaulted to 11
