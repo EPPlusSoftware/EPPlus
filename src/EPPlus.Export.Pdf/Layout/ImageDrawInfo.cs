@@ -14,5 +14,10 @@ namespace EPPlus.Export.Pdf.Layout
         public double Height;
         public byte[] ImageBytes;
         public string Name;
+        public string HyperlinkUri;
+        public string HyperlinkTargetSheet;
+        public int HyperlinkTargetRow;
+        public int HyperlinkTargetColumn;
+        public string HyperlinkToolTip;
     }
 }

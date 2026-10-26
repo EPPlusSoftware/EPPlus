@@ -23,6 +23,7 @@ using EPPlus.Graphics.Geometry;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -191,7 +192,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         {
                                             if (CanTightenLink(text))
                                                 AddTextLinks(pageLayout, text, info.X, info.X + info.Width,
-                                                             map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol);
+                                                             map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
                                             else
                                                 pageLayout.Links.Add(new LinkDrawInfo
                                                 {
@@ -203,8 +204,26 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                     InternalAddress = map.HyperlinkInternal,
                                                     TargetSheet = map.HyperlinkTargetSheet,
                                                     TargetRow = map.HyperlinkTargetRow,
-                                                    TargetColumn = map.HyperlinkTargetCol
+                                                    TargetColumn = map.HyperlinkTargetCol,
+                                                    ToolTip = map.HyperlinkToolTip
                                                 });
+                                        }
+                                        // Empty cell in a range hyperlink
+                                        else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                        {
+                                            pageLayout.Links.Add(new LinkDrawInfo
+                                            {
+                                                X = info.X,
+                                                Y = info.Y - info.Height,
+                                                Width = info.Width,
+                                                Height = info.Height,
+                                                Uri = map.HyperlinkUri,
+                                                InternalAddress = map.HyperlinkInternal,
+                                                TargetSheet = map.HyperlinkTargetSheet,
+                                                TargetRow = map.HyperlinkTargetRow,
+                                                TargetColumn = map.HyperlinkTargetCol,
+                                                ToolTip = map.HyperlinkToolTip
+                                            });
                                         }
                                     }
                                     if (!isDraft)
@@ -267,7 +286,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     {
                                         if (CanTightenLink(text))
                                             AddTextLinks(pageLayout, text, clipX, clipX + clipW,
-                                                         map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol);
+                                                         map.HyperlinkUri, map.HyperlinkInternal, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
                                         else
                                             pageLayout.Links.Add(new LinkDrawInfo
                                             {
@@ -279,9 +298,27 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                                 InternalAddress = map.HyperlinkInternal,
                                                 TargetSheet = map.HyperlinkTargetSheet,
                                                 TargetRow = map.HyperlinkTargetRow,
-                                                TargetColumn = map.HyperlinkTargetCol
+                                                TargetColumn = map.HyperlinkTargetCol,
+                                                ToolTip = map.HyperlinkToolTip
                                             });
                                     }
+                                }
+                                // Empty cell in a range hyperlink
+                                else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                {
+                                    pageLayout.Links.Add(new LinkDrawInfo
+                                    {
+                                        X = x,
+                                        Y = y - rowHeight,
+                                        Width = effectiveWidth,
+                                        Height = rowHeight,
+                                        Uri = map.HyperlinkUri,
+                                        InternalAddress = map.HyperlinkInternal,
+                                        TargetSheet = map.HyperlinkTargetSheet,
+                                        TargetRow = map.HyperlinkTargetRow,
+                                        TargetColumn = map.HyperlinkTargetCol,
+                                        ToolTip = map.HyperlinkToolTip
+                                    });
                                 }
                             }
                             if (!isDraft)
@@ -321,6 +358,21 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     ImageBytes = img.ImageBytes,
                                     Name = img.Name,
                                 });
+                                if (img.HyperlinkUri != null || img.HyperlinkTargetSheet != null)
+                                {
+                                    pageLayout.Links.Add(new LinkDrawInfo
+                                    {
+                                        X = img.X,
+                                        Y = img.Y - img.Height,
+                                        Width = img.Width,
+                                        Height = img.Height,
+                                        Uri = img.HyperlinkUri,
+                                        TargetSheet = img.HyperlinkTargetSheet,
+                                        TargetRow = img.HyperlinkTargetRow,
+                                        TargetColumn = img.HyperlinkTargetColumn,
+                                        ToolTip = img.HyperlinkToolTip
+                                    });
+                                }
                             }
                         }
                     }
@@ -763,7 +815,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             !text.CellAlignmentData.IsVertical &&
             text.CellAlignmentData.TextRotation == 0;
 
-        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string internalAddr, string targetSheet, int targetRow, int targetCol, double padX = 1.0d, double padY = 1.5d)
+        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string internalAddr, string targetSheet, int targetRow, int targetCol, string toolTip, double padX = 1.0d, double padY = 1.5d)
         {
             double line0Width = text.TextLines[0].Width;
             double originX = text.LocalPosition.X;   // aligned left of line 0
@@ -796,7 +848,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         InternalAddress = internalAddr,
                         TargetSheet = targetSheet,
                         TargetRow = targetRow,
-                        TargetColumn = targetCol
+                        TargetColumn = targetCol,
+                        ToolTip = toolTip
                     });
                 }
                 baseY -= (line.LargestAscent + line.LargestDescent);
@@ -1114,6 +1167,28 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double x = contentStartX + (imgLeft - pageAbsLeft);
                 double y = contentStartY - (imgTop - pageAbsTop);
 
+                string hlUri = null, hlSheet = null, hlToolTip = null;
+                int hlRow = 0, hlCol = 0;
+                var picLink = pic.Hyperlink;
+                if (picLink != null)
+                {
+                    string tip = (picLink as ExcelHyperLink)?.ToolTip;
+                    if (picLink is ExcelHyperLink peh && !string.IsNullOrEmpty(peh.ReferenceAddress))
+                    {
+                        if (PdfTextMap.TryResolveInternalLink(range.Range.Worksheet, peh.ReferenceAddress, out var ts, out var tr, out var tc))
+                        {
+                            hlSheet = ts; hlRow = tr; hlCol = tc;
+                            hlToolTip = !string.IsNullOrEmpty(tip) ? tip : peh.ReferenceAddress;
+                        }
+                    }
+                    else
+                    {
+                        hlUri = PdfTextMap.NormalizeExternalTarget(picLink.OriginalString);
+                        if (hlUri != null)
+                            hlToolTip = !string.IsNullOrEmpty(tip) ? tip : picLink.OriginalString;
+                    }
+                }
+
                 page.Images.Add(new ImageDrawInfo
                 {
                     X = x,
@@ -1122,6 +1197,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     Height = height,
                     ImageBytes = drawing.ImageBytes,
                     Name = "Image_" + pic.Name,
+                    HyperlinkUri = hlUri,
+                    HyperlinkTargetSheet = hlSheet,
+                    HyperlinkTargetRow = hlRow,
+                    HyperlinkTargetColumn = hlCol,
+                    HyperlinkToolTip = hlToolTip,
                 });
             }
             return page;

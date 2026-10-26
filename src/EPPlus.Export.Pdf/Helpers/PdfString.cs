@@ -99,5 +99,15 @@ namespace EPPlus.Export.Pdf.Helpers
             sb.Append(')');
             return sb.ToString();
         }
+
+        internal static string ToPdfTextString(this string val)
+        {
+            if (string.IsNullOrEmpty(val)) return "()";
+            var sb = new System.Text.StringBuilder(val.Length * 4 + 6);
+            sb.Append("<FEFF");
+            foreach (char c in val) sb.Append(((int)c).ToString("X4"));  // char = UTF-16 code unit
+            sb.Append('>');
+            return sb.ToString();
+        }
     }
 }

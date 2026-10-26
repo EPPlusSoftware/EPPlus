@@ -8,5 +8,6 @@
         public string TargetSheet;
         public int TargetRow;
         public int TargetColumn;
+        public string ToolTip;
     }
 }

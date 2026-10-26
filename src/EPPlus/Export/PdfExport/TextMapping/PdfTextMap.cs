@@ -94,25 +94,43 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         {
                             LoadCellPicture(cellPicture, tempMap);
                         }
-                        else if (!string.IsNullOrEmpty(cell.Text))
-                        {
+                        if (!string.IsNullOrEmpty(cell.Text))
+                        { 
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
+                        }
 
-                            var hl = cell.Hyperlink;
-                            if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
+                        var hl = cell.Hyperlink;
+                        string screenTip = (hl as ExcelHyperLink)?.ToolTip;
+                        if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
+                        {
+                            if (TryResolveInternalLink(worksheet, eh.ReferenceAddress, out var ts, out var tr, out var tc))
                             {
-                                if (TryResolveInternalLink(worksheet, eh.ReferenceAddress, out var ts, out var tr, out var tc))
-                                { tempMap.HyperlinkTargetSheet = ts; tempMap.HyperlinkTargetRow = tr; tempMap.HyperlinkTargetCol = tc; }
+                                tempMap.HyperlinkTargetSheet = ts;
+                                tempMap.HyperlinkTargetRow = tr;
+                                tempMap.HyperlinkTargetCol = tc;
+                                tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : eh.ReferenceAddress;
                             }
-                            else if (hl != null)
-                                tempMap.HyperlinkUri = NormalizeExternalTarget(hl.OriginalString);
-                            else if (TryGetFormulaHyperlink(cell, out var fUri, out var fInternal))
+                        }
+                        else if (hl != null)
+                        {
+                            tempMap.HyperlinkUri = NormalizeExternalTarget(hl.OriginalString);
+                            if (tempMap.HyperlinkUri != null)
+                                tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : hl.OriginalString;
+                        }
+                        else if (TryGetFormulaHyperlink(cell, out var fUri, out var fInternal))
+                        {
+                            if (fUri != null)
                             {
-                                if (fUri != null)
-                                    tempMap.HyperlinkUri = fUri;
-                                else if (fInternal != null && TryResolveInternalLink(worksheet, fInternal, out var ts, out var tr, out var tc))
-                                { tempMap.HyperlinkTargetSheet = ts; tempMap.HyperlinkTargetRow = tr; tempMap.HyperlinkTargetCol = tc; }
+                                tempMap.HyperlinkUri = fUri;
+                                tempMap.HyperlinkToolTip = fUri;
+                            }
+                            else if (fInternal != null && TryResolveInternalLink(worksheet, fInternal, out var ts, out var tr, out var tc))
+                            {
+                                tempMap.HyperlinkTargetSheet = ts;
+                                tempMap.HyperlinkTargetRow = tr;
+                                tempMap.HyperlinkTargetCol = tc;
+                                tempMap.HyperlinkToolTip = fInternal;
                             }
                         }
                     }
@@ -1229,7 +1247,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return true;
         }
 
-        private static string NormalizeExternalTarget(string target)
+        internal static string NormalizeExternalTarget(string target)
         {
             if (string.IsNullOrEmpty(target)) return null;
             if (IsWebUri(target)) return target;
@@ -1238,7 +1256,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return null;
         }
 
-        private static bool TryResolveInternalLink(ExcelWorksheet linkSheet, string target, out string targetSheet, out int row, out int col)
+        internal static bool TryResolveInternalLink(ExcelWorksheet linkSheet, string target, out string targetSheet, out int row, out int col)
         {
             targetSheet = null; row = 0; col = 0;
             if (string.IsNullOrEmpty(target)) return false;

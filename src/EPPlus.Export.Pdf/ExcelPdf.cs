@@ -305,13 +305,11 @@ namespace EPPlus.Export.Pdf
                 PdfLinkAnnotationObject annot;
                 if (!string.IsNullOrEmpty(link.Uri))
                 {
-                    annot = new PdfLinkAnnotationObject(_document.Count + 1,
-                        lowerLeftX, lowerLeftY, upperRightX, upperRightY, link.Uri);
+                    annot = new PdfLinkAnnotationObject(_document.Count + 1, lowerLeftX, lowerLeftY, upperRightX, upperRightY, link.Uri, link.ToolTip);
                 }
                 else if (link.TargetSheet != null && TryResolveDest(destIndex, link.TargetSheet, link.TargetRow, link.TargetColumn, out int destPageObj, out double destX, out double destY))
                 {
-                    annot = PdfLinkAnnotationObject.GoTo(_document.Count + 1,
-                        lowerLeftX, lowerLeftY, upperRightX, upperRightY, destPageObj, destX, destY);
+                    annot = PdfLinkAnnotationObject.GoTo(_document.Count + 1,lowerLeftX, lowerLeftY, upperRightX, upperRightY, destPageObj, destX, destY, link.ToolTip);
                 }
                 else
                 {
