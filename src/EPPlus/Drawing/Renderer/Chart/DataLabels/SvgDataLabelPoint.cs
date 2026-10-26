@@ -14,7 +14,9 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -186,10 +188,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         double localRotation = 0;
 
+        string _dlblSeparator;
+
         internal void ImportDataLabel(ExcelChartStandardSerie serie, ExcelChartDataLabel dataLabel, object xValue, object yValue, ExcelDrawingParagraph defaultParagraph, BoundingBox maxBounds, BoundingBox defaultMargins, double? summedYValue)
         {
             List<string> dlblStrings = new List<string>();
             string finalString = "";
+
+            _dlblSeparator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
 
             if (dataLabel.Text == null)
             {
@@ -198,11 +204,21 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     var idx = Array.IndexOf(serie._chart.Series.ToArray(), serie);
                     dlblStrings.Add(serie.GetHeaderText(idx));
                 }
+
+                var numDecimals = 6;
                 if (dataLabel.ShowCategory)
                 {
                     if (xValue.IsNumeric())
                     {
-                        xValue = Math.Round((double)xValue, 6);
+                        if (string.IsNullOrEmpty(dataLabel.Format) == false)
+                        {
+                            var nf = new ExcelFormatTranslator(dataLabel.Format, 0);
+                            xValue = ValueToTextHandler.FormatValue((double)xValue, false, nf, null, out bool isValidFormat);
+                        }
+                        else
+                        {
+                            xValue = Math.Round((double)xValue, numDecimals);
+                        }
                     }
                     dlblStrings.Add(xValue.ToString());
                 }
@@ -212,7 +228,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     {
                         if (yValue.IsNumeric())
                         {
-                            yValue = Math.Round((double)yValue, 6);
+                            if (string.IsNullOrEmpty(dataLabel.Format) == false)
+                            {
+                                var nf = new ExcelFormatTranslator(dataLabel.Format, 0);
+                                yValue = ValueToTextHandler.FormatValue((double)yValue, false, nf, null, out bool isValidFormat);
+                            }
+                            else
+                            {
+                                yValue = Math.Round((double)yValue, numDecimals);
+                            }
                         }
                         dlblStrings.Add(yValue.ToString());
                     }
@@ -227,14 +251,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     }
                 }
 
-                var separator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
-
                 for (int j = 0; j < dlblStrings.Count; j++)
                 {
                     finalString += dlblStrings[j];
                     if (j != dlblStrings.Count - 1)
                     {
-                        finalString += separator;
+                        finalString += _dlblSeparator;
                     }
                 }
             }
@@ -796,16 +818,35 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
         internal void SetParentPoint(BoundingBox parentPoint)
         {
+            //_parentPoint = new BoundingBox();
+            //_parentPoint.Parent = parentPoint.Parent.Parent;
+            //_parentPoint.Left = parentPoint.Parent.LocalPosition.X;
+            //_parentPoint.Top = parentPoint.Parent.LocalPosition.Y;
+            //DataLabelPointContainer.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
+
             _parentPoint = parentPoint;
+            ////Within plot area space add left and top of parent point
+            ////putting the labels topLeft corner at the center position
             DataLabelPointContainer.Position = new Vector2(_parentPoint.GlobalLeft, _parentPoint.GlobalTop);
 
-            var dataLabelCenter = new Vector2(DataLabelPointContainer.Left, DataLabelPointContainer.Top);
+            //_labelPosition = eLabelPosition.Center;
 
+            Rectangle.Position = _parentPoint.Position;
+
+            Rectangle.Left -= Rectangle.Width / 2d;
+            Rectangle.Top -= Rectangle.Height / 2d;
+
+            //var dataLabelCenter = new Vector2(DataLabelPointContainer.Left, DataLabelPointContainer.Top);
+
+            //Take the rect from corner in center to content in center
+            //Rectangle.Left = 0;
+            //Rectangle.Top = 0;
+            //Rectangle.Left += Rectangle.Width / 2d;
+            //Rectangle.Top += Rectangle.Top / 2d;
+            //Rectangle.Top += Rectangle.Top;
             switch (_labelPosition)
             {
                 case eLabelPosition.Center:
-                    Rectangle.Left += Rectangle.Left;
-                    Rectangle.Top += Rectangle.Top;
                     break;
                 case eLabelPosition.Left:
                     SetPositionBasic(parentPoint, _labelPosition);
@@ -824,8 +865,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     throw new InvalidOperationException($"The datalabel position {_labelPosition} has not been implemented yet");
             }
 
-            AdjustLeaderLinesForManualLayout();
-            AdjustPositionIfOutsideChartAndNotManualLayout();
+            //AdjustLeaderLinesForManualLayout();
+            //AdjustPositionIfOutsideChartAndNotManualLayout();
         }
 
         private void AppendDebugBounds(List<Transform> renderItems)
@@ -918,9 +959,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //Currently series icon always has a y1 y2 of 2
                 var iconGrp = new GroupRenderItem(contentGroup);
                 iconGrp.Name = "iconGrp_" + DataLabelPointContainer.Name;
-                iconGrp.Left = _seriesIcon.Left;
-                iconGrp.Top = (height / 2) - 2;
+                iconGrp.Left = -_seriesIcon.Left;
 
+                if(_dlblSeparator != "\r\n"&& _dlblSeparator != "\n")
+                {
+                    iconGrp.Top = (height / 2) - 2;
+                }
+                else
+                {
+                    if(_txtBox.TextBody.Paragraphs.Count > 0 && _txtBox.TextBody.Paragraphs[0].Runs.Count > 0)
+                    {
+                        iconGrp.Top = _txtBox.TextBody.Paragraphs[0].Runs[0].Height - 2;
+                    }
+                    else
+                    {
+                        iconGrp.Top = (height / 2) - 2;
+                    }
+                }
                 _seriesIcon.Parent = iconGrp;
             }
 
