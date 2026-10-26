@@ -931,10 +931,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //parentPointGroup.ChildObjects.Add(group);
 
             _contentGroup.RotationPoint = new Graphics.TranformPoint(_txtBox.Left + (_txtBox.Width / 2), _txtBox.Top + (_txtBox.Height / 2));
-            _contentGroup.Rotation = CounterRotation;
+            if(double.IsNaN(CounterRotation) == false)
+            {
+                _contentGroup.Rotation = CounterRotation;
+            }
             //_txtBox._contentGroup.Parent = group;
             //_txtBox.TextBody.Parent = group;
-            _txtBox.AppendRenderItems(_contentGroup.ChildObjects);
+            //_txtBox.AppendRenderItems(_contentGroup.ChildObjects);
             if(localRotation != 0)
             {
                 _txtBox.Rotation = localRotation;
