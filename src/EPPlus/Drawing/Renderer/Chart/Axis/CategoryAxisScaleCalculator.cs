@@ -167,15 +167,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth)
         {
             var margin = fontSize * 0.3;
-            var width = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
+            var maxWidth = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
             var pos = interval;
-            while (pos < displayValues.Count && width < plotAreaWidth)
+            while (pos < displayValues.Count && (maxWidth * displayValues.Count/interval) < plotAreaWidth)
             {
-                width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
-                if (width > plotAreaWidth) return false;
+                var width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
+                if(width>maxWidth)
+                {
+                    maxWidth = width;
+                    if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                }
                 pos += interval;
             }
-            return width <= plotAreaWidth;
+            return true;
         }
 
         private static bool FitAsVerticalDiagonalText(int itemCount, int interval, double textWidth, double margin, double plotAreaWidthHeight)

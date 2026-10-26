@@ -450,6 +450,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             return ChartType == eChartType.Line ||
                     ChartType == eChartType.LineMarkers ||
+                    ChartType == eChartType.LineMarkersStacked ||
                     ChartType == eChartType.LineMarkersStacked100 ||
                     ChartType == eChartType.LineStacked ||
                     ChartType == eChartType.LineStacked100 ||
@@ -712,6 +713,17 @@ namespace OfficeOpenXml.Drawing.Chart
                    chartType == eChartType.StockOHLC ||
                    chartType == eChartType.StockVHLC ||
                    chartType == eChartType.StockVOHLC;
+        }
+        public bool HasTypeMarker 
+        {
+            get
+            {
+                return ChartType == eChartType.LineMarkers ||
+                       ChartType == eChartType.LineMarkersStacked ||
+                       ChartType == eChartType.LineMarkersStacked100;// || //Check scatter chart marker behaviour.
+                       //ChartType == eChartType.XYScatterLines ||
+                       //ChartType == eChartType.XYScatterSmooth ||
+            }
         }
 
         #endregion
@@ -1261,5 +1273,6 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Returns true if the chart supports svg export via the <see cref="ToSvg()" method./>.
         /// </summary>
         public override bool SupportsSvgExport => _svgSupportedChartTypes.Contains(ChartType);
+
     }
 }

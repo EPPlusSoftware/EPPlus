@@ -1,5 +1,6 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -15,9 +16,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
     internal class LineMarkerHelper
     {
 
-        internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, ExcelChartMarker marker, double x, double y, bool isLegend)
+        internal static RenderItem GetMarkerItem(ChartRenderer sc, ExcelLineChartSerie ls, ExcelChartMarker marker, double x, double y, bool isLegend, int index)
         {
-            RenderItem item = GetMarkerRenderItem(sc, x, y, isLegend, marker);
+            RenderItem item = GetMarkerRenderItem(sc, x, y, isLegend, marker, ls, index);
             var style = item?.Style;
             if (style != null)
             { 
@@ -27,19 +28,19 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 else if (ls.Fill.IsEmpty)
                 {
-                    style.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, sc.Theme.ColorScheme.Accent1.GetColor());
+                    style.SetDrawingPropertiesFillBasic(sc.Theme, ls.Border.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(sc.Theme, null, index));
                 }
                 else
                 {
                     style?.SetDrawingPropertiesFill(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox);
                 }
 
-                if (marker.Border.Width > 0)
+                if (marker.Border.IsEmpty==false)
                 {
                     if (marker.Border.Fill.IsEmpty)
                     {
                         //Datapoints including markers actually have a way more complex fallback TODO: Handle later.
-                        style.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
+                        style.SetDrawingPropertiesBorder(sc.Theme, ls.Border, sc.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, ls.Border.Fill.Style != eFillStyle.NoFill, () => sc.Theme.FormatScheme.BorderStyle[0].Fill.Color, 0.75d);
                     }
                     else
                     {
@@ -51,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return item;
         }
 
-        private static RenderItem GetMarkerRenderItem(ChartRenderer sc, double x, double y, bool isLegend, ExcelChartMarker m)
+        private static RenderItem GetMarkerRenderItem(ChartRenderer sc, double x, double y, bool isLegend, ExcelChartMarker m, ExcelLineChartSerie ls, int index)
         {
             RenderItem item;
             float maxSize = isLegend ? 7f : float.MaxValue;
@@ -59,10 +60,47 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var halfSize = size / 2;
             var xPath = x;
             var yPath = y;
-
-            //var halfY = halfSize / sc.ChartArea.Rectangle.Height;
-            //var halfX = halfSize / sc.ChartArea.Rectangle.Width;
-            switch (m.Style)
+            eMarkerStyle style;
+            if (ls.HasMarker()==false)
+            {
+                var symbol = index % 9;
+                switch(symbol)
+                {
+                    case 0:
+                        style = eMarkerStyle.Diamond;
+                        break;
+                    case 1:
+                        style = eMarkerStyle.Square;
+                        break;
+                    case 2:
+                        style = eMarkerStyle.Triangle;
+                        break;
+                    case 3:
+                        style = eMarkerStyle.X;
+                        break;
+                    case 4:
+                        style = eMarkerStyle.Star;
+                        break;
+                    case 5:
+                        style = eMarkerStyle.Circle;
+                        break;
+                    case 6:
+                        style = eMarkerStyle.Plus;
+                        break;
+                    case 7:
+                        style = eMarkerStyle.Dash;
+                        break;
+                    case 8:
+                    default:
+                        style = eMarkerStyle.Dot;
+                        break;
+                }
+            }
+            else 
+            {
+                style = m.Style;
+            }
+            switch (style)
             {
                 case eMarkerStyle.Circle:
                     item = new EllipseRenderItem(sc.Bounds)
@@ -131,9 +169,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     if (m.Style == eMarkerStyle.Star)
                     {
                         pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath - halfSize, yPath - halfSize, xPath + halfSize, yPath + halfSize }));
-
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                         pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath, yPath + halfSize, xPath, yPath - halfSize }));
-
+                        pathItem.Commands.Add(new PathCommand(PathCommandType.End));
                         pathItem.Commands.Add(new PathCommand(PathCommandType.Move, new double[] { xPath + halfSize, yPath - halfSize, xPath - halfSize, yPath + halfSize }));
                         pathItem.Commands.Add(new PathCommand(PathCommandType.End));
 

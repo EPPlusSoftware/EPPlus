@@ -571,7 +571,7 @@ namespace EPPlusImageRenderer
             {
                 if (SecondHorizontalAxis == null)
                 {
-                    return Math.Max(Plotarea.Rectangle.GlobalBottom, HorizontalAxis.Rectangle.Bottom);
+                    return Math.Max(Plotarea.Rectangle.GlobalBottom, HorizontalAxis.Rectangle.GlobalBottom);
                 }
                 else
                 {

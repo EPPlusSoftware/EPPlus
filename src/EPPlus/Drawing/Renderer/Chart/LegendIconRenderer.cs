@@ -177,20 +177,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
 
-            if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
+            if ((chart.Chart.HasTypeMarker || ls.Marker.Style != eMarkerStyle.None) && !(ls.Marker.IsEmpty==false && ls.Marker.Style == eMarkerStyle.None))
             {
                 var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
-                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(chart, ls, ls.Marker, x, y, true);
-                if ((ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
-                    ls.Marker.Fill.IsEmpty == false)
+                if (!(double.IsNaN(x) || double.IsNaN(y)))
                 {
-                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(chart, ls, x, y, true);
-                }
-                else
-                {
-                    sls.MarkerBackground = null;
+                    sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(chart, ls, ls.Marker, x, y, true, index);
+                    if (ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star)
+                    {
+                        if (ls.Marker.Fill.IsEmpty)
+                        {
+                            sls.MarkerBackground = null;
+                        }
+                        else
+                        {
+                            sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(chart, ls, x, y, true);
+                        }
+                        if (ls.Marker.Border.IsEmpty)
+                        {
+                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index), 0.75d);
+                        }
+                    }
                 }
             }
         }
@@ -313,7 +322,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index), 3);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index), 2.25);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
