@@ -1,5 +1,6 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Export.ImageRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
@@ -161,7 +162,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             finalString += ">";
             //Add actual text content
-            finalString += textRun._currentText;
+            finalString +=  ConvertUtil.HtmlEscapeString(textRun._currentText);
             finalString += "</tspan>";
             sb.Append(finalString);
 

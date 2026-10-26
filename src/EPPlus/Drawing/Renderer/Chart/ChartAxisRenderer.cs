@@ -516,11 +516,15 @@ namespace EPPlusImageRenderer.Svg
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     default: // custom
-                        var radRot = MathHelper.Radians(Axis.TextBody.Rotation.Value);
+                        
+                        var radRot = MathHelper.Radians(Axis.TextBody.RotationAdjustedForTextVertical);
                         var sin = Math.Abs(Math.Sin(radRot));
                         var cos = Math.Abs(Math.Cos(radRot));
                         var width = Rectangle.Width;
-                        maxWidth = Rectangle.Width / ((Rectangle.Width * Math.Abs(Math.Sin(radRot)) + mf.Size * Math.Abs(Math.Cos(radRot))));
+                        //maxWidth = 200;
+                        maxWidth = Rectangle.Width / AxisValues.Count;
+                        //maxWidth = ((Rectangle.Width + Rectangle.Height) / cos);
+                        //maxWidth = Rectangle.Width / ((Rectangle.Width * Math.Abs(Math.Sin(radRot)) + mf.Size * Math.Abs(Math.Cos(radRot))));
                         //Rectangle.Width = Rectangle.Width
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
@@ -618,7 +622,15 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
-                    tb.Rotation = -90;
+                    if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
+                    {
+                        tb.CenterRotationPoint();
+                        tb.Rotation = 90;
+                    }
+                    else
+                    {
+                        tb.Rotation = -90;
+                    }
                     if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;
@@ -626,7 +638,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else if (LabelOrientation == eTextOrientation.Custom)
                 {
-                    tb.Rotation = Axis.TextBody?.Rotation ?? 0D; 
+                    tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
                     if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
                         tb.TextAnchor = eTextAnchor.End;

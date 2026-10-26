@@ -101,7 +101,7 @@ namespace EPPlusImageRenderer.RenderItems
         {
             if(styleFillColor != null)
             {
-                Color? fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                Color? fc = tc.ColorConverter.GetThemeColor(theme, fill?.SolidFill?.Color, styleFillColor);
                 return fc;
             }
             return null;

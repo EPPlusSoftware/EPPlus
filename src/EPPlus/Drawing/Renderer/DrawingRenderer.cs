@@ -55,6 +55,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         //internal ITextMeasurer TextMeasurer { get; }
         internal RenderContext RenderContext { get; }
         public List<Transform> RenderItems { get; } = new List<Transform>();
+        public List<Transform> DebugRenderItems { get; } = new List<Transform>();
         internal BoundingBox Bounds = new BoundingBox();
     }
 }

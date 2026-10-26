@@ -1,6 +1,7 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Graphics;
+
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     public class RenderTextbox : DrawingObject
@@ -158,6 +159,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _group.Rotation = value;
             }
         }
+
+        public void CenterRotationPoint()
+        {
+            _group.SetRotationPointToCenterOfGroup();
+        }
+
         /// <summary>
         /// Gets the actual width of the rotated textbox.
         /// </summary>

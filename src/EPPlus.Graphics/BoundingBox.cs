@@ -137,7 +137,7 @@ namespace EPPlus.Graphics
 
         //public Coordinate Scale = null;
 
-        internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
+        public void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
         {
             RotationPoint = new Graphics.TranformPoint(Width / 2, Height / 2);
 

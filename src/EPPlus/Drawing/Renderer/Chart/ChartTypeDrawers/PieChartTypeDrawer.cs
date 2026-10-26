@@ -183,24 +183,24 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     //Add Datalabel
                     if (chartType.HasDataLabel || serie.HasDataLabel)
                     {
-                        //ChartSerieDataLabelRenderer datalabel;
-                        //if (serie.HasDataLabel)
-                        //{
-                        //    //_serieLabels.Add(serie.DataLabel);
-                        //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
-                        //}
-                        //else
-                        //{
-                        //    //_serieLabels.Add(chartType.DataLabel);
-                        //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
-                        //}
+                        ChartSerieDataLabelRenderer datalabel;
+                        if (serie.HasDataLabel)
+                        {
+                            //_serieLabels.Add(serie.DataLabel);
+                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        }
+                        else
+                        {
+                            //_serieLabels.Add(chartType.DataLabel);
+                            datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                        }
 
                         if ((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
                         {
                             _shouldShrink = true;
                         }
 
-                        //serieDataLabels.Add(datalabel);
+                        serieDataLabels.Add(datalabel);
                     }
                 }
 
@@ -354,16 +354,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                             var bounds = Slices[j].GetBounds();
 
-                            ChartSerieDataLabelRenderer datalabel;
-                            if (serie.HasDataLabel)
-                            {
-                                datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, bounds, serie, catValues, valValues, 0);
-                            }
-                            else
-                            {
-                                datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, bounds, serie, catValues, valValues, 0);
-                            }
-                            serieDataLabels.Add(datalabel);
+                            var textWidth = serieDataLabels[i].GetTextWidth(j);
+                            var adjustedBounds = Slices[j].GetAdjustedBounds(textWidth);
+
+                            //ChartSerieDataLabelRenderer datalabel;
+                            //if (serie.HasDataLabel)
+                            //{
+                            //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, bounds, serie, catValues, valValues, 0);
+                            //}
+                            //else
+                            //{
+                            //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, bounds, serie, catValues, valValues, 0);
+                            //}
+                            //serieDataLabels.Add(datalabel);
 
                             //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
                             //box.Parent = innerGroup;
@@ -384,7 +387,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
                             ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
 
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, adjustedBounds);
                         }
                     }
                 }

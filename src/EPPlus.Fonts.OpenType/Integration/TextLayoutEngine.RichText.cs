@@ -283,6 +283,8 @@ namespace EPPlus.Fonts.OpenType.Integration
             state.CharIdxRt = 0;
             state.CharIdxWithinOriginal = run.FullTextStart;
 
+            state.CurrentFragmentIdx = run.FragmentIndex;
+
             int i = 0;
             var len = run.Length;
             while (i < (len))
@@ -304,7 +306,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //Must be done here rather than above the while loop since when a linebreak is the first char of a new linefragment it will produce empty internalLineFragments otherwise
                 if(i == 0)
                 {
-                    state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+                    state.LineFrag = new LineFragment(run.FragmentIndex, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
                     state.LineFrag.SpaceWidth = run.SpaceWidth;
                 }
 
@@ -336,8 +338,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
             }
-
-            state.CurrentFragmentIdx++;
         }
 
         private void ProcessFragment(

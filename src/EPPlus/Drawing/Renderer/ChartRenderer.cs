@@ -47,7 +47,7 @@ namespace EPPlusImageRenderer
 
             //Support for old chart styles 1-48
             //Chart styles  40 -> 48 are black background with white text
-            if (chartId > 0 && chartId < 41)
+            if (chartId >= 0 && chartId < 41)
             {
                 return Color.Black;
             }
@@ -215,13 +215,17 @@ namespace EPPlusImageRenderer
                 switch (ax.LabelPosition)
                 {
                     case eTickLabelPosition.NextTo:
-                        if(horizontalAxis.Line.Y1==0) //Top
+                        if(VerticalAxis.Line != null && horizontalAxis.Line.Y1==0) //Top
                         {
                             horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
                         }
                         else
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            if (horizontalAxis.Line != null)
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
+                            }
                         }
                         break;
                     case eTickLabelPosition.Low:
@@ -388,7 +392,10 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = 0;
+                        if(verticalAxis.Line != null)
+                        {
+                            verticalAxis.Line.X1 = verticalAxis.Line.X2 = 0;
+                        }
                         verticalAxis.AdjustPosBySize = true;
                     }
                 }
@@ -397,9 +404,16 @@ namespace EPPlusImageRenderer
                     case eTickLabelPosition.NextTo:
                         if(ax.CrossesAt.HasValue==false)
                         {
-                            if(verticalAxis.Line.X1 == 0)
+                            if(VerticalAxis.Line != null)
                             {
-                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                                if (verticalAxis.Line.X1 == 0)
+                                {
+                                    verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                                }
+                                else
+                                {
+                                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
+                                }
                             }
                             else
                             {
@@ -673,6 +687,8 @@ namespace EPPlusImageRenderer
             DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
+
+            RenderItems.AddRange(DebugRenderItems);
 
             return true;
         }

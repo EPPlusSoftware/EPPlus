@@ -11,6 +11,7 @@ using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net;
 using System.Security;
 
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
@@ -202,6 +203,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             }
         }
 
+        internal double GetTextWidth(int index)
+        {
+            if (dataLabels.Count > index)
+            {
+                return dataLabels[index].GlobalTextBounds.Width;
+            }
+            throw new InvalidOperationException("Index larger than collection");
+        }
+
         internal void SetDimensions(int index, Transform basePoint, Transform endPoint, BoundingBox maxBoundsPieSlice = null)
         {
             if (dataLabels.Count > index)
@@ -256,22 +266,31 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
                 if(currentLabel.labelPosition == eLabelPosition.BestFit)
                 {
-                    for (int j = 0; j < i; j++)
-                    {
-                        var bbCurrent = currentLabel.GlobalTextBounds;
-                        var bbCompare = dataLabels[j].GlobalTextBounds;
+                    //var limitBot = currentLabel.limitBottom;
+                    //var limitTop = currentLabel.limitTop;
+                    ////Adjust txtbox to not go outside inner maxBounds
+                    //if (currentLabel.GlobalTextBounds.Bottom > limitBot)
+                    //{
+                    //    var overlap = limitBot - currentLabel.GlobalTextBounds.Bottom;
+                    //    currentLabel.DataLabelPointContainer.Top -= overlap + currentLabel.BottomMargin;
+                    //}
 
-                        if (Transform.Intersects(bbCurrent, bbCompare))
-                        {
-                            var adjustVector = Transform.GetIntersectAdjustVector(bbCurrent, bbCompare);
+                    //for (int j = 0; j < i; j++)
+                    //{
+                    //    var bbCurrent = currentLabel.GlobalTextBounds;
+                    //    var bbCompare = dataLabels[j].GlobalTextBounds;
 
-                            if((adjustVector.X == 0 && adjustVector.Y == 0) == false)
-                            {
-                                currentLabel.DataLabelPointContainer.Left += adjustVector.X;
-                                currentLabel.DataLabelPointContainer.Top += adjustVector.Y;
-                            }
-                        }
-                    }
+                    //    if (Transform.Intersects(bbCurrent, bbCompare))
+                    //    {
+                    //        var adjustVector = Transform.GetIntersectAdjustVector(bbCurrent, bbCompare);
+
+                    //        if((adjustVector.X == 0 && adjustVector.Y == 0) == false)
+                    //        {
+                    //            currentLabel.DataLabelPointContainer.Left += adjustVector.X;
+                    //            currentLabel.DataLabelPointContainer.Top += adjustVector.Y;
+                    //        }
+                    //    }
+                    //}
                 }
             }
 

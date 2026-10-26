@@ -87,7 +87,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected TextAlignment _alignment;
 
         //After setting alignment we must re-calculate the rows
-        public TextAlignment HorizontalAlignment { get { return _alignment; } set { _alignment = value; WrapTextFragmentsAndGenerateTextRuns(); } }
+        public TextAlignment HorizontalAlignment 
+        { get 
+            { 
+                return _alignment; 
+            } 
+            set 
+            { 
+                _alignment = value;
+                var origRuns = Runs;
+                WrapTextFragmentsAndGenerateTextRuns();
+                if(Runs.Count != 0)
+                {
+                    ImportStyles();
+                }
+            } 
+        }
         public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
         public TextLineCollection Lines { get; protected set; }
         public bool DisplayBounds { get; set; } = false;
