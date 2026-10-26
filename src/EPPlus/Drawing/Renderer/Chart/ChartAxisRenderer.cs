@@ -508,7 +508,7 @@ namespace EPPlusImageRenderer.Svg
                         maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
                         break;
                     case eTextOrientation.Diagonal:
-                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45);
+                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45) / AxisValues.Count;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     case eTextOrientation.Horizontal:
@@ -541,6 +541,27 @@ namespace EPPlusImageRenderer.Svg
                 float height = string.IsNullOrEmpty(t) ? 0f : lineHeight;
 
                 var ticMarkX = GetAxisItemLeft(i);
+                double majorTickMarkWidth;
+                if(i + 1 < Values.Count)
+                {
+                    var nextTicMarkX = GetAxisItemLeft(i + 1);
+                    majorTickMarkWidth = nextTicMarkX - ticMarkX;
+                }
+                else
+                {
+                    if(i > 0)
+                    {
+                        var prevTickMarkX = GetAxisItemLeft(i - 1);
+                        majorTickMarkWidth = ticMarkX - prevTickMarkX;
+                    }
+                    else
+                    {
+                        //There is only one axisValue as we are somehow both the first and last value
+                        majorTickMarkWidth = 0;
+                    }
+                }
+
+
                 var ticMarkY = GetAxisItemTop(i, width, height);
                 double x, y;
                 if (LabelOrientation == eTextOrientation.Horizontal)
@@ -587,10 +608,17 @@ namespace EPPlusImageRenderer.Svg
 
                     if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
-                        x = ticMarkX + width;
-                        //Width becomes height post-rotation
-                        //We are currently pre-rotation.
+                        if(width < majorTickMarkWidth)
+                        {
+                            x = ticMarkX + width;
+                        }
+                        else
+                        {
+                            x = ticMarkX - ((height / 2) * cos);
+                        }
+
                         y = ticMarkY - ((height / 2) * cos);
+
                         //x = ticMarkX - (height / 2) * cos;
                         //if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         //{
