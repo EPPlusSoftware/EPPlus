@@ -33,6 +33,7 @@ namespace EPPlus.Export.Pdf.Layout
         internal PdfPageSettings Settings;
         internal List<LinkDrawInfo> Links = new List<LinkDrawInfo>();
         public string SheetName;
+        public string CommentsSourceSheet;
         public int FromRow, ToRow, FromColumn, ToColumn;
         public double[] ColLeftX;
         public double[] RowTopY;
