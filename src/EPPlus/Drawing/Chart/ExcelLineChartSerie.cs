@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,13 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             return Marker.Style!=eMarkerStyle.None;
         }
-
+        internal bool ShouldDisplayMarker
+        {
+            get
+            {
+                return (_chart.HasTypeMarker && Marker.IsEmpty) || (Marker.IsEmpty == false && Marker.Style != eMarkerStyle.None);
+            }
+        }
         const string smoothPath = "c:smooth/@val";
         /// <summary>
         /// Smooth lines

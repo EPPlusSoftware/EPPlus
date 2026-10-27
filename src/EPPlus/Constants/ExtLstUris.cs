@@ -68,6 +68,8 @@ namespace OfficeOpenXml.Constants
         internal const string FeaturePropertyBagDxf = "{0417FA29-78FA-4A13-93AC-8FF0FAFDF519}";
 
         internal const string Connection2010Uri = "{DE250136-89BD-433C-8126-D09CA5730AF9}";
+        //Chart
+        internal const string DisplayNaAsBlankUri = "{56B9EC1D-385E-4148-901F-78D8002777C0}";
     }
 }
 

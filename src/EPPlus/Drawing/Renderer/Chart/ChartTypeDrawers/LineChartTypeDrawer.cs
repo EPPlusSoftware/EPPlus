@@ -4,6 +4,7 @@ using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -63,14 +64,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CreateErrorBars(chartType, _xValues, _yValues);
         }
         List<LineRenderItem> _dropLines=null;
-        private void CreateDropLine(ExcelLineChart chartType, List<double> coords)
+        private void CreateDropLine(ExcelLineChart chartType, List<List<BoundingBox>> coords)
         {
             if (chartType.DropLine == null) return;
             _dropLines=new List<LineRenderItem>();
-            for (var i = 0; i < coords.Count; i += 2)
+            for (var j = 0; j < coords[0].Count; j++)
             {
-                var x = coords[i];
-                var yTop = coords[i+1];
+                var x = coords[0][j].Left;
+                var y = coords[0][j].Top;
+                for (var i = 1; i < coords.Count; i++)
+                {
+                    if (y > coords[i][j].Top)
+                    {
+                        y = coords[i][j].Top;
+                    }
+                }
                 var catAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondHorizontalAxis : ChartRenderer.HorizontalAxis;
                 var valAxis = chartType.UseSecondaryAxis ? ChartRenderer.SecondVerticalAxis : ChartRenderer.VerticalAxis;
                 var yBottom = GetAxisBaseY(catAxis, valAxis);
@@ -79,20 +87,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     X1 = x,
                     X2 = x,
-                    Y1 = yTop,
-                    Y2 = yBottom,                    
+                    Y1 = y,
+                    Y2 = yBottom,
                 };
-                dl.Name = $"DropLine {i/2 + 1}";
+                dl.Name = $"DropLine {j / 2 + 1}";
                 //TODO: DropLines should actually use the "Other Lines" DefaultDrawingObject
-                dl.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, () => DefaultBorderColor, 1.5,DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
+                dl.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, chartType.DropLine.Border, chartType.StyleManager.Style?.DropLine.BorderReference.Color, true, () => ChartRenderer.Theme.ColorScheme.Dark1.GetColor(), 0.75, DrawingRenderer.UserSpaceSettings.UserSpaceOnUse_Parent);
                 dl.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, chartType.DropLine.Effect);
-                
+
                 _dropLines.Add(dl);
             }
         }
         internal override void DrawSeries()
         {
             var lct = (ExcelLineChart)_chartType;
+            var coords = new List<List<BoundingBox>>();
             for (var i = 0; i < _xValues.Count; i++)
             {
                 var xSerie = _xValues[i];
@@ -107,6 +116,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
                 var dataPoints = new List<BoundingBox>();
+                coords.Add(dataPoints);
+
                 AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i);
 
                 dataPointsPerSerie.Add(dataPoints);
@@ -119,6 +130,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
             }
+
+                CreateDropLine(lct, coords);
 
             //Append Trendline render items.
             foreach (var tr in Trendlines)
@@ -179,9 +192,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var markerItems = new List<RenderItem>();
             var errorBars = new List<RenderItem>();
 
-            var hasMarker = chartType.HasTypeMarker || (serie.HasMarker() && serie.Marker.Style != eMarkerStyle.None);
+            var hasMarker = serie.ShouldDisplayMarker;
             var hasErrorBars = serie.HasErrorBars();
-            for(var i = 0; i < yValues.Count; i++)
+            var nullPos = new List<(int index, object nullValue)>();
+            var isNa = false;
+            for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
                 if (xValues == null || (xAxis.AutoAxisType==eAxisType.Cat && xValues.Count > 0))
@@ -197,28 +212,68 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var xPos = xAxis.GetPositionInPlotarea(x);
                 var yPos = yAxis.GetPositionInPlotarea(y);
 
-                BoundingBox pt = null;
+                //Handle blanks and #N/A
+                if(double.IsNaN(yPos))
+                {
+                    if (_chartType.DisplayBlanksAs != eDisplayBlanksAs.Span)
+                    {
+                        if (yValues[i] is ExcelErrorValue ev && ev.Type == ErrorValues.NAError.Type)
+                        {
+                            if (chartType.DisplayNaAsBlank)
+                            {
+                                yValues[i] = null;
+                            }
+                            else
+                            {
+                                isNa = true;
+                            }
+                        }
 
-                if (double.IsNaN(yPos) == false)
+                        if (yValues[i] == null)
+                        {
+                            if (_chartType.DisplayBlanksAs == eDisplayBlanksAs.Zero)
+                            {
+                                yPos = yAxis.GetPositionInPlotarea(0);
+                            }
+                            coords.Add(xPos);
+                            coords.Add(yPos);
+                        }
+                    }
+                }
+                else
                 {
                     coords.Add(xPos);
                     coords.Add(yPos);
+                }
+
+                BoundingBox pt = null;
+                if (double.IsNaN(yPos) == false)
+                {
 
                     //Log point within chart coordinate system
                     pt = new BoundingBox(xPos, yPos, 0, 0);
                     pt.Parent = ChartRenderer.Plotarea.Rectangle;
                 }
-                if(hasErrorBars)
+                else
+                {
+                    if (chartType.DisplayBlanksAs == eDisplayBlanksAs.Gap && isNa==false)
+                    {
+                        var c = coords.Count - 1;
+                        nullPos.Add((c-(c % 2), yValues[i])); //Mod 2 as coordiantes always are in pairs in paths here.
+                    }
+                    isNa = false;
+                }
+
+                if (hasErrorBars)
                 {
                     errorBars.AddRange(ErrorBars.GetErrorBarRenderItem(i, xAxis, yAxis, x, y, xPos, yPos));
                 }
-                if (hasMarker)
+                if (hasMarker && yValues[i]!=null)
                 {
                     SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, serieIndex);
                 }
                 else
                 {
-
                     if (pt != null)
                     {
                         //Default values in excel
@@ -258,10 +313,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     dataPointOverrides.Add(lineDp);
                 }
             }
-            
-            CreateDropLine(chartType, coords);
 
-            linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+            if (nullPos.Count==0)
+            {
+                linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+            }
+            else
+            {
+                AddPathCommandWithNullHandling(linePath, coords, nullPos);
+            }
+
             linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line
@@ -272,6 +333,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(markerItems);
             if(_dropLines!=null) SeriesRenderItems.AddRange(_dropLines);
             SeriesRenderItems.AddRange(errorBars);
+        }
+
+        private void AddPathCommandWithNullHandling(PathRenderItem linePath, List<double> coords, List<(int,object)> nullPos)
+        {
+            var start = 0;
+            foreach(var item in nullPos)
+            {
+                var pos = item.Item1;
+                if (pos - start > 0)
+                {
+                    var cmd = new PathCommand(PathCommandType.Move, coords.GetRange(start, pos - start).ToArray());
+                    linePath.Commands.Add(cmd);
+                    linePath.Commands.Add(new PathCommand(PathCommandType.End));
+                }
+                start = pos + 1;
+                if ((start % 2) != 0) start++;
+            }
+
+            if(start < coords.Count - 1)
+            {
+                var cmd = new PathCommand(PathCommandType.Move, coords.GetRange(start, coords.Count - start).ToArray());
+                linePath.Commands.Add(cmd);
+            }
         }
 
         private void SetMarker(ExcelLineChartSerie serie, ExcelChartMarker marker, List<BoundingBox> dataPoints, List<RenderItem> markerItems, double xPos, double yPos, BoundingBox pt, int index)
