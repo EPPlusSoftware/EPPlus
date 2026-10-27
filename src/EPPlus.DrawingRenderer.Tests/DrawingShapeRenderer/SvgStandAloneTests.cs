@@ -6,6 +6,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Primitives;
 using EPPlus.Graphics.TransformPrimitives;
@@ -49,6 +50,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
 
             var baseGroup = new GroupRenderItem(bounds);
+            baseGroup.Width = bounds.Width;
+            baseGroup.Height = bounds.Height;
 
             var background = new RectRenderItem(baseGroup);
 
@@ -64,7 +67,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         {
 
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, new SvgRenderOptions());
+            var renderOptions = new SvgRenderOptions();
+            //renderOptions.Width = (int)Math.Round(bounds.Width.PointToPixel());
+            //renderOptions.Height = (int)Math.Round(bounds.Height.PointToPixel());
+
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, renderOptions);
 
             List<Transform> renderItems = items.ToList();
             svgShapeRenderer.Render(renderItems);
@@ -307,6 +314,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             {
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
             }
+
+            group.Width = 500d;
+            group.Height = 500d;
 
             textbox.TextBody = new SvgTextBodyRenderItem(rc, group, true);
 

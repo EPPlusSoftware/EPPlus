@@ -22,6 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _rectangle = new RectRenderItem(_group);
             _rectangle.Name = "Textbox_BG";
             _marginGroup = new GroupRenderItem(_group);
+
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);
             //TextBody.MaxWidth = maxWidth;
             //TextBody.MaxHeight = maxHeight;

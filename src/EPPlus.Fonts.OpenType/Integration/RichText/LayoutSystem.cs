@@ -103,7 +103,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         currCharInfo.IsSeparator = true;
                         SeparatorIndicies.Add(allCharIdx);
                     }
-                    else if(c == '\n')
+                    else if(c == '\n' || c == '\r')
                     {
                         currCharInfo.IsSeparator = true;
                         SeparatorIndicies.Add(allCharIdx);
@@ -128,17 +128,30 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         {
             int lastParagraphIdx = 0;
             UnicodeCategory category = UnicodeCategory.ParagraphSeparator;
-            foreach (var sepIdx in SeparatorIndicies)
+
+            for (int i = 0; i < SeparatorIndicies.Count; i++)
             {
+                var sepIdx = SeparatorIndicies[i];
                 if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == category)
                 {
                     ParagraphSeparatorIndicies.Add(sepIdx);
-                    var section = new Paragraph(lastParagraphIdx, sepIdx-1, GetFullText, GetSection);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx - 1, GetFullText, GetSection);
                     SubParagraphs.Add(section);
                     lastParagraphIdx = sepIdx;
                 }
-                else if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == UnicodeCategory.LineSeparator || FullText[sepIdx] == '\n')
+                else if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == UnicodeCategory.LineSeparator || FullText[sepIdx] == '\r' || FullText[sepIdx] == '\n')
                 {
+                    if (sepIdx < FullTextLastIdx && FullText[sepIdx] == '\r' && FullText[sepIdx + 1] == '\n')
+                    {
+                        //windows
+                        if (SeparatorIndicies[i+1] == sepIdx + 1)
+                        {
+                            i++;
+                        }
+
+                    }
+
+                    //Mac, Linux or end of FullText. In all cases there is only one char to handle
                     ParagraphSeparatorIndicies.Add(sepIdx);
                     var section = new Paragraph(lastParagraphIdx, sepIdx - 1, GetFullText, GetSection);
                     SubParagraphs.Add(section);
@@ -282,6 +295,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     {
                         AllChars[j].Line = i;
                     }
+
+                    //if (wrappedLines[i].Text == null)
+                    //{
+                    //    wrappedLines[i].lines
+                    //}
                 }
             }
 

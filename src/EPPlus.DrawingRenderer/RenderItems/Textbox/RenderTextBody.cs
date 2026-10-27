@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer.Utils;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 
@@ -41,6 +42,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
             Name = "Textbody";
+
+            //_marginGroup = this;
         }
         public RenderTextBody(RenderContext renderContext, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(renderContext, parent, autoSize)
         {
@@ -52,7 +55,114 @@ namespace EPPlus.DrawingRenderer.RenderItems
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
             Name = "Textbody";
+
+            //_marginGroup = this;
         }
+
+        //#region old TextBox props
+        //public RenderTextBody(BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN)
+        //{
+        //    Init(parent, maxWidth, maxHeight);
+        //    Left = left;
+        //    Top = top;
+        //}
+
+        //public RenderTextBody(BoundingBox parent, double maxWidth, double maxHeight)
+        //{
+        //    Init(parent, maxWidth, maxHeight);
+        //}
+
+        //public void Init(BoundingBox parent, double maxWidth, double maxHeight)
+        //{
+        //    Parent = parent;
+        //    _group = new GroupRenderItem(parent);
+        //    _group.Name = "Textbox_Group";
+        //    _rectangle = new RectRenderItem(_group);
+        //    _rectangle.Name = "Textbox_BG";
+        //    //_marginGroup = new GroupRenderItem(_group);
+        //    //TextBody = new RenderTextBody(Rectangle.Bounds, true);
+        //    //TextBody.MaxWidth = maxWidth;
+        //    //TextBody.MaxHeight = maxHeight;
+        //}
+
+
+        ////The origin point of the entire textbox itself (its outermost left and top point)
+        //protected GroupRenderItem _group;
+        ////The origin point of the textbody after applied margins
+        //protected GroupRenderItem _marginGroup;
+
+        //protected RectRenderItem _rectangle = null;
+        //public RectRenderItem Rectangle
+        //{
+        //    get
+        //    {
+        //        _rectangle.Width = Width;
+        //        _rectangle.Height = Height;
+        //        return _rectangle;
+        //    }
+        //    set
+        //    {
+        //        _rectangle = value;
+        //    }
+        //}
+
+        ////public double Width
+        ////{
+        ////    get
+        ////    {
+        ////        return TextBoxLeftMargin + Width + TextBoxRightMargin + Left;
+        ////    }
+        ////}
+        ////public double WidthRotated
+        ////{
+        ////    get
+        ////    {
+        ////        var radians = MathHelper.Radians(Rotation);
+        ////        var sin = Math.Abs(Math.Sin(radians));
+        ////        var cos = Math.Abs(Math.Cos(radians));
+        ////        return Width * sin + Height * cos;
+        ////    }
+        ////}
+        ////public double Height
+        ////{
+        ////    get
+        ////    {
+        ////        return TopMargin + (TextBody?.Height ?? 0d) + BottomMargin + TextBody.Top;
+        ////    }
+        ////}
+        ////public double HeightWithRotation
+        ////{
+        ////    get
+        ////    {
+        ////        var radians = MathHelper.Radians(Rotation);
+        ////        var sin = Math.Abs(Math.Sin(radians));
+        ////        var cos = Math.Abs(Math.Cos(radians));
+        ////        return Width * cos + Height * sin;
+        ////    }
+        ////}
+        ////public double TextBoxLeftMargin
+        ////{
+        ////    get { return _marginGroup.Left; }
+        ////    set { _marginGroup.Left = value; }
+        ////}
+
+        ////public double TextboxTopMargin
+        ////{
+        ////    get { return _marginGroup.Top; }
+        ////    set { _marginGroup.Top = value; }
+        ////}
+
+        ////public double TextBoxRightMargin
+        ////{
+        ////    get; set;
+        ////}
+
+        ////public double TextBoxBottomMargin
+        ////{
+        ////    get; set;
+        ////}
+
+        //#endregion
 
         protected RenderContext RenderContext { get; private set; }
         public List<ParagraphRenderItem> Paragraphs { get; set; } = new List<ParagraphRenderItem>();
