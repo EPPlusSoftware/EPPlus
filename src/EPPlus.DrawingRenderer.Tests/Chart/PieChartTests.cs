@@ -29,6 +29,22 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
+        public void ReadAndExportSimpleDlbls()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+            using (var p = OpenTemplatePackage("PieChartSvgALL.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Dlbls"];
+
+                var explosion = ws.Drawings["BasicBestFit"];
+
+                var explodeSvg = explosion.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\dlblsBestFit.svg", explodeSvg);
+            }
+        }
+
+        [TestMethod]
         public void ReadAndExportSimpleExplosion()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
