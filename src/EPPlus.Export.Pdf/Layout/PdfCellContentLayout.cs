@@ -36,6 +36,8 @@ namespace EPPlus.Export.Pdf.Layout
         public TextLineCollection TextLines;
         public double LeftTextSpillLength = 0d;
         public double RightTextSpillLength = 0d;
+        public double ScaleAnchorX;
+        public double ScaleAnchorY;
         private double bottomMargin = 3.5d; //Guessed number
         private double rightMargin = 1.4d; //I guessed this one too..
 
@@ -203,14 +205,16 @@ namespace EPPlus.Export.Pdf.Layout
             return new Vector2(bx - minX, by - minY);
         }
 
-        internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight)
+        internal void SetupClipping(double cellX, double cellY, double cellWidth, double cellHeight, bool spillLeft = false, bool spillRight = false)
         {
+            double li = spillLeft ? 0d : rightMargin;
+            double ri = spillRight ? 0d : rightMargin;
             Clip = true;
             Clipping = new Rect()
             {
-                X = cellX + rightMargin,
+                X = cellX + li,
                 Y = cellY - cellHeight,
-                Width = cellWidth - rightMargin * 2,
+                Width = cellWidth - li - ri,
                 Height = cellHeight
             };
         }

@@ -28,6 +28,8 @@ namespace EPPlus.Export.Pdf.Layout
         public double PrintTitleWidth;
         public double PrintTitleHeight;
         public bool isCommentsPage = false;
+        public bool ScaleHeaderFooterWithDocument;
+        internal List<PdfHeaderFooterPart> HeaderFooterParts = new List<PdfHeaderFooterPart>();
         internal PdfPageSettings Settings;
         public PdfPageLayout(double x, double y, double width, double height)
             : base(x, y, width, height)

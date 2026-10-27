@@ -235,7 +235,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                         commands.Add($"S");
                     }
                     commands.Add("BT");
-                    commands.Add(color.ToFillCommand());
+                    commands.Add((pageSettings.BlackAndWhite ? Color.Black : color).ToFillCommand());
                     commands.Add($"{textMatrix.A.ToPdfStringF4()} {textMatrix.B.ToPdfStringF4()} {textMatrix.C.ToPdfStringF4()} {textMatrix.D.ToPdfStringF4()} {textMatrix.E.ToPdfStringF4()} {textMatrix.F.ToPdfStringF4()} Tm");
                     byte currentFontId = shapedText.ShapedText.Glyphs.Length > 0 ? shapedText.ShapedText.Glyphs[0].FontId : (byte)0;
                     string currentFontLabel = shapedText.FontIdMap.ContainsKey(currentFontId)

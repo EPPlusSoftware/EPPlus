@@ -381,7 +381,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeBool(alignWithMarginsPath);
+                return GetXmlNodeBool(alignWithMarginsPath, true);
             }
             set
             {
