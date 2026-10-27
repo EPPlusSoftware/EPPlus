@@ -176,6 +176,7 @@ namespace OfficeOpenXml
         internal const string schemaChart = @"http://schemas.openxmlformats.org/drawingml/2006/chart";
         internal const string schemaChart2012 = @"http://schemas.microsoft.com/office/drawing/2012/chart";
         internal const string schemaChart2014 = @"http://schemas.microsoft.com/office/drawing/2014/chart";
+        internal const string schemaChart201703 = @"http://schemas.microsoft.com/office/drawing/2017/03/chart";
         internal const string schemaHyperlink = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
         internal const string schemaComment = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
         internal const string schemaImage = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";

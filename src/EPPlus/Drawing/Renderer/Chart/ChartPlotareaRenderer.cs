@@ -43,13 +43,15 @@ namespace EPPlusImageRenderer.Svg
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
             Group = new GroupRenderItem(ChartRenderer.Bounds);
             Group.Name = "PlotArea";
-            var rect = new RectRenderItem(Group);
+            RectRenderItem rect;
             if (_pa.Layout.HasLayout)
             {
                 rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
+                rect.Parent = Group;
             }
             else
             {
+                rect = new RectRenderItem(Group);
                 rect.Top = GetPlotAreaTop();
                 rect.Left = GetPlotAreaLeft();
                 rect.Width = GetPlotAreaWidth(rect);
