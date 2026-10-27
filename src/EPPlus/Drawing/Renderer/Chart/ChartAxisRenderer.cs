@@ -611,23 +611,26 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(width < majorTickMarkWidth)
                         {
-                            x = ticMarkX + width;
+                            x = ticMarkX;
                         }
                         else
                         {
                             x = ticMarkX - ((height / 2) * cos);
                         }
 
-                        y = ticMarkY - ((height / 2) * cos);
+                        var midPointText = height / 2;
+                        var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
+                        var heightPastY = halfHeightAfterRot - midPointText;
 
-                        //x = ticMarkX - (height / 2) * cos;
+                        y = ticMarkY - heightPastY;
+                        ////x = ticMarkX - (height / 2) * cos;
                         //if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         //{
-                        //    y = ticMarkY + 4 + TopMargin - (height / 2 * cos);
+                        //    y = ticMarkY + TopMargin - Math.Abs(((width/2) * sin));
                         //}
                         //else //Top
                         //{
-                        //    y = ticMarkY - 4 - BottomMargin - (height / 2 * cos);
+                        //    y = ticMarkY - BottomMargin - Math.Abs(((width / 2) * sin));
                         //}
                     }
                     else if((rot == 90 || rot == -90))
