@@ -331,63 +331,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             startPt.Parent = innerGroup.Parent;
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
-                            //var rectStart = new RectRenderItem();
-                            //rectStart.Style.FillColor = "red";
-                            //rectStart.Width = 5;
-                            //rectStart.Height = 5;
-                            //rectStart.Position = startPt.Position;
-
-                            //ChartRenderer.RenderItems.Add(rectStart);
-
-
-
-                            //var rectEnd = new RectRenderItem();
-                            //rectEnd.Style.FillColor = "blue";
-                            //rectEnd.Width = 5;
-                            //rectEnd.Height = 5;
-                            //rectEnd.Position = innerGroup.Position;
-
-                            //ChartRenderer.RenderItems.Add(rectEnd);
-
-                            //var maxBoundsForBestFit = new BoundingBox();
-                            //maxBoundsForBestFit.Parent = innerGroup;
 
                             var bounds = Slices[j].GetBounds();
 
-                            var textWidth = serieDataLabels[i].GetTextWidth(j);
-                            var adjustedBounds = Slices[j].GetAdjustedBounds(textWidth);
+                            //var textWidth = serieDataLabels[i].GetTextWidth(j);
+                            //var adjustedBounds = Slices[j].GetAdjustedBounds(textWidth);
 
-                            //ChartSerieDataLabelRenderer datalabel;
-                            //if (serie.HasDataLabel)
-                            //{
-                            //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, bounds, serie, catValues, valValues, 0);
-                            //}
-                            //else
-                            //{
-                            //    datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, bounds, serie, catValues, valValues, 0);
-                            //}
-                            //serieDataLabels.Add(datalabel);
 
-                            //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
-                            //box.Parent = innerGroup;
-
-                            //var start = Slices[j].GetCenterOfStartPointLine();
-                            //var end = Slices[j].GetCenterOfEndPointLine();
-
-                            //var minX = Math.Min(start.LocalPosition.X, end.LocalPosition.X);
-                            //var width = Math.Max(start.LocalPosition.X, end.LocalPosition.X) - minX;
-
-                            //var minY = Math.Min(start.LocalPosition.Y, end.LocalPosition.Y);
-                            //var height = Math.Max(start.LocalPosition.Y, end.LocalPosition.Y) - minY;
-
-                            //maxBoundsForBestFit.Left += minX;
-                            //maxBoundsForBestFit.Top += minY;
-                            //maxBoundsForBestFit.Width = width;
-                            //maxBoundsForBestFit.Height = height;
-                            ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
-                            ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
-
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, adjustedBounds);
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds/*adjustedBounds*/);
                         }
                     }
                 }

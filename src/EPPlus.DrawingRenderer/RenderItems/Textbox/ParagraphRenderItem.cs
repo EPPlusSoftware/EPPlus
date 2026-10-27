@@ -97,7 +97,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 _alignment = value;
                 var origRuns = Runs;
                 WrapTextFragmentsAndGenerateTextRuns();
-                if(Runs.Count != 0)
+                if (Runs.Count != 0)
                 {
                     ImportStyles();
                 }
@@ -354,6 +354,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         var run = CreateTextRun(this, displayText, rtIdx);
                         //Potentially we could import styling here instead but that leads to multiple issues.
                         //We may need to move it back here for auto-size reasons
+                        //if(displayText == null)
+                        //{
+                        //    run.Left = 0;
+                        //}
+                        //else
+                        //{
+                        //    run.Left = prevWidth;
+                        //}
 
                         run.YPosition = Lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
                         run.Left = prevWidth;
