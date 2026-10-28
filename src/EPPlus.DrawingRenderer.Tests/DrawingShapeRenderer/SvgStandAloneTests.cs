@@ -1,6 +1,8 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.RenderItems.SvgPresets;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
@@ -15,6 +17,7 @@ using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Drawing;
 using System.Text;
+using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
@@ -454,6 +457,55 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             GenerateSvgFile("SinglePieSlice", baseGroup, baseGroup);
 
             //pTrans.Slices.
+        }
+
+        [TestMethod]
+        public void CreateTextContainerBasic()
+        {
+            SvgCanvas canvas = new SvgCanvas(400, 400);
+
+            TextContainer container = new TextContainer(canvas);
+
+            container.AddText("My Text");
+            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
+            rtItem.FontColor = Color.DarkGreen;
+            container.AddRichText(rtItem);
+
+            string fileName = "SvgStandAlone_TextContainerBasic";
+
+            container.Left += 150;
+            container.Top += 150;
+
+            container.Rotation = 45d;
+
+            SaveTextFileToWorkbook($"svg\\{fileName}.svg", canvas.RenderSvgString());
+
+            container.Rotation = 85d;
+
+            SaveTextFileToWorkbook($"svg\\{fileName}_85.svg", canvas.RenderSvgString());
+
+            container.Rotation = 90d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+            container.Rotation = 90d+45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+            container.Rotation = 180d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+            container.Rotation = 180d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+            container.Rotation = 180d + 90;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+
+            container.Rotation = 270d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
+
+
+            container.Rotation = 360d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.Rotation}.svg", canvas.RenderSvgString());
         }
     }
 }

@@ -19,9 +19,6 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
     {
         RectRenderItem backgroundRect;
 
-        public double Width;
-        public double Height;
-
         public SvgCanvas(double width, double height) 
         {
             Width = width;
