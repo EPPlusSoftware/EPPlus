@@ -562,8 +562,20 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
+                var xPosStart = ticMarkX;
+                var xPosEnd = ticMarkX + majorTickMarkWidth;
+                //Note: Position puts text end at tickmark end
+                var xPosTextAtEnd = ticMarkX + majorTickMarkWidth - width;
+                var xPosToMiddle = ticMarkX + (majorTickMarkWidth / 2d);
+
 
                 var ticMarkY = GetAxisItemTop(i, width, height);
+                //Textbody already offsets with height of the text. Therefore -1
+                //so that 100 offset is 0 and positives and negatives from there 
+                var yLabelOffset = ((Axis.LabelOffset / 100d)-1) * Axis.Font.Size;
+
+                //ticMarkY += yLabelOffset;
+
                 double x, y;
                 if (LabelOrientation == eTextOrientation.Horizontal)
                 {
@@ -604,25 +616,27 @@ namespace EPPlusImageRenderer.Svg
                     {
                         rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
                     }
+
                     double cos = Math.Cos(MathHelper.Radians(rot));
                     double sin = Math.Sin(MathHelper.Radians(rot));
 
                     if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
-                        if(width < majorTickMarkWidth)
-                        {
-                            x = ticMarkX;
-                        }
-                        else
-                        {
-                            x = ticMarkX - ((height / 2) * cos);
-                        }
+                        x = xPosTextAtEnd;
+                        //if(width < majorTickMarkWidth)
+                        //{
+                        //    x = ticMarkX;
+                        //}
+                        //else
+                        //{
+                        //    x = ticMarkX - ((height / 2) * cos);
+                        //}
 
-                        var midPointText = height / 2;
-                        var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
-                        var heightPastY = halfHeightAfterRot - midPointText;
+                        //var midPointText = Axis.Font.Size / 2;
+                        //var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
+                        //var heightPastY = halfHeightAfterRot - midPointText;
 
-                        y = ticMarkY - heightPastY;
+                        y = ticMarkY;
                         ////x = ticMarkX - (height / 2) * cos;
                         //if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         //{
@@ -655,38 +669,6 @@ namespace EPPlusImageRenderer.Svg
                 }
 
                 var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
-                if (LabelOrientation == eTextOrientation.Diagonal)
-                {
-                    tb.Rotation = -45;
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
-                }
-                else if (LabelOrientation == eTextOrientation.Vertical)
-                {
-                    if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
-                    {
-                        tb.Rotation = 90;
-                    }
-                    else
-                    {
-                        tb.Rotation = -90;
-                    }
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
-                }
-                else if (LabelOrientation == eTextOrientation.Custom)
-                {
-                    tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
-                }
-
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
                 if (p != null)
@@ -704,7 +686,41 @@ namespace EPPlusImageRenderer.Svg
                     tb.AddText(t);
                 }
 
+
                 tb.CenterRotationPoint();
+
+                //Rotation must happen after adding text.
+                if (LabelOrientation == eTextOrientation.Diagonal)
+                {
+                    //tb.Rotation = -45;
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
+                else if (LabelOrientation == eTextOrientation.Vertical)
+                {
+                    if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
+                    {
+                        //tb.Rotation = 90;
+                    }
+                    else
+                    {
+                        //tb.Rotation = -90;
+                    }
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
+                else if (LabelOrientation == eTextOrientation.Custom)
+                {
+                    // tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    {
+                        tb.TextAnchor = eTextAnchor.End;
+                    }
+                }
 
                 tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
@@ -807,7 +823,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     foreach (var tb in ret)
                     {
-                        tb.Left += majorWidth / 2;
+                        //tb.Left += majorWidth / 2;
                     }
                 }
             }
