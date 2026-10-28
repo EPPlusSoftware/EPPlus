@@ -65,7 +65,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
 
         List<Transform> cachedChildObjects = null;
 
-        private void UpdateContentBounds()
+        internal protected virtual void UpdateContentBounds()
         {
             if(cachedChildObjects != null)
             {
@@ -101,6 +101,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
 
+
+
         public double ContentTop { get { UpdateContentBounds(); return ContentBounds.Top; } }
         public double ContentLeft { get { UpdateContentBounds(); return ContentBounds.Left; } }
         public double ContentWidth { get { UpdateContentBounds(); return ContentBounds.Width; } }
@@ -111,6 +113,58 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public override RenderItem Clone()
         {
             throw new NotImplementedException();
+        }
+
+        public string GetFullHierarchyString()
+        {
+            return ToHierarchyString();
+        }
+
+        string UnicodeBoldDigitString(double digits)
+        {
+            var inputDigitString = digits.ToString();
+            string boldedStr = "";
+
+            int startIdx = 0;
+            if(inputDigitString.StartsWith("-"))
+            {
+                startIdx = 1;
+            }
+
+            for (int i = startIdx; i < inputDigitString.Length; i += char.IsSurrogatePair(inputDigitString, i) ? 2 : 1)
+            {
+                //0x1D79E is unicode bolded 0
+                var newChar = char.ConvertFromUtf32(0x1D79E + inputDigitString[i]);
+                boldedStr += newChar;
+            }
+
+            if(startIdx > 0)
+            {
+                boldedStr = string.Concat("-", boldedStr);
+            }
+
+            return boldedStr;
+        }
+
+        public string GetFullHierarchyStringGlobal()
+        {
+            var minLeft = double.MaxValue;
+            var minTop = double.MaxValue;
+            var maxRight = double.MinValue;
+            var maxBottom = double.MinValue;
+            foreach (var child in ChildObjects)
+            {
+                GetExtremeGlobalBoundsOfAllChildrenRecursive(child, ref minLeft, ref minTop, ref maxRight, ref maxBottom);
+            }
+
+            var origGlobal = ToHierarchyStringGlobal();
+
+            var replacedGlobal = origGlobal.Replace($"{minLeft.ToString()}", $"{UnicodeBoldDigitString(minLeft)}");
+            replacedGlobal = replacedGlobal.Replace($"{minTop.ToString()}", $"{UnicodeBoldDigitString(minTop)}");
+            replacedGlobal = replacedGlobal.Replace($"{maxRight.ToString()}", $"{UnicodeBoldDigitString(maxRight)}");
+            replacedGlobal = replacedGlobal.Replace($"{maxBottom.ToString()}", $"{UnicodeBoldDigitString(maxBottom)}");
+
+            return replacedGlobal + $"\r\nContentGlobalBounds: Top:{UnicodeBoldDigitString(minLeft)} Left:{UnicodeBoldDigitString(minTop)} Right:{UnicodeBoldDigitString(maxRight)} Bottom:{UnicodeBoldDigitString(maxBottom)}";
         }
     }
 }

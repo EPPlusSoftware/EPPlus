@@ -622,7 +622,7 @@ namespace EPPlusImageRenderer.Svg
 
                     if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
-                        x = xPosTextAtEnd;
+                        x = xPosToMiddle;
                         //if(width < majorTickMarkWidth)
                         //{
                         //    x = ticMarkX;

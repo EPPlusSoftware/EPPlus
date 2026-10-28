@@ -388,12 +388,30 @@ namespace EPPlus.Graphics
             return adjustVector;
         }
 
+        public string ToHierarchyStringGlobal(int indentLevel = 0)
+        {
+            var globalX = Position.X.ToString(CultureInfo.InvariantCulture);
+            var globalY = Position.Y.ToString(CultureInfo.InvariantCulture);
+            var globalRight = (Position.X + Size.X).ToString();
+            var globalBottom = (Position.Y + Size.Y).ToString();
+
+            var indent = new string(' ', indentLevel * 4);
+            var result = $"{indent}{Name ?? GetType().Name}|" +
+                         $"GlobalPos:({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"GlobalMax:({globalRight},{globalBottom})";
+            foreach (var child in ChildObjects)
+            {
+                result += Environment.NewLine + child.ToHierarchyStringGlobal(indentLevel + 1);
+            }
+            return result;
+        }
+
         public string ToHierarchyString(int indentLevel = 0)
         {
             var indent = new string(' ', indentLevel * 4);
             var result = $"{indent}{Name ?? GetType().Name}|" +
-                         $"({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
-                         $"({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
+                         $"Local:({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"Size:({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
             foreach (var child in ChildObjects)
             {
                 result += Environment.NewLine + child.ToHierarchyString(indentLevel + 1);
