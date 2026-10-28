@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Drawing.Chart
         public bool Deleted
         {
             get
-            {
+            { 
                 return GetXmlNodeBool("c:delete/@val");
             }
             set

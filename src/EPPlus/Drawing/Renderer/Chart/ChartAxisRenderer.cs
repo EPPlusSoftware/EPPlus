@@ -27,6 +27,7 @@ using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
@@ -380,6 +381,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void AddTickmarksAndValues(List<RenderItem> DefItems)
         {
+            var IsCatAxDataTable = (Axis.ActualAxisPosition == eAxisPosition.Bottom && ChartRenderer.HasDataTable && ChartRenderer.DataTable.IsHeaderBottomAxis); //Do not print axis textboxes if the data table header is the text boxes.
             if (Axis.Deleted == false)
             {
                 if((Axis.LogBase ?? 1) > 1)
@@ -387,12 +389,12 @@ namespace EPPlusImageRenderer.Svg
                     ShrinkList(AxisValues, AxisMaxItems);
                 }
 
-                if (Axis.MajorTickMark != eAxisTickMark.None)
+                if (Axis.MajorTickMark != eAxisTickMark.None && !IsCatAxDataTable)
                 {
                     MajorTickMarkPositions = AddTickmarks(MajorUnit, MajorDateUnit, double.NaN, 4D.PixelToPoint(), Axis.MajorTickMark);
                 }
 
-                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit && (Axis.LogBase.HasValue==false || Axis.LogBase > 2))
+                if (Axis.MinorTickMark != eAxisTickMark.None && MinorUnit < MajorUnit && (Axis.LogBase.HasValue==false || Axis.LogBase > 2) && !IsCatAxDataTable)
                 {
                     MinorTickMarkPositions = AddTickmarks(MinorUnit, MajorDateUnit, MajorUnit, 2D.PixelToPoint(), Axis.MinorTickMark);
                 }
@@ -412,7 +414,11 @@ namespace EPPlusImageRenderer.Svg
                 MinorGridlinePositions = AddGridlines(MinorUnit, MajorUnit, Axis.MinorGridlines, Chart.StyleManager.Style?.GridlineMinor);
             }
 
-            if (AxisValues != null && AxisValues.Count > 0 && Axis.Deleted==false && Axis.LabelPosition != eTickLabelPosition.None)
+            if (AxisValues != null && 
+                AxisValues.Count > 0 && 
+                Axis.Deleted==false && 
+                Axis.LabelPosition != eTickLabelPosition.None &&
+                !IsCatAxDataTable) //Do not print axis textboxes if the data table header is the text boxes.
             {
                 Textboxes = new ChartAxisTextBoxes(this)
                 {

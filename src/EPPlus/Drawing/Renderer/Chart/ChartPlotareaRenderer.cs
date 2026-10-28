@@ -194,7 +194,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 if(ChartRenderer.HasDataTable)
                 {
-                    var fc = ChartRenderer.DataTable.GetLegendColWidth() + LeftMargin;
+                    var fc = ChartRenderer.DataTable.GetLegendColWidth() + LeftMargin + ChartRenderer.DataTable.RightMargin;
                     if(fc>left)
                     {
                         left = fc;

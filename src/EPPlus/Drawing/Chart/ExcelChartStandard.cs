@@ -1023,21 +1023,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _plotArea;
             }
         }
-        /// <summary>
-        /// Legend
-        /// </summary>
-        public new ExcelChartLegend Legend
-        {
-            get
-            {
-                if (_legend == null)
-                {
-                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
-                }
-                return _legend;
-            }
+        ///// <summary>
+        ///// Legend
+        ///// </summary>
+        //public new ExcelChartLegend Legend
+        //{
+        //    get
+        //    {
+        //        if (_legend == null)
+        //        {
+        //            _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
+        //        }
+        //        return _legend;
+        //    }
 
-        }
+        //}
         ExcelDrawingBorder _border = null;
         /// <summary>
         /// Border

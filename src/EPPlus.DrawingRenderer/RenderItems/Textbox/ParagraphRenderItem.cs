@@ -458,5 +458,12 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
         protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);
+
+        public void SetNewText(string value)
+        {
+            _textFragments[0].Text = value;
+            while (_textFragments.Count > 1) _textFragments.RemoveAt(1);
+            WrapTextFragmentsAndGenerateTextRuns();
+        }
     }
 }

@@ -95,11 +95,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
                 if(p==null)
                 {
-                    sls.Textbox.ImportParagraph(p, 0, headerText);
+                    sls.Textbox.AddParagraph(headerText);
                 }
                 else
                 {
-                    sls.Textbox.AddParagraph(headerText);
+                    sls.Textbox.ImportParagraph(p, 0, headerText);
                 }
                 parent.SeriesIcon.Add(sls);
                 pSls = sls;

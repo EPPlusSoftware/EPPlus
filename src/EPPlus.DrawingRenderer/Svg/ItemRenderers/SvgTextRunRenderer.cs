@@ -162,7 +162,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             finalString += ">";
             //Add actual text content
-            finalString +=  ConvertUtil.HtmlEscapeString(textRun._currentText);
+            finalString +=  ConvertUtil.HtmlEscapeString(textRun.CurrentText);
             finalString += "</tspan>";
             sb.Append(finalString);
 

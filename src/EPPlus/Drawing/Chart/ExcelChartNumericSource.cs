@@ -199,15 +199,14 @@ namespace OfficeOpenXml.Drawing.Chart
                         var ws = wb.Worksheets[address.WorkSheetName];
                         if (ws != null)
                         {
-                            var range = ws.Cells[address.Address];
-                            for (var r = 0; r < range.Start.Row; r++)
+                            for (var r = address._fromRow; r <= address._toRow; r++)
                             {
-                                for (var c = 0; c < range.Start.Row; c++)
+                                for (var c = address._fromCol; c <= address._toCol; c++)
                                 {
-                                    var v = range.Offset(r, c);
-                                    if (ConvertUtil.IsExcelNumeric(v.Value))
+                                    var v = ws.GetValueInner(r,c);
+                                    if (ConvertUtil.IsExcelNumeric(v))
                                     {
-                                        list.Add(ConvertUtil.GetValueDouble(v.Value, false));
+                                        list.Add(ConvertUtil.GetValueDouble(v, false));
                                     }
                                     else
                                     {
