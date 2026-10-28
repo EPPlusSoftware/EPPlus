@@ -186,7 +186,6 @@ namespace EPPlus.Export.Pdf
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                     !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle || ccl.IsAddedContent)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
-            //var headerFooterLayouts = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsHeaderFooter);
             var AdditionalContent = pageLayout.ChildObjects.OfType<PdfCellContentLayout>().Where(t => t.IsAddedContent && !(pageSettings.AdditionalContent != "null"));
             var headingLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout cl && cl.IsHeading) || (t is PdfCellContentLayout ccl && ccl.IsHeading));
             var printTitleLayouts = pageLayout.ChildObjects.Where(t => (t is PdfCellLayout pl && pl.IsPrintTitle) || (t is PdfCellContentLayout pcl && pcl.IsPrintTitle) || (t is PdfCellBorderLayout pbl && pbl.IsPrintTitle));
@@ -321,6 +320,138 @@ namespace EPPlus.Export.Pdf
             }
         }
 
+        private void AddNamedDestinations(PdfCatalog catalog, List<(PdfPageLayout Layout, int PageObj)> destIndex, PdfCatalogLayout catLayout)
+        {
+            if (catLayout == null || catLayout.NamedDestinations.Count == 0) return;
+
+            var namesObj = new PdfNamedDestinations(_document.Count + 1);
+            var seenDest = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var nd in catLayout.NamedDestinations)
+            {
+                if (seenDest.Contains(nd.Name)) continue;
+                if (TryResolveDest(destIndex, nd.Sheet, nd.Row, nd.Col, out int po, out double dx, out double dy))
+                {
+                    namesObj.Dests.Add((nd.Name, po, dx, dy));
+                    seenDest.Add(nd.Name);
+                }
+            }
+            if (namesObj.Dests.Count > 0)
+            {
+                _document.Add(namesObj);
+                catalog.NamesObjectNumber = namesObj.objectNumber;
+            }
+        }
+
+        private void AddOutline(PdfCatalog catalog, List<(PdfPageLayout Layout, int PageObj)> destIndex, PdfCatalogLayout catLayout)
+        {
+            var pageOrder = new Dictionary<int, int>();
+            for (int i = 0; i < destIndex.Count; i++)
+                pageOrder[destIndex[i].PageObj] = i;
+            var sheets = new List<(string Name, int PageObj, double TopY)>();
+            var seenSheets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var commentsBySheet = new Dictionary<string, (int PageObj, double TopY)>(StringComparer.OrdinalIgnoreCase);
+            foreach (var (L, obj) in destIndex)
+            {
+                if (!L.isCommentsPage && L.SheetName != null)
+                {
+                    if (seenSheets.Add(L.SheetName))
+                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu));
+                }
+                else if (L.isCommentsPage && L.CommentsSourceSheet != null)
+                {
+                    if (!commentsBySheet.ContainsKey(L.CommentsSourceSheet))
+                        commentsBySheet[L.CommentsSourceSheet] = (obj, L.Settings.PageSize.HeightPu);
+                }
+            }
+            if (sheets.Count == 0) return;
+            var outlines = new PdfOutlines(_document.Count + 1);
+            _document.Add(outlines);
+            var sheetItems = new List<PdfOutlineItem>();
+            int totalVisible = 0;
+            foreach (var sh in sheets)
+            {
+                var sheetItem = new PdfOutlineItem(_document.Count + 1)
+                {
+                    Title = sh.Name,
+                    Parent = outlines.objectNumber,
+                    DestPageObj = sh.PageObj,
+                    DestX = 0d,
+                    DestY = sh.TopY
+                };
+                _document.Add(sheetItem);
+                sheetItems.Add(sheetItem);
+                totalVisible++;
+                var childItems = new List<PdfOutlineItem>();
+                foreach (var k in BuildOutlineChildren(sh.Name, _documentSettings.BookmarkNamePrefix, catLayout, commentsBySheet, destIndex, pageOrder))
+                {
+                    var childItem = new PdfOutlineItem(_document.Count + 1)
+                    {
+                        Title = k.Title,
+                        Parent = sheetItem.objectNumber,
+                        DestPageObj = k.PageObj,
+                        DestX = k.X,
+                        DestY = k.Y
+                    };
+                    _document.Add(childItem);
+                    childItems.Add(childItem);
+                    totalVisible++;
+                }
+                if (childItems.Count > 0)
+                {
+                    for (int i = 0; i < childItems.Count; i++)
+                    {
+                        childItems[i].Prev = i > 0 ? childItems[i - 1].objectNumber : 0;
+                        childItems[i].Next = i < childItems.Count - 1 ? childItems[i + 1].objectNumber : 0;
+                    }
+                    sheetItem.First = childItems[0].objectNumber;
+                    sheetItem.Last = childItems[childItems.Count - 1].objectNumber;
+                    sheetItem.Count = childItems.Count;
+                }
+            }
+            for (int i = 0; i < sheetItems.Count; i++)
+            {
+                sheetItems[i].Prev = i > 0 ? sheetItems[i - 1].objectNumber : 0;
+                sheetItems[i].Next = i < sheetItems.Count - 1 ? sheetItems[i + 1].objectNumber : 0;
+            }
+            outlines.First = sheetItems[0].objectNumber;
+            outlines.Last = sheetItems[sheetItems.Count - 1].objectNumber;
+            outlines.Count = totalVisible;
+            catalog.OutlinesObjectNumber = outlines.objectNumber;
+        }
+
+        private static List<(string Title, int PageObj, double X, double Y)> BuildOutlineChildren(string sheetName, string prefix, PdfCatalogLayout catLayout, Dictionary<string, (int PageObj, double TopY)> commentsBySheet, List<(PdfPageLayout Layout, int PageObj)> destIndex, Dictionary<int, int> pageOrder)
+        {
+            bool hasPrefix = !string.IsNullOrEmpty(prefix);
+            var kids = new List<(string Title, int PageObj, double X, double Y)>();
+            if (catLayout != null)
+            {
+                foreach (var nd in catLayout.NamedDestinations)
+                {
+                    if (nd.Name == null) continue;
+                    if (!string.Equals(nd.Sheet, sheetName, StringComparison.OrdinalIgnoreCase)) continue;
+                    if (hasPrefix && !nd.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) continue;
+                    string namePart = hasPrefix ? nd.Name.Substring(prefix.Length) : nd.Name;
+                    string pretty = namePart.Replace('_', ' ').Trim();
+                    string title = !string.IsNullOrWhiteSpace(nd.CellText) ? nd.CellText : pretty;
+                    if (string.IsNullOrWhiteSpace(title)) continue;
+                    if (!TryResolveDest(destIndex, nd.Sheet, nd.Row, nd.Col, out int po, out double dx, out double dy)) continue;
+                    kids.Add((title, po, dx, dy));
+                }
+            }
+            if (commentsBySheet.TryGetValue(sheetName, out var cm))
+                kids.Add(("Comments & Notes", cm.PageObj, 0d, cm.TopY));
+
+            kids.Sort((a, b) =>
+            {
+                int pa = pageOrder.TryGetValue(a.PageObj, out var va) ? va : int.MaxValue;
+                int pb = pageOrder.TryGetValue(b.PageObj, out var vb) ? vb : int.MaxValue;
+                if (pa != pb) return pa.CompareTo(pb);
+                if (a.Y != b.Y) return b.Y.CompareTo(a.Y);
+                return a.X.CompareTo(b.X);
+            });
+            return kids;
+        }
+
         private static bool TryResolveDest(List<(PdfPageLayout Layout, int PageObj)> index, string sheet, int row, int col, out int pageObj, out double x, out double y)
         {
             pageObj = 0; x = 0; y = 0;
@@ -402,153 +533,12 @@ namespace EPPlus.Export.Pdf
             {
                 AddContent((PdfPageLayout)layout.ChildObjects[i], pageObjs[i], destIndex);
             }
-
-
-
-            if (layout is PdfCatalogLayout catLayout && catLayout.NamedDestinations.Count > 0)
-            {
-                var namesObj = new PdfNamedDestinations(_document.Count + 1);
-                var seenDest = new HashSet<string>(StringComparer.Ordinal);
-                foreach (var nd in catLayout.NamedDestinations)
-                {
-                    // PDF named destinations are one flat namespace, so a name that recurs across
-                    // sheets can resolve to only one target here — first resolvable wins. The
-                    // bookmark tree below still gets every per-sheet occurrence.
-                    if (seenDest.Contains(nd.Name)) continue;
-                    if (TryResolveDest(destIndex, nd.Sheet, nd.Row, nd.Col, out int po, out double dx, out double dy))
-                    {
-                        namesObj.Dests.Add((nd.Name, po, dx, dy));
-                        seenDest.Add(nd.Name);
-                    }
-                }
-                if (namesObj.Dests.Count > 0)
-                {
-                    _document.Add(namesObj);
-                    catalog.NamesObjectNumber = namesObj.objectNumber;
-                }
-            }
-
-
-
-            const string BookmarkPrefix = "bm_";
-            catLayout = layout as PdfCatalogLayout;
-
-            // Document order of each page object, so sub-bookmarks sort by the page they land on.
-            var pageOrder = new Dictionary<int, int>();
-            for (int i = 0; i < destIndex.Count; i++) pageOrder[destIndex[i].PageObj] = i;
-
-            // Worksheets (top-level), and the first comments page per sheet (becomes a child).
-            var sheets = new List<(string Name, int PageObj, double TopY)>();
-            var seenSheets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var commentsBySheet = new Dictionary<string, (int PageObj, double TopY)>(StringComparer.OrdinalIgnoreCase);
-            foreach (var (L, obj) in destIndex)
-            {
-                if (!L.isCommentsPage && L.SheetName != null)
-                {
-                    if (seenSheets.Add(L.SheetName))
-                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu));
-                }
-                else if (L.isCommentsPage && L.CommentsSourceSheet != null)
-                {
-                    if (!commentsBySheet.ContainsKey(L.CommentsSourceSheet))
-                        commentsBySheet[L.CommentsSourceSheet] = (obj, L.Settings.PageSize.HeightPu);
-                }
-            }
-
-            if (sheets.Count > 0)
-            {
-                var outlines = new PdfOutlines(_document.Count + 1);
-                _document.Add(outlines);
-
-                var sheetItems = new List<PdfOutlineItem>();
-                int totalVisible = 0;
-
-                foreach (var sh in sheets)
-                {
-                    var sheetItem = new PdfOutlineItem(_document.Count + 1)
-                    {
-                        Title = sh.Name,
-                        Parent = outlines.objectNumber,
-                        DestPageObj = sh.PageObj,
-                        DestX = 0d,
-                        DestY = sh.TopY
-                    };
-                    _document.Add(sheetItem);
-                    sheetItems.Add(sheetItem);
-                    totalVisible++;
-
-                    // Children: prefixed named ranges, then a "Comments & Notes" entry if the sheet
-                    // has one. Ordered by the page they land on (comments pages come last), then
-                    // top-to-bottom and left-to-right within a page.
-                    var kids = new List<(string Title, int PageObj, double X, double Y)>();
-                    if (catLayout != null)
-                    {
-                        foreach (var nd in catLayout.NamedDestinations)
-                        {
-                            if (!string.Equals(nd.Sheet, sh.Name, StringComparison.OrdinalIgnoreCase)) continue;
-                            if (nd.Name == null || !nd.Name.StartsWith(BookmarkPrefix, StringComparison.OrdinalIgnoreCase)) continue;
-
-                            string pretty = nd.Name.Substring(BookmarkPrefix.Length).Replace('_', ' ').Trim();
-                            string title = !string.IsNullOrWhiteSpace(nd.CellText) ? nd.CellText : pretty;
-                            if (string.IsNullOrWhiteSpace(title)) continue;
-
-                            if (!TryResolveDest(destIndex, nd.Sheet, nd.Row, nd.Col,
-                                                out int po, out double dx, out double dy)) continue;
-                            kids.Add((title, po, dx, dy));
-                        }
-                    }
-                    if (commentsBySheet.TryGetValue(sh.Name, out var cm))
-                        kids.Add(("Comments & Notes", cm.PageObj, 0d, cm.TopY));
-
-                    kids.Sort((a, b) =>
-                    {
-                        int pa = pageOrder.TryGetValue(a.PageObj, out var va) ? va : int.MaxValue;
-                        int pb = pageOrder.TryGetValue(b.PageObj, out var vb) ? vb : int.MaxValue;
-                        if (pa != pb) return pa.CompareTo(pb);       // earlier page first
-                        if (a.Y != b.Y) return b.Y.CompareTo(a.Y);   // higher y = nearer top
-                        return a.X.CompareTo(b.X);                   // then left-to-right
-                    });
-
-                    var childItems = new List<PdfOutlineItem>();
-                    foreach (var k in kids)
-                    {
-                        var childItem = new PdfOutlineItem(_document.Count + 1)
-                        {
-                            Title = k.Title,
-                            Parent = sheetItem.objectNumber,
-                            DestPageObj = k.PageObj,
-                            DestX = k.X,
-                            DestY = k.Y
-                        };
-                        _document.Add(childItem);
-                        childItems.Add(childItem);
-                        totalVisible++;
-                    }
-
-                    if (childItems.Count > 0)
-                    {
-                        for (int i = 0; i < childItems.Count; i++)
-                        {
-                            childItems[i].Prev = i > 0 ? childItems[i - 1].objectNumber : 0;
-                            childItems[i].Next = i < childItems.Count - 1 ? childItems[i + 1].objectNumber : 0;
-                        }
-                        sheetItem.First = childItems[0].objectNumber;
-                        sheetItem.Last = childItems[childItems.Count - 1].objectNumber;
-                        sheetItem.Count = childItems.Count;
-                    }
-                }
-
-                for (int i = 0; i < sheetItems.Count; i++)
-                {
-                    sheetItems[i].Prev = i > 0 ? sheetItems[i - 1].objectNumber : 0;
-                    sheetItems[i].Next = i < sheetItems.Count - 1 ? sheetItems[i + 1].objectNumber : 0;
-                }
-                outlines.First = sheetItems[0].objectNumber;
-                outlines.Last = sheetItems[sheetItems.Count - 1].objectNumber;
-                outlines.Count = totalVisible;
-                catalog.OutlinesObjectNumber = outlines.objectNumber;
-            }
-
+            var catLayout = layout as PdfCatalogLayout;
+            //Create Named destinations
+            AddNamedDestinations(catalog, destIndex, catLayout);
+            //Create Bookmark outlines
+            AddOutline(catalog, destIndex, catLayout);
+            //Create Image data
             AddImageData();
             var info = AddInfoObject();
             _debugString = "";

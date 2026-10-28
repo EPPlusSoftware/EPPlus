@@ -26,8 +26,6 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public double CellPicturePixelHeight;
 
         public string HyperlinkUri;
-        public string HyperlinkInternal;
-
         public string HyperlinkTargetSheet;
         public string HyperlinkToolTip;
         public int HyperlinkTargetRow;
