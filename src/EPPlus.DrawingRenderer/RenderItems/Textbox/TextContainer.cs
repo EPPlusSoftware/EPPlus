@@ -12,8 +12,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 {
     public enum RotationAnchor
     {
-        TopLeft,
-        Middle
+        TopLeft = 1,
+        Middle = 2
     }
 
     public class TextContainer : GroupRenderItem
@@ -61,13 +61,13 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
         }
 
-        double LeftMargin
+        public double LeftMargin
         {
             get { return marginGroup.Left; }
             set { marginGroup.Left = value; }
         }
 
-        double TopMargin
+        public double TopMargin
         {
             get { return marginGroup.Top; }
             set { marginGroup.Top = value; }
@@ -83,7 +83,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             get; set;
         }
 
-        public double Rotation
+        public double InnerRotation
         {
             get
             {
@@ -156,7 +156,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             marginGroup.Height = txtBody.Height + BottomMargin;
 
             marginGroupFill.Width = marginGroup.Width + LeftMargin;
-            marginGroupFill.Height = marginGroup.Height + RightMargin;
+            marginGroupFill.Height = marginGroup.Height + TopMargin;
 
 
             bgFillRect.Width = Width;
@@ -167,15 +167,15 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 marginGroupFill.Parent = marginGroup;
                 //0 when rotation point is top left
                 //marginGroupFill.Top = 0;
-                marginGroupFill.Left = -marginGroup.Left * -Math.Cos(marginGroupFill.RotationRadians);
+                marginGroupFill.Left = -marginGroup.Left * Math.Cos(marginGroupFill.RotationRadians);
                 bgFillRect.Position = new Graphics.Geometry.Vector2(marginGroupFill.GetGlobalBoundingbox().Left, marginGroupFill.GetGlobalBoundingbox().Top);
             }
-            else if(_rotationAnchor == RotationAnchor.Middle)
+            else if (_rotationAnchor == RotationAnchor.Middle)
             {
                 marginGroup.SetRotationPointToCenterOfGroup();
                 rotPointDot.Position = marginGroup.RotationPoint.Position;
 
-                var rotPointInternal = new TranformPoint(marginGroup.RotationPoint.Left + marginGroup.Position.X, marginGroup.RotationPoint.Top+ marginGroup.Position.Y);
+                var rotPointInternal = new TranformPoint(marginGroup.RotationPoint.Left + marginGroup.Position.X, marginGroup.RotationPoint.Top + marginGroup.Position.Y);
                 marginGroupFill.Parent = rotPointInternal;
 
                 rotPointDot.Position = rotPointInternal.Position;
