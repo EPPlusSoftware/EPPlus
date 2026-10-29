@@ -1,10 +1,13 @@
-﻿using EPPlus.DrawingRenderer.Svg;
+﻿using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.DrawingRenderer.Svg;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EPPlus.Graphics;
 
 namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
 {
@@ -12,7 +15,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
     {
         Rectangle,
         Circle,
-        RotatedContainer
+        RotatedContainer,
+        TextContainer,
     }
 
     public class SvgCanvas : GroupRenderItem
@@ -142,7 +146,22 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
             var sb = new StringBuilder();
         }
 
-        public void AddRenderItem(RenderPresets preset)
+        private void AddTextContainer(double rotation)
+        {
+            TextContainer container = new TextContainer(this);
+
+            container.AddText("My Text");
+            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
+            rtItem.FontColor = Color.DarkGreen;
+            container.AddRichText(rtItem);
+
+            container.Left += Width/2d;
+            container.Top += Height/2d;
+
+            container.Rotation = rotation;
+        }
+
+        public void AddRenderItem(RenderPresets preset, double rotation = 0)
         {
             switch (preset)
             {
@@ -155,8 +174,17 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
                 case RenderPresets.RotatedContainer:
                     AddRotatingContainer();
                     break;
-                    
+                case RenderPresets.TextContainer:
+                    AddTextContainer(rotation);
+                    break;
             }
+        }
+
+        public void ClearChildren()
+        {
+            backgroundRect.Parent = null;
+            base.ChildObjects.Clear();
+            backgroundRect.Parent = this;
         }
     }
 }
