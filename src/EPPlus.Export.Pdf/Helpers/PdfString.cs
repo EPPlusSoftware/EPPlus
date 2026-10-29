@@ -78,5 +78,36 @@ namespace EPPlus.Export.Pdf.Helpers
         {
             return val.ToString("F0", CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Returns the value escaped and wrapped in parentheses as a PDF literal string (escaping '(', ')' and '\'), for use in places such as a link annotation's URI.
+        /// </summary>
+        /// <param name="val">The text to encode, for example a hyperlink URI.</param>
+        /// <returns>The value as an escaped PDF literal string.</returns>
+        internal static string ToPdfLiteral(this string s)
+        {
+            if (s == null) return "()";
+            var sb = new System.Text.StringBuilder(s.Length + 2);
+            sb.Append('(');
+            foreach (char c in s)
+            {
+                if (c == '(' || c == ')' || c == '\\') sb.Append('\\');
+                if (c == '\r') { sb.Append("\\r"); continue; }
+                if (c == '\n') { sb.Append("\\n"); continue; }
+                sb.Append(c);
+            }
+            sb.Append(')');
+            return sb.ToString();
+        }
+
+        internal static string ToPdfTextString(this string val)
+        {
+            if (string.IsNullOrEmpty(val)) return "()";
+            var sb = new System.Text.StringBuilder(val.Length * 4 + 6);
+            sb.Append("<FEFF");
+            foreach (char c in val) sb.Append(((int)c).ToString("X4"));  // char = UTF-16 code unit
+            sb.Append('>');
+            return sb.ToString();
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public ExcelFill HeadingFill;
         public PdfPageSettings Settings;
         public int SheetIndex;
+        public string SheetName;
         public int Count
         {
             get { return Width * Height; }

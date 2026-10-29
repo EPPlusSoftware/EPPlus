@@ -23,6 +23,7 @@ using EPPlus.Graphics.Geometry;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -75,12 +76,56 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var PagesCollection = GetPages(sheetSettings, pdfSheets);
             var Catalog = GetCatalog(sheetSettings[0].FirstPageNumber, dictionaries, PagesCollection);
+            if (Catalog is PdfCatalogLayout cat)
+                CollectNamedDestinations(pdfSheets, cat.NamedDestinations);
             return Catalog;
+        }
+
+        private static void CollectNamedDestinations(PdfWorksheet[] pdfSheets, List<PdfNamedDest> dests)
+        {
+            if (pdfSheets == null || pdfSheets.Length == 0) return;
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            void Add(ExcelNamedRange n)
+            {
+                if (n == null || string.IsNullOrEmpty(n.Name)) return;
+                if (n.Name.StartsWith("_xlnm.")) return;            // built-in print area / titles
+                if (!string.IsNullOrEmpty(n.NameFormula)) return;   // formula-only name, no cell target
+
+                // Sheet the name's cell lives on: workbook-scoped names expose it via .Worksheet;
+                // a sheet-scoped name with an unqualified RefersTo has a null .Worksheet, so fall
+                // back to its scope sheet (LocalSheet).
+                var targetSheet = n.Worksheet ?? n.LocalSheet;
+                if (targetSheet == null || n.Start.Row <= 0 || n.Start.Column <= 0) return;
+
+                // Dedup per (sheet, name): the same bm_ name may legitimately recur on several
+                // sheets (one section each). A global dedup drops all but the first and leaves
+                // later sheets with no sub-bookmarks.
+                if (!seen.Add(targetSheet.Name + "\u0000" + n.Name)) return;
+
+                string cellText = null;
+                try { cellText = targetSheet.Cells[n.Start.Row, n.Start.Column].Text; }
+                catch { /* leave null; writer falls back to the name */ }
+
+                dests.Add(new PdfNamedDest
+                {
+                    Name = n.Name,
+                    Sheet = targetSheet.Name,
+                    Row = n.Start.Row,
+                    Col = n.Start.Column,
+                    CellText = cellText
+                });
+            }
+
+            var wb = pdfSheets[0].Worksheet.Workbook;
+            foreach (var n in wb.Names) Add(n);                     // workbook-scoped first
+            foreach (var ps in pdfSheets)
+                foreach (var n in ps.Worksheet.Names) Add(n);       // then sheet-scoped
         }
 
         internal static Transform GetCatalog(int firstPageNumber, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
-            Transform Catalog = new Transform(0d, 0d, 0d, 0d);
+            Transform Catalog = new PdfCatalogLayout(0d, 0d, 0d, 0d);
             int totalPages = 0;
             var sheetTotalPages = GetTotalPagesPerSheet(pdfPages);
             int displayedPageNumber = 0;
@@ -120,6 +165,27 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     AddSpillCells(pageSettings, dictionaries, page, pageLayout);
                     AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
+                    if (!pdfPages[i].IsCommentsPage)
+                    {
+                        pageLayout.SheetName = pdfPages[i].SheetName;
+                        pageLayout.FromRow = page.FromRow;
+                        pageLayout.ToRow = page.ToRow;
+                        pageLayout.FromColumn = page.FromColumn;
+                        pageLayout.ToColumn = page.ToColumn;
+                        pageLayout.ColLeftX = BuildColumnXPositions(pageSettings, page);
+                        var rowTopY = new double[page.ToRow - page.FromRow + 1];
+                        double ry = contentStartY;
+                        for (int r = page.FromRow; r <= page.ToRow; r++)
+                        {
+                            rowTopY[r - page.FromRow] = ry;
+                            ry -= page.RowHeights[r - page.FromRow];
+                        }
+                        pageLayout.RowTopY = rowTopY;
+                    }
+                    else
+                    {
+                        pageLayout.CommentsSourceSheet = pdfPages[i].SheetName;
+                    }
                     double y = contentStartY;
                     double x = contentStartX;
                     for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
@@ -169,6 +235,19 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                         text.GidsAndCharMap(dictionaries);
                                         text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                                         pageLayout.AddChild(text);
+
+                                        if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                        {
+                                            if (CanTightenLink(text))
+                                                AddTextLinks(pageLayout, text, info.X, info.X + info.Width, map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
+                                            else
+                                                
+                                                pageLayout.Links.Add(CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
+                                        }
+                                    }
+                                    else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                    {
+                                        pageLayout.Links.Add(CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
                                     }
                                     if (!isDraft)
                                     {
@@ -225,6 +304,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     var (clipX, clipW, spillLeft, spillRight) = GetOverflowClip(map, pages[j], row, col, x, effectiveWidth);
                                     text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
                                     pageLayout.AddChild(text);
+
+                                    if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                    {
+                                        if (CanTightenLink(text))
+                                            AddTextLinks(pageLayout, text, clipX, clipX + clipW,
+                                                         map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
+                                        else
+                                            pageLayout.Links.Add(CreateLinkDrawInfo(x, y, effectiveWidth, rowHeight, map));
+                                    }
+                                }
+                                // Empty cell in a range hyperlink
+                                else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+                                {
+                                    pageLayout.Links.Add(CreateLinkDrawInfo(x, y, effectiveWidth, rowHeight, map));
                                 }
                             }
                             if (!isDraft)
@@ -264,6 +357,21 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                                     ImageBytes = img.ImageBytes,
                                     Name = img.Name,
                                 });
+                                if (img.HyperlinkUri != null || img.HyperlinkTargetSheet != null)
+                                {
+                                    pageLayout.Links.Add(new LinkDrawInfo
+                                    {
+                                        X = img.X,
+                                        Y = img.Y - img.Height,
+                                        Width = img.Width,
+                                        Height = img.Height,
+                                        Uri = img.HyperlinkUri,
+                                        TargetSheet = img.HyperlinkTargetSheet,
+                                        TargetRow = img.HyperlinkTargetRow,
+                                        TargetColumn = img.HyperlinkTargetColumn,
+                                        ToolTip = img.HyperlinkToolTip
+                                    });
+                                }
                             }
                         }
                     }
@@ -619,33 +727,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return result;
         }
 
-        private static bool NeedsClipping(PdfCell map, Page page, int row, int col)
-        {
-            if (map.ContentAligmnet == null) return false;
-            if (map.ContentAligmnet.HorizontalAlignment == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Fill || map.ContentAligmnet.WrapText)
-                return true;
-            if (map.TotalTextLength <= map.ColumnWidth) return false;
-            var halign = map.ContentAligmnet.HorizontalAlignment;
-            if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
-            {
-                if (col >= page.ToColumn) return true;
-                var right = page.Map[row, col + 1];
-                return right != null && !string.IsNullOrEmpty(right.Text);
-            }
-            else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
-            {
-                if (col <= page.FromColumn) return true;
-                var left = page.Map[row, col - 1];
-                return left != null && !string.IsNullOrEmpty(left.Text);
-            }
-            else if (halign == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
-            {
-                bool rightBlocked = col >= page.ToColumn || (page.Map[row, col + 1] != null && !string.IsNullOrEmpty(page.Map[row, col + 1].Text));
-                bool leftBlocked = col <= page.FromColumn || (page.Map[row, col - 1] != null && !string.IsNullOrEmpty(page.Map[row, col - 1].Text));
-                return rightBlocked || leftBlocked;
-            }
-            return false;
-        }
         private static (double clipX, double clipW, bool spillLeft, bool spillRight) GetOverflowClip(PdfCell map, Page page, int row, int col, double x, double effectiveWidth)
         {
             double clipX = x, clipW = effectiveWidth;
@@ -698,6 +779,68 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 return (x - left, effectiveWidth + left + right, true, true);
             }
             return (clipX, clipW, false, false);
+        }
+
+        private static bool CanTightenLink(PdfCellContentLayout text) =>
+            text?.TextLines != null && text.TextLines.Count > 0 &&
+            text.CellAlignmentData != null &&
+            !text.CellAlignmentData.IsVertical &&
+            text.CellAlignmentData.TextRotation == 0;
+
+        private static LinkDrawInfo CreateLinkDrawInfo(double x, double topY, double width, double height, PdfCell map)
+        {
+            return new LinkDrawInfo
+            {
+                X = x,
+                Y = topY - height,
+                Width = width,
+                Height = height,
+                Uri = map.HyperlinkUri,
+                TargetSheet = map.HyperlinkTargetSheet,
+                TargetRow = map.HyperlinkTargetRow,
+                TargetColumn = map.HyperlinkTargetCol,
+                ToolTip = map.HyperlinkToolTip
+            };
+        }
+
+        private static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string targetSheet, int targetRow, int targetCol, string toolTip, double padX = 1.0d, double padY = 1.5d)
+        {
+            double line0Width = text.TextLines[0].Width;
+            double originX = text.LocalPosition.X;   // aligned left of line 0
+            double baseY = text.LocalPosition.Y;   // baseline of line 0
+            for (int k = 0; k < text.TextLines.Count; k++)
+            {
+                var line = text.TextLines[k];
+                double offX = 0d;                    // mirrors PdfContentStream.AddText's per-line offset
+                switch (text.CellAlignmentData.HorizontalAlignment)
+                {
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Right:
+                        offX = line0Width - line.Width; break;
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Center:
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.CenterContinuous:
+                    case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Distributed:
+                        offX = (line0Width - line.Width) / 2d; break;
+                }
+                double lineLeft = originX + offX;
+                double boxLeft = System.Math.Max(lineLeft, clipLeft) - padX;
+                double boxRight = System.Math.Min(lineLeft + line.Width, clipRight) + padX;
+                if (line.Width > 0d && boxRight > boxLeft)
+                {
+                    pageLayout.Links.Add(new LinkDrawInfo
+                    {
+                        X = boxLeft,
+                        Y = baseY - line.LargestDescent - padY,
+                        Width = boxRight - boxLeft,
+                        Height = line.LargestAscent + line.LargestDescent + 2 * padY,
+                        Uri = uri,
+                        TargetSheet = targetSheet,
+                        TargetRow = targetRow,
+                        TargetColumn = targetCol,
+                        ToolTip = toolTip
+                    });
+                }
+                baseY -= (line.LargestAscent + line.LargestDescent);
+            }
         }
 
 
@@ -964,8 +1107,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             double pageAbsTop = rowPrefix[page.FromRow - fromRow];
             double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
 
-            double contentStartX = pageSettings.ContentBounds.Left + page.HeadingWidth + page.PrintTitleWidth;
-            double contentStartY = pageSettings.ContentBounds.Top - page.HeadingHeight - page.PrintTitleHeight;
+            double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+            double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
 
             foreach (var drawing in drawings)
             {
@@ -1011,6 +1154,28 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double x = contentStartX + (imgLeft - pageAbsLeft);
                 double y = contentStartY - (imgTop - pageAbsTop);
 
+                string hlUri = null, hlSheet = null, hlToolTip = null;
+                int hlRow = 0, hlCol = 0;
+                var picLink = pic.Hyperlink;
+                if (picLink != null)
+                {
+                    string tip = (picLink as ExcelHyperLink)?.ToolTip;
+                    if (picLink is ExcelHyperLink peh && !string.IsNullOrEmpty(peh.ReferenceAddress))
+                    {
+                        if (PdfTextMap.TryResolveInternalLink(range.Range.Worksheet, peh.ReferenceAddress, out var ts, out var tr, out var tc))
+                        {
+                            hlSheet = ts; hlRow = tr; hlCol = tc;
+                            hlToolTip = !string.IsNullOrEmpty(tip) ? tip : peh.ReferenceAddress;
+                        }
+                    }
+                    else
+                    {
+                        hlUri = PdfTextMap.NormalizeExternalTarget(picLink.OriginalString);
+                        if (hlUri != null)
+                            hlToolTip = !string.IsNullOrEmpty(tip) ? tip : picLink.OriginalString;
+                    }
+                }
+
                 page.Images.Add(new ImageDrawInfo
                 {
                     X = x,
@@ -1019,19 +1184,14 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     Height = height,
                     ImageBytes = drawing.ImageBytes,
                     Name = "Image_" + pic.Name,
+                    HyperlinkUri = hlUri,
+                    HyperlinkTargetSheet = hlSheet,
+                    HyperlinkTargetRow = hlRow,
+                    HyperlinkTargetColumn = hlCol,
+                    HyperlinkToolTip = hlToolTip,
                 });
             }
             return page;
-        }
-
-        private static int GetTotalPages(List<Pages> pdfPages)
-        {
-            int totalPages = 0;
-            for (int i = 0; i < pdfPages.Count; i++)
-            {
-                totalPages += pdfPages[i].Page.Length;
-            }
-            return totalPages;
         }
 
         internal static List<Pages> GetPages(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
@@ -1063,6 +1223,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.HeadingFill = pdfSheet.NormalStyle.Style.Fill;
                     pages.Settings = pageSettings;
                     pages.SheetIndex = si;
+                    pages.SheetName = pdfSheet.Worksheet.Name;
                     PagesCollection.Add(pages);
                 }
                 if (pdfSheet.CommentsAndNotes.Range != null)
@@ -1078,6 +1239,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.IsCommentsPage = true;
                     pages.Settings = pageSettings;
                     pages.SheetIndex = si;
+                    pages.SheetName = pdfSheet.Worksheet.Name;
                     pages.IsCommentsPage = true;
                     for (int k = 0; k < pages.Page.Length; k++)
                         pages.Page[k].IsCommentsPage = true;
@@ -1584,9 +1746,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static PdfCell RangeCell(PdfRange range, int row, int col)
         {
-            //if (row < range.Range._fromRow || row > range.Range._toRow) return null;
-            //if (col < range.Range._fromCol || col > range.Range._toCol) return null;
-            //return range.Map[row, col];
             if (row < range.Map.FromRow || row > range.Map.ToRow) return null;
             if (col < range.Map.FromColumn || col > range.Map.ToColumn) return null;
             return range.Map[row, col];

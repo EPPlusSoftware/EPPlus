@@ -24,6 +24,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     {
         private readonly int parentObjectNumber;
         internal readonly List<int> contentObjectNumbers;
+        internal readonly List<int> annotationObjectNumbers = new List<int>();
         PdfDictionaries dictionaries;
         internal PdfPageSize Size;
         internal bool HasTransparency;
@@ -65,7 +66,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 sb.AppendFormat($"   >>\n");
             }
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
-                            $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
+                            $"   /Contents [ {string.Join(" ", contentEntries)} ]");
+            if (annotationObjectNumbers.Count > 0)
+            {
+                var annots = string.Join(" ", annotationObjectNumbers.Select(a => $"{a.ToPdfStringF0()} 0 R"));
+                sb.AppendFormat($"\n   /Annots [ {annots} ]");
+            }
+            sb.Append(" >>");
             return sb.ToString();
         }
 
@@ -99,7 +106,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (HasTransparency)
                 sb.AppendFormat($"   /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>\n");
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
-                            $"   /Contents [ {string.Join(" ", contentEntries)} ] >>");
+                            $"   /Contents [ {string.Join(" ", contentEntries)} ]");
+            if (annotationObjectNumbers.Count > 0)
+            {
+                var annots = string.Join(" ", annotationObjectNumbers.Select(a => $"{a.ToPdfStringF0()} 0 R"));
+                sb.AppendFormat($"\n   /Annots [ {annots} ]");
+            }
+            sb.Append(" >>");
             WriteAscii(bw, sb.ToString());
         }
     }
