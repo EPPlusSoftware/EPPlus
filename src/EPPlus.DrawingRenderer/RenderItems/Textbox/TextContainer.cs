@@ -61,16 +61,16 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
         }
 
-        public double LeftMargin
+        public virtual double LeftMargin
         {
             get { return marginGroup.Left; }
-            set { marginGroup.Left = value; }
+            set { marginGroup.Left = value; CalculateMargin(); }
         }
 
         public double TopMargin
         {
             get { return marginGroup.Top; }
-            set { marginGroup.Top = value; }
+            set { marginGroup.Top = value; CalculateMargin(); }
         }
 
         public double RightMargin
@@ -83,7 +83,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             get; set;
         }
 
-        public double InnerRotation
+        public virtual double InnerRotation
         {
             get
             {
@@ -167,8 +167,10 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 marginGroupFill.Parent = marginGroup;
                 //0 when rotation point is top left
                 //marginGroupFill.Top = 0;
-                marginGroupFill.Left = -marginGroup.Left * Math.Cos(marginGroupFill.RotationRadians);
+                marginGroupFill.Left = -marginGroup.Left * Math.Abs(Math.Cos(marginGroupFill.RotationRadians));
+                rotPointDot.Position = marginGroup.Position;
                 bgFillRect.Position = new Graphics.Geometry.Vector2(marginGroupFill.GetGlobalBoundingbox().Left, marginGroupFill.GetGlobalBoundingbox().Top);
+                rotPointDot.Position = bgFillRect.Position;
             }
             else if (_rotationAnchor == RotationAnchor.Middle)
             {
