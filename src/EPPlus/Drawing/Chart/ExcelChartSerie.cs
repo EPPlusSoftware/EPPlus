@@ -239,6 +239,8 @@ namespace OfficeOpenXml.Drawing.Chart
         /// A collection of trend lines for the chart serie.
         /// </summary>
         public abstract ExcelChartTrendlineCollection TrendLines{ get; }
+        internal bool HasHeader { get => Header != null || HeaderAddress != null; }
+
         internal abstract void SetID(string id);
         internal string ToFullAddress(string value)
         {

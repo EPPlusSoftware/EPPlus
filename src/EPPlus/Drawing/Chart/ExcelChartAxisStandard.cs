@@ -233,11 +233,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                //if(LabelPosition==eTickLabelPosition.NextTo && CrossesAt.HasValue)
-                //{
-                //    return eActualAxisPosition.ByValueOrCategory;
-                //}
-                var ap = AxisPosition;
+                var ap = ActualAxisPosition;
                 if (ap == eAxisPosition.Left)
                 {
                     if(LabelPosition == eTickLabelPosition.High)
@@ -768,7 +764,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Minor unit for the axis.
         /// Null is automatic
         /// </summary>
-        public override double? MinorUnit
+        public override double? MinorUnit 
         {
             get
             {
@@ -832,6 +828,37 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
+        const string _baseTimeUnitPath = "c:baseTimeUnit/@val";
+        /// <summary>
+        /// The base time unit used for the data series.
+        /// </summary>
+        public eTimeUnit? BaseTimeUnit
+        {
+            get
+            {
+                var v = GetXmlNodeString(_baseTimeUnitPath);
+                if (string.IsNullOrEmpty(v))
+                {
+                    return null;
+                }
+                else
+                {
+                    return v.ToEnum(eTimeUnit.Years);
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    SetXmlNodeString(_baseTimeUnitPath, value.ToEnumString());
+                }
+                else
+                {
+                    DeleteNode(_baseTimeUnitPath, true);
+                }
+            }
+        }
+
         const string _logbasePath = "c:scaling/c:logBase/@val";
         /// <summary>
         /// The base for a logaritmic scale
@@ -992,6 +1019,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 return false;
             }
         }
+
+
         internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate)
         {
             List<List<object>> values;

@@ -171,7 +171,7 @@ namespace EPPlusImageRenderer.Svg
                 //Uncertain of what scenario this is helpful for. Most bar and column charts don't appear to work this way even with a single series
                 //It IS the correct way for Pie charts and for a series with only a single point in it and no xSSeries so perhaps that?
                 //See EpplusTest.Export.SvgExport tests especially DtPt tests. //O
-                else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1)
+                else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1 && Chart.PlotArea.ChartTypes[0].Series[0].HasHeader == false)
                 {
                     var s = ct.Series[0];
                     var catSeries = s.XSeries;
@@ -422,7 +422,7 @@ namespace EPPlusImageRenderer.Svg
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
-            if ((Chart.IsTypeBar() || Chart.IsTypeColumn()) && Chart.PlotArea.ChartTypes.Count == 1 && Chart.PlotArea.ChartTypes[0].Series.Count == 1)
+            if ((Chart.IsTypeBar() || Chart.IsTypeColumn()) && Chart.PlotArea.ChartTypes.Count == 1 && Chart.PlotArea.ChartTypes[0].Series.Count == 1 && (Chart.PlotArea.ChartTypes[0].Series[0].HasHeader==false))
             {
                 LegendIconRenderer.SetBarLegendSingle(ChartRenderer, this, entryWidth, entryHeight, maxIconLength);
             }

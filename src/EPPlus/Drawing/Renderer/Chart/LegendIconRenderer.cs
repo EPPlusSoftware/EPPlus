@@ -123,24 +123,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var tbHeight = tm.Height;
             sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
             sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
-            //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
-
-            var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
             var headerText = s.GetHeaderText(index);
-            if (entry == null || entry.Font.IsEmpty)
+            if (chart.Chart.HasLegend)
             {
-                if(chart.Chart.Legend.TextBody.Paragraphs.Count==0)
+                var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+                if (entry == null || entry.Font.IsEmpty)
                 {
-                    sls.Textbox.AddParagraph(headerText);
+                    if (chart.Chart.Legend.TextBody.Paragraphs.Count == 0)
+                    {
+                        sls.Textbox.AddParagraph(headerText);
+                    }
+                    else
+                    {
+                        sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.First(), 0, headerText);
+                    }
                 }
                 else
                 {
-                    sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.First(), 0, headerText);
+                    sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
                 }
             }
             else
             {
-                sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                sls.Textbox.AddParagraph(headerText);
             }
         }
 

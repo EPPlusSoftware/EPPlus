@@ -51,7 +51,29 @@ namespace EPPlusImageRenderer.Svg
         internal double RightMargin { get; set; }
         internal double TopMargin { get; set; }
         internal double BottomMargin { get; set; }
+        /// <summary>
+        /// Create a subGroup beneath the ParentGroup
+        /// (Or beneath altOverrideBounds but add the renderitems to the parentGroup) This is strange and due to legacy
+        /// </summary>
+        /// <typeparam name="T">Some RenderItem type</typeparam>
+        /// <param name="subGroupName">Class name of the subgroup for easier debugging</param>
+        /// <param name="Items">The RenderItems to place within the group</param>
+        /// <param name="parentGroup">The parent group of this item</param>
+        protected void AddSubGroupingOfRenderItems<T>(string subGroupName, List<T> Items, GroupRenderItem parentGroup) where T : RenderItem
+        {
+            if (Items != null)
+            {
+                //Create subGroup
+                var subGroup = new GroupRenderItem(parentGroup);
+                subGroup.Name = subGroupName;
 
+                //Add items to subGroup
+                foreach (var renderItem in Items)
+                {
+                    subGroup.ChildObjects.Add(renderItem);
+                }
+            }
+        }
     }
     internal abstract class ChartDrawingObject : DrawingObject
     {

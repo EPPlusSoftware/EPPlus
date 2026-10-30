@@ -319,7 +319,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (catAx.Axis.Crosses == eCrosses.AutoZero)
             {
-                return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+                if(catAx.Axis.CrossesAt.HasValue)
+                {
+                    var cv = catAx.Axis.CrossesAt.Value;
+                    if (cv < valAx.Min) cv = valAx.Min;
+                    if (cv > valAx.Max) cv = valAx.Max;
+                    
+                    return valAx.GetPositionInPlotarea(cv, true);
+                }
+                else
+                {
+                    return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+                }
             }
             else if (catAx.Axis.Crosses == eCrosses.Min)
             {

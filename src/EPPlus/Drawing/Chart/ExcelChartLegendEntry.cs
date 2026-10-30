@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal bool HasValue { get; set; }
         private void CreateTopNode()
         {
-            if(TopNode.LocalName != "legendEntry")
+            if(TopNode!=null && TopNode.LocalName != "legendEntry")
             {
                 var legend = _chart.Legend;
                 var preIx = legend.GetPreEntryIndex(Index);
@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if (_font == null)
+                if (_font == null && TopNode != null)
                 {
                     CreateTopNode();
                     _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, InitChartXml);                    

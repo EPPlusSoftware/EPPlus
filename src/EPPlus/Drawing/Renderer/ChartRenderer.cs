@@ -209,7 +209,8 @@ namespace EPPlusImageRenderer
                             pos=0;
                             horizontalAxis.AdjustPosBySize = true;
                         }
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = pos;                    }
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = pos;                    
+                    }
                 }
 
                 switch (ax.LabelPosition)
@@ -217,7 +218,15 @@ namespace EPPlusImageRenderer
                     case eTickLabelPosition.NextTo:
                         if(VerticalAxis.Line != null && horizontalAxis.Line.Y1==0) //Top
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            if(ax.AxisPosition == eAxisPosition.Top)
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop - horizontalAxis.Rectangle.Height;
+
+                            }
+                            else
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            }
                         }
                         else
                         {
@@ -379,7 +388,15 @@ namespace EPPlusImageRenderer
                     }
                     else
                     {
-                        axisX = axis.GetPositionInPlotarea(v);                        
+                        if (verticalAxis.CrossingAxis.AutoAxisType==eAxisType.Cat)
+                        {
+                            var div = verticalAxis.CrossingAxis.MajorUnit / 2D; //Axis position is centered, but the axis should be at the tickmark.
+                            axisX = axis.GetPositionInPlotarea(v - div);
+                        }
+                        else
+                        {
+                            axisX = axis.GetPositionInPlotarea(v);
+                        }
                     }
 
                     verticalAxis.Line.X1 = verticalAxis.Line.X2 = axisX;
@@ -681,8 +698,6 @@ namespace EPPlusImageRenderer
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-            
-
 
             DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);

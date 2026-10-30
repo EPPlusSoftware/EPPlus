@@ -34,6 +34,8 @@ namespace EPPlusImageRenderer.Svg
         }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         public GroupRenderItem Group { get; private set; }
+        public List<RenderItem> MajorGridlinePositions { get; set; }
+        public List<RenderItem> MinorGridlinePositions { get; set; }
 
         ExcelChartPlotArea _pa;
 
@@ -287,6 +289,8 @@ namespace EPPlusImageRenderer.Svg
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.Add(Group);
+            AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, Group);
+            AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, Group);
         }
 
         internal void DrawSeries()
