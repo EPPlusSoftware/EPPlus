@@ -168,6 +168,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 //0 when rotation point is top left
                 //marginGroupFill.Top = 0;
                 marginGroupFill.Left = -marginGroup.Left * Math.Abs(Math.Cos(marginGroupFill.RotationRadians));
+                marginGroupFill.Top = -marginGroup.Top * Math.Abs(Math.Cos(marginGroupFill.RotationRadians));
+
                 rotPointDot.Position = marginGroup.Position;
                 bgFillRect.Position = new Graphics.Geometry.Vector2(marginGroupFill.GetGlobalBoundingbox().Left, marginGroupFill.GetGlobalBoundingbox().Top);
                 rotPointDot.Position = bgFillRect.Position;
