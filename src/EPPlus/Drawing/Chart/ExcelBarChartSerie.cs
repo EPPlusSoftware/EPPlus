@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool(INVERTIFNEGATIVE_PATH, true);
+                return ExistsNode("c:invertIfNegative") && GetXmlNodeBool(INVERTIFNEGATIVE_PATH, true);
             }
             set
             {

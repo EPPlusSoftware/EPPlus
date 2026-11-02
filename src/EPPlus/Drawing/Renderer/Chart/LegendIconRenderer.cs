@@ -145,7 +145,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             else
             {
-                sls.Textbox.AddParagraph(headerText);
+                if(parent.TextBody.Paragraphs.Count>0)
+                {
+                    sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs[0],0, headerText);
+                }
+                else
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }
             }
         }
 
@@ -346,7 +353,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         internal static RectRenderItem GetBarSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var item = new RectRenderItem(parent.Rectangle);
-            var iconHeight = GetIconLength(ct, entryHeight);
+            var iconHeight = GetIconLength(ct, entryHeight, false);
             //var icon = pSls?.SeriesIcon as RectRenderItem;
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
@@ -403,7 +410,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var item = new RectRenderItem(parent.Rectangle);
 
-            var iconHeight = GetIconLength(ct, entryHeight);
+            var iconHeight = GetIconLength(ct, entryHeight, false);
             var icon = pSls?.SeriesIcon as RectRenderItem;
 
             GetItemPosition(chart, parent, pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
@@ -439,8 +446,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return item;
         }
 
-        internal static double GetIconLength(ExcelChart c, double highestText)
+        internal static double GetIconLength(ExcelChart c, double highestText, bool includeTrendlines)
         {
+            if(includeTrendlines && c is ExcelChartStandard cs)
+            {
+                if(cs.Series.Any(x=>x.TrendLines.Count>0))
+                {
+                    return LineLength;
+                }
+            }
             return c.IsTypeLine() ? LineLength : Math.Max(MinBarLength, highestText * 0.4);
         }
 
@@ -542,7 +556,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             else
             {
                 var item = new RectRenderItem(parentItem);
-                var iconHeight = GetIconLength(chartRenderer.Chart, entryHeight);
+                var iconHeight = GetIconLength(chartRenderer.Chart, entryHeight, false);
                 item.Width = iconHeight;
                 item.Height = iconHeight;
                 var chart = chartRenderer.Chart;

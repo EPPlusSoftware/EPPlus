@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             DrawingLegendSerie pSls = null;
             int index = 0;
             int seriesIndex=0;
-            var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight);
+            var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight, false);
             foreach (var ct in svgChart.Chart.PlotArea.ChartTypes)
             {
                 foreach (ExcelChartStandardSerie serie in ct.Series)

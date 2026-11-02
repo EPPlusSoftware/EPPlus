@@ -10,15 +10,18 @@
  *************************************************************************************************
   05/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -975,6 +978,32 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw (new NotImplementedException("Litteral cache has not been implemented yet."));
             }
         }
+        internal bool HasInvertIfNegativeColor
+        {
+            get
+            {
+                return ExistsNode($"c:extLst/c:ext[@uri='{ExtLstUris.InvertIfNegagiveFill}']/c14:invertSolidFillFmt");
+            }
+        }
+        ExcelDrawingColorManager _invertColor=null;
+        /// <summary>
+        /// Specifies an color other than white for negative data points if the invert if negative is set.
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ExcelDrawingColorManager InvertIfNegativeColor 
+        {
+            get
+            {
+                if (_invertColor == null)
+                {
+                    var ext = GetOrCreateExtLstSubNode(ExtLstUris.InvertIfNegagiveFill, "c14", "c");
+                    var spPr = CreateNode(ext, "c14:invertSolidFillFmt/c14:spPr");
+                    _invertColor = new ExcelDrawingColorManager(NameSpaceManager, spPr, "a:solidFill",
+                                                                SchemaNodeOrder);                    
+                }
+                return _invertColor;
+            }            
+        }   // lazy, creates the ext on first access
         internal static XmlElement CreateSerieElement(ExcelChart chart)
         {
             var ser = (XmlElement)chart._chartXmlHelper.CreateNode("c:ser", false, true);

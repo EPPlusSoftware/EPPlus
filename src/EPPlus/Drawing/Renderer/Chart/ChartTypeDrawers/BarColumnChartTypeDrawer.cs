@@ -8,6 +8,7 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
@@ -380,8 +381,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                //rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false, DefaultFillColor);
-                //rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, serie.Border.IsEmpty==false && serie.Border.Width>0, DefaultBorderColor, 1.5, false);
                 if (i >= 0 && serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
@@ -394,6 +393,39 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 rect.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
+                if(serie.InvertIfNegative && y < 0)
+                {
+                    if(serie.HasInvertIfNegativeColor)
+                    {
+                        var c = serie.InvertIfNegativeColor.GetColor();
+                        if(c.IsEmpty || c==Color.White)
+                        {
+                            rect.Style.FillColor = Color.White.ToColorString();
+                            rect.Style.BorderColor = "#000000";
+                            rect.Style.BorderWidth = 0.75;
+                        }
+                        else
+                        {
+                            rect.Style.FillColor = c.ToColorString();
+                            rect.Style.BorderColor = null;
+                            rect.Style.BorderWidth = null;
+                        }
+                        rect.Style.GradientFill = null;
+                        rect.Style.BorderGradientFill = null;
+                        rect.Style.GlowRadius = null;
+                        rect.Style.FillOpacity = null;
+                    }
+                    else
+                    {
+                        rect.Style.FillColor = "#FFFFFF";
+                        rect.Style.BorderColor = "#000000";
+                        rect.Style.GradientFill = null;
+                        rect.Style.BorderGradientFill = null;
+                        rect.Style.GlowRadius = null;
+                        rect.Style.FillOpacity = null;
+                        rect.Style.BorderWidth = 0.75;
+                    }
+                }
                 dataPoints.Add(rect);
 
                 SeriesRenderItems.Add(rect);

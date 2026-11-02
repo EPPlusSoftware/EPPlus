@@ -28,6 +28,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 namespace EPPlusImageRenderer.Svg
@@ -402,7 +403,7 @@ namespace EPPlusImageRenderer.Svg
             var maxIconLength = 0D;
             foreach(var c in ct.PlotArea.ChartTypes)
             {
-                var il = LegendIconRenderer.GetIconLength(c, highestText);
+                var il = LegendIconRenderer.GetIconLength(c, highestText, true);
                 if (il > maxIconLength)
                 {
                     maxIconLength = il;
@@ -410,7 +411,7 @@ namespace EPPlusImageRenderer.Svg
                 if (c.ChartType == eChartType.Pie && maxIconLength < MinPieLength)
                 {
                     maxIconLength = MinPieLength;
-                }
+                }                
             }
             return maxIconLength;
         }

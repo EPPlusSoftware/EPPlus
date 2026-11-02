@@ -1035,6 +1035,23 @@ namespace OfficeOpenXml
                 return true;
             }
         }
+        /// <summary>
+        /// Checks if th 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal bool ExistsElement(string path)
+        {
+            var attrIx = path.LastIndexOf("/@");
+            if(attrIx>0)
+            {
+                return ExistsNode(path.Substring(0, attrIx));
+            }
+            else
+            {
+                return ExistsNode(path);
+            }
+        }
         internal bool ExistsNode(string path, out XmlNode node)
         {            
             if (TopNode != null )
@@ -1485,9 +1502,9 @@ namespace OfficeOpenXml
             }
         }
 
-        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string[] uriOrder = null)
+        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string extLstPrefix = "d", string[] uriOrder = null)
         {
-            foreach (XmlElement node in GetNodes("d:extLst/d:ext"))
+            foreach (XmlElement node in GetNodes($"{extLstPrefix}:extLst/{extLstPrefix}:ext"))
             {
                 if (node.Attributes["uri"].Value.Equals(uriGuid, StringComparison.OrdinalIgnoreCase))
                 {
@@ -1511,7 +1528,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
-            var newExt = TopNode.OwnerDocument.CreateElement("ext", ExcelPackage.schemaMain);
+            var newExt = TopNode.OwnerDocument.CreateElement("ext", NameSpaceManager.LookupPrefix(extLstPrefix));
             if (!string.IsNullOrEmpty(prefix))
             {
                 newExt.SetAttribute($"xmlns:{prefix}", NameSpaceManager.LookupNamespace(prefix));

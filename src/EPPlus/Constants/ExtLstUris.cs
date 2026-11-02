@@ -70,6 +70,8 @@ namespace OfficeOpenXml.Constants
         internal const string Connection2010Uri = "{DE250136-89BD-433C-8126-D09CA5730AF9}";
         //Chart
         internal const string DisplayNaAsBlankUri = "{56B9EC1D-385E-4148-901F-78D8002777C0}";
+
+        internal const string InvertIfNegagiveFill = "{6F2FDCE9-48DA-4B69-8628-5D25D57E5C99}"; 
     }
 }
 
