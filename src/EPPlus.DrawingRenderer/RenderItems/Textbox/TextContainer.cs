@@ -53,13 +53,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         RectRenderItem bgFillRect;
 
-        Rect GlobalDynamicBounds
-        {
-            get
-            {
-                return txtBody.GetGlobalBoundingbox();
-            }
-        }
+        public override double Left { get => base.Left; set { base.Left = value; CalculateMargin(); } }
+        public override double Top { get => base.Top; set { base.Top = value; CalculateMargin(); } }
 
         public virtual double LeftMargin
         {
@@ -73,14 +68,19 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             set { marginGroup.Top = value; CalculateMargin(); }
         }
 
+        double _rightMargin;
+        double _bottomMargin;
+
         public double RightMargin
         {
-            get; set;
+            get { return _rightMargin; } 
+            set { _rightMargin = value; CalculateMargin(); }
         }
 
         public double BottomMargin
         {
-            get; set;
+            get { return _bottomMargin; }
+            set { _bottomMargin = value; CalculateMargin(); }
         }
 
         public virtual double InnerRotation
@@ -91,7 +91,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
             set
             {
-               LocalRotation = value;
+                LocalRotation = value;
                 CalculateMargin();
             }
         }
@@ -159,7 +159,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             txtBody.MaxWidth = width;
         }
 
-        void CalculateMargin()
+        protected void CalculateMargin()
         {
             ptOnCircle.Left = this.Position.X;
             ptOnCircle.Top = this.Position.Y;
