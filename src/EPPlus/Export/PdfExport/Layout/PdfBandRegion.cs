@@ -1,18 +1,19 @@
 ﻿using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfBandRegion
+    internal static class PdfBandRegion
     {
         internal static void ProcessBandRegionCells(Page page, PdfRange range, int fromRow, int toRow, int fromCol, int toCol, Dictionary<int, double> colX, Dictionary<int, double> rowY)
         {
             double regLeft = colX[fromCol];
-            double regRight = colX[toCol] + RangeColWidth(range, page.FromRow, toCol);
+            double regRight = colX[toCol] + PdfRangeGeometry.RangeColWidth(range, page.FromRow, toCol);
             double regTop = rowY[fromRow];
-            double regBottom = rowY[toRow] - RangeRowHeight(range, toRow);
+            double regBottom = rowY[toRow] - PdfRangeGeometry.RangeRowHeight(range, toRow);
             double regW = regRight - regLeft;
             double regH = regTop - regBottom;
             var drawnMerges = new HashSet<string>();
@@ -20,7 +21,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 for (int c = fromCol; c <= toCol; c++)
                 {
-                    var cell = RangeCell(range, r, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, r, c);
                     if (cell == null) continue;
                     if (cell.Merged)
                     {
@@ -33,9 +34,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         int vToRow = Math.Min(addr._toRow, toRow);
                         if (vFromCol > vToCol || vFromRow > vToRow) continue;
                         double x = colX[vFromCol];
-                        double width = (colX[vToCol] + RangeColWidth(range, page.FromRow, vToCol)) - colX[vFromCol];
+                        double width = (colX[vToCol] + PdfRangeGeometry.RangeColWidth(range, page.FromRow, vToCol)) - colX[vFromCol];
                         double y = rowY[vFromRow];
-                        double height = (rowY[vFromRow] - rowY[vToRow]) + RangeRowHeight(range, vToRow);
+                        double height = (rowY[vFromRow] - rowY[vToRow]) + PdfRangeGeometry.RangeRowHeight(range, vToRow);
                         if (width <= 0d || height <= 0d) continue;
                         page.PrintTitleCells.Add(new PrintTitleCellDraw
                         {
@@ -51,14 +52,14 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         });
                         for (int br = vFromRow; br <= vToRow; br++)
                         {
-                            double bh = RangeRowHeight(range, br);
+                            double bh = PdfRangeGeometry.RangeRowHeight(range, br);
                             if (bh <= 0d) continue;
                             for (int bc = vFromCol; bc <= vToCol; bc++)
                             {
-                                double bw = RangeColWidth(range, page.FromRow, bc);
+                                double bw = PdfRangeGeometry.RangeColWidth(range, page.FromRow, bc);
                                 if (bw <= 0d) continue;
-                                var sub = RangeCell(range, br, bc);
-                                if (sub == null || !HasBorder(sub.CellStyle)) continue;
+                                var sub = PdfRangeGeometry.RangeCell(range, br, bc);
+                                if (sub == null || !PdfBorderResolver.HasBorder(sub.CellStyle)) continue;
                                 page.PrintTitleBorders.Add(new PrintTitleCellDraw
                                 {
                                     Cell = sub,
@@ -72,8 +73,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     else
                     {
-                        double w = RangeColWidth(range, page.FromRow, c);
-                        double h = RangeRowHeight(range, r);
+                        double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
+                        double h = PdfRangeGeometry.RangeRowHeight(range, r);
                         if (w <= 0d || h <= 0d) continue;
                         page.PrintTitleCells.Add(new PrintTitleCellDraw
                         {
@@ -100,10 +101,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var spill = BuildBandSpillMask(range, fromRow, toRow, fromCol, toCol, colX);
             double top = rowY[0], bottom = rowY[nr];
             double left = colX[0], right = colX[nc];
-            EmitBandFrameH(target, range, top, fromRow, fromCol, nc, colX, CellHasTopBorder);
-            EmitBandFrameH(target, range, bottom, toRow, fromCol, nc, colX, CellHasBottomBorder);
-            EmitBandFrameV(target, range, left, fromCol, fromRow, nr, rowY, CellHasLeftBorder);
-            EmitBandFrameV(target, range, right, toCol, fromRow, nr, rowY, CellHasRightBorder);
+            EmitBandFrameH(target, range, top, fromRow, fromCol, nc, colX, PdfBorderResolver.CellHasTopBorder);
+            EmitBandFrameH(target, range, bottom, toRow, fromCol, nc, colX, PdfBorderResolver.CellHasBottomBorder);
+            EmitBandFrameV(target, range, left, fromCol, fromRow, nr, rowY, PdfBorderResolver.CellHasLeftBorder);
+            EmitBandFrameV(target, range, right, toCol, fromRow, nr, rowY, PdfBorderResolver.CellHasRightBorder);
             for (int gi = 1; gi < nc; gi++)
             {
                 int leftCol = fromCol + gi - 1, rightCol = leftCol + 1;
@@ -113,10 +114,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     int r = fromRow + ri;
                     bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi] ||
-                                            CellHasRightBorder(RangeCell(range, r, leftCol)) ||
-                                            CellHasLeftBorder(RangeCell(range, r, rightCol));
-                    if (!block) { if (runStart == null) runStart = rowY[ri]; runEnd = rowY[ri + 1]; }
-                    else if (runStart != null) { target.Add(new GridLine(x, runStart.Value, x, runEnd)); runStart = null; }
+                                            PdfBorderResolver.CellHasRightBorder(PdfRangeGeometry.RangeCell(range, r, leftCol)) ||
+                                            PdfBorderResolver.CellHasLeftBorder(PdfRangeGeometry.RangeCell(range, r, rightCol));
+                    if (!block)
+                    {
+                        if (runStart == null)
+                            runStart = rowY[ri]; runEnd = rowY[ri + 1];
+                    }
+                    else if (runStart != null)
+                    {
+                        target.Add(new GridLine(x, runStart.Value, x, runEnd));
+                        runStart = null;
+                    }
                 }
                 if (runStart != null) target.Add(new GridLine(x, runStart.Value, x, runEnd));
             }
@@ -129,8 +138,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     int c = fromCol + ci;
                     bool block = SameMerge(range, topRow, c, bottomRow, c) ||
-                                            CellHasBottomBorder(RangeCell(range, topRow, c)) ||
-                                            CellHasTopBorder(RangeCell(range, bottomRow, c));
+                                            PdfBorderResolver.CellHasBottomBorder(PdfRangeGeometry.RangeCell(range, topRow, c)) ||
+                                            PdfBorderResolver.CellHasTopBorder(PdfRangeGeometry.RangeCell(range, bottomRow, c));
                     if (!block) { if (runStart == null) runStart = colX[ci]; runEnd = colX[ci + 1]; }
                     else if (runStart != null) { target.Add(new GridLine(runStart.Value, y, runEnd, y)); runStart = null; }
                 }
@@ -150,7 +159,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 int row = fromRow + ri;
                 for (int ci = 0; ci < nc; ci++)
                 {
-                    var cell = RangeCell(range, row, fromCol + ci);
+                    var cell = PdfRangeGeometry.RangeCell(range, row, fromCol + ci);
                     if (cell == null || cell.Merged) continue;
                     if (cell.ContentAligmnet != null && cell.ContentAligmnet.WrapText) continue;
                     if (string.IsNullOrEmpty(cell.Text)) continue;
@@ -171,9 +180,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double lx = colX[0];
                 for (int c = fromCol - 1; c >= range.Range._fromCol; c--)
                 {
-                    double w = RangeColWidth(range, repRow, c);
+                    double w = PdfRangeGeometry.RangeColWidth(range, repRow, c);
                     lx -= w;
-                    var cell = RangeCell(range, row, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, row, c);
                     if (cell == null) continue;
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) continue;
@@ -184,7 +193,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         : lx + cell.TotalTextLength;
                     for (int g = 1; g <= nc - 1; g++)
                     {
-                        var blk = RangeCell(range, row, fromCol + g - 1);
+                        var blk = PdfRangeGeometry.RangeCell(range, row, fromCol + g - 1);
                         if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
                         if (colX[g] < rightExtent) blocked[ri, g] = true; else break;
                     }
@@ -193,8 +202,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double rx = colX[nc];
                 for (int c = toCol + 1; c <= range.Range._toCol; c++)
                 {
-                    double w = RangeColWidth(range, repRow, c);
-                    var cell = RangeCell(range, row, c);
+                    double w = PdfRangeGeometry.RangeColWidth(range, repRow, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, row, c);
                     if (cell == null) { rx += w; continue; }
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
@@ -205,7 +214,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         : rx + w - cell.TotalTextLength;
                     for (int g = nc - 1; g >= 1; g--)
                     {
-                        var blk = RangeCell(range, row, fromCol + g);
+                        var blk = PdfRangeGeometry.RangeCell(range, row, fromCol + g);
                         if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
                         if (colX[g] > leftExtent) blocked[ri, g] = true; else break;
                     }
@@ -219,7 +228,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             for (int g = ci + 1; g <= nc - 1; g++)
             {
-                var rightCell = RangeCell(range, row, fromCol + g);
+                var rightCell = PdfRangeGeometry.RangeCell(range, row, fromCol + g);
                 if (rightCell != null && !string.IsNullOrEmpty(rightCell.Text)) break;
                 double distToGap = colX[g] - colX[ci + 1];
                 if (spill > distToGap) blocked[ri, g] = true; else break;
@@ -230,7 +239,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             for (int g = ci; g >= 1; g--)
             {
-                var leftCell = RangeCell(range, row, fromCol + g - 1);
+                var leftCell = PdfRangeGeometry.RangeCell(range, row, fromCol + g - 1);
                 if (leftCell != null && !string.IsNullOrEmpty(leftCell.Text)) break;
                 double distToGap = colX[ci] - colX[g];
                 if (spill > distToGap) blocked[ri, g] = true; else break;
@@ -239,8 +248,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         internal static bool SameMerge(PdfRange range, int r1, int c1, int r2, int c2)
         {
-            var a = RangeCell(range, r1, c1);
-            var b = RangeCell(range, r2, c2);
+            var a = PdfRangeGeometry.RangeCell(range, r1, c1);
+            var b = PdfRangeGeometry.RangeCell(range, r2, c2);
             if (a == null || b == null || !a.Merged || !b.Merged) return false;
             return a.MergedAddress.Address == b.MergedAddress.Address;
         }
@@ -250,7 +259,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             int n = toCol - fromCol + 1;
             var arr = new double[n + 1];
             for (int c = fromCol, k = 0; c <= toCol; c++, k++) arr[k] = leftX[c];
-            arr[n] = leftX[toCol] + RangeColWidth(range, repRow, toCol);
+            arr[n] = leftX[toCol] + PdfRangeGeometry.RangeColWidth(range, repRow, toCol);
             return arr;
         }
 
@@ -259,7 +268,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             int n = toRow - fromRow + 1;
             var arr = new double[n + 1];
             for (int r = fromRow, k = 0; r <= toRow; r++, k++) arr[k] = topY[r];
-            arr[n] = topY[toRow] - RangeRowHeight(range, toRow);
+            arr[n] = topY[toRow] - PdfRangeGeometry.RangeRowHeight(range, toRow);
             return arr;
         }
 
@@ -270,7 +279,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 double segL = colX[ci], segR = colX[ci + 1];
                 if (segR - segL <= 0d) { if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; } continue; }
-                if (!hasBorder(RangeCell(range, row, fromCol + ci))) { if (rs == null) rs = segL; re = segR; }
+                if (!hasBorder(PdfRangeGeometry.RangeCell(range, row, fromCol + ci))) { if (rs == null) rs = segL; re = segR; }
                 else if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(rs.Value, y, re, y));
@@ -283,7 +292,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 double segT = rowY[ri], segB = rowY[ri + 1];
                 if (segT - segB <= 0d) { if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; } continue; }
-                if (!hasBorder(RangeCell(range, fromRow + ri, col))) { if (rs == null) rs = segT; re = segB; }
+                if (!hasBorder(PdfRangeGeometry.RangeCell(range, fromRow + ri, col))) { if (rs == null) rs = segT; re = segB; }
                 else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
             }
             if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfHeadingLayout
+    internal static class PdfHeadingLayout
     {
         internal static Pages PrecomputePrintTitleCells(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Pages pdfPages)
         {
@@ -130,25 +130,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             if (topBand)
             {
-                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                                    GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth,
-                                    GetOriginY(pageSettings, page) - page.HeadingHeight,
+                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
+                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth,
+                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight,
                                     isPrintTitle: true);
             }
             if (leftBand)
             {
-                AddIncomingSpill(page, range, page.FromRow, page.ToRow,
+                PdfSpillLayout.AddIncomingSpill(page, range, page.FromRow, page.ToRow,
                                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                                    GetOriginX(pageSettings, page) + page.HeadingWidth,
-                                    GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight,
+                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth,
+                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight,
                                     isPrintTitle: true);
             }
             if (topBand && leftBand)
             {
-                AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
+                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
                                     pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                                    GetOriginX(pageSettings, page) + page.HeadingWidth,
-                                    GetOriginY(pageSettings, page) - page.HeadingHeight,
+                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth,
+                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight,
                                     isPrintTitle: true);
             }
             return page;
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var map = t.Cell;
                 var fill = new PdfCellLayout(t.X, t.Y, t.Width, t.Height);
-                SetFill(dictionaries, map.CellStyle, map.Text, fill);
+                PdfFillResolver.SetFill(dictionaries, map.CellStyle, map.Text, fill);
                 fill.Name = map.Name;
                 fill.IsPrintTitle = true;
                 fill.UpdateShadingPositionMatrix(pageSettings);
@@ -178,10 +178,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     text.SetupClipping(t.ClipX, t.ClipY, t.ClipWidth, t.ClipHeight);
                     pageLayout.AddChild(text);
                 }
-                if (!map.Merged && HasBorder(map.CellStyle))
+                if (!map.Merged && PdfBorderResolver.HasBorder(map.CellStyle))
                 {
                     var border = new PdfCellBorderLayout(false, MergedCellCorners.All, new MergedCellDrawInfo(), t.X, t.Y, t.Width, t.Height);
-                    SetBorderStyle(map.CellStyle, border, pageSettings.BlackAndWhite);
+                    PdfBorderResolver.SetBorderStyle(map.CellStyle, border, pageSettings.BlackAndWhite);
                     border.IsPrintTitle = true;
                     border.Name = "PrintTitleBorder_" + map.Name;
                     pageLayout.AddChild(border);
@@ -189,9 +189,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 foreach (var b in page.PrintTitleBorders)
                 {
                     var sub = b.Cell;
-                    if (!HasBorder(sub.CellStyle)) continue;
+                    if (!PdfBorderResolver.HasBorder(sub.CellStyle)) continue;
                     var border = new PdfCellBorderLayout(false, MergedCellCorners.All, new MergedCellDrawInfo(), b.X, b.Y, b.Width, b.Height);
-                    SetBorderStyle(sub.CellStyle, border, pageSettings.BlackAndWhite);
+                    PdfBorderResolver.SetBorderStyle(sub.CellStyle, border, pageSettings.BlackAndWhite);
                     border.IsPrintTitle = true;
                     border.Name = "PrintTitleMergeBorder_" + sub.Name;
                     pageLayout.AddChild(border);
@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
-            var cornerFill = new PdfCellLayout(GetOriginX(pageSettings, page), GetOriginY(pageSettings, page), headingWidth, headingHeight);
+            var cornerFill = new PdfCellLayout(PdfLayout.GetOriginX(pageSettings, page), PdfLayout.GetOriginY(pageSettings, page), headingWidth, headingHeight);
             PdfFillResolver.SetFill(dictionaries, headingStyle, "", cornerFill);
             cornerFill.Name = "Heading_Corner";
             cornerFill.UpdateShadingPositionMatrix(pageSettings);
@@ -237,8 +237,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double colWidth = page.Map[page.FromRow, col]?.ColumnWidth ?? 0d;
                 if (colWidth == 0d) { x += colWidth; continue; }
                 string colLetter = ExcelCellBase.GetColumnLetter(col);
-                AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter,
-                    x, GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
+                AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter, x, PdfLayout.GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
                 x += colWidth;
             }
             if (!pageSettings.Draft)
@@ -249,8 +248,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     double rowHeight = page.RowHeights[row - page.FromRow];
                     if (rowHeight == 0d) { y -= rowHeight; continue; }
                     string rowNum = row.ToString();
-                    AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum,
-                        GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
+                    AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum, PdfLayout.GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
                     y -= rowHeight;
                 }
             }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfLinkLayout
+    internal static class PdfLinkLayout
     {
         internal static bool CanTightenLink(PdfCellContentLayout text) =>
                 text?.TextLines != null && text.TextLines.Count > 0 &&

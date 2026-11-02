@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfImagePlacement
+    internal static class PdfImagePlacement
     {
         internal static void AddCellPicture(PdfPageLayout pageLayout, PdfCell map, double x, double y, double effectiveWidth, double rowHeight)
         {
@@ -33,6 +33,34 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         ImageBytes = map.CellPictureBytes,
                         Name = "CellImage_" + map.Name,
+                    });
+                }
+            }
+        }
+
+        internal static void EmitPageImages(PdfPageLayout pageLayout, Page page, bool isDraft)
+        {
+            if (isDraft || page.Images == null) return;
+            foreach (var img in page.Images)
+            {
+                pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
+                {
+                    ImageBytes = img.ImageBytes,
+                    Name = img.Name,
+                });
+                if (img.HyperlinkUri != null || img.HyperlinkTargetSheet != null)
+                {
+                    pageLayout.Links.Add(new LinkDrawInfo
+                    {
+                        X = img.X,
+                        Y = img.Y - img.Height,
+                        Width = img.Width,
+                        Height = img.Height,
+                        Uri = img.HyperlinkUri,
+                        TargetSheet = img.HyperlinkTargetSheet,
+                        TargetRow = img.HyperlinkTargetRow,
+                        TargetColumn = img.HyperlinkTargetColumn,
+                        ToolTip = img.HyperlinkToolTip
                     });
                 }
             }
@@ -105,8 +133,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             double pageAbsTop = rowPrefix[page.FromRow - fromRow];
             double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
 
-            double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
-            double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
+            double contentStartX = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+            double contentStartY = PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
 
             foreach (var drawing in drawings)
             {

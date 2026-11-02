@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfBorderResolver
+    internal static class PdfBorderResolver
     {
         internal static bool HasBorder(PdfCellStyle cellStyle)
         {
@@ -163,25 +163,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return s == ExcelBorderStyle.Double;
         }
 
-        private static bool CellHasRightBorder(PdfCell cell)
+        internal static bool CellHasRightBorder(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;
             return (cs.xfRight != null && cs.xfRight.Style != ExcelBorderStyle.None) || (cs.dxfRight?.HasValue ?? false);
         }
 
-        private static bool CellHasLeftBorder(PdfCell cell)
+        internal static bool CellHasLeftBorder(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;
             return (cs.xfLeft != null && cs.xfLeft.Style != ExcelBorderStyle.None) || (cs.dxfLeft?.HasValue ?? false);
         }
 
-        private static bool CellHasTopBorder(PdfCell cell)
+        internal static bool CellHasTopBorder(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;
             return (cs.xfTop != null && cs.xfTop.Style != ExcelBorderStyle.None) || (cs.dxfTop?.HasValue ?? false);
         }
 
-        private static bool CellHasBottomBorder(PdfCell cell)
+        internal static bool CellHasBottomBorder(PdfCell cell)
         {
             var cs = cell?.CellStyle; if (cs == null) return false;
             return (cs.xfBottom != null && cs.xfBottom.Style != ExcelBorderStyle.None) || (cs.dxfBottom?.HasValue ?? false);

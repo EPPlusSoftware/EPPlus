@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfSpillLayout
+    internal static class PdfSpillLayout
     {
         internal static Pages PrecomputeSpillCells(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
         {
@@ -19,32 +19,32 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var page = pdfPages.Page[i];
                 page.SpillCells = new List<SpillCellDraw>();
-                double originX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
-                double originY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
+                double originX = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+                double originY = PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
                 AddIncomingSpill(page, range, page.FromRow, page.ToRow, page.FromColumn, page.ToColumn, originX, originY, isPrintTitle: false);
                 pdfPages.Page[i] = page;
             }
             return pdfPages;
         }
 
-        private static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)
+        internal static void AddIncomingSpill(Page page, PdfRange range, int fromRow, int toRow, int windowFromCol, int windowToCol, double windowOriginX, double windowOriginY, bool isPrintTitle)
         {
             if (page.SpillCells == null) return;
             double windowRightX = windowOriginX;
-            for (int c = windowFromCol; c <= windowToCol; c++) windowRightX += RangeColWidth(range, page.FromRow, c);
+            for (int c = windowFromCol; c <= windowToCol; c++) windowRightX += PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
             double rowTop = windowOriginY;
             for (int r = fromRow; r <= toRow; r++)
             {
-                double rowH = RangeRowHeight(range, r);
+                double rowH = PdfRangeGeometry.RangeRowHeight(range, r);
                 double y = rowTop;
                 rowTop -= rowH;
                 if (rowH <= 0d) continue;
                 double lx = windowOriginX;
                 for (int c = windowFromCol - 1; c >= range.Range._fromCol; c--)
                 {
-                    double w = RangeColWidth(range, page.FromRow, c);
+                    double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                     lx -= w;
-                    var cell = RangeCell(range, r, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, r, c);
                     if (cell == null) continue;
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) continue;
@@ -74,8 +74,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double rx = windowRightX;
                 for (int c = windowToCol + 1; c <= range.Range._toCol; c++)
                 {
-                    double w = RangeColWidth(range, page.FromRow, c);
-                    var cell = RangeCell(range, r, c);
+                    double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, r, c);
                     if (cell == null) { rx += w; continue; }
                     if (cell.Merged) break;
                     if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
@@ -112,18 +112,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double x = windowOriginX;
                 for (int c = windowFromCol; c <= windowToCol; c++)
                 {
-                    var cell = RangeCell(range, row, c);
+                    var cell = PdfRangeGeometry.RangeCell(range, row, c);
                     if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return x;
-                    x += RangeColWidth(range, page.FromRow, c);
+                    x += PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                 }
                 return windowRightX;
             }
             double rx = windowRightX;
             for (int c = windowToCol; c >= windowFromCol; c--)
             {
-                double w = RangeColWidth(range, page.FromRow, c);
+                double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                 rx -= w;
-                var cell = RangeCell(range, row, c);
+                var cell = PdfRangeGeometry.RangeCell(range, row, c);
                 if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return rx + w;
             }
             return windowOriginX;

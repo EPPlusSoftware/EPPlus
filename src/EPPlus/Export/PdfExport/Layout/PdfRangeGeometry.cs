@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfRangeGeometry
+    internal static class PdfRangeGeometry
     {
         internal static PdfCell RangeCell(PdfRange range, int row, int col)
         {

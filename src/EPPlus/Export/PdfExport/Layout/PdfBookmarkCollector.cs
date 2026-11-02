@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfBookmarkCollector
+    internal static class PdfBookmarkCollector
     {
         internal static void CollectNamedDestinations(PdfWorksheet[] pdfSheets, List<PdfNamedDest> dests)
         {

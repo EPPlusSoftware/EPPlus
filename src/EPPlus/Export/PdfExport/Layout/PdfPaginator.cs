@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfPaginator
+    internal static class PdfPaginator
     {
         private struct PageSegment
         {
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 do
                 {
                     prev = xPages;
-                    range.AdditionalWidth = xPages * ((rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth));
+                    range.AdditionalWidth = xPages * ((PdfLayout.rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth));
                     xPages = (int)Math.Max(1, Math.Ceiling((range.TotalWidth + range.AdditionalWidth) / pageSettings.EffectiveContentWidth));
                 } while (prev != xPages);
                 do
@@ -225,9 +225,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var worksheet = range.Range.Worksheet;
 
             // Same per-page reservations the real pagination uses (both are per-page constants — no circularity).
-            double addedWidth = pageSettings.ShowHeadings
-                ? (rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (System.Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth)
-                : 0d;
+            double addedWidth = pageSettings.ShowHeadings ? (PdfLayout.rowHeadingWith1CharWidth - pdfSheet.ZeroCharWidth) + (System.Math.Abs(pdfSheet.ToRow).ToString().Length * pdfSheet.ZeroCharWidth) : 0d;
             double addedHeight = pageSettings.ShowHeadings ? pdfSheet.Worksheet.DefaultRowHeight : 0d;
 
             ComputePrintTitleDimensions(pdfSheet, range, out double titleHeight, out double titleWidth);

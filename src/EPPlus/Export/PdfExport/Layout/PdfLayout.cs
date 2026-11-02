@@ -37,40 +37,9 @@ using System.Drawing;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal struct PrintTitleCellDraw
+    internal static class PdfLayout
     {
-        public PdfCell Cell;
-        public double X;
-        public double Y;
-        public double Width;
-        public double Height;
-        public double ClipX;
-        public double ClipY;
-        public double ClipWidth;
-        public double ClipHeight;
-    }
-
-    internal struct PrintTitleHeadingDraw
-    {
-        public bool IsRow;
-        public int Index;
-        public double X;
-        public double Y;
-        public double Width;
-        public double Height;
-    }
-
-    internal struct SpillCellDraw
-    {
-        public PdfCell Cell;
-        public double X, Y, Width, Height;
-        public double ClipX, ClipY, ClipWidth, ClipHeight;
-        public bool IsPrintTitle;
-    }
-
-    internal class PdfLayout
-    {
-        private const double rowHeadingWith1CharWidth = 18d;
+        internal const double rowHeadingWith1CharWidth = 18d;
 
         public static Transform GetLayout(PdfPageSettings[] sheetSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
         {
@@ -80,8 +49,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 PdfBookmarkCollector.CollectNamedDestinations(pdfSheets, cat.NamedDestinations);
             return Catalog;
         }
-
-       
 
         internal static Transform GetCatalog(int firstPageNumber, PdfDictionaries dictionaries, List<Pages> pdfPages)
         {
@@ -104,425 +71,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     sheetTotalPages.TryGetValue(currentSheetIndex, out totalPages);
                 }
                 var pages = pdfPages[i].Page;
-                int pageNumber = pageSettings.FirstPageNumber;
                 for (int j = 0; j < pages.Length; j++)
                 {
                     var page = pages[j];
-                    PdfPageLayout pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
-                    pageLayout.Settings = pageSettings;
-                    pageLayout.isCommentsPage = pdfPages[i].IsCommentsPage;
-                    pageLayout.HeadingWidth = page.HeadingWidth;
-                    pageLayout.HeadingHeight = page.HeadingHeight;
-                    pageLayout.PrintTitleWidth = page.PrintTitleWidth;
-                    pageLayout.PrintTitleHeight = page.PrintTitleHeight;
-                    var drawnMergedCells = new HashSet<string>();
-                    double contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
-                    double contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
-                    if (pageSettings.ShowHeadings && !pdfPages[i].IsCommentsPage)
-                    {
-                        PdfHeadingLayout.AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
-                        PdfHeadingLayout.AddPrintTitleHeadings(pageSettings, dictionaries, page, pageLayout, pdfPages[i].HeadingFontName, pdfPages[i].HeadingFontSize, pdfPages[i].HeadingFill);
-                    }
-                    PdfSpillLayout.AddSpillCells(pageSettings, dictionaries, page, pageLayout);
-                    PdfHeadingLayout.AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
-                    if (!pdfPages[i].IsCommentsPage)
-                    {
-                        pageLayout.SheetName = pdfPages[i].SheetName;
-                        pageLayout.FromRow = page.FromRow;
-                        pageLayout.ToRow = page.ToRow;
-                        pageLayout.FromColumn = page.FromColumn;
-                        pageLayout.ToColumn = page.ToColumn;
-                        pageLayout.ColLeftX = BuildColumnXPositions(pageSettings, page);
-                        var rowTopY = new double[page.ToRow - page.FromRow + 1];
-                        double ry = contentStartY;
-                        for (int r = page.FromRow; r <= page.ToRow; r++)
-                        {
-                            rowTopY[r - page.FromRow] = ry;
-                            ry -= page.RowHeights[r - page.FromRow];
-                        }
-                        pageLayout.RowTopY = rowTopY;
-                    }
-                    else
-                    {
-                        pageLayout.CommentsSourceSheet = pdfPages[i].SheetName;
-                    }
-                    double y = contentStartY;
-                    double x = contentStartX;
-                    for (int row = pages[j].FromRow; row <= pages[j].ToRow; row++)
-                    {
-                        double rowHeight = pages[j].RowHeights[row - pages[j].FromRow];
-                        for (int col = pages[j].FromColumn; col <= pages[j].ToColumn; col++)
-                        {
-                            var map = pages[j].Map[row, col];
-                            MergedCellDrawInfo info = new MergedCellDrawInfo();
-                            if (map.Hidden && !map.Merged)
-                            {
-                                x += map.ColumnWidth;
-                                continue;
-                            }
-                            //Merged Cell
-                            if (map.Merged)
-                            {
-                                string key = map.MergedAddress.Address;
-                                if (!drawnMergedCells.Contains(key) &&
-                                    pages[j].MergedCells.TryGetValue(key, out info))
-                                {
-                                    if (!isDraft)
-                                    {
-                                        //Fill
-                                        if (!isBlackWhite)
-                                        {
-                                            var cellStyle = map.Main?.CellStyle ?? map.CellStyle;
-                                            var fill = new PdfCellLayout(info.X, info.Y, info.Width, info.Height);
-                                            PdfFillResolver.SetFill(dictionaries, cellStyle, map.Text, fill);
-                                            fill.Name = map.Name;
-                                            fill.UpdateShadingPositionMatrix(pageSettings);
-                                            pageLayout.AddChild(fill);
-                                        }
-                                        //In-cell picture
-                                        var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
-                                        if (picMap != null)
-                                        {
-                                            PdfImagePlacement.AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
-                                        }
-                                    }
-                                    //Text
-                                    var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
-                                    if (sourceMap != null)
-                                    {
-                                        var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info.X, info.Y, info.Width, info.Height);
-                                        text.Name = map.Name;
-                                        text.GidsAndCharMap(dictionaries);
-                                        text.SetupClipping(info.X, info.Y, info.Width, info.Height);
-                                        pageLayout.AddChild(text);
-
-                                        if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
-                                        {
-                                            if (PdfLinkLayout.CanTightenLink(text))
-                                                PdfLinkLayout.AddTextLinks(pageLayout, text, info.X, info.X + info.Width, map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
-                                            else
-                                                
-                                                pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
-                                        }
-                                    }
-                                    else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
-                                    {
-                                        pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
-                                    }
-                                    if (!isDraft)
-                                    {
-                                        if (map.Main != null)
-                                        {
-                                            var mergeMainStyle = map.Main.CellStyle;
-                                            if (PdfBorderResolver.HasDiagonalBorder(mergeMainStyle))
-                                            {
-                                                var diagBorder = new PdfCellBorderLayout(
-                                                    isMerged: false,
-                                                    corners: MergedCellCorners.All,
-                                                    info: info,
-                                                    x: info.X,
-                                                    y: info.Y,
-                                                    width: info.Width,
-                                                    height: info.Height);
-                                                PdfBorderResolver.SetBorderStyle(mergeMainStyle, diagBorder, isBlackWhite);
-                                                diagBorder.Name = map.Name;
-                                                diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                                diagBorder.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                                diagBorder.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                                diagBorder.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                                pageLayout.AddChild(diagBorder);
-                                            }
-                                        }
-                                    }
-                                    drawnMergedCells.Add(key);
-                                }
-                            }
-                            else
-                            {
-                                var contentRight = pageSettings.ContentBounds.Left + pageSettings.ContentBounds.Width;
-                                var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
-                                if (!isDraft)
-                                {
-                                    if (!isBlackWhite)
-                                    {
-                                        //Fill
-                                        var fill = new PdfCellLayout(x, y, effectiveWidth, rowHeight);
-                                        PdfFillResolver.SetFill(dictionaries, map.CellStyle, map.Text, fill);
-                                        fill.UpdateShadingPositionMatrix(pageSettings);
-                                        fill.Name = map.Name;
-                                        pageLayout.AddChild(fill);
-                                    }
-                                    //In-cell picture
-                                    PdfImagePlacement.AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
-                                }
-                                //Text
-                                if (map.TextLines != null && map.TextLines.Count > 0)
-                                {
-                                    var text = new PdfCellContentLayout(pageSettings, dictionaries, map, x, y, effectiveWidth, rowHeight);
-                                    text.Name = map.Name;
-                                    text.GidsAndCharMap(dictionaries);
-                                    var (clipX, clipW, spillLeft, spillRight) = PdfSpillLayout.GetOverflowClip(map, pages[j], row, col, x, effectiveWidth);
-                                    text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
-                                    pageLayout.AddChild(text);
-
-                                    if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
-                                    {
-                                        if (PdfLinkLayout.CanTightenLink(text))
-                                            PdfLinkLayout.AddTextLinks(pageLayout, text, clipX, clipX + clipW,
-                                                         map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
-                                        else
-                                            pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(x, y, effectiveWidth, rowHeight, map));
-                                    }
-                                }
-                                // Empty cell in a range hyperlink
-                                else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
-                                {
-                                    pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(x, y, effectiveWidth, rowHeight, map));
-                                }
-                            }
-                            if (!isDraft)
-                            {
-                                //Border
-                                var borderStyle = (map.Merged && map.Main != null) ? map.Main.CellStyle : map.CellStyle;
-                                if (PdfBorderResolver.HasBorder(map.CellStyle))
-                                {
-                                    var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
-                                    PdfBorderResolver.SetBorderStyle(map.CellStyle, border, isBlackWhite);
-                                    border.Name = map.Name;
-                                    if (map.Merged && map.MergedAddress != null)
-                                    {
-                                        var addr = map.MergedAddress;
-                                        if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                        if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                        if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                        if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
-                                    }
-                                    PdfBorderResolver.SetDoubleBorderMiterFlags(pages[j], row, col, border);
-                                    pageLayout.AddChild(border);
-                                }
-                            }
-                            x += map.ColumnWidth;
-                        }
-                        y -= rowHeight;
-                        x = contentStartX;
-                    }
+                    var pageLayout = BeginPageLayout(pdfPages[i], page, pageSettings, dictionaries, out double contentStartX, out double contentStartY);
+                    EmitPageCells(pageLayout, page, pageSettings, dictionaries, contentStartX, contentStartY, isDraft, isBlackWhite);
+                    PdfImagePlacement.EmitPageImages(pageLayout, page, isDraft);
+                    PdfHeaderFooterLayout.AddHeaderFooter(pageLayout, page, pageSettings, dictionaries, displayedPageNumber, physicalPageIndex, totalPages);
+                    AddAdditionalContent(pageLayout, page, pageSettings, dictionaries);
                     if (!isDraft)
-                    {
-                        if (page.Images != null)
-                        {
-                            foreach (var img in page.Images)
-                            {
-                                pageLayout.AddChild(new PdfImageLayout(img.X, img.Y, img.Width, img.Height)
-                                {
-                                    ImageBytes = img.ImageBytes,
-                                    Name = img.Name,
-                                });
-                                if (img.HyperlinkUri != null || img.HyperlinkTargetSheet != null)
-                                {
-                                    pageLayout.Links.Add(new LinkDrawInfo
-                                    {
-                                        X = img.X,
-                                        Y = img.Y - img.Height,
-                                        Width = img.Width,
-                                        Height = img.Height,
-                                        Uri = img.HyperlinkUri,
-                                        TargetSheet = img.HyperlinkTargetSheet,
-                                        TargetRow = img.HyperlinkTargetRow,
-                                        TargetColumn = img.HyperlinkTargetColumn,
-                                        ToolTip = img.HyperlinkToolTip
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    if (page.HeaderFooters != null)
-                    {
-                        pageLayout.ScaleHeaderFooterWithDocument = page.HeaderFooters.ScaleWithDocument;
-                        var hfType = page.HeaderFooters.GetPageType(physicalPageIndex);
-                        var leftH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Left);
-                        bool alignHf = page.HeaderFooters.AlignWithMargins;
-                        var (hfBoxLeft, hfBoxWidth) = PdfHeaderFooterLayout.HeaderFooterBox(pageSettings, alignHf);
-                        if (leftH != null && !leftH.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, leftH, displayedPageNumber, totalPages))
-                        {
-                            var ascent = leftH.Content.TextLines[0].LargestAscent;
-                            var hfx = hfBoxLeft;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftH, hfx, hfy, 0, 0);
-                            text.ScaleAnchorX = hfx;                 // left edge
-                            text.ScaleAnchorY = hfy + ascent;
-                            text.Name = "LeftHeader";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Left, pageSettings, alignHf);
-                        }
-                        var centerH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Center);
-                        if (centerH != null && !centerH.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, centerH, displayedPageNumber, totalPages))
-                        {
-                            var ascent = centerH.Content.TextLines[0].LargestAscent;
-                            var hfx = hfBoxLeft;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var hfWidth = hfBoxWidth;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerH, hfx, hfy, hfWidth, 0);
-                            text.ScaleAnchorX = hfx + hfWidth / 2d;
-                            text.ScaleAnchorY = hfy + ascent;
-                            text.Name = "CenterHeader";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Center, pageSettings, alignHf);
-                        }
-                        var rightH = page.HeaderFooters.Get(hfType, HeaderFooterSection.Header, HeaderFooterAlignment.Right);
-                        if (rightH != null && !rightH.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, rightH, displayedPageNumber, totalPages))
-                        {
-                            var ascent = rightH.Content.TextLines[0].LargestAscent;
-                            var hfx = hfBoxLeft + hfBoxWidth;
-                            var hfy = pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightH, hfx, hfy, 0, 0);
-                            text.ScaleAnchorX = hfx;
-                            text.ScaleAnchorY = hfy + ascent;
-                            text.Name = "RightHeader";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Header, HeaderFooterAlignment.Right, pageSettings, alignHf);
-                        }
-                        var leftF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Left);
-                        if (leftF != null && !leftF.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, leftF, displayedPageNumber, totalPages))
-                        {
-                            int last = leftF.Content.TextLines.Count - 1;
-                            var descent = leftF.Content.TextLines[last].LargestDescent;
-                            var hfx = hfBoxLeft;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, leftF, hfx, hfy, 0, 0);
-                            text.ScaleAnchorX = hfx;
-                            text.ScaleAnchorY = hfy - descent;
-                            text.Name = "LeftFooter";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Left, pageSettings, alignHf);
-                        }
-                        var centerF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Center);
-                        if (centerF != null && !centerF.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, centerF, displayedPageNumber, totalPages))
-                        {
-                            int last = centerF.Content.TextLines.Count - 1;
-                            var descent = centerF.Content.TextLines[last].LargestDescent;
-                            var hfx = hfBoxLeft;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var hfWidth = hfBoxWidth;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, centerF, hfx, hfy, hfWidth, 0);
-                            text.ScaleAnchorX = hfx + hfWidth / 2d;
-                            text.ScaleAnchorY = hfy - descent;
-                            text.Name = "CenterFooter";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Center, pageSettings, alignHf);
-                        }
-                        var rightF = page.HeaderFooters.Get(hfType, HeaderFooterSection.Footer, HeaderFooterAlignment.Right);
-                        if (rightF != null && !rightF.HasImage && PdfHeaderFooterLayout.ShapeHeaderFooterText(pageSettings, dictionaries, rightF, displayedPageNumber, totalPages))
-                        {
-                            int last = rightF.Content.TextLines.Count - 1;
-                            var descent = rightF.Content.TextLines[last].LargestDescent;
-                            var hfx = hfBoxLeft + hfBoxWidth;
-                            var hfy = pageSettings.Margins.FooterPu + descent;
-                            var text = new PdfCellContentLayout(pageSettings, dictionaries, rightF, hfx, hfy, 0, 0);
-                            text.ScaleAnchorX = hfx;
-                            text.ScaleAnchorY = hfy - descent;
-                            text.Name = "RightFooter";
-                            PdfHeaderFooterLayout.AddHeaderFooterTextPart(pageLayout, dictionaries, text, HeaderFooterSection.Footer, HeaderFooterAlignment.Right, pageSettings, alignHf);
-                        }
-                        double hfContentLeft = pageSettings.Margins.LeftPu;
-                        double hfContentWidth = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                        foreach (var hfSection in new[] { HeaderFooterSection.Header, HeaderFooterSection.Footer })
-                        {
-                            foreach (var hfAlign in new[] { HeaderFooterAlignment.Left, HeaderFooterAlignment.Center, HeaderFooterAlignment.Right })
-                            {
-                                var hf = page.HeaderFooters.Get(hfType, hfSection, hfAlign);
-                                if (hf == null || !hf.HasImage) continue;
-                                PdfHeaderFooterLayout.ApplyPageNumbers(hf, displayedPageNumber, totalPages);
-
-                                var frags = hf.Content.TextFragments;
-                                int splitAt = hf.ImageFragmentIndex;
-                                if (splitAt < 0 || splitAt > frags.Count) splitAt = frags.Count;
-                                var beforeFrags = frags.GetRange(0, splitAt);
-                                var afterFrags = frags.GetRange(splitAt, frags.Count - splitAt);
-
-                                double beforeWidth, beforeAscent, beforeDescent;
-                                double afterWidth, afterAscent, afterDescent;
-                                var beforeRun = PdfHeaderFooterLayout.ShapeHeaderFooterRun(pageSettings, dictionaries, beforeFrags, hfSection, out beforeWidth, out beforeAscent, out beforeDescent);
-                                var afterRun = PdfHeaderFooterLayout.ShapeHeaderFooterRun(pageSettings, dictionaries, afterFrags, hfSection, out afterWidth, out afterAscent, out afterDescent);
-
-                                bool canEmbed = PdfImageXObject.CanEmbed(hf.ImageBytes);
-                                double imgW = canEmbed ? hf.ImageWidth : 0d;
-                                double imgH = canEmbed ? hf.ImageHeight : 0d;
-
-                                double runWidth = beforeWidth + imgW + afterWidth;
-                                double runStart;
-                                switch (hfAlign)
-                                {
-                                    case HeaderFooterAlignment.Left:
-                                        runStart = hfContentLeft;
-                                        break;
-                                    case HeaderFooterAlignment.Right:
-                                        runStart = hfContentLeft + hfContentWidth - runWidth;
-                                        break;
-                                    default: // Center
-                                        runStart = hfContentLeft + (hfContentWidth - runWidth) / 2d;
-                                        break;
-                                }
-
-                                double ascent = System.Math.Max(beforeAscent, afterAscent);
-                                double descent = System.Math.Max(beforeDescent, afterDescent);
-                                double imgTop = hfSection == HeaderFooterSection.Header
-                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu
-                                                : pageSettings.Margins.FooterPu + imgH;
-                                double imgBottom = imgTop - imgH;
-
-                                double naturalBaseline = hfSection == HeaderFooterSection.Header
-                                                ? pageSettings.PageSize.HeightPu - pageSettings.Margins.HeaderPu - ascent
-                                                : pageSettings.Margins.FooterPu + descent;
-                                double textY = System.Math.Min(naturalBaseline, imgBottom + descent);
-                                var part = new PdfHeaderFooterPart { ScalePivot = PdfHeaderFooterLayout.HeaderFooterPivot(hfSection, hfAlign, pageSettings, alignHf) };
-                                double cursor = runStart;
-                                if (beforeRun != null)
-                                {
-                                    part.Items.Add(PdfHeaderFooterLayout.PlaceHeaderFooterRun(pageSettings, dictionaries, beforeRun, cursor, textY));
-                                }
-                                cursor += beforeWidth;
-
-                                if (canEmbed)
-                                {
-                                    part.Items.Add(new PdfImageLayout(cursor, imgTop, imgW, imgH)
-                                    {
-                                        ImageBytes = hf.ImageBytes,
-                                        IsHeaderFooter = true,
-                                        Name = $"{hfSection}{hfAlign}Image",
-                                    });
-                                }
-                                cursor += imgW;
-                                if (afterRun != null)
-                                {
-                                    part.Items.Add(PdfHeaderFooterLayout.PlaceHeaderFooterRun(pageSettings, dictionaries, afterRun, cursor, textY));
-                                }
-                                if (part.Items.Count > 0)
-                                    pageLayout.HeaderFooterParts.Add(part);
-                            }
-                        }
-                    }
-                    if (page.AddedContent != null && page.AddedContent.content?.TextLines != null && page.AddedContent.content.TextLines.Count > 0)
-                    {
-                        var content = page.AddedContent.content;
-                        int last = content.TextLines.Count - 1;
-                        var descent = content.TextLines[last].LargestDescent;
-                        var ascent = content.TextLines[last].LargestAscent;
-                        var sx = 10d;
-                        var sy = descent + 2d;
-                        var width = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
-                        var cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
-                        cellcont.IsAddedContent = true;
-                        cellcont.GidsAndCharMap(dictionaries);
-                        pageLayout.AddChild(cellcont);
-                        sy = pageSettings.PageSize.HeightPu - (descent + ascent + 4d);
-                        cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
-                        cellcont.IsAddedContent = true;
-                        cellcont.GidsAndCharMap(dictionaries);
-                        pageLayout.AddChild(cellcont);
-                    }
-                    if (!isDraft)
-                        PdfGridlinesLayout.AddGridLines(pageSettings, pages[j], pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
+                        PdfGridlinesLayout.AddGridLines(pageSettings, page, pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
                     pageLayout.ChildObjects.Sort((a, b) =>
                     {
                         int cmp = a.Z.CompareTo(b.Z);
-                        if (cmp == 0)
-                            return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
-                        return cmp;
+                        return cmp == 0 ? string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase) : cmp;
                     });
                     displayedPageNumber++;
                     physicalPageIndex++;
@@ -530,6 +92,232 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 }
             }
             return Catalog;
+        }
+
+        private static PdfPageLayout BeginPageLayout(Pages sheet, Page page, PdfPageSettings pageSettings,
+                                                     PdfDictionaries dictionaries, out double contentStartX, out double contentStartY)
+        {
+            var pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
+            pageLayout.Settings = pageSettings;
+            pageLayout.isCommentsPage = sheet.IsCommentsPage;
+            pageLayout.HeadingWidth = page.HeadingWidth;
+            pageLayout.HeadingHeight = page.HeadingHeight;
+            pageLayout.PrintTitleWidth = page.PrintTitleWidth;
+            pageLayout.PrintTitleHeight = page.PrintTitleHeight;
+            contentStartX = GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
+            contentStartY = GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
+            if (pageSettings.ShowHeadings && !sheet.IsCommentsPage)
+            {
+                PdfHeadingLayout.AddHeadingCells(pageSettings, dictionaries, page, pageLayout, contentStartX, contentStartY, page.HeadingWidth, page.HeadingHeight, sheet.HeadingFontName, sheet.HeadingFontSize, sheet.HeadingFill);
+                PdfHeadingLayout.AddPrintTitleHeadings(pageSettings, dictionaries, page, pageLayout, sheet.HeadingFontName, sheet.HeadingFontSize, sheet.HeadingFill);
+            }
+            PdfSpillLayout.AddSpillCells(pageSettings, dictionaries, page, pageLayout);
+            PdfHeadingLayout.AddPrintTitleCells(pageSettings, dictionaries, page, pageLayout);
+            if (!sheet.IsCommentsPage)
+            {
+                pageLayout.SheetName = sheet.SheetName;
+                pageLayout.FromRow = page.FromRow;
+                pageLayout.ToRow = page.ToRow;
+                pageLayout.FromColumn = page.FromColumn;
+                pageLayout.ToColumn = page.ToColumn;
+                pageLayout.ColLeftX = BuildColumnXPositions(pageSettings, page);
+                var rowTopY = new double[page.ToRow - page.FromRow + 1];
+                double ry = contentStartY;
+                for (int r = page.FromRow; r <= page.ToRow; r++)
+                {
+                    rowTopY[r - page.FromRow] = ry;
+                    ry -= page.RowHeights[r - page.FromRow];
+                }
+                pageLayout.RowTopY = rowTopY;
+            }
+            else
+            {
+                pageLayout.CommentsSourceSheet = sheet.SheetName;
+            }
+            return pageLayout;
+        }
+
+        private static void EmitPageCells(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings,
+                                         PdfDictionaries dictionaries, double contentStartX, double contentStartY,
+                                         bool isDraft, bool isBlackWhite)
+        {
+            var drawnMergedCells = new HashSet<string>();
+            double y = contentStartY;
+            double x = contentStartX;
+            for (int row = page.FromRow; row <= page.ToRow; row++)
+            {
+                double rowHeight = page.RowHeights[row - page.FromRow];
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    var map = page.Map[row, col];
+                    MergedCellDrawInfo info = new MergedCellDrawInfo();
+                    if (map.Hidden && !map.Merged)
+                    {
+                        x += map.ColumnWidth;
+                        continue;
+                    }
+                    if (map.Merged)
+                    {
+                        string key = map.MergedAddress.Address;
+                        if (!drawnMergedCells.Contains(key) && page.MergedCells.TryGetValue(key, out info))
+                        {
+                            EmitMergedCell(pageLayout, map, info, pageSettings, dictionaries, isDraft, isBlackWhite);
+                            drawnMergedCells.Add(key);
+                        }
+                    }
+                    else
+                    {
+                        EmitNormalCell(pageLayout, page, map, pageSettings, dictionaries, x, y, rowHeight, row, col, isDraft, isBlackWhite);
+                    }
+                    if (!isDraft)
+                        EmitCellBorder(pageLayout, page, map, info, x, y, rowHeight, row, col, isBlackWhite);
+                    x += map.ColumnWidth;
+                }
+                y -= rowHeight;
+                x = contentStartX;
+            }
+        }
+
+        private static void EmitMergedCell(PdfPageLayout pageLayout, PdfCell map, MergedCellDrawInfo info,
+                                   PdfPageSettings pageSettings, PdfDictionaries dictionaries, bool isDraft, bool isBlackWhite)
+        {
+            if (!isDraft)
+            {
+                if (!isBlackWhite)
+                    EmitCellFill(pageLayout, map.Main?.CellStyle ?? map.CellStyle, map.Text, info.X, info.Y, info.Width, info.Height, map.Name, pageSettings, dictionaries);
+
+                var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
+                if (picMap != null)
+                    PdfImagePlacement.AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
+            }
+
+            var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map
+                          : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
+            if (sourceMap != null)
+            {
+                var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info.X, info.Y, info.Width, info.Height);
+                text.Name = map.Name;
+                text.GidsAndCharMap(dictionaries);
+                text.SetupClipping(info.X, info.Y, info.Width, info.Height);
+                pageLayout.AddChild(text);
+                EmitTextLinks(pageLayout, text, map, info.X, info.X + info.Width, info.X, info.Y, info.Width, info.Height);
+            }
+            else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+            {
+                pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
+            }
+
+            if (!isDraft && map.Main != null)
+            {
+                var mergeMainStyle = map.Main.CellStyle;
+                if (PdfBorderResolver.HasDiagonalBorder(mergeMainStyle))
+                {
+                    var diagBorder = new PdfCellBorderLayout(isMerged: false, corners: MergedCellCorners.All, info: info,
+                                                             x: info.X, y: info.Y, width: info.Width, height: info.Height);
+                    PdfBorderResolver.SetBorderStyle(mergeMainStyle, diagBorder, isBlackWhite);
+                    diagBorder.Name = map.Name;
+                    diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                    diagBorder.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                    diagBorder.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                    diagBorder.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                    pageLayout.AddChild(diagBorder);
+                }
+            }
+        }
+
+        private static void EmitNormalCell(PdfPageLayout pageLayout, Page page, PdfCell map, PdfPageSettings pageSettings,
+                                   PdfDictionaries dictionaries, double x, double y, double rowHeight, int row, int col,
+                                   bool isDraft, bool isBlackWhite)
+        {
+            var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
+            if (!isDraft)
+            {
+                if (!isBlackWhite)
+                    EmitCellFill(pageLayout, map.CellStyle, map.Text, x, y, effectiveWidth, rowHeight, map.Name, pageSettings, dictionaries);
+
+                PdfImagePlacement.AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
+            }
+
+            if (map.TextLines != null && map.TextLines.Count > 0)
+            {
+                var text = new PdfCellContentLayout(pageSettings, dictionaries, map, x, y, effectiveWidth, rowHeight);
+                text.Name = map.Name;
+                text.GidsAndCharMap(dictionaries);
+                var (clipX, clipW, spillLeft, spillRight) = PdfSpillLayout.GetOverflowClip(map, page, row, col, x, effectiveWidth);
+                text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
+                pageLayout.AddChild(text);
+                EmitTextLinks(pageLayout, text, map, clipX, clipX + clipW, x, y, effectiveWidth, rowHeight);
+            }
+            else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
+            {
+                pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(x, y, effectiveWidth, rowHeight, map));
+            }
+        }
+
+        private static void EmitCellFill(PdfPageLayout pageLayout, PdfCellStyle style, string text,
+                                        double x, double y, double width, double height, string name,
+                                        PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        {
+            var fill = new PdfCellLayout(x, y, width, height);
+            PdfFillResolver.SetFill(dictionaries, style, text, fill);
+            fill.UpdateShadingPositionMatrix(pageSettings);
+            fill.Name = name;
+            pageLayout.AddChild(fill);
+        }
+
+        // Shared hyperlink emission: tight per-line boxes when possible, else a whole-cell fallback box.
+        private static void EmitTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map,
+                                          double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)
+        {
+            if (map.HyperlinkUri == null && map.HyperlinkTargetSheet == null) return;
+            if (PdfLinkLayout.CanTightenLink(text))
+                PdfLinkLayout.AddTextLinks(pageLayout, text, clipLeft, clipRight,
+                    map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
+            else
+                pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(boxX, boxY, boxWidth, boxHeight, map));
+        }
+
+        private static void EmitCellBorder(PdfPageLayout pageLayout, Page page, PdfCell map, MergedCellDrawInfo info,
+                                           double x, double y, double rowHeight, int row, int col, bool isBlackWhite)
+        {
+            if (!PdfBorderResolver.HasBorder(map.CellStyle)) return;
+
+            var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
+            PdfBorderResolver.SetBorderStyle(map.CellStyle, border, isBlackWhite);
+            border.Name = map.Name;
+            if (map.Merged && map.MergedAddress != null)
+            {
+                var addr = map.MergedAddress;
+                if (row != addr.Start.Row) border.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                if (row != addr.End.Row) border.BorderData.Bottom.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                if (col != addr.Start.Column) border.BorderData.Left.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+                if (col != addr.End.Column) border.BorderData.Right.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
+            }
+            PdfBorderResolver.SetDoubleBorderMiterFlags(page, row, col, border);
+            pageLayout.AddChild(border);
+        }
+
+        private static void AddAdditionalContent(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        {
+            if (page.AddedContent == null || page.AddedContent.content?.TextLines == null || page.AddedContent.content.TextLines.Count == 0)
+                return;
+
+            var content = page.AddedContent.content;
+            int last = content.TextLines.Count - 1;
+            var descent = content.TextLines[last].LargestDescent;
+            var ascent = content.TextLines[last].LargestAscent;
+            var sx = 10d;
+            var sy = descent + 2d;
+            var width = pageSettings.PageSize.WidthPu - pageSettings.Margins.LeftPu - pageSettings.Margins.RightPu;
+            var cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
+            cellcont.IsAddedContent = true;
+            cellcont.GidsAndCharMap(dictionaries);
+            pageLayout.AddChild(cellcont);
+            sy = pageSettings.PageSize.HeightPu - (descent + ascent + 4d);
+            cellcont = new PdfCellContentLayout(pageSettings, dictionaries, content, sx, sy, width, 0);
+            cellcont.IsAddedContent = true;
+            cellcont.GidsAndCharMap(dictionaries);
+            pageLayout.AddChild(cellcont);
         }
 
         private static Dictionary<int, int> GetTotalPagesPerSheet(List<Pages> pdfPages)
@@ -631,9 +419,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
             return colX;
         }
-
-
-
 
         private static Pages GetAdditionalContent(Pages pdfPages, PdfWorksheet pdfSheet)
         {
