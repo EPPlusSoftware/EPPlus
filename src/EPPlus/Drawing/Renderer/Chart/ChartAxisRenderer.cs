@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
+using OfficeOpenXml.Drawing.Renderer.RenderItems.Textbox;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
@@ -480,10 +481,10 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        private List<DrawingTextBox> GetAxisValueTextBoxes(out double widest, out double highest)
+        private List<DrawingTextContainer> GetAxisValueTextBoxes(out double widest, out double highest)
         {
             widest = highest = 0;
-            var ret = new List<DrawingTextBox>();
+            var ret = new List<DrawingTextContainer>();
             if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
 
             //All labels share the axis font. The shaper is obtained through the render context
@@ -607,68 +608,58 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    double rot;
-                    if(LabelOrientation==eTextOrientation.Custom)
-                    {                        
-                        rot = Axis.TextBody?.RotationAdjustedForTextVertical??0D;
+                    double rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+
+                    if(rot == 0)
+                    {
+                        x = xPosToMiddle;
+                    }
+                    else if(rot < 0)
+                    {
+                        x = xPosStart;
                     }
                     else
                     {
-                        rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                        x = xPosTextAtEnd;
                     }
 
-                    double cos = Math.Cos(MathHelper.Radians(rot));
-                    double sin = Math.Sin(MathHelper.Radians(rot));
-
-                    if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
+                    if(Axis.ActualAxisPosition == eAxisPosition.Bottom)
                     {
-                        x = xPosToMiddle;
-                        //if(width < majorTickMarkWidth)
-                        //{
-                        //    x = ticMarkX;
-                        //}
-                        //else
-                        //{
-                        //    x = ticMarkX - ((height / 2) * cos);
-                        //}
-
-                        //var midPointText = Axis.Font.Size / 2;
-                        //var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
-                        //var heightPastY = halfHeightAfterRot - midPointText;
-
                         y = ticMarkY;
-                        ////x = ticMarkX - (height / 2) * cos;
-                        //if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                        //{
-                        //    y = ticMarkY + TopMargin - Math.Abs(((width/2) * sin));
-                        //}
-                        //else //Top
-                        //{
-                        //    y = ticMarkY - BottomMargin - Math.Abs(((width / 2) * sin));
-                        //}
                     }
-                    else if((rot == 90 || rot == -90))
+                    else
                     {
-                        x = ticMarkX;
-                        //Width becomes height post-rotation
-                        //We are currently pre-rotation.
-                        y = ticMarkY - (width/2);
+                        y = ticMarkY - TopMargin;
                     }
-                    else 
-                    {
-                        x = ticMarkX - (height / 2);
-                        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                        {
-                            y = ticMarkY + BottomMargin + 4;
-                        }
-                        else //Top
-                        {
-                            y = ticMarkY - TopMargin - 4;
-                        }
-                    }
-                }
 
-                var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
+                    //double cos = Math.Cos(MathHelper.Radians(rot));
+                    //double sin = Math.Sin(MathHelper.Radians(rot));
+
+                    //if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
+                    //{
+                    //    y = ticMarkY;
+                    //}
+                    //else if((rot == 90 || rot == -90))
+                    //{
+                    //    x = ticMarkX;
+                    //    //Width becomes height post-rotation
+                    //    //We are currently pre-rotation.
+                    //    y = ticMarkY - (width/2);
+                    //}
+                    //else 
+                    //{
+                    //    x = ticMarkX - (height / 2);
+                    //    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    //    {
+                    //        y = ticMarkY + BottomMargin + 4;
+                    //    }
+                    //    else //Top
+                    //    {
+                    //        y = ticMarkY - TopMargin - 4;
+                 }
+
+
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
                 if (p != null)
@@ -686,51 +677,33 @@ namespace EPPlusImageRenderer.Svg
                     tb.AddText(t);
                 }
 
-
-                tb.CenterRotationPoint();
-
-                //Rotation must happen after adding text.
-                if (LabelOrientation == eTextOrientation.Diagonal)
+                if(LabelOrientation == eTextOrientation.Custom)
                 {
-                    //tb.Rotation = -45;
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
+                    tb.OuterRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                }
+                else if(LabelOrientation == eTextOrientation.Diagonal)
+                {
+                    tb.OuterRotation = -45;
                 }
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
                     {
-                        //tb.Rotation = 90;
+                        tb.Rotation = 90;
                     }
-                    else
-                    {
-                        //tb.Rotation = -90;
-                    }
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
-                }
-                else if (LabelOrientation == eTextOrientation.Custom)
-                {
-                    // tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
-                    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        tb.TextAnchor = eTextAnchor.End;
-                    }
+
+                    tb.Rotation = -90;
                 }
 
-                tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+                //tb.GetStyleBg().SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
-                if (widest < tb.Width)
+                if (widest < tb.GetActualWidth())
                 {
-                    widest = tb.Width;
+                    widest = tb.GetActualWidth();
                 }
-                if(highest < tb.Height)
+                if(highest < tb.GetActualHeight())
                 {
-                    highest = tb.Height;
+                    highest = tb.GetActualHeight();
                 }
                 ret.Add(tb);
             }

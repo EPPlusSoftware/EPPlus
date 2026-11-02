@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using System.ComponentModel;
 
 namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 {
@@ -16,20 +17,30 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         Middle = 2
     }
 
-    public class TextContainer : GroupRenderItem
+    public class TextContainer : GroupRenderItem, INotifyPropertyChanged
     {
         RenderContext? _renderContext = null;
 
-        private RotationAnchor _rotationAnchor = RotationAnchor.TopLeft; 
+        private RotationAnchor _rotationAnchor = RotationAnchor.TopLeft;
 
-        public TextContainer()
+        //Currently there MUST be a parent or everything will nullref
+        //public TextContainer()
+        //{
+        //    init();
+        //}
+
+        public TextContainer(BoundingBox parent, RenderContext context) : base(parent)
         {
+            _renderContext = context;
             init();
         }
 
         public TextContainer(BoundingBox parent) : base(parent)
         {
             init();
+            TextBody = new SvgTextBodyRenderItem(_renderContext, _marginGroup, true);
+            TextBody.MaxWidth = Parent.Size.X;
+            TextBody.MaxHeight = Parent.Size.Y;
         }
 
         public TextContainer(BoundingBox parent, double rotation) : base(parent, rotation)
@@ -37,35 +48,40 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             init();
         }
 
-        public TextContainer(double localXPos, double localYPos) : base(localXPos, localYPos)
-        {
-            init();
-        }
+        //Currently there MUST be a parent or everything will nullref
+        //public TextContainer(double localXPos, double localYPos) : base(localXPos, localYPos)
+        //{
+        //    init();
+        //}
 
         public TextContainer(BoundingBox parent, double rotation, Transform rotationPoint = null) : base(parent, rotation, rotationPoint)
         {
             init();
         }
 
-        RenderTextBody txtBody;
-        GroupRenderItem marginGroup;
+        protected RenderTextBody _textBody;
+
+        public virtual RenderTextBody TextBody{ get { return _textBody; } set { _textBody = (SvgTextBodyRenderItem)value; } }
+        protected GroupRenderItem _marginGroup;
         RectRenderItem marginGroupFill;
 
         RectRenderItem bgFillRect;
+
+        public Transform Parent { get { return base.Parent; } set { var hadParent = base.Parent != null; base.Parent = value; if (hadParent) { CalculateMargin(); } } }
 
         public override double Left { get => base.Left; set { base.Left = value; CalculateMargin(); } }
         public override double Top { get => base.Top; set { base.Top = value; CalculateMargin(); } }
 
         public virtual double LeftMargin
         {
-            get { return marginGroup.Left; }
-            set { marginGroup.Left = value; CalculateMargin(); }
+            get { return _marginGroup.Left; }
+            set { _marginGroup.Left = value; CalculateMargin(); }
         }
 
         public double TopMargin
         {
-            get { return marginGroup.Top; }
-            set { marginGroup.Top = value; CalculateMargin(); }
+            get { return _marginGroup.Top; }
+            set { _marginGroup.Top = value; CalculateMargin(); }
         }
 
         double _rightMargin;
@@ -83,7 +99,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             set { _bottomMargin = value; CalculateMargin(); }
         }
 
-        public virtual double InnerRotation
+        public virtual double OuterRotation
         {
             get
             {
@@ -99,15 +115,16 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         RectRenderItem ptOnCircle = new RectRenderItem();
         RectRenderItem rotPointDot = new RectRenderItem();
 
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void init()
         {
 
             Name = "TextContainer";
 
-            marginGroup = new GroupRenderItem(this);
-            marginGroup.Name = "MarginGroup";
-            marginGroupFill = new RectRenderItem(marginGroup);
+            _marginGroup = new GroupRenderItem(this);
+            _marginGroup.Name = "MarginGroup";
+            marginGroupFill = new RectRenderItem(_marginGroup);
             marginGroupFill.Style.FillColor = "blue";
             marginGroupFill.Style.FillOpacity = 0.2d;
             marginGroupFill.Name = "MarginGroupFill";
@@ -122,7 +139,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             rotPointDot.Style.FillColor = "red";
             rotPointDot.Parent = Parent;
 
-            rotPointDot.Position = marginGroup.Position;
+            rotPointDot.Position = _marginGroup.Position;
             rotPointDot.Left -= LeftMargin;
             rotPointDot.Top -= TopMargin;
             //Center object
@@ -147,16 +164,22 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             bgFillRect = new RectRenderItem(this.Parent);
             bgFillRect.Style.FillColor = "GoldenRod";
             bgFillRect.Style.FillOpacity = 0.2d;
-
-            txtBody = new SvgTextBodyRenderItem(_renderContext, marginGroup, true);
-            txtBody.MaxWidth = Parent.Size.X;
-            txtBody.MaxHeight = Parent.Size.Y;
         }
 
         void SetTxtBodyMaxSize(double height, double width)
         {
-            txtBody.MaxHeight = height;
-            txtBody.MaxWidth = width;
+            TextBody.MaxHeight = height;
+            TextBody.MaxWidth = width;
+        }
+
+        public double GetActualHeight()
+        {
+            return marginGroupFill.Height;
+        }
+
+        public double GetActualWidth()
+        {
+            return marginGroupFill.Width;
         }
 
         protected void CalculateMargin()
@@ -164,11 +187,11 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             ptOnCircle.Left = this.Position.X;
             ptOnCircle.Top = this.Position.Y;
 
-            marginGroup.Width = txtBody.Width + RightMargin;
-            marginGroup.Height = txtBody.Height + BottomMargin;
+            _marginGroup.Width = TextBody.Width + RightMargin;
+            _marginGroup.Height = TextBody.Height + BottomMargin;
 
-            marginGroupFill.Width = marginGroup.Width + LeftMargin;
-            marginGroupFill.Height = marginGroup.Height + TopMargin;
+            marginGroupFill.Width = _marginGroup.Width + LeftMargin;
+            marginGroupFill.Height = _marginGroup.Height + TopMargin;
 
 
             bgFillRect.Width = Width;
@@ -176,17 +199,17 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
             if (_rotationAnchor == RotationAnchor.TopLeft)
             {
-                marginGroupFill.Parent = marginGroup;
-                marginGroupFill.Left = -marginGroup.Left;
-                marginGroupFill.Top = -marginGroup.Top;
+                marginGroupFill.Parent = _marginGroup;
+                marginGroupFill.Left = -_marginGroup.Left;
+                marginGroupFill.Top = -_marginGroup.Top;
 
                 //0 when rotation point is top left
                 //marginGroupFill.Top = 0;
                 //marginGroupFill.Top = -marginGroup.Top * Math.Cos(marginGroupFill.RotationRadians);
 
 
-                rotPointDot.Left = marginGroup.GlobalLeft;
-                rotPointDot.Top = marginGroup.GlobalTop;
+                rotPointDot.Left = _marginGroup.GlobalLeft;
+                rotPointDot.Top = _marginGroup.GlobalTop;
                 //Center object
                 rotPointDot.Left -= rotPointDot.Width / 2d;
                 rotPointDot.Top -= rotPointDot.Height / 2d;
@@ -222,10 +245,10 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
             else if (_rotationAnchor == RotationAnchor.Middle)
             {
-                marginGroup.SetRotationPointToCenterOfGroup();
-                rotPointDot.Position = marginGroup.RotationPoint.Position;
+                _marginGroup.SetRotationPointToCenterOfGroup();
+                rotPointDot.Position = _marginGroup.RotationPoint.Position;
 
-                var rotPointInternal = new TranformPoint(marginGroup.RotationPoint.Left + marginGroup.Position.X, marginGroup.RotationPoint.Top + marginGroup.Position.Y);
+                var rotPointInternal = new TranformPoint(_marginGroup.RotationPoint.Left + _marginGroup.Position.X, _marginGroup.RotationPoint.Top + _marginGroup.Position.Y);
                 marginGroupFill.Parent = rotPointInternal;
 
                 rotPointDot.Position = rotPointInternal.Position;
@@ -235,42 +258,44 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 marginGroupFill.Left = -marginGroupFill.Width / 2d;
                 marginGroupFill.Top = -marginGroupFill.Height / 2d;
 
-                rotPointInternal.Rotation = marginGroup.LocalRotation;
+                rotPointInternal.Rotation = _marginGroup.LocalRotation;
 
                 bgFillRect.Position = new Graphics.Geometry.Vector2(marginGroupFill.GetGlobalBoundingbox().Left, marginGroupFill.GetGlobalBoundingbox().Top);
 
 
-                marginGroupFill.Parent = marginGroup;
+                marginGroupFill.Parent = _marginGroup;
                 marginGroupFill.Left = 0;
                 marginGroupFill.Top = 0;
             }
         }
 
-        public double Width
+        public override double Width
         {
             get
             {
                 //It does not add its own leftmargin to its width
                 var prevMargin = LeftMargin;
-                marginGroup.Width += prevMargin;
-                marginGroup.Left -= prevMargin;
-                var rotatedAndScaledWidth = marginGroup.GetGlobalBoundingbox().Width;
-                marginGroup.Left = prevMargin;
+                _marginGroup.Width += prevMargin;
+                _marginGroup.Left -= prevMargin;
+                var rotatedAndScaledWidth = _marginGroup.GetGlobalBoundingbox().Width;
+                _marginGroup.Width -= prevMargin;
+                _marginGroup.Left = prevMargin;
 
                 return rotatedAndScaledWidth;
             }
         }
 
-        public double Height
+        public override double Height
         {
             get
             {
                 //It does not add its own topMargin to its height
                 var prevMargin = TopMargin;
-                marginGroup.Height += prevMargin;
-                marginGroup.Top -= prevMargin;
-                var rotatedAndScaledWidth = marginGroup.GetGlobalBoundingbox().Height;
-                marginGroup.Top = prevMargin;
+                _marginGroup.Height += prevMargin;
+                _marginGroup.Top -= prevMargin;
+                var rotatedAndScaledWidth = _marginGroup.GetGlobalBoundingbox().Height;
+                _marginGroup.Top = prevMargin;
+                _marginGroup.Height -= prevMargin;
 
                 return rotatedAndScaledWidth;
             }
@@ -278,15 +303,15 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         public void AddText(string text)
         {
-            txtBody.AddParagraph(text);
-            txtBody.RecalculateParagraphs();
+            TextBody.AddParagraph(text);
+            TextBody.RecalculateParagraphs();
             CalculateMargin();
         }
 
         public void AddRichText(IRichTextFormatSimple rt)
         {
-            txtBody.AddParagraph(rt);
-            txtBody.RecalculateParagraphs();
+            TextBody.AddParagraph(rt);
+            TextBody.RecalculateParagraphs();
             CalculateMargin();
         }
 
@@ -298,15 +323,20 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             {
                 case RotationAnchor.TopLeft:
                     _rotationAnchor = anchor;
-                    marginGroup.RotationPoint = null;
-                    rotPointDot.Position = marginGroup.Position;
+                    _marginGroup.RotationPoint = null;
+                    rotPointDot.Position = _marginGroup.Position;
                     break;
                 case RotationAnchor.Middle:
                     _rotationAnchor = anchor;
-                    marginGroup.SetRotationPointToCenterOfGroup();
-                    rotPointDot.Position = marginGroup.RotationPoint.Position;
+                    _marginGroup.SetRotationPointToCenterOfGroup();
+                    rotPointDot.Position = _marginGroup.RotationPoint.Position;
                     break;
             }
+        }
+
+        public RenderItemStyle GetStyleBg()
+        {
+            return marginGroupFill.Style;
         }
     }
 }

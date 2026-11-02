@@ -158,7 +158,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.SvgPresets
             container.Left += Width/2d;
             container.Top += Height/2d;
 
-            container.InnerRotation = rotation;
+            container.OuterRotation = rotation;
         }
 
         public void AddRenderItem(RenderPresets preset, double rotation = 0)

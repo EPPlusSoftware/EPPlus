@@ -35,14 +35,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 var orientationCustom = eTextOrientation.Custom;
 
-                if (options.Axis.TextBody.RotationAdjustedForTextVertical == 90)
-                {
-                    orientationCustom = eTextOrientation.Vertical;
-                }
-                else if(options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
-                {
-                    orientationCustom = eTextOrientation.Diagonal;
-                }
+                //if (options.Axis.TextBody.RotationAdjustedForTextVertical == 90)
+                //{
+                //    orientationCustom = eTextOrientation.Vertical;
+                //}
+                //else if(options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
+                //{
+                //    orientationCustom = eTextOrientation.Diagonal;
+                //}
 
 
                 //var rot = options.Axis.TextBody.Rotation.Value;
