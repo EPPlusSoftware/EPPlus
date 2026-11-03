@@ -16,17 +16,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
     {
         internal static bool HasBorder(PdfCellStyle cellStyle)
         {
-            if (cellStyle == null) return false;
-            bool SideHas(bool suppress, ExcelBorderItem xf, ExcelDxfBorderItem dxf) =>
-                !suppress && (xf.Style != ExcelBorderStyle.None || (dxf?.HasValue ?? false));
-            return SideHas(cellStyle.SuppressTop, cellStyle.xfTop, cellStyle.dxfTop)
-                || SideHas(cellStyle.SuppressBottom, cellStyle.xfBottom, cellStyle.dxfBottom)
-                || SideHas(cellStyle.SuppressLeft, cellStyle.xfLeft, cellStyle.dxfLeft)
-                || SideHas(cellStyle.SuppressRight, cellStyle.xfRight, cellStyle.dxfRight)
-                || (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
+            if (cellStyle == null)
+            {
+                return false;
+            }
+            bool SideHas(bool suppress, ExcelBorderItem xf, ExcelDxfBorderItem dxf) => !suppress && (xf.Style != ExcelBorderStyle.None || (dxf?.HasValue ?? false));
+            return SideHas(cellStyle.SuppressTop, cellStyle.xfTop, cellStyle.dxfTop) ||
+                   SideHas(cellStyle.SuppressBottom, cellStyle.xfBottom, cellStyle.dxfBottom) ||
+                   SideHas(cellStyle.SuppressLeft, cellStyle.xfLeft, cellStyle.dxfLeft) ||
+                   SideHas(cellStyle.SuppressRight, cellStyle.xfRight, cellStyle.dxfRight) ||
+                   (cellStyle.Diagonal != null && cellStyle.Diagonal.Style != ExcelBorderStyle.None);
         }
 
         internal static bool HasDiagonalBorder(PdfCellStyle style) => style?.Diagonal != null && style.Diagonal.Style != ExcelBorderStyle.None;
+
+        private static bool VBorderAt(Page page, int row, int col) => CellHasLeftBorder(CellAt(page, row, col)) || CellHasRightBorder(CellAt(page, row, col - 1));
+
+        private static bool HBorderBelow(Page page, int row, int col) => CellHasBottomBorder(CellAt(page, row, col)) || CellHasTopBorder(CellAt(page, row + 1, col));
+
+        private static bool HBorderAbove(Page page, int row, int col) => CellHasTopBorder(CellAt(page, row, col)) || CellHasBottomBorder(CellAt(page, row - 1, col));
 
         internal static void SetBorderStyle(PdfCellStyle style, PdfCellBorderLayout border, bool isBlackAndWhite)
         {
@@ -69,18 +77,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static PdfCell CellAt(Page page, int row, int col)
         {
-            if (row < page.FromRow || row > page.ToRow || col < page.FromColumn || col > page.ToColumn) return null;
+            if (row < page.FromRow || row > page.ToRow || col < page.FromColumn || col > page.ToColumn)
+            {
+                return null;
+            }
             return page.Map[row, col];
         }
-
-        private static bool VBorderAt(Page page, int row, int col)
-            => CellHasLeftBorder(CellAt(page, row, col)) || CellHasRightBorder(CellAt(page, row, col - 1));
-
-        private static bool HBorderBelow(Page page, int row, int col)
-            => CellHasBottomBorder(CellAt(page, row, col)) || CellHasTopBorder(CellAt(page, row + 1, col));
-
-        private static bool HBorderAbove(Page page, int row, int col)
-            => CellHasTopBorder(CellAt(page, row, col)) || CellHasBottomBorder(CellAt(page, row - 1, col));
 
         internal static void SetDoubleBorderMiterFlags(Page page, int row, int col, PdfCellBorderLayout border)
         {
@@ -117,73 +119,103 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             bool cutTR = CellHasBottomBorder(dTR) && CellHasLeftBorder(dTR);
             bool cutBL = CellHasTopBorder(dBL) && CellHasRightBorder(dBL);
             bool cutBR = CellHasTopBorder(dBR) && CellHasLeftBorder(dBR);
-            b.Top.CutOuterAtStart = cutTL; b.Top.CutOuterAtEnd = cutTR;
-            b.Bottom.CutOuterAtStart = cutBL; b.Bottom.CutOuterAtEnd = cutBR;
-            b.Left.CutOuterAtStart = cutBL; b.Left.CutOuterAtEnd = cutTL;
-            b.Right.CutOuterAtStart = cutBR; b.Right.CutOuterAtEnd = cutTR;
+            b.Top.CutOuterAtStart = cutTL;
+            b.Top.CutOuterAtEnd = cutTR;
+            b.Bottom.CutOuterAtStart = cutBL;
+            b.Bottom.CutOuterAtEnd = cutBR;
+            b.Left.CutOuterAtStart = cutBL;
+            b.Left.CutOuterAtEnd = cutTL;
+            b.Right.CutOuterAtStart = cutBR;
+            b.Right.CutOuterAtEnd = cutTR;
         }
 
         private static bool HasDiagUp(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return cs.DiagonalUp && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
         }
         private static bool HasDiagDown(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return cs.DiagonalDown && cs.Diagonal != null && cs.Diagonal.Style != ExcelBorderStyle.None;
         }
 
         private static bool IsDoubleTop(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
-            var s = cs.xfTop.Style != ExcelBorderStyle.None ? cs.xfTop.Style
-                  : ((cs.dxfTop != null && cs.dxfTop.HasValue) ? (ExcelBorderStyle)cs.dxfTop.Style : ExcelBorderStyle.None);
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
+            var s = cs.xfTop.Style != ExcelBorderStyle.None ? cs.xfTop.Style : ((cs.dxfTop != null && cs.dxfTop.HasValue) ? (ExcelBorderStyle)cs.dxfTop.Style : ExcelBorderStyle.None);
             return s == ExcelBorderStyle.Double;
         }
         private static bool IsDoubleBottom(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
-            var s = cs.xfBottom.Style != ExcelBorderStyle.None ? cs.xfBottom.Style
-                  : ((cs.dxfBottom != null && cs.dxfBottom.HasValue) ? (ExcelBorderStyle)cs.dxfBottom.Style : ExcelBorderStyle.None);
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
+            var s = cs.xfBottom.Style != ExcelBorderStyle.None ? cs.xfBottom.Style : ((cs.dxfBottom != null && cs.dxfBottom.HasValue) ? (ExcelBorderStyle)cs.dxfBottom.Style : ExcelBorderStyle.None);
             return s == ExcelBorderStyle.Double;
         }
         private static bool IsDoubleLeft(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
-            var s = cs.xfLeft.Style != ExcelBorderStyle.None ? cs.xfLeft.Style
-                  : ((cs.dxfLeft != null && cs.dxfLeft.HasValue) ? (ExcelBorderStyle)cs.dxfLeft.Style : ExcelBorderStyle.None);
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
+            var s = cs.xfLeft.Style != ExcelBorderStyle.None ? cs.xfLeft.Style : ((cs.dxfLeft != null && cs.dxfLeft.HasValue) ? (ExcelBorderStyle)cs.dxfLeft.Style : ExcelBorderStyle.None);
             return s == ExcelBorderStyle.Double;
         }
         private static bool IsDoubleRight(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
-            var s = cs.xfRight.Style != ExcelBorderStyle.None ? cs.xfRight.Style
-                  : ((cs.dxfRight != null && cs.dxfRight.HasValue) ? (ExcelBorderStyle)cs.dxfRight.Style : ExcelBorderStyle.None);
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
+            var s = cs.xfRight.Style != ExcelBorderStyle.None ? cs.xfRight.Style : ((cs.dxfRight != null && cs.dxfRight.HasValue) ? (ExcelBorderStyle)cs.dxfRight.Style : ExcelBorderStyle.None);
             return s == ExcelBorderStyle.Double;
         }
 
         internal static bool CellHasRightBorder(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return (cs.xfRight != null && cs.xfRight.Style != ExcelBorderStyle.None) || (cs.dxfRight?.HasValue ?? false);
         }
 
         internal static bool CellHasLeftBorder(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return (cs.xfLeft != null && cs.xfLeft.Style != ExcelBorderStyle.None) || (cs.dxfLeft?.HasValue ?? false);
         }
 
         internal static bool CellHasTopBorder(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return (cs.xfTop != null && cs.xfTop.Style != ExcelBorderStyle.None) || (cs.dxfTop?.HasValue ?? false);
         }
 
         internal static bool CellHasBottomBorder(PdfCell cell)
         {
-            var cs = cell?.CellStyle; if (cs == null) return false;
+            var cs = cell?.CellStyle; if (cs == null)
+            {
+                return false;
+            }
             return (cs.xfBottom != null && cs.xfBottom.Style != ExcelBorderStyle.None) || (cs.dxfBottom?.HasValue ?? false);
         }
     }

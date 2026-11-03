@@ -1,10 +1,19 @@
-﻿using EPPlus.Export.Pdf.Layout;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -14,28 +23,22 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             if (pdfSheets == null || pdfSheets.Length == 0) return;
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
             void Add(ExcelNamedRange n)
             {
                 if (n == null || string.IsNullOrEmpty(n.Name)) return;
-                if (n.Name.StartsWith("_xlnm.")) return;            // built-in print area / titles
-                if (!string.IsNullOrEmpty(n.NameFormula)) return;   // formula-only name, no cell target
-
-                // Sheet the name's cell lives on: workbook-scoped names expose it via .Worksheet;
-                // a sheet-scoped name with an unqualified RefersTo has a null .Worksheet, so fall
-                // back to its scope sheet (LocalSheet).
+                if (n.Name.StartsWith("_xlnm.")) return;
+                if (!string.IsNullOrEmpty(n.NameFormula)) return;
                 var targetSheet = n.Worksheet ?? n.LocalSheet;
                 if (targetSheet == null || n.Start.Row <= 0 || n.Start.Column <= 0) return;
-
-                // Dedup per (sheet, name): the same bm_ name may legitimately recur on several
-                // sheets (one section each). A global dedup drops all but the first and leaves
-                // later sheets with no sub-bookmarks.
                 if (!seen.Add(targetSheet.Name + "\u0000" + n.Name)) return;
-
                 string cellText = null;
-                try { cellText = targetSheet.Cells[n.Start.Row, n.Start.Column].Text; }
-                catch { /* leave null; writer falls back to the name */ }
-
+                try
+                {
+                    cellText = targetSheet.Cells[n.Start.Row, n.Start.Column].Text;
+                }
+                catch
+                {
+                }
                 dests.Add(new PdfNamedDest
                 {
                     Name = n.Name,
@@ -45,11 +48,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     CellText = cellText
                 });
             }
-
             var wb = pdfSheets[0].Worksheet.Workbook;
-            foreach (var n in wb.Names) Add(n);                     // workbook-scoped first
+            foreach (var n in wb.Names)
+            {
+                Add(n);
+            }
             foreach (var ps in pdfSheets)
-                foreach (var n in ps.Worksheet.Names) Add(n);       // then sheet-scoped
+            {
+                foreach (var n in ps.Worksheet.Names)
+                {
+                    Add(n);
+                }
+            }
         }
     }
 }

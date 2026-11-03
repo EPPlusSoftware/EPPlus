@@ -1,4 +1,16 @@
-﻿using EPPlus.Export.Pdf.Layout;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Style;
 using System;
@@ -22,22 +34,34 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int c = fromCol; c <= toCol; c++)
                 {
                     var cell = PdfRangeGeometry.RangeCell(range, r, c);
-                    if (cell == null) continue;
+                    if (cell == null)
+                    {
+                        continue;
+                    }
                     if (cell.Merged)
                     {
-                        if (!drawnMerges.Add(cell.MergedAddress.Address)) continue;
+                        if (!drawnMerges.Add(cell.MergedAddress.Address))
+                        {
+                            continue;
+                        }
                         var addr = cell.MergedAddress;
                         var main = cell.Main ?? cell;
                         int vFromCol = Math.Max(addr._fromCol, fromCol);
                         int vToCol = Math.Min(addr._toCol, toCol);
                         int vFromRow = Math.Max(addr._fromRow, fromRow);
                         int vToRow = Math.Min(addr._toRow, toRow);
-                        if (vFromCol > vToCol || vFromRow > vToRow) continue;
+                        if (vFromCol > vToCol || vFromRow > vToRow)
+                        {
+                            continue;
+                        }
                         double x = colX[vFromCol];
                         double width = (colX[vToCol] + PdfRangeGeometry.RangeColWidth(range, page.FromRow, vToCol)) - colX[vFromCol];
                         double y = rowY[vFromRow];
                         double height = (rowY[vFromRow] - rowY[vToRow]) + PdfRangeGeometry.RangeRowHeight(range, vToRow);
-                        if (width <= 0d || height <= 0d) continue;
+                        if (width <= 0d || height <= 0d)
+                        {
+                            continue;
+                        }
                         page.PrintTitleCells.Add(new PrintTitleCellDraw
                         {
                             Cell = main,
@@ -53,13 +77,22 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         for (int br = vFromRow; br <= vToRow; br++)
                         {
                             double bh = PdfRangeGeometry.RangeRowHeight(range, br);
-                            if (bh <= 0d) continue;
+                            if (bh <= 0d)
+                            {
+                                continue;
+                            }
                             for (int bc = vFromCol; bc <= vToCol; bc++)
                             {
                                 double bw = PdfRangeGeometry.RangeColWidth(range, page.FromRow, bc);
-                                if (bw <= 0d) continue;
+                                if (bw <= 0d)
+                                {
+                                    continue;
+                                }
                                 var sub = PdfRangeGeometry.RangeCell(range, br, bc);
-                                if (sub == null || !PdfBorderResolver.HasBorder(sub.CellStyle)) continue;
+                                if (sub == null || !PdfBorderResolver.HasBorder(sub.CellStyle))
+                                {
+                                    continue;
+                                }
                                 page.PrintTitleBorders.Add(new PrintTitleCellDraw
                                 {
                                     Cell = sub,
@@ -75,7 +108,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                         double h = PdfRangeGeometry.RangeRowHeight(range, r);
-                        if (w <= 0d || h <= 0d) continue;
+                        if (w <= 0d || h <= 0d)
+                        {
+                            continue;
+                        }
                         page.PrintTitleCells.Add(new PrintTitleCellDraw
                         {
                             Cell = cell,
@@ -109,17 +145,19 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 int leftCol = fromCol + gi - 1, rightCol = leftCol + 1;
                 double x = colX[gi];
-                double? runStart = null; double runEnd = 0d;
+                double? runStart = null;
+                double runEnd = 0d;
                 for (int ri = 0; ri < nr; ri++)
                 {
                     int r = fromRow + ri;
-                    bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi] ||
-                                            PdfBorderResolver.CellHasRightBorder(PdfRangeGeometry.RangeCell(range, r, leftCol)) ||
-                                            PdfBorderResolver.CellHasLeftBorder(PdfRangeGeometry.RangeCell(range, r, rightCol));
+                    bool block = SameMerge(range, r, leftCol, r, rightCol) || spill[ri, gi] || PdfBorderResolver.CellHasRightBorder(PdfRangeGeometry.RangeCell(range, r, leftCol)) || PdfBorderResolver.CellHasLeftBorder(PdfRangeGeometry.RangeCell(range, r, rightCol));
                     if (!block)
                     {
                         if (runStart == null)
-                            runStart = rowY[ri]; runEnd = rowY[ri + 1];
+                        {
+                            runStart = rowY[ri];
+                            runEnd = rowY[ri + 1];
+                        }
                     }
                     else if (runStart != null)
                     {
@@ -137,11 +175,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int ci = 0; ci < nc; ci++)
                 {
                     int c = fromCol + ci;
-                    bool block = SameMerge(range, topRow, c, bottomRow, c) ||
-                                            PdfBorderResolver.CellHasBottomBorder(PdfRangeGeometry.RangeCell(range, topRow, c)) ||
-                                            PdfBorderResolver.CellHasTopBorder(PdfRangeGeometry.RangeCell(range, bottomRow, c));
-                    if (!block) { if (runStart == null) runStart = colX[ci]; runEnd = colX[ci + 1]; }
-                    else if (runStart != null) { target.Add(new GridLine(runStart.Value, y, runEnd, y)); runStart = null; }
+                    bool block = SameMerge(range, topRow, c, bottomRow, c) || PdfBorderResolver.CellHasBottomBorder(PdfRangeGeometry.RangeCell(range, topRow, c)) || PdfBorderResolver.CellHasTopBorder(PdfRangeGeometry.RangeCell(range, bottomRow, c));
+                    if (!block)
+                    {
+                        if (runStart == null)
+                        {
+                            runStart = colX[ci];
+                            runEnd = colX[ci + 1];
+                        }
+                    }
+                    else if (runStart != null)
+                    {
+                        target.Add(new GridLine(runStart.Value, y, runEnd, y));
+                        runStart = null;
+                    }
                 }
                 if (runStart != null) target.Add(new GridLine(runStart.Value, y, runEnd, y));
             }
@@ -152,7 +199,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             int nr = toRow - fromRow + 1;
             int nc = toCol - fromCol + 1;
             var blocked = new bool[Math.Max(nr, 1), Math.Max(nc, 1)];
-            if (nr <= 0 || nc <= 1) return blocked;
+            if (nr <= 0 || nc <= 1)
+            { 
+                return blocked;
+            }
             int repRow = fromRow;
             for (int ri = 0; ri < nr; ri++)
             {
@@ -160,16 +210,32 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int ci = 0; ci < nc; ci++)
                 {
                     var cell = PdfRangeGeometry.RangeCell(range, row, fromCol + ci);
-                    if (cell == null || cell.Merged) continue;
-                    if (cell.ContentAligmnet != null && cell.ContentAligmnet.WrapText) continue;
-                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    if (cell == null || cell.Merged)
+                    {
+                        continue;
+                    }
+                    if (cell.ContentAligmnet != null && cell.ContentAligmnet.WrapText)
+                    {
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(cell.Text))
+                    {
+                        continue;
+                    }
                     double spill = cell.TotalTextLength - cell.ColumnWidth;
-                    if (spill <= 0d) continue;
+                    if (spill <= 0d)
+                    {
+                        continue;
+                    }
                     var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
                     if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
+                    {
                         BandMarkRight(range, row, ci, nc, fromCol, colX, spill, ri, blocked);
+                    }
                     else if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
+                    {
                         BandMarkLeft(range, row, ci, fromCol, colX, spill, ri, blocked);
+                    }
                     else if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
                     {
                         double half = spill / 2d;
@@ -183,19 +249,39 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     double w = PdfRangeGeometry.RangeColWidth(range, repRow, c);
                     lx -= w;
                     var cell = PdfRangeGeometry.RangeCell(range, row, c);
-                    if (cell == null) continue;
-                    if (cell.Merged) break;
-                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    if (cell == null)
+                    {
+                        continue;
+                    }
+                    if (cell.Merged)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(cell.Text))
+                    {
+                        continue;
+                    }
                     var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
-                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right) break;
-                    double rightExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
-                        ? lx + w / 2d + cell.TotalTextLength / 2d
-                        : lx + cell.TotalTextLength;
+                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right)
+                    {
+                        break;
+                    }
+                    double rightExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? lx + w / 2d + cell.TotalTextLength / 2d : lx + cell.TotalTextLength;
                     for (int g = 1; g <= nc - 1; g++)
                     {
                         var blk = PdfRangeGeometry.RangeCell(range, row, fromCol + g - 1);
-                        if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
-                        if (colX[g] < rightExtent) blocked[ri, g] = true; else break;
+                        if (blk != null && !string.IsNullOrEmpty(blk.Text))
+                        {
+                            break;
+                        }
+                        if (colX[g] < rightExtent)
+                        {
+                            blocked[ri, g] = true;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     break;
                 }
@@ -204,19 +290,40 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     double w = PdfRangeGeometry.RangeColWidth(range, repRow, c);
                     var cell = PdfRangeGeometry.RangeCell(range, row, c);
-                    if (cell == null) { rx += w; continue; }
-                    if (cell.Merged) break;
-                    if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
+                    if (cell == null)
+                    {
+                        rx += w;
+                        continue;
+                    }
+                    if (cell.Merged)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(cell.Text))
+                    {
+                        rx += w; continue;
+                    }
                     var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
-                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General) break; // spills away
-                    double leftExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center)
-                        ? rx + w / 2d - cell.TotalTextLength / 2d
-                        : rx + w - cell.TotalTextLength;
+                    if (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left || hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General)
+                    {
+                        break;
+                    }
+                    double leftExtent = (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? rx + w / 2d - cell.TotalTextLength / 2d : rx + w - cell.TotalTextLength;
                     for (int g = nc - 1; g >= 1; g--)
                     {
                         var blk = PdfRangeGeometry.RangeCell(range, row, fromCol + g);
-                        if (blk != null && !string.IsNullOrEmpty(blk.Text)) break;
-                        if (colX[g] > leftExtent) blocked[ri, g] = true; else break;
+                        if (blk != null && !string.IsNullOrEmpty(blk.Text))
+                        {
+                            break;
+                        }
+                        if (colX[g] > leftExtent)
+                        {
+                            blocked[ri, g] = true;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     break;
                 }
@@ -229,9 +336,19 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int g = ci + 1; g <= nc - 1; g++)
             {
                 var rightCell = PdfRangeGeometry.RangeCell(range, row, fromCol + g);
-                if (rightCell != null && !string.IsNullOrEmpty(rightCell.Text)) break;
+                if (rightCell != null && !string.IsNullOrEmpty(rightCell.Text))
+                {
+                    break;
+                }
                 double distToGap = colX[g] - colX[ci + 1];
-                if (spill > distToGap) blocked[ri, g] = true; else break;
+                if (spill > distToGap)
+                {
+                    blocked[ri, g] = true;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -240,9 +357,19 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int g = ci; g >= 1; g--)
             {
                 var leftCell = PdfRangeGeometry.RangeCell(range, row, fromCol + g - 1);
-                if (leftCell != null && !string.IsNullOrEmpty(leftCell.Text)) break;
+                if (leftCell != null && !string.IsNullOrEmpty(leftCell.Text))
+                {
+                    break;
+                }
                 double distToGap = colX[ci] - colX[g];
-                if (spill > distToGap) blocked[ri, g] = true; else break;
+                if (spill > distToGap)
+                {
+                    blocked[ri, g] = true;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -250,7 +377,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var a = PdfRangeGeometry.RangeCell(range, r1, c1);
             var b = PdfRangeGeometry.RangeCell(range, r2, c2);
-            if (a == null || b == null || !a.Merged || !b.Merged) return false;
+            if (a == null || b == null || !a.Merged || !b.Merged)
+            {
+                return false;
+            }
             return a.MergedAddress.Address == b.MergedAddress.Address;
         }
 
@@ -258,7 +388,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             int n = toCol - fromCol + 1;
             var arr = new double[n + 1];
-            for (int c = fromCol, k = 0; c <= toCol; c++, k++) arr[k] = leftX[c];
+            for (int c = fromCol, k = 0; c <= toCol; c++, k++)
+            {
+                arr[k] = leftX[c];
+            }
             arr[n] = leftX[toCol] + PdfRangeGeometry.RangeColWidth(range, repRow, toCol);
             return arr;
         }
@@ -267,7 +400,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             int n = toRow - fromRow + 1;
             var arr = new double[n + 1];
-            for (int r = fromRow, k = 0; r <= toRow; r++, k++) arr[k] = topY[r];
+            for (int r = fromRow, k = 0; r <= toRow; r++, k++)
+            {
+                arr[k] = topY[r];
+            }
             arr[n] = topY[toRow] - PdfRangeGeometry.RangeRowHeight(range, toRow);
             return arr;
         }
@@ -278,24 +414,69 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int ci = 0; ci < nc; ci++)
             {
                 double segL = colX[ci], segR = colX[ci + 1];
-                if (segR - segL <= 0d) { if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; } continue; }
-                if (!hasBorder(PdfRangeGeometry.RangeCell(range, row, fromCol + ci))) { if (rs == null) rs = segL; re = segR; }
-                else if (rs != null) { target.Add(new GridLine(rs.Value, y, re, y)); rs = null; }
+                if (segR - segL <= 0d)
+                { 
+                    if (rs != null)
+                    {
+                        target.Add(new GridLine(rs.Value, y, re, y));
+                        rs = null; 
+                    } 
+                    continue;
+                }
+                if (!hasBorder(PdfRangeGeometry.RangeCell(range, row, fromCol + ci)))
+                {
+                    if (rs == null)
+                    {
+                        rs = segL;
+                    }
+                    re = segR;
+                }
+                else if (rs != null)
+                {
+                    target.Add(new GridLine(rs.Value, y, re, y));
+                    rs = null;
+                }
             }
-            if (rs != null) target.Add(new GridLine(rs.Value, y, re, y));
+            if (rs != null)
+            {
+                target.Add(new GridLine(rs.Value, y, re, y));
+            }
         }
 
         internal static void EmitBandFrameV(List<GridLine> target, PdfRange range, double x, int col, int fromRow, int nr, double[] rowY, Func<PdfCell, bool> hasBorder)
         {
-            double? rs = null; double re = 0d;
+            double? rs = null;
+            double re = 0d;
             for (int ri = 0; ri < nr; ri++)
             {
                 double segT = rowY[ri], segB = rowY[ri + 1];
-                if (segT - segB <= 0d) { if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; } continue; }
-                if (!hasBorder(PdfRangeGeometry.RangeCell(range, fromRow + ri, col))) { if (rs == null) rs = segT; re = segB; }
-                else if (rs != null) { target.Add(new GridLine(x, rs.Value, x, re)); rs = null; }
+                if (segT - segB <= 0d)
+                {
+                    if (rs != null)
+                    {
+                        target.Add(new GridLine(x, rs.Value, x, re));
+                        rs = null;
+                    }
+                    continue;
+                }
+                if (!hasBorder(PdfRangeGeometry.RangeCell(range, fromRow + ri, col)))
+                {
+                    if (rs == null)
+                    {
+                        rs = segT;
+                    }
+                    re = segB;
+                }
+                else if (rs != null)
+                {
+                    target.Add(new GridLine(x, rs.Value, x, re));
+                    rs = null;
+                }
             }
-            if (rs != null) target.Add(new GridLine(x, rs.Value, x, re));
+            if (rs != null)
+            {
+                target.Add(new GridLine(x, rs.Value, x, re));
+            }
         }
     }
 }

@@ -30,8 +30,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        internal static void AddHeaderFooter(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings,
-                                     PdfDictionaries dictionaries, int displayedPageNumber, int physicalPageIndex, int totalPages)
+        internal static void AddHeaderFooter(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, int displayedPageNumber, int physicalPageIndex, int totalPages)
         {
             if (page.HeaderFooters == null) return;
             pageLayout.ScaleHeaderFooterWithDocument = page.HeaderFooters.ScaleWithDocument;
