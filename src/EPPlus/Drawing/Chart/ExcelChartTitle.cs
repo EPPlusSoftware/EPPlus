@@ -150,12 +150,19 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    var defBody = DefaultTextBody;
                     var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
 
-                    //Set property without updating xml
-                    _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    var defBody = DefaultTextBody;
+
+                    if(_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty)
+                    {
+                        _textBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
+                        _textBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
+                    }
+
+                    ////Set property without updating xml
+                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
                 }
                 return _textBody;
             }
@@ -171,6 +178,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_defaultTextBody == null)
                 {
                     _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_defTxBodyPath}/a:bodyPr", SchemaNodeOrder);
+                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
+                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
                 }
                 return _defaultTextBody;
             }
