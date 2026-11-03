@@ -27,6 +27,7 @@ using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.RenderItems.Textbox;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
@@ -635,6 +636,14 @@ namespace EPPlusImageRenderer.Svg
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         {
                             y = ticMarkY;
+                            //double cos = Math.Cos(MathHelper.Radians(rot));
+                            //double sin = Math.Sin(MathHelper.Radians(rot));
+
+                            //var halfHeight = height / 2;
+                            //var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
+                            //var heightPastY = halfHeight - halfHeightAfterRot;
+
+                            //y = ticMarkY - heightPastY;
                         }
                         else
                         {
@@ -670,6 +679,12 @@ namespace EPPlusImageRenderer.Svg
 
 
                 var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
+
+                if(Axis.IsVertical)
+                {
+                    tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
+                }
+
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
                 if (p != null)
@@ -705,15 +720,18 @@ namespace EPPlusImageRenderer.Svg
                     tb.Rotation = -90;
                 }
 
+                tb.AlignTopWithYPos();
+                //tb.AlignBottomWithYPos();
+
                 //tb.GetStyleBg().SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
-                if (widest < tb.GetActualWidth())
+                if (widest < tb.Width)
                 {
-                    widest = tb.GetActualWidth();
+                    widest = tb.Width;
                 }
-                if(highest < tb.GetActualHeight())
+                if(highest < tb.Height)
                 {
-                    highest = tb.GetActualHeight();
+                    highest = tb.Height;
                 }
                 ret.Add(tb);
             }
@@ -810,42 +828,48 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx())
+            else
             {
-                double majorWidth;
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
-                if (IsDateAutoAxis || IsDateScale)
-                {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min) / MinorUnit;
-                    majorWidth = Rectangle.Width / minUnit;
-                }
-                else
-                {
-                    majorWidth = Rectangle.Width / AxisValues.Count;
-                }
-                foreach (var tb in ret)
-                {
-                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
-                    {
-                        tb.Left +=  -tb.Width / 2;
-                    }
-                    else
-                    {
-                        switch (lblAlignment)
-                        {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
-                                tb.Left += majorWidth / 2 - tb.Width / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
-                                tb.Left += majorWidth - tb.Width;
-                                break;
-                        }
-                    }
-                }
+
+                //foreach (var tb in ret)
+                //{
+
+                //    tb.SetTopPositionLockViaGlobalY();
+                //}
+                //double majorWidth;
+                //var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                //if (IsDateAutoAxis || IsDateScale)
+                //{
+                //    var min = ConvertUtil.GetValueDouble(Values[0]);
+                //    var max = ConvertUtil.GetValueDouble(Values.Last());
+                //    var minUnit = (max - min) / MinorUnit;
+                //    majorWidth = Rectangle.Width / minUnit;
+                //}
+                //else
+                //{
+                //    majorWidth = Rectangle.Width / AxisValues.Count;
+                //}
+                //foreach (var tb in ret)
+                //{
+                //    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
+                //    {
+                //        tb.Left +=  -tb.Width / 2;
+                //    }
+                //    else
+                //    {
+                //        switch (lblAlignment)
+                //        {
+                //            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                //                break;
+                //            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                //                tb.Left += majorWidth / 2 - tb.Width / 2;
+                //                break;
+                //            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                //                tb.Left += majorWidth - tb.Width;
+                //                break;
+                //        }
+                //    }
+                //}
             }
 
             return ret;

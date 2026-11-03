@@ -64,6 +64,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         DisplayValues = displayValues
                     };
                 }
+                else if(FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, options.ChartSize.Height))
+                {
+                    return new AxisScale()
+                    {
+                        MajorInterval = interval,
+                        MinorInterval = 1,
+                        Min = 1,
+                        Max = displayValues.Count,
+                        TextOrientation = orientationCustom,
+                        DisplayValues = displayValues
+                    };
+                }
                 //}
             }
             else

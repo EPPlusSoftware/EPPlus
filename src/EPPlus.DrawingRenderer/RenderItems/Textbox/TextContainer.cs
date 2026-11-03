@@ -1,14 +1,8 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using System.ComponentModel;
-using System.Numerics;
 
 namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 {
@@ -60,10 +54,19 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             init();
         }
 
+        /// <summary>
+        /// Lock this container at a certain point Y the top of a rotated object will always be placed at this Y no matter the rotation
+        /// If == double.NaN no locking/adjustment is done. No locking is default
+        /// </summary>
+        double TopPositionLock = double.NaN;
+
         protected RenderTextBody _textBody;
 
         public virtual RenderTextBody TextBody{ get { return _textBody; } set { _textBody = (SvgTextBodyRenderItem)value; } }
         protected GroupRenderItem _marginGroup;
+
+        protected GroupRenderItem _innerGroup;
+
         RectRenderItem marginGroupFill;
 
         RectRenderItem bgFillRect;
@@ -123,12 +126,16 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
             Name = "TextContainer";
 
-            _marginGroup = new GroupRenderItem(this);
+            _innerGroup = new GroupRenderItem(this);
+            _innerGroup.Name = "innerGroup";
+
+            _marginGroup = new GroupRenderItem(_innerGroup);
             _marginGroup.Name = "MarginGroup";
             marginGroupFill = new RectRenderItem(_marginGroup);
             marginGroupFill.Style.FillColor = "blue";
             marginGroupFill.Style.FillOpacity = 0.2d;
             marginGroupFill.Name = "MarginGroupFill";
+            
 
             ptOnCircle.Width = 5d;
             ptOnCircle.Height = 5d;
@@ -333,6 +340,40 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                     break;
             }
             CalculateMargin();
+        }
+
+        public void AlignTopWithYPos()
+        {
+            var bounds = marginGroupFill.GetGlobalBoundingbox();
+            var positionY = Position.Y;
+
+            if(positionY > bounds.Top)
+            {
+                var dist = positionY - bounds.Top;
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y + dist);
+            }
+            else
+            {
+                var dist = bounds.Top - positionY;
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y - dist);
+            }
+        }
+
+        public void AlignBottomWithYPos()
+        {
+            var bounds = marginGroupFill.GetGlobalBoundingbox();
+            var positionY = Position.Y;
+
+            if (positionY > bounds.Bottom)
+            {
+                var dist = positionY - bounds.Bottom;
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y + dist);
+            }
+            else
+            {
+                var dist = bounds.Bottom - positionY;
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y - dist);
+            }
         }
 
         public RenderItemStyle GetStyleBg()
