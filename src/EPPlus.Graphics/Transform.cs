@@ -120,6 +120,9 @@ namespace EPPlus.Graphics
 
         private double localRotationDegrees = 0;
 
+        /// <summary>
+        /// Local rotation
+        /// </summary>
         public double LocalRotation
         {
             get
@@ -134,6 +137,9 @@ namespace EPPlus.Graphics
 
         public double RotationRadians => Rotation * System.Math.PI / 180.0;
 
+        /// <summary>
+        /// The global AKA Total applied rotation
+        /// </summary>
         public double Rotation
         {
             get

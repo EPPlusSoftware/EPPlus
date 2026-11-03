@@ -610,28 +610,38 @@ namespace EPPlusImageRenderer.Svg
                 {
                     double rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
 
-                    if(rot == 0)
+                    if((rot == 90 || rot == -90))
                     {
-                        x = xPosToMiddle;
-                    }
-                    else if(rot < 0)
-                    {
-                        x = xPosStart;
-                    }
-                    else
-                    {
-                        x = xPosTextAtEnd;
-                    }
-
-                    if(Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    {
-                        y = ticMarkY;
+                        x = ticMarkX;
+                        //Width becomes height post-rotation
+                        //We are currently pre-rotation.
+                        y = ticMarkY - (width / 2);
                     }
                     else
                     {
-                        y = ticMarkY - TopMargin;
-                    }
+                        if (rot == 0)
+                        {
+                            x = xPosToMiddle;
+                        }
+                        else if (rot < 0)
+                        {
+                            x = xPosStart;
+                        }
+                        else
+                        {
+                            x = xPosTextAtEnd;
+                        }
 
+                        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                        {
+                            y = ticMarkY;
+                        }
+                        else
+                        {
+                            y = ticMarkY - TopMargin;
+                        }
+
+                    }
                     //double cos = Math.Cos(MathHelper.Radians(rot));
                     //double sin = Math.Sin(MathHelper.Radians(rot));
 
@@ -656,7 +666,7 @@ namespace EPPlusImageRenderer.Svg
                     //    else //Top
                     //    {
                     //        y = ticMarkY - TopMargin - 4;
-                 }
+                }
 
 
                 var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
