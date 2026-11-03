@@ -10,30 +10,14 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.DocumentObjects;
-using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Export.Pdf.Settings.PdfPageSizes;
-using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
-using EPPlus.Graphics.Geometry;
-using EPPlus.Graphics.Units;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Export.PdfExport.TextMapping;
-using OfficeOpenXml.Export.PdfExport.TextShaping;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -45,8 +29,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             var PagesCollection = GetPages(sheetSettings, pdfSheets);
             var Catalog = GetCatalog(sheetSettings[0].FirstPageNumber, dictionaries, PagesCollection);
-            if (Catalog is PdfCatalogLayout cat)
-                PdfBookmarkCollector.CollectNamedDestinations(pdfSheets, cat.NamedDestinations);
+            if (Catalog is PdfCatalogLayout c)
+            {
+                PdfBookmarkCollector.CollectNamedDestinations(pdfSheets, c.NamedDestinations);
+            }
             return Catalog;
         }
 
@@ -74,13 +60,15 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int j = 0; j < pages.Length; j++)
                 {
                     var page = pages[j];
-                    var pageLayout = BeginPageLayout(pdfPages[i], page, pageSettings, dictionaries, out double contentStartX, out double contentStartY);
-                    EmitPageCells(pageLayout, page, pageSettings, dictionaries, contentStartX, contentStartY, isDraft, isBlackWhite);
+                    var pageLayout = CreatePageLayout(pdfPages[i], page, pageSettings, dictionaries, out double contentStartX, out double contentStartY);
+                    CreateCellLayouts(pageLayout, page, pageSettings, dictionaries, contentStartX, contentStartY, isDraft, isBlackWhite);
                     PdfImagePlacement.EmitPageImages(pageLayout, page, isDraft);
                     PdfHeaderFooterLayout.AddHeaderFooter(pageLayout, page, pageSettings, dictionaries, displayedPageNumber, physicalPageIndex, totalPages);
                     AddAdditionalContent(pageLayout, page, pageSettings, dictionaries);
                     if (!isDraft)
+                    {
                         PdfGridlinesLayout.AddGridLines(pageSettings, page, pageLayout, borderOnly: !pageSettings.ShowGridLines || pdfPages[i].IsCommentsPage);
+                    }
                     pageLayout.ChildObjects.Sort((a, b) =>
                     {
                         int cmp = a.Z.CompareTo(b.Z);
@@ -94,8 +82,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return Catalog;
         }
 
-        private static PdfPageLayout BeginPageLayout(Pages sheet, Page page, PdfPageSettings pageSettings,
-                                                     PdfDictionaries dictionaries, out double contentStartX, out double contentStartY)
+        private static PdfPageLayout CreatePageLayout(Pages sheet, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, out double contentStartX, out double contentStartY)
         {
             var pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
             pageLayout.Settings = pageSettings;
@@ -137,9 +124,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pageLayout;
         }
 
-        private static void EmitPageCells(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings,
-                                         PdfDictionaries dictionaries, double contentStartX, double contentStartY,
-                                         bool isDraft, bool isBlackWhite)
+        private static void CreateCellLayouts(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, double contentStartX, double contentStartY, bool isDraft, bool isBlackWhite)
         {
             var drawnMergedCells = new HashSet<string>();
             double y = contentStartY;
@@ -161,16 +146,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                         string key = map.MergedAddress.Address;
                         if (!drawnMergedCells.Contains(key) && page.MergedCells.TryGetValue(key, out info))
                         {
-                            EmitMergedCell(pageLayout, map, info, pageSettings, dictionaries, isDraft, isBlackWhite);
+                            CreateMergedCellLayout(pageLayout, map, info, pageSettings, dictionaries, isDraft, isBlackWhite);
                             drawnMergedCells.Add(key);
                         }
                     }
                     else
                     {
-                        EmitNormalCell(pageLayout, page, map, pageSettings, dictionaries, x, y, rowHeight, row, col, isDraft, isBlackWhite);
+                        CreateCellLayout(pageLayout, page, map, pageSettings, dictionaries, x, y, rowHeight, row, col, isDraft, isBlackWhite);
                     }
                     if (!isDraft)
-                        EmitCellBorder(pageLayout, page, map, info, x, y, rowHeight, row, col, isBlackWhite);
+                    {
+                        CreateCellBorderLayout(pageLayout, page, map, info, x, y, rowHeight, row, col, isBlackWhite);
+                    }
                     x += map.ColumnWidth;
                 }
                 y -= rowHeight;
@@ -178,21 +165,25 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void EmitMergedCell(PdfPageLayout pageLayout, PdfCell map, MergedCellDrawInfo info,
-                                   PdfPageSettings pageSettings, PdfDictionaries dictionaries, bool isDraft, bool isBlackWhite)
+        private static bool CellHasText(PdfCell cell) => cell?.TextLines != null && cell.TextLines.Count > 0;
+
+        private static bool CellHasPicture(PdfCell cell) => cell?.CellPictureBytes != null;
+
+        private static void CreateMergedCellLayout(PdfPageLayout pageLayout, PdfCell map, MergedCellDrawInfo info, PdfPageSettings pageSettings, PdfDictionaries dictionaries, bool isDraft, bool isBlackWhite)
         {
             if (!isDraft)
             {
                 if (!isBlackWhite)
-                    EmitCellFill(pageLayout, map.Main?.CellStyle ?? map.CellStyle, map.Text, info.X, info.Y, info.Width, info.Height, map.Name, pageSettings, dictionaries);
-
-                var picMap = (map.CellPictureBytes != null) ? map : (map.Main != null && map.Main.CellPictureBytes != null) ? map.Main : null;
+                {
+                    CreateCellFillLayout(pageLayout, map.Main?.CellStyle ?? map.CellStyle, map.Text, info.X, info.Y, info.Width, info.Height, map.Name, pageSettings, dictionaries);
+                }
+                var picMap = CellHasPicture(map) ? map : CellHasPicture(map.Main) ? map.Main : null;
                 if (picMap != null)
+                {
                     PdfImagePlacement.AddCellPicture(pageLayout, picMap, info.X, info.Y, info.Width, info.Height);
+                }
             }
-
-            var sourceMap = (map.TextLines != null && map.TextLines.Count > 0) ? map
-                          : (map.Main != null && map.Main.TextLines != null && map.Main.TextLines.Count > 0) ? map.Main : null;
+            var sourceMap = CellHasText(map) ? map : CellHasText(map.Main) ? map.Main : null;
             if (sourceMap != null)
             {
                 var text = new PdfCellContentLayout(pageSettings, dictionaries, sourceMap, info.X, info.Y, info.Width, info.Height);
@@ -200,20 +191,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 text.GidsAndCharMap(dictionaries);
                 text.SetupClipping(info.X, info.Y, info.Width, info.Height);
                 pageLayout.AddChild(text);
-                EmitTextLinks(pageLayout, text, map, info.X, info.X + info.Width, info.X, info.Y, info.Width, info.Height);
+                CreateTextLinks(pageLayout, text, map, info.X, info.X + info.Width, info.X, info.Y, info.Width, info.Height);
             }
             else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
             {
                 pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(info.X, info.Y, info.Width, info.Height, map));
             }
-
             if (!isDraft && map.Main != null)
             {
                 var mergeMainStyle = map.Main.CellStyle;
                 if (PdfBorderResolver.HasDiagonalBorder(mergeMainStyle))
                 {
-                    var diagBorder = new PdfCellBorderLayout(isMerged: false, corners: MergedCellCorners.All, info: info,
-                                                             x: info.X, y: info.Y, width: info.Width, height: info.Height);
+                    var diagBorder = new PdfCellBorderLayout(isMerged: false, corners: MergedCellCorners.All, info: info, x: info.X, y: info.Y, width: info.Width, height: info.Height);
                     PdfBorderResolver.SetBorderStyle(mergeMainStyle, diagBorder, isBlackWhite);
                     diagBorder.Name = map.Name;
                     diagBorder.BorderData.Top.BorderStyle = (EPPlus.Export.Pdf.Enums.ExcelBorderStyle)ExcelBorderStyle.None;
@@ -225,19 +214,17 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void EmitNormalCell(PdfPageLayout pageLayout, Page page, PdfCell map, PdfPageSettings pageSettings,
-                                   PdfDictionaries dictionaries, double x, double y, double rowHeight, int row, int col,
-                                   bool isDraft, bool isBlackWhite)
+        private static void CreateCellLayout(PdfPageLayout pageLayout, Page page, PdfCell map, PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double rowHeight, int row, int col, bool isDraft, bool isBlackWhite)
         {
             var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
             if (!isDraft)
             {
                 if (!isBlackWhite)
-                    EmitCellFill(pageLayout, map.CellStyle, map.Text, x, y, effectiveWidth, rowHeight, map.Name, pageSettings, dictionaries);
-
+                {
+                    CreateCellFillLayout(pageLayout, map.CellStyle, map.Text, x, y, effectiveWidth, rowHeight, map.Name, pageSettings, dictionaries);
+                }
                 PdfImagePlacement.AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
             }
-
             if (map.TextLines != null && map.TextLines.Count > 0)
             {
                 var text = new PdfCellContentLayout(pageSettings, dictionaries, map, x, y, effectiveWidth, rowHeight);
@@ -246,7 +233,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 var (clipX, clipW, spillLeft, spillRight) = PdfSpillLayout.GetOverflowClip(map, page, row, col, x, effectiveWidth);
                 text.SetupClipping(clipX, y, clipW, rowHeight, spillLeft, spillRight);
                 pageLayout.AddChild(text);
-                EmitTextLinks(pageLayout, text, map, clipX, clipX + clipW, x, y, effectiveWidth, rowHeight);
+                CreateTextLinks(pageLayout, text, map, clipX, clipX + clipW, x, y, effectiveWidth, rowHeight);
             }
             else if (map.HyperlinkUri != null || map.HyperlinkTargetSheet != null)
             {
@@ -254,9 +241,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void EmitCellFill(PdfPageLayout pageLayout, PdfCellStyle style, string text,
-                                        double x, double y, double width, double height, string name,
-                                        PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        private static void CreateCellFillLayout(PdfPageLayout pageLayout, PdfCellStyle style, string text, double x, double y, double width, double height, string name, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
         {
             var fill = new PdfCellLayout(x, y, width, height);
             PdfFillResolver.SetFill(dictionaries, style, text, fill);
@@ -265,23 +250,22 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             pageLayout.AddChild(fill);
         }
 
-        // Shared hyperlink emission: tight per-line boxes when possible, else a whole-cell fallback box.
-        private static void EmitTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map,
-                                          double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)
+        private static void CreateTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map, double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)
         {
             if (map.HyperlinkUri == null && map.HyperlinkTargetSheet == null) return;
             if (PdfLinkLayout.CanTightenLink(text))
-                PdfLinkLayout.AddTextLinks(pageLayout, text, clipLeft, clipRight,
-                    map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
+            {
+                PdfLinkLayout.AddTextLinks(pageLayout, text, clipLeft, clipRight, map.HyperlinkUri, map.HyperlinkTargetSheet, map.HyperlinkTargetRow, map.HyperlinkTargetCol, map.HyperlinkToolTip);
+            }
             else
+            {
                 pageLayout.Links.Add(PdfLinkLayout.CreateLinkDrawInfo(boxX, boxY, boxWidth, boxHeight, map));
+            }
         }
 
-        private static void EmitCellBorder(PdfPageLayout pageLayout, Page page, PdfCell map, MergedCellDrawInfo info,
-                                           double x, double y, double rowHeight, int row, int col, bool isBlackWhite)
+        private static void CreateCellBorderLayout(PdfPageLayout pageLayout, Page page, PdfCell map, MergedCellDrawInfo info, double x, double y, double rowHeight, int row, int col, bool isBlackWhite)
         {
             if (!PdfBorderResolver.HasBorder(map.CellStyle)) return;
-
             var border = new PdfCellBorderLayout(map.Merged, GetCorners(map.MergedAddress, row, col), info, x, y, map.ColumnWidth, rowHeight);
             PdfBorderResolver.SetBorderStyle(map.CellStyle, border, isBlackWhite);
             border.Name = map.Name;
@@ -299,9 +283,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static void AddAdditionalContent(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
         {
-            if (page.AddedContent == null || page.AddedContent.content?.TextLines == null || page.AddedContent.content.TextLines.Count == 0)
-                return;
-
+            if (page.AddedContent == null || page.AddedContent.content?.TextLines == null || page.AddedContent.content.TextLines.Count == 0) return;
             var content = page.AddedContent.content;
             int last = content.TextLines.Count - 1;
             var descent = content.TextLines[last].LargestDescent;
@@ -336,16 +318,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             if (addr == null) return MergedCellCorners.All;
             MergedCellCorners result = MergedCellCorners.None;
-
             if (row == addr.Start.Row && col == addr.Start.Column)
                 result |= MergedCellCorners.TopLeft;
-
             if (row == addr.Start.Row && col == addr.End.Column)
                 result |= MergedCellCorners.TopRight;
-
             if (row == addr.End.Row && col == addr.Start.Column)
                 result |= MergedCellCorners.BottomLeft;
-
             if (row == addr.End.Row && col == addr.End.Column)
                 result |= MergedCellCorners.BottomRight;
             return result;
@@ -358,7 +336,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 var pdfSheet = pdfSheets[si];
                 var pageSettings = sheetSettings[si];
-
                 if (pdfSheet.Ranges.Count > 0)
                 {
                     PdfPaginator.ResolveFitScale(pageSettings, pdfSheet, pdfSheet.Ranges[0]);
@@ -399,7 +376,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     pages.SheetName = pdfSheet.Worksheet.Name;
                     pages.IsCommentsPage = true;
                     for (int k = 0; k < pages.Page.Length; k++)
+                    {
                         pages.Page[k].IsCommentsPage = true;
+                    }
                     PagesCollection.Add(pages);
                 }
             }
@@ -457,11 +436,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
         {
             double s = pageSettings.ContentScale;
-            double pageRightNatural = pageSettings.ContentBounds.Left
-                                    + (pageSettings.PageSize.WidthPu - pageSettings.ContentBounds.Left) / s;
+            double pageRightNatural = pageSettings.ContentBounds.Left + (pageSettings.PageSize.WidthPu - pageSettings.ContentBounds.Left) / s;
             return System.Math.Min(cellWidth, pageRightNatural - cellX);
         }
-
-
     }
 }
