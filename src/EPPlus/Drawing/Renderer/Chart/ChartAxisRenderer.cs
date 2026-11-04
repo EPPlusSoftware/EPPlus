@@ -616,7 +616,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(Axis.IsVertical == false)
                         {
-                            x = xPosToMiddle - (height/2);
+                            x = xPosToMiddle - (width/2);
                             y = ticMarkY + descent;
                         }
                         else
@@ -732,6 +732,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
+                //TODO: We should alignBottomWithYPos instead when we can shrink plot area appropriately
                 tb.AlignTopWithYPos();
                 //tb.AlignBottomWithYPos();
 

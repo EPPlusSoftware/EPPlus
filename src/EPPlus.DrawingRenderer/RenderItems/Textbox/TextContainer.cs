@@ -66,6 +66,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         protected GroupRenderItem _marginGroup;
 
         protected GroupRenderItem _innerGroup;
+        protected GroupRenderItem _rotationGroup;
 
         RectRenderItem marginGroupFill;
 
@@ -107,11 +108,11 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         {
             get
             {
-                return LocalRotation;
+                return _rotationGroup.LocalRotation;
             }
             set
             {
-                LocalRotation = value;
+                _rotationGroup.LocalRotation = value;
                 CalculateMargin();
             }
         }
@@ -123,13 +124,16 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         private void init()
         {
-
             Name = "TextContainer";
 
-            _innerGroup = new GroupRenderItem(this);
-            _innerGroup.Name = "innerGroup";
 
-            _marginGroup = new GroupRenderItem(_innerGroup);
+            _innerGroup = new GroupRenderItem(this);
+            _innerGroup.Name = "innerGroup/Position adjust";
+
+            _rotationGroup = new GroupRenderItem(_innerGroup);
+            _rotationGroup.Name = "Rotation";
+
+            _marginGroup = new GroupRenderItem(_rotationGroup);
             _marginGroup.Name = "MarginGroup";
             marginGroupFill = new RectRenderItem(_marginGroup);
             marginGroupFill.Style.FillColor = "blue";
@@ -169,7 +173,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 _renderContext = new RenderContext(() => engine);
             }
 
-            bgFillRect = new RectRenderItem(this.Parent);
+            bgFillRect = new RectRenderItem(_innerGroup);
             bgFillRect.Style.FillColor = "GoldenRod";
             bgFillRect.Style.FillOpacity = 0.2d;
         }
@@ -192,8 +196,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         protected void CalculateMargin()
         {
-            ptOnCircle.Left = this.Position.X;
-            ptOnCircle.Top = this.Position.Y;
+            ptOnCircle.Left = _rotationGroup.Position.X;
+            ptOnCircle.Top = _rotationGroup.Position.Y;
 
             _marginGroup.Width = TextBody.Width + RightMargin;
             _marginGroup.Height = TextBody.Height + BottomMargin;
@@ -246,7 +250,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 rotPointDot.Position = rotPointInternal.Position;
 
                 //Rotate internal rotation and parent to it
-                rotPointInternal.LocalRotation = LocalRotation;
+                rotPointInternal.LocalRotation = _rotationGroup.LocalRotation;
                 marginGroupFill.Parent = rotPointInternal;
                 //Center the fill
                 marginGroupFill.Left = -marginGroupFill.Width / 2d;
@@ -272,7 +276,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 marginGroupFill.Top = -_marginGroup.Top;
 
                 //Add rotation point to actual textcontainer instead
-                RotationPoint = new TranformPoint(rotationPointForlater.X, rotationPointForlater.Y);
+                _rotationGroup.RotationPoint = new TranformPoint(rotationPointForlater.X, rotationPointForlater.Y);
             }
         }
 
@@ -345,17 +349,17 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         public void AlignTopWithYPos()
         {
             var bounds = marginGroupFill.GetGlobalBoundingbox();
-            var positionY = Position.Y;
+            var positionY = _innerGroup.Position.Y;
 
             if(positionY > bounds.Top)
             {
                 var dist = positionY - bounds.Top;
-                Position = new Graphics.Geometry.Vector2(Position.X, Position.Y + dist);
+                Position = new Graphics.Geometry.Vector2(Position.X, positionY + dist);
             }
             else
             {
                 var dist = bounds.Top - positionY;
-               Position = new Graphics.Geometry.Vector2(Position.X, Position.Y - dist);
+               Position = new Graphics.Geometry.Vector2(Position.X, positionY - dist);
             }
         }
 
@@ -378,7 +382,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         public RenderItemStyle GetStyleBg()
         {
-            return marginGroupFill.Style;
+            return bgFillRect.Style;
         }
     }
 }
