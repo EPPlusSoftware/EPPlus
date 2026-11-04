@@ -104,7 +104,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             set { _bottomMargin = value; CalculateMargin(); }
         }
 
-        public virtual double OuterRotation
+        public virtual double InnerRotation
         {
             get
             {
@@ -144,12 +144,12 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             ptOnCircle.Width = 5d;
             ptOnCircle.Height = 5d;
             ptOnCircle.Style.FillColor = "green";
-            ptOnCircle.Parent = Parent;
+            ptOnCircle.Parent = this;
 
             rotPointDot.Width = 5d;
             rotPointDot.Height = 5d;
             rotPointDot.Style.FillColor = "red";
-            rotPointDot.Parent = Parent;
+            rotPointDot.Parent = this;
 
             rotPointDot.Position = _marginGroup.Position;
             rotPointDot.Left -= LeftMargin;
@@ -216,7 +216,6 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
             if (_rotationAnchor == RotationAnchor.TopLeft)
             {
-
                 rotPointDot.Left = _marginGroup.GlobalLeft;
                 rotPointDot.Top = _marginGroup.GlobalTop;
                 //Center object

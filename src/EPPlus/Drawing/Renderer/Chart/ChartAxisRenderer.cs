@@ -714,21 +714,21 @@ namespace EPPlusImageRenderer.Svg
 
                 if(LabelOrientation == eTextOrientation.Custom)
                 {
-                    tb.OuterRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                    tb.InnerRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
                 }
                 else if(LabelOrientation == eTextOrientation.Diagonal)
                 {
-                    tb.OuterRotation = -45;
+                    tb.InnerRotation = -45;
                 }
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
                     if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
                     {
-                        tb.Rotation = 90;
+                        tb.InnerRotation = 90;
                     }
                     else
                     {
-                        tb.Rotation = -90;
+                        tb.InnerRotation = -90;
                     }
                 }
 

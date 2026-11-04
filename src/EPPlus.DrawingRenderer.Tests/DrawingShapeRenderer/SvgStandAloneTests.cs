@@ -476,36 +476,36 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             container.Left += 150;
             container.Top += 150;
 
-            container.OuterRotation = 45d;
+            container.InnerRotation = 45d;
 
             SaveTextFileToWorkbook($"svg\\{fileName}.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 85d;
+            container.InnerRotation = 85d;
 
             SaveTextFileToWorkbook($"svg\\{fileName}_85.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 90d;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 90d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 90d+45;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 90d+45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 180d;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 180d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 180d + 45;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 180d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
 
-            container.OuterRotation = 180d + 90;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
-
-
-            container.OuterRotation = 270d + 45;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 180d + 90;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
 
 
-            container.OuterRotation = 360d;
-            SaveTextFileToWorkbook($"svg\\{fileName}_{container.OuterRotation}.svg", canvas.RenderSvgString());
+            container.InnerRotation = 270d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+
+            container.InnerRotation = 360d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
         }
     }
 }
