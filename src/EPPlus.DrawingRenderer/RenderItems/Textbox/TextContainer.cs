@@ -136,19 +136,19 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             _marginGroup = new GroupRenderItem(_rotationGroup);
             _marginGroup.Name = "MarginGroup";
             marginGroupFill = new RectRenderItem(_marginGroup);
-            marginGroupFill.Style.FillColor = "blue";
-            marginGroupFill.Style.FillOpacity = 0.2d;
+            //marginGroupFill.Style.FillColor = "blue";
+            //marginGroupFill.Style.FillOpacity = 0.2d;
             marginGroupFill.Name = "MarginGroupFill";
             
 
-            ptOnCircle.Width = 5d;
-            ptOnCircle.Height = 5d;
-            ptOnCircle.Style.FillColor = "green";
+            ptOnCircle.Width = 2.5d;
+            ptOnCircle.Height = 2.5d;
+            //ptOnCircle.Style.FillColor = "green";
             ptOnCircle.Parent = this;
 
-            rotPointDot.Width = 5d;
-            rotPointDot.Height = 5d;
-            rotPointDot.Style.FillColor = "red";
+            rotPointDot.Width = 2.5d;
+            rotPointDot.Height = 2.5d;
+            //rotPointDot.Style.FillColor = "red";
             rotPointDot.Parent = this;
 
             rotPointDot.Position = _marginGroup.Position;
