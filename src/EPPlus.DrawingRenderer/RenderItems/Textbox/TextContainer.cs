@@ -136,19 +136,22 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             _marginGroup = new GroupRenderItem(_rotationGroup);
             _marginGroup.Name = "MarginGroup";
             marginGroupFill = new RectRenderItem(_marginGroup);
-            //marginGroupFill.Style.FillColor = "blue";
+            marginGroupFill.Style.FillColor = "blue";
             //marginGroupFill.Style.FillOpacity = 0.2d;
+            marginGroupFill.Style.FillOpacity = 0d;
             marginGroupFill.Name = "MarginGroupFill";
             
 
             ptOnCircle.Width = 2.5d;
             ptOnCircle.Height = 2.5d;
-            //ptOnCircle.Style.FillColor = "green";
+            ptOnCircle.Style.FillColor = "green";
+            ptOnCircle.Style.FillOpacity = 0d;
             ptOnCircle.Parent = this;
 
             rotPointDot.Width = 2.5d;
             rotPointDot.Height = 2.5d;
             //rotPointDot.Style.FillColor = "red";
+            rotPointDot.Style.FillOpacity = 0d;
             rotPointDot.Parent = this;
 
             rotPointDot.Position = _marginGroup.Position;
@@ -353,12 +356,12 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             if(positionY > bounds.Top)
             {
                 var dist = positionY - bounds.Top;
-                Position = new Graphics.Geometry.Vector2(Position.X, positionY + dist);
+                _innerGroup.Position = new Graphics.Geometry.Vector2(Position.X, positionY + dist);
             }
             else
             {
                 var dist = bounds.Top - positionY;
-               Position = new Graphics.Geometry.Vector2(Position.X, positionY - dist);
+                _innerGroup.Position = new Graphics.Geometry.Vector2(Position.X, positionY - dist);
             }
         }
 
