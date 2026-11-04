@@ -45,11 +45,8 @@ namespace OfficeOpenXml.Drawing
 
             bool pathExists = ExistsNode(path);
 
-            if (pathExists == false)
-            {
-                _initXml = initXml;
-                AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
-            }
+            _initXml = initXml;
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
         /// <summary>
         /// The anchoring position within the shape

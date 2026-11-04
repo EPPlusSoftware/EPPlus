@@ -494,6 +494,7 @@ namespace EPPlusImageRenderer.Svg
             var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var fontSize = mf.Size;
             var lineHeight = shaper.GetLineHeightInPoints(fontSize);
+            var descent = shaper.GetDescentInPoints(fontSize);
 
             var axisStyle = GetAxisStyleEntry();
             double maxWidth, maxHeight;
@@ -613,10 +614,18 @@ namespace EPPlusImageRenderer.Svg
 
                     if((rot == 90 || rot == -90))
                     {
-                        x = ticMarkX;
-                        //Width becomes height post-rotation
-                        //We are currently pre-rotation.
-                        y = ticMarkY - (width / 2);
+                        if(Axis.IsVertical == false)
+                        {
+                            x = xPosToMiddle - (height/2);
+                            y = ticMarkY + descent;
+                        }
+                        else
+                        {
+                            x = ticMarkX;
+                            //Width becomes height post-rotation
+                            //We are currently pre-rotation.
+                            y = ticMarkY - (width / 2);
+                        }
                     }
                     else
                     {
@@ -679,11 +688,12 @@ namespace EPPlusImageRenderer.Svg
 
 
                 var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
-
-                if(Axis.IsVertical)
-                {
-                    tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
-                }
+                
+                tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
+                //if (Axis.IsVertical)
+                //{
+                //    tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
+                //}
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
@@ -691,7 +701,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
                     {
-                        //Horizontal axises are always center aligned visually
+                        //Horizontal axises are always center aligned visually (by default. They Can be set left/right also custom angle is not truly center aligned)
                         //Should be broken out as input to ImportParagraph instead of changing the base item
                         p.HorizontalAlignment = eTextAlignment.Center;
                     }
@@ -716,8 +726,10 @@ namespace EPPlusImageRenderer.Svg
                     {
                         tb.Rotation = 90;
                     }
-
-                    tb.Rotation = -90;
+                    else
+                    {
+                        tb.Rotation = -90;
+                    }
                 }
 
                 tb.AlignTopWithYPos();
@@ -944,6 +956,10 @@ namespace EPPlusImageRenderer.Svg
                         if (Axis.LabelPosition == eTickLabelPosition.Low)
                         {
                             return Rectangle.Height - width;
+                        }
+                        else if (Axis.LabelPosition == eTickLabelPosition.NextTo)
+                        {
+                            return BottomMargin;
                         }
                         else
                         {

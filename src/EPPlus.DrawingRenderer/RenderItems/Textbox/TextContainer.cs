@@ -350,12 +350,12 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             if(positionY > bounds.Top)
             {
                 var dist = positionY - bounds.Top;
-                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y + dist);
+                Position = new Graphics.Geometry.Vector2(Position.X, Position.Y + dist);
             }
             else
             {
                 var dist = bounds.Top - positionY;
-                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, _innerGroup.Position.Y - dist);
+               Position = new Graphics.Geometry.Vector2(Position.X, Position.Y - dist);
             }
         }
 

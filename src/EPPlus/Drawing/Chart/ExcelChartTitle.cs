@@ -150,19 +150,31 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
 
                     var defBody = DefaultTextBody;
 
-                    if(_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty)
+                    if(_textBody.Paragraphs.Count == 0 && defBody.Paragraphs.Count != 0)
                     {
-                        _textBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
-                        _textBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
+                        _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
                     }
-
-                    ////Set property without updating xml
-                    //_textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    else if (defBody.Paragraphs.Count == 0 && _textBody.Paragraphs.Count == 0)
+                    {
+                        var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
+                        firstDefaultRunProperties.Bold = true;
+                        firstDefaultRunProperties.Size = 10f;
+                        _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    }
+                    else
+                    {
+                        //paragraphs exist but could be empty
+                        //Excel also uses these default settings but they are not written out in the xml explicitly
+                        if(_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty)
+                        {
+                            _textBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
+                            _textBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
+                        }
+                    }
                 }
                 return _textBody;
             }
