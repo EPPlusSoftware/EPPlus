@@ -150,7 +150,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
             rotPointDot.Width = 2.5d;
             rotPointDot.Height = 2.5d;
-            //rotPointDot.Style.FillColor = "red";
+            rotPointDot.Style.FillColor = "red";
             rotPointDot.Style.FillOpacity = 0d;
             rotPointDot.Parent = this;
 
@@ -199,8 +199,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         protected void CalculateMargin()
         {
-            ptOnCircle.Left = _rotationGroup.Position.X;
-            ptOnCircle.Top = _rotationGroup.Position.Y;
+            ptOnCircle.Position = _rotationGroup.Position;
 
             _marginGroup.Width = TextBody.Width + RightMargin;
             _marginGroup.Height = TextBody.Height + BottomMargin;
@@ -219,8 +218,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
             if (_rotationAnchor == RotationAnchor.TopLeft)
             {
-                rotPointDot.Left = _marginGroup.GlobalLeft;
-                rotPointDot.Top = _marginGroup.GlobalTop;
+                rotPointDot.Position = _marginGroup.Position;
                 //Center object
                 rotPointDot.Left -= rotPointDot.Width / 2d;
                 rotPointDot.Top -= rotPointDot.Height / 2d;
@@ -350,18 +348,31 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
 
         public void AlignTopWithYPos()
         {
-            var bounds = marginGroupFill.GetGlobalBoundingbox();
+            Rect bounds = bgFillRect.GetGlobalBoundingbox();
+            //if (_rotationAnchor == RotationAnchor.Middle)
+            //{
+            //    var rotPointInternal = new TranformPoint(marginGroupFill.RotationPoint.Left + marginGroupFill.Position.X, marginGroupFill.RotationPoint.Top + marginGroupFill.Position.Y);
+            //    rotPointInternal.LocalRotation = _rotationGroup.LocalRotation;
+            //    marginGroupFill.Parent = rotPointInternal;
+            //    bounds = marginGroupFill.GetGlobalBoundingbox();
+            //    marginGroupFill.Parent = _marginGroup;
+            //}
+            //else
+            //{
+            //    bounds = marginGroupFill.GetGlobalBoundingbox();
+            //}
+
             var positionY = _innerGroup.Position.Y;
 
             if(positionY > bounds.Top)
             {
                 var dist = positionY - bounds.Top;
-                _innerGroup.Position = new Graphics.Geometry.Vector2(Position.X, positionY + dist);
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, positionY + dist);
             }
             else
             {
                 var dist = bounds.Top - positionY;
-                _innerGroup.Position = new Graphics.Geometry.Vector2(Position.X, positionY - dist);
+                _innerGroup.Position = new Graphics.Geometry.Vector2(_innerGroup.Position.X, positionY - dist);
             }
         }
 

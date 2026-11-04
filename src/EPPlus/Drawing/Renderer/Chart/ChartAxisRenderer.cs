@@ -635,7 +635,12 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else if (rot < 0)
                         {
-                            x = xPosStart;
+                            double cos = Math.Cos(MathHelper.Radians(rot));
+                            double sin = Math.Sin(MathHelper.Radians(rot));
+
+                            var test = Math.Pow(cos*width,2) + Math.Pow(sin*height,2);
+                            var distMultiplier = Math.Sqrt(test);
+                            x = xPosStart - distMultiplier;
                         }
                         else
                         {
@@ -644,7 +649,7 @@ namespace EPPlusImageRenderer.Svg
 
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         {
-                            y = ticMarkY;
+                            y = BottomMargin;
                             //double cos = Math.Cos(MathHelper.Radians(rot));
                             //double sin = Math.Sin(MathHelper.Radians(rot));
 
@@ -970,6 +975,10 @@ namespace EPPlusImageRenderer.Svg
                         if (Axis.LabelPosition == eTickLabelPosition.Low)
                         {
                             return Rectangle.Height - (width + height)* COS45;
+                        }
+                        else if (Axis.LabelPosition == eTickLabelPosition.NextTo)
+                        {
+                            return 0;
                         }
                         else
                         {
