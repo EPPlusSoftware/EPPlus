@@ -1,4 +1,16 @@
-﻿using EPPlus.Export.Pdf.Layout;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Fonts.OpenType.Integration;
@@ -7,11 +19,7 @@ using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -20,7 +28,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static Pages PrecomputePrintTitleCells(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Pages pdfPages)
         {
             for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
                 pdfPages.Page[i] = PrecomputePagePrintTitleCells(pageSettings, pdfSheet, range, pdfPages.Page[i]);
+            }
             return pdfPages;
         }
 
@@ -32,7 +42,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             bool topBand = page.PrintTitleHeight > 0d && pdfSheet.PrintTitleRowFrom >= 0 && page.FromRow > pdfSheet.PrintTitleRowTo;
             bool leftBand = page.PrintTitleWidth > 0d && pdfSheet.PrintTitleColFrom >= 0 && page.FromColumn > pdfSheet.PrintTitleColTo;
             if (!topBand && !leftBand)
+            {
                 return page;
+            }
             var contentColX = new Dictionary<int, double>();
             double cx = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             for (int c = page.FromColumn; c <= page.ToColumn; c++)
@@ -68,27 +80,38 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 }
             }
             if (topBand)
+            {
                 PdfBandRegion.ProcessBandRegionCells(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn, contentColX, titleRowY);
+            }
             if (leftBand)
+            {
                 PdfBandRegion.ProcessBandRegionCells(page, range, page.FromRow, page.ToRow, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, titleColX, contentRowY);
+            }
             if (topBand && leftBand)
+            {
                 PdfBandRegion.ProcessBandRegionCells(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, titleColX, titleRowY);
-
+            }
             page.PrintTitleGridLines = new List<GridLine>();
             if (pageSettings.ShowGridLines)
             {
                 if (topBand)
-                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                        PdfBandRegion.BandEdgesX(contentColX, page.FromColumn, page.ToColumn, range, page.FromRow),
-                        PdfBandRegion.BandEdgesY(titleRowY, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, range));
+                {
+                    var xCol = PdfBandRegion.BandEdgesX(contentColX, page.FromColumn, page.ToColumn, range, page.FromRow);
+                    var yRow = PdfBandRegion.BandEdgesY(titleRowY, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, range);
+                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn, xCol, yRow);
+                }
                 if (leftBand)
-                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, page.FromRow, page.ToRow, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                       PdfBandRegion.BandEdgesX(titleColX, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, range, page.FromRow),
-                       PdfBandRegion.BandEdgesY(contentRowY, page.FromRow, page.ToRow, range));
+                {
+                    var xCol = PdfBandRegion.BandEdgesX(titleColX, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, range, page.FromRow);
+                    var yRow = PdfBandRegion.BandEdgesY(contentRowY, page.FromRow, page.ToRow, range);
+                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, page.FromRow, page.ToRow, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, xCol, yRow);
+                }
                 if (topBand && leftBand)
-                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                        PdfBandRegion.BandEdgesX(titleColX, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, range, page.FromRow),
-                        PdfBandRegion.BandEdgesY(titleRowY, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, range));
+                {
+                    var xCol = PdfBandRegion.BandEdgesX(titleColX, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, range, page.FromRow);
+                    var yRow = PdfBandRegion.BandEdgesY(titleRowY, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, range);
+                    PdfBandRegion.EmitBandGrid(page.PrintTitleGridLines, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, xCol, yRow);
+                }
             }
             page.PrintTitleHeadings = new List<PrintTitleHeadingDraw>();
             if (pageSettings.ShowHeadings)
@@ -98,7 +121,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     for (int r = pdfSheet.PrintTitleRowFrom; r <= pdfSheet.PrintTitleRowTo; r++)
                     {
                         double h = PdfRangeGeometry.RangeRowHeight(range, r);
-                        if (h <= 0d) continue;
+                        if (h <= 0d)
+                        {
+                            continue;
+                        }
                         page.PrintTitleHeadings.Add(new PrintTitleHeadingDraw
                         {
                             IsRow = true,
@@ -115,7 +141,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     for (int c = pdfSheet.PrintTitleColFrom; c <= pdfSheet.PrintTitleColTo; c++)
                     {
                         double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
-                        if (w <= 0d) continue;
+                        if (w <= 0d)
+                        {
+                            continue;
+                        }
                         page.PrintTitleHeadings.Add(new PrintTitleHeadingDraw
                         {
                             IsRow = false,
@@ -128,28 +157,21 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                 }
             }
+            var orgX = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth;
+            var orgY = PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight;
             if (topBand)
             {
-                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn,
-                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth,
-                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight,
-                                    isPrintTitle: true);
+                orgX = orgX + page.PrintTitleWidth;
+                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, page.FromColumn, page.ToColumn, orgX, orgY, isPrintTitle: true);
             }
             if (leftBand)
             {
-                PdfSpillLayout.AddIncomingSpill(page, range, page.FromRow, page.ToRow,
-                                    pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth,
-                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight,
-                                    isPrintTitle: true);
+                orgY = orgY - page.PrintTitleHeight;
+                PdfSpillLayout.AddIncomingSpill(page, range, page.FromRow, page.ToRow, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, orgX, orgY, isPrintTitle: true);
             }
             if (topBand && leftBand)
             {
-                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo,
-                                    pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo,
-                                    PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth,
-                                    PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight,
-                                    isPrintTitle: true);
+                PdfSpillLayout.AddIncomingSpill(page, range, pdfSheet.PrintTitleRowFrom, pdfSheet.PrintTitleRowTo, pdfSheet.PrintTitleColFrom, pdfSheet.PrintTitleColTo, orgX, orgY, isPrintTitle: true);
             }
             return page;
         }
@@ -167,7 +189,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 fill.IsPrintTitle = true;
                 fill.UpdateShadingPositionMatrix(pageSettings);
                 pageLayout.AddChild(fill);
-
                 if (map.TextLines != null && map.TextLines.Count > 0)
                 {
                     var info = new MergedCellDrawInfo { X = t.X, Y = t.Y, Width = t.Width, Height = t.Height };
@@ -219,14 +240,18 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 pageLayout.AddChild(text);
             }
             if (!pageSettings.Draft)
+            {
                 AddHeadingCellBorder(pageLayout, x, y, width, height);
+            }
         }
 
         internal static void AddHeadingCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, double contentStartX, double contentStartY, double headingWidth, double headingHeight, string fontName, float fontSize, ExcelFill fill)
         {
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
-            var cornerFill = new PdfCellLayout(PdfLayout.GetOriginX(pageSettings, page), PdfLayout.GetOriginY(pageSettings, page), headingWidth, headingHeight);
+            var orgX = PdfLayout.GetOriginX(pageSettings, page);
+            var orgY = PdfLayout.GetOriginY(pageSettings, page);
+            var cornerFill = new PdfCellLayout(orgX, orgY, headingWidth, headingHeight);
             PdfFillResolver.SetFill(dictionaries, headingStyle, "", cornerFill);
             cornerFill.Name = "Heading_Corner";
             cornerFill.UpdateShadingPositionMatrix(pageSettings);
@@ -235,9 +260,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             for (int col = page.FromColumn; col <= page.ToColumn; col++)
             {
                 double colWidth = page.Map[page.FromRow, col]?.ColumnWidth ?? 0d;
-                if (colWidth == 0d) { x += colWidth; continue; }
+                if (colWidth == 0d)
+                {
+                    x += colWidth;
+                    continue;
+                }
                 string colLetter = ExcelCellBase.GetColumnLetter(col);
-                AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter, x, PdfLayout.GetOriginY(pageSettings, page), colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
+                AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, colLetter, x, orgY, colWidth, headingHeight, fontName, fontSize, "Heading_Col_" + colLetter);
                 x += colWidth;
             }
             if (!pageSettings.Draft)
@@ -246,9 +275,13 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int row = page.FromRow; row <= page.ToRow; row++)
                 {
                     double rowHeight = page.RowHeights[row - page.FromRow];
-                    if (rowHeight == 0d) { y -= rowHeight; continue; }
+                    if (rowHeight == 0d)
+                    {
+                        y -= rowHeight;
+                        continue;
+                    }
                     string rowNum = row.ToString();
-                    AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum, PdfLayout.GetOriginX(pageSettings, page), y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
+                    AddHeadingCell(pageSettings, dictionaries, pageLayout, headingStyle, rowNum, orgX, y, headingWidth, rowHeight, fontName, fontSize, "Heading_Row_" + rowNum);
                     y -= rowHeight;
                 }
             }
@@ -257,10 +290,8 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static void AddPrintTitleHeadings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, string fontName, float fontSize, ExcelFill fill)
         {
             if (page.PrintTitleHeadings == null || page.PrintTitleHeadings.Count == 0) return;
-
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
-
             foreach (var h in page.PrintTitleHeadings)
             {
                 string label = h.IsRow ? h.Index.ToString() : ExcelCellBase.GetColumnLetter(h.Index);

@@ -1,20 +1,27 @@
-﻿using EPPlus.Export.Pdf.Layout;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.Layout;
 using OfficeOpenXml.Export.PdfExport.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
     internal static class PdfLinkLayout
     {
         internal static bool CanTightenLink(PdfCellContentLayout text) =>
-                text?.TextLines != null && text.TextLines.Count > 0 &&
-                text.CellAlignmentData != null &&
-                !text.CellAlignmentData.IsVertical &&
-                text.CellAlignmentData.TextRotation == 0;
+                    text?.TextLines != null && text.TextLines.Count > 0 &&
+                    text.CellAlignmentData != null &&
+                    !text.CellAlignmentData.IsVertical &&
+                    text.CellAlignmentData.TextRotation == 0;
 
         internal static LinkDrawInfo CreateLinkDrawInfo(double x, double topY, double width, double height, PdfCell map)
         {
@@ -35,12 +42,12 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         internal static void AddTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, double clipLeft, double clipRight, string uri, string targetSheet, int targetRow, int targetCol, string toolTip, double padX = 1.0d, double padY = 1.5d)
         {
             double line0Width = text.TextLines[0].Width;
-            double originX = text.LocalPosition.X;   // aligned left of line 0
-            double baseY = text.LocalPosition.Y;   // baseline of line 0
+            double originX = text.LocalPosition.X;
+            double baseY = text.LocalPosition.Y;
             for (int k = 0; k < text.TextLines.Count; k++)
             {
                 var line = text.TextLines[k];
-                double offX = 0d;                    // mirrors PdfContentStream.AddText's per-line offset
+                double offX = 0d;
                 switch (text.CellAlignmentData.HorizontalAlignment)
                 {
                     case EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment.Right:

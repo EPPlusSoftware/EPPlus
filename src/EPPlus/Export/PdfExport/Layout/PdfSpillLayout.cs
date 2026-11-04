@@ -1,13 +1,21 @@
-﻿using EPPlus.Export.Pdf.Enums;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.Enums;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
 using OfficeOpenXml.Export.PdfExport.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -31,23 +39,38 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         {
             if (page.SpillCells == null) return;
             double windowRightX = windowOriginX;
-            for (int c = windowFromCol; c <= windowToCol; c++) windowRightX += PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
+            for (int c = windowFromCol; c <= windowToCol; c++)
+            {
+                windowRightX += PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
+            }
             double rowTop = windowOriginY;
             for (int r = fromRow; r <= toRow; r++)
             {
                 double rowH = PdfRangeGeometry.RangeRowHeight(range, r);
                 double y = rowTop;
                 rowTop -= rowH;
-                if (rowH <= 0d) continue;
+                if (rowH <= 0d)
+                {
+                    continue;
+                }
                 double lx = windowOriginX;
                 for (int c = windowFromCol - 1; c >= range.Range._fromCol; c--)
                 {
                     double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                     lx -= w;
                     var cell = PdfRangeGeometry.RangeCell(range, r, c);
-                    if (cell == null) continue;
-                    if (cell.Merged) break;
-                    if (string.IsNullOrEmpty(cell.Text)) continue;
+                    if (cell == null)
+                    {
+                        continue;
+                    }
+                    if (cell.Merged)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(cell.Text))
+                    {
+                        continue;
+                    }
                     var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
                     double rightExtent =
                         (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? lx + w / 2d + cell.TotalTextLength / 2d :
@@ -76,9 +99,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 {
                     double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                     var cell = PdfRangeGeometry.RangeCell(range, r, c);
-                    if (cell == null) { rx += w; continue; }
-                    if (cell.Merged) break;
-                    if (string.IsNullOrEmpty(cell.Text)) { rx += w; continue; }
+                    if (cell == null)
+                    {
+                        rx += w;
+                        continue;
+                    }
+                    if (cell.Merged)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(cell.Text))
+                    {
+                        rx += w;
+                        continue;
+                    }
                     var hal = cell.ContentAligmnet?.HorizontalAlignment ?? (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
                     double leftExtent =
                         (hal == (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center) ? rx + w / 2d - cell.TotalTextLength / 2d :
@@ -113,7 +147,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int c = windowFromCol; c <= windowToCol; c++)
                 {
                     var cell = PdfRangeGeometry.RangeCell(range, row, c);
-                    if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return x;
+                    if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text)))
+                    {
+                        return x;
+                    }
                     x += PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                 }
                 return windowRightX;
@@ -124,7 +161,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double w = PdfRangeGeometry.RangeColWidth(range, page.FromRow, c);
                 rx -= w;
                 var cell = PdfRangeGeometry.RangeCell(range, row, c);
-                if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text))) return rx + w;
+                if (cell != null && (cell.Merged || !string.IsNullOrEmpty(cell.Text)))
+                {
+                    return rx + w;
+                }
             }
             return windowOriginX;
         }
@@ -137,7 +177,6 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 var map = s.Cell;
                 if (map.TextLines == null || map.TextLines.Count == 0) continue;
                 if (s.ClipWidth <= 0d || s.ClipHeight <= 0d) continue;
-
                 var text = new PdfCellContentLayout(pageSettings, dictionaries, map, s.X, s.Y, s.Width, s.Height);
                 text.Name = "Spill_" + map.Name;
                 text.IsPrintTitle = s.IsPrintTitle;
@@ -152,7 +191,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             double clipX = x, clipW = effectiveWidth;
             var a = map.ContentAligmnet;
             if (a == null)
+            {
                 return (clipX, clipW, false, false);
+            }
             var L = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left;
             var G = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.General;
             var R = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right;
@@ -160,7 +201,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             var F = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Fill;
             var h = a.HorizontalAlignment;
             if (h == F || a.WrapText || map.TotalTextLength <= map.ColumnWidth)
+            {
                 return (clipX, clipW, false, false);
+            }
             double ScanRight()
             {
                 double w = 0d;
@@ -178,7 +221,10 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 for (int c = col - 1; c >= page.FromColumn; c--)
                 {
                     var n = page.Map[row, c];
-                    if (!string.IsNullOrEmpty(n.Text)) break;
+                    if (!string.IsNullOrEmpty(n.Text))
+                    {
+                        break;
+                    }
                     w += n.ColumnWidth;
                 }
                 return w;

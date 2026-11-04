@@ -1,4 +1,16 @@
-﻿using EPPlus.Export.Pdf.DocumentObjects;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.Export.Pdf.DocumentObjects;
 using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Settings;
 using EPPlus.Graphics.Units;
@@ -7,9 +19,6 @@ using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
@@ -100,53 +109,76 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
         {
-            if (drawings == null || drawings.Count == 0) return pdfPages;
+            if (drawings == null || drawings.Count == 0)
+            {
+                return pdfPages;
+            }
             var colPrefix = new double[range.ColWidths.Count + 1];
             for (int i = 0; i < range.ColWidths.Count; i++)
+            {
                 colPrefix[i + 1] = colPrefix[i] + range.ColWidths[i];
+            }
             var rowPrefix = new double[range.RowHeights.Count + 1];
             for (int i = 0; i < range.RowHeights.Count; i++)
+            {
                 rowPrefix[i + 1] = rowPrefix[i] + range.RowHeights[i].Height;
+            }
             var ws = range.Range.Worksheet;
             double rangeOriginX = 0d;
             for (int c = 1; c < range.Range._fromCol; c++)
+            {
                 rangeOriginX += ws.Column(c).Hidden ? 0d : UnitConversion.ExcelColumnWidthToPoints(ws.Column(c).Width, zeroCharWidth);
+            }
             double rangeOriginY = 0d;
             for (int r = 1; r < range.Range._fromRow; r++)
+            {
                 rangeOriginY += ws.Row(r).Hidden ? 0d : ws.Row(r).Height;
+            }
             for (int i = 0; i < pdfPages.Page.Length; i++)
+            {
                 pdfPages.Page[i] = PrecomputePageImages(pageSettings, range, pdfPages.Page[i], drawings, colPrefix, rowPrefix, rangeOriginX, rangeOriginY);
+            }
             return pdfPages;
         }
         private static double PointsFromEmu(long emu) => emu / (double)ExcelDrawing.EMU_PER_POINT;
+
         private static double PointsFromPixels(double pixels) => pixels * ExcelDrawing.EMU_PER_PIXEL / (double)ExcelDrawing.EMU_PER_POINT;
+
         private static double ColumnEdge(double[] colPrefix, int localCol) => colPrefix[Math.Max(0, Math.Min(localCol, colPrefix.Length - 1))];
+
         private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
+
         private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
         {
             page.Images = new List<ImageDrawInfo>();
             int fromCol = range.Range._fromCol;
             int fromRow = range.Range._fromRow;
-
             double pageAbsLeft = colPrefix[page.FromColumn - fromCol];
             double pageAbsRight = colPrefix[page.ToColumn - fromCol + 1];
             double pageAbsTop = rowPrefix[page.FromRow - fromRow];
             double pageAbsBottom = rowPrefix[page.ToRow - fromRow + 1];
-
             double contentStartX = PdfLayout.GetOriginX(pageSettings, page) + page.HeadingWidth + page.PrintTitleWidth;
             double contentStartY = PdfLayout.GetOriginY(pageSettings, page) - page.HeadingHeight - page.PrintTitleHeight;
-
             foreach (var drawing in drawings)
             {
-                if (!PdfImageXObject.CanEmbed(drawing.ImageBytes)) continue;
+                if (!PdfImageXObject.CanEmbed(drawing.ImageBytes))
+                {
+                    continue;
+                }
                 var pic = drawing.Picture;
                 double imgLeft, imgTop, imgRight, imgBottom;
                 if (pic.From != null)
                 {
                     int imgColLocal = (pic.From.Column + 1) - fromCol;
                     int imgRowLocal = (pic.From.Row + 1) - fromRow;
-                    if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1) continue;
-                    if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1) continue;
+                    if (imgColLocal < 0 || imgColLocal >= colPrefix.Length - 1)
+                    {
+                        continue;
+                    }
+                    if (imgRowLocal < 0 || imgRowLocal >= rowPrefix.Length - 1)
+                    {
+                        continue;
+                    }
                     imgLeft = colPrefix[imgColLocal] + PointsFromEmu(pic.From.ColumnOff);
                     imgTop = rowPrefix[imgRowLocal] + PointsFromEmu(pic.From.RowOff);
                     if (pic.To != null)
@@ -174,12 +206,16 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 double width = imgRight - imgLeft;
                 double height = imgBottom - imgTop;
 
-                if (imgLeft >= pageAbsRight || imgRight <= pageAbsLeft) continue;
-                if (imgTop >= pageAbsBottom || imgBottom <= pageAbsTop) continue;
-
+                if (imgLeft >= pageAbsRight || imgRight <= pageAbsLeft)
+                {
+                    continue;
+                }
+                if (imgTop >= pageAbsBottom || imgBottom <= pageAbsTop)
+                {
+                    continue;
+                }
                 double x = contentStartX + (imgLeft - pageAbsLeft);
                 double y = contentStartY - (imgTop - pageAbsTop);
-
                 string hlUri = null, hlSheet = null, hlToolTip = null;
                 int hlRow = 0, hlCol = 0;
                 var picLink = pic.Hyperlink;
@@ -190,7 +226,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         if (PdfTextMap.TryResolveInternalLink(range.Range.Worksheet, peh.ReferenceAddress, out var ts, out var tr, out var tc))
                         {
-                            hlSheet = ts; hlRow = tr; hlCol = tc;
+                            hlSheet = ts; 
+                            hlRow = tr;
+                            hlCol = tc;
                             hlToolTip = !string.IsNullOrEmpty(tip) ? tip : peh.ReferenceAddress;
                         }
                     }
@@ -198,7 +236,9 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     {
                         hlUri = PdfTextMap.NormalizeExternalTarget(picLink.OriginalString);
                         if (hlUri != null)
+                        {
                             hlToolTip = !string.IsNullOrEmpty(tip) ? tip : picLink.OriginalString;
+                        }
                     }
                 }
 
