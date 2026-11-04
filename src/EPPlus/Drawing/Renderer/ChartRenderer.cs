@@ -111,6 +111,14 @@ namespace EPPlusImageRenderer
                 DataTable = new ChartDataTableRenderer(this);
             }
 
+            Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
+
+            HorizontalAxis.UpdateValueScale();
+            VerticalAxis.UpdateValueScale();
+            SecondHorizontalAxis?.UpdateValueScale();
+            SecondVerticalAxis?.UpdateValueScale();
+
+
             Plotarea.SetPlotAreaRectangle();
             
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.

@@ -42,32 +42,20 @@ namespace EPPlusImageRenderer.Svg
         internal void SetPlotAreaRectangle()
         {
             _pa = Chart.PlotArea;
-            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            Group = new GroupRenderItem(ChartRenderer.Bounds);
-            Group.Name = "PlotArea";
-            RectRenderItem rect;
-            if (_pa.Layout.HasLayout)
+            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5;     //14px
+            Group = new GroupRenderItem(ChartRenderer.Bounds)
             {
-                rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
-                rect.Parent = Group;
-            }
-            else
-            {
-                rect = new RectRenderItem(Group);
-                rect.Top = GetPlotAreaTop();
-                rect.Left = GetPlotAreaLeft();
-                rect.Width = GetPlotAreaWidth(rect);
-                rect.Height = GetPlotAreaHeight(rect);
-            }
+                Name = "PlotArea"
+            };
 
+            var rect = GetPlotareaRect();
             Group.Top = rect.Top;
-            Group.Left = rect.Left;           
+            Group.Left = rect.Left;
             rect.Top = rect.Left = 0;
-            //Group.ChildObjects.Add(rect); //Dupl?
 
-            if(ChartRenderer.Legend!=null && 
+            if (ChartRenderer.Legend != null &&
                 (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
-                ((ExcelChartStandard)Chart).Legend.Layout.HasLayout==false)
+                ((ExcelChartStandard)Chart).Legend.Layout.HasLayout == false)
             {
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
@@ -76,6 +64,29 @@ namespace EPPlusImageRenderer.Svg
             rect.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _pa.Border, ChartRenderer.Chart.StyleManager.Style?.PlotArea.BorderReference.Color, _pa.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
             Rectangle = rect;
             Rectangle.Name = "PlotArea_Rectangle";
+        }
+
+        private RectRenderItem GetPlotareaRect()
+        {
+            RectRenderItem rect;
+            if (_pa.Layout.HasLayout)
+            {
+                rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
+                rect.Parent = Group;
+            }
+            else
+            {
+                rect = new RectRenderItem(Group)
+                {
+                    Top = GetPlotAreaTop(),
+                    Left = GetPlotAreaLeft()
+                };
+
+                rect.Width = GetPlotAreaWidth(rect);
+                rect.Height = GetPlotAreaHeight(rect);
+            }
+
+            return rect;
         }
 
         internal double GetPlotAreaHeight(RectRenderItem rect)
@@ -143,25 +154,27 @@ namespace EPPlusImageRenderer.Svg
                 rightAxisWidth = (rightActualAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
             }
 
-            var width = right - rightAxisWidth - rect.GlobalLeft;
-            //Reserve space for the last label that will be on the tick label instead of Middle of the category.
-            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+            if (ChartRenderer.HorizontalAxis.AxisValues != null)
             {
-                var minusPA = width / ChartRenderer.HorizontalAxis.AxisValues.Count / 2;
-                if (minusPA > rightAxisWidth)
+                var width = right - rightAxisWidth - rect.GlobalLeft;
+                //Reserve space for the last label that will be on the tick label instead of Middle of the category.
+                if (ChartRenderer.HorizontalAxis != null && ChartRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
                 {
-                    rightAxisWidth = minusPA;
+                    var minusPA = width / ChartRenderer.HorizontalAxis.AxisValues.Count / 2;
+                    if (minusPA > rightAxisWidth)
+                    {
+                        rightAxisWidth = minusPA;
+                    }
+                }
+                if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+                {
+                    var minusSA = width / ChartRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
+                    if (minusSA > rightAxisWidth)
+                    {
+                        rightAxisWidth = minusSA;
+                    }
                 }
             }
-            if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
-            {
-                var minusSA = width / ChartRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
-                if (minusSA > rightAxisWidth)
-                {
-                    rightAxisWidth = minusSA;
-                }
-            }
-
             return right - rightAxisWidth - rect.GlobalLeft;
         }
         private double GetPlotAreaLeft()

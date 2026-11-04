@@ -649,6 +649,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
+        internal abstract List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
     }
 }

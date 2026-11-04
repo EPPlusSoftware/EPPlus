@@ -22,7 +22,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateHorizontalAxisByWidth(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var plotAreaWidth = options.ChartSize.Width;
-            List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
+            var uniqueValues = GetUniqueValues(values, options.IsMulti);
+            List<object> displayValues;
+            if (options.IsMulti)
+            {
+                displayValues = uniqueValues.ToList();
+            }
+            else
+            {
+                displayValues = uniqueValues.Select(x => (object)x.ToString()).ToList();
+            }
             var uniqeItems = displayValues.Count;
 
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
@@ -70,9 +79,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 var width = fontSize * Math.Sqrt(2);
                 var margin = fontSize * 0.5;
-                if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                if (options.IsMulti || FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 {
-                    if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth)) //Check horizontal
+                    if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth, options.IsMulti)) //Check horizontal
                     {
                         return new AxisScale()
                         {
@@ -128,7 +137,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var plotAreaHeight = options.ChartSize.Height;
-            List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
+            List<object> displayValues = GetUniqueValues(values, options.IsMulti).Select(x => (object)x.ToString()).ToList();
             var uniqeItems = displayValues.Count;
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
             int interval = 1;
@@ -164,20 +173,41 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         }
 
 
-        private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth)
+        private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth, bool isMultLevel)
         {
             var margin = fontSize * 0.3;
-            var maxWidth = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
+            double maxWidth;
             var pos = interval;
-            while (pos < displayValues.Count && (maxWidth * displayValues.Count/interval) < plotAreaWidth)
+            if (isMultLevel)
             {
-                var width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
-                if(width>maxWidth)
+                var arr = (object[])displayValues[0];
+                var lastIx = arr.Length - 1;
+                maxWidth = GetTextWidth(shaper, arr[lastIx].ToString(), fontSize) + margin;
+                while (pos < displayValues.Count && (maxWidth * displayValues.Count / interval) < plotAreaWidth)
                 {
-                    maxWidth = width;
-                    if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                    arr = (object[])displayValues[pos];
+                    var width = GetTextWidth(shaper, arr[lastIx].ToString(), fontSize) + margin;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                        if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                    }
+                    pos += interval;
                 }
-                pos += interval;
+            }
+            else
+            {
+                maxWidth = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
+                while (pos < displayValues.Count && (maxWidth * displayValues.Count / interval) < plotAreaWidth)
+                {
+                    var width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                        if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                    }
+                    pos += interval;
+                }
             }
             return true;
         }
@@ -202,19 +232,46 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             return interval;
         }
 
-        internal static List<object> GetUniqueValues(List<object> values)
+        internal static List<object> GetUniqueValues(List<object> values, bool isMulti)
         {
             var ret = new List<object>();
             var hs = new HashSet<string>();
+            string[] prevNonEmpty=null;
             foreach (var v in values)
             {
-                if (v is object[])
+                if (v is object[] array)
                 {
-                    var s = (object[])v;
-                    var key = s[0].ToString() + s[1].ToString();
-                    if (hs.Add(key))
+                    if(isMulti)                    
                     {
-                        ret.Add(s[0]);
+                        if(prevNonEmpty==null) prevNonEmpty = new string[array.Length - 1]; //For empty values, we will use previous non empty value in the key to match up hierarki values.
+                        var key = "";
+                        var o = new object[array.Length];
+                        for (int ix = 0;ix<array.Length;ix++)                        
+                        {
+                            var s = (object[])array[ix];
+                            if(ix < array.Length-1 && string.IsNullOrEmpty(s[0].ToString()))
+                            {
+                                key += prevNonEmpty[ix].ToString() + s[1].ToString();
+                            }
+                            else
+                            {
+                                key += s[0].ToString() + s[1].ToString();
+                                if (ix < array.Length - 1) prevNonEmpty[ix] = s[0].ToString();
+                            }
+                            o[ix] = ((object[])array[ix])[0];
+                        }
+                        if (hs.Add(key))
+                        {
+                            ret.Add(o);
+                        }
+                    }
+                    else
+                    {
+                        var key = array[0].ToString() + array[1].ToString();
+                        if (hs.Add(key))
+                        {
+                            ret.Add(array[0]);
+                        }
                     }
                 }
                 else

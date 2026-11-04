@@ -328,19 +328,20 @@ namespace OfficeOpenXml.Drawing.Chart
             return ExcelErrorValue.Values.Ref;
         }
 
-        internal List<object> GetValues(bool useX, bool useString)
+        internal List<object> GetValues(bool useX, bool useString, out bool isMultiLevel)
         {
             var l = new List<object>();
-            AddFromSerie(l, useX, useString, null);
+            AddFromSerie(l, useX, useString, null, out isMultiLevel);
             return l;
         }
-        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, List<object> prevList = null)
+        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, out bool isMultiLevel, List<object> prevList = null)
         {
             string address;
             double[] numberLiterals;
             string[] stringLiterals;
             int? count;
-            if(useX)
+            isMultiLevel = false;
+            if (useX)
             {
                 address = XSeries;
                 numberLiterals = NumberLiteralsX;
@@ -388,11 +389,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var a = new ExcelAddressBase(address);
                 if (a.ExternalReferenceIndex > 0)
                 {
-                    GetExternalValues(list, useText, prevList, isStacked, a, count);
+                    GetExternalValues(list, useText, prevList, isStacked, a, count, out isMultiLevel);
                 }
                 else
                 {
-                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a, count);
+                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a, count, out isMultiLevel);
                 }
             }
         }
@@ -415,21 +416,37 @@ namespace OfficeOpenXml.Drawing.Chart
             return null;
         }
 
-        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count)
+        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count, out bool isMultiLevel)
         {
             var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
             if (ws != null)
             {
-                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws, count);
+                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws, count, out isMultiLevel);
+            }
+            else
+            {
+                isMultiLevel = false;
             }
         }
 
-        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int? count)
+        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int? count, out bool isMultiLevel)
         {
             var range = ws.Cells[a.Address];
             var i = 0;
+            isMultiLevel = range.Rows > 1 && range.Columns > 1;
+            object o;
+            object[] arr=null;
             for (var r = 0; r < range.Rows; r++)
             {
+                if (count.HasValue && list.Count >= count)
+                {
+                    return;
+                }
+                if (isMultiLevel)
+                {
+                    arr = new object[range.Columns];
+                    list.Add(arr);
+                }
                 for (var c = 0; c < range.Columns; c++)
                 {
                     var v = range.Offset(r, c, 1, 1);
@@ -437,18 +454,18 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if (headerInfo == null)
                         {
-                            list.Add(v.Text);
+                            o = v.Text;
                         }
                         else
                         {
                             if (v.Style.Numberformat.IsDateFormat && !(v.Value is DateTime) && ConvertUtil.IsNumericOrDate(v.Value))
                             {
                                 var d = ConvertUtil.GetValueDouble(v.Value);
-                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], DateTime.FromOADate(d) }); //Last value is for sorting.
+                                o=new object[] { v.Text, a.Address, headerInfo[1], DateTime.FromOADate(d) }; //Last value is for sorting.
                             }
                             else
                             {
-                                list.Add(new object[] { v.Text, a.Address, headerInfo[1], v.Value });                //Last value is for sorting.
+                                o=new object[] { v.Text, a.Address, headerInfo[1], v.Value };                //Last value is for sorting.
                             }
                         }
                     }
@@ -461,20 +478,25 @@ namespace OfficeOpenXml.Drawing.Chart
                             var pv = GetSerieValue(prevList, i++);
                             d += pv;
                         }
-                        list.Add(d);
+                        o = d;
                     }
 
-                    if(count.HasValue && list.Count >= count)
+                    if (isMultiLevel)
                     {
-                        return;
+                        arr[c] = o;
+                    }
+                    else
+                    {
+                        list.Add(o);
                     }
                 }
             }
         }
 
-        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count)
+        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count, out bool isMultiLevel)
         {
             var wb = _chart.WorkSheet.Workbook;
+            isMultiLevel = false;
             if (wb.ExternalLinks.Count > a.ExternalReferenceIndex) return;
 
             var extRef = wb.ExternalLinks[a.ExternalReferenceIndex - 1];
@@ -486,15 +508,27 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (ws != null)
                 {
                     var i = 0;
+                    object[] arr=null;
                     for (var r = a._fromRow; r <= a._toRow; r++)
                     {
+                        if(isMultiLevel)
+                        {
+                            arr = new object[a.Columns];
+                            list.Add(arr);
+                        }
                         for (var c = a._fromCol; c <= a._toCol; c++)
                         {
                             var v = ws.CellValues[r, c];
                             if (useText)
                             {
-
-                                list.Add(v.Value);
+                                if(isMultiLevel)
+                                {
+                                    arr[c] = v.Value;
+                                }
+                                else
+                                {
+                                    list.Add(v.Value);
+                                }
                             }
                             else
                             {
@@ -505,7 +539,14 @@ namespace OfficeOpenXml.Drawing.Chart
                                     var pv = GetSerieValue(prevList, i++);
                                     d += pv;
                                 }
-                                list.Add(d);
+                                if (isMultiLevel)
+                                {
+                                    arr[c] = d;
+                                }
+                                else
+                                {
+                                    list.Add(d);
+                                }
                             }
                             if(count.HasValue && list.Count >= count)
                             {

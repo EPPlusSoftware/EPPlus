@@ -27,13 +27,16 @@ using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 
@@ -80,7 +83,7 @@ namespace EPPlusImageRenderer.Svg
                 return;
             }
 
-            if(ax.HasTitle)
+            if (ax.HasTitle)
             {
                 Title = new ChartTitleRenderer(sc, ax.Title, "Axis Title", this);
             }
@@ -88,69 +91,82 @@ namespace EPPlusImageRenderer.Svg
             {
                 Title = null;
             }
+        }
 
-            Values = GetAxisValue(ax, sc.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
-            AxisValues = GetAxisDisplayValues(ax, Values, min, max, majorUnit);
+        internal void UpdateValueScale()
+        {
+            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation, out bool isMulti);
+            if(isMulti)
+            {
+                AxisValues = null;
+                AxisValuesMulti = Values.Select(x => ((object[])x).Select(s=>s.ToString()).ToArray()).ToList();
+            }
+            else
+            {
+                AxisValues = GetAxisDisplayValues(Axis, Values, min, max, majorUnit, isMulti);
+                AxisValuesMulti = null;
+            }
 
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
-            if(AutoAxisType == eAxisType.Cat && !(IsDateAutoAxis || IsDateScale))
+            if (AutoAxisType == eAxisType.Cat && !(IsDateAutoAxis || IsDateScale))
             {
-                MinorUnit = (ax.MinorUnit ?? MajorUnit) / 2D;
+                MinorUnit = (Axis.MinorUnit ?? MajorUnit) / 2D;
             }
-            else if(IsDateAutoAxis || IsDateScale)
+            else if (IsDateAutoAxis || IsDateScale)
             {
-                MinorUnit = ax.MinorUnit ?? 1;
+                MinorUnit = Axis.MinorUnit ?? 1;
             }
             else
             {
-                MinorUnit = ax.MinorUnit ?? GetAutoMinUnit(MajorUnit);
+                MinorUnit = Axis.MinorUnit ?? GetAutoMinUnit(MajorUnit);
             }
             MajorDateUnit = dateUnit;
             LabelOrientation = orientation;
 
-            if(Rectangle == null)
+            if (Rectangle == null)
             {
-                Rectangle = new RectRenderItem(sc.Bounds);
+                Rectangle = new RectRenderItem(ChartRenderer.Bounds);
             }
 
-            if (ax.Deleted == false)
+            if (Axis.Deleted == false)
             {
-                if (ax.Layout.HasLayout)
+                if (Axis.Layout.HasLayout)
                 {
-                    Rectangle = GetRectFromManualLayout(sc, ax.Layout);
+                    Rectangle = GetRectFromManualLayout(ChartRenderer, Axis.Layout);
                 }
                 else
                 {
-                    var aav = ax.ActualAxisPosition;
-                    if (ax.IsVertical)
+                    var aav = Axis.ActualAxisPosition;
+                    if (Axis.IsVertical)
                     {
                         if (aav == eAxisPosition.Left)
                         {
-                            Rectangle.Width = GetTextWidest(ax) + LeftMargin;
+                            Rectangle.Width = GetTextWidest(Axis) + LeftMargin;
                         }
                         else
                         {
-                            Rectangle.Width = GetTextWidest(ax) + RightMargin;
+                            Rectangle.Width = GetTextWidest(Axis) + RightMargin;
                         }
                     }
                     else
                     {
-                        Rectangle.Height = GetTextHeight(ax);
+                        Rectangle.Height = GetTextHeight(Axis, isMulti);
                     }
                 }
 
                 Rectangle.Style.FillColor = "none";
 
                 Line = new LineRenderItem(Rectangle);
-                Line.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, ax.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, ax.Border.IsEmpty==true || ax.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
-                if(Line.Style.BorderWidth < 1)
+                Line.Style.SetDrawingPropertiesBorder(base.ChartRenderer.Theme, Axis.Border, ChartRenderer.Chart.StyleManager.Style?.Title.BorderReference.Color, Axis.Border.IsEmpty == true || Axis.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 1);
+                if (Line.Style.BorderWidth < 1)
                 {
                     Line.Style.BorderWidth = 1;
                 }
             }
         }
+
         public eAxisType AutoAxisType
         {
             get
@@ -179,7 +195,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal ExcelChartAxisStandard Axis { get; }
         internal LineRenderItem Line { get; set; }
-        private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit)
+        private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit, bool isMulti)
         {
             var displayValues = new List<string>();
             var format = ax.FormatOrFirstValueFormat;
@@ -192,26 +208,33 @@ namespace EPPlusImageRenderer.Svg
                     var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
                     nf = new ExcelFormatTranslator(sdFormat, 14);
                 }
-            }            
-            foreach (var v in CategoryAxisScaleCalculator.GetUniqueValues(values))
+            }
+            if (isMulti)
             {
-                string s;
-                if (ax.DisplayUnit > 1)
+
+            }
+            else
+            {
+                foreach (var v in CategoryAxisScaleCalculator.GetUniqueValues(values, isMulti))
                 {
-                    var d = ConvertUtil.GetValueDouble(v, false, true);
-                    d /= ax.DisplayUnit;
-                    s = ValueToTextHandler.FormatValue(d, false, nf, null, out bool isValidFormat);
+                    string s;
+                    if (ax.DisplayUnit > 1)
+                    {
+                        var d = ConvertUtil.GetValueDouble(v, false, true);
+                        d /= ax.DisplayUnit;
+                        s = ValueToTextHandler.FormatValue(d, false, nf, null, out bool isValidFormat);
+                    }
+                    else
+                    {
+                        s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                    }
+                    displayValues.Add(s);
                 }
-                else
-                {
-                    s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
-                }
-                displayValues.Add(s);
             }
             return displayValues;
         }
-        private double GetTextHeight(ExcelChartAxisStandard ax)
-        {
+        private double GetTextHeight(ExcelChartAxisStandard ax, bool isMulti)
+        {            
             //The shaper is obtained through the render context so the family is substituted
             //for the render target, matching the font used in the output.
             var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
@@ -220,38 +243,72 @@ namespace EPPlusImageRenderer.Svg
             var lineHeight = shaper.GetLineHeightInPoints(fontSize);
 
             var highest = 0D;
-            foreach (var s in AxisValues)
+            if (isMulti)
             {
-                //An empty label has no size, as with ITextMeasurer.
-                if (string.IsNullOrEmpty(s))
-                    continue;
-
-                switch (LabelOrientation)
+                foreach (var s in AxisValuesMulti)
                 {
-                    case eTextOrientation.Horizontal:
-                        if (lineHeight > highest)
-                        {
-                            highest = lineHeight;
-                        }
-                        break;
-                    case eTextOrientation.Custom:
-                    case eTextOrientation.Diagonal:
-                        var diagonalHeight = shaper.Shape(s).GetWidthInPoints(fontSize) * COS45;
-                        if (diagonalHeight > highest)
-                        {
-                            highest = diagonalHeight;
-                        }
-                        break;
-                    case eTextOrientation.Vertical:
-                        var verticalHeight = shaper.Shape(s).GetWidthInPoints(fontSize);
-                        if (verticalHeight > highest)
-                        {
-                            highest = verticalHeight;
-                        }
-                        break;
+                    var height = s.Length - 1 * lineHeight;
+                    switch (LabelOrientation)
+                    {
+                        case eTextOrientation.Horizontal:
+                            height += lineHeight;
+                            if (height > highest)
+                            {
+                                highest = height;
+                            }
+                            break;
+                        case eTextOrientation.Vertical:
+                            var verticalHeight = height + shaper.Shape(s[s.Length - 1]??"").GetWidthInPoints(fontSize);
+                            if (verticalHeight > highest)
+                            {
+                                highest = verticalHeight;
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var s in AxisValues)
+                {
+                    //An empty label has no size, as with ITextMeasurer.
+                    if (string.IsNullOrEmpty(s))
+                        continue;
+
+                    highest = GetHightestAxisValue(shaper, fontSize, lineHeight, highest, s, LabelOrientation);
                 }
             }
             return highest.PointToPixel();
+        }
+
+        private double GetHightestAxisValue(ITextShaper shaper, float fontSize, float lineHeight, double highest, string s, eTextOrientation labelOrientation)
+        {
+            switch (labelOrientation)
+            {
+                case eTextOrientation.Horizontal:
+                    if (lineHeight > highest)
+                    {
+                        highest = lineHeight;
+                    }
+                    break;
+                case eTextOrientation.Custom:
+                case eTextOrientation.Diagonal:
+                    var diagonalHeight = shaper.Shape(s).GetWidthInPoints(fontSize) * COS45;
+                    if (diagonalHeight > highest)
+                    {
+                        highest = diagonalHeight;
+                    }
+                    break;
+                case eTextOrientation.Vertical:
+                    var verticalHeight = shaper.Shape(s).GetWidthInPoints(fontSize);
+                    if (verticalHeight > highest)
+                    {
+                        highest = verticalHeight;
+                    }
+                    break;
+            }
+
+            return highest;
         }
 
         private double GetTextWidest(ExcelChartAxisStandard ax)
@@ -288,7 +345,7 @@ namespace EPPlusImageRenderer.Svg
             private set;
         }
         public List<string> AxisValues { get; private set; }
-
+        public List<string[]> AxisValuesMulti { get; private set; }
         public List<LineRenderItem> MajorTickMarkPositions { get; private set; }
         public List<LineRenderItem> MinorTickMarkPositions { get; private set; }
         public ChartAxisTextBoxes  Textboxes{get; private set;}
@@ -383,8 +440,8 @@ namespace EPPlusImageRenderer.Svg
                 ChartRenderer.Plotarea.MinorGridlinePositions = AddGridlines(MinorUnit, MajorUnit, Axis.MinorGridlines, Chart.StyleManager.Style?.GridlineMinor);
             }
 
-            if (AxisValues != null && 
-                AxisValues.Count > 0 && 
+            if((AxisValues != null || AxisValuesMulti != null) &&
+                (AxisValues?.Count > 0 || AxisValuesMulti?.Count > 0) && 
                 Axis.Deleted==false && 
                 Axis.LabelPosition != eTickLabelPosition.None &&
                 !IsCatAxDataTable) //Do not print axis textboxes if the data table header is the text boxes.
@@ -458,8 +515,7 @@ namespace EPPlusImageRenderer.Svg
         private List<DrawingTextBox> GetAxisValueTextBoxes(out double widest, out double highest)
         {
             widest = highest = 0;
-            var ret = new List<DrawingTextBox>();
-            if (Axis.LabelPosition == eTickLabelPosition.None) return ret;
+            if (Axis.LabelPosition == eTickLabelPosition.None) return new List<DrawingTextBox>();
 
             //All labels share the axis font. The shaper is obtained through the render context
             //so the family is substituted for the render target, matching the font used in the output.
@@ -468,12 +524,12 @@ namespace EPPlusImageRenderer.Svg
             var fontSize = mf.Size;
             var lineHeight = shaper.GetLineHeightInPoints(fontSize);
 
-            var axisStyle = GetAxisStyleEntry();
             double maxWidth, maxHeight;
+            var count = AxisValues == null ? AxisValuesMulti.Count : AxisValues.Count;
             if (Axis.AxisPosition == eAxisPosition.Left || Axis.AxisPosition == eAxisPosition.Right)
             {
                 maxWidth = ChartRenderer.ChartArea.Rectangle.Width / 3; //TODO: Check this value.
-                maxHeight = Rectangle.Height / AxisValues.Count;
+                maxHeight = Rectangle.Height / count;
             }
             else
             {
@@ -481,14 +537,14 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eTextOrientation.Vertical:
                         maxWidth = ChartRenderer.ChartArea.Rectangle.Height / 3;
-                        maxHeight = Rectangle.Width / AxisValues.Count; //TODO: Check this value.
+                        maxHeight = Rectangle.Width / count; //TODO: Check this value.
                         break;
                     case eTextOrientation.Diagonal:
-                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45) / AxisValues.Count;
+                        maxWidth = ((Rectangle.Width + Rectangle.Height) / COS45) / count;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     case eTextOrientation.Horizontal:
-                        maxWidth = Rectangle.Width / AxisValues.Count;
+                        maxWidth = Rectangle.Width / count;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                     default: // custom
@@ -497,16 +553,162 @@ namespace EPPlusImageRenderer.Svg
                         var sin = Math.Abs(Math.Sin(radRot));
                         var cos = Math.Abs(Math.Cos(radRot));
                         var width = Rectangle.Width;
-                        //maxWidth = 200;
-                        maxWidth = Rectangle.Width / AxisValues.Count;
-                        //maxWidth = ((Rectangle.Width + Rectangle.Height) / cos);
-                        //maxWidth = Rectangle.Width / ((Rectangle.Width * Math.Abs(Math.Sin(radRot)) + mf.Size * Math.Abs(Math.Cos(radRot))));
-                        //Rectangle.Width = Rectangle.Width
+                        maxWidth = Rectangle.Width / count;
                         maxHeight = ChartRenderer.ChartArea.Rectangle.Height / 3; //TODO: Check this value.
                         break;
                 }
             }
-            int labelSkip = Axis.AxisType == eAxisType.Cat ? (int)(Axis.MajorUnit??1) : 1;
+
+            List<DrawingTextBox> ret;
+            if (AxisValues==null)
+            {
+                ret = AddTextboxesMulti(shaper, fontSize, lineHeight, maxWidth, maxHeight, out widest, out highest);
+            }
+            else
+            {
+                ret = AddTextboxes(shaper, fontSize, lineHeight, maxWidth, maxHeight, out widest, out highest);
+            }
+            
+
+            if (Axis.IsVertical)
+            {
+                //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
+                if (Axis.AxisTextboxPosition == eActualAxisPosition.Left)
+                {
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += (widest - tb.Width);
+                    }
+                }
+                else
+                {
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += LeftMargin;
+                    }
+                }
+            }
+            else if (LabelOrientation == eTextOrientation.Horizontal && IsCatAx()) //Only apples when labels are horizontally aligned
+            {
+                //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                double majorWidth;
+                if (IsDateAutoAxis || IsDateScale)
+                {
+                    var min = ConvertUtil.GetValueDouble(Values);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var minUnit = (max - min+1) / MinorUnit;
+                    majorWidth = Rectangle.Width / minUnit;
+                }
+                else
+                {
+                    majorWidth = Rectangle.Width / count;
+                }
+                if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat)
+                {
+                    foreach (var tb in ret)
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                tb.Left -= (tb.Width + majorWidth) / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left -= tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += (tb.Width + majorWidth) / 2;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var tb in ret)
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
+                    }
+                }
+            }
+            else if (LabelOrientation == eTextOrientation.Diagonal)
+            {
+                if (!(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat))
+                {
+                    double majorWidth;
+                    if (IsDateAutoAxis || IsDateScale)
+                    {
+                        var min = ConvertUtil.GetValueDouble(Values);
+                        var max = ConvertUtil.GetValueDouble(Values.Last());
+                        var minUnit = (max - min) / MinorUnit;
+                        majorWidth = Rectangle.Width / minUnit;
+                    }
+                    else
+                    {
+                        majorWidth = Rectangle.Width / count;
+                    }
+                    foreach (var tb in ret)
+                    {
+                        tb.Left += majorWidth / 2;
+                    }
+                }
+            }
+            else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx())
+            {
+                double majorWidth;
+                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                if (IsDateAutoAxis || IsDateScale)
+                {
+                    var min = ConvertUtil.GetValueDouble(Values);
+                    var max = ConvertUtil.GetValueDouble(Values.Last());
+                    var minUnit = (max - min) / MinorUnit;
+                    majorWidth = Rectangle.Width / minUnit;
+                }
+                else
+                {
+                    majorWidth = Rectangle.Width / count;
+                }
+                foreach (var tb in ret)
+                {
+                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
+                    {
+                        tb.Left +=  -tb.Width / 2;
+                    }
+                    else
+                    {
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        private List<DrawingTextBox> AddTextboxes(ITextShaper shaper, float fontSize, float lineHeight, double maxWidth, double maxHeight, out double widest, out double highest)
+        {
+            widest = highest = 0;
+            var axisStyle = GetAxisStyleEntry();
+            var ret = new List<DrawingTextBox>();
+            int labelSkip = Axis.AxisType == eAxisType.Cat ? (int)(Axis.MajorUnit ?? 1) : 1;
             for (var i = 0; i < AxisValues.Count; i++)
             {
                 if (i % labelSkip != 0) continue;
@@ -519,14 +721,14 @@ namespace EPPlusImageRenderer.Svg
 
                 var ticMarkX = GetAxisItemLeft(i);
                 double majorTickMarkWidth;
-                if(i + 1 < Values.Count)
+                if (i + 1 < Values.Count)
                 {
                     var nextTicMarkX = GetAxisItemLeft(i + 1);
                     majorTickMarkWidth = nextTicMarkX - ticMarkX;
                 }
                 else
                 {
-                    if(i > 0)
+                    if (i > 0)
                     {
                         var prevTickMarkX = GetAxisItemLeft(i - 1);
                         majorTickMarkWidth = ticMarkX - prevTickMarkX;
@@ -572,9 +774,9 @@ namespace EPPlusImageRenderer.Svg
                 else
                 {
                     double rot;
-                    if(LabelOrientation==eTextOrientation.Custom)
-                    {                        
-                        rot = Axis.TextBody?.RotationAdjustedForTextVertical??0D;
+                    if (LabelOrientation == eTextOrientation.Custom)
+                    {
+                        rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
                     }
                     else
                     {
@@ -585,7 +787,7 @@ namespace EPPlusImageRenderer.Svg
 
                     if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
                     {
-                        if(width < majorTickMarkWidth)
+                        if (width < majorTickMarkWidth)
                         {
                             x = ticMarkX;
                         }
@@ -609,14 +811,14 @@ namespace EPPlusImageRenderer.Svg
                         //    y = ticMarkY - BottomMargin - Math.Abs(((width / 2) * sin));
                         //}
                     }
-                    else if((rot == 90 || rot == -90))
+                    else if ((rot == 90 || rot == -90))
                     {
                         x = ticMarkX;
                         //Width becomes height post-rotation
                         //We are currently pre-rotation.
-                        y = ticMarkY - (width/2);
+                        y = ticMarkY - (width / 2);
                     }
-                    else 
+                    else
                     {
                         x = ticMarkX - (height / 2);
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
@@ -688,143 +890,182 @@ namespace EPPlusImageRenderer.Svg
                 {
                     widest = tb.Width;
                 }
-                if(highest < tb.Height)
+                if (highest < tb.Height)
                 {
                     highest = tb.Height;
                 }
                 ret.Add(tb);
             }
-
-            if (Axis.IsVertical)
+            return ret;
+        }
+        private List<DrawingTextBox> AddTextboxesMulti(ITextShaper shaper, float fontSize, float lineHeight, double maxWidth, double maxHeight, out double widest, out double highest)
+        {
+            widest = highest = 0;
+            var axisStyle = GetAxisStyleEntry();
+            var ret = new List<DrawingTextBox>();
+            int labelSkip = Axis.AxisType == eAxisType.Cat ? (int)(Axis.MajorUnit ?? 1) : 1;
+            var heightFirstRow = highest - (lineHeight * AxisValuesMulti[0].Length - 1);
+            for (var i = 0; i < AxisValuesMulti.Count; i++)
             {
-                //If the axis is vertical, we need to adjust the left position of the textboxes to align them to the right and not have them overlap with the axis line.
-                if (Axis.AxisTextboxPosition == eActualAxisPosition.Left)
+                if (i % labelSkip != 0) continue;
+                var items = AxisValuesMulti[i];
+                
+                var ticMarkX = GetAxisItemLeft(i);
+                double majorTickMarkWidth;
+                if (i + 1 < Values.Count)
                 {
-                    foreach (var tb in ret)
-                    {
-                        tb.Left += (widest - tb.Width);
-                    }
+                    var nextTicMarkX = GetAxisItemLeft(i + 1);
+                    majorTickMarkWidth = nextTicMarkX - ticMarkX;
                 }
                 else
                 {
-                    foreach (var tb in ret)
+                    if (i > 0)
                     {
-                        tb.Left += LeftMargin;
-                    }
-                }
-            }
-            else if (LabelOrientation == eTextOrientation.Horizontal && IsCatAx()) //Only apples when labels are horizontally aligned
-            {
-                //Align the axis labels according to the label alignment setting. This is only relevant for horizontal axis, vertical axis are always right aligned.
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
-                double majorWidth;
-                if (IsDateAutoAxis || IsDateScale)
-                {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min+1) / MinorUnit;
-                    majorWidth = Rectangle.Width / minUnit;
-                }
-                else
-                {
-                    majorWidth = Rectangle.Width / AxisValues.Count;
-                }
-                if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat)
-                {
-                    foreach (var tb in ret)
-                    {
-                        switch (lblAlignment)
-                        {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                tb.Left -= (tb.Width + majorWidth) / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
-                                tb.Left -= tb.Width / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
-                                tb.Left += (tb.Width + majorWidth) / 2;
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var tb in ret)
-                    {
-                        switch (lblAlignment)
-                        {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
-                                tb.Left += majorWidth / 2 - tb.Width / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
-                                tb.Left += majorWidth - tb.Width;
-                                break;
-                        }
-                    }
-                }
-            }
-            else if (LabelOrientation == eTextOrientation.Diagonal)
-            {
-                if (!(Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.MidCat))
-                {
-                    double majorWidth;
-                    if (IsDateAutoAxis || IsDateScale)
-                    {
-                        var min = ConvertUtil.GetValueDouble(Values[0]);
-                        var max = ConvertUtil.GetValueDouble(Values.Last());
-                        var minUnit = (max - min) / MinorUnit;
-                        majorWidth = Rectangle.Width / minUnit;
+                        var prevTickMarkX = GetAxisItemLeft(i - 1);
+                        majorTickMarkWidth = ticMarkX - prevTickMarkX;
                     }
                     else
                     {
-                        majorWidth = Rectangle.Width / AxisValues.Count;
-                    }
-                    foreach (var tb in ret)
-                    {
-                        tb.Left += majorWidth / 2;
+                        //There is only one axisValue as we are somehow both the first and last value
+                        majorTickMarkWidth = 0;
                     }
                 }
-            }
-            else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx())
-            {
-                double majorWidth;
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
-                if (IsDateAutoAxis || IsDateScale)
+
+                for (int j = items.Length - 1; j >= 0; j--)
                 {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min) / MinorUnit;
-                    majorWidth = Rectangle.Width / minUnit;
-                }
-                else
-                {
-                    majorWidth = Rectangle.Width / AxisValues.Count;
-                }
-                foreach (var tb in ret)
-                {
-                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
+                    var isTopRow = j == items.Length - 1;
+
+                    var v = ((object[])Values[i])[j];
+                    var t = AxisValuesMulti[i][j];
+
+                    //An empty label has no size, as with ITextMeasurer.
+                    float width = string.IsNullOrEmpty(t) ? 0f : shaper.Shape(t).GetWidthInPoints(fontSize);
+                    float height = string.IsNullOrEmpty(t) ? 0f : lineHeight;
+
+                    var ticMarkY = GetAxisItemTop(i, width, height);
+                    double x, y;
+                    if (LabelOrientation == eTextOrientation.Horizontal || isTopRow==false)
                     {
-                        tb.Left +=  -tb.Width / 2;
+                        x = ticMarkX;
+                        y = ticMarkY;
                     }
                     else
                     {
-                        switch (lblAlignment)
+                        double rot;
+                        if (LabelOrientation == eTextOrientation.Custom)
                         {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
-                                tb.Left += majorWidth / 2 - tb.Width / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
-                                tb.Left += majorWidth - tb.Width;
-                                break;
+                            rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                        }
+                        else
+                        {
+                            rot = LabelOrientation == eTextOrientation.Diagonal ? -45 : -90;
+                        }
+                        double cos = Math.Cos(MathHelper.Radians(rot));
+                        double sin = Math.Sin(MathHelper.Radians(rot));
+
+                        if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
+                        {
+                            if (width < majorTickMarkWidth)
+                            {
+                                x = ticMarkX;
+                            }
+                            else
+                            {
+                                x = ticMarkX - ((height / 2) * cos);
+                            }
+
+                            var midPointText = height / 2;
+                            var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
+                            var heightPastY = halfHeightAfterRot - midPointText;
+
+                            y = ticMarkY - heightPastY;
+                        }
+                        else if ((rot == 90 || rot == -90))
+                        {
+                            x = ticMarkX;
+                            y = ticMarkY - (width / 2);
+                        }
+                        else
+                        {
+                            x = ticMarkX - (height / 2);
+                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                            {
+                                y = ticMarkY + BottomMargin + 4;
+                            }
+                            else //Top
+                            {
+                                y = ticMarkY - TopMargin - 4;
+                            }
                         }
                     }
+
+                    var tb = new DrawingTextBox(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
+                    if (isTopRow == false)
+                    {
+                        if (LabelOrientation == eTextOrientation.Diagonal)
+                        {
+                            tb.Rotation = -45;
+                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                            {
+                                tb.TextAnchor = eTextAnchor.End;
+                            }
+                        }
+                        else if (LabelOrientation == eTextOrientation.Vertical)
+                        {
+                            if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
+                            {
+                                tb.Rotation = 90;
+                            }
+                            else
+                            {
+                                tb.Rotation = -90;
+                            }
+                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                            {
+                                tb.TextAnchor = eTextAnchor.End;
+                            }
+                        }
+                        else if (LabelOrientation == eTextOrientation.Custom)
+                        {
+                            tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                            {
+                                tb.TextAnchor = eTextAnchor.End;
+                            }
+                        }
+                    }
+                    var p = Axis.TextBody.Paragraphs.FirstOrDefault();
+
+                    if (p != null)
+                    {
+                        if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                        {
+                            //Horizontal axises are always center aligned visually
+                            //Should be broken out as input to ImportParagraph instead of changing the base item
+                            p.HorizontalAlignment = eTextAlignment.Center;
+                        }
+                        tb.ImportParagraph(p, 0, t);
+                    }
+                    else
+                    {
+                        tb.AddText(t);
+                    }
+
+                    tb.CenterRotationPoint();
+
+                    tb.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+
+                    if (widest < tb.Width)
+                    {
+                        widest = tb.Width;
+                    }
+                    if (highest < tb.Height)
+                    {
+                        highest = tb.Height;
+                    }
+                    ret.Add(tb);
                 }
             }
-
             return ret;
         }
 
@@ -841,23 +1082,24 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
+                var count = AxisValues?.Count ?? AxisValuesMulti.Count;
                 if (IsCatAx() && IsDateAutoAxis==false) //A text axis
                 {
                     double majorWidth;
                     if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
                     {
-                        majorWidth = Rectangle.Width / AxisValues.Count;
+                        majorWidth = Rectangle.Width / count;
                     }
                     else
                     {
-                        majorWidth = Rectangle.Width / (AxisValues.Count - 1);
+                        majorWidth = Rectangle.Width / (count - 1);
                     }
                     var majorTickStartingPosition = majorWidth * i;
                     return majorTickStartingPosition;
                 }
                 else
                 {
-                    var min = ConvertUtil.GetValueDouble(Values[0]);
+                    var min = ConvertUtil.GetValueDouble(Values);
                     var max = ConvertUtil.GetValueDouble(Values.Last());
                     var v = ConvertUtil.GetValueDouble(Values[i]);
                     double majorWidth;
@@ -1484,9 +1726,9 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
+        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation, out bool isMulti)
         {
-            var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
+            var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out isMulti);
             IsCount = isCount;
             var options = new AxisOptions
             {
@@ -1497,7 +1739,8 @@ namespace EPPlusImageRenderer.Svg
                 AddPadding = ShouldHavePadding(),
                 Axis = ax,
                 IsStacked100 = Chart.IsTypePercentStacked(),
-                ChartSize = rect
+                ChartSize = rect,
+                IsMulti = isMulti
             };
 
             //All axis labels share the axis font. The shaper is obtained through the render context
@@ -1837,7 +2080,7 @@ namespace EPPlusImageRenderer.Svg
             bool isMonth = false, isYear = false;
             int min=int.MaxValue, max=0;
             var nullCount = 0;
-            foreach (var v in Axis.GetAxisValues(out _, out _, out _))
+            foreach (var v in Axis.GetAxisValues(out _, out _, out _, out _))
             {
                 DateTime? d;
                 if (v is Array[] a)

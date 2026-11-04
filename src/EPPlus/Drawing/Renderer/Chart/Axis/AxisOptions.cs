@@ -14,4 +14,5 @@ internal class AxisOptions
     public bool IsStacked100 { get; set; }
     public RenderItem ChartSize { get; set; }
     public string NumberFormat { get; set; }
+    public bool IsMulti { get; internal set; }
 }

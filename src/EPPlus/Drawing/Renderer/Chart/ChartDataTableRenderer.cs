@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             double entryWidth = 0, entryHeight = 0;
             //Separate header row on date axis            
-            var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _);
+            var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
             var horizontaValues = GetFormattedValues(svgChart, values).Distinct();
             var defaultFont = new MeasurementFont() { Size = 10 };
             foreach (var v in horizontaValues)
@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     }
                     var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
                     pSls = sls;
-                    var formattedValues = serie.GetValues(false, true);
+                    var formattedValues = serie.GetValues(false, true, out bool isMultiLevel);
                     var l=new List<DrawingTextBody>();
                     foreach (var v in formattedValues)
                     {

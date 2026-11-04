@@ -1021,29 +1021,36 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
 
-        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate)
+        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti)
         {
             List<List<object>> values;
-            GetSeriesValues(out isCount, out values);
+            GetSeriesValues(out isCount, out isMulti, out values);
             var dl = values.SelectMany(x => x).Distinct().ToList();
-            isNumeric = dl.Any(x => x == null || x.IsNumeric() || (x is object[] a && a[3].IsNumeric()));
-            isDate = IsDate;
-            
-            if (isDate == false)
+            if (isMulti)
             {
-                var fv = dl.FirstOrDefault(x => x != null && !(x is object[] a && a[3] == null));
-                isDate = (fv is DateTime) || (fv is object[] a && a[3] is DateTime);
+                isNumeric = isDate = false;
             }
-
-            if (isNumeric)
+            else
             {
-                if (dl[0] is object[])
+                isNumeric = dl.Any(x => x == null || x.IsNumeric() || (x is object[] a && a[3].IsNumeric()));
+                isDate = IsDate;
+
+                if (isDate == false)
                 {
-                    dl = dl.OrderBy(x => ((object[])x)[3], new SortByComparer()).ToList();
+                    var fv = dl.FirstOrDefault(x => x != null && !(x is object[] a && a[3] == null));
+                    isDate = (fv is DateTime) || (fv is object[] a && a[3] is DateTime);
                 }
-                else
+
+                if (isNumeric)
                 {
-                    dl.Sort();
+                    if (dl[0] is object[])
+                    {
+                        dl = dl.OrderBy(x => ((object[])x)[3], new SortByComparer()).ToList();
+                    }
+                    else
+                    {
+                        dl.Sort();
+                    }
                 }
             }
             if (Orientation == eAxisOrientation.MaxMin)
@@ -1053,12 +1060,13 @@ namespace OfficeOpenXml.Drawing.Chart
             return dl;
         }
 
-        internal void GetSeriesValues(out bool isCount, out List<List<object>> values)
+        internal void GetSeriesValues(out bool isCount, out bool isMultiLevel, out List<List<object>> values)
         {
             values = new List<List<object>>();
             isCount = false;
             List<object> pl = new List<object>();
             int ix = 0;
+            isMultiLevel = false;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
                 foreach (var serie in ct.Series)
@@ -1076,7 +1084,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             if (ct.XAxis.Id == Id || ct.YAxis.Id == Id)
                             {
-                                serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) });
+                                serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) }, out isMultiLevel);
                             }
                         }
                     }
@@ -1085,11 +1093,11 @@ namespace OfficeOpenXml.Drawing.Chart
                         if (ct.YAxis.Id == Id)
                         {
                             //AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
-                            serie.AddFromSerie(l, false, false, null, pl);
+                            serie.AddFromSerie(l, false, false, null, out isMultiLevel, pl);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
-                            serie.AddFromSerie(l, true, false, null);
+                            serie.AddFromSerie(l, true, false, null, out isMultiLevel);
                         }
                     }
                     pl = l;
@@ -1104,7 +1112,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal static void CalculateStacked100(List<List<object>> values)
         {
-            for (int i = 0; i < values[0].Count; i++)
+            for (int i = 0; i < values.Count; i++)
             {
                 double rowAbsSum = 0;
                 for (int k = 0; k < values.Count; k++)
