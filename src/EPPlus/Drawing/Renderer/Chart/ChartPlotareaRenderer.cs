@@ -154,7 +154,7 @@ namespace EPPlusImageRenderer.Svg
                 rightAxisWidth = (rightActualAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
             }
 
-            if (ChartRenderer.HorizontalAxis.AxisValues != null)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.AxisValues != null)
             {
                 var width = right - rightAxisWidth - rect.GlobalLeft;
                 //Reserve space for the last label that will be on the tick label instead of Middle of the category.

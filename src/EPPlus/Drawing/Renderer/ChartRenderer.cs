@@ -113,8 +113,8 @@ namespace EPPlusImageRenderer
 
             Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
 
-            HorizontalAxis.UpdateValueScale();
-            VerticalAxis.UpdateValueScale();
+            HorizontalAxis?.UpdateValueScale();
+            VerticalAxis?.UpdateValueScale();
             SecondHorizontalAxis?.UpdateValueScale();
             SecondVerticalAxis?.UpdateValueScale();
 
