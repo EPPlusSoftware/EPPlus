@@ -41,6 +41,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -661,44 +662,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     foreach (var tb in ret)
                     {
-                        tb.Left += majorWidth / 2;
-                    }
-                }
-            }
-            else if(LabelOrientation==eTextOrientation.Horizontal && IsCatAx())
-            {
-                double majorWidth;
-                var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
-                if (IsDateAutoAxis || IsDateScale)
-                {
-                    var min = ConvertUtil.GetValueDouble(Values);
-                    var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min) / MinorUnit;
-                    majorWidth = Rectangle.Width / minUnit;
-                }
-                else
-                {
-                    majorWidth = Rectangle.Width / count;
-                }
-                foreach (var tb in ret)
-                {
-                    if(tb.Width > majorWidth) //If the box is smaller than the text box with, center the label.
-                    {
-                        tb.Left +=  -tb.Width / 2;
-                    }
-                    else
-                    {
-                        switch (lblAlignment)
-                        {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
-                                tb.Left += majorWidth / 2 - tb.Width / 2;
-                                break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
-                                tb.Left += majorWidth - tb.Width;
-                                break;
-                        }
+                        //tb.Left += majorWidth / 2;
                     }
                 }
             }
@@ -791,7 +755,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     double rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
 
-                    if((rot == 90 || rot == -90))
+                    if (rot == 90 || rot == -90)
                     {
                         if(Axis.IsVertical == false)
                         {
@@ -808,6 +772,8 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
+                        double cos = Math.Cos(MathHelper.Radians(rot));
+                        double sin = Math.Sin(MathHelper.Radians(rot));
                         if (rot == 0)
                         {
                             x = xPosToMiddle;
@@ -823,15 +789,52 @@ namespace EPPlusImageRenderer.Svg
                             //We can count our top left as the end position from the center and thus a radius
                             //We can get the width difference by
                             //-45 means it should be equal to one we start in the bottom left when negative rot
-                            var cos = -Math.Cos(MathHelper.Radians(rot + (180+45)));
-                            var distX = halfDiagonalToCorner * cos;
+                            var cosAlt = -Math.Cos(MathHelper.Radians(rot + (180 + 45)));
+                            var distX = halfDiagonalToCorner * cosAlt;
                             var diff = Math.Abs(distX - halfWidth);
+
                             x = xPosStart - diff;
+                            if (width > majorTickMarkWidth)
+                            {
+                                x = x - width * cos;
+                            }
+                            
                         }
                         else
                         {
                             x = xPosTextAtEnd;
                         }
+                        //if (width < majorTickMarkWidth)
+                        //{
+                        //    if (rot == 0)
+                        //    {
+                        //        x = xPosToMiddle;
+                        //    }
+                        //    else if (rot < 0)
+                        //    {
+                        //        var halfWidth = width / 2d;
+                        //        var halfHeight = height / 2d;
+
+                        //        var c2 = Math.Pow(halfWidth, 2) + Math.Pow(halfHeight, 2);
+                        //        var halfDiagonalToCorner = Math.Sqrt(c2);
+
+                        //        //We can count our top left as the end position from the center and thus a radius
+                        //        //We can get the width difference by
+                        //        //-45 means it should be equal to one we start in the bottom left when negative rot
+                        //        var cosAlt = -Math.Cos(MathHelper.Radians(rot + (180 + 45)));
+                        //        var distX = halfDiagonalToCorner * cosAlt;
+                        //        var diff = Math.Abs(distX - halfWidth);
+                        //        x = xPosStart - diff;
+                        //    }
+                        //    else
+                        //    {
+                        //        x = xPosTextAtEnd;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    x = xPosStart - ((height / 2) * Math.Abs(cos));
+                        //}
 
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
                         {
@@ -849,7 +852,6 @@ namespace EPPlusImageRenderer.Svg
                         {
                             y = ticMarkY - TopMargin;
                         }
-
                     }
                     //double cos = Math.Cos(MathHelper.Radians(rot));
                     //double sin = Math.Sin(MathHelper.Radians(rot));
@@ -992,13 +994,42 @@ namespace EPPlusImageRenderer.Svg
                     // //        y = ticMarkY - TopMargin - 4;
                 }
 
-
                 var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
-                
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
-                //if (Axis.IsVertical)
+
+                //if (isTopRow == false)
                 //{
-                //    tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
+                //    if (LabelOrientation == eTextOrientation.Diagonal)
+                //    {
+                //        tb.Rotation = -45;
+                //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                //        {
+                //            tb.TextAnchor = eTextAnchor.End;
+                //        }
+                //    }
+                //    else if (LabelOrientation == eTextOrientation.Vertical)
+                //    {
+                //        if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
+                //        {
+                //            tb.Rotation = 90;
+                //        }
+                //        else
+                //        {
+                //            tb.Rotation = -90;
+                //        }
+                //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                //        {
+                //            tb.TextAnchor = eTextAnchor.End;
+                //        }
+                //    }
+                //    else if (LabelOrientation == eTextOrientation.Custom)
+                //    {
+                //        tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                //        {
+                //            tb.TextAnchor = eTextAnchor.End;
+                //        }
+                //    }
                 //}
 
                 var p = Axis.TextBody.Paragraphs.FirstOrDefault();
@@ -1018,7 +1049,15 @@ namespace EPPlusImageRenderer.Svg
                     tb.AddText(t);
                 }
 
-                if(LabelOrientation == eTextOrientation.Custom)
+                if (Axis.AxisPosition == eAxisPosition.Right)
+                {
+                    if (tb.TextBody.Paragraphs != null && tb.TextBody.Paragraphs.Count > 0)
+                    {
+                        tb.TextBody.Paragraphs[0].HorizontalAlignment = TextAlignment.Right;
+                    }
+                }
+
+                if (LabelOrientation == eTextOrientation.Custom)
                 {
                     tb.InnerRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
                 }

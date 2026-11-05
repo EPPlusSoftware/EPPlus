@@ -48,10 +48,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 {
                     orientationCustom = eTextOrientation.Vertical;
                 }
-                else if (options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
-                {
-                    orientationCustom = eTextOrientation.Diagonal;
-                }
+                //else if (options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
+                //{
+                //    orientationCustom = eTextOrientation.Diagonal;
+                //}
 
 
                 //var rot = options.Axis.TextBody.Rotation.Value;

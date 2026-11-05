@@ -246,8 +246,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 //}
             }
 
-
-
             //The textbox should be in local-space.
             //If e.g. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
             //Therefore a group in-between should hold the margins
