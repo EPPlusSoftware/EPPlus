@@ -635,12 +635,22 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else if (rot < 0)
                         {
-                            double cos = Math.Cos(MathHelper.Radians(rot));
-                            double sin = Math.Sin(MathHelper.Radians(rot));
+                            //double cos = Math.Cos(MathHelper.Radians(rot));
+                            //double sin = Math.Sin(MathHelper.Radians(rot));
 
-                            var test = Math.Pow(cos*width,2) + Math.Pow(sin*height,2);
-                            var distMultiplier = Math.Sqrt(test);
-                            x = xPosStart - distMultiplier;
+                            var halfWidth = width / 2d;
+                            var halfHeight = height / 2d;
+
+                            var c2 = Math.Pow(halfWidth, 2) + Math.Pow(halfHeight, 2);
+                            var halfDiagonalToCorner = Math.Sqrt(c2);
+
+                            //We can count our top left as the end position from the center and thus a radius
+                            //We can get the width difference by
+                            //-45 means it should be equal to one we start in the bottom left when negative rot
+                            var cos = -Math.Cos(MathHelper.Radians(rot + (180+45)));
+                            var distX = halfDiagonalToCorner * cos;
+                            var diff = Math.Abs(distX - halfWidth);
+                            x = xPosStart - diff;
                         }
                         else
                         {
