@@ -25,6 +25,8 @@ namespace EPPlus.Export.Pdf.Layout
     [DebuggerDisplay("Content: {Name}")]
     internal class PdfCellContentLayout : Transform
     {
+        internal const double CellHorizontalInset = 1.8d;  //I guessed this number
+
         public PdfCellAlignmentData CellAlignmentData;
         public bool Clip;
         public Rect Clipping;
@@ -39,7 +41,7 @@ namespace EPPlus.Export.Pdf.Layout
         public double ScaleAnchorX;
         public double ScaleAnchorY;
         private double bottomMargin = 3.5d; //Guessed number
-        private double rightMargin = 1.4d; //I guessed this one too..
+        private double rightMargin = CellHorizontalInset;
 
         public List<PdfShapedText> ShapedTexts { get; set; }
 
