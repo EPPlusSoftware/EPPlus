@@ -910,24 +910,24 @@ namespace EPPlusImageRenderer.Svg
             for (int j = firstItem.Length - 1; j >= 0; j--)
             {
                 var emptyCells = 0;
-                DrawingTextBox tb = null;
+                DrawingTextContainer tb = null;
                 for (var i = 0; i < AxisValuesMulti.Count; i++)
                 {
                     if (i % labelSkip != 0) continue;
                     var items = AxisValuesMulti[i];
 
-                    if(isTopRow == false && i + 1 < AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))                    
+                    if (isTopRow == false && i + 1 < AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
                     {
                         emptyCells++;
                         continue;
                     }
-                    else if(isTopRow==false && tb!=null)
+                    else if (isTopRow == false && tb != null)
                     {
                         //center the text box in the middle of the empty cells.
                         var left = GetAxisItemLeft(i - emptyCells - 1);
                         if (i + 1 == AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
                         {
-                            switch(Axis.LabelAlignment)
+                            switch (Axis.LabelAlignment)
                             {
                                 case eAxisLabelAlignment.Left:
                                     tb.Left = left;
@@ -946,13 +946,13 @@ namespace EPPlusImageRenderer.Svg
                             switch (Axis.LabelAlignment)
                             {
                                 case eAxisLabelAlignment.Left:
-                                    tb.Left = left; 
+                                    tb.Left = left;
                                     break;
                                 case eAxisLabelAlignment.Center:
                                     tb.Left = left + (majorWidth * (emptyCells + 1) / 2) - (tb.Width / 2);
                                     break;
                                 case eAxisLabelAlignment.Right:
-                                    tb.Left = left + majorWidth * (emptyCells + 1) - tb.Width; 
+                                    tb.Left = left + majorWidth * (emptyCells + 1) - tb.Width;
                                     break;
                             }
                         }
@@ -989,7 +989,7 @@ namespace EPPlusImageRenderer.Svg
 
                     var ticMarkY = GetAxisItemTop(i, width, height) + heightAdd;
                     double x, y;
-                    if (LabelOrientation == eTextOrientation.Horizontal || isTopRow==false)
+                    if (LabelOrientation == eTextOrientation.Horizontal || isTopRow == false)
                     {
                         x = ticMarkX;
                         y = ticMarkY;
@@ -1043,7 +1043,7 @@ namespace EPPlusImageRenderer.Svg
                             }
                         }
                     }
-                    if(isTopRow)
+                    if (isTopRow)
                     {
                         AddGroupLines(x, heightFirstRow + margin);
                         switch (Axis.LabelAlignment)
@@ -1063,41 +1063,43 @@ namespace EPPlusImageRenderer.Svg
                         AddGroupLines(x, lineHeight + margin + heightAdd);
                     }
 
-                    var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
+                    tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, GetMaxWidthForEmptyRows(maxWidth, isTopRow, i, j), maxHeight);
                     tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
-                    {
-                        if (LabelOrientation == eTextOrientation.Diagonal)
-                        {
-                            tb.Rotation = -45;
-                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                            {
-                                tb.TextAnchor = eTextAnchor.End;
-                            }
-                        }
-                        else if (LabelOrientation == eTextOrientation.Vertical)
-                        {
-                            if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
-                            {
-                                tb.Rotation = 90;
-                            }
-                            else
-                            {
-                                tb.Rotation = -90;
-                            }
-                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                            {
-                                tb.TextAnchor = eTextAnchor.End;
-                            }
-                        }
-                        else if (LabelOrientation == eTextOrientation.Custom)
-                        {
-                            tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
-                            if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                            {
-                                tb.TextAnchor = eTextAnchor.End;
-                            }
-                        }
-                    }
+                    //if (isTopRow)
+                    //{
+                    //    if (LabelOrientation == eTextOrientation.Diagonal)
+                    //    {
+                    //        tb.Rotation = -45;
+                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    //        {
+                    //            tb.TextAnchor = eTextAnchor.End;
+                    //        }
+                    //    }
+                    //    else if (LabelOrientation == eTextOrientation.Vertical)
+                    //    {
+                    //        if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
+                    //        {
+                    //            tb.Rotation = 90;
+                    //        }
+                    //        else
+                    //        {
+                    //            tb.Rotation = -90;
+                    //        }
+                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    //        {
+                    //            tb.TextAnchor = eTextAnchor.End;
+                    //        }
+                    //    }
+                    //    else if (LabelOrientation == eTextOrientation.Custom)
+                    //    {
+                    //        tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
+                    //        {
+                    //            tb.TextAnchor = eTextAnchor.End;
+                    //        }
+                    //    }
+                    //}
+
                     var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
                     if (p != null)
