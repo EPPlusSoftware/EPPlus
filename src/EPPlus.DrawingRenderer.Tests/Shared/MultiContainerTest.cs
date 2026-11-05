@@ -125,6 +125,7 @@ namespace EPPlus.DrawingRenderer.Tests.Shared
             container.Top = 5;
 
             var child1 = new GroupRenderItem();
+            child1.Name = "child1";
             child1.Left = 3;
             child1.Top = 3;
 
@@ -134,6 +135,7 @@ namespace EPPlus.DrawingRenderer.Tests.Shared
             child1.Parent = container;
 
             var grandChild = new GroupRenderItem();
+            grandChild.Name = "grandChild";
             grandChild.Parent = child1;
 
             grandChild.Left = -5;
@@ -154,6 +156,9 @@ namespace EPPlus.DrawingRenderer.Tests.Shared
             Assert.AreEqual(19 + 6, container.ContentHeight);
             Assert.AreEqual(28, container.ContentRight);
             Assert.AreEqual(19, container.ContentBottom);
+
+            string hierarchy = container.GetFullHierarchyString();
+            string globalHierarchy = container.GetFullHierarchyStringGlobal();
 
             //As this may be hard to visualize here's a very simple svg file that illustrates this setup:
             /*

@@ -16,8 +16,6 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;

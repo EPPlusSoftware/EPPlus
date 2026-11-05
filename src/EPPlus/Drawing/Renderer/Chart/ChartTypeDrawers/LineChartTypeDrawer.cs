@@ -345,7 +345,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     var cmd = new PathCommand(PathCommandType.Move, coords.GetRange(start, pos - start).ToArray());
                     linePath.Commands.Add(cmd);
-                    linePath.Commands.Add(new PathCommand(PathCommandType.End));
+                    //ruins ChartForSvg0
+                    //linePath.Commands.Add(new PathCommand(PathCommandType.End));
                 }
                 start = pos + 1;
                 if ((start % 2) != 0) start++;

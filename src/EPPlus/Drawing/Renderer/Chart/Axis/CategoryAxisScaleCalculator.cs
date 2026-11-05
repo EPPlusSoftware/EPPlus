@@ -48,10 +48,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 {
                     orientationCustom = eTextOrientation.Vertical;
                 }
-                else if(options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
-                {
-                    orientationCustom = eTextOrientation.Diagonal;
-                }
+                //else if (options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
+                //{
+                //    orientationCustom = eTextOrientation.Diagonal;
+                //}
 
 
                 //var rot = options.Axis.TextBody.Rotation.Value;
@@ -62,6 +62,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 var width = fontSize * Math.Sqrt(2);
                 var margin = fontSize * 0.5;
                 if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                {
+                    return new AxisScale()
+                    {
+                        MajorInterval = interval,
+                        MinorInterval = 1,
+                        Min = 1,
+                        Max = displayValues.Count,
+                        TextOrientation = orientationCustom,
+                        DisplayValues = displayValues
+                    };
+                }
+                else if(FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, options.ChartSize.Height))
                 {
                     return new AxisScale()
                     {
