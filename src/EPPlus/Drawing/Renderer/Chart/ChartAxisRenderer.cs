@@ -635,9 +635,6 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else if (rot < 0)
                         {
-                            //double cos = Math.Cos(MathHelper.Radians(rot));
-                            //double sin = Math.Sin(MathHelper.Radians(rot));
-
                             var halfWidth = width / 2d;
                             var halfHeight = height / 2d;
 
@@ -751,7 +748,7 @@ namespace EPPlusImageRenderer.Svg
                 tb.AlignTopWithYPos();
                 //tb.AlignBottomWithYPos();
 
-                //tb.GetStyleBg().SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+                tb.GetStyleBg().SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
 
                 if (widest < tb.Width)
                 {
