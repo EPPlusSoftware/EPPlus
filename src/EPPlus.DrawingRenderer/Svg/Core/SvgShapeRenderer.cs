@@ -634,7 +634,7 @@ namespace EPPlus.DrawingRenderer
                 double x1 = cx - halfX, y1 = cy - halfY;
                 double x2 = cx + halfX, y2 = cy + halfY;
 
-                if(item.Style.DefId == "xGridLine")
+                if(item.Style.DefId == "xGridLine" || item.Style.DefId == "xMajorGridLine")
                 {
                     //If global, has to stretch the whole length.
                     //This case is special because it stretches in the same direction as the attempted gradient

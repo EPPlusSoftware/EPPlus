@@ -435,7 +435,14 @@ namespace EPPlusImageRenderer.Svg
 
             if(Axis.HasMajorGridlines)
             {
-                ChartRenderer.Plotarea.MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style?.GridlineMajor);
+                if(ChartRenderer.Plotarea.MajorGridlinePositions != null && ChartRenderer.Plotarea.MajorGridlinePositions.Count > 0)
+                {
+                    ChartRenderer.Plotarea.MajorGridlinePositions.AddRange(AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style?.GridlineMajor));
+                }
+                else
+                {
+                    ChartRenderer.Plotarea.MajorGridlinePositions = AddGridlines(MajorUnit, double.NaN, Axis.MajorGridlines, Chart.StyleManager.Style?.GridlineMajor);
+                }
             }
 
             if ((Axis.HasMinorGridlines))
