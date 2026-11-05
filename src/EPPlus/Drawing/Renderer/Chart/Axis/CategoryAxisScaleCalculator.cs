@@ -32,7 +32,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 displayValues = uniqueValues.Select(x => (object)x.ToString()).ToList();
             }
-            var uniqeItems = displayValues.Count;
+            var uniqueItems = displayValues.Count;
 
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
 
@@ -141,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorInterval = interval,
                 MinorInterval = 1,
                 Min = 1,
-                Max = uniqeItems,
+                Max = uniqueItems,
                 TextOrientation = eTextOrientation.Vertical,
                 DisplayValues = displayValues
             };
