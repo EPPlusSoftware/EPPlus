@@ -156,15 +156,21 @@ namespace OfficeOpenXml.Drawing.Chart
             //var XSeriesSource = new ChartDataSource(isPivot, ns, node, chart.WorkSheet);
             var np = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
             var sp = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
+            var msp = string.Format(_xSeriesParentPath, _xSeriesTopPath, "c:multiLvlStrRef");
 
-            if (ExistsNode(sp))
+            if(ExistsNode(sp))
             {
                 _xSeriesPath = sp + "/c:f";
+            }
+            else if(ExistsNode(msp))
+            {
+                _xSeriesPath = msp + "/c:f";
             }
             else
             {
                 _xSeriesPath = np + "/c:f";
             }
+
             _seriesStrLitPath = string.Format("{0}/c:strLit", _seriesTopPath);
             _seriesNumLitPath = string.Format("{0}/c:numLit", _seriesTopPath);
 

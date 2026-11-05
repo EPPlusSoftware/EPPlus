@@ -256,7 +256,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        x = valValues.Count - i + 1;
+                        x = valValues.Count - i - 1;
                     }
                 }
                 else
