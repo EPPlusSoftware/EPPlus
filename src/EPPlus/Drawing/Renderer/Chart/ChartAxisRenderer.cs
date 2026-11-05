@@ -762,6 +762,11 @@ namespace EPPlusImageRenderer.Svg
                 {
                     double rot = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
 
+                    if(LabelOrientation == eTextOrientation.Diagonal)
+                    {
+                        rot = -45;
+                    }
+
                     if (rot == 90 || rot == -90)
                     {
                         if(Axis.IsVertical == false)
@@ -831,7 +836,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth, maxHeight);
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth + LeftMargin + RightMargin, maxHeight + TopMargin + BottomMargin);
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
 
 
