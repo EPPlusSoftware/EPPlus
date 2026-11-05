@@ -130,6 +130,10 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             _innerGroup = new GroupRenderItem(this);
             _innerGroup.Name = "innerGroup/Position adjust";
 
+            bgFillRect = new RectRenderItem(_innerGroup);
+            bgFillRect.Style.FillColor = "GoldenRod";
+            bgFillRect.Style.FillOpacity = 0.2d;
+
             _rotationGroup = new GroupRenderItem(_innerGroup);
             _rotationGroup.Name = "Rotation";
 
@@ -175,10 +179,6 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 });
                 _renderContext = new RenderContext(() => engine);
             }
-
-            bgFillRect = new RectRenderItem(_innerGroup);
-            bgFillRect.Style.FillColor = "GoldenRod";
-            bgFillRect.Style.FillOpacity = 0.2d;
         }
 
         void SetTxtBodyMaxSize(double height, double width)

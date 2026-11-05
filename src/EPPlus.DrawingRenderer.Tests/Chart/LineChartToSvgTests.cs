@@ -26,17 +26,17 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var ix = 1;
-                var c = ws.Drawings[ix];
-                var svg = c.ToSvg();
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                //var ix = 1;
+                //var c = ws.Drawings[ix];
+                //var svg = c.ToSvg();
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
-                //for (int i = 0; i < ws.Drawings.Count; i++)
-                //{
-                //    var c = ws.Drawings[i];
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg);
-                //}
+                for (int i = 0; i < ws.Drawings.Count; i++)
+                {
+                    var c = ws.Drawings[i];
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg);
+                }
             }
         }
 
@@ -120,7 +120,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
         }
 
         [TestMethod]
-        public void GenerateSvgForLineChartSecondaryAxis()
+        public void GenerateSvgForCharts_SecondaryAxis_sheet1()
         {
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
