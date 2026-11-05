@@ -291,6 +291,13 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 char c = run.Text[i];
 
+                //Must be done here rather than above the while loop since when a linebreak is the first char of a new linefragment it will produce empty internalLineFragments otherwise
+                if (i == 0)
+                {
+                    state.LineFrag = new LineFragment(run.FragmentIndex, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+                    state.LineFrag.SpaceWidth = run.SpaceWidth;
+                }
+
                 if (IsLineBreak(c))
                 {
                     HandleLineBreak(lineBuilder, state);
@@ -301,13 +308,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                     state.WordStart = -1;
                     state.LineStart = -1;
                     continue;
-                }
-
-                //Must be done here rather than above the while loop since when a linebreak is the first char of a new linefragment it will produce empty internalLineFragments otherwise
-                if(i == 0)
-                {
-                    state.LineFrag = new LineFragment(run.FragmentIndex, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
-                    state.LineFrag.SpaceWidth = run.SpaceWidth;
                 }
 
                 state.CharIdxRt = i;

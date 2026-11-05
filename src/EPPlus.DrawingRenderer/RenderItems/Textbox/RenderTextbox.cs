@@ -227,22 +227,26 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
             if (TextAnchor == eTextAnchor.Middle)
             {
-                _group.Left += -(Rectangle.Width / 2);
+                //_group.Left += -(Rectangle.Width / 2);
             }
             else if (TextAnchor == eTextAnchor.End)
             {
-                if (Math.Abs(Rotation) == 45)
-                {
-                    const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
-                    _group.Left += -(Rectangle.Width * COS45);
-                    _group.Top += (Rectangle.Width * COS45);
-                }
-                else
-                {
-                    _group.Left += Rectangle.Height / 2;
-                    _group.Top += (Rectangle.Width);
-                }
+                //_group.Left += (Rectangle.Width / 2d);
+                //_group.Top += (Rectangle.Width);
+                //if (Math.Abs(Rotation) == 45)
+                //{
+                //    const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+                //    _group.Left += -(Rectangle.Width * COS45);
+                //    _group.Top += (Rectangle.Width * COS45);
+                //}
+                //else
+                //{
+                //    _group.Left += Rectangle.Height / 2;
+                //    _group.Top += (Rectangle.Width);
+                //}
             }
+
+
 
             //The textbox should be in local-space.
             //If e.g. a user changes textbody left and right, changing margin on the parent should not change the Local coordinates
