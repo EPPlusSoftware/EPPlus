@@ -53,13 +53,13 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
                 var ix = 1;
 
-                var svg1 = ws.Drawings[0].ToSvg();
-                SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg1);
-                //foreach (ExcelChart c in ws.Drawings)
-                //{
-                //    var svg = c.ToSvg();
-                //    SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
-                //}
+                //var svg1 = ws.Drawings[0].ToSvg();
+                //SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg1);
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    var svg = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_sheet2_{ix++}.svg", svg);
+                }
             }
         }
         [TestMethod]
