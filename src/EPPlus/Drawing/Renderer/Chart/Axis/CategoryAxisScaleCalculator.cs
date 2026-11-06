@@ -149,7 +149,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var plotAreaHeight = options.ChartSize.Height;
-            List<object> displayValues = GetUniqueValues(values, options.IsMulti).Select(x => (object)x.ToString()).ToList();
+            List<object> uniqueValues = GetUniqueValues(values, options.IsMulti);
+            List<object> displayValues;
+            if (options.IsMulti)
+            {
+                displayValues = uniqueValues.ToList();
+            }
+            else
+            {
+                displayValues = uniqueValues.Select(x => (object)x.ToString()).ToList();
+            }
+
             var uniqeItems = displayValues.Count;
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
             int interval = 1;

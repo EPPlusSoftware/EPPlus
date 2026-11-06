@@ -12,9 +12,11 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Export.Renderer;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
@@ -34,6 +36,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
@@ -44,7 +47,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
-using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -70,7 +72,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         var lineWidth = mf.Size*5; //Estimate the width of a character in points. This is a rough estimate and may not be accurate for all fonts.
-                        _axisMaxItems = (int)(Rectangle.Width / GetTextWidest(Axis) * 1.3);
+                        _axisMaxItems = (int)(Rectangle.Width / GetTextWidest(Axis, false) * 1.3);
                     }
                     //_axisMaxItems -= _axisMaxItems % 2; //Removed for now
                 }
@@ -149,11 +151,11 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if (aav == eAxisPosition.Left)
                         {
-                            Rectangle.Width = GetTextWidest(Axis) + LeftMargin;
+                            Rectangle.Width = GetTextWidest(Axis, isMulti) + LeftMargin;
                         }
                         else
                         {
-                            Rectangle.Width = GetTextWidest(Axis) + RightMargin;
+                            Rectangle.Width = GetTextWidest(Axis, isMulti) + RightMargin;
                         }
                     }
                     else
@@ -317,20 +319,35 @@ namespace EPPlusImageRenderer.Svg
             return highest;
         }
 
-        private double GetTextWidest(ExcelChartAxisStandard ax)
+        private double GetTextWidest(ExcelChartAxisStandard ax, bool isMulti)
         {
             var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
             var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
             var tm = new OpenTypeFontTextMeasurer(shaper);
             
             var widest = 0f;
-
-            foreach(var s in AxisValues)
+            if (isMulti)
             {
-                var m= tm.MeasureText(s, mf);
-                if (m.Width > widest)
+                foreach (var s in AxisValuesMulti)
                 {
-                    widest = m.Width;
+                    var w = tm.MeasureText(s[s.Length - 1], mf);
+                    if(w.Width>widest)
+                    {
+                        widest = w.Width;
+                    }
+                }
+                widest += (float)(AxisValuesMulti.Count - 1 * shaper.GetLineHeightInPoints(mf.Size) * 1.5); 
+            }
+
+            else
+            {
+                foreach (var s in AxisValues)
+                {
+                    var m = tm.MeasureText(s, mf);
+                    if (m.Width > widest)
+                    {
+                        widest = m.Width;
+                    }
                 }
             }
             return widest;
@@ -1235,15 +1252,29 @@ namespace EPPlusImageRenderer.Svg
                     var max = ConvertUtil.GetValueDouble(Values.Last());
                     var v = ConvertUtil.GetValueDouble(Values[i]);
                     double majorWidth;
-                    if (IsDateAutoAxis || IsDateScale)
+                    if (Axis.Orientation == eAxisOrientation.MinMax)
                     {
-                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
+                        if (IsDateAutoAxis || IsDateScale)
+                        {
+                            majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
+                        }
+                        else
+                        {
+                            majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        }
                     }
                     else
                     {
-                        majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                        if (IsDateAutoAxis || IsDateScale)
+                        {
+                            majorWidth = Rectangle.Width * (Max - v) / (Max - Min + 1);
+                        }
+                        else
+                        {
+                            majorWidth = Rectangle.Width * (Max - v) / (Max - Min);
+                        }
                     }
-                    
+
                     return majorWidth;
                 }
                 //}
@@ -1794,7 +1825,7 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    //return ChartRenderer.Plotarea.Rectangle.Width - pos;
+                    return ChartRenderer.Plotarea.Rectangle.Width - pos;
                 }
             }
             return pos;

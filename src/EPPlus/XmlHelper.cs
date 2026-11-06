@@ -1118,8 +1118,16 @@ namespace OfficeOpenXml
             TopNode = tempNode;
             return retVal;
         }
-        internal bool GetXmlNodeBool(string path, bool blankValue)
+        internal bool GetXmlNodeBool(string path, bool blankValue, bool elementNotExistValue = false)
         {
+            var attrIx = path.LastIndexOf("/@");
+            if(attrIx>0)
+            {
+                if(ExistsNode(path.Substring(0, attrIx))==false)
+                {
+                    return elementNotExistValue;
+                }
+            }
             string value = GetXmlNodeString(path);
             if (value == "1" || value == "-1" || value.StartsWith("t", StringComparison.OrdinalIgnoreCase))
             {

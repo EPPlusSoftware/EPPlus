@@ -68,7 +68,6 @@ namespace EPPlusImageRenderer
 
         public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
         {
-            var pxWidth = chart.GetPixelWidth();
             SetChartArea(options);
 
             if (chart.HasTitle && chart.Series.Count > 0)

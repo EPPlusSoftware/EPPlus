@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Drawing.Chart
             get
             {
                 var f = Format;
-                if (string.IsNullOrEmpty(Format))
+                if (string.IsNullOrEmpty(Format) || SourceLinked)
                 {
                     var wb = _chart.WorkSheet._package.Workbook;
                     foreach (var ct in _chart.PlotArea.ChartTypes)

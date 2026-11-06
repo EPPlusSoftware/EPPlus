@@ -312,7 +312,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
+                        if (catAx.Axis.Orientation == eAxisOrientation.MinMax)
+                        {
+                            xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
+                        }
+                        else
+                        {
+                            xPos = catAx.GetPositionInPlotarea(x, true) - halfGap - (seriesCount - position) * barWidth * step;
+                        }
                     }
                     rect.Top = xPos;
                     rect.Height = barWidth;
@@ -368,7 +375,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (catAx.Axis.Crosses != eCrosses.Min && catAx.GetAdjustedCrossesAt() > y || catAx.Axis.ActualAxisPosition == eAxisPosition.Top) //Below axis
+                        if (catAx.Axis.Crosses != eCrosses.Min && catAx.GetAdjustedCrossesAt() > y || catAx.Axis.ActualAxisPosition == eAxisPosition.Right) //Below axis
                         {
                             rect.Left = yPos;
                             rect.Width = chartBaseY - yPos;

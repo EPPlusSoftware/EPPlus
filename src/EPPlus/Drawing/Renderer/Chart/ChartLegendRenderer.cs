@@ -432,7 +432,8 @@ namespace EPPlusImageRenderer.Svg
                 foreach (var ct in Chart.PlotArea.ChartTypes)
                 {
                     int ix, end;
-                    if (ct.IsTypeBar())
+                    if ((ct.IsTypeBar() && ct.XAxis.Orientation==eAxisOrientation.MinMax) ||
+                        (ct.IsTypeColumn() && ct.XAxis.Orientation == eAxisOrientation.MaxMin))
                     {
                         ix = ct.Series.Count - 1;
                         end = -1;
@@ -459,7 +460,7 @@ namespace EPPlusImageRenderer.Svg
                                 case eChartType.LineMarkersStacked100:
                                 case eChartType.LineStacked:
                                 case eChartType.LineStacked100:
-                                    LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                    LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                     break;
                                 case eChartType.ColumnClustered:
                                 case eChartType.ColumnStacked:
@@ -467,14 +468,14 @@ namespace EPPlusImageRenderer.Svg
                                 case eChartType.BarClustered:
                                 case eChartType.BarStacked:
                                 case eChartType.BarStacked100:
-                                    LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                    LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                     break;
                                 case eChartType.Pie:
                                 case eChartType.PieExploded:
                                     if (ix == 0)
                                     {
                                         var preCount = SeriesIcon?.Count ?? 0;
-                                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                         pSls = null;
                                         sls = null;
                                     }
