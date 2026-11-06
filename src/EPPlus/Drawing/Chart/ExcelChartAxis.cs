@@ -174,7 +174,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 var ws = _chart.WorkSheet.Workbook.Worksheets[adr.WorkSheetName];
                 if (ws != null)
                 {
-                    return ws.Cells[adr.Address].FirstOrDefault(x=>string.IsNullOrEmpty(x.Style.Numberformat.Format)==false).Style.Numberformat.Format ?? "";
+                    var nf = ws.Cells[adr.Address].FirstOrDefault(x => string.IsNullOrEmpty(x.Style.Numberformat.Format) == false);
+                    return nf?.Style.Numberformat.Format ?? "";
                 }
             }
             return "";
