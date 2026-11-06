@@ -785,7 +785,10 @@ namespace EPPlusImageRenderer.Svg
 
                     if(LabelOrientation == eTextOrientation.Diagonal)
                     {
-                        rot = -45;
+                        if(rot == 0)
+                        {
+                            rot = -45;
+                        }
                     }
 
                     if (rot == 90 || rot == -90)
@@ -811,7 +814,7 @@ namespace EPPlusImageRenderer.Svg
                         {
                             x = xPosToMiddle;
                         }
-                        else if (rot < 0)
+                        else if (rot < 0 && Axis.ActualAxisPosition != eAxisPosition.Top)
                         {
                             var halfWidth = width / 2d;
                             var halfHeight = height / 2d;
@@ -831,7 +834,22 @@ namespace EPPlusImageRenderer.Svg
                             {
                                 x = x - width * cos;
                             }
-                            
+                            //if(Axis.ActualAxisPosition == eAxisPosition.Top)
+                            //{
+                            //    x = xPosStart + diff;
+                            //    if (width > majorTickMarkWidth)
+                            //    {
+                            //        x = x + width * Math.Cos(MathHelper.Radians(-rot));
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    x = xPosStart - diff;
+                            //    if (width > majorTickMarkWidth)
+                            //    {
+                            //        x = x - width * cos;
+                            //    }
+                            //}
                         }
                         else
                         {
@@ -845,15 +863,15 @@ namespace EPPlusImageRenderer.Svg
                             //We can count our top left as the end position from the center and thus a radius
                             //We can get the width difference by
                             //45 means it should be equal to one we start in the bottom right when positive rot
-                            var cosAlt = Math.Cos(MathHelper.Radians(-rot + 45));
+                            var cosAlt = Math.Cos(MathHelper.Radians(rot +45));
                             var distX = halfDiagonalToCorner * cosAlt;
                             var diff = Math.Abs(distX - halfWidth);
 
                             x = xPosStart + diff;
-                            if (width > majorTickMarkWidth)
-                            {
-                                x = x + width * cos;
-                            }
+                            //if (width > majorTickMarkWidth)
+                            //{
+                            //    x = x + width * cos;
+                            //}
                         }
 
                         if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
@@ -910,8 +928,14 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else if(LabelOrientation == eTextOrientation.Diagonal)
                 {
-
-                    tb.InnerRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                    if ((Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D) == 0)
+                    {
+                        tb.InnerRotation = -45;
+                    }
+                    else
+                    {
+                        tb.InnerRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
+                    }
                     //tb.InnerRotation = -45;
                 }
                 else if (LabelOrientation == eTextOrientation.Vertical)
