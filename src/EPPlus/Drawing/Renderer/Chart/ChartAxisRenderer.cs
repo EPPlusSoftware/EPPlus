@@ -846,7 +846,7 @@ namespace EPPlusImageRenderer.Svg
                             //We can count our top left as the end position from the center and thus a radius
                             //We can get the width difference by
                             //45 means it should be equal to one we start in the bottom right when positive rot
-                            var cosAlt = Math.Cos(MathHelper.Radians(-rot + 45));
+                            var cosAlt = Math.Cos(MathHelper.Radians(rot +45));
                             var distX = halfDiagonalToCorner * cosAlt;
                             var diff = Math.Abs(distX - halfWidth);
 
