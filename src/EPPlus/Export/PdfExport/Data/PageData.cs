@@ -20,6 +20,37 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Export.PdfExport.Data
 {
+    internal struct PrintTitleCellDraw
+    {
+        public PdfCell Cell;
+        public double X;
+        public double Y;
+        public double Width;
+        public double Height;
+        public double ClipX;
+        public double ClipY;
+        public double ClipWidth;
+        public double ClipHeight;
+    }
+
+    internal struct PrintTitleHeadingDraw
+    {
+        public bool IsRow;
+        public int Index;
+        public double X;
+        public double Y;
+        public double Width;
+        public double Height;
+    }
+
+    internal struct SpillCellDraw
+    {
+        public PdfCell Cell;
+        public double X, Y, Width, Height;
+        public double ClipX, ClipY, ClipWidth, ClipHeight;
+        public bool IsPrintTitle;
+    }
+
     internal struct Page
     {
         public int FromRow;

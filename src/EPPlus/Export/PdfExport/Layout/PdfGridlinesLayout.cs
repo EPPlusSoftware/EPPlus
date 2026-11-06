@@ -17,7 +17,7 @@ using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Export.PdfExport.Layout
 {
-    internal class PdfGridlinesLayout
+    internal static class PdfGridlinesLayout
     {
         //------------------------------------------------------------------------------------------
         // Gridline generation
