@@ -354,17 +354,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         var run = CreateTextRun(this, displayText, rtIdx);
                         //Potentially we could import styling here instead but that leads to multiple issues.
                         //We may need to move it back here for auto-size reasons
-                        //if(displayText == null)
-                        //{
-                        //    run.Left = 0;
-                        //}
-                        //else
-                        //{
-                        //    run.Left = prevWidth;
-                        //}
+                        if (string.IsNullOrEmpty(displayText))
+                        {
+                            run.Left = 0;
+                        }
+                        else
+                        {
+                            run.Left = prevWidth;
+                        }
 
                         run.YPosition = Lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
-                        run.Left = prevWidth;
                         run.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
 
