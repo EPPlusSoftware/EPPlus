@@ -137,6 +137,8 @@ namespace EPPlusImageRenderer.Svg
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
 
+            var left = leftAxis?.Rectangle?.Width ?? 0D;
+
             double rightAxisWidth;
             if (rightActualAxis == null)
             {
@@ -176,7 +178,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            return right - rightAxisWidth - rect.GlobalLeft - leftAxis.Rectangle.Width;
+            return right - rightAxisWidth - rect.GlobalLeft - left;
         }
         private double GetPlotAreaLeft()
         {
