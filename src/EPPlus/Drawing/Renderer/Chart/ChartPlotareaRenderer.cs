@@ -135,6 +135,7 @@ namespace EPPlusImageRenderer.Svg
                         ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
+            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
 
             double rightAxisWidth;
             if (rightActualAxis == null)
@@ -175,7 +176,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            return right - rightAxisWidth - rect.GlobalLeft;
+            return right - rightAxisWidth - rect.GlobalLeft - leftAxis.Rectangle.Width;
         }
         private double GetPlotAreaLeft()
         {
