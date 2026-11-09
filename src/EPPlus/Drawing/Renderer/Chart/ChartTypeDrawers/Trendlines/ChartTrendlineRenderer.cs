@@ -749,7 +749,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
 
                         coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
-                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[Coordinates.Count - 1].X - Coordinates[i].X) + halfGap + (_serieCount - _seriePos - 1) * barWidth * step);
+                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[Coordinates.Count - 1].X - Coordinates[i].X)); // + halfGap + (_serieCount - _seriePos - 1) * barWidth * step
                     }
                     else
                     {

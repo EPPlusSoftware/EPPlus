@@ -1307,6 +1307,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemTop(int i, double width, double height)
         {
+            var count = AxisValues?.Count ?? AxisValuesMulti.Count;
             if (Axis.ActualAxisPosition == eAxisPosition.Top)
             {
                 switch (LabelOrientation)
@@ -1370,15 +1371,15 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
-                    var majorHeight = Rectangle.Height / (AxisValues.Count);
-                    return majorHeight * (AxisValues.Count - i) - ((majorHeight / 2) + height / 2);
+                    var majorHeight = Rectangle.Height / count;
+                    return majorHeight * (count - i) - ((majorHeight / 2) + height / 2);
                 }
                 else
                 {
-                    var majorHeight = Rectangle.Height / (AxisValues.Count-1);
+                    var majorHeight = Rectangle.Height / (count-1);
                     if(Axis.Orientation==eAxisOrientation.MinMax)
                     {
-                        return majorHeight * (AxisValues.Count - i - 1);
+                        return majorHeight * (count - i - 1);
                     }
                     else
                     {
