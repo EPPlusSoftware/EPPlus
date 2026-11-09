@@ -175,7 +175,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 yAxis = ChartRenderer.SecondVerticalAxis;
                 xAxis = ChartRenderer.SecondHorizontalAxis;
-                if(xAxis.Axis.Deleted && xAxis.Values==null)
+                if(xAxis==null || (xAxis.Axis.Deleted && xAxis.Values==null))
                 {
                     xAxis = ChartRenderer.HorizontalAxis;
                 }

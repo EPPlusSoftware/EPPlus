@@ -207,16 +207,21 @@ namespace EPPlusImageRenderer.Svg
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit, bool isMulti)
         {
             var displayValues = new List<string>();
-            var format = ax.FormatOrFirstValueFormat;
-            var nf = new ExcelFormatTranslator(format, 0);
+            var nf = ax.FormatTranslator;
             //Excel replaces the format with a default date format if the axis is date based.
-            if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
+            if (nf==null)
             {
-                if(format == "m/d/yyyy")
+                int nfCode;
+                if(IsDateAutoAxis)
                 {
-                    var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
-                    nf = new ExcelFormatTranslator(sdFormat, 14);
+                    nfCode = 14; //14 is standard regional short date.
                 }
+                else
+                {
+                    nfCode = 0;
+                }
+                var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(nfCode); 
+                nf = new ExcelFormatTranslator(sdFormat, nfCode);
             }
             if (isMulti)
             {
@@ -1312,6 +1317,7 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetAxisItemTop(int i, double width, double height)
         {
+            var count = AxisValues?.Count ?? AxisValuesMulti.Count;
             if (Axis.ActualAxisPosition == eAxisPosition.Top)
             {
                 switch (LabelOrientation)
@@ -1375,15 +1381,15 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
                 {
-                    var majorHeight = Rectangle.Height / (AxisValues.Count);
-                    return majorHeight * (AxisValues.Count - i) - ((majorHeight / 2) + height / 2);
+                    var majorHeight = Rectangle.Height / count;
+                    return majorHeight * (count - i) - ((majorHeight / 2) + height / 2);
                 }
                 else
                 {
-                    var majorHeight = Rectangle.Height / (AxisValues.Count-1);
+                    var majorHeight = Rectangle.Height / (count-1);
                     if(Axis.Orientation==eAxisOrientation.MinMax)
                     {
-                        return majorHeight * (AxisValues.Count - i - 1);
+                        return majorHeight * (count - i - 1);
                     }
                     else
                     {
@@ -2044,7 +2050,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                        res = DateAxisScaleCalculator.  CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                     }
                 }
 

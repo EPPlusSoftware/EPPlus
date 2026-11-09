@@ -209,6 +209,7 @@ namespace EPPlusImageRenderer.Svg
                         {
                             index++;
                             deletedEntries++;
+                            _seriesHeadersMeasure.Add(default); //Deleted entry, add 0 to keep the collection the same as the series.
                             continue;
                         }
                         var text = s.GetHeaderText(index);
@@ -419,7 +420,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal DrawingLegendSerie SetLegendSeries(double entryWidth, double entryHeight)
         {
-            int index = 0;
+            int index;
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
@@ -429,25 +430,29 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
+                var totSeriesCount = Chart.PlotArea.ChartTypes.Sum(x => x.Series.Count)-1;
                 foreach (var ct in Chart.PlotArea.ChartTypes)
                 {
+                    int entryIx = 0;
                     int ix, end;
                     if ((ct.IsTypeBar() && ct.XAxis.Orientation==eAxisOrientation.MinMax) ||
                         (ct.IsTypeColumn() && ct.XAxis.Orientation == eAxisOrientation.MaxMin))
                     {
                         ix = ct.Series.Count - 1;
                         end = -1;
+                        index = totSeriesCount;
                     }
                     else
                     {
                         ix = 0;
                         end = ct.Series.Count;
+                        index = 0;
                     }
 
                     while (ix != end)
                     {
                         var s = ct.Series[ix];
-                        var entry = Entries?.FirstOrDefault(x => x.Index == ix);
+                        var entry = Entries?.FirstOrDefault(x => x.Index == entryIx);
                         if (entry == null || entry.Deleted == false)
                         {
                             var sls = new DrawingLegendSerie();
@@ -460,7 +465,7 @@ namespace EPPlusImageRenderer.Svg
                                 case eChartType.LineMarkersStacked100:
                                 case eChartType.LineStacked:
                                 case eChartType.LineStacked100:
-                                    LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                    LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                     break;
                                 case eChartType.ColumnClustered:
                                 case eChartType.ColumnStacked:
@@ -468,14 +473,14 @@ namespace EPPlusImageRenderer.Svg
                                 case eChartType.BarClustered:
                                 case eChartType.BarStacked:
                                 case eChartType.BarStacked100:
-                                    LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                    LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                     break;
                                 case eChartType.Pie:
                                 case eChartType.PieExploded:
                                     if (ix == 0)
                                     {
                                         var preCount = SeriesIcon?.Count ?? 0;
-                                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, ix, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
+                                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, s, sls, entryWidth, entryHeight, maxIconLength);
                                         pSls = null;
                                         sls = null;
                                     }
@@ -509,16 +514,18 @@ namespace EPPlusImageRenderer.Svg
                                 SeriesIcon.Add(sls);
                             }
                             pSls = sls;
-                            index++;
                         }
                         if (ix < end)
                         {
                             ix++;
+                            index++;
                         }
                         else
                         {
                             ix--;
+                            index--;
                         }
+                        entryIx++;
                     }
                 }
             }
