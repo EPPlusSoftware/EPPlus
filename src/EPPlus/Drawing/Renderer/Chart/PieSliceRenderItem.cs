@@ -539,8 +539,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             largestInscribedRectangleOuter.Width = txtBoxWidth;
             largestInscribedRectangleOuter.Height = txtBoxHeight;
 
-            largestInscribedRectangleOuter.Style.FillColor = "blue";
-            largestInscribedRectangleOuter.Style.FillOpacity = 0.2d;
+            //largestInscribedRectangleOuter.Style.FillColor = "blue";
+            largestInscribedRectangleOuter.Style.FillOpacity = 0.0d;
 
             //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
             //slice.ExtremePoints.Parent = _innerGroup;

@@ -913,10 +913,6 @@ namespace EPPlusImageRenderer.Svg
                         //Should be broken out as input to ImportParagraph instead of changing the base item
                         p.HorizontalAlignment = eTextAlignment.Center;
                     }
-                    if(Axis.ActualAxisPosition == eAxisPosition.Right)
-                    {
-                        string stop = "stop";
-                    }
                     tb.ImportParagraph(p, 0, t);
                 }
                 else
@@ -946,7 +942,6 @@ namespace EPPlusImageRenderer.Svg
                     {
                         tb.InnerRotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
                     }
-                    //tb.InnerRotation = -45;
                 }
                 else if (LabelOrientation == eTextOrientation.Vertical)
                 {
