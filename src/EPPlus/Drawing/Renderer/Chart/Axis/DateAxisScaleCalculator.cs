@@ -352,7 +352,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 lockedInterval = false;
             }
 
-            if (ax.TextBody.Rotation.HasValue == false || ax.TextBody.Rotation == -1000)
+            if (ax.TextBody.Rotation.HasValue == false)
             {
                 //Get interval for maximum width with vertical text.
                 while(lockedInterval==false && FitAsVerticalDiagonalText(min, max, interval, unit, textHeight, textHeight * 0.3, plotAreaWidth) == false)
@@ -396,11 +396,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             }
             else
             {
-                var rot = ax.TextBody.Rotation.Value % 360;
+                double rot;
+                if(ax.TextBody.Rotation == -1000)
+                {
+                    rot = -45d;
+                }
+                else
+                {
+                    rot = ax.TextBody.Rotation.Value;
+                }
+                rot = rot % 360;
                 if (rot < 0) rot = 360 + rot;
                 var sin = Math.Sin(MathHelper.Radians(rot));
                 var cos = Math.Cos(MathHelper.Radians(rot));
                 var width = textWidth * cos + textHeight * sin;
+
                 //Get interval for maximum width with vertical text.
                 while(lockedInterval == false && FitAsVerticalDiagonalText(min, max, interval, unit, width, width * 0.3, plotAreaWidth) == false)
                 {

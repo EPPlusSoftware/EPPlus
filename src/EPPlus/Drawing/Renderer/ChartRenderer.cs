@@ -160,6 +160,11 @@ namespace EPPlusImageRenderer
             PlaceHorizontalAxisTitle(SecondHorizontalAxis);
             PlaceVerticalAxisTitle(VerticalAxis);
             PlaceVerticalAxisTitle(SecondVerticalAxis);
+
+            HorizontalAxis?.CalculateWidthHeightFromContent();
+            VerticalAxis?.CalculateWidthHeightFromContent();
+            SecondVerticalAxis?.CalculateWidthHeightFromContent();
+            SecondHorizontalAxis?.CalculateWidthHeightFromContent();
         }
         private void PlaceHorizontalAxis(ChartAxisRenderer horizontalAxis, bool isSecondary)
         {
@@ -170,7 +175,7 @@ namespace EPPlusImageRenderer
                 horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
                 horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
                 horizontalAxis.Line?.X1 = (float)0;
-                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Width;
+                horizontalAxis.Line?.X2 = (float)Plotarea.Rectangle.Width;
 
                 if (horizontalAxis.Line != null)
                 {

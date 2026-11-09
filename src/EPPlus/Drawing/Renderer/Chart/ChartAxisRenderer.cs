@@ -33,6 +33,7 @@ using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -102,10 +103,13 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
+        bool _isMulti = false;
+
         internal void UpdateValueScale()
         {
             Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation, out bool isMulti);
-            if(isMulti)
+            _isMulti = isMulti;
+            if (isMulti)
             {
                 AxisValues = null;
                 AxisValuesMulti = Values.Select(x => ((object[])x).Select(s=>s.ToString()).ToArray()).ToList();
@@ -147,21 +151,53 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
+
                     var aav = Axis.ActualAxisPosition;
+
+                    var widest = GetTextWidest(Axis, isMulti);
+
                     if (Axis.IsVertical)
                     {
                         if (aav == eAxisPosition.Left)
                         {
-                            Rectangle.Width = GetTextWidest(Axis, isMulti) + LeftMargin;
+                            Rectangle.Width = widest + LeftMargin;
                         }
                         else
                         {
-                            Rectangle.Width = GetTextWidest(Axis, isMulti) + RightMargin;
+                            Rectangle.Width = widest + RightMargin;
                         }
                     }
                     else
                     {
                         Rectangle.Height = GetTextHeight(Axis, isMulti);
+
+                        if (Textboxes != null && Textboxes.TextBoxes != null && Textboxes.TextBoxes.Count > 0)
+                        {
+                            if (aav == eAxisPosition.Left)
+                            {
+                                Rectangle.Width = widest + LeftMargin;
+                            }
+                            else
+                            {
+                                Rectangle.Width = widest + RightMargin;
+                            }
+
+                            var lastTb = Textboxes.TextBoxes.Last();
+
+                            if (Textboxes.TextBoxes.Last().InnerRotation != 0)
+                            {
+                                var diff = lastTb.Width - widest;
+                                if(diff > 0)
+                                {
+                                    Rectangle.Width += diff;
+                                }
+                            }
+                        }
+
+                        //if (Axis.TextBody.Rotation != 0)
+                        //{
+                        //    Rectangle.Width += 
+                        //}
                     }
                 }
 
@@ -175,6 +211,43 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
         }
+
+        public void CalculateWidthHeightFromContent()
+        {
+            if (Axis.Deleted == false)
+            {
+                if (Axis.Layout.HasLayout == false && Textboxes != null && Textboxes.TextBoxes != null && Textboxes.TextBoxes.Count > 0)
+                {
+                    var aav = Axis.ActualAxisPosition;
+                    var widest = GetTextWidest(Axis, _isMulti);
+
+                    var lastTb = Textboxes.TextBoxes.Last();
+
+                    var highest = GetTextHeight(Axis, _isMulti);
+
+                    if (Textboxes.TextBoxes.Last().InnerRotation != 0)
+                    {
+                        var diffW = (lastTb.GlobalLeft + lastTb.Width) - (Rectangle.GlobalLeft +  Rectangle.Width);
+                        if (diffW > 0)
+                        {
+                            Rectangle.Width += diffW;
+                        }
+
+                        var diffH = (lastTb.GlobalTop + lastTb.Height) - (Rectangle.GlobalTop + Rectangle.Height);
+                        if(diffH > 0)
+                        {
+                            Rectangle.Height += diffH;
+                        }
+                    }
+
+                }
+                else
+                {
+                   //DO nothing it's been handled previously
+                }
+            }
+        }
+
 
         public eAxisType AutoAxisType
         {
@@ -344,7 +417,6 @@ namespace EPPlusImageRenderer.Svg
                 }
                 widest += (float)(AxisValuesMulti.Count - 1 * shaper.GetLineHeightInPoints(mf.Size) * 1.5); 
             }
-
             else
             {
                 foreach (var s in AxisValues)
@@ -505,20 +577,17 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        if (Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                        {
+                            Rectangle.Top = Rectangle.Top - TopMargin;
+                        }
+                        else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {
                             Rectangle.Top -= Rectangle.Height;
                         }
                         else
                         {
-                            if(Axis.AxisTextboxPosition == eActualAxisPosition.Top)
-                            {
-                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Top - TopMargin - Rectangle.Height;
-                            }
-                            else
-                            {
-                                Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
-                            }
+                            Rectangle.Top = ChartRenderer.HorizontalAxis.Rectangle.Bottom + TopMargin;
                         }
                     }
                 }
@@ -913,6 +982,7 @@ namespace EPPlusImageRenderer.Svg
                         //Should be broken out as input to ImportParagraph instead of changing the base item
                         p.HorizontalAlignment = eTextAlignment.Center;
                     }
+
                     tb.ImportParagraph(p, 0, t);
                 }
                 else
@@ -1319,7 +1389,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eTextOrientation.Vertical:
                     case eTextOrientation.Diagonal:
-                        return Rectangle.Height;
+                        return TopMargin;
                     default:
                         return Rectangle.Height - height - TopMargin;
                 }
