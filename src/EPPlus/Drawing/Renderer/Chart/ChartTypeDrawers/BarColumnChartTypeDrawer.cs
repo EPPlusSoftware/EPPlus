@@ -296,6 +296,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
+                        if(catAx.Axis.Orientation==eAxisOrientation.MaxMin)
+                        {
+                            x++;
+                        }
                         xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
                     }
                     rect.Left = xPos;

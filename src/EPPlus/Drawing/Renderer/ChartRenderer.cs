@@ -434,7 +434,26 @@ namespace EPPlusImageRenderer
                             {
                                 if (verticalAxis.Line.X1 == 0)
                                 {
-                                    verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(0);
+                                    if(verticalAxis.CrossingAxis.Axis.AxisType==eAxisType.Val)
+                                    {
+                                        switch(verticalAxis.Axis.Crosses)
+                                        {
+                                            case eCrosses.Min:
+                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Min);
+                                                break;
+                                            case eCrosses.Max:
+                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Max);
+                                                break;
+                                            default:
+                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(Math.Min(Math.Max(verticalAxis.CrossingAxis.Min, 0), verticalAxis.CrossingAxis.Max));
+                                                break;
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                                    }
                                 }
                                 else
                                 {

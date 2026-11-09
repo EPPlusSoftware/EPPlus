@@ -2045,7 +2045,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                        res = DateAxisScaleCalculator.  CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                     }
                 }
 
