@@ -96,10 +96,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
         private List<double> ToDoubles(List<object> list)
         {
+            //From documentation:
+            //"FREQUENCY ignores blank cells and text."
+            //Testing reveals that excel also considers boolean values to never be a match
+
             var result = new List<double>();
             foreach (var item in list)
             {
-                if (ConvertUtil.IsNumeric(item))
+                if((item is bool == false) && ConvertUtil.IsNumeric(item))
                 {
                     result.Add(ConvertUtil.GetValueDouble(item));
                 }
