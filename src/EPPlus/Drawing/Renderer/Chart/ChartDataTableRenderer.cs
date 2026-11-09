@@ -306,12 +306,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
         private List<string> GetFormattedValues(ChartRenderer svgChart, List<object> values)
         {
-            var format = svgChart.HorizontalAxis.Axis.FormatOrFirstValueFormat;
-            var nf = new ExcelFormatTranslator(format, 0);
+            var nf = svgChart.HorizontalAxis.Axis.FormatTranslator;
             //Excel replaces the format with a default date format if the axis is date based.
             if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
             {
-                if (format == "m/d/yyyy")
+                if (nf.Formats.Count > 0 && nf.Formats[0].NetFormat == "m/d/yyyy")
                 {
                     var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
                     nf = new ExcelFormatTranslator(sdFormat, 14);

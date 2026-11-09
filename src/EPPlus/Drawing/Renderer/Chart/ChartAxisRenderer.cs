@@ -206,16 +206,21 @@ namespace EPPlusImageRenderer.Svg
         private List<string> GetAxisDisplayValues(ExcelChartAxisStandard ax, List<object> values, double? min, double? max, double? majorUnit, bool isMulti)
         {
             var displayValues = new List<string>();
-            var format = ax.FormatOrFirstValueFormat;
-            var nf = new ExcelFormatTranslator(format, 0);
+            var nf = ax.FormatTranslator;
             //Excel replaces the format with a default date format if the axis is date based.
-            if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
+            if (nf==null)
             {
-                if(format == "m/d/yyyy")
+                int nfCode;
+                if(IsDateAutoAxis)
                 {
-                    var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
-                    nf = new ExcelFormatTranslator(sdFormat, 14);
+                    nfCode = 14; //14 is standard regional short date.
                 }
+                else
+                {
+                    nfCode = 0;
+                }
+                var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(nfCode); 
+                nf = new ExcelFormatTranslator(sdFormat, nfCode);
             }
             if (isMulti)
             {

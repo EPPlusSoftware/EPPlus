@@ -5,7 +5,10 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.DateUtils;
+using OfficeOpenXml.Utils.String;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -326,8 +329,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var plotAreaWidth = options.ChartSize.Width;
             int interval;
             eTimeUnit unit;
-            string format = GetNumberFormat(options);
-            var minString = DateTime.FromOADate(min).ToString(format);
+            var nf = options.Axis.FormatTranslator;
+            if (nf == null)
+            {
+                var fmtId = 14;
+                var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(fmtId);
+                nf = new ExcelFormatTranslator(sdFormat, fmtId);
+            }
+            var minString = ValueToTextHandler.FormatValue(DateTime.FromOADate(min), false, nf, null, out _);
             var textWidth = GetTextWidth(shaper, minString, fontSize);
             var textHeight = GetTextHeight(shaper, minString, fontSize);
             bool lockedInterval;
@@ -439,22 +448,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 TextOrientation = ax.TextBody.VerticalText == OfficeOpenXml.Drawing.eTextVerticalType.Horizontal ? eTextOrientation.Horizontal : eTextOrientation.Vertical,
             };
         }
-
-        private static string GetNumberFormat(AxisOptions options)
-        {
-            var format = options.NumberFormat;
-            if (string.IsNullOrEmpty(format))
-            {
-                format = options.Axis.FormatOrFirstValueFormat;
-                if (string.IsNullOrEmpty(format))
-                {
-                    format = "yyyy-MM-dd";
-                }
-            }
-
-            return format;
-        }
-
         private static void GetStartInterval(double count, double span, out int interval, out eTimeUnit unit)
         {
             var blockSize = span / count;

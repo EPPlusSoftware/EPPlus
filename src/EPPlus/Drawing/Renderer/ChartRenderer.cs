@@ -177,13 +177,14 @@ namespace EPPlusImageRenderer
                     if (ax.CrossesAt.HasValue)
                     {
                         double axisY;
+                        var cv = ax.CrossesAt.Value;
                         if (isSecondary)
                         {
-                            axisY = SecondVerticalAxis.GetPositionInPlotarea(ax.CrossesAt.Value);
+                            axisY = SecondVerticalAxis.GetPositionInPlotarea(Math.Max(Math.Min(cv, SecondHorizontalAxis.Min), SecondVerticalAxis.Max));
                         }
                         else
                         {
-                            axisY = VerticalAxis.GetPositionInPlotarea(ax.CrossesAt.Value);
+                            axisY = VerticalAxis.GetPositionInPlotarea(Math.Min(Math.Max(cv, VerticalAxis.Min), VerticalAxis.Max));
                         }
                         horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = axisY;
                     }
@@ -433,7 +434,7 @@ namespace EPPlusImageRenderer
                             {
                                 if (verticalAxis.Line.X1 == 0)
                                 {
-                                    verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                                    verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(0);
                                 }
                                 else
                                 {
