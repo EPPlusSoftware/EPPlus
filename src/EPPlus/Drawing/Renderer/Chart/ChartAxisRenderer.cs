@@ -36,6 +36,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
@@ -906,6 +907,10 @@ namespace EPPlusImageRenderer.Svg
                         //Horizontal axises are always center aligned visually (by default. They Can be set left/right also custom angle is not truly center aligned)
                         //Should be broken out as input to ImportParagraph instead of changing the base item
                         p.HorizontalAlignment = eTextAlignment.Center;
+                    }
+                    if(Axis.ActualAxisPosition == eAxisPosition.Right)
+                    {
+                        string stop = "stop";
                     }
                     tb.ImportParagraph(p, 0, t);
                 }

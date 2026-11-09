@@ -285,16 +285,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        protected void AddDefaultTextFragment(string text)
+        protected void AddDefaultTextFragment(string text, RichTextFormatSimple inputDefault = null)
         {
-            var defaults = new RichTextFormatSimple();
+            RichTextFormatSimple defaults;
+            if (inputDefault == null)
+            {
+                defaults = new RichTextFormatSimple();
+            }
+            else
+            {
+                defaults = inputDefault;
+            }
             defaults.Text = text;
             defaults.SetFont(DefaultParagraphFont);
 
             AddRichTextBase(defaults);
         }
 
-        protected void ImportLinesAndTextRunsBase(string textIfEmpty)
+        protected void ImportLinesAndTextRunsBase(string textIfEmpty, RichTextFormatSimple defaults = null)
         {
             if(string.IsNullOrEmpty(textIfEmpty))
             {
@@ -305,7 +313,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 TextIfEmptyIsNull = false;
             }
 
-            AddDefaultTextFragment(textIfEmpty);
+            AddDefaultTextFragment(textIfEmpty, defaults);
             WrapTextFragmentsAndGenerateTextRuns();
         }
 
@@ -408,6 +416,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Left = 0;
             }
         }
+
 
         void ImportStyles()
         {

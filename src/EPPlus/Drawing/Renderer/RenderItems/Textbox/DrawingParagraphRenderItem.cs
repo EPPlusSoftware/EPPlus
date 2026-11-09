@@ -7,6 +7,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -112,14 +113,29 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 ImportStyles(p.TextRuns, p.DefaultRunProperties);
             }
         }
+
+
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty, ExcelTextFont font = null)
         {
-            ImportLinesAndTextRunsBase(textIfEmpty);
+            RichTextFormatSimple defaults = null;
+            if(font != null)
+            {
+                defaults = new RichTextFormatSimple();
+
+                defaults.Bold = font.Bold;
+                defaults.Italic = font.Italic;
+                defaults.FontColor = font.Fill.Color;
+                defaults.UnderlineColor = font.UnderLineColor;
+                defaults.StrikeType = (int)font.Strike;
+                defaults.Text = textIfEmpty;
+            }
+            ImportLinesAndTextRunsBase(textIfEmpty, defaults);
             //Import RichText data to each run
             foreach (var run in Runs)
             {
                 var textRun = (DrawingTextRunRenderItem)run;
                 ImportStyleFallback(font, textRun);
+                
             }
         }
 
@@ -157,9 +173,9 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
 
             Color? defaultTextColor = null;
-            //textBody.Theme.ObjectDefaults.TextDefinition.DefaultTextBody.Paragraphs[0].DefaultRunProperties.Fill;
+            //var defaultFontColor = textBody.Theme.ObjectDefaults.TextDefinition.DefaultTextBody.Paragraphs[0].DefaultRunProperties.Fill.Color;
             ////Set to hardcoded fallback only if parent doesn't have color
-            //if (string.IsNullOrEmpty(defaultFontColor))
+            //if (defaultFontColor == Color.Empty)
             //{
             //    defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
             //}
@@ -272,6 +288,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             if (font != null)
             {
                 //IF there is a default ExcelTextFont use it
+                //TODO MONDAY: When generating text the rtFormats are not added to input fragments correctly
                 run.ImportExcelTextFont(font, DefaultParagraphFont);
             }
             else
