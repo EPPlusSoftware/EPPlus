@@ -9,7 +9,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
 {
     [TestClass]
-    public class FrequencyTests
+    public class FrequencyTests : TestBase
     {
         private ExcelWorksheet _sheet;
         private ExcelPackage _package;
@@ -94,6 +94,52 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             _sheet.Calculate();
             Assert.AreEqual(0, _sheet.Cells["A8"].Value);
             Assert.AreEqual(0, _sheet.Cells["A9"].Value);
+        }
+
+
+
+        [TestMethod]
+        public void S1092_EpplusOnly()
+        {
+            using (var p = OpenPackage("S1092_EpplusOnly.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("ws1");
+
+                for (int i = 0; i < 8; i++)
+                {
+                    ws.Cells[1 + i, 1].Value = i + 1;
+                    ws.Cells[1 + i, 2].Value = false;
+                }
+
+                ws.Cells["B7"].Value = 5;
+                ws.Cells["B8"].Value = 8;
+
+                ws.Cells["C1"].Formula = "FREQUENCY(B1:B8,A1:A8)";
+
+                ws.Calculate();
+
+                List<double> expectedResult = new() { 0d, 0d, 0d, 0d, 1d, 0d, 0d, 1d, 0d };
+
+                for (int i = 0; i < 8; i++)
+                {
+                    Assert.AreEqual(expectedResult[i], ws.Cells[1 + i, 3].GetValue<double>());
+                }
+            }
+        }
+
+        [TestMethod]
+        public void S1092()
+        {
+            using (var p = OpenTemplatePackage("s1092.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Calculate();
+
+                Assert.AreEqual("Calculation", ws.Name);
+                Assert.AreEqual(2d, ws.Cells["A1"].Value);
+                ws.Cells["A2"].Calculate();
+                Assert.AreEqual(2d, ws.Cells["A2"].Value);
+            }
         }
     }
 }
