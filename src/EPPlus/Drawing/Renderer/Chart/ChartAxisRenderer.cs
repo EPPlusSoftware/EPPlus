@@ -826,6 +826,9 @@ namespace EPPlusImageRenderer.Svg
                 //ticMarkY += yLabelOffset;
 
                 double x, y;
+
+                double availableTextLength = maxWidth;
+
                 if (LabelOrientation == eTextOrientation.Horizontal)
                 {
                     if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
@@ -906,32 +909,25 @@ namespace EPPlusImageRenderer.Svg
 
                             x = xPosStart - diff;
 
-
-                            if (Chart.IsTypeBar())
-                            {
-                                x -= halfWidth;
-                            }
-
                             if (width > majorTickMarkWidth)
                             {
                                 x = x - width * cos;
+
+                                // Wrapping may be undesireable in this case?
+                                //See Epplus_Svg_Bar Axes|chart 22 when this is not doen it's wrapped even with the margins
+                                availableTextLength = width;
                             }
-                            //if(Axis.ActualAxisPosition == eAxisPosition.Top)
-                            //{
-                            //    x = xPosStart + diff;
-                            //    if (width > majorTickMarkWidth)
-                            //    {
-                            //        x = x + width * Math.Cos(MathHelper.Radians(-rot));
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    x = xPosStart - diff;
-                            //    if (width > majorTickMarkWidth)
-                            //    {
-                            //        x = x - width * cos;
-                            //    }
-                            //}
+                            else
+                            {
+                                if (Chart.IsTypeBar())
+                                {
+                                    x -= halfWidth;
+                                }
+                                else
+                                {
+                                    x = xPosStart - diff;
+                                }
+                            }
                         }
                         else
                         {
@@ -975,7 +971,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, maxWidth + LeftMargin + RightMargin, maxHeight + TopMargin + BottomMargin);
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, availableTextLength + LeftMargin + RightMargin, maxHeight + TopMargin + BottomMargin);
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
 
 
@@ -2122,7 +2118,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        res = DateAxisScaleCalculator.  CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                     }
                 }
 

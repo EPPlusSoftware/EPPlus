@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 {
@@ -33,16 +34,31 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             {
                 majorValue = axisOptions.LockedInterval.Value;
             }
-
-            return new AxisScale
+            var ax = axisOptions.Axis;
+            if (ax.TextBody.Rotation.HasValue == false)
             {
-                Min = axisMin,
-                Max = axisMax,
-                MajorInterval = majorValue,
-                MajorDateUnit = majorUnit,
-                MinorDateUnit = majorUnit,
-                TextOrientation = eTextOrientation.Horizontal
-            };
+                return new AxisScale
+                {
+                    Min = axisMin,
+                    Max = axisMax,
+                    MajorInterval = majorValue,
+                    MajorDateUnit = majorUnit,
+                    MinorDateUnit = majorUnit,
+                    TextOrientation = eTextOrientation.Horizontal
+                };
+            }
+            else
+            {
+                return new AxisScale
+                {
+                    Min = axisMin,
+                    Max = axisMax,
+                    MajorInterval = majorValue,
+                    MajorDateUnit = majorUnit,
+                    MinorDateUnit = majorUnit,
+                    TextOrientation = ax.TextBody.Rotation == -45d || ax.TextBody.Rotation == 45d ? eTextOrientation.Diagonal : eTextOrientation.Custom 
+                };
+            }
         }
         // Excel's date serial epoch: Dec 30, 1899
         private static readonly DateTime ExcelEpoch = new DateTime(1899, 12, 30);
