@@ -455,7 +455,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                     y += 700;
 
                     var shapeSvg = shape.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
+                    SaveTextFileToWorkbook($"svg\\AllShapes\\{shape.Name}.svg", shapeSvg);
                     i++;
                 }
                 SaveWorkbook("shapes.xlsx", p);

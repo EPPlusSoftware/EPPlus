@@ -905,6 +905,13 @@ namespace EPPlusImageRenderer.Svg
                             var diff = Math.Abs(distX - halfWidth);
 
                             x = xPosStart - diff;
+
+
+                            if (Chart.IsTypeBar())
+                            {
+                                x -= halfWidth;
+                            }
+
                             if (width > majorTickMarkWidth)
                             {
                                 x = x - width * cos;
