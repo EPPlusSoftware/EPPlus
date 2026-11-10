@@ -1,4 +1,5 @@
 # Features / Fixed issues - EPPlus 8
+
 ## Version 8.7.2
 * Fixed security advisory GHSA-f4h2-2r6m-w59r.
 * Updated System.Security.Cryptography.Xml and System.Security.Cryptography.Pkcs to address security vulnerabilities (CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008, CVE-2026-70162).

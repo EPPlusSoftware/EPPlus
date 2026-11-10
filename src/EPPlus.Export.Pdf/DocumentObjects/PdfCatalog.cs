@@ -18,6 +18,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     internal class PdfCatalog : PdfObject
     {
         private readonly int pagesObjectNumber;
+        internal int NamesObjectNumber = 0;
+        internal int OutlinesObjectNumber = 0;
 
         public PdfCatalog(int objectNumber, int pagesObjectNumber, int version = 0)
             : base(objectNumber, version)
@@ -25,16 +27,23 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             this.pagesObjectNumber = pagesObjectNumber;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
-            return $"<< /Type /Catalog\n" +
-                   $"   /Pages {pagesObjectNumber.ToPdfStringF0()} 0 R >>";
+            var sb = new System.Text.StringBuilder();
+            sb.Append("<< /Type /Catalog\n");
+            sb.Append($"   /Pages {pagesObjectNumber.ToPdfStringF0()} 0 R");
+            if (NamesObjectNumber > 0)
+                sb.Append($"\n   /Names {NamesObjectNumber.ToPdfStringF0()} 0 R");
+            if (OutlinesObjectNumber > 0)
+            {
+                sb.Append($"\n   /Outlines {OutlinesObjectNumber.ToPdfStringF0()} 0 R");
+                sb.Append("\n   /PageMode /UseOutlines");
+            }
+            sb.Append(" >>");
+            return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            WriteAscii(bw, $"<< /Type /Catalog\n" +
-                           $"   /Pages {pagesObjectNumber.ToPdfStringF0()} 0 R >>");
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

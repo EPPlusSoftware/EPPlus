@@ -55,6 +55,12 @@ namespace EPPlus.Export.Pdf.Settings
         public bool EmbeddFonts = true;
 
         /// <summary>
+        /// Prefix for marking a defined name as a bookmark for PDF export. The prefix gets stripped from the bookmark name.
+        /// The name used for the bookmark is first check on the cells content. If the cell has no content it uses the defined name instead.
+        /// </summary>
+        public string BookmarkNamePrefix = "bm_";
+
+        /// <summary>
         /// The order in how to create pages.
         /// </summary>
         public PageOrders PageOrders = PageOrders.DownThenOver;
