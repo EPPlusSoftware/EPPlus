@@ -891,6 +891,11 @@ namespace EPPlusImageRenderer.Svg
                         if (rot == 0)
                         {
                             x = xPosToMiddle;
+                            if (Chart.IsTypeBar())
+                            {
+                                //Seems to put in the middle of the tickmark(ish)
+                                x = xPosStart - width/2d;
+                            }
                         }
                         else if (rot < 0 && Axis.ActualAxisPosition != eAxisPosition.Top)
                         {
@@ -928,7 +933,7 @@ namespace EPPlusImageRenderer.Svg
                                     x = xPosStart - diff;
                                 }
                             }
-                        }
+                            }
                         else
                         {
                             x = xPosTextAtEnd;
