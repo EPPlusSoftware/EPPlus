@@ -839,9 +839,10 @@ namespace EPPlusImageRenderer.Svg
 
                 if (LabelOrientation == eTextOrientation.Horizontal)
                 {
-                    if (Axis.AxisType == eAxisType.Cat || Axis.AxisType == eAxisType.Date)
+                    if (Axis.AxisType == eAxisType.Cat)
                     {
-                        x = ticMarkX;
+                        //Date should Not enter here
+                        x = xPosStart;
                         y = ticMarkY;
                     }
                     else
@@ -899,7 +900,7 @@ namespace EPPlusImageRenderer.Svg
                         if (rot == 0)
                         {
                             x = xPosToMiddle;
-                            if (Chart.IsTypeBar())
+                            if (Chart.IsTypeBar() || Axis.IsDate)
                             {
                                 //Seems to put in the middle of the tickmark(ish)
                                 x = xPosStart - width/2d;
