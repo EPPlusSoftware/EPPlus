@@ -255,12 +255,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
-                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             else
             {
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
-                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, serieIndex);
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width>0, () => styleFormat.color, 0.75);

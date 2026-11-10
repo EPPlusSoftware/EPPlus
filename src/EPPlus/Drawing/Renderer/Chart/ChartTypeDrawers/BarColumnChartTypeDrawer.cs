@@ -392,7 +392,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                if (i >= 0 && serie.DataPoints.ContainsKey(i))
+                if (i >= 0 &&    serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
                     SetFillDataPoint(Chart, serie, i, rect.Style, dp, Chart.StyleManager.Style?.SeriesLine);

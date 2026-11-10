@@ -175,8 +175,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var ws = _chart.WorkSheet.Workbook.Worksheets[adr.WorkSheetName];
                 if (ws != null)
                 {
-                    var cell = ws.Cells[adr.Address].FirstOrDefault(x => string.IsNullOrEmpty(x.Style.Numberformat.Format) == false);
-                    //return nf?.Style.Numberformat.Format ?? "";
+                    var cell = ws.Cells[adr.LocalAddress].FirstOrDefault(x => string.IsNullOrEmpty(x.Style.Numberformat.Format) == false);
+                    if(cell==null)
+                    {
+                        return null;
+                    }
                     return ValueToTextHandler.GetNumberFormat(cell.StyleID, _chart.WorkSheet.Workbook.Styles).FormatTranslator;                    
                 }
             }
