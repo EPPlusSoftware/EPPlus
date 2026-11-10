@@ -577,7 +577,11 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
+                        if(ChartRenderer.SecondHorizontalAxis == this && Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                        {
+                            Rectangle.Top = Rectangle.Top - TopMargin;
+                        }
+                        else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {
                             Rectangle.Top -= Rectangle.Height;
                         }
