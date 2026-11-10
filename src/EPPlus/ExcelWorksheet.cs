@@ -3001,7 +3001,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Dimension address for the worksheet for cells that has a visible difference from default cells. 
         /// Top left cell to Bottom right.
-        /// If the worksheet has no cells, null is returned        
+        /// If the worksheet has no cells, null is returned
         /// </summary>
         public ExcelRangeBase DimensionByVisibility
         {
@@ -3010,32 +3010,25 @@ namespace OfficeOpenXml
                 CheckSheetTypeAndNotDisposed();
                 if (_values.GetDimension(out int fromRow, out int fromCol, out int toRow, out int toCol))
                 {
-                    var fc = fromCol;
-                    var tc = toCol;
-                    // ---- Extend column range by visible styling (visibility mode only) ----
-                    // Scan the whole used column span and pull fromCol/toCol outward to
-                    // include any column that has a visible style somewhere in the row range.
-                    for (int c = fc; c <= tc; c++)
+                    int vFromRow = int.MaxValue, vToRow = int.MinValue;
+                    int vFromCol = int.MaxValue, vToCol = int.MinValue;
+                    for (int c = fromCol; c <= toCol; c++)
                     {
-                        //if (c >= fromCol && c <= toCol)
-                        //{
-                        //    continue; // already inside the range
-                        //}
                         for (int r = fromRow; r <= toRow; r++)
                         {
                             if (HasValueOrVisibleStyle(r, c))
                             {
-                                if (c < fromCol) fromCol = c;
-                                if (c > toCol) toCol = c;
-                                break; // this column qualifies; move to the next column
+                                if (r < vFromRow) vFromRow = r;
+                                if (r > vToRow) vToRow = r;
+                                if (c < vFromCol) vFromCol = c;
+                                if (c > vToCol) vToCol = c;
                             }
                         }
                     }
-
-                    return Cells[System.Math.Min(fromRow, toRow), System.Math.Min(fromCol, toCol), System.Math.Max(fromRow, toRow), System.Math.Max(fromCol, toCol)];
+                    if (vToCol < vFromCol) return null;   // nothing visible
+                    return Cells[vFromRow, vFromCol, vToRow, vToCol];
                 }
                 return null;
-
             }
         }
 

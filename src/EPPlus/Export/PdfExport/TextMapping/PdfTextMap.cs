@@ -60,6 +60,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 }
                 else
                 {
+                    usesDefaultValue = !r.CustomHeight;
                     height = UnitConversion.ExcelRowHeightToPoints(r.Height);
                 }
                 Range.TotalHeight += hiddenRow ? 0d : height;

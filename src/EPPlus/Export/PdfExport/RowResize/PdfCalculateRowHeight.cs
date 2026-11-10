@@ -10,12 +10,29 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Integration;
 using OfficeOpenXml.Export.PdfExport.Data;
 
 namespace OfficeOpenXml.Export.PdfExport.RowResize
 {
     internal class PdfCalculateRowHeight
     {
+        private const double HeightMeasureInset = 5.5d;   // pts per side (the DRAW inset is ~1.4)
+        private const double LineHeightFactor = 1.16d;  // (ascent+descent) -> Excel line height
+
+        // Lines to use for HEIGHT. Non-wrapped cells keep their displayed lines.
+        private static TextLineCollection GetMeasureLines(PdfCell cell)   // same type as cell.TextLines
+        {
+            if (cell.ContentAligmnet == null || !cell.ContentAligmnet.WrapText
+                || cell.TextLayoutEngine == null || cell.TextFragments == null)
+                return cell.TextLines;
+
+            double cw = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
+            double measureWidth = cw - 2d * HeightMeasureInset;
+            if (measureWidth <= 0d) return cell.TextLines;
+            return cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, measureWidth);
+        }
+
         public static void ResizeRowHeights(PdfWorksheet pdfSheet)
         {
             for (int r = 0; r < pdfSheet.Ranges.Count; r++)
@@ -90,9 +107,9 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
         private static double GetRequiredHeightFromLines(PdfCell cell)
         {
             double total = 0d;
-            foreach (var line in cell.TextLines)
+            foreach (var line in GetMeasureLines(cell))
             {
-                total += line.LargestAscent + line.LargestDescent;
+                total += (line.LargestAscent + line.LargestDescent) * LineHeightFactor;
             }
             return total;
         }
@@ -100,9 +117,9 @@ namespace OfficeOpenXml.Export.PdfExport.RowResize
         private static double GetMaxLineHeight(PdfCell cell)
         {
             double max = 0d;
-            foreach (var line in cell.TextLines)
+            foreach (var line in GetMeasureLines(cell))
             {
-                double h = line.LargestAscent + line.LargestDescent;
+                double h = (line.LargestAscent + line.LargestDescent) * LineHeightFactor;
                 if (h > max) max = h;
             }
             return max;
