@@ -1509,7 +1509,7 @@ namespace OfficeOpenXml.Table
 
             Range.Copy(range);
             var ws = range._worksheet;
-            var tblCopy = WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) == ExcelAddressBase.eAddressCollition.No);
+            var tblCopy = WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) == ExcelAddressBase.eAddressCollision.No);
             if (tblCopy != null)
             {
                 tblCopy.Name = newTableName;
@@ -1523,7 +1523,7 @@ namespace OfficeOpenXml.Table
         public ExcelTable Copy(ExcelRangeBase range)
         {
             Range.Copy(range);
-            return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
+            return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollision.No);
         }
 
         ExcelTableNamedStyle _tblStyleHandler=null;

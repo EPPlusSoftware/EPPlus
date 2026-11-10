@@ -136,5 +136,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(6, _sheet.Cells["E10"].Value);
             Assert.AreEqual(10, _sheet.Cells["F10"].Value);
         }
+
+
     }
 }

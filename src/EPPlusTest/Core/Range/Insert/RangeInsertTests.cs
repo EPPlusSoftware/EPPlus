@@ -930,7 +930,7 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C4:C7"].Insert(eShiftTypeInsert.Right);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Collide(new ExcelAddress("B2:B10,E8,F5:F7,C4:C7")));
         }
 
         [TestMethod]
@@ -942,8 +942,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C4:C7"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B14")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E9:E12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B14")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E9:E12")));
         }
 
         [TestMethod]
@@ -955,8 +955,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["C6:C7"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E10")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E10")));
         }
 
         [TestMethod]
@@ -968,8 +968,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11"].Insert(eShiftTypeInsert.Down);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertRow()
@@ -980,8 +980,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireRow);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B12")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertColumn()
@@ -992,8 +992,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B11:C12"].Insert(eShiftTypeInsert.EntireColumn);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("D2:D10")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("G5:G8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("D2:D10")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("G5:G8")));
         }
         [TestMethod]
         public void ValidateConditionalFormattingInsertDownMiddle()
@@ -1004,8 +1004,8 @@ namespace EPPlusTest.Core.Range.Insert
 
             ws.Cells["B3"].Insert(eShiftTypeInsert.Down);
 
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
-            Assert.AreEqual(ExcelAddressBase.eAddressCollition.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[0].Collide(new ExcelAddress("B2:B11")));
+            Assert.AreEqual(ExcelAddressBase.eAddressCollision.Equal, cf.Address.Addresses[1].Collide(new ExcelAddress("E5:E8")));
         }
 
 
@@ -1673,6 +1673,122 @@ namespace EPPlusTest.Core.Range.Insert
 
                 //address should remain unchanged
                 Assert.AreEqual("$XFC$3:$XFD$3", namedRange.Address);
+            }
+        }
+        #endregion
+
+
+        //Edited tests for issue #2585. Tests originally written by issue-reporter
+        #region i2585-related tests
+        [TestMethod]
+        public void InsertRow_AtFirstTableDataRow_ExtendDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and one data row, where the first column of the data row has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B2"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
+
+                // WHEN we insert 3 rows at the first data row, so the original data row becomes the last row of the table
+                wks.InsertRow(2, 3);
+
+                // THEN there is still a single data validation, and it ends up at the bottom
+                // Ensure we do not copy the data validation upwards by default as Excel does not.
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual("A5", wks.DataValidations[0].Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRow_UnderLastTableDataRow_ExtendDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and one data row, where the first column of the data row has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B2"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
+                wks.InsertRow(3, 3, 2);
+
+                // THEN there is still a single data validation, and it covers every data row in the table
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual("A2:A5", wks.DataValidations[0].Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRow_UnderLastTableDataRow_VerifyQuadRangeUpdates()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and one data row, where the first column of the data row has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B2"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
+                wks.InsertRow(2, 3, 2);
+
+                var validationsAtOldAddress = wks.Cells["A2"].DataValidation.GetDataValidations();
+
+                //Verify data validation does not remain at old address
+                Assert.AreEqual(0, validationsAtOldAddress.Count);
+
+                var validationsAtNewAddress = wks.Cells["A5"].DataValidation.GetDataValidations();
+
+                //Verify data validation does exist at new address
+                Assert.AreEqual(1, validationsAtNewAddress.Count);
+
+                for(int i = 0; i < 3; i++)
+                {
+                    //Copy the moved validation and apply it to the new rows
+                    wks.Cells["A5"].Copy(wks.Cells[2 + i, 1], ExcelRangeCopyOnly.Validations);
+                }
+
+                // THEN there is still a single data validation, and it covers every data row in the table
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                //Verify copying Also unified the addresses instead of comma separating if possible
+                Assert.AreEqual("A5,A2,A3,A4", wks.DataValidations[0].Address.Address);
+                wks.DataValidations[0].Address.UnifyAddresses();
+                Assert.AreEqual("A2:A5", wks.DataValidations[0].Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void InsertRow_BetweenTableDataRows_ExtendDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // GIVEN a table with a header row and two data rows, where the first column of both data rows has a list data validation
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Tables.Add(wks.Cells["A1:B3"], "Table1");
+
+                var dv = wks.DataValidations.AddListValidation("A2:A3");
+                dv.Formula.Values.Add("Yes");
+                dv.Formula.Values.Add("No");
+
+                // WHEN we insert 3 rows at the second data row, so the new rows are between the two original data rows
+                wks.InsertRow(3, 3);
+
+                // THEN there is still a single data validation, and it has been extended to cover every data row in the table
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual("A2:A6", wks.DataValidations[0].Address.Address);
             }
         }
         #endregion

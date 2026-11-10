@@ -221,7 +221,7 @@ namespace OfficeOpenXml.DataValidation
                         continue;
                     }
                     var result = validation.Address.Collide(newAddress);
-                    if (result != ExcelAddressBase.eAddressCollition.No)
+                    if (result != ExcelAddressBase.eAddressCollision.No)
                     {
                         throw new InvalidOperationException(string.Format("The address ({0}) collides with an existing validation ({1})", address, validation.Address.Address));
                     }
@@ -422,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
                     {
                         foreach (var a in x.Address.Addresses)
                         {
-                            if(a.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No)
+                            if(a.Collide(searchedAddress) != ExcelAddressBase.eAddressCollision.No)
                             {
                                 return true;
                             }
@@ -431,7 +431,7 @@ namespace OfficeOpenXml.DataValidation
                     }
                     else
                     {
-                        return x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No;
+                        return x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollision.No;
                     }
                 });
             }

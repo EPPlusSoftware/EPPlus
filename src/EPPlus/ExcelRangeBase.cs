@@ -1325,7 +1325,7 @@ namespace OfficeOpenXml
         {
             foreach (var t in _worksheet.Tables)
             {
-                if (Collide(t.Address) != eAddressCollition.No)
+                if (Collide(t.Address) != eAddressCollision.No)
                 {
                     throw (new InvalidOperationException($"Cant merge range. The merge is within table {t.Name}"));
                 }
@@ -1360,7 +1360,7 @@ namespace OfficeOpenXml
                 if (_worksheet.AutoFilter.Address != null)
                 {
                     var c = this.Collide(_worksheet.AutoFilter.Address);
-                    if (value == false && (c == eAddressCollition.Partly || c == eAddressCollition.No))
+                    if (value == false && (c == eAddressCollision.Partly || c == eAddressCollision.No))
                     {
                         throw (new InvalidOperationException("Can't remove Autofilter. The current autofilter does not match selected range."));
                     }
@@ -1396,8 +1396,8 @@ namespace OfficeOpenXml
             foreach (var tbl in _worksheet.Tables)
             {
                 var c = tbl.Address.Collide(this);
-                if (c == eAddressCollition.Equal) return;   //Autofilter is on a table.
-                if (c != eAddressCollition.No)
+                if (c == eAddressCollision.Equal) return;   //Autofilter is on a table.
+                if (c != eAddressCollision.No)
                 {
                     throw new InvalidOperationException($"Auto filter collides with table {tbl.Name}");
                 }
@@ -1405,7 +1405,7 @@ namespace OfficeOpenXml
             foreach (var pt in _worksheet.PivotTables)
             {
                 var c = pt.Address.Collide(this);
-                if (c != eAddressCollition.No)
+                if (c != eAddressCollision.No)
                 {
                     throw new InvalidOperationException($"Auto filter collides with pivot table {pt.Name}");
                 }
@@ -1530,7 +1530,7 @@ namespace OfficeOpenXml
             {
                 WorksheetRangeDeleteHelper.DeleteColumn(_worksheet, _fromCol, Columns);
             }
-            else if (shift == eShiftTypeDelete.EntireRow || (_fromCol <= 1 && _toRow >= ExcelPackage.MaxColumns))
+            else if (shift == eShiftTypeDelete.EntireRow || (_fromCol <= 1 && _toCol >= ExcelPackage.MaxColumns))
             {
                 WorksheetRangeDeleteHelper.DeleteRow(_worksheet, _fromRow, Rows);
             }
@@ -1770,7 +1770,7 @@ namespace OfficeOpenXml
                         if (id >= 0 && !formulas.Contains(id))
                         {
                             if (_worksheet._sharedFormulas[id].FormulaType == FormulaType.Array &&
-                                    Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) //If the formula is an array formula and its on the inside the overwriting range throw an exception
+                                    Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollision.Partly) //If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
                             }
@@ -1796,14 +1796,14 @@ namespace OfficeOpenXml
             var collide = address.Collide(fRange);
 
             //The formula is inside the currenct range, remove it
-            if (collide == eAddressCollition.Equal || collide == eAddressCollition.Inside)
+            if (collide == eAddressCollision.Equal || collide == eAddressCollision.Inside)
             {
                 _worksheet._sharedFormulas.Remove(ix);
                 return;
                 //fRange.SetSharedFormulaID(int.MinValue); 
             }
             var firstCellCollide = address.Collide(new ExcelAddressBase(fRange._fromRow, fRange._fromCol, fRange._fromRow, fRange._fromCol));
-            if (collide == eAddressCollition.Partly && (firstCellCollide == eAddressCollition.Inside || firstCellCollide == eAddressCollition.Equal)) //Do we need to split? Only if the functions first row is inside the new range.
+            if (collide == eAddressCollision.Partly && (firstCellCollide == eAddressCollision.Inside || firstCellCollide == eAddressCollision.Equal)) //Do we need to split? Only if the functions first row is inside the new range.
             {
                 //The formula partly collides with the current range
                 bool fIsSet = false;
@@ -1932,7 +1932,7 @@ namespace OfficeOpenXml
             //Clear any calculated formulas in tables.
             foreach (var table in Worksheet.Tables)
             {
-                if (table.Address.Collide(this) != eAddressCollition.No)
+                if (table.Address.Collide(this) != eAddressCollision.No)
                 {
                     foreach (var col in table.Columns)
                     {
@@ -2181,7 +2181,7 @@ namespace OfficeOpenXml
                 var allDestinations = Destination.GetAllAddresses();
                 foreach (var currDest in allDestinations)
                 {
-                    //Arguably this is unnecessary as it should not be possible.
+                    //Arguably it is unnecessary to place this inside an if as adddresses must be null to get here.
                     if (currDest.Addresses == null)
                     {
                         var helper = new RangeCopyHelper(this, new ExcelRangeBase(Destination.Worksheet, currDest.Address), excelRangeCopyOptionFlags);

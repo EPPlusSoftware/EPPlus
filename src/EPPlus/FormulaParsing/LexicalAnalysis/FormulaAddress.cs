@@ -771,7 +771,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get { return new FormulaRangeAddress(); }
         }
 
-        internal eAddressCollition CollidesWith(FormulaRangeAddress other)
+        internal eAddressCollision CollidesWith(FormulaRangeAddress other)
         {
             var util = new ExcelAddressCollideUtility(this, _context);
             return util.Collide(other, _context);

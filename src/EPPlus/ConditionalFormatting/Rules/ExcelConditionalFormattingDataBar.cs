@@ -316,7 +316,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
             {
                 var cellValue = _ws.Cells[address.Address].Value;
 
