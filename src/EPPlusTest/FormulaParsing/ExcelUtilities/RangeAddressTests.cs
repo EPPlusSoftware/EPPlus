@@ -61,7 +61,7 @@ namespace EPPlusTest.ExcelUtilities
             var address1 = _factory.Create("A1:A6");
             var address2 = _factory.Create("A5");
             var result = address1.CollidesWith(address2);
-            Assert.AreEqual(eAddressCollition.Inside, result);
+            Assert.AreEqual(eAddressCollision.Inside, result);
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace EPPlusTest.ExcelUtilities
             var address1 = _factory.Create("A1:A6");
             var address2 = _factory.Create("A8");
             var result = address1.CollidesWith(address2);
-            Assert.AreEqual(eAddressCollition.No, result);
+            Assert.AreEqual(eAddressCollision.No, result);
         }
         [TestMethod]
         public void CollideShouldReturnFalseIfRangesCollidesButWorksheetNameDiffers()
@@ -78,7 +78,7 @@ namespace EPPlusTest.ExcelUtilities
             var address1 = _factory.Create("Sheet2!A1:A6");
             var address2 = _factory.Create("A5");
             var result = address1.CollidesWith(address2);
-            Assert.AreEqual(eAddressCollition.No, result);
+            Assert.AreEqual(eAddressCollision.No, result);
         }
         [TestMethod]
         public void ValidateTableAddressIsValue()

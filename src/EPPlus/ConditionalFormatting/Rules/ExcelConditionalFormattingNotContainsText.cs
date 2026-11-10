@@ -117,7 +117,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
             {
                 //Formula2 only filled if there's a cell or formula to cond
                 if (_ws.Cells[address.Start.Address].Value != null)

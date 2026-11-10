@@ -172,14 +172,14 @@ namespace OfficeOpenXml.FormulaParsing
             //Check table formulas that needs the array flag updated for the columns formulas.
             foreach (var table in range.Worksheet.Tables)
             {
-                if (table.Address.Collide(range) != eAddressCollition.No)
+                if (table.Address.Collide(range) != eAddressCollision.No)
                 {
                     foreach (var c in table.Columns)
                     {
                         if (string.IsNullOrEmpty(c.CalculatedColumnFormula) == false)
                         {
                             var ca = c.DataAddress;
-                            if (ca.Collide(range) != eAddressCollition.No)
+                            if (ca.Collide(range) != eAddressCollision.No)
                             {
                                 var ma = ca.Intersect(range);
                                 c.IsCalculatedFormulaArray = IsCFArray(range.Worksheet, ma);
@@ -1079,7 +1079,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var sf = f._ws._sharedFormulas[f._arrayIndex];
                 var fa = new FormulaRangeAddress(depChain._parsingContext) { FromRow = sf.StartRow, ToRow = sf.EndRow, FromCol = sf.StartCol, ToCol = sf.EndCol, WorksheetIx = f._ws.IndexInList };
-                if (fa.CollidesWith(address) != eAddressCollition.No)
+                if (fa.CollidesWith(address) != eAddressCollision.No)
                 {
                     if(!options.AllowCircularReferences)
                     {

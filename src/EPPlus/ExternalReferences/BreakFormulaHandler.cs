@@ -86,7 +86,7 @@ namespace OfficeOpenXml.ExternalReferences
                         IEnumerable<Token> t = ws._formulaTokens?.GetValue(enumerator.Row, enumerator.Column);
                         if (t == null)
                         {
-                            t = SourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
+                            t = SourceCodeTokenizer.Default_KeepWhiteSpaces.Tokenize(formula, ws.Name);
                         }
                         if (HasFormulaExternalReference(wb, ix, t, out string newFormula, false))
                         {
@@ -136,7 +136,7 @@ namespace OfficeOpenXml.ExternalReferences
                 }
                 else
                 {
-                    var t = SourceCodeTokenizer.Default.Tokenize(n.Formula, wsName);
+                    var t = SourceCodeTokenizer.Default_KeepWhiteSpaces.Tokenize(n.Formula, wsName);
                     if (HasFormulaExternalReference(wb, ix, t, out string newFormula, true))
                     {
                         if(newFormula!="")
@@ -215,7 +215,7 @@ namespace OfficeOpenXml.ExternalReferences
                         address += t.Value;
                     }
                 }
-                else if (extRefIx >= 0 && (t.TokenTypeIsAddress || t.TokenType==TokenType.NameValue || t.TokenType == TokenType.TableName))
+                else if (extRefIx > 0 && (t.TokenTypeIsAddress || t.TokenType==TokenType.NameValue || t.TokenType == TokenType.TableName))
                 {
                     if (extRefIx < 0) //Current workbook
                     {
@@ -247,7 +247,7 @@ namespace OfficeOpenXml.ExternalReferences
                     }
                     else
                     {
-                        var v= t.TokenTypeIsSet(TokenType.StringContent) ? "\"" + t.Value.Replace("\"", "\"\"") + "\"" : t.Value;
+                        var v= t.Value;
                         if(string.IsNullOrEmpty(address))
                         {
                             newFormula += v;
@@ -260,13 +260,9 @@ namespace OfficeOpenXml.ExternalReferences
 
                 }
             }
+
             newFormula += address;
             return false;
-        }
-
-        private static string AddApostrophes(string address, bool needsApostrophes)
-        {
-            return needsApostrophes ? "'" + address + "'" : address;
         }
     }
 }

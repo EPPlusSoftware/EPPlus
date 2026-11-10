@@ -328,7 +328,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (pfCount > 0) pfCount++;
                 var ptAdr = pt.Address;
                 var ptAddress = new ExcelAddressBase(ptAdr._fromRow <= pfCount + 1 ? 1 : ptAdr._fromRow - pfCount, ptAdr._fromCol, ptAdr._toRow, ptAdr._toCol);
-                if (ptAddress.Collide(adr.FromRow, adr.FromCol, adr.ToRow, adr.ToCol)!=ExcelAddressBase.eAddressCollition.No)
+                if (ptAddress.Collide(adr.FromRow, adr.FromCol, adr.ToRow, adr.ToCol)!=ExcelAddressBase.eAddressCollision.No)
                 {
                     pivotTable = pt;
                     return true;
