@@ -315,14 +315,14 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
         public void AddText(string text)
         {
             TextBody.AddParagraph(text);
-            TextBody.RecalculateParagraphs();
+            TextBody.RecalculateParagraphs(true);
             CalculateMargin();
         }
 
         public void AddRichText(IRichTextFormatSimple rt)
         {
             TextBody.AddParagraph(rt);
-            TextBody.RecalculateParagraphs();
+            TextBody.RecalculateParagraphs(true);
             CalculateMargin();
         }
 

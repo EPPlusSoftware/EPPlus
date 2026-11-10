@@ -318,6 +318,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             WrapTextFragmentsAndGenerateTextRuns();
         }
 
+        public double GetSpaceMargin()
+        {
+            double spaceMargin = 0;
+            if(Lines != null && Lines.SpaceWidthsPerLine != null && Lines.Count > 0)
+            {
+                spaceMargin = Lines.SpaceWidthsPerLine[Lines.idxOfLargestLine];
+            }
+            return spaceMargin;
+        }
+
         protected void WrapTextFragmentsAndGenerateTextRuns()
         {
             Lines = WrapFragmentsToLines();
@@ -340,9 +350,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
-                var spaceMargin = Lines.SpaceWidthsPerLine[Lines.idxOfLargestLine];
-
-                Width = widthOfLargestLine + RightMargin - spaceMargin;
+                Width = widthOfLargestLine + RightMargin;
                 //SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;

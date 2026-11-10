@@ -393,11 +393,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             textbox.PrepareForRender();
 
+            GenerateSvgFile("AllMarginsTextBox", group, group);
+
             //Assert width and height changed by margins
             Assert.AreEqual(135.2d, textbox.Width, delta);
             Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
-
-            GenerateSvgFile("AllMarginsTextBox", group, group);
         }
 
 

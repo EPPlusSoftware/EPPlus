@@ -1014,7 +1014,8 @@ namespace EPPlusImageRenderer.Svg
                 }
 
                 //calculate bounds
-                tb.TextBody.RecalculateParagraphs();
+                //Space-margin makes very close paragraphs look nicer
+                tb.TextBody.RecalculateParagraphs(true);
                 //Trigger margin calculation
                 tb.BottomMargin = tb.BottomMargin;
 
