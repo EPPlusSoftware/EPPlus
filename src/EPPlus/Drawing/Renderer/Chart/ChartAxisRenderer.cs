@@ -577,13 +577,17 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        if (Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                        if(ChartRenderer.SecondHorizontalAxis == this && Axis.AxisTextboxPosition == eActualAxisPosition.Top)
                         {
                             Rectangle.Top = Rectangle.Top - TopMargin;
                         }
                         else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {
                             Rectangle.Top -= Rectangle.Height;
+                        }
+                        else if (Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+                        {
+                            Rectangle.Top = Rectangle.Top - TopMargin;
                         }
                         else
                         {
@@ -933,7 +937,7 @@ namespace EPPlusImageRenderer.Svg
                                     x = xPosStart - diff;
                                 }
                             }
-                            }
+                        }
                         else
                         {
                             x = xPosTextAtEnd;
