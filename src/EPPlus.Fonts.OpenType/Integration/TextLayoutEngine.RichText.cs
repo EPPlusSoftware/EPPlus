@@ -241,7 +241,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public List<TextLineSimple> WrapRichTextRuns(
             List<StyleRun> fragments,
-            double maxWidthPoints)
+            double maxWidthPoints, List<char> AdditionalWrappingChars = null)
         {
             if (fragments == null || fragments.Count == 0)
             {
@@ -259,7 +259,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessStyleRun(fragment, maxWidthPoints, lineBuilder, state);
+                ProcessStyleRun(fragment, maxWidthPoints, lineBuilder, state, AdditionalWrappingChars);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -278,7 +278,8 @@ namespace EPPlus.Fonts.OpenType.Integration
         StyleRun run,
         double maxWidthPoints,
         StringBuilder lineBuilder,
-        WrapStateRichText state)
+        WrapStateRichText state,
+        List<char> additionalWrappingChars = null)
         {
             state.CharIdxRt = 0;
             state.CharIdxWithinOriginal = run.FullTextStart;
@@ -320,7 +321,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 lineBuilder.Append(c);
 
-                if (c == ' ')
+                if (c == ' ' || additionalWrappingChars != null && additionalWrappingChars.Contains(c))
                 {
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }

@@ -267,6 +267,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             }
         }
 
+        public List<char> AdditionalWrappingChars = new List<char>();
+
         /// <summary>
         /// Wrapping/line breaking
         /// </summary>
@@ -282,7 +284,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var inputRt = InputFragments[0];
             var shaper = _engine.GetMeasurementShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(_engine, shaper);
-            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
+            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth, AdditionalWrappingChars);
 
             if(wrappedLines.Count > 1)
             {

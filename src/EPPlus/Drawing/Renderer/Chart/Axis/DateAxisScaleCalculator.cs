@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 {

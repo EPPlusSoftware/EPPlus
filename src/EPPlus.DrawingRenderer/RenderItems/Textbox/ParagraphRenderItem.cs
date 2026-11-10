@@ -237,6 +237,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //This is highly innefficent. Really, LayoutSystem should be 
             //Holding the fragments from the start/wrapping should only be done when textFragments are fully complete
             _layoutSystem = new LayoutSystem(RenderContext.FontEngine, _textFragments);
+            _layoutSystem.AdditionalWrappingChars = _additionalWrappingChars;
 
             //if (fragments == null && _layoutSystem == null)
             //{
@@ -339,8 +340,9 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
+                var spaceMargin = Lines.SpaceWidthsPerLine[Lines.idxOfLargestLine];
 
-                Width = widthOfLargestLine + RightMargin;
+                Width = widthOfLargestLine + RightMargin - spaceMargin;
                 //SetHorizontalAlignment(widthOfLargestLine);
 
                 int lineIdx = 0;
@@ -472,6 +474,33 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             _textFragments[0].Text = value;
             while (_textFragments.Count > 1) _textFragments.RemoveAt(1);
             WrapTextFragmentsAndGenerateTextRuns();
+        }
+
+        List<char> _additionalWrappingChars = new List<char>();
+
+        /// <summary>
+        /// By default EPPlus only wraps on spaces ` ` for additional wrapping on e.g. `-` this function can be used
+        /// </summary>
+        /// <param name="additionalChars"></param>
+        public void AddAdditionalWrappingChars(char[] additionalChars)
+        {
+            _additionalWrappingChars.AddRange(additionalChars);
+        }
+
+        /// <summary>
+        /// By default EPPlus only wraps on spaces ` `
+        /// This function removes additional wrapping chars added
+        /// </summary>
+        /// <param name="additionalChars"></param>
+        public void RemoveAdditionalWrappingChars(char[] additionalChars)
+        {
+            foreach(var c in additionalChars)
+            {
+                if(_additionalWrappingChars.Contains(c))
+                {
+                    _additionalWrappingChars.Remove(c);
+                }
+            }
         }
     }
 }

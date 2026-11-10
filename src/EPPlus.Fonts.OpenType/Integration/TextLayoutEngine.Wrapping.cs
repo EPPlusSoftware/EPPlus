@@ -52,7 +52,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
             else
             {
-        
                 if(totalWidth - state.SpaceWidth <= maxWidth)
                 {
                     // Word doesn't fit - but does fit without space width

@@ -135,7 +135,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             {
                 var textRun = (DrawingTextRunRenderItem)run;
                 ImportStyleFallback(font, textRun);
-                
             }
         }
 
