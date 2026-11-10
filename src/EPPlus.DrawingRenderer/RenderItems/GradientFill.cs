@@ -103,7 +103,10 @@ namespace EPPlus.DrawingRenderer.RenderItems
             sb.Append(FocusPoint.GetKey());
             sb.Append(' ');
             sb.Append(LinearSettings.GetKey());
-
+            if(UserSpaceOnUse!=UserSpaceSettings.UserSpaceOnUse_Object)
+            {
+                sb.Append(Guid.NewGuid().ToString());
+            }
             return sb.ToString();
         }
     }

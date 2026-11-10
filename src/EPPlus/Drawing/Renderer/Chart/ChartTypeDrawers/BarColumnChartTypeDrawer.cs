@@ -334,7 +334,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     //Stacked
                     var pYValues = valSeries[position - 1];
                     var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
-                    var yPrevPos = yAxis.GetPositionInPlotarea(pAxisEnd, false);
+                    var yPrevPos = valAx.GetPositionInPlotarea(pAxisEnd, false);
                     if (isColumn)
                     {
                         if (y < 0)
@@ -350,14 +350,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0)
+                        if (y > 0)
                         {
                             rect.Left = yPrevPos;
                             rect.Width = yPos - yPrevPos;
                         }
                         else
                         {
-                            rect.Left = yPos;
+                            rect.Left = yPrevPos;
                             rect.Width = yPrevPos - yPos;
                         }
                     }

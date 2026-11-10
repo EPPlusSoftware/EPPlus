@@ -113,8 +113,9 @@ namespace EPPlusImageRenderer
 
             Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
 
-            HorizontalAxis?.UpdateValueScale();
             VerticalAxis?.UpdateValueScale();
+            Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
+            HorizontalAxis?.UpdateValueScale();
             SecondHorizontalAxis?.UpdateValueScale();
             SecondVerticalAxis?.UpdateValueScale();
 
@@ -444,16 +445,16 @@ namespace EPPlusImageRenderer
                                         switch(verticalAxis.Axis.Crosses)
                                         {
                                             case eCrosses.Min:
-                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Min);
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Min);
                                                 break;
                                             case eCrosses.Max:
-                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Max);
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Max);
                                                 break;
-                                            default:
-                                                verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.CrossingAxis.GetPositionInPlotarea(Math.Min(Math.Max(verticalAxis.CrossingAxis.Min, 0), verticalAxis.CrossingAxis.Max));
+                                            default: //auto zero
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(Math.Min(Math.Max(verticalAxis.CrossingAxis.Min, 0), verticalAxis.CrossingAxis.Max));
                                                 break;
-
                                         }
+                                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
                                     }
                                     else
                                     {
@@ -678,10 +679,7 @@ namespace EPPlusImageRenderer
             else if (Chart.Axis.Length > offset + 1)
             {
                 axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
-                if (axis.IsVertical == vertical)
-                {
-                    return new ChartAxisRenderer(this, axis);
-                }
+                return new ChartAxisRenderer(this, axis);
             }
             return null;
         }
