@@ -866,7 +866,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                     }
 
-                    if (rot == 90 || rot == -90)
+                    if (rot == 90 || rot == -90 || LabelOrientation == eTextOrientation.Vertical)
                     {
                         if(Axis.IsVertical == false)
                         {
