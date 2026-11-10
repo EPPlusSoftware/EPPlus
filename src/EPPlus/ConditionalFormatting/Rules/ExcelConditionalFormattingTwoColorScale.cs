@@ -218,43 +218,108 @@ namespace OfficeOpenXml.ConditionalFormatting
             set { _highValue = value; }
         }
 
+        protected List<double> _sortedCache;
+        protected double _average;
+
+        protected void EnsureCache()
+        {
+            if (_sortedCache != null) return;
+
+            var vals = new List<double>();
+            foreach (var cell in Address.GetAllAddresses())
+            {
+                for (int i = 1; i <= cell.Rows; i++)
+                {
+                    for (int j = 1; j <= cell.Columns; j++)
+                    {
+                        vals.Add(ConvertUtil.GetValueDouble(
+                            _ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+                    }
+                }
+            }
+            vals.Sort();
+            _sortedCache = vals;
+            _average = vals.Count > 0 ? vals.Average() : 0d;
+        }
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            _sortedCache = null;
+        }
+
+        internal virtual Color? GetColorScaleColor(ExcelAddress address)
+        {
+            var cellValue = ConvertUtil.GetValueDouble(_ws.Cells[address.Address].Value);
+            if (!_ws.Cells[address.Address].Value.IsNumeric())
+            {
+                return null;
+            }
+
+            EnsureCache();
+
+            // All values equal (or a single cell): no meaningful gradient — low color.
+            if (_sortedCache.Count <= 1)
+            {
+                return LowValue.ColorSettings.GetColorAsColor();
+            }
+
+            int index = _sortedCache.IndexOf(cellValue);   // first match, same as the old foreach
+
+            return CalculateNumberedGradient(
+                index,
+                _sortedCache.Count - 1,
+                LowValue.ColorSettings.GetColorAsColor(),
+                HighValue.ColorSettings.GetColorAsColor());
+        }
+
         internal virtual string ApplyStyleOverride(ExcelAddress address)
         {
-            var range = _ws.Cells[address.Address];
-            var cellValue = ConvertUtil.GetValueDouble(range.Value);
-            //TODO: Cache this for performance
-            if (cellValue.IsNumeric())
+            var color = GetColorScaleColor(address);
+            if (color == null)
             {
-                var cellValues = new List<double>();
-                foreach (var cell in Address.GetAllAddresses())
-                {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
-                        }
-                    }
-                }
-
-                var values = cellValues.OrderBy(n => n);
-                int index = 0;
-
-                foreach(var value in values)
-                {
-                    if (value == cellValue)
-                    {
-                        break;
-                    }
-                    index++;
-                }
-
-                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
-
-                return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
+                return "";
             }
-            return "";
+            return "background-color:" + "#" + color.Value.ToArgb().ToString("x8").Substring(2) + ";";
         }
+
+        //internal virtual string ApplyStyleOverride(ExcelAddress address)
+        //{
+        //    var range = _ws.Cells[address.Address];
+        //    var cellValue = ConvertUtil.GetValueDouble(range.Value);
+        //    //TODO: Cache this for performance
+        //    if (cellValue.IsNumeric())
+        //    {
+        //        var cellValues = new List<double>();
+        //        foreach (var cell in Address.GetAllAddresses())
+        //        {
+        //            for (int i = 1; i <= cell.Rows; i++)
+        //            {
+        //                for (int j = 1; j <= cell.Columns; j++)
+        //                {
+        //                    cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+        //                }
+        //            }
+        //        }
+
+        //        var values = cellValues.OrderBy(n => n);
+        //        int index = 0;
+
+        //        foreach(var value in values)
+        //        {
+        //            if (value == cellValue)
+        //            {
+        //                break;
+        //            }
+        //            index++;
+        //        }
+
+        //        var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
+
+        //        return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
+        //    }
+        //    return "";
+        //}
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {

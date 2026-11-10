@@ -18,6 +18,8 @@ using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.RichData.Structures.Constants;
@@ -26,7 +28,6 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,17 +90,25 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         GetFillStyles(cell, cellStyle, tableStyleCache);
                         GetFontStyle(cell, cellStyle, tableStyleCache);
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
+                        var dataBarRule = GetDataBarRule(cell);
+                        if (dataBarRule != null)
+                        {
+                            cellStyle.DataBar = new PdfDataBar
+                            {
+                                Percentage = dataBarRule.GetPercentageAtCell(cell),
+                                FillColor = dataBarRule.FillColor.GetColorAsColor()
+                            };
+                        }
                         var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
                         if (cellPicture != null)
                         {
                             LoadCellPicture(cellPicture, tempMap);
                         }
-                        if (!string.IsNullOrEmpty(cell.Text))
+                        if (!string.IsNullOrEmpty(cell.Text) && (dataBarRule == null || dataBarRule.ShowValue))
                         { 
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
                         }
-
                         var hl = cell.Hyperlink;
                         string screenTip = (hl as ExcelHyperLink)?.ToolTip;
                         if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
@@ -263,33 +272,49 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         private static void GetFillStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
         {
-            if (cell.Style.Fill.IsEmpty())
-            {
-                //Conditional Formating
-                var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-                if (cf != null && cf.Count > 0)
-                {
-                    // Sort ascending
-                    var ordered = cf.OrderBy(r => r.Priority);
-                    foreach (var rule in ordered)
-                    {
-                        if (!rule.ShouldApplyToCell(cell))
-                        {
-                            if (rule.StopIfTrue) break;
-                            continue;
-                        }
+            cellStyle.xfFill = cell.Style.Fill;
 
-                        if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
+            // Conditional formatting is evaluated regardless of the cell's own fill, because a
+            // color scale paints over the base cell background (Excel behaviour).
+            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
+            if (cf != null && cf.Count > 0)
+            {
+                var ordered = cf.OrderBy(r => r.Priority);
+                foreach (var rule in ordered)
+                {
+                    if (!rule.ShouldApplyToCell(cell))
+                    {
+                        if (rule.StopIfTrue) break;
+                        continue;
+                    }
+
+                    // Color scale
+                    if (rule is ExcelConditionalFormattingTwoColorScale colorScale)
+                    {
+                        var c = colorScale.GetColorScaleColor(new ExcelAddress(cell.Address));
+                        if (c != null)
                         {
-                            cellStyle.dxfFill = rule.Style.Fill;
-                            cellStyle.xfFill = cell.Style.Fill;
+                            cellStyle.ConditionalFill = c;
                             return;
                         }
-
                         if (rule.StopIfTrue) break;
+                        continue;
                     }
+
+                    // dxf fill
+                    if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
+                    {
+                        cellStyle.dxfFill = rule.Style.Fill;
+                        return;
+                    }
+
+                    if (rule.StopIfTrue) break;
                 }
-                //Table
+            }
+
+            // Table styling only applies to cells without an explicit fill of their own.
+            if (cell.Style.Fill.IsEmpty())
+            {
                 var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
                 if (tables.Count > 0)
                 {
@@ -305,20 +330,19 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         foreach (var el in GetApplicableTableElements(table, tableStyle, tableRow, tableCol, cell))
                         {
                             var f = el.Style.Fill;
-                            if (FillIsPaintable(f)) fill = f;                 // last paintable = highest application order
+                            if (FillIsPaintable(f)) fill = f;
                         }
 
                         GetTableRegionOverride(cell, table, out var ovCol, out var ovTbl);
                         var ovFill = (ovCol?.Fill != null && ovCol.Fill.HasValue) ? ovCol.Fill
                                    : (ovTbl?.Fill != null && ovTbl.Fill.HasValue) ? ovTbl.Fill
                                    : null;
-                        if (ovFill != null && FillIsPaintable(ovFill)) fill = ovFill;   // none => inherit the stripe fill
+                        if (ovFill != null && FillIsPaintable(ovFill)) fill = ovFill;
 
                         cellStyle.dxfFill = fill;
                     }
                 }
             }
-            cellStyle.xfFill = cell.Style.Fill;
         }
 
         private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
@@ -1277,6 +1301,35 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             if (sheet == null) return false;
             targetSheet = sheet.Name; row = addr.Start.Row; col = addr.Start.Column;
             return row > 0 && col > 0;
+        }
+
+        private static ExcelConditionalFormattingDataBar GetDataBarRule(ExcelRangeBase cell)
+        {
+            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
+            if (cf == null || cf.Count == 0)
+            {
+                return null;
+            }
+            foreach (var rule in cf.OrderBy(r => r.Priority))
+            {
+                if (!rule.ShouldApplyToCell(cell))
+                {
+                    if (rule.StopIfTrue)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+                if (rule is ExcelConditionalFormattingDataBar db)
+                {
+                    return db;
+                }
+                if (rule.StopIfTrue)
+                {
+                    break;
+                }
+            }
+            return null;
         }
     }
 }

@@ -29,6 +29,8 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         internal ExcelFill xfFill { get; set; }
         internal ExcelDxfFill dxfFill { get; set; }
         internal ExcelDxfFontBase dxfFontOverride { get; set; }
+        internal System.Drawing.Color? ConditionalFill { get; set; }
+        internal PdfDataBar DataBar { get; set; }
 
         //Borders
         internal ExcelBorderItem xfTop { get; set; }
