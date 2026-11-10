@@ -1112,7 +1112,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal static void CalculateStacked100(List<List<object>> values)
         {
-            for (int i = 0; i < values.Count; i++)
+            for (int i = 0; i < values[0].Count; i++)
             {
                 double rowAbsSum = 0;
                 for (int k = 0; k < values.Count; k++)
@@ -1124,7 +1124,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                 }
                 var pv = 0D;
-                for (int j=0;j< values.Count;j++)
+                for (int j=0;j < values.Count;j++)
                 {
                     var val = values[j][i];
                     if (ConvertUtil.IsExcelNumeric(val))

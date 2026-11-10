@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
@@ -85,7 +86,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
 
             var ba = svgChart.HorizontalAxis?.Axis.ActualAxisPosition == eAxisPosition.Bottom ? svgChart.HorizontalAxis : svgChart.SecondHorizontalAxis;
-            if(ba==null)
+            if(ba==null || svgChart.Chart.IsTypeBar())
             {
                 IsHeaderBottomAxis = false;
             }
@@ -115,7 +116,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             double entryWidth = 0, entryHeight = 0;
             //Separate header row on date axis            
-            var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+            List<object> values;
+            if (Chart.IsTypeBar())
+            {
+                values = svgChart.VerticalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+            }
+            else
+            {
+                values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+            }
             var horizontaValues = GetFormattedValues(svgChart, values).Distinct();
             var defaultFont = new MeasurementFont() { Size = 10 };
             foreach (var v in horizontaValues)
@@ -152,23 +161,24 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight, false);
             foreach (var ct in svgChart.Chart.PlotArea.ChartTypes)
             {
-                foreach (ExcelChartStandardSerie serie in ct.Series)
+                var isBar = ct.IsTypeBar();
+                foreach (ExcelChartStandardSerie serie in ct.Series.OrderBy(x => isBar?ct.Series.Count-((ExcelChartStandardSerie)x).Index : ((ExcelChartStandardSerie)x).Index)) //Barcharts are ordered reversed.
                 {
                     //Create the legend column
                     var sls = new DrawingLegendSerie();
                     if (ct.IsTypeLine())
                     {
-                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                         SeriesIcon.Add(sls);
                     }
                     else if (ct.IsTypeColumn() || ct.IsTypeBar())
                     {
-                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                         SeriesIcon.Add(sls);
                     }
                     else if (ct.IsTypePie())
                     {
-                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                     }
                     if(_dataTable.ShowKeys==false)
                     {
@@ -192,9 +202,9 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                         }
                         l.Add(tb);
                     }
-                    DataTableRenderItems.Add(l);    
+                    DataTableRenderItems.Add(l);
                 }
-                seriesIndex++;
+                seriesIndex+=ct.Series.Count;
             }
             _columnsWidth = (_dataTableWidth - (GetLegendColWidth()+LeftMargin+RightMargin)) / headers.Count;
             SetColumnWidth(entryHeight);

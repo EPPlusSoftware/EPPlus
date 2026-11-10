@@ -8,7 +8,10 @@ namespace EPPlus.Fonts.OpenType.Utils
     {
         public const int EMU_PER_POINT = 12700;
         public const int EMU_PER_PIXEL = 9525;
-
+        public static string ToInvariantString(this double number)
+        {
+            return number.ToString(CultureInfo.InvariantCulture);
+        }
         public static double PointToPixel(this double pointSize)
         {
             //1 inch is 72 pts. "Inches * dots/inch = dots" aka Pixels

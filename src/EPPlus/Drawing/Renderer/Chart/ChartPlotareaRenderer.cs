@@ -49,9 +49,9 @@ namespace EPPlusImageRenderer.Svg
             };
 
             var rect = GetPlotareaRect();
-            Group.Top = rect.Top;
-            Group.Left = rect.Left;
-            rect.Top = rect.Left = 0;
+            //Group.Top = rect.Top;
+            //Group.Left = rect.Left;
+            //rect.Top = rect.Left = 0;
 
             if (ChartRenderer.Legend != null &&
                 (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
@@ -72,16 +72,20 @@ namespace EPPlusImageRenderer.Svg
             if (_pa.Layout.HasLayout)
             {
                 rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
+                Group.Top = rect.Top;
+                Group.Left = rect.Left;
+                rect.Top = rect.Left = 0;
                 rect.Parent = Group;
             }
             else
             {
+                Group.Top = GetPlotAreaTop();
+                Group.Left = GetPlotAreaLeft();
                 rect = new RectRenderItem(Group)
                 {
-                    Top = GetPlotAreaTop(),
-                    Left = GetPlotAreaLeft()
+                    Top = 0,
+                    Left = 0
                 };
-
                 rect.Width = GetPlotAreaWidth(rect);
                 rect.Height = GetPlotAreaHeight(rect);
             }
@@ -137,7 +141,7 @@ namespace EPPlusImageRenderer.Svg
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
 
-            var left = leftAxis?.Rectangle?.Width ?? 0D;
+            var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.Width??0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin;
 
             double rightAxisWidth;
             if (rightActualAxis == null)
@@ -178,7 +182,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            return right - rightAxisWidth - rect.GlobalLeft - left;
+            return right - rightAxisWidth /*- rect.GlobalLeft */- left;
         }
         private double GetPlotAreaLeft()
         {

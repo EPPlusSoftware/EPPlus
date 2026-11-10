@@ -296,7 +296,7 @@ namespace EPPlus.DrawingRenderer
             else if (hs.Contains(name) == false)
             {
                 hs.Add(name);
-                defSb.Append($"<radialGradient id=\"{name}\" {GetScaling(gradientFill)}>");
+                defSb.Append($"<radialGradient id=\"{name}\" {GetScaling(gradientFill, item)}>");
                 SetStopColors(defSb, gradientFill, fillMode);
                 defSb.Append($"</radialGradient>");
             }
@@ -532,55 +532,110 @@ namespace EPPlus.DrawingRenderer
             defSb.Append($"</pattern>");
         }
 
-        private string GetScaling(RenderGradientFill gradientFill)
+        //private string GetScaling(RenderGradientFill gradientFill)
+        //{
+        //    var sb = new StringBuilder();
+        //    var t = gradientFill.FocusPoint.TopOffset / 100;
+        //    var b = gradientFill.FocusPoint.BottomOffset / 100;
+        //    var l = gradientFill.FocusPoint.LeftOffset / 100;
+        //    var r = gradientFill.FocusPoint.RightOffset / 100;
+
+        //    var tt = gradientFill.TileRectangle.TopOffset / 100;
+        //    var tb = gradientFill.TileRectangle.BottomOffset / 100;
+        //    var tl = gradientFill.TileRectangle.LeftOffset / 100;
+        //    var tr = gradientFill.TileRectangle.RightOffset / 100;
+
+        //    var dy = Math.Abs(t - b);
+        //    var dx = Math.Abs(l - r);
+        //    //var scaleTo = Math.Min(dy, dx);
+        //    //var mult = 0.5 + (scaleTo / 2);
+        //    var cx = Bounds.Width * l;
+        //    var cy = Bounds.Height * t;
+        //    //var radX = Math.Abs((t - b )) * _svgDrawing.FontSize.Item1;
+        //    //var radY = Math.Abs((l - r)) * _svgDrawing.FontSize.Item2;
+        //    var rx = Bounds.Width * 0.5 * (Math.Abs(t - tb) + Math.Abs(b - tt));
+        //    var ry = Bounds.Height * 0.5 * (Math.Abs(l - tr) + Math.Abs(r - tl));
+
+        //    var rad = Math.Sqrt(rx * rx + ry * ry);
+
+        //    sb.Append($"cx=\"{cx.ToString(CultureInfo.InvariantCulture)}\" cy=\"{cy.ToString(CultureInfo.InvariantCulture)}\" ");
+
+        //    //if(tt-tb != 0)
+        //    //{
+        //    //    sb.Append($"fy=\"{fy.ToString(CultureInfo.InvariantCulture)}\" ");
+        //    //}
+        //    if (dy > 0 && dy < 1)
+        //    {
+        //        var fy = cy * (1 + dy);
+        //        sb.Append($"fy=\"{fy.ToString(CultureInfo.InvariantCulture)}\" ");
+        //    }
+
+        //    if (dx > 0 && dx < 1)
+        //    {
+        //        var fx = cx * (1 + dx);
+        //        sb.Append($"fx=\"{fx.ToString(CultureInfo.InvariantCulture)}\" ");
+        //    }
+        //    sb.Append($"r=\"{rad.ToString(CultureInfo.InvariantCulture)}\" ");
+        //    sb.Append($"gradientUnits=\"userSpaceOnUse\" spreadMethod=\"pad\" gradientTransform=\"matrix(1 0 0 1 1 1)\" ");
+
+        //    return sb.ToString();
+        //}
+        private string GetScaling(RenderGradientFill g, RenderItem item)
         {
-            var sb = new StringBuilder();
-            var t = gradientFill.FocusPoint.TopOffset / 100;
-            var b = gradientFill.FocusPoint.BottomOffset / 100;
-            var l = gradientFill.FocusPoint.LeftOffset / 100;
-            var r = gradientFill.FocusPoint.RightOffset / 100;
+            // fillToRect: insets as a fraction of the shape bounds
+            double l = g.FocusPoint.LeftOffset / 100d, t = g.FocusPoint.TopOffset / 100d,
+                   r = g.FocusPoint.RightOffset / 100d, b = g.FocusPoint.BottomOffset / 100d;
 
-            var tt = gradientFill.TileRectangle.TopOffset / 100;
-            var tb = gradientFill.TileRectangle.BottomOffset / 100;
-            var tl = gradientFill.TileRectangle.LeftOffset / 100;
-            var tr = gradientFill.TileRectangle.RightOffset / 100;
+            // tileRect: insets, negative = extends outside the shape
+            double x0 = g.TileRectangle.LeftOffset / 100d,
+                   y0 = g.TileRectangle.TopOffset / 100d,
+                   x1 = 1 - g.TileRectangle.RightOffset / 100d,
+                   y1 = 1 - g.TileRectangle.BottomOffset / 100d;
 
-            var dy = Math.Abs(t - b);
-            var dx = Math.Abs(l - r);
-            //var scaleTo = Math.Min(dy, dx);
-            //var mult = 0.5 + (scaleTo / 2);
-            var cx = Bounds.Width * l;
-            var cy = Bounds.Height * t;
-            //var radX = Math.Abs((t - b )) * _svgDrawing.FontSize.Item1;
-            //var radY = Math.Abs((l - r)) * _svgDrawing.FontSize.Item2;
-            var rx = Bounds.Width * 0.5 * (Math.Abs(t - tb) + Math.Abs(b - tt));
-            var ry = Bounds.Height * 0.5 * (Math.Abs(l - tr) + Math.Abs(r - tl));
+            // Center of the focus rectangle
+            var cx = (l + (1 - r)) / 2;
+            var cy = (t + (1 - b)) / 2;
 
-            var rad = Math.Sqrt(rx * rx + ry * ry);
+            // Radius = distance to the farthest tile corner
+            var dx = Math.Max(cx - x0, x1 - cx);
+            var dy = Math.Max(cy - y0, y1 - cy);
+            var rad = Math.Sqrt(dx * dx + dy * dy);
 
-            sb.Append($"cx=\"{cx.ToString(CultureInfo.InvariantCulture)}\" cy=\"{cy.ToString(CultureInfo.InvariantCulture)}\" ");
-
-            //if(tt-tb != 0)
-            //{
-            //    sb.Append($"fy=\"{fy.ToString(CultureInfo.InvariantCulture)}\" ");
-            //}
-            if (dy > 0 && dy < 1)
+            string geometry = $"cx=\"{cx.ToInvariantString()}\" cy=\"{cy.ToInvariantString()}\" r=\"{rad.ToInvariantString()}\" ";
+            if (g.UserSpaceOnUse == UserSpaceSettings.ObjectBoundingBox)
             {
-                var fy = cy * (1 + dy);
-                sb.Append($"fy=\"{fy.ToString(CultureInfo.InvariantCulture)}\" ");
+                return geometry + "gradientUnits=\"objectBoundingBox\" spreadMethod=\"pad\" ";
             }
-
-            if (dx > 0 && dx < 1)
+            else
             {
-                var fx = cx * (1 + dx);
-                sb.Append($"fx=\"{fx.ToString(CultureInfo.InvariantCulture)}\" ");
-            }
-            sb.Append($"r=\"{rad.ToString(CultureInfo.InvariantCulture)}\" ");
-            sb.Append($"gradientUnits=\"userSpaceOnUse\" spreadMethod=\"pad\" gradientTransform=\"matrix(1 0 0 1 1 1)\" ");
+                BoundingBox bb;
+                if(g.UserSpaceOnUse == UserSpaceSettings.UserSpaceOnUse_Object)
+                {
+                    bb = item;
+                }
+                else if(g.UserSpaceOnUse  == UserSpaceSettings.UserSpaceOnUse_Parent)
+                {
+                    bb = (BoundingBox)item.Parent;
+                }
+                else
+                {
+                    bb = (BoundingBox)item.Parent;
+                    while(bb.Parent!=null)
+                    {
+                        bb = (BoundingBox)bb.Parent;
+                    }
+                }
+                var w = Math.Max(bb.Width, 0.001);
+                var h = Math.Max(bb.Height, 0.001);
 
-            return sb.ToString();
+                // Keeps the 0..1 geometry and maps it onto the reference box,
+                // so the result looks the same as objectBoundingBox on that box.
+                return geometry +
+                       "gradientUnits=\"userSpaceOnUse\" " +
+                       $"gradientTransform=\"matrix({w.PointToPixel()} 0 0 {h.PointToPixel()} {bb.Left.PointToPixel()} {bb.Top.PointToPixel()})\" " +
+                       "spreadMethod=\"pad\" ";
+            }
         }
-
         private void SetStopColors(StringBuilder defSb, RenderGradientFill gradientFill, PathFillMode fillMode)
         {
             //Svg requires starting at 0 and moving towards 100% Excel sometimes starts at 100
