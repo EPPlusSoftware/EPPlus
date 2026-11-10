@@ -832,6 +832,10 @@ namespace EPPlusImageRenderer.Svg
                 double x, y;
 
                 double availableTextLength = maxWidth;
+                //if (Axis.IsVertical)
+                //{
+                //    availableTextLength = maxWidth;
+                //}
 
                 if (LabelOrientation == eTextOrientation.Horizontal)
                 {
@@ -980,7 +984,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, availableTextLength + LeftMargin + RightMargin, maxHeight + TopMargin + BottomMargin);
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, availableTextLength, maxHeight + TopMargin + BottomMargin);
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
 
 
@@ -1001,6 +1005,19 @@ namespace EPPlusImageRenderer.Svg
                 {
                     tb.AddText(t);
                 }
+
+                foreach (var innerPara in tb.TextBody.Paragraphs)
+                {
+                    innerPara.AddAdditionalWrappingChars(new char[] { '-' });
+                    //Trigger re-wrap
+                    innerPara.HorizontalAlignment = innerPara.HorizontalAlignment;
+                }
+
+                //calculate bounds
+                //Space-margin makes very close paragraphs look nicer
+                tb.TextBody.RecalculateParagraphs(true);
+                //Trigger margin calculation
+                tb.BottomMargin = tb.BottomMargin;
 
                 if (Axis.AxisPosition == eAxisPosition.Right)
                 {

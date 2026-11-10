@@ -133,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 //var c1 = ws.Drawings[ix];
                 //var svg = c1.ToSvg();
                 //SaveTextFileToWorkbook($"svg\\ChartTestSecAxis{ix++}.svg", svg);
-                var ix = 0;
+                var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)
                 {
                     var svg = c.ToSvg();
@@ -148,6 +148,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             using (var p = OpenTemplatePackage("ChartForSvg_SecondaryAxis.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
+
+                var idx = 3;
+                var c1 = ws.Drawings[idx];
+                var svg = c1.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{idx+1}.svg", svg);
                 //var ix = 2;
                 //var c = ws.Drawings[ix];
                 //var svg = renderer.RenderDrawingToSvg(c);
@@ -155,8 +160,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
                 var ix = 1;
                 foreach (ExcelChart c in ws.Drawings)
                 {
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{ix++}.svg", svg);
+                    var svg2 = c.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg_Sheet2_SecAxis{ix++}.svg", svg2);
                 }
             }
         }
