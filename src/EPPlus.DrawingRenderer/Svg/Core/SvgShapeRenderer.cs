@@ -616,6 +616,7 @@ namespace EPPlus.DrawingRenderer
                 else if(g.UserSpaceOnUse  == UserSpaceSettings.UserSpaceOnUse_Parent)
                 {
                     bb = (BoundingBox)item.Parent;
+                    //bb = item;
                 }
                 else
                 {
@@ -632,7 +633,7 @@ namespace EPPlus.DrawingRenderer
                 // so the result looks the same as objectBoundingBox on that box.
                 return geometry +
                        "gradientUnits=\"userSpaceOnUse\" " +
-                       $"gradientTransform=\"matrix({w.PointToPixel()} 0 0 {h.PointToPixel()} {bb.Left.PointToPixel()} {bb.Top.PointToPixel()})\" " +
+                       $"gradientTransform=\"matrix({w.PointToPixelString()} 0 0 {h.PointToPixelString()} {bb.Left.PointToPixelString()} {bb.Top.PointToPixelString()})\" " +
                        "spreadMethod=\"pad\" ";
             }
         }
@@ -660,6 +661,10 @@ namespace EPPlus.DrawingRenderer
                 double l, t;
                 switch (userSpace)
                 {
+                    case UserSpaceSettings.UserSpaceOnUse_Object:
+                        l = item.Left;
+                        t = item.Top;
+                        break;
                     case UserSpaceSettings.UserSpaceOnUse_Parent:
                         l = item.Left;
                         t = item.Top;
