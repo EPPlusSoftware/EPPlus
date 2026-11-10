@@ -182,7 +182,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     subParagraphStartIdx = SubParagraphs[i].FullTextStart;
                     currIdx = subParagraphStartIdx;
 
-                    currFragIdx = AllChars[i].Fragment;
+                    currFragIdx = AllChars[currIdx].Fragment;
 
                     for (int j = 0; j < SubParagraphs[i].Length; j++)
                     {

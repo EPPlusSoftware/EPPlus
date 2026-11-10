@@ -192,6 +192,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 DataLabel.Top = 0;
             }
 
+            //Calculate alignment
+            foreach(var paragraph in DataLabel.TextBody.Paragraphs)
+            {
+                paragraph.HorizontalAlignment = TextAlignment.Center;
+            }
+            DataLabel.TextBody.RecalculateParagraphs();
+
 
             DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style?.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, Color.Transparent);
             DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style?.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
