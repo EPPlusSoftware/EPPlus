@@ -299,6 +299,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        internal bool HasNoText { get { return HasDeleteNode == false && LinkedCell == null && TextBody.Paragraphs.Count <= 0 || TextBody.Paragraphs[0].TextRuns.Count <= 0; } }
+
         /// <summary>
         /// The pure text string in this datalabel
         /// Source could be either TextBody or LinkedCell
@@ -318,7 +320,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     
                     if(TextBody.Paragraphs.Count <= 0 || TextBody.Paragraphs[0].TextRuns.Count <= 0)
                     {
-                        return null;
+                        return string.Empty;
                     }
                     return TextBody.Paragraphs.Text;
                 }

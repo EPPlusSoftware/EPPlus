@@ -203,7 +203,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 
             _dlblSeparator = string.IsNullOrEmpty(dataLabel.Separator) ? ", " : dataLabel.Separator;
 
-            if (dataLabel.Text == null)
+            if (dataLabel.HasNoText)
             {
                 if (dataLabel.ShowSeriesName)
                 {
