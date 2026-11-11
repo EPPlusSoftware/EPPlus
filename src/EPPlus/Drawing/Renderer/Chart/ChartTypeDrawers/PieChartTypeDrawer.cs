@@ -104,31 +104,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
                 valPercents.Add(valPercent);
-
-                ////Create and add slice
-                //PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem, _circleCenter, _radius, valPercent, prevDegrees);
-                //Slices.Add(slice);
-
-                ////Next slice will need to be calculated starting from the degrees of this slice
-                //prevDegrees = slice.Degrees + prevDegrees;
             }
 
 
             pieTransform = new PieTransform(_radius);
             pieTransform.GenerateSlicesAndClearPrevious(valPercents);
-
-            //var translationGroup = new GroupRenderItem();
-            //translationGroup.Name = "ControlGroup_PieSlices";
-            //translationGroup.Left = ChartRenderer.Bounds.Width / 2d;
-            //translationGroup.Top = ChartRenderer.Bounds.Height / 2d;
-
-            //ChartRenderer.RenderItems.Add(translationGroup);
-
-            //for (int i = 0; i < pieTransform.Slices.Count(); i++)
-            //{
-            //    var pieSliceSimple = new PieSliceSimple(pieTransform.Slices[i], pieTransform);
-            //    pieSliceSimple.ImportPathData(translationGroup, i);
-            //}
 
             pieTransform.Parent = _circleCenter.Parent;
             pieTransform.Position = _circleCenter.Position;
@@ -342,40 +322,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                             var bounds = Slices[j].GetBounds();
 
-                            //var textWidth = serieDataLabels[i].GetTextWidth(j);
-                            //var adjustedBounds = Slices[j].GetAdjustedBounds(textWidth);
-
-
-                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds/*adjustedBounds*/);
+                            serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
                         }
                     }
                 }
             }
 
             //RenderDebugEllipse();
-
             ChartAreaRenderItems.Add(_groupItem);
-
-            ////This works but does not put them last in the render order in svg
-            ////Pie charts only use the first serie
-            //if (serieDataLabels != null && serieDataLabels.Count > 0)
-            //{
-            //    serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
-            //}
-
-            //////Series Labels
-            ////foreach (var dataLabel in serieDataLabels)
-            ////{
-            ////    //dataLabel.AppendRenderItems(SeriesRenderItems);
-            ////    //if(serieDataLabels.Count =)
-            ////    ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
-            ////}
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            //renderItems.AddRange(ChartAreaRenderItems);
-            //ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
             if (serieDataLabels != null && serieDataLabels.Count > 0)
             {
                 serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
