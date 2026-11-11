@@ -718,8 +718,8 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                     //bool CanFitHeight = _txtBox.Height < Math.Abs(endToBaseVector.Y);
 
                     //Subtract standard excel margin of 2pt
-                    bool canFitWidth = _txtBox.TextBody.Width < maxBoundsPieSlice.Width;
-                    bool canFitHeight = _txtBox.TextBody.Height < maxBoundsPieSlice.Height;
+                    bool canFitWidth = _txtBox.TextBody.Width -2d < maxBoundsPieSlice.Width;
+                    bool canFitHeight = _txtBox.TextBody.Height -2d < maxBoundsPieSlice.Height;
 
                     bool shouldWrap = _txtBox.TextBody.Width + LeftMargin > maxBoundsPieSlice.Width;
 

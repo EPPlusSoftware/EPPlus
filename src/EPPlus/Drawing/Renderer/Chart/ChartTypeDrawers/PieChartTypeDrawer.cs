@@ -188,16 +188,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         {
                             //_serieLabels.Add(serie.DataLabel);
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                            if ((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                            {
+                                _shouldShrink = true;
+                            }
                         }
                         else
                         {
                             //_serieLabels.Add(chartType.DataLabel);
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
-                        }
-
-                        if ((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
-                        {
-                            _shouldShrink = true;
+                            if ((chartType.DataLabel.Position == eLabelPosition.BestFit || chartType.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                            {
+                                _shouldShrink = true;
+                            }
                         }
 
                         serieDataLabels.Add(datalabel);
