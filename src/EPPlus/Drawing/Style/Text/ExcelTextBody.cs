@@ -502,6 +502,9 @@ namespace OfficeOpenXml.Drawing
 
         internal eTextAlignment defaultAlignment = eTextAlignment.Left;
 
+
+        public bool HasParagraphs => _paragraphs != null;
+
         ExcelDrawingParagraphCollection _paragraphs = null;
         /// <summary>
         /// A collection of paragraphs within a rich text in a drawing object.

@@ -299,7 +299,47 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal bool HasNoText { get { return HasDeleteNode == false && LinkedCell == null && TextBody != null && TextBody.Paragraphs != null && TextBody.Paragraphs.Count > 0 && TextBody.Paragraphs[0].TextRuns.Count > 0; } }
+        internal bool HasNoText 
+        { 
+            get 
+            { 
+                if(HasDeleteNode == false)
+                {
+                    if(LinkedCell == null)
+                    {
+                        if(_textBody.HasParagraphs == false)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            if (_textBody.Paragraphs.Count == 0)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                if (_textBody.Paragraphs[0].HasTextRuns == false)
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    if (_textBody.Paragraphs[0].TextRuns.Count == 0)
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return false;
+
+                //return HasDeleteNode == false && LinkedCell == null && _textBody == null && _textBody.HasParagraphs == false && _textBody.Paragraphs.Count != 0 && _textBody.Paragraphs[0].HasTextRuns == false && _textBody.Paragraphs[0].TextRuns.Count != 0; 
+            } 
+        }
 
         /// <summary>
         /// The pure text string in this datalabel
@@ -318,11 +358,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (LinkedCell == null)
                 {
                     
-                    if(TextBody.Paragraphs.Count <= 0 || TextBody.Paragraphs[0].TextRuns.Count <= 0)
+                    if(_textBody.Paragraphs.Count <= 0 || _textBody.Paragraphs[0].TextRuns.Count <= 0)
                     {
                         return string.Empty;
                     }
-                    return TextBody.Paragraphs.Text;
+                    return _textBody.Paragraphs.Text;
                 }
                 else
                 {
