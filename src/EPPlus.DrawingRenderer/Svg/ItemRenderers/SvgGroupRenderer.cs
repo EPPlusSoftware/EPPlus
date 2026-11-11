@@ -122,6 +122,7 @@ namespace EPPlus.DrawingRenderer.Svg
             string defFontAttributes = "";
 
             var font = item.GroupDefaultFont;
+
             if (font != null && string.IsNullOrEmpty(font.Family) == false)
             {
                 defFontAttributes = $" font-family=\"{font.Family},{font.Family}_MSFontService,sans-serif\" " +

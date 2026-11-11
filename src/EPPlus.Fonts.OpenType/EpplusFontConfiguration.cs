@@ -235,7 +235,7 @@ namespace EPPlus.Fonts.OpenType.FontResolver
         private void ApplyDefaultWebFontSubstitutions()
         {
             _webFontSubstitutions["Aptos"] = "Arial";
-            //_webFontSubstitutions["Aptos Narrow"] = "Calibri";
+            _webFontSubstitutions["Aptos Narrow"] = "Calibri";
             _webFontSubstitutions["Aptos Display"] = "Arial";
             _webFontSubstitutions["Aptos Serif"] = "Cambria";
             _webFontSubstitutions["Aptos Mono"] = "Consolas";

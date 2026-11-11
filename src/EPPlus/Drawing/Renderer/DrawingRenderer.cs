@@ -42,8 +42,9 @@ namespace OfficeOpenXml.Drawing.Renderer
             ShapeDefaultFont = new RichTextFormatDrawing();
             if (drawing is ExcelShapeBase shapeBase)
             {
+                var family = RenderContext.GetFamilyForTarget(shapeBase.Font.LatinFont);
                 var importFont = shapeBase.Font;
-                ShapeDefaultFont.Family = importFont.LatinFont;
+                ShapeDefaultFont.Family = family;
                 ShapeDefaultFont.FontColor = importFont.Color;
                 ShapeDefaultFont.Bold = importFont.Bold;
                 ShapeDefaultFont.Italic = importFont.Italic;

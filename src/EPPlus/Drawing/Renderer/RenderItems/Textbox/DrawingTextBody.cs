@@ -51,7 +51,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             _drawing = drawing;
             Theme = drawing._drawings.Worksheet.Workbook.ThemeManager.GetOrCreateTheme();
             _defaultFont = defaultFont;
-            //_defaultFont.FontFamily = Theme.FontScheme.MinorFont.FirstOrDefault(x => x is ExcelDrawingFontSpecial fs && fs.Type == eFontType.Latin)?.Typeface ?? "Aptos Narrow";
+            if (defaultFont == null || string.IsNullOrEmpty(_defaultFont.FontFamily))
+            {
+                _defaultFont.FontFamily = Theme.FontScheme.MinorFont.FirstOrDefault(x => x is ExcelDrawingFontSpecial fs && fs.Type == eFontType.Latin)?.Typeface ?? "Aptos Narrow";
+                _defaultFont.FontFamily = RenderContext.GetFamilyForTarget(_defaultFont.FontFamily);
+            }
         }
 
         public void ImportParagraph(ExcelDrawingParagraph item, double startingY, string text = null, bool applyDefaultMargins = false)
