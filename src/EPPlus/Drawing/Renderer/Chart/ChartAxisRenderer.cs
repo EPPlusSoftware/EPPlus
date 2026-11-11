@@ -89,6 +89,12 @@ namespace EPPlusImageRenderer.Svg
 
             DefaultFillColor = System.Drawing.Color.Transparent;
 
+            _values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
+            IsCount = isCount;
+            IsNumeric = isNumeric;
+            IsDateAutoAxis = isDate;
+            _isMulti = isMulti;
+
             if (sc.Chart.Series.Count == 0)
             {
                 return;
@@ -102,11 +108,6 @@ namespace EPPlusImageRenderer.Svg
             {
                 Title = null;
             }
-            _values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
-            IsCount = isCount;
-            IsNumeric = isNumeric;
-            IsDateAutoAxis = isDate;
-            _isMulti = isMulti;
         }
         List<object> _values;
         bool _isMulti;
