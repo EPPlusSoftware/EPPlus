@@ -15,6 +15,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -334,29 +335,65 @@ namespace OfficeOpenXml.Drawing.Chart
             AddFromSerie(l, useX, useString, null, out isMultiLevel);
             return l;
         }
-        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, out bool isMultiLevel, List<object> prevList = null)
+        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, out bool isMultiLevel, List<object> prevList = null, bool doSort=false)
         {
-            string address;
-            double[] numberLiterals;
-            string[] stringLiterals;
-            int? count;
             isMultiLevel = false;
-            if (useX)
+            var values = new List<object>[] {new List<object>(), new List<object>()};
+
+            if (doSort==false)
             {
-                address = XSeries;
-                numberLiterals = NumberLiteralsX;
-                stringLiterals = StringLiteralsX;
-                count = GetCount(Series, NumberLiteralsY, StringLiteralsY);
+                if (useX)
+                {
+                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, prevList, XSeries, NumberLiteralsX, StringLiteralsX);
+                }
+                else
+                {
+                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, prevList, Series, NumberLiteralsY, StringLiteralsY);
+                }
             }
             else
             {
-                address = Series;
-                numberLiterals = NumberLiteralsY;
-                stringLiterals = StringLiteralsY;
-                count = GetCount(XSeries, NumberLiteralsX, StringLiteralsX);
-            }
+                bool isMultiX=false, isMultiY=false;
+                AddSerieValues(values[1], useText, headerInfo, ref isMultiX, prevList, Series, NumberLiteralsY, StringLiteralsY);
+                AddSerieValues(values[0], useText, headerInfo, ref isMultiY, prevList, XSeries, NumberLiteralsX, StringLiteralsX);
 
+                var sorted = values[0]
+                    .Zip(values[1], (k, v) => (Key: k, Value: v))
+                    .OrderBy(p => GetValue(p.Key), Comparer<object>.Default)
+                    .ToList();
+
+                //Sort the list on the xvalues
+                if (useX)
+                {
+                    isMultiLevel = isMultiX;
+                    list.AddRange(sorted.Select(x => x.Key).ToList());
+                }
+                else
+                {
+                    isMultiLevel = isMultiY;
+                    list.AddRange(sorted.Select(x => x.Value).ToList());
+                }
+            }
+        }
+
+        private object GetValue(object v)
+        {
+            if(v is object[] a)
+            {
+                return a[0];
+            }
+            else
+            {
+                return v;
+            }
+        }
+
+        private void AddSerieValues(List<object> list, bool useText, string[] headerInfo, ref bool isMultiLevel, List<object> prevList, string address, double[] numberLiterals, string[] stringLiterals)
+        {
             var isStacked = _chart.IsTypeStacked() && prevList != null;
+
+            var count = GetCount(address, numberLiterals, stringLiterals);
+
             if (numberLiterals?.Length > 0)
             {
                 for (int i = 0; i < numberLiterals.Length; i++)

@@ -49,6 +49,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -101,22 +102,26 @@ namespace EPPlusImageRenderer.Svg
             {
                 Title = null;
             }
+            _values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
+            IsCount = isCount;
+            IsNumeric = isNumeric;
+            IsDateAutoAxis = isDate;
+            _isMulti = isMulti;
         }
-
-        bool _isMulti = false;
+        List<object> _values;
+        bool _isMulti;
 
         internal void UpdateValueScale()
         {
-            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation, out bool isMulti);
-            _isMulti = isMulti;
-            if (isMulti)
+                Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            if (_isMulti)
             {
                 AxisValues = null;
                 AxisValuesMulti = Values.Select(x => ((object[])x).Select(s=>s.ToString()).ToArray()).ToList();
             }
             else
             {
-                AxisValues = GetAxisDisplayValues(Axis, Values, min, max, majorUnit, isMulti);
+                AxisValues = GetAxisDisplayValues(Axis, Values, min, max, majorUnit, _isMulti);
                 AxisValuesMulti = null;
             }
 
@@ -154,7 +159,7 @@ namespace EPPlusImageRenderer.Svg
 
                     var aav = Axis.ActualAxisPosition;
 
-                    var widest = GetTextWidest(Axis, isMulti);
+                    var widest = GetTextWidest(Axis, _isMulti);
 
                     if (Axis.IsVertical)
                     {
@@ -169,7 +174,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        Rectangle.Height = GetTextHeight(Axis, isMulti);
+                        Rectangle.Height = GetTextHeight(Axis, _isMulti);
 
                         if (Textboxes != null && Textboxes.TextBoxes != null && Textboxes.TextBoxes.Count > 0)
                         {
@@ -458,6 +463,7 @@ namespace EPPlusImageRenderer.Svg
         public eTimeUnit? MajorDateUnit { get; set; }
         public eTextOrientation LabelOrientation { get; set; }
         public bool IsDateAutoAxis { get; set; }
+        public bool IsNumeric { get; set; }
         public bool IsDateScale
         {
             get;
@@ -2015,10 +2021,8 @@ namespace EPPlusImageRenderer.Svg
             }
         }
 
-        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation, out bool isMulti)
+        protected List<object> GetAxisValue(ExcelChartAxisStandard ax, RenderItem rect, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation)
         {
-            var values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out isMulti);
-            IsCount = isCount;
             var options = new AxisOptions
             {
                 LockedMin = ax.MinValue,
@@ -2029,17 +2033,16 @@ namespace EPPlusImageRenderer.Svg
                 Axis = ax,
                 IsStacked100 = Chart.IsTypePercentStacked(),
                 ChartSize = rect,
-                IsMulti = isMulti
+                IsMulti = _isMulti
             };
-            if(values.Count==0)
+            if(_values.Count==0)
             {
                 min = null;
                 max = null;
                 majorUnit = null;
                 dateUnit = null;
                 orientation = eTextOrientation.Horizontal;
-                isMulti = false;
-                return values;
+                return _values;
             }
             //All axis labels share the axis font. The shaper is obtained through the render context
             //so the family is substituted for the render target, matching the font used in the output.
@@ -2047,16 +2050,16 @@ namespace EPPlusImageRenderer.Svg
             var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var fontSize = mf.Size;
 
-            if (AutoAxisType == eAxisType.Cat && isCount == false && isDate == false)
+            if (AutoAxisType == eAxisType.Cat && IsCount == false && IsDateAutoAxis == false)
             {
                 AxisScale res;
                 if (ax.IsVertical)
                 {
-                    res = CategoryAxisScaleCalculator.CalculateVerticalAxisByHeight(ref values, shaper, fontSize, options);
+                    res = CategoryAxisScaleCalculator.CalculateVerticalAxisByHeight(ref _values, shaper, fontSize, options);
                 }
                 else
                 {
-                    res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref values, shaper, fontSize, options);
+                    res = CategoryAxisScaleCalculator.CalculateHorizontalAxisByWidth(ref _values, shaper, fontSize, options);
                 }
                 min = res.Min;
                 max = res.Max;
@@ -2070,7 +2073,7 @@ namespace EPPlusImageRenderer.Svg
             var l = new List<object>();
             min = double.MaxValue;
             max = double.MinValue;
-            foreach (var v in values)
+            foreach (var v in _values)
             {
                 double d;
                 object ov;
@@ -2098,7 +2101,7 @@ namespace EPPlusImageRenderer.Svg
             }
 
             var length = ax.AxisPosition == eAxisPosition.Left || ax.AxisPosition == eAxisPosition.Right ? ChartRenderer.Bounds.Height : ChartRenderer.Bounds.Width; //Fix and use plotarea width/height.
-            if (isCount)
+            if (IsCount)
             {
                 for (int i = 1; i <= max; i++)
                 {
@@ -2118,7 +2121,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 AdjustminMaxFromChartObjects(ax, ref min, ref max);
             }
-            if (isDate || ax.IsDate)
+            if (IsDateAutoAxis || ax.IsDate)
             {
                 AxisScale res;
                 if (ax.IsVertical)
@@ -2133,7 +2136,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else
                     {
-                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
+                        res = DateAxisScaleCalculator.CalculateByWidthAllowDiagonal(_values, min ?? 0D, max ?? 0D, shaper, fontSize, options);
                     }
                 }
 
@@ -2143,7 +2146,7 @@ namespace EPPlusImageRenderer.Svg
                 var dt = DateTime.FromOADate(res.Min);
                 var maxDt = DateTime.FromOADate(res.Max);
                 IsDateAutoAxis = true;
-                IsDateScale = (dateUnit != eTimeUnit.Days || majorUnit > 1) && values.Count > 31;
+                IsDateScale = (dateUnit != eTimeUnit.Days || majorUnit > 1) && _values.Count > 31;
 
                 while (dt <= maxDt)
                 {
