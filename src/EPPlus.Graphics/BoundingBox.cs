@@ -76,7 +76,22 @@ namespace EPPlus.Graphics
                 Size = new Vector2(value, Size.Y);
             }
         }
-
+        public virtual double RotatedWidth
+        {
+            get
+            {
+                var gbb = GetGlobalBoundingbox();
+                return gbb.Width;
+            }
+        }
+        public virtual double RotatedHeight
+        {
+            get
+            {
+                var gbb = GetGlobalBoundingbox();
+                return gbb.Height;
+            }
+        }
         public virtual double Height
         {
             get

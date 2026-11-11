@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using EPPlus.Graphics;
+using System.Data;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -136,8 +137,9 @@ namespace EPPlusImageRenderer.Svg
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
-
-            var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.Width??0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin;
+            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 1);
+            var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin +
+                       (leftSecondAxis?.Rectangle?.Width ?? 0D) + ((leftSecondAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftSecondAxis?.Title?.LeftMargin ?? 0D)); 
 
             double rightAxisWidth;
             if (rightActualAxis == null)
@@ -178,7 +180,11 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
-            return right - rightAxisWidth /*- rect.GlobalLeft */- left;
+            if(ChartRenderer.HasDataTable && ChartRenderer.DataTable!=null && ChartRenderer.DataTable.IsHeaderBottomAxis)
+            {
+                left = Math.Max(left, ChartRenderer.Plotarea.Rectangle.GlobalLeft); //if the data table is integrated into the cat ax, the plotarea is adjusted for the legend column in the data table. Use plotarea left.
+            }
+            return right - rightAxisWidth - left;
         }
         private double GetPlotAreaLeft()
         {
