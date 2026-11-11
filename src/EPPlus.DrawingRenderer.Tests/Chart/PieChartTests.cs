@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,25 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             }
         }
 
+        [TestMethod]
+        public void WebSample()
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
+
+            //Same as PieChartSvgALL but seperatated out explosionBestFit chart
+            using (var p = OpenTemplatePackage("WebSampleSvg.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                foreach (ExcelChart c in ws.Drawings)
+                {
+                    //var svg = c.ToSvg();
+                    var svg1 = c.ToSvg();
+                    var SvgChart = c.ToSvg(x => { x.SvgSize.Width.SetPercent(100); x.SvgSize.Height.Remove(); });
+                    SaveTextFileToWorkbook($"svg\\WebSampleSvg_{ws.Name}_{c.Name}.svg", SvgChart);
+                }
+            }
+        }
 
         [TestMethod]
         public void BestFitPie()
