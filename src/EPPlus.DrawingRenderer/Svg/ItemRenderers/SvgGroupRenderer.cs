@@ -1,4 +1,5 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.Fonts.OpenType.GenericFontWidths;
 using EPPlus.Fonts.OpenType.Utils;
 using System.Globalization;
 using System.Text;
@@ -29,7 +30,8 @@ namespace EPPlus.DrawingRenderer.Svg
                 fillPropery = $" fill=\"{item.Style.FillColor}\" ";
             }
 
-            OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}>");
+            OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}" +
+                $"{GetDefaultFontAttribute(item)}>");
 
             foreach (var childItem in item.ChildObjects)
             {
@@ -114,5 +116,19 @@ namespace EPPlus.DrawingRenderer.Svg
             return string.Empty;
         }
 
+
+        string GetDefaultFontAttribute(GroupRenderItem item)
+        {
+            string defFontAttributes = "";
+
+            var font = item.GroupDefaultFont;
+            if (font != null && string.IsNullOrEmpty(font.Family) == false)
+            {
+                defFontAttributes = $" font-family=\"{font.Family},{font.Family}_MSFontService,sans-serif\" " +
+                $"font-size=\"{font.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
+
+            }
+            return defFontAttributes;
+        }
     }
 }

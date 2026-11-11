@@ -299,7 +299,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal bool HasNoText { get { return HasDeleteNode == false && LinkedCell == null && TextBody.Paragraphs.Count <= 0 || TextBody.Paragraphs[0].TextRuns.Count <= 0; } }
+        internal bool HasNoText { get { return HasDeleteNode == false && LinkedCell == null && TextBody != null && TextBody.Paragraphs != null && TextBody.Paragraphs.Count <= 0 && TextBody.Paragraphs[0].TextRuns.Count <= 0; } }
 
         /// <summary>
         /// The pure text string in this datalabel
