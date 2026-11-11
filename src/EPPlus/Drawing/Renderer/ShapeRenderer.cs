@@ -23,6 +23,7 @@ using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -61,6 +62,7 @@ namespace OfficeOpenXml.Drawing.Renderer
             var parentBounds = shape.GetBoundingBox();
             var shapeGroup = new GroupRenderItem(parentBounds, shape.Rotation);
             shapeGroup.Name = "ShapeGroup";
+            shapeGroup.GroupDefaultFont = ShapeDefaultFont;
 
             RenderItems.Add(shapeGroup);
 
@@ -282,8 +284,18 @@ namespace OfficeOpenXml.Drawing.Renderer
             //RenderItems.Add(InsetTextBox);
             //RenderItems.Add(MarginTextBox);
 
+            MeasurementFont defaultFont = DefaultFonts2007Style.Shape;
+
+            if(Drawing is ExcelShapeBase shapeBase)
+            {
+                if(shapeBase.HasFont)
+                {
+                    defaultFont = shapeBase.Font.GetMeasureFont(null);
+                }
+            }
+
             //Left and Top are already set by MarginTextBox we need not set them again
-            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox, DefaultFonts2007Style.Shape, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
+            var txtBodyItem = new DrawingTextBody(RenderContext, Drawing, MarginTextBox, defaultFont, 0, 0, MarginTextBox.Width, MarginTextBox.Height);
             txtBodyItem.Name = $"{Drawing.Name}_TxtBodyItem";
             txtBodyItem.ImportTextBodyAndParagraphs(bodyOrig);
 

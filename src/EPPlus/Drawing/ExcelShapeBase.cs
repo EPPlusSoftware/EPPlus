@@ -212,6 +212,9 @@ namespace OfficeOpenXml.Drawing
                 return _tailEnd;
             }
         }
+
+        public bool HasFont => _font != null;
+
         ExcelTextFontXml _font = null;
         /// <summary>
         /// Font properties

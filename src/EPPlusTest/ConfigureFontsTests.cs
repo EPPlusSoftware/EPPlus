@@ -17,6 +17,7 @@ namespace EPPlusTest
             var tb = sheet.Drawings.AddTextbox("txtBox1");
             tb.Text = text;
             tb.Font.LatinFont = fontName;
+
             return tb.ToSvg();
         }
 

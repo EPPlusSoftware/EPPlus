@@ -13,10 +13,13 @@
 
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Export.Utils;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration;
+using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Export.HtmlExport;
@@ -36,6 +39,23 @@ namespace OfficeOpenXml.Drawing.Renderer
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
             RenderContext = wb.RenderContext.ForTarget(target);
+            ShapeDefaultFont = new RichTextFormatDrawing();
+            if (drawing is ExcelShapeBase shapeBase)
+            {
+                var family = RenderContext.GetFamilyForTarget(shapeBase.Font.LatinFont);
+                var importFont = shapeBase.Font;
+                ShapeDefaultFont.Family = family;
+                ShapeDefaultFont.FontColor = importFont.Color;
+                ShapeDefaultFont.Bold = importFont.Bold;
+                ShapeDefaultFont.Italic = importFont.Italic;
+                ShapeDefaultFont.StrikeType = (eDrawingStrikeType)importFont.Strike;
+                ShapeDefaultFont.Baseline = importFont.Baseline;
+                ShapeDefaultFont.Capitalization = (int)importFont.Capitalization;
+                ShapeDefaultFont.Size = importFont.Size;
+                ShapeDefaultFont.Spacing = importFont.Spacing;
+                ShapeDefaultFont.UnderlineColor = importFont.UnderLineColor;
+                ShapeDefaultFont.UnderlineType = (eDrawingUnderLineType)importFont.UnderLine;
+            }
         }
 
 
@@ -57,5 +77,7 @@ namespace OfficeOpenXml.Drawing.Renderer
         public List<Transform> RenderItems { get; } = new List<Transform>();
         public List<Transform> DebugRenderItems { get; } = new List<Transform>();
         internal BoundingBox Bounds = new BoundingBox();
+
+        internal RichTextFormatDrawing ShapeDefaultFont;
     }
 }

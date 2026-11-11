@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
@@ -33,8 +34,11 @@ namespace EPPlusImageRenderer.Svg
 {
     internal abstract class  ChartDrawingObjectWithBackground : ChartDrawingObject
     {
+        RichTextFormatDrawing ShapeDefaultFont;
+
         protected ChartDrawingObjectWithBackground(ChartRenderer chart) : base(chart)
         {
+            ShapeDefaultFont = chart.ShapeDefaultFont;
             //Fixes null ref but might be inaccurate for some objects...
             Rectangle = new RectRenderItem(chart.Bounds);
         }
@@ -65,6 +69,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 //Create subGroup
                 var subGroup = new GroupRenderItem(parentGroup);
+                subGroup.GroupDefaultFont = ShapeDefaultFont;
                 subGroup.Name = subGroupName;
 
                 //Add items to subGroup
