@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         //paragraphs exist but could be empty
                         //Excel also uses these default settings but they are not written out in the xml explicitly
-                        if(_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty)
+                        if(_textBody.Paragraphs.FirstDefaultRunProperties != null && _textBody.Paragraphs.FirstDefaultRunProperties.IsEmpty /*_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty*/)
                         {
                             _textBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
                             _textBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
