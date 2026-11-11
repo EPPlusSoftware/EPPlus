@@ -114,7 +114,7 @@ namespace OfficeOpenXml.Drawing.Chart
             get
             {
                 ValidateNotDeleted();
-                return GetXmlNodeBool(_noEndCapPath, true);
+                return GetXmlNodeBool(_noEndCapPath, true, false);
             }
             set
             {

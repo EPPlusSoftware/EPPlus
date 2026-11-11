@@ -119,7 +119,6 @@ namespace EPPlusImageRenderer
             SecondHorizontalAxis?.UpdateValueScale();
             SecondVerticalAxis?.UpdateValueScale();
 
-
             Plotarea.SetPlotAreaRectangle();
             
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
