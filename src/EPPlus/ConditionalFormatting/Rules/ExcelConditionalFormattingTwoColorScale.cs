@@ -283,56 +283,16 @@ namespace OfficeOpenXml.ConditionalFormatting
             return "background-color:" + "#" + color.Value.ToArgb().ToString("x8").Substring(2) + ";";
         }
 
-        //internal virtual string ApplyStyleOverride(ExcelAddress address)
-        //{
-        //    var range = _ws.Cells[address.Address];
-        //    var cellValue = ConvertUtil.GetValueDouble(range.Value);
-        //    //TODO: Cache this for performance
-        //    if (cellValue.IsNumeric())
-        //    {
-        //        var cellValues = new List<double>();
-        //        foreach (var cell in Address.GetAllAddresses())
-        //        {
-        //            for (int i = 1; i <= cell.Rows; i++)
-        //            {
-        //                for (int j = 1; j <= cell.Columns; j++)
-        //                {
-        //                    cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
-        //                }
-        //            }
-        //        }
-
-        //        var values = cellValues.OrderBy(n => n);
-        //        int index = 0;
-
-        //        foreach(var value in values)
-        //        {
-        //            if (value == cellValue)
-        //            {
-        //                break;
-        //            }
-        //            index++;
-        //        }
-
-        //        var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
-
-        //        return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
-        //    }
-        //    return "";
-        //}
-
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            if (CollidesWith(address))
             {
                 var cellValue = _ws.Cells[address.Address].Value;
-
-                if(cellValue.IsNumeric())
+                if (cellValue.IsNumeric())
                 {
                     return true;
                 }
             }
-
             return false;
         }
 

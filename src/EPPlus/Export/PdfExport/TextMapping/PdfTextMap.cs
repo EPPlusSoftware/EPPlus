@@ -19,6 +19,7 @@ using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.PdfExport.Data;
 using OfficeOpenXml.Interfaces.Fonts;
@@ -28,8 +29,10 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.PdfExport.TextMapping
@@ -91,14 +94,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         GetFontStyle(cell, cellStyle, tableStyleCache);
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         var dataBarRule = GetDataBarRule(cell);
-                        if (dataBarRule != null)
-                        {
-                            cellStyle.DataBar = new PdfDataBar
-                            {
-                                Percentage = dataBarRule.GetPercentageAtCell(cell),
-                                FillColor = dataBarRule.FillColor.GetColorAsColor()
-                            };
-                        }
+                        GetDataBarStyle(cell, cellStyle, dataBarRule);
                         var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
                         if (cellPicture != null)
                         {
@@ -287,8 +283,12 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (rule.StopIfTrue) break;
                         continue;
                     }
-
-                    // Color scale
+                    if (rule is ExcelConditionalFormattingDataBar)
+                    {
+                        if (rule.StopIfTrue) break;
+                        continue;
+                    }
+                    // Color scale (two/three)
                     if (rule is ExcelConditionalFormattingTwoColorScale colorScale)
                     {
                         var c = colorScale.GetColorScaleColor(new ExcelAddress(cell.Address));
@@ -300,7 +300,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (rule.StopIfTrue) break;
                         continue;
                     }
-
                     // dxf fill
                     if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
                     {
@@ -1330,6 +1329,46 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 }
             }
             return null;
+        }
+
+        private static void GetDataBarStyle(ExcelRange cell, PdfCellStyle cellStyle, ExcelConditionalFormattingDataBar dataBarRule)
+        {
+            if (dataBarRule != null)
+            {
+                double low = dataBarRule.lowest, high = dataBarRule.highest;
+                double axisFraction;
+                if (dataBarRule.AxisPosition == eExcelDatabarAxisPosition.None) axisFraction = 0d;
+                else if (dataBarRule.AxisPosition == eExcelDatabarAxisPosition.Middle) axisFraction = 0.5d;
+                else if (low >= 0d) axisFraction = 0d;                 // all positive: axis at left
+                else if (high <= 0d) axisFraction = 1d;                 // all negative: axis at right
+                else axisFraction = Math.Abs(low) / (high - low);   // mixed
+
+                // None shows negatives in the positive direction, so only flag negatives when there's an axis.
+                bool isNeg = dataBarRule.AxisPosition != eExcelDatabarAxisPosition.None
+                             && ConvertUtil.GetValueDouble(cell.Value) < 0d;
+
+                var fillCol = (isNeg ? dataBarRule.NegativeFillColor : dataBarRule.FillColor).GetColorAsColor();
+                Color? border = dataBarRule.Border
+                    ? (isNeg ? dataBarRule.NegativeBorderColor : dataBarRule.BorderColor).GetColorAsColor()
+                    : (Color?)null;
+                Color? axis = (axisFraction > 0d && axisFraction < 1d)
+                    ? (dataBarRule.AxisColor != null && dataBarRule.AxisColor.HasValue
+                          ? dataBarRule.AxisColor.GetColorAsColor()
+                          : Color.FromArgb(0x14, 0x09, 0x04))          // Excel's default dark axis
+                    : (Color?)null;
+
+                cellStyle.DataBar = new PdfDataBar
+                {
+                    Percentage = dataBarRule.GetPercentageAtCell(cell),
+                    IsNegative = isNeg,
+                    AxisFraction = axisFraction,
+                    FillColor = fillCol,
+                    BorderColor = border,
+                    AxisColor = axis,
+                    Gradient = dataBarRule.Gradient,
+                    IsRightToLeft = dataBarRule.Direction == eDatabarDirection.RightToLeft
+                };
+            }
         }
     }
 }

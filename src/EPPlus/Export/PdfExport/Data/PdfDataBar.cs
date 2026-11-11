@@ -15,6 +15,12 @@ namespace OfficeOpenXml.Export.PdfExport.Data
     internal class PdfDataBar
     {
         internal double Percentage { get; set; }
+        internal bool IsNegative { get; set; }
+        internal double AxisFraction { get; set; }
         internal System.Drawing.Color FillColor { get; set; }
+        internal System.Drawing.Color? BorderColor { get; set; }
+        internal System.Drawing.Color? AxisColor { get; set; }
+        internal bool Gradient { get; set; }
+        internal bool IsRightToLeft { get; set; }
     }
 }

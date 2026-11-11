@@ -127,7 +127,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if(Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            if (CollidesWith(address))
             {
                 var val = _ws.Cells[address.Start.Address].Value;
                 var stringValue = val == null ? "" : val.ToString();

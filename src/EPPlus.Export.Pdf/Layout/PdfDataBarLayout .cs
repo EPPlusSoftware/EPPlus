@@ -19,6 +19,12 @@ namespace EPPlus.Export.Pdf.Layout
     {
         public double Percentage;
         public Color FillColor;
+        public bool IsNegative;
+        public double AxisFraction;
+        public System.Drawing.Color? BorderColor;
+        public System.Drawing.Color? AxisColor;
+        public bool Gradient;
+        public bool IsRightToLeft;
 
         public PdfDataBarLayout(double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y - height, width, height, scaleX, scaleY, rotation, parent)

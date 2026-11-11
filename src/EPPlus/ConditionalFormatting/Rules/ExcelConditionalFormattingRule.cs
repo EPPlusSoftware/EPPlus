@@ -53,6 +53,17 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        protected bool CollidesWith(ExcelAddress address)
+        {
+            if (Address.Addresses == null || Address.Addresses.Count < 2)
+                return Address.Collide(address) != ExcelAddressBase.eAddressCollition.No;
+
+            foreach (var a in Address.Addresses)
+                if (a.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+                    return true;
+            return false;
+        }
+
         internal int _priority = 1;
 
         /// <summary>

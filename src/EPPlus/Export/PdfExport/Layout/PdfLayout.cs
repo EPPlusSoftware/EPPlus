@@ -296,6 +296,23 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             fill.UpdateShadingPositionMatrix(pageSettings);
             fill.Name = name;
             pageLayout.AddChild(fill);
+
+            if (style.DataBar != null)
+            {
+                var dataBar = new PdfDataBarLayout(x, y, width, height)
+                {
+                    Percentage = style.DataBar.Percentage,
+                    FillColor = style.DataBar.FillColor,
+                    IsNegative = style.DataBar.IsNegative,
+                    AxisFraction = style.DataBar.AxisFraction,
+                    BorderColor = style.DataBar.BorderColor,
+                    AxisColor = style.DataBar.AxisColor,
+                    Gradient = style.DataBar.Gradient,
+                    IsRightToLeft = style.DataBar.IsRightToLeft,
+                    Name = name
+                };
+                pageLayout.AddChild(dataBar);
+            }
         }
 
         private static void CreateTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map, double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)

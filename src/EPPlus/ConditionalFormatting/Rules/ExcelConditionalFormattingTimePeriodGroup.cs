@@ -67,7 +67,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            if (CollidesWith(address))
             {
                 if (_ws.Cells[address.Start.Address].Value != null && ConvertUtil.IsNumericOrDate(_ws.Cells[address.Start.Address].Value))
                 {

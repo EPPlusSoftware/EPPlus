@@ -1364,5 +1364,14 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "BlackAndWhiteTest3.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void PdfPdfConditionalFormattingTest3()
+        {
+            using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "PdfConditionalFormattingTest.pdf";
+            ws.SaveAsPdf(path);
+        }
     }
 }
