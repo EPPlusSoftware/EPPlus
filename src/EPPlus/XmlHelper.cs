@@ -1118,14 +1118,17 @@ namespace OfficeOpenXml
             TopNode = tempNode;
             return retVal;
         }
-        internal bool GetXmlNodeBool(string path, bool blankValue, bool elementNotExistValue = false)
+        internal bool GetXmlNodeBool(string path, bool blankValue, bool? elementNotExistValue = null)
         {
-            var attrIx = path.LastIndexOf("/@");
-            if(attrIx>0)
+            if (elementNotExistValue.HasValue)
             {
-                if(ExistsNode(path.Substring(0, attrIx))==false)
+                var attrIx = path.LastIndexOf("/@");
+                if (attrIx > 0)
                 {
-                    return elementNotExistValue;
+                    if (ExistsNode(path.Substring(0, attrIx)) == false)
+                    {
+                        return elementNotExistValue.Value;
+                    }
                 }
             }
             string value = GetXmlNodeString(path);
@@ -1536,7 +1539,12 @@ namespace OfficeOpenXml
                     }
                 }
             }
-            var newExt = TopNode.OwnerDocument.CreateElement("ext", NameSpaceManager.LookupPrefix(extLstPrefix));
+            var ns = NameSpaceManager.LookupNamespace(extLstPrefix);
+            if(string.IsNullOrEmpty(ns))
+            {
+                ns = ExcelPackage.schemaMain;
+            }
+            var newExt = TopNode.OwnerDocument.CreateElement("ext", ns);
             if (!string.IsNullOrEmpty(prefix))
             {
                 newExt.SetAttribute($"xmlns:{prefix}", NameSpaceManager.LookupNamespace(prefix));

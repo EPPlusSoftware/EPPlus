@@ -185,25 +185,6 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             return null;
         }
-        //private string GetNumberStyleFromSeries(ExcelChart ct, bool isXAxis)
-        //{
-        //    foreach (var serie in ct.Series)
-        //    {
-        //        var address = isXAxis ? serie.XSeries : serie.Series;
-        //        if (string.IsNullOrEmpty(address))
-        //        {
-        //            continue;
-        //        }
-        //        var adr = new ExcelAddressBase(address);
-        //        var ws = _chart.WorkSheet.Workbook.Worksheets[adr.WorkSheetName];
-        //        if (ws != null)
-        //        {
-        //            var nf = ws.Cells[adr.Address].FirstOrDefault(x => string.IsNullOrEmpty(x.Style.Numberformat.Format) == false);
-        //            return nf?.Style.Numberformat;
-        //        }
-        //    }
-        //    return "";
-        //}
 
         /// <summary>
         /// The Numberformats are linked to the source data.
