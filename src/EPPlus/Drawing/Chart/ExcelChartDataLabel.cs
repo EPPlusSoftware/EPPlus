@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (LinkedCell == null)
                 {
                     
-                    if(_textBody.Paragraphs.Count <= 0 || _textBody.Paragraphs[0].TextRuns.Count <= 0)
+                    if(_textBody == null || _textBody.Paragraphs.Count <= 0 || _textBody.Paragraphs[0].TextRuns.Count <= 0)
                     {
                         return string.Empty;
                     }
