@@ -398,140 +398,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 txtBoxWidth = maxX - minX;
                 txtBoxHeight = maxY - minY;
             }
-            //else
-            //{
-            //    double kClockWise;
-            //    if (circleCenter.Position.X == _endPoint.Position.X)
-            //    {
-            //        kClockWise = 0;
-            //    }
-            //    else
-            //    {
-            //        kClockWise = (_endPoint.Position.Y - circleCenter.Position.Y) / (_endPoint.Position.X - circleCenter.Position.X);
-            //    }
-            //    var mClockWise = _endPoint.Position.Y - (kClockWise * _endPoint.Position.X);
-
-            //    _kEndPoint = kClockWise;
-            //    _mEndPoint = mClockWise;
-
-            //    double kCounterClock;
-            //    if (circleCenter.Position.X == _startPoint.Position.X)
-            //    {
-            //        kCounterClock = 0;
-            //    }
-            //    else
-            //    {
-            //        kCounterClock = (circleCenter.Position.Y - _startPoint.Position.Y) / (circleCenter.Position.X - _startPoint.Position.X);
-            //    }
-            //    var mCounterClock = _startPoint.Position.Y - (kCounterClock * _startPoint.Position.X);
-
-            //    _kStartPoint = kCounterClock;
-            //    _mStartPoint = mCounterClock;
-
-
-
-
-            //    //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
-            //    var xVal = GetXLinear(_kEndPoint, _mEndPoint, _startPoint.Position.Y);
-
-            //    var lessX = Math.Min(xVal, _startPoint.Position.X);
-            //    var moreX = Math.Max(xVal, _startPoint.Position.X);
-            //    txtBoxWidth = _maxX - lessX;
-
-            //    _minX = xVal;
-            //    _maxX = moreX;
-
-            //    //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
-            //    var yVal = GetYLinear(_kStartPoint, _mStartPoint, _endPoint.Position.X);
-            //    //var yVal = (_endPoint.Position.X - mCounterClock) / kCounterClock;
-
-            //    var lessY = Math.Min(yVal, _endPoint.Position.Y);
-            //    var moreY = Math.Max(yVal, _endPoint.Position.Y);
-            //    txtBoxHeight = moreY - lessY;
-
-            //    _yValOfWidestLine = yVal;
-
-
-            //    var lineForWidth = new PathRenderItem(null);
-
-            //    var moveStartPoint = new PathCommand(PathCommandType.Move, _startPoint.Position.X, _startPoint.Position.Y);
-            //    var lineToEndLine = new PathCommand(PathCommandType.Line, xVal, _startPoint.Position.Y);
-            //    var end = new PathCommand(PathCommandType.End, xVal, _startPoint.Position.Y);
-            //    lineForWidth.Commands.Add(moveStartPoint);
-            //    lineForWidth.Commands.Add(lineToEndLine);
-            //    //lineForWidth.Commands.Add(end);
-
-            //    lineForWidth.Style.BorderColor = "red";
-            //    lineForWidth.Style.BorderWidth = 1.5;
-
-            //    renderer.DebugRenderItems.Add(lineForWidth);
-
-            //    var lineForHeight = new PathRenderItem(null);
-
-
-            //    var moveEndLine = new PathCommand(PathCommandType.Move, _endPoint.Position.X, _endPoint.Position.Y);
-            //    var lineToEndPLine = new PathCommand(PathCommandType.Line, _endPoint.Position.X, yVal);
-            //    //var endL = new PathCommand(PathCommandType.End, _startPoint.Position.X, yVal);
-
-            //    lineForHeight.Commands.Add(moveEndLine);
-            //    lineForHeight.Commands.Add(lineToEndPLine);
-            //    //lineForHeight.Commands.Add(endL);
-
-            //    lineForHeight.Style.BorderColor = "green";
-            //    lineForHeight.Style.BorderWidth = 1.5;
-
-            //    renderer.DebugRenderItems.Add(lineForHeight);
-
-            //    //var weightY = 0;
-            //    //var weightX = 0;
-
-            //    //maxX;
-            //    //maxY;
-
-            //    //var intersectPoint = new Vector2(_endPoint.Position.X, _startPoint.Position.Y);
-            //    //var largestBothPt = new Vector2(_startPoint.Position.X + (txtBoxWidth/2d), _startPoint.Position.Y+(txtBoxHeight/2d));
-
-            //    //var degreesToRadiansMultiplier = (Math.Round((double)System.Math.PI, 14) / 180d);
-            //    ////Drawing a line from the uppermost point towards the center
-            //    ////Crosses the pie slice at an unknown point.
-            //    ////Split into two triangles we can figure it out
-            //    ////With the base of radius and the angle of sliceDegrees
-
-
-
-            //    ////var heightOfBothTriangles = _circleCenter.Position.Y - _startPoint.Position.Y;
-            //    ////The radius is the same length for both sides
-            //    //var degreesFromStartPoint = (180 - slice.Degrees) / 2;
-
-            //    //var distStartToEndPoint = _radius * Math.Tan(slice.Degrees);
-
-            //    //var diagonalToXLinePoint = _radius / Math.Cos(slice.Degrees * degreesToRadiansMultiplier);
-            //    //var yOffsetToXLinePoint = Math.Sin(slice.Degrees * degreesToRadiansMultiplier) * diagonalToXLinePoint;
-            //    //var xOffsetToXLinePoint = yOffsetToXLinePoint / Math.Tan(slice.Degrees * degreesToRadiansMultiplier);
-            //    //Vector2 xPoint = Vector2.One;
-            //    //if(_startPoint.Position.X < circleCenter.Position.X)
-            //    //{
-            //    //    xPoint = new Vector2(-1, xPoint.Y);
-            //    //}
-            //    //if(_startPoint.Position.Y < circleCenter.Position.Y)
-            //    //{
-            //    //    xPoint = new Vector2(xPoint.X, -1);
-            //    //}
-
-            //    //xPoint = new Vector2(circleCenter.Position.X + ( xPoint.X * xOffsetToXLinePoint), circleCenter.Position.Y + ( xPoint.Y * yOffsetToXLinePoint));
-
-            //    //var lessX = Math.Min(xPoint.X, _startPoint.Position.X);
-            //    //var moreX = Math.Max(xPoint.X, _startPoint.Position.X);
-
-            //    //txtBoxWidth = moreX - lessX;
-
-            //    ////var midPointInsideSlice = new Vector2(ExtremePoints.Left + ExtremePoints.Width/2d, ExtremePoints.Top + ExtremePoints.Height/2d);
-            //    ////minX = Math.Min(minX, midPointInsideSlice.X);
-            //    ////maxX = Math.Max(maxX, midPointInsideSlice.X);
-            //    ////minY = Math.Min(minY, midPointInsideSlice.Y);
-            //    ////maxY = Math.Max(maxY, midPointInsideSlice.Y);
-            //}
-
+           
             largestInscribedRectangleOuter = new RectRenderItem();
             largestInscribedRectangleOuter.Parent = _innerGroup;
             largestInscribedRectangleOuter.Top = minY;
@@ -541,11 +408,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             //largestInscribedRectangleOuter.Style.FillColor = "blue";
             largestInscribedRectangleOuter.Style.FillOpacity = 0.0d;
-
-            //alt: CtrToOuterMidDir = slice.ExplosionVector / slice.ExplosionVector.Length;
-            //slice.ExtremePoints.Parent = _innerGroup;
-            //ExtremePoints = slice;
-            //ExtremePoints.Parent = _innerGroup;
 
             _innerItems = new GroupRenderItem(_innerGroup, 0);
             _innerItems.Name = "Inner_Items";
@@ -704,17 +566,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
             }
-            //if(chartType.VaryColors)
-            //{
-            //    if(chartType.StyleManager.Style == null)
-            //    {
-            //        var mod5 = position % 5;
-            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
-            //    }
-            //}
-            //_slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
-            //_slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)
@@ -1058,15 +909,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left - _innerGroup.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top- _innerGroup.Top);
             return transform;
         }
-
-        //bool CanFitWithinEndPosition()
-        //{
-        //    var test = _startPoint;
-        //    var mid = _midPoint;
-        //    var end = _endPoint;
-        //    var ctr = _circleCenter;
-        //}
-
         internal BoundingBox GetBounds()
         {
             BoundingBox box = new BoundingBox();
@@ -1076,39 +918,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             box.Position = new Vector2(largestInscribedRectangleOuter.Position.X, largestInscribedRectangleOuter.Position.Y);
             //box.Left = ExtremePoints.Left;
             return box;
-        }
-
-        internal Transform GetCenterOfStartPointLine()
-        {
-            //var startToCenter = _startPoint.Position - _circleCenter.Position;
-            //var startToCenterDirOnly = startToCenter / startToCenter.Length;
-
-            //var half = (startToCenterDirOnly * -1) * 0.5d;
-            //var halfPos = _startPoint.LocalPosition * half;
-
-            //Transform transform = new Transform();
-            //transform.Position = _startPoint.Position * half;
-            //transform.Parent = _startPoint.Parent;
-
-            return _startPoint;
-        }
-
-        
-
-        internal Transform GetCenterOfEndPointLine()
-        {
-            //var ctrToEnd = _endPoint.LocalPosition - _circleCenter.LocalPosition;
-            //var ctrToEndDirOnly = ctrToEnd / ctrToEnd.Length;
-
-            //var half = ctrToEndDirOnly * 0.5d;
-            //var halfPos = _circleCenter.LocalPosition * half;
-
-            //Transform transform = new Transform();
-            //transform.Parent = _innerGroup.Bounds;
-            //transform.LocalPosition = halfPos;
-
-            //return transform;
-            return _endPoint;
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
