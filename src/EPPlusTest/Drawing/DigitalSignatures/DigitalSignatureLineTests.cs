@@ -305,7 +305,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             byte[] originalImgBytes;
 
             string fileName = "BmpImage.xlsx";
-            string fileNameSub = $"{SubFolder}{fileName}";
+            string fileNameSub = $"{SubFolder}{Path.DirectorySeparatorChar}{fileName}";
 
             using (var pck = OpenTemplatePackage(fileName))
             {
@@ -339,6 +339,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 DecodeAndSaveEmf(origImage, GetOutputFile(SubFolder, "SignatureImagePng.emf").FullName);
                 DecodeAndSaveEmf(origValid, GetOutputFile(SubFolder, "SignatureImagePngValid.emf").FullName);
                 DecodeAndSaveEmf(origInvalid, GetOutputFile(SubFolder, "SignatureImagePngInvalid.emf").FullName);
+
+                var testName = GetOutputFile(SubFolder, fileName).FullName;
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
