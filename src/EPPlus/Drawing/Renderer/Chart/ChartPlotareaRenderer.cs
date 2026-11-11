@@ -49,10 +49,6 @@ namespace EPPlusImageRenderer.Svg
             };
 
             var rect = GetPlotareaRect();
-            //Group.Top = rect.Top;
-            //Group.Left = rect.Left;
-            //rect.Top = rect.Left = 0;
-
             if (ChartRenderer.Legend != null &&
                 (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
                 ((ExcelChartStandard)Chart).Legend.Layout.HasLayout == false)

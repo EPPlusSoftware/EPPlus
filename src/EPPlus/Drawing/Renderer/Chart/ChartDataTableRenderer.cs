@@ -458,20 +458,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 {
                     while(cell.Width > _columnsWidth)
                     {
-                        //if(string.IsNullOrEmpty(cell.Text))
-                        //{
-                            var ct = cell.Paragraphs[0].Runs[0].CurrentText;
-                            cell.Paragraphs[0].SetNewText(ct.Substring(0, ct.Length - 1));
-                            //cell.Paragraphs[0].Runs[0].CurrentText = ;
-                            cell.RecalculateParagraphs();
-                            if (ct.Length == 1) break;
-                        //}
-                        //else
-                        //{
-                        //    cell.Text = cell.Text.Substring(0, cell.Text.Length - 1);
-                            
-                        //    if (cell.Text.Length == 0) break;
-                        //}
+                        var ct = cell.Paragraphs[0].Runs[0].CurrentText;
+                        cell.Paragraphs[0].SetNewText(ct.Substring(0, ct.Length - 1));
+                        cell.RecalculateParagraphs();
+                        if (ct.Length == 1) break;
                     }
                     cell.Left = lcw + ix * _columnsWidth + ((_columnsWidth-cell.Width)/2);
                     ix++;

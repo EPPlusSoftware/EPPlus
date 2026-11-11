@@ -246,11 +246,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
 
-            //if (chart.StyleManager != null && chart.StyleManager.Style == null && chart.Style != eChartStyle.None)
-            //{
-            //    chart.StyleManager.SetChartStyle((int)chart.Style+100);
-            //}
-
             if (ct.VaryColors)
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...

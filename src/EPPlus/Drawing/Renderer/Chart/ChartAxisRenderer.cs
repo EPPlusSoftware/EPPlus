@@ -1528,12 +1528,6 @@ namespace EPPlusImageRenderer.Svg
                 {
                     case eAxisPosition.Left:
                     case eAxisPosition.Right:
-                    //    y1 = GetPositionInPlotarea(d);
-                    //    y2 = y1;
-                    //    x1 = (float)Rectangle.Width - tickMarkWidthOutside;
-                    //    x2 = (float)Rectangle.Width + tickMarkWidthInside;
-                    //    break;
-                    //case eAxisPosition.Right:
                         y1 = GetPositionInPlotarea(d);
                         y2 = y1;
                         x1 = (float)-tickMarkWidthInside;
@@ -1541,12 +1535,6 @@ namespace EPPlusImageRenderer.Svg
                         break;
                     case eAxisPosition.Top:
                     case eAxisPosition.Bottom:
-                    //    x1 = GetPositionInPlotarea(d);
-                    //    x2 = x1;
-                    //    y1 = (float)Rectangle.Height - tickMarkWidthOutside;
-                    //    y2 = (float)Rectangle.Height + tickMarkWidthInside;
-                    //    break;
-                    //case eAxisPosition.Bottom:
                         x1 = GetPositionInPlotarea(d);
                         x2 = x1;
                         y1 = (float)-tickMarkWidthInside;

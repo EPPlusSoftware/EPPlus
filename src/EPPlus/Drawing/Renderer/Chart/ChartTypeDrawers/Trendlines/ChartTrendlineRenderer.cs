@@ -142,7 +142,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
             DataLabel.ImportTextBodyAndParagraphs(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
@@ -157,8 +156,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 labelText += RSquare;
             }
-            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
-            //DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
             AddLblText(DataLabel, labelText);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
