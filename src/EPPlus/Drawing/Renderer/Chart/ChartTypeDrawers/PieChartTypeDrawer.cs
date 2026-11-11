@@ -315,7 +315,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             startPt.Parent = innerGroup.Parent;
 
                             //This technically places the debug points in wrong position when shrinking but the result looks more similar to excel
-                            //innerGroup.Position = innerGroup.Position - ((ctrToMid * -1) * (_shrinkFactor - 1)*_sliceScaleFactor);
+                            innerGroup.Position = innerGroup.Position - ((ctrToMid * -1) * (_shrinkFactor - 1)*_sliceScaleFactor);
 
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
