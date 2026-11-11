@@ -122,13 +122,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 var endIdx = InternalLineFragments[idxInLst + 1].StartIdx;
                 var len = endIdx - startIdx;
-
-                //if(startIdx > Text.Length-1 || startIdx+len > Text.Length)
-                //{
-                //    //We've gone beyond the text. Likely a line ending. Return empty
-                //    return "";
-                //}
-
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
         }
