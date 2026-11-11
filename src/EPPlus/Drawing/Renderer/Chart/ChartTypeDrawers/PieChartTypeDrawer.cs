@@ -142,12 +142,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
         }
 
+        double _shrinkFactor = 1;
+
         void CalculateLocalCenterAndRadius()
         {
-            double shrinkFactor = 1;
             if (_shouldShrink == true)
             {
-                shrinkFactor = 0.8632625d;
+                _shrinkFactor = 0.8632625d;
             }
 
             _circleCenter = new TranformPoint();
@@ -158,7 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             _groupItem.RotationPoint = _circleCenter;
 
 
-            _radius = Math.Min(_circleCenter.Left * shrinkFactor, _circleCenter.Top * shrinkFactor);
+            _radius = Math.Min(_circleCenter.Left * _shrinkFactor, _circleCenter.Top * _shrinkFactor);
         }
 
         bool _shouldShrink = false;
@@ -332,6 +333,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             var ctrToMid = Slices[j].GetWholeVectorCenterToMid();
                             var startPt = new Transform();
                             startPt.Parent = innerGroup.Parent;
+
+                            innerGroup.Position = innerGroup.Position - ((ctrToMid * -1) * (_shrinkFactor - 1)*_sliceScaleFactor);
+
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
 
