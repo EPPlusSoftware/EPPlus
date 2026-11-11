@@ -2634,7 +2634,9 @@ namespace OfficeOpenXml.Drawing
                 var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb, o);
                 shapeRenderer.Render(cr.RenderItems);
 
-                return sb.ToString();
+                var str = sb.ToString();
+
+                return str;
             }
             throw new NotSupportedException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
         }
