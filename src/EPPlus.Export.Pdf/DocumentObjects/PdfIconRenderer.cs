@@ -16,13 +16,106 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 {
     internal class PdfIconRenderer
     {
+        internal static void Render(string iconName, PdfContentStream cs)
+        {
+            switch (iconName)
+            {
+                // arrows
+                case "RedDownArrow": Arrow(cs, 0, "#d86344", "#9e381c"); break;
+                case "YellowSideArrow": Arrow(cs, -90, "#eac282", "#a4802b"); break;
+                case "GreenUpArrow": Arrow(cs, 180, "#76a797", "#3f7865"); break;
+                case "GrayDownArrow": Arrow(cs, 0, "#808080", "#646262"); break;
+                case "GraySideArrow": Arrow(cs, -90, "#808080", "#646262"); break;
+                case "GrayUpArrow": Arrow(cs, 180, "#808080", "#646262"); break;
+                case "YellowDownInclineArrow": Arrow(cs, -45, "#eac282", "#a4802b"); break;
+                case "YellowUpInclineArrow": Arrow(cs, -135, "#eac282", "#a4802b"); break;
+                case "GrayDownInclineArrow": Arrow(cs, -45, "#808080", "#646262"); break;
+                case "GrayUpInclineArrow": Arrow(cs, -135, "#808080", "#646262"); break;
+
+                // circles
+                case "RedCircle":
+                case "RedCircleWithBorder": Circle(cs, "#d65532", "#ac563e"); break;
+                case "YellowCircle": Circle(cs, "#eac282", "#a88636"); break;
+                case "GreenCircle": Circle(cs, "#68a490", "#387360"); break;
+                case "BlackCircle":
+                case "BlackCircleWithBorder": Circle(cs, "#505050", "#33312f"); break;
+                case "GrayCircle": Circle(cs, "#b1b1b1", "#74716e"); break;
+                case "PinkCircle": Circle(cs, "#edb9ab", "#b18478"); break;
+
+                // traffic lights
+                case "RedTrafficLight": TrafficLight(cs, "#d86344"); break;
+                case "YellowTrafficLight": TrafficLight(cs, "#eac282"); break;
+                case "GreenTrafficLight": TrafficLight(cs, "#68a490"); break;
+
+                // triangles / dash / diamond
+                case "GreenUpTriangle": SmallTriangle(cs, 0, "#76a797", "#326f5b"); break;
+                case "RedDownTriangle": SmallTriangle(cs, 180, "#d65532", "#ac563e"); break;
+                case "YellowDash": YellowDash(cs); break;
+                case "RedDiamond": RedDiamond(cs); break;
+                case "YellowTriangle": YellowTriangle(cs); break;
+
+                // flags
+                case "RedFlag": Flag(cs, "#d65532", "#ac563e"); break;
+                case "YellowFlag": Flag(cs, "#eac282", "#a88636"); break;
+                case "GreenFlag": Flag(cs, "#76a797", "#326f5b"); break;
+
+                // standalone symbols
+                case "RedCross": Cross(cs, "#d76244", "#a23c20"); break;
+                case "YellowExclamation": Exclamation(cs, "#edc87e", "#a78433"); break;
+                case "GreenCheck": Checkmark(cs, "#71a392", "#689485"); break;
+
+                // circle + white symbol
+                case "RedCrossSymbol":
+                    Circle(cs, "#d65532", "#ac563e");
+                    cs.AddCommand("q"); PushShrinkAndCenter(cs); Cross(cs, "#fefdfd", "#a23c20"); cs.AddCommand("Q");
+                    break;
+                case "YellowExclamationSymbol":
+                    Circle(cs, "#eac282", "#a88636");
+                    cs.AddCommand("q"); PushShrinkAndCenter(cs); Exclamation(cs, "#fefdfd", "a78433"); cs.AddCommand("Q");
+                    break;
+                case "GreenCheckSymbol":
+                    Circle(cs, "#68a490", "#387360");
+                    cs.AddCommand("q"); PushShrinkAndCenter(cs); Checkmark(cs, "#fefdfd", "#689485"); cs.AddCommand("Q");
+                    break;
+
+                // stars
+                case "GoldStar": Star(cs, "#eac282"); break;
+                case "SilverStar": Star(cs, "#ffffff"); break;
+                case "HalfGoldStar": HalfGoldStar(cs); break;
+
+                // signal meters
+                case "SignalMeterWithNoFilledBars": SignalMeter(cs, 0); break;
+                case "SignalMeterWithOneFilledBar": SignalMeter(cs, 1); break;
+                case "SignalMeterWithTwoFilledBars": SignalMeter(cs, 2); break;
+                case "SignalMeterWithThreeFilledBars": SignalMeter(cs, 3); break;
+                case "SignalMeterWithFourFilledBars": SignalMeter(cs, 4); break;
+
+                // quarters
+                case "WhiteCircle": Quarters(cs, true, true, true, true); break;
+                case "CircleWithThreeWhiteQuarters": Quarters(cs, true, true, true, false); break;
+                case "CircleWithTwoWhiteQuarters": Quarters(cs, true, false, true, false); break;
+                case "CircleWithOneWhiteQuarter": Quarters(cs, false, false, true, false); break;
+
+                // boxes
+                case "ZeroFilledBoxes": FilledBoxes(cs, 0); break;
+                case "OneFilledBox": FilledBoxes(cs, 1); break;
+                case "TwoFilledBoxes": FilledBoxes(cs, 2); break;
+                case "ThreeFilledBoxes": FilledBoxes(cs, 3); break;
+                case "FourFilledBoxes": FilledBoxes(cs, 4); break;
+
+                case "NoIcon":
+                default:
+                    break;   // nothing to draw
+            }
+        }
+
         private static void PushRotation(PdfContentStream cs, double svgRotation)
         {
             if (svgRotation == 0d) return;
             double rad = -svgRotation * System.Math.PI / 180d;   // baked y-flip reverses rotation sense
             double cos = System.Math.Cos(rad), sin = System.Math.Sin(rad);
-            cs.AddCommand($"{cos.ToPdfString()} {sin.ToPdfString()} {(-sin).ToPdfString()} {cos.ToPdfString()} " +
-                          $"{(50d * (1d - cos + sin)).ToPdfString()} {(50d * (1d - sin - cos)).ToPdfString()} cm");
+            cs.AddCommand($"{cos.ToPdfStringF4()} {sin.ToPdfStringF4()} {(-sin).ToPdfStringF4()} {cos.ToPdfStringF4()} " +
+                          $"{(50d * (1d - cos + sin)).ToPdfStringF4()} {(50d * (1d - sin - cos)).ToPdfStringF4()} cm");
         }
 
         private static void PushShrinkAndCenter(PdfContentStream cs)
@@ -309,7 +402,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 double cos = System.Math.Cos(rad), sin = System.Math.Sin(rad);
                 double e = 50d * (1d - cos + sin);
                 double f = 50d * (1d - sin - cos);
-                cs.AddCommand($"{cos.ToPdfString()} {sin.ToPdfString()} {(-sin).ToPdfString()} {cos.ToPdfString()} {e.ToPdfString()} {f.ToPdfString()} cm");
+                cs.AddCommand($"{cos.ToPdfStringF4()} {sin.ToPdfStringF4()} {(-sin).ToPdfStringF4()} {cos.ToPdfStringF4()} {e.ToPdfStringF4()} {f.ToPdfStringF4()} cm");
             }
             cs.AddCommand(PdfColor.SetColorFromHex(fillHex).ToFillCommand());
             cs.AddCommand(PdfColor.SetColorFromHex(strokeHex).ToStrokeCommand());

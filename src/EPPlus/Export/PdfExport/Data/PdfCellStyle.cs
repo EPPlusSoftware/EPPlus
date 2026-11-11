@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 
@@ -31,6 +32,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         internal ExcelDxfFontBase dxfFontOverride { get; set; }
         internal System.Drawing.Color? ConditionalFill { get; set; }
         internal PdfDataBar DataBar { get; set; }
+        internal eExcelconditionalFormattingCustomIcon? Icon { get; set; }
 
         //Borders
         internal ExcelBorderItem xfTop { get; set; }

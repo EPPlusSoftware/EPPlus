@@ -37,8 +37,10 @@ namespace EPPlus.Export.Pdf.Layout
             return newY;
         }
 
-        internal static double CalculateHorizontalAlignment(PdfCellAlignmentData align, string text, double textLength, double x, double width, double padding)
+        internal static double CalculateHorizontalAlignment(PdfCellAlignmentData align, string text, double textLength, double x, double width, double padding, double leftInset = 0d)
         {
+            x += leftInset;
+            width -= leftInset;
             double newX = x;
             switch (align.HorizontalAlignment)
             {
@@ -91,17 +93,20 @@ namespace EPPlus.Export.Pdf.Layout
 
         internal static Vector2 CalculateAlignment(PdfCellAlignmentData align, string text, double textLength, double textHeight, double firstLineAscent, double lastLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin)
         {
+            double leftInset = align.HasIcon ? System.Math.Min(width, height) : 0d;
             if (align.TextRotation != 0 && !align.IsVertical)
             {
-                return CalculateRotatedAlignment(align, textLength, textHeight, firstLineAscent, x, y, width, height, rightMargin, bottomMargin);
+                return CalculateRotatedAlignment(align, textLength, textHeight, firstLineAscent, x, y, width, height, rightMargin, bottomMargin, leftInset);
             }
-            double newX = CalculateHorizontalAlignment(align, text, textLength, x, width, rightMargin);
+            double newX = CalculateHorizontalAlignment(align, text, textLength, x, width, rightMargin, leftInset);
             double newY = CalculateVerticalAlignment(align, textHeight, firstLineAscent, lastLineAscent, y, height, 0d);
             return CalculatePositionFromRotation(align, textLength, newX, newY);
         }
 
-        internal static Vector2 CalculateRotatedAlignment(PdfCellAlignmentData align, double textLength, double textHeight, double firstLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin)
+        internal static Vector2 CalculateRotatedAlignment(PdfCellAlignmentData align, double textLength, double textHeight, double firstLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin, double leftInset = 0d)
         {
+            x += leftInset;
+            width -= leftInset;
             double ascent = firstLineAscent;
             double descent = textHeight - firstLineAscent;
             if (descent < 0d)

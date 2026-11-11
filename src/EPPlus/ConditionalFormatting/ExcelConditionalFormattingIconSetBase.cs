@@ -31,7 +31,8 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <typeparam name="T"></typeparam>
     internal class ExcelConditionalFormattingIconSetBase<T> :
         CachingCFAdvanced,
-        IExcelConditionalFormattingThreeIconSet<T>
+        IExcelConditionalFormattingThreeIconSet<T>,
+        IExcelConditionalFormattingIconSet
         where T : struct, Enum
     {
         internal ExcelConditionalFormattingIconSetBase(
@@ -475,6 +476,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                         throw (new ArgumentException("Invalid type"));
                 }
             }
+        }
+
+        public eExcelconditionalFormattingCustomIcon? GetCustomIcon(ExcelAddress address)
+        {
+            int id = CalculateCorrectIcon(address, GetIconArray(true));   // same call GetIconName uses
+            if (id == -1) return null;                                    // non-numeric cell -> no icon
+            var icons = IconDict.GetIconsAsCustomIcons(GetIconSetString(), GetIconArray());
+            return icons[id];
         }
     }
 }

@@ -182,7 +182,7 @@ namespace EPPlus.Export.Pdf
             double scaleAnchorX = pageSettings.ContentBounds.Left;
             double scaleAnchorY = pageSettings.ContentBounds.Top;
             var cells = pageLayout.ChildObjects.Where(t =>
-                                                     (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout || t is PdfDataBarLayout) &&
+                                                     (t is PdfCellLayout || t is PdfCellContentLayout || t is PdfCellBorderLayout || t is PdfDataBarLayout || t is PdfIconLayout) &&
                                                     !(t is PdfCellLayout cc && (cc.IsHeading || cc.IsPrintTitle)) &&
                                                     !(t is PdfCellContentLayout ccl && (ccl.IsHeaderFooter || ccl.IsHeading || ccl.IsPrintTitle || ccl.IsAddedContent)) &&
                                                     !(t is PdfCellBorderLayout cbl && cbl.IsPrintTitle)).ToList();
@@ -205,6 +205,10 @@ namespace EPPlus.Export.Pdf
             foreach (PdfDataBarLayout bar in cells.OfType<PdfDataBarLayout>())
             {
                 contentStream.AddDataBarLayout(bar);
+            }
+            foreach (PdfIconLayout icon in cells.OfType<PdfIconLayout>())
+            {
+                contentStream.AddIconLayout(icon);
             }
             foreach (PdfCellContentLayout content in cells.OfType<PdfCellContentLayout>())
             {

@@ -567,6 +567,25 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
+        public void AddIconLayout(PdfIconLayout icon)
+        {
+            double cellW = icon.Size.X, cellH = icon.Size.Y;
+            if (cellW <= 0d || cellH <= 0d) return;
+
+            const double inset = 1.5;
+            double size = System.Math.Min(cellW, cellH) - 2 * inset;   // square icon
+            if (size <= 0d) return;
+
+            double iconX = icon.LocalPosition.X + inset;               // left-aligned
+            double iconY = icon.LocalPosition.Y + (cellH - size) / 2d; // vertically centered
+            double s = size / 100d;
+
+            commands.Add("q");
+            commands.Add($"{s.ToPdfString()} 0 0 {s.ToPdfString()} {iconX.ToPdfString()} {iconY.ToPdfString()} cm");
+            PdfIconRenderer.Render(icon.IconName, this);
+            commands.Add("Q");
+        }
+
         internal override string RenderDictionary()
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";

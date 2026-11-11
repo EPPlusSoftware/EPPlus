@@ -19,6 +19,7 @@ using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.PdfExport.Data;
@@ -95,12 +96,23 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         tempMap.ContentAligmnet = GetContentAlignment(cell);
                         var dataBarRule = GetDataBarRule(cell);
                         GetDataBarStyle(cell, cellStyle, dataBarRule);
+                        var iconRule = GetIconSetRule(cell);
+                        if (iconRule != null)
+                        {
+                            tempMap.ContentAligmnet.HasIcon = true;
+                            var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
+                            if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
+                            {
+                                cellStyle.Icon = icon;
+                            }
+                        }
                         var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
                         if (cellPicture != null)
                         {
                             LoadCellPicture(cellPicture, tempMap);
                         }
-                        if (!string.IsNullOrEmpty(cell.Text) && (dataBarRule == null || dataBarRule.ShowValue))
+                        bool hideText = (dataBarRule != null && !dataBarRule.ShowValue) || (iconRule != null && !iconRule.ShowValue);
+                        if (!string.IsNullOrEmpty(cell.Text) && !hideText)
                         { 
                             tempMap.Text = cell.Text;
                             tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
@@ -283,7 +295,14 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (rule.StopIfTrue) break;
                         continue;
                     }
+                    //Data Bar
                     if (rule is ExcelConditionalFormattingDataBar)
+                    {
+                        if (rule.StopIfTrue) break;
+                        continue;
+                    }
+                    //Icon set
+                    if (rule is IExcelConditionalFormattingIconSet)
                     {
                         if (rule.StopIfTrue) break;
                         continue;
@@ -1369,6 +1388,19 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                     IsRightToLeft = dataBarRule.Direction == eDatabarDirection.RightToLeft
                 };
             }
+        }
+
+        private static IExcelConditionalFormattingIconSet GetIconSetRule(ExcelRangeBase cell)
+        {
+            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
+            if (cf == null || cf.Count == 0) return null;
+            foreach (var rule in cf.OrderBy(r => r.Priority))
+            {
+                if (!rule.ShouldApplyToCell(cell)) { if (rule.StopIfTrue) break; continue; }
+                if (rule is IExcelConditionalFormattingIconSet iconSet) return iconSet;
+                if (rule.StopIfTrue) break;
+            }
+            return null;
         }
     }
 }

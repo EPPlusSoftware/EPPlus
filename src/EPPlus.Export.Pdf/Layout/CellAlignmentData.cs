@@ -24,6 +24,7 @@ namespace EPPlus.Export.Pdf.Layout
         public int TextRotation = 0;
         public ExcelReadingOrder TextDirection = ExcelReadingOrder.ContextDependent;
         public bool IsVertical = false;
+        public bool HasIcon = false;
 
         public PdfCellAlignmentData() { }
     }

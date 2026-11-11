@@ -313,6 +313,16 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                 };
                 pageLayout.AddChild(dataBar);
             }
+
+            if (style.Icon != null)
+            {
+                var iconLayout = new PdfIconLayout(x, y, width, height)
+                {
+                    IconName = style.Icon.Value.ToString(),   // matches the Render case strings
+                    Name = name
+                };
+                pageLayout.AddChild(iconLayout);
+            }
         }
 
         private static void CreateTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map, double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)
