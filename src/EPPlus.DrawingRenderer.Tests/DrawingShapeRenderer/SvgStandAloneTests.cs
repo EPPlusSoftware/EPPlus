@@ -1,14 +1,23 @@
 ﻿using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
+using EPPlus.DrawingRenderer.RenderItems.SvgPresets;
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlus.Fonts.OpenType;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
+using EPPlus.Graphics.Primitives;
+using EPPlus.Graphics.TransformPrimitives;
+using EPPlusImageRenderer;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.Interfaces.Fonts;
 using System.Drawing;
 using System.Text;
+using static OfficeOpenXml.Drawing.OleObject.Structures.OleObjectDataStructures;
 
 namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 {
@@ -44,6 +53,8 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             BoundingBox bounds = new BoundingBox(0, 0, 500, 500);
 
             var baseGroup = new GroupRenderItem(bounds);
+            baseGroup.Width = bounds.Width;
+            baseGroup.Height = bounds.Height;
 
             var background = new RectRenderItem(baseGroup);
 
@@ -59,7 +70,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
         {
 
             StringBuilder sb = new StringBuilder();
-            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, new SvgRenderOptions());
+            var renderOptions = new SvgRenderOptions();
+            //renderOptions.Width = (int)Math.Round(bounds.Width.PointToPixel());
+            //renderOptions.Height = (int)Math.Round(bounds.Height.PointToPixel());
+
+            var svgShapeRenderer = new SvgShapeRenderer(bounds, sb, renderOptions);
 
             List<Transform> renderItems = items.ToList();
             svgShapeRenderer.Render(renderItems);
@@ -303,6 +318,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
                 Assert.Inconclusive("Font not found. This is expected behaviour on web.");
             }
 
+            group.Width = 500d;
+            group.Height = 500d;
+
             textbox.TextBody = new SvgTextBodyRenderItem(rc, group, true);
 
             var paragraph = textbox.TextBody.AddParagraph("Hello");
@@ -375,11 +393,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
 
             textbox.PrepareForRender();
 
+            GenerateSvgFile("AllMarginsTextBox", group, group);
+
             //Assert width and height changed by margins
             Assert.AreEqual(135.2d, textbox.Width, delta);
             Assert.AreEqual(54.979735851287842d, textbox.Height, delta);
-
-            GenerateSvgFile("AllMarginsTextBox", group, group);
         }
 
 
@@ -413,6 +431,81 @@ namespace EPPlus.Export.ImageRenderer.Tests.DrawingShapeRenderer
             Assert.AreEqual(69.979735851287842d, textbox.Height, delta);
 
             GenerateSvgFile("TextAnchor_TextBox", group, group);
+        }
+
+        [TestMethod]
+        public void CreatePieSlice()
+        {
+            var baseGroup = GenerateGroupRenderItem();
+
+            baseGroup.Width = 500d;
+            baseGroup.Height = 500d;
+
+            var pTrans = new PieTransform(75d);
+            pTrans.GenerateSlicesAndClearPrevious(new List<double>() { 0.3333, 0.3333, 0.3333 });
+
+            var translationGroup = new GroupRenderItem(baseGroup);
+            translationGroup.Left = 250;
+            translationGroup.Top = 250;
+
+            for (int i = 0; i< pTrans.Slices.Count(); i++)
+            {
+                var pieSliceSimple = new PieSliceSimple(pTrans.Slices[i], pTrans);
+                pieSliceSimple.ImportPathData(translationGroup, i);
+            }
+
+            GenerateSvgFile("SinglePieSlice", baseGroup, baseGroup);
+
+            //pTrans.Slices.
+        }
+
+        [TestMethod]
+        public void CreateTextContainerBasic()
+        {
+            SvgCanvas canvas = new SvgCanvas(400, 400);
+
+            TextContainer container = new TextContainer(canvas);
+
+            container.AddText("My Text");
+            var rtItem = new RichTextFormatSimple("Second paragraph", "Archivo Narrow", 16f, true);
+            rtItem.FontColor = Color.DarkGreen;
+            container.AddRichText(rtItem);
+
+            string fileName = "SvgStandAlone_TextContainerBasic";
+
+            container.Left += 150;
+            container.Top += 150;
+
+            container.InnerRotation = 45d;
+
+            SaveTextFileToWorkbook($"svg\\{fileName}.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 85d;
+
+            SaveTextFileToWorkbook($"svg\\{fileName}_85.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 90d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 90d+45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 180d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 180d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+            container.InnerRotation = 180d + 90;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+
+            container.InnerRotation = 270d + 45;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
+
+
+            container.InnerRotation = 360d;
+            SaveTextFileToWorkbook($"svg\\{fileName}_{container.InnerRotation}.svg", canvas.RenderSvgString());
         }
     }
 }

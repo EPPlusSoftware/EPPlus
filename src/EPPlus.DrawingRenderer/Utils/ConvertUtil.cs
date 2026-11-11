@@ -272,6 +272,11 @@ namespace EPPlus.DrawingRenderer.Utils
         }
         internal static string HtmlEscapeString(string s)
         {
+            if(string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
+
             return s.Replace("&", "&amp;").
                      Replace("<", "&lt;").
                      Replace(">", "&gt;").

@@ -1,6 +1,8 @@
 ﻿using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Utils;
 using EPPlus.Graphics;
+using System.Text.RegularExpressions;
+
 namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
 {
     public class RenderTextbox : DrawingObject
@@ -20,6 +22,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             _rectangle = new RectRenderItem(_group);
             _rectangle.Name = "Textbox_BG";
             _marginGroup = new GroupRenderItem(_group);
+
             //TextBody = new RenderTextBody(Rectangle.Bounds, true);
             //TextBody.MaxWidth = maxWidth;
             //TextBody.MaxHeight = maxHeight;
@@ -158,6 +161,14 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
                 _group.Rotation = value;
             }
         }
+
+        public void CenterRotationPoint()
+        {
+            _group.Width = Width;
+            _group.Height = Height;
+            _group.SetRotationPointToCenterOfGroup();
+        }
+
         /// <summary>
         /// Gets the actual width of the rotated textbox.
         /// </summary>
@@ -216,21 +227,23 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.SvgItem
             //The rect shound encapse the text element, so we need to set the left depending on the text anchor.
             if (TextAnchor == eTextAnchor.Middle)
             {
-                _group.Left += -(Rectangle.Width / 2);
+                //_group.Left += -(Rectangle.Width / 2);
             }
             else if (TextAnchor == eTextAnchor.End)
             {
-                if (Math.Abs(Rotation) == 45)
-                {
-                    const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
-                    _group.Left += -(Rectangle.Width * COS45);
-                    _group.Top += (Rectangle.Width * COS45);
-                }
-                else
-                {
-                    _group.Left += Rectangle.Height / 2;
-                    _group.Top += (Rectangle.Width);
-                }
+                //_group.Left += (Rectangle.Width / 2d);
+                //_group.Top += (Rectangle.Width);
+                //if (Math.Abs(Rotation) == 45)
+                //{
+                //    const double COS45 = 0.70710678118654757; //Constant for Math.Sin(Math.PI / 4) --45 degrees
+                //    _group.Left += -(Rectangle.Width * COS45);
+                //    _group.Top += (Rectangle.Width * COS45);
+                //}
+                //else
+                //{
+                //    _group.Left += Rectangle.Height / 2;
+                //    _group.Top += (Rectangle.Width);
+                //}
             }
 
             //The textbox should be in local-space.

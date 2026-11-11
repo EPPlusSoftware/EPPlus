@@ -5,8 +5,8 @@ namespace EPPlus.Graphics.Primitives
 {
     public class PrimitiveCircle
     {
-        internal Vector2 Center;
-        internal double Radius;
+        public Vector2 Center;
+        public double Radius;
 
         internal PrimitiveCircle(Vector2 center, double radius)
         {

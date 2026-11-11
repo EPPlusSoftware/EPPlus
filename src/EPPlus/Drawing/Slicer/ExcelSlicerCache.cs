@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 prefix = "x15";
             }
-            var extNode = wb.GetOrCreateExtLstSubNode(uriGuid, prefix, new string[] { ExtLstUris.WorkbookSlicerPivotTableUri, ExtLstUris.WorkbookSlicerTableUri });
+            var extNode = wb.GetOrCreateExtLstSubNode(uriGuid, prefix, "d", new string[] { ExtLstUris.WorkbookSlicerPivotTableUri, ExtLstUris.WorkbookSlicerTableUri });
             if (extNode.InnerXml=="")
             {
                 extNode.InnerXml = $"<{prefix}:slicerCaches />";

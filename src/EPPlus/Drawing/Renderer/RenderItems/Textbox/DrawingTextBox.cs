@@ -2,6 +2,7 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using System;
 
@@ -10,14 +11,15 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
     public class DrawingTextBox : RenderTextbox
     {
         ExcelDrawing _drawing;
-
+        MeasurementFont _defaultFont;
         /// <summary>
         /// Creates a text box at a given position.
         /// </summary>
         /// <param name="renderContext">The render context of the renderer creating the text box. Decides the font render target.</param>
-        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN)
+        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, MeasurementFont defaultFont, double left, double top, double width, double height, double maxWidth = double.NaN, double maxHeight = double.NaN)
             : base(parent, left, top, width, height, maxWidth, maxHeight)
         {
+            _defaultFont = defaultFont;
             Init(renderContext, drawing, parent, maxWidth, maxHeight);
             Left = left;
             Top = top;
@@ -27,9 +29,10 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// Creates a text box to be positioned later.
         /// </summary>
         /// <param name="renderContext">The render context of the renderer creating the text box. Decides the font render target.</param>
-        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, double maxWidth, double maxHeight)
+        internal DrawingTextBox(RenderContext renderContext, ExcelDrawing drawing, BoundingBox parent, MeasurementFont defaultFont, double maxWidth, double maxHeight)
             : base(parent, maxWidth, maxHeight)
         {
+            _defaultFont = defaultFont;
             Init(renderContext, drawing, parent, maxWidth, maxHeight);
         }
 
@@ -41,9 +44,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Parent = parent;
             _drawing = drawing;
             //The context must come from the renderer, not the workbook, so the render target is preserved.
-            TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup, true);
-            TextBody.MaxWidth = maxWidth;
-            TextBody.MaxHeight = maxHeight;
+            TextBody = new DrawingTextBody(renderContext, drawing, _marginGroup, _defaultFont, true)
+            {
+                MaxWidth = maxWidth,
+                MaxHeight = maxHeight
+            };
         }
 
         internal void AddText(string text = null)

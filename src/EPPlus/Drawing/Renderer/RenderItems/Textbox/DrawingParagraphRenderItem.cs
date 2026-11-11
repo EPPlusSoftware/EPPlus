@@ -7,6 +7,7 @@ using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
 using System;
@@ -25,6 +26,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent)
       : base(renderContext, parent, textBody)
         {
+            DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
             ParagraphLineSpacing = GetParagraphLineSpacingInPoints(100, (ITextShaper)RenderContext.FontEngine.GetShaperForFont(DefaultParagraphFont), DefaultParagraphFont.Size);
         }
 
@@ -38,6 +40,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, string text)
            : this(renderContext, textBody, parent)
         {
+            DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
             ImportLinesAndTextRunsDefault(text);
         }
 
@@ -52,12 +55,20 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         public DrawingParagraphRenderItem(RenderContext renderContext, DrawingTextBody textBody, BoundingBox parent, ExcelDrawingParagraph p, string textIfEmpty = null)
             : base(renderContext, parent, textBody, false)
         {
-            IsFirstParagraph = p == p._paragraphs[0];
+            IsFirstParagraph = p!=null && p == p._paragraphs[0];
+            DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
             ImportStyleInfo(textBody, p);
             HorizontalAlignment = (TextAlignment)(int)p.HorizontalAlignment;
             ImportMarginAndIndent(p);
 
-            DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont());
+            if(p.DefaultRunProperties.Size < 0)
+            {
+                DefaultParagraphFont = new FontFormatBase(textBody._defaultFont);
+            }
+            else
+            {
+                DefaultParagraphFont = new FontFormatBase(p.DefaultRunProperties.GetMeasureFont(textBody._defaultFont));
+            }
 
             ImportLineSpacing(p.LineSpacing.LineSpacingType, p.LineSpacing.Value);
 
@@ -103,9 +114,22 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             }
         }
 
+
         internal void ImportLinesAndTextRunsDefault(string textIfEmpty, ExcelTextFont font = null)
         {
-            ImportLinesAndTextRunsBase(textIfEmpty);
+            RichTextFormatSimple defaults = null;
+            if(font != null)
+            {
+                defaults = new RichTextFormatSimple();
+
+                defaults.Bold = font.Bold;
+                defaults.Italic = font.Italic;
+                defaults.FontColor = font.Fill.Color;
+                defaults.UnderlineColor = font.UnderLineColor;
+                defaults.StrikeType = (int)font.Strike;
+                defaults.Text = textIfEmpty;
+            }
+            ImportLinesAndTextRunsBase(textIfEmpty, defaults);
             //Import RichText data to each run
             foreach (var run in Runs)
             {
@@ -121,7 +145,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
         /// <param name="runs"></param>
         void GenerateRichText(ExcelDrawingTextRunCollection runs)
         {
-            var lstOfRichText = runs.ExportToImageRendererFormat();
+            var lstOfRichText = runs.ExportToImageRendererFormat(((DrawingTextBody)ParentTextBody)._defaultFont);
             foreach (var rt in lstOfRichText)
             {
                 //Added directly, not via AddRichTextBase, as ImportStyles relies on a 1:1 index
@@ -147,7 +171,13 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                 }
             }
 
-            Color defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
+            Color? defaultTextColor = null;
+            //var defaultFontColor = textBody.Theme.ObjectDefaults.TextDefinition.DefaultTextBody.Paragraphs[0].DefaultRunProperties.Fill.Color;
+            ////Set to hardcoded fallback only if parent doesn't have color
+            //if (defaultFontColor == Color.Empty)
+            //{
+            //    defaultTextColor = textBody.Theme.ColorScheme.GetColorByEnum(eSchemeColor.Text1).GetColor();
+            //}
 
             //If this paragraph has defaults of its own enter here
             if (p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty == false)
@@ -192,14 +222,14 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                         }
                         Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
-                    else if(p.DefaultRunProperties.Fill != null)
+                    else if(p.DefaultRunProperties.Fill != null && p.DefaultRunProperties.Fill.IsEmpty==false)
                     {
                         Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                     else
                     {
-                        //Should never happen.
-                        Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        ////Should never happen.
+                        //Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
                     }
                 }
             }
@@ -257,6 +287,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             if (font != null)
             {
                 //IF there is a default ExcelTextFont use it
+                //TODO MONDAY: When generating text the rtFormats are not added to input fragments correctly
                 run.ImportExcelTextFont(font, DefaultParagraphFont);
             }
             else

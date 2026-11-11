@@ -455,7 +455,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                     y += 700;
 
                     var shapeSvg = shape.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\{shape.Name}.svg", shapeSvg);
+                    SaveTextFileToWorkbook($"svg\\AllShapes\\{shape.Name}.svg", shapeSvg);
                     i++;
                 }
                 SaveWorkbook("shapes.xlsx", p);
@@ -754,6 +754,21 @@ namespace EPPlus.Export.ImageRenderer.Tests.Shape
                 chart3.SetSize(800, 400);
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleLineBreaksWithinASingleTextrun()
+        {
+            using(var p = OpenTemplatePackage("2.4-CreateAFileSystemReport.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var myShape = ws.Drawings[0].As.Shape;
+
+                var txtBoxSvg = myShape.ToSvg();
+
+                SaveTextFileToWorkbook($"svg\\txtboxParagraphsSvg.svg", txtBoxSvg);
             }
         }
     }

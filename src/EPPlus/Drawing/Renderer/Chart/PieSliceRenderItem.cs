@@ -2,17 +2,22 @@
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
+using EPPlus.Graphics.Primitives;
+using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Drawing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Net;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -27,7 +32,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         /// The holder of the actual items, AFTER origin/translations
         /// </summary>
         GroupRenderItem _innerItems;
-        TranformPoint _circleCenter;
+        BoundingBox _circleCenter;
 
         /// <summary>
         /// How many percent of the pie this represents
@@ -37,10 +42,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal double Degrees { get; private set; }
 
         TranformPoint _startPoint;
-        TranformPoint _startPointHalf;
         TranformPoint _midPoint;
         TranformPoint _endPoint;
-        TranformPoint _endPointHalf;
 
         internal override System.Drawing.Color? DefaultFillColor { get; }
 
@@ -161,6 +164,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
 
             ExtremePoints = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+            //ExtremePoints.Position = _circleCenter.Position;
             ExtremePoints.Parent = _innerGroup;
         }
 
@@ -182,7 +186,234 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             CtrToOuterMidDir = new Vector2(pieDirection.X, pieDirection.Y);
         }
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, TranformPoint circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
+        double _kEndPoint = double.NaN;
+        double _mEndPoint;
+        double _kStartPoint;
+        double _mStartPoint;
+
+        double _yValOfWidestLine;
+
+        double GetYLinear(double k, double m, double x)
+        {
+            //y = Kx+m
+            return k * x + m;
+        }
+
+        double GetXLinear(double k, double m, double y)
+        {
+            //Since its a straight line and we know y on the line when kx+m = y we can defer that (y-m)/k = x
+            var xVal = (y - m) / k;
+            return xVal;
+        }
+
+        double GetXFromEndPointLine(double yOnEndLine)
+        {
+            return GetXLinear(_kEndPoint,_mEndPoint, yOnEndLine);
+        }
+
+        double GetYFromEndPointLine(double xOnEndLine)
+        {
+            return GetYLinear(_kEndPoint, _mEndPoint, xOnEndLine);
+        }
+
+        double GetXFromStartPointLine(double yOnStartLine)
+        {
+            return GetXLinear(_kStartPoint, _mStartPoint, yOnStartLine);
+        }
+
+        double GetYFromStartPointLine(double xOnStartLine)
+        {
+            return GetYLinear(_kStartPoint, _mStartPoint, xOnStartLine);
+        }
+
+        double GetXPosOnCircle(double y)
+        {
+            var arcX = Math.Sqrt(Math.Pow(_radius, 2) - Math.Pow((y - _circleCenter.Position.Y),2))+ _circleCenter.Position.X;
+            return arcX;
+        }
+
+        double GetYPosOnCircle(double x)
+        {
+            var arcY = Math.Sqrt(Math.Pow(_radius, 2) - Math.Pow((x - _circleCenter.Position.X), 2)) + _circleCenter.Position.Y;
+            return arcY;
+        }
+
+        Vector2 GetReverseEndPointOf(double x)
+        {
+            return new Vector2(x, GetYFromEndPointLine(GetXOpposite(x)));
+        }
+
+        double _minX;
+        double _maxX;
+
+        internal BoundingBox GetAdjustedBounds(double textWidth)
+        {
+            var dist = _maxX - _minX;
+            var xPercentage = textWidth / dist;
+
+            if(xPercentage > 1 || double.IsNaN(_kEndPoint))
+            {
+                //Width too large or K undefined return maxed bb
+                return GetBounds();
+            }
+
+            var xValueLeft = _minX + xPercentage * dist;
+            var bb = new BoundingBox();
+            var topLeft = GetTopLeftOfInscribedRect(xValueLeft);
+            var bottomRight = GetBottomRightInscribedRect(xValueLeft);
+
+            bb.Position = topLeft;
+            bb.Width =  bottomRight.X - topLeft.X;
+            bb.Height = bottomRight.Y - topLeft.Y;
+
+            bb.Parent = ExtremePoints.Parent;
+
+            return bb;
+        }
+
+        internal Vector2 GetBottomRightInscribedRect(double x)
+        {
+            if(x < _endPoint.Position.X)
+            {
+                return new Vector2(x, _yValOfWidestLine);
+            }
+            else
+            {
+                return new Vector2(GetXOpposite(x), _yValOfWidestLine);
+            }
+        }
+
+        internal Vector2 GetTopLeftOfInscribedRect(double x)
+        {
+            if (x < _endPoint.Position.X)
+            {
+                return GetReverseEndPointOf(x);
+            }
+            else
+            {
+                return new Vector2(x, GetYFromEndPointLine(x));
+            }
+        }
+
+        double GetXOpposite(double x)
+        {
+            return _endPoint.Position.X*2d - x;
+        }
+
+
+        RectRenderItem largestInscribedRectangleOuter;
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
+        {
+            DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
+            Rectangle.Parent = parent;
+            _radius = slice.Circle.Radius;
+            _percent = percentOfPie;
+            Degrees = _percent * 360d;
+
+            _circleCenter = circleCenter;
+            _innerGroup = new GroupRenderItem(parent, 0, circleCenter);
+            _innerGroup.Parent = _innerGroup.TranslationOffset;
+            _innerGroup.Name = "InnerGroupChartDrawer";
+
+            _startPoint = slice.StartPoint;
+            _endPoint = slice.EndPoint;
+            _midPoint = slice.MidPoint;
+
+            //Excel's circle begins drawing from the top and increases towards the right
+            //Rotate points -90 degrees take note of global pos, reparent then set them back to the position
+            circleCenter.LocalRotation = firstSliceOffset;
+
+            var posStart = _startPoint.Position;
+            var posEnd = _endPoint.Position;
+            var posMid = _midPoint.Position;
+            //var posExtreme = ExtremePoints.Position;
+
+            _startPoint.Parent = _innerGroup;
+            _endPoint.Parent = _innerGroup;
+            _midPoint.Parent = _innerGroup;
+            //ExtremePoints.Parent = _innerGroup;
+
+            _startPoint.Position = posStart;
+            _endPoint.Position = posEnd;
+            _midPoint.Position = posMid;
+            //ExtremePoints.Position = posExtreme;
+
+            circleCenter.LocalRotation = 0;
+
+            //We must calculate transforms from the outer midpoint.
+            //This is to ensure that point never leaves the parent container
+            _innerGroup.TransformOrigin = GetMidPointLocal();
+
+            CalculateExplosionDir();
+            CalculateWidthHeight(prevDegrees);
+
+            var minX = Math.Min(_startPoint.LocalPosition.X, _endPoint.LocalPosition.X);
+            minX = Math.Min(_midPoint.LocalPosition.X, minX);
+            var maxX = Math.Max(_startPoint.LocalPosition.X, _endPoint.LocalPosition.X);
+            maxX = Math.Max(_midPoint.LocalPosition.X, maxX);
+
+            var minY = Math.Min(_startPoint.LocalPosition.Y, _endPoint.LocalPosition.Y);
+            minY = Math.Min(_midPoint.LocalPosition.Y, minY);
+            var maxY = Math.Max(_startPoint.LocalPosition.Y, _endPoint.LocalPosition.Y);
+            maxY = Math.Max(_midPoint.LocalPosition.Y, maxY);
+
+            var circlePos = _innerGroup.TransformPointToLocal(circleCenter.Position);
+
+            var txtBoxWidth = maxX - minX;
+            var txtBoxHeight = maxY - minY;
+
+
+            if (ExistWithinRange(0.1, slice.StartDegrees,slice.EndDegrees) || ExistWithinRange( 90, slice.StartDegrees, slice.EndDegrees) || ExistWithinRange(180, slice.StartDegrees, slice.EndDegrees) || ExistWithinRange(270, slice.StartDegrees, slice.EndDegrees))
+            {
+                //When passing over those points a direct line can be drawn to the center
+                //Which means we could have a larger space available
+
+                if (slice.Degrees >= 180 && slice.StartDegrees <= 90)
+                {
+                    minX = circlePos.X - _radius;
+                    maxX = circlePos.X + _radius;
+                }
+                else
+                {
+                    minX = Math.Min(minX, circlePos.X);
+                    maxX = Math.Max(maxX, circlePos.X);
+                }
+
+                if(slice.Degrees >= 180 && slice.StartDegrees <= 0.1)
+                {
+                    minY = circlePos.Y - _radius;
+                    maxY = circlePos.Y + _radius;
+                }
+                else
+                {
+                    minY = Math.Min(minY, circlePos.Y);
+                    maxY = Math.Max(maxY, circlePos.Y);
+                }
+
+                _minX = minX;
+                _maxX = maxX;
+
+
+                txtBoxWidth = maxX - minX;
+                txtBoxHeight = maxY - minY;
+            }
+           
+            largestInscribedRectangleOuter = new RectRenderItem();
+            largestInscribedRectangleOuter.Parent = _innerGroup;
+            largestInscribedRectangleOuter.Top = minY;
+            largestInscribedRectangleOuter.Left = minX;
+            largestInscribedRectangleOuter.Width = txtBoxWidth;
+            largestInscribedRectangleOuter.Height = txtBoxHeight;
+
+            //largestInscribedRectangleOuter.Style.FillColor = "blue";
+            largestInscribedRectangleOuter.Style.FillOpacity = 0.0d;
+
+            _innerItems = new GroupRenderItem(_innerGroup, 0);
+            _innerItems.Name = "Inner_Items";
+        }
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, BoundingBox circleCenter, double radius, double percentOfPie, double prevSliceDegrees) : base(renderer)
         {
             _prevSliceDegrees = prevSliceDegrees;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
@@ -199,13 +430,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             _circleCenter = circleCenter;
 
             _startPoint = CalculateLocalPointOnCircle(prevSliceDegrees);
-            _startPointHalf = CalculateLocalPointOnCircleHalfRadius(prevSliceDegrees);
 
             //The degrees of the midpoint
             var halfDegrees = Degrees / 2;
 
             _endPoint = CalculateLocalPointOnCircle(Degrees + prevSliceDegrees);
-            _endPointHalf = CalculateLocalPointOnCircleHalfRadius(Degrees + prevSliceDegrees);
 
             //We add prev at this point since we don't want to halve the previous angle only the current one
             _midPoint = CalculateLocalPointOnCircle(halfDegrees + prevSliceDegrees);
@@ -242,7 +471,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Translate and scale path
             _innerGroup.GroupScale = new Coordinate(_sliceScaleFactor, _sliceScaleFactor);
             CalculatePointExplosion(explosionOfPoint, pieExplosion, localMax, localMin);
-            CalculateLargestRectWithinCircleSegment();
+            //CalculateLargestRectWithinCircleSegment();
 
             //Add the actual commands
             _slicePath.Commands.Add(moveCenter);
@@ -331,23 +560,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var dp = serie.DataPoints[position];
                 ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
+                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
             }
             else
             {
                 ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
             }
-            //if(chartType.VaryColors)
-            //{
-            //    if(chartType.StyleManager.Style == null)
-            //    {
-            //        var mod5 = position % 5;
-            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
-            //    }
-            //}
-            //_slicePath.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, false, defaultFill);
-            //_slicePath.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true);
-            //_slicePath.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)
@@ -691,54 +909,15 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             transform.LocalPosition += new Vector2(_innerGroup.TransformOrigin.X + _innerGroup.TranslationOffset.Left - _innerGroup.Left, _innerGroup.TransformOrigin.Y + _innerGroup.TranslationOffset.Top- _innerGroup.Top);
             return transform;
         }
-
-        //bool CanFitWithinEndPosition()
-        //{
-        //    var test = _startPoint;
-        //    var mid = _midPoint;
-        //    var end = _endPoint;
-        //    var ctr = _circleCenter;
-        //}
-
         internal BoundingBox GetBounds()
         {
-            BoundingBox box = new BoundingBox(LargestWidthRectangle, LargestHeightRectangle);
+            BoundingBox box = new BoundingBox();
+            box.Width = largestInscribedRectangleOuter.Width;
+            box.Height = largestInscribedRectangleOuter.Height;
             box.Parent = ExtremePoints.Parent;
-            box.Left = ExtremePoints.Left;
+            box.Position = new Vector2(largestInscribedRectangleOuter.Position.X, largestInscribedRectangleOuter.Position.Y);
+            //box.Left = ExtremePoints.Left;
             return box;
-        }
-
-        internal Transform GetCenterOfStartPointLine()
-        {
-            //var startToCenter = _startPoint.Position - _circleCenter.Position;
-            //var startToCenterDirOnly = startToCenter / startToCenter.Length;
-
-            //var half = (startToCenterDirOnly * -1) * 0.5d;
-            //var halfPos = _startPoint.LocalPosition * half;
-
-            //Transform transform = new Transform();
-            //transform.Position = _startPoint.Position * half;
-            //transform.Parent = _startPoint.Parent;
-
-            return _startPoint;
-        }
-
-        
-
-        internal Transform GetCenterOfEndPointLine()
-        {
-            //var ctrToEnd = _endPoint.LocalPosition - _circleCenter.LocalPosition;
-            //var ctrToEndDirOnly = ctrToEnd / ctrToEnd.Length;
-
-            //var half = ctrToEndDirOnly * 0.5d;
-            //var halfPos = _circleCenter.LocalPosition * half;
-
-            //Transform transform = new Transform();
-            //transform.Parent = _innerGroup.Bounds;
-            //transform.LocalPosition = halfPos;
-
-            //return transform;
-            return _endPoint;
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)

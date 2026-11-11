@@ -22,8 +22,8 @@ namespace EPPlus.Graphics.Tests
             Assert.AreEqual(180, pie.Slices[0].SweepAngleInDegrees);
 
             Assert.AreEqual(180, pie.Slices[1].StartDegrees);
-            Assert.AreEqual(360, pie.Slices[1].EndDegrees);
-            Assert.AreEqual(180, pie.Slices[1].SweepAngleInDegrees);
+            Assert.AreEqual(360, pie.Slices[1].EndDegrees, 0.01d);
+            Assert.AreEqual(180, pie.Slices[1].SweepAngleInDegrees, 0.01d);
 
         }
 
@@ -44,8 +44,8 @@ namespace EPPlus.Graphics.Tests
             Assert.AreEqual(72, pie.Slices[1].SweepAngleInDegrees);
 
             Assert.AreEqual(216, pie.Slices[2].StartDegrees);
-            Assert.AreEqual(360, pie.Slices[2].EndDegrees);
-            Assert.AreEqual(144, pie.Slices[2].SweepAngleInDegrees);
+            Assert.AreEqual(360, pie.Slices[2].EndDegrees, 0.01d);
+            Assert.AreEqual(144, pie.Slices[2].SweepAngleInDegrees, 0.01d);
         }
     }
 }

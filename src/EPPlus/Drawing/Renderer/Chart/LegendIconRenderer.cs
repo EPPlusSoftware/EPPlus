@@ -8,7 +8,10 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,35 +66,40 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 tbWidth = parent.Rectangle.Width - tbLeft;
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
                 //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
 
                 var headerText = cv.ToString();
 
+                ExcelDrawingParagraph p=null;
                 if (parent is ChartLegendRenderer)
                 {
                     var entry = chart.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
                     if (entry == null || entry.Font.IsEmpty)
                     {
-                        //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                        sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault();
                     }
                     else
                     {
-                        //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
-                        sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = entry.TextBody.Paragraphs.FirstOrDefault();
                     }
                 }
                 else if (parent is ChartDataTableRenderer)
                 {
                     if(chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.Any())
                     {
-                        sls.Textbox.ImportParagraph(chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                        p = chart.Chart.PlotArea.DataTable.TextBody.Paragraphs.FirstOrDefault();
                     }
-                    else
-                    {
-                        sls.Textbox.AddParagraph(headerText);
-                    }
+                }
+
+                if(p==null)
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }
+                else
+                {
+                    sls.Textbox.ImportParagraph(p, 0, headerText);
                 }
                 parent.SeriesIcon.Add(sls);
                 pSls = sls;
@@ -113,20 +121,38 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = tm.Height;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-            //sls.Textbox.Bounds.Left = si.Bottom + MarginIconText;
-
-            var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
             var headerText = s.GetHeaderText(index);
-            if (entry == null || entry.Font.IsEmpty)
+            if (chart.Chart.HasLegend)
             {
-                //sls.Textbox.AddText(s.GetHeaderText(), sc.Chart.Legend.Font);
-                sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                var entry = parent.Chart.Legend.Entries.FirstOrDefault(x => x.Index == index);
+                if (entry == null || entry.Font.IsEmpty)
+                {
+                    if (chart.Chart.Legend.TextBody.Paragraphs.Count == 0)
+                    {
+                        sls.Textbox.AddParagraph(headerText);
+                    }
+                    else
+                    {
+                        sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.First(), 0, headerText);
+                    }
+                }
+                else
+                {
+                    sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                }
             }
             else
             {
-                //sls.Textbox.AddText(s.GetHeaderText(), entry.Font);
-                sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                if(parent.TextBody.Paragraphs.Count>0)
+                {
+                    sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs[0],0, headerText);
+                }
+                else
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }
             }
         }
 
@@ -142,13 +168,20 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var tbWidth = parent.Rectangle.Width - tbLeft;
 
             var tbHeight = entryHeight;
-            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
-
+            sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+            sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
             var headerText = s.GetHeaderText(index);
             var entry = parent.Entries?.FirstOrDefault(x => x.Index == index);
             if (entry == null || entry.Font.IsEmpty)
             {
-                sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                if (parent.TextBody.Paragraphs.Count > 0)
+                {
+                    sls.Textbox.ImportParagraph(parent.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
+                }
+                else
+                {
+                    sls.Textbox.AddParagraph(headerText);
+                }   
             }
             else
             {
@@ -156,20 +189,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 sls.Textbox.ImportParagraph(entry.TextBody.Paragraphs.FirstOrDefault(), 0, headerText);
             }
 
-            if (ls.HasMarker() && ls.Marker.Style != eMarkerStyle.None)
+            if ((chart.Chart.HasTypeMarker || ls.Marker.Style != eMarkerStyle.None) && !(ls.Marker.IsEmpty==false && ls.Marker.Style == eMarkerStyle.None))
             {
                 var l = sls.SeriesIcon as LineRenderItem;
                 var x = l.X1 + (l.X2 - l.X1) / 2;
                 var y = l.Y1;
-                sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(chart, ls, ls.Marker, x, y, true);
-                if ((ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star) &&
-                    ls.Marker.Fill.IsEmpty == false)
+                if (!(double.IsNaN(x) || double.IsNaN(y)))
                 {
-                    sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(chart, ls, x, y, true);
-                }
-                else
-                {
-                    sls.MarkerBackground = null;
+                    sls.MarkerIcon = LineMarkerHelper.GetMarkerItem(chart, ls, ls.Marker, x, y, true, index);
+                    if (ls.Marker.Style == eMarkerStyle.Plus || ls.Marker.Style == eMarkerStyle.X || ls.Marker.Style == eMarkerStyle.Star)
+                    {
+                        if (ls.Marker.Fill.IsEmpty)
+                        {
+                            sls.MarkerBackground = null;
+                        }
+                        else
+                        {
+                            sls.MarkerBackground = LineMarkerHelper.GetMarkerBackground(chart, ls, x, y, true);
+                        }
+                        if (ls.Marker.Border.IsEmpty)
+                        {
+                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index), 0.75d);
+                        }
+                    }
                 }
             }
         }
@@ -235,7 +277,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
 
                 var tbHeight = tm.Height;
-                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox = new DrawingTextBody(parent.RenderContext, chart.Chart, parent.Rectangle, DefaultFonts2007Style.Legend, tbLeft, tbTop, tbWidth, tbHeight, false, true);
+                sls.Textbox.Style.FillColor = "#" + chart.InbuiltStyleFontColor.Value.ToColorString();
                 sls.Textbox.ImportParagraph(chart.Chart.Legend.TextBody.Paragraphs.FirstOrDefault(), 0, catValues[i].ToString());
 
                 //si.Left += sls.Textbox.LeftMargin;
@@ -277,7 +320,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (parent.Rectangle.Width < parent.MaxWidth)
                 {
                     parent.Rectangle.Height = entryHeight + parent.TopMargin + parent.BottomMargin;
-                    parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    if(position == eLegendPosition.Bottom)
+                    {
+                        parent.Rectangle.Top = chart.ChartArea.Rectangle.Height - parent.Rectangle.Height - parent.BottomMargin - parent.TopMargin;
+                    }
                 }
             }
             pSls = null;
@@ -288,7 +334,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Empty, 3);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index), 2.25);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -302,10 +348,12 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             return line;
         }
+
+
         internal static RectRenderItem GetBarSeriesIcon<T>(ChartRenderer chart, ExcelChart ct, T parent, ExcelBarChartSerie chartSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int serieIndex, int index) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var item = new RectRenderItem(parent.Rectangle);
-            var iconHeight = GetIconLength(ct, entryHeight);
+            var iconHeight = GetIconLength(ct, entryHeight, false);
             //var icon = pSls?.SeriesIcon as RectRenderItem;
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
@@ -343,7 +391,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var line = new LineRenderItem(parent.Rectangle);
             line.Style.SetDrawingPropertiesFill(chart.Theme, tl.Fill, chart.Chart.StyleManager.Style?.Trendline.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, parent.DefaultFillColor);
             //Default is actually NoLine
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, tl.Border.Fill.Style != eFillStyle.NoFill, () => parent.DefaultBorderColor, 0.75);
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, tl.Border, chart.Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, () => ChartTrendlineRenderer.GetTrendlineColor(chart, true), 0.75);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -362,7 +410,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var item = new RectRenderItem(parent.Rectangle);
 
-            var iconHeight = GetIconLength(ct, entryHeight);
+            var iconHeight = GetIconLength(ct, entryHeight, false);
             var icon = pSls?.SeriesIcon as RectRenderItem;
 
             GetItemPosition(chart, parent, pSls, entryWidth, entryHeight, icon?.Left ?? 0D, icon?.Top ?? 0D, out double x, out double y);
@@ -398,8 +446,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return item;
         }
 
-        internal static double GetIconLength(ExcelChart c, double highestText)
+        internal static double GetIconLength(ExcelChart c, double highestText, bool includeTrendlines)
         {
+            if(includeTrendlines && c is ExcelChartStandard cs)
+            {
+                if(cs.Series.Any(x=>x.TrendLines.Count>0))
+                {
+                    return LineLength;
+                }
+            }
             return c.IsTypeLine() ? LineLength : Math.Max(MinBarLength, highestText * 0.4);
         }
 
@@ -454,6 +509,28 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             return topOffset;
         }
 
+        private static ExcelChartDataPointCollection GetDataPointsFromSeries(ExcelChartStandardSerie s)
+        {
+            if(s is ExcelPieChartSerie ps)
+            {
+                return ps.DataPoints;
+            }
+            else
+            {
+                try
+                {
+                    var bs = (ExcelBarChartSerie)s;
+                    return bs.DataPoints;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidCastException("File:LegendIconRenderer.cs Method:GetDataPointsFromSeries. " +
+                        "Likely failing to cast a ExcelChartStandardSerie to barChartSerie. " +
+                        "Add new option instead.", ex);
+                }
+            }
+        }
+
         internal static RenderItem GetSeriesIcon(ChartRenderer chartRenderer, BoundingBox parentItem, ExcelChartStandardSerie s, int index, double entryHeight)
         {
             const float MarginExtra = 1.5f;
@@ -479,14 +556,16 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             else
             {
                 var item = new RectRenderItem(parentItem);
-                var iconHeight = GetIconLength(chartRenderer.Chart, entryHeight);
+                var iconHeight = GetIconLength(chartRenderer.Chart, entryHeight, false);
                 item.Width = iconHeight;
                 item.Height = iconHeight;
                 var chart = chartRenderer.Chart;
-                var bs = (ExcelBarChartSerie)s;
-                if (index >= 0 && bs.DataPoints.ContainsKey(index))
+
+                var dataPoints = GetDataPointsFromSeries(s);
+
+                if (index >= 0 && dataPoints.ContainsKey(index))
                 {
-                    var dp = bs.DataPoints[index];
+                    var dp = dataPoints[index];
                     ChartTypeDrawer.SetFillDataPoint(chart, s, index, item.Style, dp, chart.StyleManager.Style?.SeriesLine);
                 }
                 else

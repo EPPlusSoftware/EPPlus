@@ -24,6 +24,7 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Constants;
 using System.Linq;
 using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -792,7 +793,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal override ExcelChartTitle GetTitle()
         {
-            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
+            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c", 0);
         }
         /// <summary>
         /// True if the chart has a title
@@ -936,6 +937,21 @@ namespace OfficeOpenXml.Drawing.Chart
                 _chartXmlHelper.SetXmlNodeString(_displayBlanksAsPath, value.ToString().ToLower(CultureInfo.InvariantCulture));
             }
         }
+        /// <summary>
+        /// Gets or sets a value indicating whether cells with #N/A values are displayed as blank in the series.
+        /// </summary>
+        public bool DisplayNaAsBlank
+        {
+            get
+            {
+                return GetXmlNodeBool($"c:extLst/c:ext[uri='{ExtLstUris.DisplayNaAsBlankUri}']/c16rd:dataDisplayOptions16/c16rd:dispNaAsBlank/@val");
+            }
+            set
+            {
+                var extNode = GetOrCreateExtLstSubNode(ExtLstUris.DisplayNaAsBlankUri, "c16rd");
+                extNode.InnerXml = $"<c16rd:dataDisplayOptions16/c16rd:dispNaAsBlank val=\"{(value?"1":"0")}\"/></c16rd:dataDisplayOptions16>";
+            }
+        }
         const string _showDLblsOverMax = "../../c:showDLblsOverMax/@val";
         /// <summary>
         /// Specifies data labels over the maximum of the chart shall be shown
@@ -1006,21 +1022,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 return _plotArea;
             }
-        }
-        /// <summary>
-        /// Legend
-        /// </summary>
-        public new ExcelChartLegend Legend
-        {
-            get
-            {
-                if (_legend == null)
-                {
-                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
-                }
-                return _legend;
-            }
-
         }
         ExcelDrawingBorder _border = null;
         /// <summary>
@@ -1199,13 +1200,6 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         #endregion
 
-        internal int Items
-        {
-            get
-            {
-                return 0;
-            }
-        }
 
         internal void SetPivotSource(ExcelPivotTable pivotTableSource)
         {

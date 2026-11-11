@@ -15,30 +15,57 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
-using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
-using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.Xml;
-using System.Text;
 using d = OfficeOpenXml.Drawing.Renderer;
-using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusImageRenderer
 {
     internal class ChartRenderer : d.DrawingRenderer
     {
+        internal Color? GetDefaultFontColor()
+        {
+            var chartId = (int)Chart.Style;
+
+            if(chartId == 209)
+            {
+                chartId = 102;
+            }
+
+            //In modern files the styles exist at ids 101->148 
+            if(chartId > 100 && chartId < 148)
+            {
+                chartId = chartId - 100;
+            }
+
+            //Support for old chart styles 1-48
+            //Chart styles  40 -> 48 are black background with white text
+            if (chartId >= 0 && chartId < 41)
+            {
+                return Color.Black;
+            }
+            else if(chartId> 41 && chartId < 49)
+            {
+                return Color.White;
+            }
+
+            //We only get here if the node is null or empty
+            var themedLine = ChartDrawingObject.GetThemedLine(Theme, ChartElement.MajorGridLines, (int)Chart.Style, false, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
+        }
+
+        // From the docs: 'The default font color is the same as the Axis & Major Gridlines Line Color'
+        internal Color? InbuiltStyleFontColor => GetDefaultFontColor();
+
         public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
         {
             SetChartArea(options);
@@ -84,6 +111,14 @@ namespace EPPlusImageRenderer
                 DataTable = new ChartDataTableRenderer(this);
             }
 
+            Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
+
+            VerticalAxis?.UpdateValueScale();
+            Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
+            HorizontalAxis?.UpdateValueScale();
+            SecondHorizontalAxis?.UpdateValueScale();
+            SecondVerticalAxis?.UpdateValueScale();
+
             Plotarea.SetPlotAreaRectangle();
             
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
@@ -94,7 +129,7 @@ namespace EPPlusImageRenderer
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
             AppendItems();
         }
-        private void SetAxisPositionsFromPlotarea()
+        private void SetAxisPositionsFromPlotarea() 
         {
             if (VerticalAxis != null)
             {
@@ -113,155 +148,226 @@ namespace EPPlusImageRenderer
             {
                 PlaceVerticalAxis(SecondVerticalAxis, true);
                 SecondVerticalAxis.AddTickmarksAndValues(DefItems);
-            }
+            }   
 
             if (SecondHorizontalAxis != null)
             {
                 PlaceHorizontalAxis(SecondHorizontalAxis, true);
                 SecondHorizontalAxis.AddTickmarksAndValues(DefItems);
             }
+
+            PlaceHorizontalAxisTitle(HorizontalAxis);
+            PlaceHorizontalAxisTitle(SecondHorizontalAxis);
+            PlaceVerticalAxisTitle(VerticalAxis);
+            PlaceVerticalAxisTitle(SecondVerticalAxis);
+
+            HorizontalAxis?.CalculateWidthHeightFromContent();
+            VerticalAxis?.CalculateWidthHeightFromContent();
+            SecondVerticalAxis?.CalculateWidthHeightFromContent();
+            SecondHorizontalAxis?.CalculateWidthHeightFromContent();
         }
         private void PlaceHorizontalAxis(ChartAxisRenderer horizontalAxis, bool isSecondary)
         {
+            var ax = horizontalAxis.Axis;
+            var axisPos = ax.ActualAxisPosition;
             if (horizontalAxis.Axis.Deleted == false && horizontalAxis.Rectangle != null)
             {
                 horizontalAxis.Rectangle.Width = Plotarea.Rectangle.Width;
                 horizontalAxis.Rectangle.Left = Plotarea.Group.Left;
                 horizontalAxis.Line?.X1 = (float)0;
-                horizontalAxis.Line?.X2 = (float)horizontalAxis.Rectangle.Width;
+                horizontalAxis.Line?.X2 = (float)Plotarea.Rectangle.Width;
 
                 if (horizontalAxis.Line != null)
                 {
-                    var axisPos = horizontalAxis.Axis.ActualAxisPosition;
-                    if (axisPos == eActualAxisPosition.Bottom)
+                    if (ax.CrossesAt.HasValue)
                     {
-                        if (isSecondary == false && SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Bottom)
+                        double axisY;
+                        var cv = ax.CrossesAt.Value;
+                        if (isSecondary)
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height - SecondHorizontalAxis.Rectangle.Height;
+                            axisY = SecondVerticalAxis.GetPositionInPlotarea(Math.Max(Math.Min(cv, SecondHorizontalAxis.Min), SecondVerticalAxis.Max));
                         }
                         else
                         {
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+                            axisY = VerticalAxis.GetPositionInPlotarea(Math.Min(Math.Max(cv, VerticalAxis.Min), VerticalAxis.Max));
                         }
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = 0;
-                    }
-                    else if (axisPos == eActualAxisPosition.BottomSecond)
-                    {
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + HorizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = 0;
-                    }
-                    else if (axisPos == eActualAxisPosition.Top)
-                    {
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Height;
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = axisY;
                     }
                     else
                     {
-                        horizontalAxis.Rectangle.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height - HorizontalAxis.Rectangle.Height;
-                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = horizontalAxis.Rectangle.Height;
+                        double pos;
+                        if (horizontalAxis.Axis.Crosses == eCrosses.AutoZero)
+                        {
+                            if(VerticalAxis.Min < 0)
+                            {
+                                pos = VerticalAxis.GetPositionInPlotarea(0);
+                            }
+                            else
+                            {
+                                if (axisPos == eAxisPosition.Bottom)
+                                {
+                                    pos = Plotarea.Rectangle.Height;
+                                }
+                                else
+                                {
+                                    pos = 0;
+                                }
+                            }
+                        }
+                        else if (axisPos == eAxisPosition.Bottom)
+                        {
+                            pos = Plotarea.Rectangle.Height;
+                        }
+                        else
+                        {
+                            pos=0;
+                            horizontalAxis.AdjustPosBySize = true;
+                        }
+                        horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = pos;                    
                     }
                 }
 
-                if (isSecondary==false && VerticalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && VerticalAxis.Axis.AxisType == eAxisType.Val && VerticalAxis.Min < 0D && HorizontalAxis.Axis.Crosses == eCrosses.AutoZero)
+                switch (ax.LabelPosition)
                 {
-                    //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-                    var CrossValue = HorizontalAxis.GetCrossesValue();
-                    var newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top;
-                    if (newtop > Plotarea.Group.Top)
-                    {
-                        Plotarea.Rectangle.Height += HorizontalAxis.Rectangle.Height;
-                        VerticalAxis.Rectangle.Height = Plotarea.Rectangle.Height;
-                        VerticalAxis.Line.Y2 = (float)VerticalAxis.Rectangle.Bottom;
-                        newtop = VerticalAxis.GetPositionInPlotarea(CrossValue) + Plotarea.Group.Top; //Get the new position after the resize of the plotarea
-                        var topDiff = HorizontalAxis.Rectangle.Top - newtop;
-                        HorizontalAxis.Rectangle.Top = newtop;
-                        HorizontalAxis.Rectangle.Height += topDiff;
-                        //HorizontalAxis.Line?.Y1 = HorizontalAxis.Line.Y2 = topDiff;
-                    }
+                    case eTickLabelPosition.NextTo:
+                        if(VerticalAxis.Line != null && horizontalAxis.Line.Y1==0) //Top
+                        {
+                            if(ax.AxisPosition == eAxisPosition.Top)
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop - horizontalAxis.Rectangle.Height;
+
+                            }
+                            else
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            }
+                        }
+                        else
+                        {
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            if (horizontalAxis.Line != null)
+                            {
+                                horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + horizontalAxis.Line.Y1;
+                            }
+                        }
+                        break;
+                    case eTickLabelPosition.Low:
+                        //if (ax.AxisPosition == eAxisPosition.Bottom)
+                        //{
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                        //    horizontalAxis.AdjustPosBySize = true;
+                        //}
+                        //else
+                        //{
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop + Plotarea.Rectangle.Height;
+                            horizontalAxis.AdjustPosBySize = false;
+                        //}
+                        break;
+                    case eTickLabelPosition.High:
+                        //if (ax.AxisPosition == eAxisPosition.Bottom)
+                        //{
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            horizontalAxis.AdjustPosBySize = true;
+                        //}
+                        //else
+                        //{
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
+                        //    horizontalAxis.AdjustPosBySize = false;
+                        //}
+                        break;
                 }
-            }
-            if (horizontalAxis.Title != null)
-            {
-                PlaceHorizontalAxisTitle(horizontalAxis);
             }
         }
 
         private void PlaceHorizontalAxisTitle(ChartAxisRenderer horizontalAxis)
         {
+            if(horizontalAxis == null || horizontalAxis.Title == null)
+            {
+                return;
+            }
             horizontalAxis.Title.Rectangle.Height = ChartArea.Rectangle.Height / 4;
             horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? Plotarea.Rectangle.Width;
-            if (horizontalAxis.Axis.Deleted)
+
+            if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Top)
             {
-                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
-                {
-                    if(horizontalAxis==SecondHorizontalAxis)
-                    {
-                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + (HorizontalAxis?.Rectangle?.Height??0) + (HorizontalAxis?.Title?.Rectangle.Height ?? 0);
-                    }
-                    else
-                    {
-                        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
-                    }
-                }
-                else
-                {
-                    horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-                }
+                horizontalAxis.Title.TextBox.Top = GetTopAxisTitlePos() - horizontalAxis.Title.TextBox.GetActualHeight() - 1.5;
             }
             else
             {
-                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
-                {
-                    if (SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.BottomSecond)
-                    {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom + SecondHorizontalAxis.Rectangle.Height;
-                    }
-                    else if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Bottom)
-                    {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom;
-                    }
-                    else
-                    {
-                        if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
-                        {
-                            horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
-                        }
-                        else
-                        {
-                            horizontalAxis.Title.TextBox.Top = ChartArea.Rectangle.Bottom - horizontalAxis.Title.Rectangle.Height - ChartArea.BottomMargin;
-                        }
-                    }
-                }
-                else
-                {
-                    if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.TopSecond)
-                    {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
-                    }
-                    else if (horizontalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Top)
-                    {
-                        horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.TextBox.Height;
-                    }
-                    else
-                    {
-                        if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
-                        {
-                            horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Bottom;
-                        }
-                        else if (Title != null)
-                        {
-                            horizontalAxis.Title.TextBox.Top = Title.Rectangle.Bottom;
-                        }
-                        else
-                        {
-                            horizontalAxis.Title.TextBox.Top = ChartArea.TopMargin;
-                        }
-                    }
-                }
+                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() + 1.5;
             }
+
+            //if (horizontalAxis.Axis.Deleted)
+            //{
+            //    if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
+            //    {
+            //        if(horizontalAxis==SecondHorizontalAxis)
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + (HorizontalAxis?.Rectangle?.Height??0) + (HorizontalAxis?.Title?.Rectangle.Height ?? 0);
+            //        }
+            //        else
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
+            //    }
+            //}
+            //else
+            //{
+            //    if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
+            //    {
+            //        if (SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom + SecondHorizontalAxis.Rectangle.Height;
+            //        }
+            //        else if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom;
+            //        }
+            //        else
+            //        {
+            //            if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
+            //            {
+            //                horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
+            //            }
+            //            else
+            //            {
+            //                horizontalAxis.Title.TextBox.Top = ChartArea.Rectangle.Bottom - horizontalAxis.Title.Rectangle.Height - ChartArea.BottomMargin;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if(horizontalAxis==SecondHorizontalAxis && horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Top && horizontalAxis.Axis.AxisTextboxPosition==eActualAxisPosition.Top)
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
+            //        }
+            //        else if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Top)
+            //        {
+            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.TextBox.Height;
+            //        }
+            //        else
+            //        {
+            //            if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
+            //            {
+            //                horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Bottom;
+            //            }
+            //            else if (Title != null)
+            //            {
+            //                horizontalAxis.Title.TextBox.Top = Title.Rectangle.Bottom;
+            //            }
+            //            else
+            //            {
+            //                horizontalAxis.Title.TextBox.Top = ChartArea.TopMargin;
+            //            }
+            //        }
+            //    }
+            //}
             horizontalAxis.Title.TextBox.Left = Plotarea.Group.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
         }
-
         private void PlaceVerticalAxis(ChartAxisRenderer verticalAxis, bool isSecondary)
         {
             if (verticalAxis.Axis.Deleted == false && verticalAxis.Rectangle != null)
@@ -271,51 +377,141 @@ namespace EPPlusImageRenderer
                 verticalAxis.Line?.Y1 = (float)0;
                 verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Height;
                 var axisPos = verticalAxis.Axis.ActualAxisPosition;
+                var ax = verticalAxis.Axis;
 
-                if(verticalAxis.Line != null)
+                if (ax.CrossesAt.HasValue)
                 {
-                    if (axisPos == eActualAxisPosition.Left)
+                    double axisX;
+                    ChartAxisRenderer axis;
+                    if (isSecondary)
                     {
-                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.Rectangle.Width;
-                    }
-                    else if (axisPos == eActualAxisPosition.LeftSecond)
-                    {
-                        verticalAxis.Rectangle.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - VerticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)verticalAxis.Rectangle.Width;
-                    }
-                    else if (axisPos == eActualAxisPosition.Right)
-                    {
-                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)0;
+                        axis = SecondHorizontalAxis;
                     }
                     else
                     {
-                        verticalAxis.Rectangle.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width + VerticalAxis.Rectangle.Width;
-                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = (float)0;
+                        axis = HorizontalAxis;
+                    }
+                    var v = axis.GetAdjustedCrossesAt();
+                    if(v<=axis.Min)
+                    {
+                        axisX = 0;
+                    }
+                    else if(v>=axis.Max)
+                    {
+                        axisX = Plotarea.Rectangle.Right;
+                    }
+                    else
+                    {
+                        if (verticalAxis.CrossingAxis.AutoAxisType==eAxisType.Cat)
+                        {
+                            var div = verticalAxis.CrossingAxis.MajorUnit / 2D; //Axis position is centered, but the axis should be at the tickmark.
+                            axisX = axis.GetPositionInPlotarea(v - div);
+                        }
+                        else
+                        {
+                            axisX = axis.GetPositionInPlotarea(v);
+                        }
+                    }
+
+                    verticalAxis.Line.X1 = verticalAxis.Line.X2 = axisX;
+                }
+                else
+                {
+                    if (axisPos == eAxisPosition.Right)
+                    {
+                        verticalAxis.Line.X1 = verticalAxis.Line.X2 = Plotarea.Rectangle.Width;
+                    }
+                    else
+                    {
+                        if(verticalAxis.Line != null)
+                        {
+                            verticalAxis.Line.X1 = verticalAxis.Line.X2 = 0;
+                        }
+                        verticalAxis.AdjustPosBySize = true;
                     }
                 }
-            }
-            //Make sure the horizontal axis is moved up if the vertical axis has a negative minimum value, so that the 0 value is at the correct position.
-            if (isSecondary == false && HorizontalAxis.Axis.TickLabelPosition == eTickLabelPosition.NextTo && HorizontalAxis.Axis.AxisType == eAxisType.Val && HorizontalAxis.Min < 0D)
-            {
-                var CrossValue = HorizontalAxis.GetCrossesValue();
-                var newLeft = Plotarea.Group.Left + HorizontalAxis.GetPositionInPlotarea(CrossValue);
-                if (newLeft > Plotarea.Group.Left)
+                switch(verticalAxis.Axis.LabelPosition)
                 {
-                    Plotarea.Rectangle.Width += VerticalAxis.Rectangle.Width;
-                    Plotarea.Group.Left = VerticalAxis.Rectangle.Left;
-                    var leftDiff = newLeft - VerticalAxis.Rectangle.Width;
-                    VerticalAxis.Rectangle.Left = leftDiff;
-                    //VerticalAxis.Line?.X1 = VerticalAxis.Line.X2 = newLeft;
+                    case eTickLabelPosition.NextTo:
+                        if(ax.CrossesAt.HasValue==false)
+                        {
+                            if(VerticalAxis.Line != null)
+                            {
+                                if (verticalAxis.Line.X1 == 0)
+                                {
+                                    if(verticalAxis.CrossingAxis.Axis.AxisType==eAxisType.Val)
+                                    {
+                                        switch(verticalAxis.Axis.Crosses)
+                                        {
+                                            case eCrosses.Min:
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Min);
+                                                break;
+                                            case eCrosses.Max:
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(verticalAxis.CrossingAxis.Max);
+                                                break;
+                                            default: //auto zero
+                                                verticalAxis.Line.X1 = verticalAxis.Line.X2 = verticalAxis.CrossingAxis.GetPositionInPlotarea(Math.Min(Math.Max(verticalAxis.CrossingAxis.Min, 0), verticalAxis.CrossingAxis.Max));
+                                                break;
+                                        }
+                                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1;
+                                    }
+                                    else
+                                    {
+                                        verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                                    }
+                                }
+                                else
+                                {
+                                    verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
+                                }
+                            }
+                            else
+                            {
+                                verticalAxis.Rectangle.Left = Plotarea.Rectangle.GlobalRight;
+                            }
+                        }
+                        else if(Plotarea.Rectangle.GlobalRight >= Plotarea.Group.GlobalLeft + verticalAxis.Line.X1)
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + verticalAxis.Line.X1 - verticalAxis.Rectangle.Width;
+                        }
+                        else
+                        {
+                            verticalAxis.Rectangle.Left = verticalAxis.Line.X1-verticalAxis.Rectangle.GlobalLeft;
+                        }
+                        break;
+                    case eTickLabelPosition.Low:
+                        if (axisPos == eAxisPosition.Left)
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + Plotarea.Rectangle.Width;
+                            verticalAxis.AdjustPosBySize = false;
+                        }
+                        else
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                            verticalAxis.AdjustPosBySize = true;
+                        }
+                        break;
+                    case eTickLabelPosition.High:
+                        if (axisPos == eAxisPosition.Left)
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft + Plotarea.Rectangle.Width;
+                            verticalAxis.AdjustPosBySize = false;
+                        }
+                        else
+                        {
+                            verticalAxis.Rectangle.Left = Plotarea.Group.GlobalLeft;
+                            verticalAxis.AdjustPosBySize = true;
+                        }
+                        break;
                 }
             }
 
-            PlaceVerticalAxisTitle(verticalAxis);
+            //PlaceVerticalAxisTitle(verticalAxis);
         }
 
         private void PlaceVerticalAxisTitle(ChartAxisRenderer verticalAxis)
         {
+            if (verticalAxis == null || verticalAxis.Title == null) return;
             if (verticalAxis.Title != null)
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
@@ -324,43 +520,112 @@ namespace EPPlusImageRenderer
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
-                    if (verticalAxis.Rectangle == null)
-                    {
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
-                    }
-                    else
-                    {
-                        if(verticalAxis == VerticalAxis && 
-                           (SecondVerticalAxis?.Axis.ActualAxisPosition==eActualAxisPosition.Left || SecondVerticalAxis?.Axis.ActualAxisPosition == eActualAxisPosition.LeftSecond))
-                        {
-                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - SecondVerticalAxis.Rectangle.Width - 1.5;
-                        }
-                        else
-                        {
-                            verticalAxis.Title.TextBox.Left = Plotarea.Group.Left - verticalAxis.Rectangle.Width - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
-                        }
-                    }
+                    verticalAxis.Title.TextBox.Left = GetLeftAxisTitlePos() - verticalAxis.Title.TextBox.GetActualWidth() - 1.5;
                 }
                 else
                 {
-                    if (verticalAxis.Rectangle == null || verticalAxis == SecondVerticalAxis)
-                    {
-                        var add = 0D;
-                        if(VerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right)
-                        {
-                            add = VerticalAxis.Rectangle.Width;
-                        }
-                        if(SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.Right ||
-                           SecondVerticalAxis.Axis.ActualAxisPosition == eActualAxisPosition.RightSecond)
-                        {
-                            add += SecondVerticalAxis.Rectangle.Width;
-                        }
-                        verticalAxis.Title.TextBox.Left = Plotarea.Group.Left + Plotarea.Rectangle.Width+add;
-                    } 
-                    else
-                    {
-                        verticalAxis.Title.TextBox.Left = verticalAxis.Rectangle.Right;
-                    }
+                    verticalAxis.Title.TextBox.Left = GetRightAxisTitlePos() - 1.5;
+                }
+            }
+        }
+
+        private double GetLeftAxisTitlePos()
+        {
+            if(VerticalAxis==null)
+            {
+                if(SecondVerticalAxis==null)
+                {
+                    return Plotarea.Rectangle.Left;
+                }
+                else
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalLeft, SecondVerticalAxis.Rectangle.Left);
+                }
+            }
+            else
+            {
+                if (SecondVerticalAxis == null)
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalLeft, VerticalAxis.Rectangle.Left);
+                }
+                else
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalLeft, Math.Min(SecondVerticalAxis.Rectangle.Left, VerticalAxis.Rectangle.Left));
+                }
+            }
+        }
+        private double GetRightAxisTitlePos()
+        {
+            if (VerticalAxis == null)
+            {
+                if (SecondVerticalAxis == null)
+                {
+                    return Plotarea.Rectangle.GlobalRight;
+                }
+                else
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalRight, SecondVerticalAxis.Rectangle.Right);
+                }
+            }
+            else
+            {
+                if (SecondVerticalAxis == null)
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalRight, VerticalAxis.Rectangle.Right);
+                }
+                else
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalRight, Math.Max(SecondVerticalAxis.Rectangle.Right, VerticalAxis.Rectangle.Right));
+                }
+            }
+        }
+        private double GetTopAxisTitlePos()
+        {
+            if (HorizontalAxis == null)
+            {
+                if (SecondHorizontalAxis == null)
+                {
+                    return Plotarea.Rectangle.GlobalTop;
+                }
+                else
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalTop, SecondHorizontalAxis.Rectangle.Top);
+                }
+            }
+            else
+            {
+                if (SecondHorizontalAxis == null)
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalTop, HorizontalAxis.Rectangle.Top);
+                }
+                else
+                {
+                    return Math.Min(Plotarea.Rectangle.GlobalTop, Math.Min(SecondHorizontalAxis.Rectangle.Top, HorizontalAxis.Rectangle.Top));
+                }
+            }
+        }
+        private double GetBottomAxisTitlePos()
+        {
+            if (HorizontalAxis == null)
+            {
+                if (SecondHorizontalAxis == null)
+                {
+                    return Plotarea.Rectangle.Bottom;
+                }
+                else
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalBottom, SecondHorizontalAxis.Rectangle.Bottom);
+                }
+            }
+            else
+            {
+                if (SecondHorizontalAxis == null)
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalBottom, HorizontalAxis.Rectangle.GlobalBottom);
+                }
+                else
+                {
+                    return Math.Max(Plotarea.Rectangle.GlobalBottom, Math.Max(SecondHorizontalAxis.Rectangle.Bottom, HorizontalAxis.Rectangle.Bottom));
                 }
             }
         }
@@ -413,10 +678,7 @@ namespace EPPlusImageRenderer
             else if (Chart.Axis.Length > offset + 1)
             {
                 axis = (ExcelChartAxisStandard)Chart.Axis[offset + 1];
-                if (axis.IsVertical == vertical)
-                {
-                    return new ChartAxisRenderer(this, axis);
-                }
+                return new ChartAxisRenderer(this, axis);
             }
             return null;
         }
@@ -466,12 +728,12 @@ namespace EPPlusImageRenderer
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondHorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             SecondVerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
-            
-
 
             DataTable?.AppendRenderItems(RenderItems);
             Title?.AppendRenderItems(RenderItems);
             Legend?.AppendRenderItems(RenderItems);
+
+            RenderItems.AddRange(DebugRenderItems);
 
             return true;
         }

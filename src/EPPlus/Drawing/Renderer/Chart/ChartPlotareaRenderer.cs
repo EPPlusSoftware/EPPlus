@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using EPPlus.Graphics;
+using System.Data;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -34,35 +35,24 @@ namespace EPPlusImageRenderer.Svg
         }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         public GroupRenderItem Group { get; private set; }
+        public List<RenderItem> MajorGridlinePositions { get; set; }
+        public List<RenderItem> MinorGridlinePositions { get; set; }
 
         ExcelChartPlotArea _pa;
 
         internal void SetPlotAreaRectangle()
         {
             _pa = Chart.PlotArea;
-            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5; //14px
-            Group = new GroupRenderItem(ChartRenderer.Bounds);
-            Group.Name = "PlotArea";
-            var rect = new RectRenderItem(Group);
-            if (_pa.Layout.HasLayout)
+            TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5;     //14px
+            Group = new GroupRenderItem(ChartRenderer.Bounds)
             {
-                rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
-            }
-            else
-            {
-                rect.Top = GetPlotAreaTop();
-                rect.Left = GetPlotAreaLeft();
-                rect.Width = GetPlotAreaWidth(rect);
-                rect.Height = GetPlotAreaHeight(rect);
-            }
+                Name = "PlotArea"
+            };
 
-            Group.Top = rect.Top;
-            Group.Left = rect.Left;           
-            rect.Top = rect.Left = 0;
-            //Group.ChildObjects.Add(rect); //Dupl?
-
-            if(ChartRenderer.Legend!=null && Chart.Legend.Position == eLegendPosition.Right ||
-               Chart.Legend.Position == eLegendPosition.Left)
+            var rect = GetPlotareaRect();
+            if (ChartRenderer.Legend != null &&
+                (Chart.Legend.Position == eLegendPosition.Right || Chart.Legend.Position == eLegendPosition.Left) &&
+                ((ExcelChartStandard)Chart).Legend.Layout.HasLayout == false)
             {
                 ChartRenderer.Legend.Rectangle.Top = Group.Top + rect.Height / 2 - ChartRenderer.Legend.Rectangle.Height / 2;
             }
@@ -73,13 +63,40 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.Name = "PlotArea_Rectangle";
         }
 
+        private RectRenderItem GetPlotareaRect()
+        {
+            RectRenderItem rect;
+            if (_pa.Layout.HasLayout)
+            {
+                rect = GetRectFromManualLayout(ChartRenderer, _pa.Layout);
+                Group.Top = rect.Top;
+                Group.Left = rect.Left;
+                rect.Top = rect.Left = 0;
+                rect.Parent = Group;
+            }
+            else
+            {
+                Group.Top = GetPlotAreaTop();
+                Group.Left = GetPlotAreaLeft();
+                rect = new RectRenderItem(Group)
+                {
+                    Top = 0,
+                    Left = 0
+                };
+                rect.Width = GetPlotAreaWidth(rect);
+                rect.Height = GetPlotAreaHeight(rect);
+            }
+
+            return rect;
+        }
+
         internal double GetPlotAreaHeight(RectRenderItem rect)
         {
-            var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom);
+            var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 0);
             double vaHeight = 0;
             if (bottomAxis!=null)
             {
-                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.BottomSecond);
+                var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 1);
                 if(bottomSecondAxis==null)
                 {
                     var secAxis = ChartRenderer.SecondHorizontalAxis;
@@ -112,13 +129,17 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetPlotAreaWidth(RectRenderItem rect)
         {
-            var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right);
-            var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.RightSecond);
+            var rightActualAxis = GetAxisActualByPosition(eActualAxisPosition.Right, 0);
+            var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Right, 1);
             var lp = ChartRenderer.Chart.Legend?.Position;
             var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null && ChartRenderer.Legend.Overlay==false ?
                         ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
+            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
+            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 1);
+            var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin +
+                       (leftSecondAxis?.Rectangle?.Width ?? 0D) + ((leftSecondAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftSecondAxis?.Title?.LeftMargin ?? 0D)); 
 
             double rightAxisWidth;
             if (rightActualAxis == null)
@@ -138,26 +159,32 @@ namespace EPPlusImageRenderer.Svg
                 rightAxisWidth = (rightActualAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
             }
 
-            var width = right - rightAxisWidth - rect.GlobalLeft;
-            //Reserve space for the last label that will be on the tick label instead of Middle of the category.
-            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.AxisValues != null)
             {
-                var minusPA = width / ChartRenderer.HorizontalAxis.AxisValues.Count / 2;
-                if (minusPA > rightAxisWidth)
+                var width = right - rightAxisWidth - rect.GlobalLeft;
+                //Reserve space for the last label that will be on the tick label instead of Middle of the category.
+                if (ChartRenderer.HorizontalAxis != null && ChartRenderer.VerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
                 {
-                    rightAxisWidth = minusPA;
+                    var minusPA = width / ChartRenderer.HorizontalAxis.AxisValues.Count / 2;
+                    if (minusPA > rightAxisWidth)
+                    {
+                        rightAxisWidth = minusPA;
+                    }
+                }
+                if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+                {
+                    var minusSA = width / ChartRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
+                    if (minusSA > rightAxisWidth)
+                    {
+                        rightAxisWidth = minusSA;
+                    }
                 }
             }
-            if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.CrossBetween == eCrossBetween.MidCat)
+            if(ChartRenderer.HasDataTable && ChartRenderer.DataTable!=null && ChartRenderer.DataTable.IsHeaderBottomAxis)
             {
-                var minusSA = width / ChartRenderer.SecondHorizontalAxis.AxisValues.Count / 2;
-                if (minusSA > rightAxisWidth)
-                {
-                    rightAxisWidth = minusSA;
-                }
+                left = Math.Max(left, ChartRenderer.Plotarea.Rectangle.GlobalLeft); //if the data table is integrated into the cat ax, the plotarea is adjusted for the legend column in the data table. Use plotarea left.
             }
-
-            return right - rightAxisWidth - rect.GlobalLeft;
+            return right - rightAxisWidth - left;
         }
         private double GetPlotAreaLeft()
         {
@@ -168,8 +195,8 @@ namespace EPPlusImageRenderer.Svg
                 left += ChartRenderer.Legend.Rectangle.Width + ChartRenderer.Legend.RightMargin;
             }
 
-            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left);
-            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.LeftSecond);
+            var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
+            var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Left,1);
             if (leftAxis == null)
             {
                 leftAxis = GetAxisByPosition(eAxisPosition.Left);
@@ -189,14 +216,22 @@ namespace EPPlusImageRenderer.Svg
                 {
                     left += leftSecondAxis.Rectangle.Width;
                 }
+                if(ChartRenderer.HasDataTable)
+                {
+                    var fc = ChartRenderer.DataTable.GetLegendColWidth() + LeftMargin + ChartRenderer.DataTable.RightMargin;
+                    if(fc>left)
+                    {
+                        left = fc;
+                    }
+                }
             }
             return left;
         }
         private double GetPlotAreaTop()
         {
             double haHeight = 0;
-            var topAxis = GetAxisActualByPosition(eActualAxisPosition.Top);
-            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.TopSecond);            
+            var topAxis = GetAxisActualByPosition(eActualAxisPosition.Top,0);
+            var topSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Top,1);            
             if (topAxis == null)
             {
                 //If the axis is not on the top, we should check if there is an axis that has the position on the top. If there is, we should reserve space for the title of the axis. This can happen when LabelPosition is set to Low and the axis is on the bottom, but the position of the axis is set to top.
@@ -208,27 +243,48 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? TopMargin) + haHeight;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight + TopMargin;
         }
 
-        private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos)
+        private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos, int index)
         {
-            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.ActualAxisPosition == pos)
+            if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.HorizontalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.HorizontalAxis;
+                }
+                else if (index == 1 && ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisTextboxPosition == pos)
+                {
+                    return ChartRenderer.SecondHorizontalAxis;
+                }
             }
-            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.VerticalAxis != null && ChartRenderer.VerticalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.VerticalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.VerticalAxis;
+                }
+                else if (index == 1 && ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisTextboxPosition == pos)
+                {
+                    return ChartRenderer.SecondVerticalAxis;
+                }
             }
-            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondHorizontalAxis != null && ChartRenderer.SecondHorizontalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.SecondHorizontalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.SecondHorizontalAxis;
+                }
             }
-            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.ActualAxisPosition == pos)
+            else if (ChartRenderer.SecondVerticalAxis != null && ChartRenderer.SecondVerticalAxis.Axis.AxisTextboxPosition == pos)
             {
-                return ChartRenderer.SecondVerticalAxis;
+                if (index == 0)
+                {
+                    return ChartRenderer.SecondVerticalAxis;
+                }
             }
+
             return null;
         }
         private ChartAxisRenderer GetAxisByPosition(eAxisPosition pos)
@@ -255,6 +311,8 @@ namespace EPPlusImageRenderer.Svg
         public override void AppendRenderItems(List<Transform> renderItems)
         {
             renderItems.Add(Group);
+            AddSubGroupingOfRenderItems("MinorGridLines", MinorGridlinePositions, Group);
+            AddSubGroupingOfRenderItems("MajorGridLines", MajorGridlinePositions, Group);
         }
 
         internal void DrawSeries()
@@ -267,7 +325,29 @@ namespace EPPlusImageRenderer.Svg
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.PlotArea2d, (int)Chart.Style);
+            var chartId = (int)Chart.Style;
+
+            //Support for older chartStyles
+            //Pie charts are strange and do not color plot area, at id 33 and up other charts do
+            if (ChartRenderer.Chart.ChartType == eChartType.Pie && chartId < 149)
+            {
+                if(chartId > 100)
+                {
+                    chartId -= 100;
+                }
+
+                if(chartId > 40)
+                {
+                    return Color.Black;
+                }
+                else
+                {
+                    return Color.White;
+                }
+            }
+
+
+            return GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.PlotArea2d, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()

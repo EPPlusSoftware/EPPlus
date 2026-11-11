@@ -10,7 +10,9 @@ namespace EPPlus.Graphics.TransformPrimitives
     {
         public PieSliceCollection Slices = new PieSliceCollection();
 
-        public PieTransform(Transform parent, double radius) : base(parent, radius) { }
+        public List<PieSliceTransform> TransformSlices = new List<PieSliceTransform>();
+
+        //public PieTransform(Transform parent, double radius) : base(parent, radius) { }
 
         public PieTransform(double radius) : base(radius) { }
 
@@ -26,9 +28,12 @@ namespace EPPlus.Graphics.TransformPrimitives
             foreach (var percentage in SlicePercentages)
             {
                 var degrees = percentage * 360d;
-                PieSliceBase slice = new PieSliceBase(prevSliceDegrees, prevSliceDegrees + degrees, Circle);
+                PieSliceBase slice = new PieSliceBase(prevSliceDegrees, degrees + prevSliceDegrees, Circle);
                 Slices.Add(slice, percentage);
-                prevSliceDegrees = slice.EndDegrees;
+
+                var transformPieSlice = new PieSliceTransform(slice, this);
+                TransformSlices.Add(transformPieSlice);
+                prevSliceDegrees = degrees + prevSliceDegrees;
             }
         }
     }

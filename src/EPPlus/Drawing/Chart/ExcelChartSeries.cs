@@ -281,7 +281,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
             }
             ExcelChartSerie serie;
-            switch (Chart.ChartType)
+            switch (_chart.ChartType)
             {
                 case eChartType.Bubble:
                 case eChartType.Bubble3DEffect:

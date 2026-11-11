@@ -121,6 +121,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             else
             {
                 var endIdx = InternalLineFragments[idxInLst + 1].StartIdx;
+                var len = endIdx - startIdx;
                 return Text.Substring(startIdx, endIdx - startIdx);
             }
         }

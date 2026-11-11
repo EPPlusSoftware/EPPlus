@@ -1,4 +1,5 @@
-﻿using EPPlus.Export.ImageRenderer.RenderItems.Shared;
+﻿using EPPlus.DrawingRenderer.Utils;
+using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
 
@@ -41,6 +42,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             MaxWidth = parent.Width;
             MaxHeight = parent.Height;
             Name = "Textbody";
+
+            //_marginGroup = this;
         }
         public RenderTextBody(RenderContext renderContext, BoundingBox parent, double left, double top, double maxWidth, double maxHeight, bool clampedToParent = false, bool autoSize=false) : this(renderContext, parent, autoSize)
         {
@@ -52,6 +55,8 @@ namespace EPPlus.DrawingRenderer.RenderItems
             MaxWidth = maxWidth;
             MaxHeight = maxHeight;
             Name = "Textbody";
+
+            //_marginGroup = this;
         }
 
         protected RenderContext RenderContext { get; private set; }
@@ -66,6 +71,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
         public double BottomMargin { get; set; }
         public double RightMargin { get; set; }
         public double LeftMargin { get; set; }
+        /// <summary>
+        /// Default to black if unset
+        /// </summary>
         public string FontColorString { get; set; }
 
         
@@ -147,7 +155,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
         /// If text is added to the first paragraph without using textbody e.g. Paragraphs[0].AddText()
         /// Subsequent paragraphs must be updated
         /// </summary>
-        public void RecalculateParagraphs()
+        public void RecalculateParagraphs(bool addSpaceMargin = false)
         {
             if(Paragraphs != null && Paragraphs.Count != 0)
             {
@@ -156,6 +164,7 @@ namespace EPPlus.DrawingRenderer.RenderItems
                 double smallestLeft = double.MaxValue;
                 double largestWidth = double.MinValue;
                 double totalHeight = 0;
+                double spaceMargin = 0;
 
                 foreach (var paragraph in Paragraphs)
                 {
@@ -163,6 +172,14 @@ namespace EPPlus.DrawingRenderer.RenderItems
                     lastParagraphBottom = paragraph.Bottom;
 
                     smallestLeft = Math.Min(smallestLeft, paragraph.Left);
+                    if(largestWidth < paragraph.Width)
+                    {
+                        largestWidth = paragraph.Width;
+                        if(addSpaceMargin)
+                        {
+                            largestWidth = paragraph.Width - paragraph.GetSpaceMargin();
+                        }
+                    }
                     largestWidth = Math.Max(largestWidth, paragraph.Width);
                     totalHeight += paragraph.Height;
                 }

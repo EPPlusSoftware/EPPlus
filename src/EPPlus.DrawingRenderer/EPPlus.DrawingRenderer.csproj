@@ -40,8 +40,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="RenderItems\Shared\" />
-  </ItemGroup>
-
 </Project>

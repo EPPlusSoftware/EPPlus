@@ -37,7 +37,7 @@ namespace EPPlus.DrawingRenderer.Svg
             //If fill is null it may in e.g. Rect still get the color black which can have an opacity
             if (style.FillOpacity != null && style.FillOpacity != 1)
             {
-                sb.Append($"opacity=\"{style.FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
+                sb.Append($"fill-opacity=\"{style.FillOpacity.Value.ToString(CultureInfo.InvariantCulture)}\" ");
             }
             if (string.IsNullOrEmpty(style.FilterName) == false)
             {

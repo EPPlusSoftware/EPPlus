@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 
@@ -75,7 +76,22 @@ namespace EPPlus.Graphics
                 Size = new Vector2(value, Size.Y);
             }
         }
-
+        public virtual double RotatedWidth
+        {
+            get
+            {
+                var gbb = GetGlobalBoundingbox();
+                return gbb.Width;
+            }
+        }
+        public virtual double RotatedHeight
+        {
+            get
+            {
+                var gbb = GetGlobalBoundingbox();
+                return gbb.Height;
+            }
+        }
         public virtual double Height
         {
             get
@@ -136,7 +152,7 @@ namespace EPPlus.Graphics
 
         //public Coordinate Scale = null;
 
-        internal void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
+        public void SetRotationPointToCenterOfGroup(double rotation = double.NaN)
         {
             RotationPoint = new Graphics.TranformPoint(Width / 2, Height / 2);
 
@@ -190,5 +206,45 @@ namespace EPPlus.Graphics
                 return $"{Left} {Top} {Width} {Height}";
             } 
         }
+
+        public Vector2 CollisionCheck(BoundingBox bbCompare)
+        {
+            // When positive this bb intersects with bbCompare
+            var distRight = GlobalRight - bbCompare.GlobalLeft;
+            var distLeft = bbCompare.GlobalRight - GlobalLeft;
+            var distTop = GlobalBottom - bbCompare.GlobalTop;
+            var distBottom = bbCompare.GlobalBottom - GlobalTop;
+
+            Vector2 adjustVector = Vector2.Zero;
+
+            //Find the smallest distance to adjust 
+            if (distRight > 0 || distLeft > 0 || distTop > 0 || distBottom > 0)
+            {
+                var minimumDist = distRight;
+                adjustVector = new Vector2(-distRight, 0);
+
+                if (distLeft < minimumDist)
+                {
+                    minimumDist = distLeft;
+                    adjustVector = new Vector2(distLeft, 0);
+                }
+
+                if (distTop < minimumDist)
+                {
+                    minimumDist = distTop;
+                    adjustVector = new Vector2(0, -distTop);
+                }
+                if (distBottom < minimumDist)
+                {
+                    minimumDist = distBottom;
+                    adjustVector = new Vector2(0, distBottom);
+                }
+            }
+
+            return adjustVector;
+        }
+
+        //We've got a huge problem.
+        //Rotation breaks our terms of "top" and "left" as parental points may have rotated the item meaning we may return a "top" that is on the global bottom of the item
     }
 }

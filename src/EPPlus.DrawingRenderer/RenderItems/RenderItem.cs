@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems.Textbox;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
 using EPPlusImageRenderer;
@@ -140,6 +141,9 @@ namespace EPPlus.DrawingRenderer.RenderItems
     }
     public class GroupRenderItem : RenderItem
     {
+        public RichTextFormatDrawing? GroupDefaultFont = null;
+
+
         public GroupRenderItem(BoundingBox parent) : base(parent)
         {
         }

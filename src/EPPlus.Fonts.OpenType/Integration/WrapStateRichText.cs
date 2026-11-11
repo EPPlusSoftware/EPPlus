@@ -31,7 +31,11 @@ namespace EPPlus.Fonts.OpenType.Integration
             if (_fragmentsForNextLine == null)
             {
                 EndCurrentTextLine();
-                var spcWidthTemp = LineFrag.SpaceWidth;
+                double spcWidthTemp = 0;
+                if (LineFrag != null)
+                {
+                    spcWidthTemp = LineFrag.Width;
+                }
                 LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment, CharIdxRt, CharIdxWithinOriginal);
                 LineFrag.SpaceWidth = spcWidthTemp;
             }

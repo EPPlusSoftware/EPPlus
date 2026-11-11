@@ -101,7 +101,7 @@ namespace EPPlusImageRenderer.RenderItems
         {
             if(styleFillColor != null)
             {
-                Color? fc = tc.ColorConverter.GetThemeColor(theme, fill.SolidFill?.Color, styleFillColor);
+                Color? fc = tc.ColorConverter.GetThemeColor(theme, fill?.SolidFill?.Color, styleFillColor);
                 return fc;
             }
             return null;
@@ -207,7 +207,7 @@ namespace EPPlusImageRenderer.RenderItems
             DrawingRenderGradientFill gradFill = null;
             double opacity = 1d;
 
-            if (border == null)
+            if (border == null || border.IsEmpty)
             {
                 if (hasBorder)
                 {

@@ -147,6 +147,10 @@ namespace OfficeOpenXml.Drawing
                         //"link" we may want to load the linked image if it exists/the path is absolute
                         if(LinkedImageRel.TargetUri.IsAbsoluteUri && LinkedImageRel.TargetUri.IsFile)
                         {
+                            if (adjustedPath.StartsWith("file:///"))
+                            {
+                                adjustedPath = adjustedPath.Substring("file:///".Length);
+                            }
                             FileInfo ImageFile = new FileInfo(adjustedPath);
                         
                             LoadImageLinked(ImageFile);

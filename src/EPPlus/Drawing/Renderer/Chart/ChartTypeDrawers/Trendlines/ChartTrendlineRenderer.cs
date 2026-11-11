@@ -20,6 +20,7 @@ using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
@@ -53,8 +54,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 case eTrendLine.Linear:
                     CalculateLinear();
-                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(1)));
-                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(_xSerie.Count)));
+                    Coordinates.Add(new Coordinate(0, GetLinearValueAtPosition(_xSerie[0])));
+                    Coordinates.Add(new Coordinate(_xSerie.Count - 1, GetLinearValueAtPosition(xSerie.Count)));
                     break;
                 case eTrendLine.Exponential:
                     CalculateExponential();
@@ -125,12 +126,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (width > 0 && height > 0)
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, x, y, width, height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.ChartArea.Rectangle, DefaultFonts2007Style.DataLabels, x, y, width, height);
                 DataLabel.TextBody.AutoSize = false;
             }
             else
             {
-                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.Bounds, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
+                DataLabel = new DrawingTextBox(ChartRenderer.RenderContext, Chart, ChartRenderer.Bounds, DefaultFonts2007Style.DataLabels, ChartRenderer.Bounds.Width, ChartRenderer.Bounds.Height);
                 if (x > 0)
                 {
                     DataLabel.Left = x;
@@ -141,7 +142,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 DataLabel.TextBody.AutoSize = true;
             }
-            lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
             DataLabel.ImportTextBodyAndParagraphs(lbl.TextBody, true, OfficeOpenXml.Style.ExcelHorizontalAlignment.Center);
             var labelText = "";
             if (_trendline.DisplayEquation)
@@ -156,8 +156,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 labelText += RSquare;
             }
-            //lbl.TextBody.Paragraphs[0].HorizontalAlignment = OfficeOpenXml.Drawing.eTextAlignment.Center;
-            //DataLabel.ImportParagraph(lbl.TextBody.Paragraphs[0], 0, "");
             AddLblText(DataLabel, labelText);
             DataLabel.LeftMargin = DataLabel.RightMargin = 4;
             DataLabel.TopMargin = DataLabel.BottomMargin = 2;
@@ -191,9 +189,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 DataLabel.Top = 0;
             }
 
+            //Calculate alignment
+            foreach(var paragraph in DataLabel.TextBody.Paragraphs)
+            {
+                paragraph.HorizontalAlignment = TextAlignment.Center;
+            }
+            DataLabel.TextBody.RecalculateParagraphs();
 
-            DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, DefaultFillColor);
-            DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
+
+            DataLabel.Rectangle.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, _trendline.Label.Fill, Chart.StyleManager.Style?.TrendlineLabel.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, Color.Transparent);
+            DataLabel.Rectangle.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Label.Border, Chart.StyleManager.Style?.TrendlineLabel.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Label.Border.Width);
             DataLabel.Rectangle.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Label.Effect);
         }
 
@@ -201,10 +206,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             int pIx = 0;
             var ix = labelText.IndexOf("|ss:");
-
+            var p = lbl.TextBody.Paragraphs.FirstOrDefault();
             while (ix >= 0 && ix < labelText.Length)
             {
-                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, ix - pIx));
+                if(p==null)
+                {
+                    lbl.AddText(labelText.Substring(pIx, ix - pIx));
+                    }
+                else
+                {
+                    p.AddText(labelText.Substring(pIx, ix - pIx));
+                }
                 var endIx = labelText.IndexOf("|", ix + 4);
                 var rt = new RichTextFormatDrawing(lbl.TextBody.Paragraphs[0].DefaultParagraphFont) { SuperScript = true, Text = labelText.Substring(ix + 4, endIx - ix - 4) };
                 lbl.TextBody.Paragraphs[0].AddRichText(rt);
@@ -220,7 +232,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //}
             if (pIx < labelText.Length)
             {
-                lbl.TextBody.Paragraphs[0].AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                if (p == null)
+                {
+                    lbl.AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                }
+                else
+                {
+                    p.AddText(labelText.Substring(pIx, labelText.Length - pIx));
+                }
             }
 
             //Should probably be a callback
@@ -667,7 +686,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var pathItem = new PathRenderItem(ChartRenderer.Plotarea.Rectangle);
             pathItem.Commands.Add(new EPPlusImageRenderer.PathCommand(PathCommandType.Move, RenderCoordinates));
             pathItem.Style.FillColor = "none";
-            pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, _trendline.Border.Width);
+            pathItem.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _trendline.Border, Chart.StyleManager.Style?.Trendline.BorderReference.Color, true, GetDefaultBorderColor, 0.75);
             pathItem.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, _trendline.Effect);
             renderItems.Add(pathItem);
         }
@@ -713,7 +732,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 if (isLine)
                 {
-                    coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[i].X+1));
+                    var x = catAxis.Min + Coordinates[i].X;
+                    coordinates.Add(catAxis.GetPositionInPlotarea(x));
                     coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
                 }
                 else
@@ -733,7 +753,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
 
                         coordinates.Add(valAxis.GetPositionInPlotarea(Coordinates[i].Y));
-                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[Coordinates.Count - 1].X - Coordinates[i].X) + halfGap + (_serieCount - _seriePos - 1) * barWidth * step);
+                        coordinates.Add(catAxis.GetPositionInPlotarea(Coordinates[Coordinates.Count - 1].X - Coordinates[i].X)); // + halfGap + (_serieCount - _seriePos - 1) * barWidth * step
                     }
                     else
                     {
@@ -780,13 +800,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     sum -= _ySerie[i - period + 1];
                 }
             }
-        }
+        }   
 
         private double GetLinearValueAtPosition(double x)
         {
             return Coefficients[1] + Coefficients[0] * x;
         }
-        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartElement.OtherLines, (int)Chart.Style);
+        internal override Color? DefaultFillColor => GetDefaultFillColorForElement(ChartRenderer.Theme, ChartElement.OtherLines, (int)Chart.Style);
         internal override Color? GetDefaultBorderColor()
         {
             return DefaultBorderColor;
@@ -800,11 +820,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             get
             {
-                var themedLine = GetThemedLine(ChartElement.OtherLines, (int)Chart.Style, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty, out Color? lineColor);
-                ////Kept here in case needed in future for effect etc.
-                //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
-                return lineColor;
+                return GetTrendlineColor(ChartRenderer, _trendline.Border.Fill != null && _trendline.Border.Fill.IsEmpty);
             }
+        }
+
+        internal static Color? GetTrendlineColor(ChartRenderer chartRenderer, bool hasBorder)
+        {
+            var themedLine = GetThemedLine(chartRenderer.Theme, ChartElement.OtherLines, (int)chartRenderer.Chart.Style, hasBorder, out Color? lineColor);
+            ////Kept here in case needed in future for effect etc.
+            //var themedLine = GetThemedLine(ChartElement.ChartArea, (int)Chart.Style, out Color? lineCol);
+            return lineColor;
         }
     }
 }

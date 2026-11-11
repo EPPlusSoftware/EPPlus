@@ -436,5 +436,42 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ReadPieChartWithSpecialDataLabels()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("EPPlus_SVG_PieRepair.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets["pie"];
+
+                var pieChart = ws.Drawings["#8: Custom per-slice labels"].As.Chart.PieChart;
+
+                var seriesDlbl = pieChart.Series[0].DataLabel;
+
+                var sLabel1 = seriesDlbl.DataLabels[0];
+                var sLabel2 = seriesDlbl.DataLabels[1];
+                var sLabel3 = seriesDlbl.DataLabels[2];
+                var sLabel4 = seriesDlbl.DataLabels[3];
+                //var sLabel5 = seriesDlbl.DataLabels[4];
+                //var sLabel6 = seriesDlbl.DataLabels[5];
+                //var sLabel7 = seriesDlbl.DataLabels[6];
+
+                var paragraphs = sLabel1.TextBody.Paragraphs;
+
+                //Ensure can read custom paragraph
+                Assert.AreEqual(1, paragraphs.Count);
+                Assert.AreEqual("Biggest", paragraphs.Text);
+
+                //Ensure can read empty custom paragraphs
+                Assert.AreEqual(string.Empty, sLabel2.Text);
+
+                Assert.AreEqual("Delta", sLabel3.Text);
+                Assert.AreEqual("Data!$Z$5", sLabel3.LinkedCell.FullAddress);
+
+                Assert.AreEqual(string.Empty, sLabel4.Text);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

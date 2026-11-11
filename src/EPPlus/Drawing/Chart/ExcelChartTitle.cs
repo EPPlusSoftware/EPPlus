@@ -34,11 +34,13 @@ namespace OfficeOpenXml.Drawing.Chart
         internal string _fontPropertiesPath = "";
         internal string _richTextPath = "";
         internal string _defTxBodyPath = "";
-        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
+        double _rotationDefault;
+        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault=0) :
             base(nameSpaceManager, node)
         {
             _chart = chart;
             _nsPrefix = nsPrefix;
+            _rotationDefault = rotationDefault;
             _fontPropertiesPath = $"{_nsPrefix}:txPr";
             _richTextPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
             _defTxBodyPath = $"{_nsPrefix}:txPr";
@@ -148,12 +150,31 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    var defBody = DefaultTextBody;
-                    var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
                     _textBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:bodyPr", SchemaNodeOrder);
 
-                    //Set property without updating xml
-                    _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    var defBody = DefaultTextBody;
+
+                    if(_textBody.Paragraphs.Count == 0 && defBody.Paragraphs.Count != 0)
+                    {
+                        _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    }
+                    else if (defBody.Paragraphs.Count == 0 && _textBody.Paragraphs.Count == 0)
+                    {
+                        var firstDefaultRunProperties = DefaultTextBody.Paragraphs.CreateOrGetDefaultRunProperties($"{_defTxBodyPath}/a:p/a:pPr/a:defRPr", TopNode);
+                        firstDefaultRunProperties.Bold = true;
+                        firstDefaultRunProperties.Size = 10f;
+                        _textBody.Paragraphs.FirstDefaultRunProperties = DefaultTextBody.Paragraphs.FirstDefaultRunProperties;
+                    }
+                    else
+                    {
+                        //paragraphs exist but could be empty
+                        //Excel also uses these default settings but they are not written out in the xml explicitly
+                        if(_textBody.Paragraphs.FirstDefaultRunProperties != null && _textBody.Paragraphs.FirstDefaultRunProperties.IsEmpty /*_textBody.Paragraphs.FirstDefaultRunProperties.PathElement.IsEmpty*/)
+                        {
+                            _textBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
+                            _textBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
+                        }
+                    }
                 }
                 return _textBody;
             }
@@ -169,6 +190,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_defaultTextBody == null)
                 {
                     _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_defTxBodyPath}/a:bodyPr", SchemaNodeOrder);
+                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
+                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
                 }
                 return _defaultTextBody;
             }
@@ -366,15 +389,19 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var i=GetXmlNodeInt($"{_fontPropertiesPath}/a:bodyPr/@rot", 0);
-                if (i < 0)
+                var d=GetXmlNodeDoubleNull($"{_fontPropertiesPath}/a:bodyPr/@rot");
+                if (d.HasValue)
                 {
-                    return 360 + (i / 60000);
+                    if (d.Value < 0)
+                    {
+                        return 360 + (d.Value / 60000);
+                    }
+                    else
+                    {
+                        return (d.Value / 60000);
+                    }
                 }
-                else
-                {
-                    return (i / 60000);
-                }
+                return _rotationDefault;
             }
             set
             {
@@ -445,7 +472,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTitleStandard : ExcelChartTitle
     {
-        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
+        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault) : base(chart, nameSpaceManager, node, nsPrefix, rotationDefault)
         {
         }
         /// <summary>

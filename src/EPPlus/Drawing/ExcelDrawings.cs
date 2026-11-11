@@ -259,6 +259,7 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("asvg", "http://schemas.microsoft.com/office/drawing/2016/SVG/main");
             NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
             NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
+            NameSpaceManager.AddNamespace("c16rd", ExcelPackage.schemaChart201703);
         }
         private void CreateChartNSM()
         {

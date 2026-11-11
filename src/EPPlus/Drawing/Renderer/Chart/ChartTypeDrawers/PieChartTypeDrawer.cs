@@ -5,19 +5,21 @@ using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Utils;
 using EPPlus.Graphics;
 using EPPlus.Graphics.Geometry;
+using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using EPPlus.Graphics.TransformPrimitives;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 {
@@ -95,31 +97,54 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             //(or the 90 degree offset in the first slice)
             var prevDegrees = _startDegrees;
 
-            for (int i = 0; i < valValues.Count; i++)
+            List<double> valPercents = new List<double>();
+            
+
+            for (int i = 0; i < _serieValuesAsDoubles.Count; i++)
             {   //Calculate how many percent of the pie this slice is
                 var valPercent = _serieValuesAsDoubles[i] / _totalOfSerieValues;
-                //Create and add slice
-                PieSliceRenderItem slice = new PieSliceRenderItem(ChartRenderer, _groupItem, _circleCenter, _radius, valPercent, prevDegrees);
-                Slices.Add(slice);
+                valPercents.Add(valPercent);
+            }
 
-                //Next slice will need to be calculated starting from the degrees of this slice
-                prevDegrees = slice.Degrees + prevDegrees;
+
+            pieTransform = new PieTransform(_radius);
+            pieTransform.GenerateSlicesAndClearPrevious(valPercents);
+
+            pieTransform.Parent = _circleCenter.Parent;
+            pieTransform.Position = _circleCenter.Position;
+            pieTransform.Name = "Pie_Transform";
+
+            for (int i = 0; i < valPercents.Count; i++)
+            {
+                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees);
+                prevDegrees = renderSlice.Degrees + prevDegrees;
+                Slices.Add(renderSlice);
             }
         }
 
+        double _shrinkFactor = 1;
+
         void CalculateLocalCenterAndRadius()
         {
+            if (_shouldShrink == true)
+            {
+                _shrinkFactor = 0.8632625d;
+            }
+
             _circleCenter = new TranformPoint();
             _circleCenter.Parent = _groupItem.Parent;
-            _circleCenter.Left = ChartRenderer.Plotarea.Rectangle.Width / 2d;
-            _circleCenter.Top = ChartRenderer.Plotarea.Rectangle.Height / 2d;
-
-            
+            _circleCenter.Left = (ChartRenderer.Plotarea.Rectangle.Width / 2d);
+            _circleCenter.Top = (ChartRenderer.Plotarea.Rectangle.Height / 2d);
 
             _groupItem.RotationPoint = _circleCenter;
 
-            _radius = Math.Min(_circleCenter.Left, _circleCenter.Top);
+
+            _radius = Math.Min(_circleCenter.Left * _shrinkFactor, _circleCenter.Top * _shrinkFactor);
         }
+
+        bool _shouldShrink = false;
+
+        List<ExcelChartDataLabel> _serieLabels;
 
         void LoadSeriesValues(ExcelPieChart chartType)
         {
@@ -142,11 +167,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                         ChartSerieDataLabelRenderer datalabel;
                         if (serie.HasDataLabel)
                         {
+                            //_serieLabels.Add(serie.DataLabel);
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, serie.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                            if ((serie.DataLabel.Position == eLabelPosition.BestFit || serie.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                            {
+                                _shouldShrink = true;
+                            }
                         }
                         else
                         {
+                            //_serieLabels.Add(chartType.DataLabel);
                             datalabel = new ChartSerieDataLabelRenderer(ChartRenderer, chartType.DataLabel, ChartRenderer.Bounds, serie, catValues, valValues, _serCounter);
+                            if ((chartType.DataLabel.Position == eLabelPosition.BestFit || chartType.DataLabel.Position == eLabelPosition.OutEnd) && _shouldShrink == false)
+                            {
+                                _shouldShrink = true;
+                            }
                         }
 
                         serieDataLabels.Add(datalabel);
@@ -171,7 +206,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                     continue;
                 }
                 _serieValuesAsDoubles.Add(dValue);
-                _totalOfSerieValues += _serieValuesAsDoubles[i];
+                _totalOfSerieValues += dValue;
             }
         }
 
@@ -191,6 +226,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             Slices[position].AppendGroupItem(_groupItem);
         }
 
+        private ExcelChartSeries<ExcelPieChartSerie> _chartSeries;
+
         internal override void DrawSeries()
         {
             _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group);
@@ -205,7 +242,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             var angleOffset = double.IsNaN(chartType.FirstSliceAngle) ? 0 : chartType.FirstSliceAngle;
             _groupItem.GroupRotation = angleOffset;
 
+             _chartSeries = chartType.Series;
+
             LoadSeriesValues(chartType);
+
             CalculateLocalCenterAndRadius();
             if (serieDataLabels.Count > 0)
             {
@@ -265,6 +305,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
                         if (chartType.HasDataLabel || serie.HasDataLabel)
                         {
+
                             var innerGroup = Slices[j].GetInnerGroupWithTransformOriginTranslated();
                             //Get the global position of the inner items (innerGroup the parent of itemGroup has already had its position set correctly)
                             var dlblBounds = new BoundingBox(innerGroup.LocalPosition.X, innerGroup.LocalPosition.Y, Rectangle.Width, Rectangle.Height);
@@ -272,31 +313,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                             var ctrToMid = Slices[j].GetWholeVectorCenterToMid();
                             var startPt = new Transform();
                             startPt.Parent = innerGroup.Parent;
+
+                            //This technically places the debug points in wrong position when shrinking but the result looks more similar to excel
+                            innerGroup.Position = innerGroup.Position - ((ctrToMid * -1) * (_shrinkFactor - 1)*_sliceScaleFactor);
+
                             startPt.Position = innerGroup.Position + (ctrToMid * -1);
 
-                            //var maxBoundsForBestFit = new BoundingBox();
-                            //maxBoundsForBestFit.Parent = innerGroup;
 
                             var bounds = Slices[j].GetBounds();
-
-                            //BoundingBox box = new BoundingBox(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
-                            //box.Parent = innerGroup;
-
-                            //var start = Slices[j].GetCenterOfStartPointLine();
-                            //var end = Slices[j].GetCenterOfEndPointLine();
-
-                            //var minX = Math.Min(start.LocalPosition.X, end.LocalPosition.X);
-                            //var width = Math.Max(start.LocalPosition.X, end.LocalPosition.X) - minX;
-
-                            //var minY = Math.Min(start.LocalPosition.Y, end.LocalPosition.Y);
-                            //var height = Math.Max(start.LocalPosition.Y, end.LocalPosition.Y) - minY;
-
-                            //maxBoundsForBestFit.Left += minX;
-                            //maxBoundsForBestFit.Top += minY;
-                            //maxBoundsForBestFit.Width = width;
-                            //maxBoundsForBestFit.Height = height;
-                            ////maxBoundsForBestFit.Width = Math.Abs(start.LocalPosition.X - end.LocalPosition.X);
-                            ////maxBoundsForBestFit.Height = Math.Abs(start.LocalPosition.Y - end.LocalPosition.Y);
 
                             serieDataLabels[i].SetDimensions(j, startPt, innerGroup, bounds);
                         }
@@ -305,29 +329,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
             }
 
             //RenderDebugEllipse();
-
             ChartAreaRenderItems.Add(_groupItem);
-
-            ////This works but does not put them last in the render order in svg
-            ////Pie charts only use the first serie
-            //if (serieDataLabels != null && serieDataLabels.Count > 0)
-            //{
-            //    serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);
-            //}
-
-            //////Series Labels
-            ////foreach (var dataLabel in serieDataLabels)
-            ////{
-            ////    //dataLabel.AppendRenderItems(SeriesRenderItems);
-            ////    //if(serieDataLabels.Count =)
-            ////    ChartRenderer.RenderItems.Add(SeriesRenderItems[0]);
-            ////}
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
-            //renderItems.AddRange(ChartAreaRenderItems);
-            //ChartRenderer.Plotarea.Group.AddChildItem(_groupItem);
             if (serieDataLabels != null && serieDataLabels.Count > 0)
             {
                 serieDataLabels[0].AppendRenderItems(ChartRenderer.RenderItems);

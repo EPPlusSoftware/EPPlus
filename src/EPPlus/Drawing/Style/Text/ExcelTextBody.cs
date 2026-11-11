@@ -43,8 +43,10 @@ namespace OfficeOpenXml.Drawing
             _pictureRelationDocument = pictureRelationDocument;
             _path = path;
 
+            bool pathExists = ExistsNode(path);
+
             _initXml = initXml;
-			AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "ln", "noFill", "solidFill", "gradFill", "pattFill", "blipFill", "latin", "ea", "cs", "sym", "hlinkClick", "hlinkMouseOver", "rtl", "extLst", "highlight", "kumimoji", "lang", "altLang", "sz", "b", "i", "u", "strike", "kern", "cap", "spc", "normalizeH", "baseline", "noProof", "dirty", "err", "smtClean", "smtId", "bmk" });
         }
         /// <summary>
         /// The anchoring position within the shape
@@ -171,6 +173,40 @@ namespace OfficeOpenXml.Drawing
             {
 				_initXml?.Invoke();
 				SetXmlNodeAngle($"{_path}/@rot", value, "Rotation", -100000, 100000);
+            }
+        }
+        /// <summary>
+        /// The rotation that is being applied to the text within the bounding box
+        /// </summary>
+        internal double RotationAdjustedForTextVertical
+        {
+            get
+            {
+                var rot = Rotation ?? 0D;
+                switch (VerticalText)
+                {
+                    case eTextVerticalType.Vertical270:
+                        return rot + 270;
+                    case eTextVerticalType.Vertical:
+                    case eTextVerticalType.EastAsianVertical:
+                    case eTextVerticalType.MongolianVertical:
+                        return rot + 90;
+                    default:
+                        if(Rotation==-1000)  //Special rotation for diagonal axis.
+                        {
+                            return 0;
+                        }
+                        return rot;
+                }
+            }
+        }
+        internal bool IsStackedText
+        {
+            get
+            {
+                return
+                  VerticalText == eTextVerticalType.WordArtVertical ||
+                  VerticalText == eTextVerticalType.WordArtVerticalRightToLeft;
             }
         }
         /// <summary>
@@ -464,6 +500,11 @@ namespace OfficeOpenXml.Drawing
             bottom = BottomInsert;
         }
 
+        internal eTextAlignment defaultAlignment = eTextAlignment.Left;
+
+
+        public bool HasParagraphs => _paragraphs != null;
+
         ExcelDrawingParagraphCollection _paragraphs = null;
         /// <summary>
         /// A collection of paragraphs within a rich text in a drawing object.
@@ -475,7 +516,7 @@ namespace OfficeOpenXml.Drawing
                 if(_paragraphs==null)
                 {
                     var textBodyPath = _path.Substring(0, _path.LastIndexOf('/'));
-                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml);
+                    _paragraphs = new ExcelDrawingParagraphCollection(_pictureRelationDocument, NameSpaceManager, TopNode, textBodyPath, SchemaNodeOrder, _initXml, defaultAlignment);
                 }
                 return _paragraphs;
             }

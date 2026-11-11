@@ -52,6 +52,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (_chart._isChartEx) return;
             _entries = new EPPlusReadOnlyList<ExcelChartLegendEntry>();
+            if (TopNode == null) return;
             var e = LoadLegendEntries();
             foreach (var c in _chart.PlotArea.ChartTypes)
             {
