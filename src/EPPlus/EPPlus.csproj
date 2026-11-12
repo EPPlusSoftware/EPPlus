@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-		<AssemblyVersion>9.0.0.0</AssemblyVersion>
-		<FileVersion>9.0.0.0</FileVersion>
-		<Version>9.0.0-preview</Version>
+		<AssemblyVersion>9.0.0.1</AssemblyVersion>
+		<FileVersion>9.0.0.1</FileVersion>
+		<Version>9.0.0-preview2</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<!-- Include the referenced project binaries in the generated NuGet package -->
 		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
@@ -20,14 +20,21 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-EPPlus 9.0.0-preview
+			EPPlus 9.0.0-preview2
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
-			
+
+			## Version 9.0.0-preview2
+			* Pdf export of ranges and tables.
+			* Export of shapes and charts to svg (Support for Line-, bar-, column-, pie and combo charts).
+			* The HTML export will now optionally include shapes and supported chart types as SVGs.
+			* Fixes and new minor issues since preview 1 - See See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			* New Sample site: See https://samples.epplussoftware.com/EPPlus9
+
 			## Version 8.7.2
 			* Fix for security advisory GHSA-f4h2-2r6m-w59r.
 			* Updated System.Security.Cryptography.Xml and System.Security.Cryptography.Pkcs to address security vulnerabilities (CVE-2026-96222, CVE-2026-96958, CVE-2026-96959, CVE-2026-96960, CVE-2026-84008, CVE-2026-70162).
@@ -38,9 +45,6 @@ EPPlus 9.0.0-preview
 			* Export of shapes and charts to svg (Support for Line-, bar-, column-, pie and combo charts).
 			* The HTML export will now optionally include shapes and supported chart types as SVGs.
 			* New Sample site: See https://samples.epplussoftware.com/EPPlus9
-		
-			
-
 
 			## Version 8.7.1
 			* Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
@@ -609,7 +613,8 @@ EPPlus 9.0.0-preview
 			A list of fixed issues can be found here https://epplussoftware.com/docs/8.6/articles/fixedissues.html
 
 			Version history
-			8.7.2			20261015 Updated references for security vulnerabilities. Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			9.0.0-preview2	20261112 Pdf export of ranges and tables. Export of shapes and charts to svg. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+			8.7.2			20261015 Updated references for security vulnerabilities. Minor bug fixes.
 			9.0.0-preview	20260922 Pdf export of ranges and tables. Export of shapes and charts to svg.
 			8.7.1			20260922 Minor bug fixes.
 			8.7.0			20260820 Save as template. Minor bug fixes.
