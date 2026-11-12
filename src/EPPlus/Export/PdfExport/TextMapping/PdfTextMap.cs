@@ -861,9 +861,25 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             ExcelRangeBase lastColumnRange = ws.Cells[1, lastColumn, ws.Dimension.End.Row, lastColumn];
             var cc = catalog.GetCellCollectionFromRange(pageSettings, lastColumnRange);
             double textLength = 0;
-            for (int i = cc.FromRow; i < cc.ToRow; i++)
+            for (int i = cc.FromRow; i <= cc.ToRow; i++)
             {
-                textLength = cc[i, cc.FromColumn].TotalTextLength > textLength ? cc[i, cc.FromColumn].TotalTextLength : textLength;
+                var lastColCell = cc[i, cc.FromColumn];
+                if (lastColCell == null)
+                {
+                    continue;
+                }
+                if (lastColCell.ContentAligmnet != null && lastColCell.ContentAligmnet.WrapText)
+                {
+                    continue;
+                }
+                if (lastColCell.Merged)
+                {
+                    continue;
+                }
+                if (lastColCell.TotalTextLength > textLength)
+                {
+                    textLength = lastColCell.TotalTextLength;
+                }
             }
             double columnWidth = UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol).Width, pdfSheet.ZeroCharWidth);
             while (textLength > columnWidth)
