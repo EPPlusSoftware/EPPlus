@@ -431,6 +431,9 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             var ws = package.Workbook.Worksheets[0];
             var svg = ws.Drawings[0].ToSvg();
             SaveSvg("ColumnGradient.svg", svg);
+
+            var fi = GetOutputFile("", "ColumnGradient.xlsx");
+            package.SaveAs(fi.FullName);
         }
         [TestMethod]
         public async Task HtmlExportWithPieWithDatalabels()
