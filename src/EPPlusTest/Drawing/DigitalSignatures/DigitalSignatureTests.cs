@@ -31,26 +31,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     {
         const string SubFolder = "DigSig\\";
 
-        ////Get around Linux mono .net481 not having access to CertificateRequest class
-        //private static X509Certificate2 MakeCert(string certDN, RSA key)
-        //{
-        //    Type certificateRequestType = typeof(RSACertificateExtensions).Assembly.
-        //        GetType("System.Security.Cryptography.X509Certificates.CertificateRequest");
-
-        //    object request = certificateRequestType.GetConstructor(
-        //        new[] { typeof(string), typeof(RSA), typeof(HashAlgorithmName), typeof(RSASignaturePadding) }).Invoke(
-        //        new object[] { certDN, key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1 });
-
-        //    Collection<X509Extension> extensions = (Collection<X509Extension>)
-        //        certificateRequestType.GetProperty("CertificateExtensions").GetValue(request);
-
-        //    // add things to the extensions collection
-        //    //...
-
-        //    return (X509Certificate2)certificateRequestType.GetMethod("CreateSelfSigned", new [] { typeof(DateTimeOffset), typeof(DateTimeOffset) }).Invoke(
-        //        request, new object[] { DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5) });
-        //}
-
         X509Certificate2 GetSelfCert()
         {
             var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
