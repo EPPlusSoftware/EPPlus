@@ -444,6 +444,14 @@ namespace OfficeOpenXml.Core.Worksheet
                     var origPic = (ExcelPicture)draw;
                     pic.SetPixelWidth(origPic.GetPixelWidth());
                     pic.SetPixelHeight(origPic.GetPixelHeight());
+
+                    if(origPic.LinkedImageRel?.TargetUri != null)
+                    {
+                        if(pic.LinkedImageRel == null || pic.LinkedImageRel.TargetUri == null || string.IsNullOrEmpty(pic.LinkedImageRel.TargetUri?.OriginalString))
+                        {
+                            pic.LinkedImageRel.TargetUri = origPic.LinkedImageRel.TargetUri;
+                        }
+                    }
                 }
             }
         }
