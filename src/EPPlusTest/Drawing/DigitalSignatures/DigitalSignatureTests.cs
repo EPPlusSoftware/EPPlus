@@ -1,16 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Security.Cryptography;
-using System.Xml;
-using System;
 using OfficeOpenXml;
-using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.Packaging;
-using System.Text;
-using System.Runtime.ConstrainedExecution;
-using System.IO;
 using OfficeOpenXml.Utils.EncodingUtils;
+using System;
+using System.IO;
+using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Xml;
+using System.Collections;
+using System.Reflection;
+using System.Collections.ObjectModel;
 
 //REMEMBER:
 //1. Cannonize
@@ -27,10 +31,31 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     {
         const string SubFolder = "DigSig\\";
 
+        ////Get around Linux mono .net481 not having access to CertificateRequest class
+        //private static X509Certificate2 MakeCert(string certDN, RSA key)
+        //{
+        //    Type certificateRequestType = typeof(RSACertificateExtensions).Assembly.
+        //        GetType("System.Security.Cryptography.X509Certificates.CertificateRequest");
+
+        //    object request = certificateRequestType.GetConstructor(
+        //        new[] { typeof(string), typeof(RSA), typeof(HashAlgorithmName), typeof(RSASignaturePadding) }).Invoke(
+        //        new object[] { certDN, key, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1 });
+
+        //    Collection<X509Extension> extensions = (Collection<X509Extension>)
+        //        certificateRequestType.GetProperty("CertificateExtensions").GetValue(request);
+
+        //    // add things to the extensions collection
+        //    //...
+
+        //    return (X509Certificate2)certificateRequestType.GetMethod("CreateSelfSigned", new [] { typeof(DateTimeOffset), typeof(DateTimeOffset) }).Invoke(
+        //        request, new object[] { DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5) });
+        //}
+
         X509Certificate2 GetSelfCert()
         {
             var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
             var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+            //var finalCert = MakeCert("cn=SelfSignCert", RSA.Create());
 
             var certPrivate = finalCert.Export(X509ContentType.Pfx);
             var certPublic = finalCert.Export(X509ContentType.Cert);
