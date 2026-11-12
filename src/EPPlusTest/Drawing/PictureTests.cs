@@ -248,8 +248,7 @@ namespace EPPlusTest.Drawing
 			}
 		}
 
-
-		[TestMethod]
+        [TestMethod]
 		public void SwitchFromSvgToPng()
 		{
 			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
@@ -265,15 +264,15 @@ namespace EPPlusTest.Drawing
 
 				var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
 
-				originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+                originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
 
-				Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+                Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
 
 				var rel = ws.Drawings.Part.GetRelationship("rId1");
 
-				var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
+                var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
 
-				Assert.AreEqual(originalSvg.Part.Uri, relUri);
+                Assert.AreEqual(originalSvg.Part.Uri, relUri);
 				Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
 
 				otherPackage.Dispose();

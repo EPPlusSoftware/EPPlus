@@ -51,16 +51,36 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         //        request, new object[] { DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5) });
         //}
 
+        //X509Certificate2 GetSelfCert()
+        //{
+        //    var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        //    var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+        //    //var finalCert = MakeCert("cn=SelfSignCert", RSA.Create());
+
+        //    var certPrivate = finalCert.Export(X509ContentType.Pfx);
+        //    var certPublic = finalCert.Export(X509ContentType.Cert);
+        //    var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+        //    return newCert;
+        //}
+
         X509Certificate2 GetSelfCert()
         {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
-            //var finalCert = MakeCert("cn=SelfSignCert", RSA.Create());
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+#if NET481
+                return OpenSslCertGenerator.CreateSelfSignedCert("cn=SelfSignCert");
+#endif
+            }
+#if NET8_0_OR_GREATER
+            CertificateRequest requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            X509Certificate2 finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
             var certPrivate = finalCert.Export(X509ContentType.Pfx);
             var certPublic = finalCert.Export(X509ContentType.Cert);
             var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
             return newCert;
+#endif
+            return null;
         }
 
         //Alternate method for if you have a valid cert locally already
@@ -71,7 +91,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         //    return store.Certificates[1];
         //}
 
-            [ClassInitialize]
+        [ClassInitialize]
         public static void Init(TestContext context)
         {
             CreatePathIfNotExists(_worksheetPath + SubFolder);

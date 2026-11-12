@@ -19,6 +19,13 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         X509Certificate2 GetSelfCert()
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+#if NET481
+                return OpenSslCertGenerator.CreateSelfSignedCert("cn=SelfSignCert");
+#endif
+            }
+#if NET8_0_OR_GREATER
             CertificateRequest requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
             X509Certificate2 finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
@@ -26,6 +33,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             var certPublic = finalCert.Export(X509ContentType.Cert);
             var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
             return newCert;
+#endif
+            return null;
         }
 
         //Alternate method for if you have a valid cert locally already
