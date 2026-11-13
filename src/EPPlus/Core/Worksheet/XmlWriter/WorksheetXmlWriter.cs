@@ -177,10 +177,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 if (col.OutlineLevel > 0)
                 {
                     sw.Write($" outlineLevel=\"{col.OutlineLevel}\" ");
-                    if (col.Collapsed)
-                    {
-                        sw.Write(" collapsed=\"1\"");
-                    }
+                }
+                if (col.Collapsed)
+                {
+                    sw.Write(" collapsed=\"1\"");
                 }
                 if (col.Phonetic)
                 {
@@ -313,11 +313,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 if (currRow.OutlineLevel > 0)
                 {
                     cache.AppendFormat(" outlineLevel =\"{0}\"", currRow.OutlineLevel);
-                    if (currRow.Collapsed)
-                    {
-                        cache.Append(" collapsed=\"1\"");
-                    }
                 }
+                if (currRow.Collapsed)
+                {
+                    cache.Append(" collapsed=\"1\"");
+                }
+
                 if (currRow.Phonetic)
                 {
                     cache.Append(" ph=\"1\"");
