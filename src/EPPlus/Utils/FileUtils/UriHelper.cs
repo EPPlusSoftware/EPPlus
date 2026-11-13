@@ -19,6 +19,8 @@ namespace OfficeOpenXml.Utils.FileUtils
 {
     internal class UriHelper
     {
+        static readonly UriKind DotNetRelativeOrAbsolute = Type.GetType("Mono.Runtime") == null ? UriKind.RelativeOrAbsolute : (UriKind)300;
+
         internal static Uri ResolvePartUri(Uri sourceUri, Uri targetUri)
         {
             if (targetUri.OriginalString.StartsWith("/", StringComparison.OrdinalIgnoreCase) || targetUri.OriginalString.Contains("://"))
@@ -64,7 +66,7 @@ namespace OfficeOpenXml.Utils.FileUtils
                     file = source[i] + "/" + file;
                 }
             }
-            return new Uri(file, UriKind.RelativeOrAbsolute);
+            return new Uri(file, DotNetRelativeOrAbsolute);
         }
 
         internal static Uri GetRelativeUri(Uri sourceUri, Uri targetUri)

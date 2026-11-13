@@ -19,8 +19,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         X509Certificate2 GetSelfCert()
         {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+            CertificateRequest requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            X509Certificate2 finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
             var certPrivate = finalCert.Export(X509ContentType.Pfx);
             var certPublic = finalCert.Export(X509ContentType.Cert);
