@@ -1379,6 +1379,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
             var ws = p.Workbook.Worksheets[1];
+            ws.PrinterSettings.ShowGridLines = true;
             string path = _pdfPath + "PdfConditionalFormattingTest1.pdf";
             ws.SaveAsPdf(path);
         }

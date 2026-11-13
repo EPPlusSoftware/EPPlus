@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         var iconRule = GetIconSetRule(cell);
                         if (iconRule != null)
                         {
-                            tempMap.ContentAligmnet.HasIcon = true;
+                            tempMap.ContentAligmnet.IconSize = cell.Style.Font.Size * 1.2d;
                             var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
                             if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
                             {

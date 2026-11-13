@@ -183,7 +183,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 cs.AddCommand(PdfColor.SetColorFromHex(active ? "#4d82b8" : "#b3b3b3").ToFillCommand());
                 cs.AddCommand(PdfColor.SetColorFromHex(active ? "#335f8c" : "#757575").ToStrokeCommand());
                 cs.AddCommand("2.2 w");
-                cs.AddCommand($"{boxes[i].x.ToPdfString()} {boxes[i].y.ToPdfString()} 48.757 49.077 re");
+                cs.AddCommand($"{boxes[i].x.ToPdfStringF4()} {boxes[i].y.ToPdfStringF4()} 48.757 49.077 re");
                 cs.AddCommand("B");
             }
         }
@@ -221,7 +221,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 cs.AddCommand(PdfColor.SetColorFromHex(active ? "#4d82b8" : "#b3b3b3").ToFillCommand());
                 cs.AddCommand(PdfColor.SetColorFromHex(active ? "#335f8c" : "#757575").ToStrokeCommand());
                 cs.AddCommand("3.2 w");
-                cs.AddCommand($"{bars[i].x.ToPdfString()} {bars[i].y.ToPdfString()} {bars[i].w.ToPdfString()} {bars[i].h.ToPdfString()} re");
+                cs.AddCommand($"{bars[i].x.ToPdfStringF4()} {bars[i].y.ToPdfStringF4()} {bars[i].w.ToPdfStringF4()} {bars[i].h.ToPdfStringF4()} re");
                 cs.AddCommand("B");
             }
         }

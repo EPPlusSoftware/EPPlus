@@ -93,7 +93,7 @@ namespace EPPlus.Export.Pdf.Layout
 
         internal static Vector2 CalculateAlignment(PdfCellAlignmentData align, string text, double textLength, double textHeight, double firstLineAscent, double lastLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin)
         {
-            double leftInset = align.HasIcon ? System.Math.Min(width, height) : 0d;
+            double leftInset = align.IconSize > 0d ? align.IconSize + 3d : 0d;
             if (align.TextRotation != 0 && !align.IsVertical)
             {
                 return CalculateRotatedAlignment(align, textLength, textHeight, firstLineAscent, x, y, width, height, rightMargin, bottomMargin, leftInset);

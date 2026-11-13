@@ -573,11 +573,31 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (cellW <= 0d || cellH <= 0d) return;
 
             const double inset = 1.5;
-            double size = System.Math.Min(cellW, cellH) - 2 * inset;   // square icon
+            double size = icon.IconSize > 0d ? icon.IconSize : System.Math.Min(cellW, cellH) - 2 * inset;
+
+            double maxW = cellW - 2 * inset;
+            double maxH = cellH - 2 * inset;
+            if (maxW > 0d && size > maxW) size = maxW;   // never wider than the cell
+            if (maxH > 0d && size > maxH) size = maxH;   // never taller than the cell
             if (size <= 0d) return;
 
-            double iconX = icon.LocalPosition.X + inset;               // left-aligned
-            double iconY = icon.LocalPosition.Y + (cellH - size) / 2d; // vertically centered
+            double iconX = icon.LocalPosition.X + inset;   // always left
+            double iconY;
+            switch (icon.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                case ExcelVerticalAlignment.Distributed:
+                case ExcelVerticalAlignment.Justify:
+                    iconY = icon.LocalPosition.Y + (cellH - size) - inset;   // top of cell
+                    break;
+                case ExcelVerticalAlignment.Center:
+                    iconY = icon.LocalPosition.Y + (cellH - size) / 2d;      // middle
+                    break;
+                case ExcelVerticalAlignment.Bottom:
+                default:
+                    iconY = icon.LocalPosition.Y + inset;                    // bottom of cell
+                    break;
+            }
             double s = size / 100d;
 
             commands.Add("q");
