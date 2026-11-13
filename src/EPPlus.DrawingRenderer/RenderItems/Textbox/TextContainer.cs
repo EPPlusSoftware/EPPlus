@@ -208,8 +208,8 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             marginGroupFill.Height = _marginGroup.Height + TopMargin;
 
 
-            bgFillRect.Width = Width;
-            bgFillRect.Height = Height;
+            bgFillRect.Width = marginWidth;
+            bgFillRect.Height = marginHeight;
 
             //Fill/bounds should include the margin
             marginGroupFill.Parent = _marginGroup;
@@ -280,7 +280,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
         }
 
-        public override double Width
+        private double marginWidth
         {
             get
             {
@@ -296,7 +296,7 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
             }
         }
 
-        public override double Height
+        private double marginHeight
         {
             get
             {
@@ -309,6 +309,24 @@ namespace EPPlus.DrawingRenderer.RenderItems.Textbox
                 _marginGroup.Height -= prevMargin;
 
                 return rotatedAndScaledWidth;
+            }
+        }
+
+        public override double Width
+        {
+            get
+            {
+                CalculateMargin();
+                return bgFillRect.Width;
+            }
+        }
+
+        public override double Height
+        {
+            get
+            {
+                CalculateMargin();
+                return bgFillRect.Height;
             }
         }
 

@@ -715,7 +715,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     var min = ConvertUtil.GetValueDouble(Values);
                     var max = ConvertUtil.GetValueDouble(Values.Last());
-                    var minUnit = (max - min+1) / MinorUnit;
+                    var minUnit = (max - min) / MinorUnit;
                     majorWidth = Rectangle.Width / minUnit;
                 }
                 else
@@ -746,13 +746,29 @@ namespace EPPlusImageRenderer.Svg
                     {
                         switch (lblAlignment)
                         {
+
                             case OfficeOpenXml.eAxisLabelAlignment.Left:
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Center:
                                 tb.Left += majorWidth / 2 - tb.Width / 2;
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Right:
+
+                                //tb.TextBody.MaxWidth = 50000d;
+                                //foreach (var item in tb.TextBody.Paragraphs)
+                                //{
+                                //    //Re-calculates wrap (so that it's one line)
+                                //    item.HorizontalAlignment = item.HorizontalAlignment;
+                                //}
+
+                                
                                 tb.Left += majorWidth - tb.Width;
+                                //foreach (var item in tb.TextBody.Paragraphs)
+                                //{
+                                //    //Re-calculates wrap (so that it's one line)
+                                //    item.HorizontalAlignment = item.HorizontalAlignment;
+                                //}
+
                                 break;
                         }
                     }
@@ -992,7 +1008,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, availableTextLength + RightMargin, maxHeight + TopMargin + BottomMargin);
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, majorTickMarkWidth, maxHeight + TopMargin + BottomMargin);
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
 
 
@@ -1000,27 +1016,27 @@ namespace EPPlusImageRenderer.Svg
 
                 if (p != null)
                 {
-                    if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
-                    {
-                        //Horizontal axises are always center aligned visually (by default. They Can be set left/right also custom angle is not truly center aligned)
-                        //Should be broken out as input to ImportParagraph instead of changing the base item
-                        p.HorizontalAlignment = eTextAlignment.Center;
-                    }
-
                     tb.ImportParagraph(p, 0, t);
+
+                    //if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                    //{
+                    //    //Horizontal axises are always center aligned visually (by default. They Can be set left/right also custom angle is not truly center aligned)
+                    //    //Should be broken out as input to ImportParagraph instead of changing the base item
+                    //    tb.TextBody.Paragraphs.Last().HorizontalAlignment = TextAlignment.Center;
+                    //}
                 }
                 else
                 {
                     tb.AddText(t);
+                    //tb.TextBody.Paragraphs.Last().HorizontalAlignment = TextAlignment.Center;
                 }
 
                 foreach (var innerPara in tb.TextBody.Paragraphs)
                 {
                     innerPara.AddAdditionalWrappingChars(new char[] { '-' });
                     //Trigger re-wrap
-                    innerPara.HorizontalAlignment = innerPara.HorizontalAlignment;
+                    innerPara.HorizontalAlignment = TextAlignment.Center;
                 }
-
                 //calculate bounds
                 //Space-margin makes very close paragraphs look nicer
                 tb.TextBody.RecalculateParagraphs(true);
