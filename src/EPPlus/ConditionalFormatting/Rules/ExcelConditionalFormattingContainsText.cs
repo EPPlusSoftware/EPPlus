@@ -38,7 +38,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.ContainsText;
         }
 
-        ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy, ExcelWorksheet newWs = null) :base(copy, newWs)
+        ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy, ExcelWorksheet newWs = null) : base(copy, newWs)
         {
         }
 
@@ -47,7 +47,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingContainsText(this, newWs);
         }
 
-        internal override bool IsExtLst {
+        internal override bool IsExtLst
+        {
             get
             {
                 if (Formula2 != null)
@@ -105,7 +106,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                if(Address != null)
+                if (Address != null)
                 {
                     base.Formula = string.Format(
                       "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
@@ -120,14 +121,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                       _text);
                 }
             }
-            else if(Formula2 != null) 
+            else if (Formula2 != null)
             {
                 Formula = Formula2;
             }
         }
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if(Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
                 var val = _ws.Cells[address.Start.Address].Value;
                 var stringValue = val == null ? "" : val.ToString();
@@ -137,7 +138,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Formula = Formula2;
                     return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, Formula2, CompareOptions.IgnoreCase) >= 0;
                 }
-                else if(_text != null)
+                else if (_text != null)
                 {
                     return CultureInfo.CurrentCulture.CompareInfo.IndexOf(stringValue, _text, CompareOptions.IgnoreCase) >= 0;
                 }

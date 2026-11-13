@@ -132,10 +132,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        public override ExcelAddress Address 
-        { 
-            get { return base.Address; } 
-            set { base.Address = value; UpdateFormula(); } 
+        public override ExcelAddress Address
+        {
+            get { return base.Address; }
+            set { base.Address = value; UpdateFormula(); }
         }
 
         void UpdateFormula()
@@ -155,9 +155,9 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
-                if(_ws.Cells[address.Start.Address].Value != null)
+                if (_ws.Cells[address.Start.Address].Value != null)
                 {
                     var cellString = _ws.Cells[address.Start.Address].Value.ToString();
 

@@ -43,7 +43,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        internal ExcelConditionalFormattingNotEqual(ExcelAddress address, ExcelWorksheet ws, XmlReader xr) 
+        internal ExcelConditionalFormattingNotEqual(ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.NotEqual, address, ws, xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.NotEqual;
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
                 if (_ws.Cells[address.Start.Address].Value != null && string.IsNullOrEmpty(Formula) == false)
                 {

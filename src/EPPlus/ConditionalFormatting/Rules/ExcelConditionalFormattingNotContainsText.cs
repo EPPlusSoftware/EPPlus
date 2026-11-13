@@ -37,7 +37,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
         }
 
-        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy, ExcelWorksheet newWs) :base(copy, newWs)
+        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             Text = copy.Text;
         }
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                if(Address != null)
+                if (Address != null)
                 {
                     Formula = string.Format(
                         "ISERROR(SEARCH(\"{1}\",{0}))",
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
                 //Formula2 only filled if there's a cell or formula to cond
                 if (_ws.Cells[address.Start.Address].Value != null)

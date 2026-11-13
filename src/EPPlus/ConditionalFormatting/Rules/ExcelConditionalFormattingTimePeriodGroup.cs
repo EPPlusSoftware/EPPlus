@@ -22,10 +22,10 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingTimePeriodGroup
     /// </summary>
-    internal class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingTimePeriodGroup : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTimePeriodGroup
-  {
-    /****************************************************************************************/
+    {
+        /****************************************************************************************/
 
         #region Constructors
         /// <summary>
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
                 if (_ws.Cells[address.Start.Address].Value != null && ConvertUtil.IsNumericOrDate(_ws.Cells[address.Start.Address].Value))
                 {
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         return false;
                     }
 
-                    if(formResult is bool result) 
+                    if (formResult is bool result)
                     {
                         return result;
                     }

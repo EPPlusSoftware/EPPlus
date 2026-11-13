@@ -108,23 +108,7 @@ namespace OfficeOpenXml.ConditionalFormatting
           : base(eExcelConditionalFormattingRuleType.DataBar, address, ws, xr)
         {
             xr.Read();
-            var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
-            HighValue = new ExcelConditionalFormattingIconDataBarValue(highType, eExcelConditionalFormattingRuleType.DataBar);
-
-            if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
-            {
-                if (double.TryParse(xr.GetAttribute("val"), out double result) && 
-                    HighValue.Type != eExcelConditionalFormattingValueObjectType.Formula)
-                {
-                    HighValue.Value = result;
-                }
-                else
-                {
-                    HighValue.Formula = xr.GetAttribute("val");
-                }
-            }
-
-            xr.Read();
+            // FIRST cfvo is the minimum -> LowValue   (was HighValue)
             var lowType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
             LowValue = new ExcelConditionalFormattingIconDataBarValue(lowType, eExcelConditionalFormattingRuleType.DataBar);
 
@@ -138,6 +122,24 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else
                 {
                     LowValue.Formula = xr.GetAttribute("val");
+                }
+            }
+
+            xr.Read();
+            // SECOND cfvo is the maximum -> HighValue  (was LowValue)
+            var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>().Value;
+            HighValue = new ExcelConditionalFormattingIconDataBarValue(highType, eExcelConditionalFormattingRuleType.DataBar);
+
+            if (!string.IsNullOrEmpty(xr.GetAttribute("val")))
+            {
+                if (double.TryParse(xr.GetAttribute("val"), out double result) &&
+                    HighValue.Type != eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    HighValue.Value = result;
+                }
+                else
+                {
+                    HighValue.Formula = xr.GetAttribute("val");
                 }
             }
 
@@ -316,7 +318,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (Address.Collide(address) != ExcelAddressBase.eAddressCollision.No)
+            if (CollidesWith(address))
             {
                 var cellValue = _ws.Cells[address.Address].Value;
 
@@ -352,15 +354,25 @@ namespace OfficeOpenXml.ConditionalFormatting
                     double currentStep;
                     if (realValue > 0)
                     {
-                        if(minimum < 0)
-                        { minimum = 0; }
+                        // Automatic minimum => baseline is 0, so the smallest value still shows a bar.
+                        if (minimum < 0
+                            || LowValue.Type == eExcelConditionalFormattingValueObjectType.Min
+                            || LowValue.Type == eExcelConditionalFormattingValueObjectType.AutoMin)
+                        {
+                            minimum = 0;
+                        }
 
                         currentStep = realValue - minimum;
                     }
                     else
                     {
-                        if (maximum > 0)
-                        { maximum = 0; }
+                        // Symmetric: automatic maximum => baseline is 0 for negative values.
+                        if (maximum > 0
+                            || HighValue.Type == eExcelConditionalFormattingValueObjectType.Max
+                            || HighValue.Type == eExcelConditionalFormattingValueObjectType.AutoMax)
+                        {
+                            maximum = 0;
+                        }
 
                         currentStep = maximum - realValue;
                     }
@@ -376,7 +388,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 percentage = percentage * 100;
 
-                if(percentage > 100)
+                if (percentage > 100)
                 {
                     percentage = 100;
                 }
@@ -404,8 +416,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 return _highest;
             }
-            set 
-            { 
+            set
+            {
                 _highest = value;
             }
         }
@@ -453,23 +465,24 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         public ExcelDxfColor FillColor { get; private set; }
         public ExcelDxfColor BorderColor { get; private set; }
-        public ExcelDxfColor NegativeFillColor 
-        {   get 
-            { 
-                if (NegativeBarColorSameAsPositive) 
-                { 
-                    return FillColor; 
-                } 
-                else 
-                { 
-                    return _negativeFillColor; 
-                } 
+        public ExcelDxfColor NegativeFillColor
+        {
+            get
+            {
+                if (NegativeBarColorSameAsPositive)
+                {
+                    return FillColor;
+                }
+                else
+                {
+                    return _negativeFillColor;
+                }
             }
-            private set 
+            private set
             {
                 NegativeBarColorSameAsPositive = false;
-                _negativeFillColor = value; 
-            } 
+                _negativeFillColor = value;
+            }
         }
         public ExcelDxfColor NegativeBorderColor
         {

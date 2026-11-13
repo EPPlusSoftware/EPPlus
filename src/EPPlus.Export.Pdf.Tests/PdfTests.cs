@@ -1364,5 +1364,32 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "BlackAndWhiteTest3.pdf";
             ws.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void PdfPdfConditionalFormattingTest0()
+        {
+            using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            string path = _pdfPath + "PdfConditionalFormattingTest0.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void PdfPdfConditionalFormattingTest1()
+        {
+            using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
+            var ws = p.Workbook.Worksheets[1];
+            ws.PrinterSettings.ShowGridLines = true;
+            string path = _pdfPath + "PdfConditionalFormattingTest1.pdf";
+            ws.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void PdfPdfConditionalFormattingTest3()
+        {
+            using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
+            string path = _pdfPath + "PdfConditionalFormattingTest3.pdf";
+            p.Workbook.SaveAsPdf(path);
+        }
     }
 }
