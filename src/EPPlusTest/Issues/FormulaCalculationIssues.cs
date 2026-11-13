@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sorting;
@@ -1690,7 +1691,7 @@ namespace EPPlusTest.Issues
 
                 List<int> intValues = new List<int>();
 
-                foreach(var cell in range)
+                foreach (var cell in range)
                 {
                     intValues.Add(cell.GetValue<int>());
                 }
@@ -1810,7 +1811,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void s1069()
         {
-            using(var package = OpenTemplatePackage("s1069.xlsx"))
+            using (var package = OpenTemplatePackage("s1069.xlsx"))
             {
                 var setPrecision = package.Workbook.FullPrecision;
                 Assert.AreEqual(setPrecision, false);
@@ -1818,7 +1819,7 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("precisionTextResult.xlsx", package);
                 Assert.AreEqual(false, package.Workbook.FullPrecision);
             }
-        }  
+        }
 
         [TestMethod]
         public void i1069_roundtrip()
@@ -1833,7 +1834,7 @@ namespace EPPlusTest.Issues
             }
             using (var p = OpenPackage(file))
                 Assert.IsFalse(p.Workbook.FullPrecision);
-            
+
             using (var p = OpenPackage(file))
             {
                 p.Workbook.FullPrecision = true;
@@ -1842,5 +1843,17 @@ namespace EPPlusTest.Issues
             using (var p = OpenPackage(file))
                 Assert.IsTrue(p.Workbook.FullPrecision);
         }
+
+        [TestMethod]
+        public void s1085()
+        {
+            using (var p = OpenTemplatePackage("s1085.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["E1"].Calculate();
+                var value = ws.Cells["E1"].Value;
+                Assert.AreEqual(true, value);
+            }
+        }    
     }
 }

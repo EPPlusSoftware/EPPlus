@@ -230,14 +230,10 @@ namespace OfficeOpenXml.DataValidation
 
         private string CheckAndFixRangeAddress(string address)
         {
-            if (address.Contains(","))
-            {
-                throw new FormatException("Multiple addresses may not be commaseparated, use space instead");
-            }
-
             var tempAddress = new ExcelAddress(address);
             string wsName = "";
 
+            //Remove wsName from address (invalid in ooxml)
             if (!string.IsNullOrEmpty(tempAddress.WorkSheetName))
             {
                 address = address.Replace("'", "");
@@ -252,6 +248,14 @@ namespace OfficeOpenXml.DataValidation
             {
                 address = AddressUtility.ParseEntireColumnSelections(address);
             }
+
+            //ensure address is always comma-separated
+            //(works since wsName is no longer included at this point)
+            if(address.Contains(" "))
+            {
+                address = address.Replace(' ', ',');
+            }
+
             return address;
         }
 

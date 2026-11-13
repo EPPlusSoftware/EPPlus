@@ -274,6 +274,12 @@
     <None Update="Workbooks\RichDataPreserveError1.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\sc1083-flags.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\sc1083-sdk.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
 		<None Update="Workbooks\SignedWorkbook1.xlsm">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

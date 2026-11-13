@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
-        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate)
+        internal override List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti)
         {
             throw new NotImplementedException();
         }

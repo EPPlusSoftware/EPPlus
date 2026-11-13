@@ -10,16 +10,18 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Xml;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.String;
 using System;
-using System.Reflection.Emit;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -133,19 +135,19 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-        /// Returns the number format code for the axis. If the axis has no format code, it will return the format code of the first series in the chart that uses this axis. If no series has a format code, it will return an empty string.
+        /// returns the number format code for the axis. if the axis has no format code, it will return the format code of the first series in the chart that uses this axis. if no series has a format code, it will return an empty string.
         /// </summary>
-        public string FormatOrFirstValueFormat
+        internal ExcelFormatTranslator FormatTranslator
         {
             get
             {
                 var f = Format;
-                if (string.IsNullOrEmpty(Format))
+                if (string.IsNullOrEmpty(Format) || SourceLinked)
                 {
                     var wb = _chart.WorkSheet._package.Workbook;
                     foreach (var ct in _chart.PlotArea.ChartTypes)
                     {
-                        if(ct.XAxis.Id == Id)
+                        if (ct.XAxis.Id == Id)
                         {
                             return GetFormatFromSeries(ct, true);
                         }
@@ -154,14 +156,13 @@ namespace OfficeOpenXml.Drawing.Chart
                             return GetFormatFromSeries(ct, false);
                         }
                     }
-                    return "";
                 }
-
-                return f;
+                if (string.IsNullOrEmpty(f)) return null;
+                return new ExcelFormatTranslator(f, 0);
             }
         }
 
-        private string GetFormatFromSeries(ExcelChart ct, bool isXAxis)
+        private ExcelFormatTranslator GetFormatFromSeries(ExcelChart ct, bool isXAxis)
         {
             foreach (var serie in ct.Series)
             {
@@ -174,10 +175,15 @@ namespace OfficeOpenXml.Drawing.Chart
                 var ws = _chart.WorkSheet.Workbook.Worksheets[adr.WorkSheetName];
                 if (ws != null)
                 {
-                    return ws.Cells[adr.Address].FirstOrDefault(x=>string.IsNullOrEmpty(x.Style.Numberformat.Format)==false).Style.Numberformat.Format ?? "";
+                    var cell = ws.Cells[adr.LocalAddress].FirstOrDefault(x => string.IsNullOrEmpty(x.Style.Numberformat.Format) == false);
+                    if(cell==null)
+                    {
+                        return null;
+                    }
+                    return ValueToTextHandler.GetNumberFormat(cell.StyleID, _chart.WorkSheet.Workbook.Styles).FormatTranslator;                    
                 }
             }
-            return "";
+            return null;
         }
 
         /// <summary>
@@ -649,6 +655,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
             CreatespPrNode($"{_nsPrefix}:spPr");
         }
-        internal abstract List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate);
+        internal abstract List<object> GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
     }
 }

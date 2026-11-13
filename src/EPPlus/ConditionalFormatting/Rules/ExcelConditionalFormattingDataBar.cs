@@ -416,8 +416,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 return _highest;
             }
-            set 
-            { 
+            set
+            {
                 _highest = value;
             }
         }
@@ -465,23 +465,24 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         public ExcelDxfColor FillColor { get; private set; }
         public ExcelDxfColor BorderColor { get; private set; }
-        public ExcelDxfColor NegativeFillColor 
-        {   get 
-            { 
-                if (NegativeBarColorSameAsPositive) 
-                { 
-                    return FillColor; 
-                } 
-                else 
-                { 
-                    return _negativeFillColor; 
-                } 
+        public ExcelDxfColor NegativeFillColor
+        {
+            get
+            {
+                if (NegativeBarColorSameAsPositive)
+                {
+                    return FillColor;
+                }
+                else
+                {
+                    return _negativeFillColor;
+                }
             }
-            private set 
+            private set
             {
                 NegativeBarColorSameAsPositive = false;
-                _negativeFillColor = value; 
-            } 
+                _negativeFillColor = value;
+            }
         }
         public ExcelDxfColor NegativeBorderColor
         {

@@ -115,7 +115,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public int OriginalRtIdx { get; private set; } = -1;
 
         protected string _originalText;
-        public string _currentText { get; protected set; }
+        public string CurrentText { get; set; }
 
         public IFontFormatBase _measurementFont { get; internal protected set; }
         protected bool _isFirstInParagraph;
@@ -141,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         public TextRunRenderItem(BoundingBox parent, string text, int origRtIdx) : base(parent)
         {
             Name = "TextRun";
-            _currentText = text;
+            CurrentText = text;
             OriginalRtIdx = origRtIdx;
         }
 
@@ -192,13 +192,13 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //possibly no longer neccesary
             _originalText = origText;
 
-            _currentText = currentText;
+            CurrentText = currentText;
 
             //Should be ascent-only?
             Height = font.Size;
 
             //Possibly no longer neccesary
-            Lines = Regex.Split(_currentText, "\r\n|\r|\n").ToList();
+            Lines = Regex.Split(CurrentText, "\r\n|\r|\n").ToList();
 
             FontSizeInPixels = ((double)font.Size).PointToPixel(true);
 

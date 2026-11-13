@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 foreach (var address in rule.Address.GetAllAddresses())
                 {
-                    if (address.Collide(range) != ExcelAddressBase.eAddressCollition.No)
+                    if (address.Collide(range) != ExcelAddressBase.eAddressCollision.No)
                     {
                         _cfQuadTree.Add(new QuadRange(address), rule);
                     }

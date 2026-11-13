@@ -37,18 +37,18 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal ExcelConditionalFormattingTwoColorScale(
         ExcelAddress address,
         int priority,
-        ExcelWorksheet ws) 
+        ExcelWorksheet ws)
         : base(
-            eExcelConditionalFormattingRuleType.TwoColorScale, 
-            address, 
-            priority, 
+            eExcelConditionalFormattingRuleType.TwoColorScale,
+            address,
+            priority,
             ws)
         {
             var styles = _ws.Workbook.Styles;
 
             LowValue = new ExcelConditionalFormattingColorScaleValue(
                 eExcelConditionalFormattingValueObjectType.Min,
-                ExcelConditionalFormattingConstants.Colors.CfvoLowValue, 
+                ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
                 priority, styles);
 
             HighValue = new ExcelConditionalFormattingColorScaleValue(
@@ -62,14 +62,14 @@ namespace OfficeOpenXml.ConditionalFormatting
             int priority,
             ExcelWorksheet worksheet,
             bool stopIfTrue,
-            eExcelConditionalFormattingValueObjectType? low, 
+            eExcelConditionalFormattingValueObjectType? low,
             eExcelConditionalFormattingValueObjectType? high,
             string lowVal,
             string highVal,
-            XmlReader xr) : base (
-                eExcelConditionalFormattingRuleType.TwoColorScale, 
-                address, 
-                priority, 
+            XmlReader xr) : base(
+                eExcelConditionalFormattingRuleType.TwoColorScale,
+                address,
+                priority,
                 worksheet)
         {
             StopIfTrue = stopIfTrue;
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         internal void SetValues(
-            eExcelConditionalFormattingValueObjectType? low, 
+            eExcelConditionalFormattingValueObjectType? low,
             eExcelConditionalFormattingValueObjectType? high,
             string lowVal = "",
             string highVal = "",
@@ -99,7 +99,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (!string.IsNullOrEmpty(lowVal))
             {
-                if(double.TryParse(lowVal, out Double res))
+                if (double.TryParse(lowVal, out Double res))
                 {
                     LowValue.Value = double.Parse(lowVal, CultureInfo.InvariantCulture);
                 }
@@ -138,14 +138,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (ExcelAddressBase.RefersToOtherWorksheet(LowValue.Formula, _ws.Name) || 
+                if (ExcelAddressBase.RefersToOtherWorksheet(LowValue.Formula, _ws.Name) ||
                     ExcelAddressBase.RefersToOtherWorksheet(HighValue.Formula, _ws.Name))
                 {
                     return true;
                 }
 
                 return base.IsExtLst;
-            } 
+            }
 
         }
 

@@ -10,11 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Globalization;
-using EPPlus.Graphics.Geometry;
+using System.Linq;
+using System.Net.NetworkInformation;
 
 namespace EPPlus.Graphics
 {
@@ -119,6 +120,9 @@ namespace EPPlus.Graphics
 
         private double localRotationDegrees = 0;
 
+        /// <summary>
+        /// Local rotation
+        /// </summary>
         public double LocalRotation
         {
             get
@@ -133,6 +137,9 @@ namespace EPPlus.Graphics
 
         public double RotationRadians => Rotation * System.Math.PI / 180.0;
 
+        /// <summary>
+        /// The global AKA Total applied rotation
+        /// </summary>
         public double Rotation
         {
             get
@@ -350,12 +357,67 @@ namespace EPPlus.Graphics
                    b2 <= b1;
         }
 
+        public static Vector2 GetIntersectAdjustVector(Rect bbox, Rect bbCompare)
+        {
+            // When positive this bb intersects with bbCompare
+            var distRight = bbox.Right - bbCompare.Left;
+            var distLeft = bbCompare.Right - bbox.Left;
+            var distTop = bbox.Bottom - bbCompare.Top;
+            var distBottom = bbCompare.Bottom - bbox.Top;
+
+            Vector2 adjustVector = Vector2.Zero;
+
+            //Find the smallest distance to adjust 
+            if (distRight > 0 || distLeft > 0 || distTop > 0 || distBottom > 0)
+            {
+                var minimumDist = distRight;
+                adjustVector = new Vector2(-distRight, 0);
+
+                if (distLeft < minimumDist)
+                {
+                    minimumDist = distLeft;
+                    adjustVector = new Vector2(distLeft, 0);
+                }
+
+                if (distTop < minimumDist)
+                {
+                    minimumDist = distTop;
+                    adjustVector = new Vector2(0, -distTop);
+                }
+                if (distBottom < minimumDist)
+                {
+                    minimumDist = distBottom;
+                    adjustVector = new Vector2(0, distBottom);
+                }
+            }
+
+            return adjustVector;
+        }
+
+        public string ToHierarchyStringGlobal(int indentLevel = 0)
+        {
+            var globalX = Position.X.ToString(CultureInfo.InvariantCulture);
+            var globalY = Position.Y.ToString(CultureInfo.InvariantCulture);
+            var globalRight = (Position.X + Size.X).ToString();
+            var globalBottom = (Position.Y + Size.Y).ToString();
+
+            var indent = new string(' ', indentLevel * 4);
+            var result = $"{indent}{Name ?? GetType().Name}|" +
+                         $"GlobalPos:({Position.X.ToString(CultureInfo.InvariantCulture)},{Position.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"GlobalMax:({globalRight},{globalBottom})";
+            foreach (var child in ChildObjects)
+            {
+                result += Environment.NewLine + child.ToHierarchyStringGlobal(indentLevel + 1);
+            }
+            return result;
+        }
+
         public string ToHierarchyString(int indentLevel = 0)
         {
             var indent = new string(' ', indentLevel * 4);
             var result = $"{indent}{Name ?? GetType().Name}|" +
-                         $"({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
-                         $"({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
+                         $"Local:({LocalPosition.X.ToString(CultureInfo.InvariantCulture)},{LocalPosition.Y.ToString(CultureInfo.InvariantCulture)}):" +
+                         $"Size:({Size.X.ToString(CultureInfo.InvariantCulture)},{Size.Y.ToString(CultureInfo.InvariantCulture)})";
             foreach (var child in ChildObjects)
             {
                 result += Environment.NewLine + child.ToHierarchyString(indentLevel + 1);

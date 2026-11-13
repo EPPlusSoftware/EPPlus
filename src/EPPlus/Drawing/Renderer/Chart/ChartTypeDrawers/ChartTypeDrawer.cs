@@ -12,6 +12,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
+using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.ExternalReferences;
@@ -244,26 +245,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
+
             if (ct.VaryColors)
             {
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
-                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             else
             {
                 var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
-                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Parent, color);
+                style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
-            style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
+            var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, serieIndex);
+            style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width>0, () => styleFormat.color, 0.75);
         }
 
-        private static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
         {
             Color baseColor;
             var baseColorIndex = index % 6;
             if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
             {
+                //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
                 baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
             }
             else
@@ -312,7 +316,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (catAx.Axis.Crosses == eCrosses.AutoZero)
             {
-                return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+                if(catAx.Axis.CrossesAt.HasValue)
+                {
+                    var cv = catAx.Axis.CrossesAt.Value;
+                    if (cv < valAx.Min) cv = valAx.Min;
+                    if (cv > valAx.Max) cv = valAx.Max;
+                    
+                    return valAx.GetPositionInPlotarea(cv, true);
+                }
+                else
+                {
+                    return valAx.GetPositionInPlotarea(valAx.Min <= 0 ? 0D : valAx.Min, true);
+                }
             }
             else if (catAx.Axis.Crosses == eCrosses.Min)
             {

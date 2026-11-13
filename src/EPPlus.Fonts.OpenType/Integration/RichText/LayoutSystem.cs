@@ -103,6 +103,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                         currCharInfo.IsSeparator = true;
                         SeparatorIndicies.Add(allCharIdx);
                     }
+                    else if(c == '\n' || c == '\r')
+                    {
+                        currCharInfo.IsSeparator = true;
+                        SeparatorIndicies.Add(allCharIdx);
+                    }
 
                     spanIndex++;
                     allCharIdx++;
@@ -123,12 +128,32 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         {
             int lastParagraphIdx = 0;
             UnicodeCategory category = UnicodeCategory.ParagraphSeparator;
-            foreach (var sepIdx in SeparatorIndicies)
+
+            for (int i = 0; i < SeparatorIndicies.Count; i++)
             {
+                var sepIdx = SeparatorIndicies[i];
                 if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == category)
                 {
                     ParagraphSeparatorIndicies.Add(sepIdx);
-                    var section = new Paragraph(lastParagraphIdx, sepIdx-1, GetFullText, GetSection);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx - 1, GetFullText, GetSection);
+                    SubParagraphs.Add(section);
+                    lastParagraphIdx = sepIdx;
+                }
+                else if (CharUnicodeInfo.GetUnicodeCategory(FullText[sepIdx]) == UnicodeCategory.LineSeparator || FullText[sepIdx] == '\r' || FullText[sepIdx] == '\n')
+                {
+                    if (sepIdx < FullTextLastIdx && FullText[sepIdx] == '\r' && FullText[sepIdx + 1] == '\n')
+                    {
+                        //windows
+                        if (SeparatorIndicies[i+1] == sepIdx + 1)
+                        {
+                            i++;
+                        }
+
+                    }
+
+                    //Mac, Linux or end of FullText. In all cases there is only one char to handle
+                    ParagraphSeparatorIndicies.Add(sepIdx);
+                    var section = new Paragraph(lastParagraphIdx, sepIdx - 1, GetFullText, GetSection);
                     SubParagraphs.Add(section);
                     lastParagraphIdx = sepIdx;
                 }
@@ -141,7 +166,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
         /// <summary>
         /// Seperating input into style-runs
         /// </summary>
-        void Itemization()
+        void  Itemization()
         {
             var subParagraphStartIdx = SubParagraphs[0].FullTextStart;
             var currIdx = subParagraphStartIdx;
@@ -157,7 +182,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     subParagraphStartIdx = SubParagraphs[i].FullTextStart;
                     currIdx = subParagraphStartIdx;
 
-                    currFragIdx = AllChars[i].Fragment;
+                    currFragIdx = AllChars[currIdx].Fragment;
 
                     for (int j = 0; j < SubParagraphs[i].Length; j++)
                     {
@@ -242,6 +267,8 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             }
         }
 
+        public List<char> AdditionalWrappingChars = new List<char>();
+
         /// <summary>
         /// Wrapping/line breaking
         /// </summary>
@@ -257,7 +284,7 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
             var inputRt = InputFragments[0];
             var shaper = _engine.GetMeasurementShaper(inputRt.RichTextOptions.Family, inputRt.RichTextOptions.SubFamily);
             var layoutEngine = new TextLayoutEngine(_engine, shaper);
-            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth);
+            var wrappedLines = layoutEngine.WrapRichTextRuns(StyleRuns, maxWidth, AdditionalWrappingChars);
 
             if(wrappedLines.Count > 1)
             {
@@ -270,6 +297,11 @@ namespace EPPlus.Fonts.OpenType.Integration.RichText
                     {
                         AllChars[j].Line = i;
                     }
+
+                    //if (wrappedLines[i].Text == null)
+                    //{
+                    //    wrappedLines[i].lines
+                    //}
                 }
             }
 

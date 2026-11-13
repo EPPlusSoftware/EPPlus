@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     if (processedDrawings.Contains(d)) continue;
                     processedDrawings.Add(d);
                     var drawingAddress = d.GetAddress();
-                    if (drawingAddress.Collide(range) == ExcelAddressBase.eAddressCollition.No) continue;
+                    if (drawingAddress.Collide(range) == ExcelAddressBase.eAddressCollision.No) continue;
                     if (d is ExcelPicture p)
                     {
                         p.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
@@ -200,7 +200,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (toColOff > 0) toCol++;
                         }
 
-                        if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollition.No)
+                        if (range.Collide(fromRow, fromCol, toRow, toCol) != ExcelAddressBase.eAddressCollision.No)
                         {
                             if (fromRow < drawMinRow) drawMinRow = fromRow;
                             if (fromCol < drawMinCol) drawMinCol = fromCol;

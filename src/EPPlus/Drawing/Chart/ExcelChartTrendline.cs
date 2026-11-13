@@ -192,7 +192,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool(DISPLAYRSQUAREDVALUEPATH, true);
+                return ExistsElement(DISPLAYEQUATIONPATH) && GetXmlNodeBool(DISPLAYRSQUAREDVALUEPATH, true);
             }
             set
             {
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool(DISPLAYEQUATIONPATH, true);
+                return ExistsElement(DISPLAYEQUATIONPATH) && GetXmlNodeBool(DISPLAYEQUATIONPATH, true);
             }
             set
             {

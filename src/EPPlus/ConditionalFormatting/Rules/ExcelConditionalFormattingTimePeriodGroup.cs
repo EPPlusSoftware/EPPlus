@@ -22,10 +22,10 @@ namespace OfficeOpenXml.ConditionalFormatting
     /// <summary>
     /// ExcelConditionalFormattingTimePeriodGroup
     /// </summary>
-    internal class ExcelConditionalFormattingTimePeriodGroup: ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingTimePeriodGroup : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTimePeriodGroup
-  {
-    /****************************************************************************************/
+    {
+        /****************************************************************************************/
 
         #region Constructors
         /// <summary>
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         return false;
                     }
 
-                    if(formResult is bool result) 
+                    if (formResult is bool result)
                     {
                         return result;
                     }

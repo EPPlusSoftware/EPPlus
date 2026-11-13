@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool(INVERTIFNEGATIVE_PATH, true);
+                return ExistsNode("c:invertIfNegative") && GetXmlNodeBool(INVERTIFNEGATIVE_PATH, true);
             }
             set
             {
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// A collection of the individual datapoints
         /// </summary>
-        public ExcelChartDataPointCollection    DataPoints
+        public ExcelChartDataPointCollection DataPoints
         {
             get
             {

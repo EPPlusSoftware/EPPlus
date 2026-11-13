@@ -14,18 +14,19 @@ using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Fonts.OpenType.Utils;
-using EPPlus.Graphics;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.EnumUtils;
 using System;
@@ -83,7 +84,7 @@ namespace EPPlusImageRenderer.Svg
             if (t.Layout.HasLayout) //Only for the main chart title, axis titles don't support manual layout in Excel.
             {
 
-                InitTextBox(maxWidth, maxHeight);
+                InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.Title);
                 var mr = GetRectFromManualLayout(sc, t.Layout);
                 TextBox.Top = mr.Top;
                 TextBox.Left = mr.Left;
@@ -92,7 +93,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (axis == null)
                 {
-                    InitTextBox(maxWidth, maxHeight);
+                    InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.Title);
                     TextBox.Top = (float)6;                                       //6 point for the chart title standard offset.
                     TextBox.Left = (float)(sc.Bounds.Width - TextBox.Width) / 2;
                 }
@@ -102,13 +103,13 @@ namespace EPPlusImageRenderer.Svg
                     maxWidth = sc.Bounds.Width * (isVertical ? 0.2 : 0.8);   //Max Width.
                     maxHeight = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
 
-                    InitTextBox(maxWidth, maxHeight);
+                    InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.AxisTitle);
                     SetAxisTitleRect(sc, axis);
                 }
             }
             //Default NoFill for title and axis titles if not set
-            Rectangle.Style.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, null);
-            Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => null, 0.75);
+            Rectangle.Style.SetDrawingPropertiesFill(sc.Theme, t.Fill, sc.Chart.StyleManager.Style?.Title.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, Color.Transparent);
+            Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
         private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
@@ -193,12 +194,12 @@ namespace EPPlusImageRenderer.Svg
             return defaultText;
         }
 
-        internal void InitTextBox(double maxWidth, double maxHeight)
+        internal void InitTextBox(double maxWidth, double maxHeight, MeasurementFont defaultFont)
         {
-            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, maxWidth, maxHeight);
+            TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, defaultFont, maxWidth, maxHeight);
+            TextBox.TextBody.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
             if (_title.Rotation != 0)
             {
-                TextBox.Rotation = _title.Rotation;
                 TextBox.Rotation = _title.Rotation;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
@@ -208,7 +209,14 @@ namespace EPPlusImageRenderer.Svg
             else
             {
                 var p = _title.DefaultTextBody.Paragraphs.FirstOrDefault();                
-                TextBox.ImportParagraph(p, 0, _titleText);                
+                if(p==null)
+                {
+                    TextBox.AddText(_titleText);
+                }
+                else
+                {
+                    TextBox.ImportParagraph(p, 0, _titleText);
+                }
             }
 
             TextBox.LeftMargin = LeftMargin;

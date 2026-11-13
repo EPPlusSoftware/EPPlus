@@ -8,10 +8,12 @@ using EPPlusImageRenderer.Svg;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -194,15 +196,36 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             
             var yWidth = (isColumn ? ChartRenderer.Plotarea.Rectangle.Width : ChartRenderer.Plotarea.Rectangle.Height);
             double slotSize;
-            //if(catAx.IsDateScale)
-            ////{
-            //    slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count
-            //}
-            //else
-            //{
-                 slotSize = catAx.Max - catAx.Min+1;
-            //}
-            //var slotSize = (catAx.Max - catAx.Min) / catAx.MajorUnit + 1; //valValues.Count;
+            eTimeUnit? baseUnit;
+            int baseMin;
+            if (catAx.IsDateAutoAxis || catAx.Axis.IsDate)
+            {
+                // One slot per base time unit, NOT per major unit
+                var min = DateTime.FromOADate(catAx.Min);
+                var max = DateTime.FromOADate(catAx.Max);
+                switch (catAx.GetBaseUnit())   // c:baseTimeUnit, default = days (or as auto-detected)
+                {
+                    case eTimeUnit.Years:
+                        slotSize = (max.Year - min.Year) + 1;
+                        baseUnit = eTimeUnit.Years;
+                        break;
+                    case eTimeUnit.Months:
+                        slotSize = (max.Year - min.Year) * 12 + (max.Month - min.Month) + 1;
+                        baseUnit = eTimeUnit.Months;
+                        break;
+                    default: // Days
+                        slotSize = Math.Floor(catAx.Max - catAx.Min) + 1;
+                        baseUnit = eTimeUnit.Days;
+                        break;
+                }
+                baseMin = ToBaseIndex(catAx.Min, baseUnit.Value);
+            }
+            else
+            {
+                slotSize = (catAx.Max - catAx.Min) + 1;   // category count; tickLblSkip/tickMarkSkip don't matter
+                baseUnit = null;
+                baseMin = 0;
+            }
             //Gapwidth has a default value of 150% See ECMA-376 Part 1 page 4063:
             //"<xsd:complexType name="CT_GapAmount">286 <xsd:attribute name="val" type="ST_GapAmount" default="150%"/>287 </xsd:complexType>"
             var gapWidth = chartType.GapWidth == int.MinValue ? 150 : chartType.GapWidth;
@@ -237,6 +260,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
                 else
+
                 {
                     if (isColumn)
                     {
@@ -263,13 +287,44 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 double xPos;
                 if (isColumn)
                 {
-                    xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    if(baseUnit.HasValue) //Date axis should handle month or year slots.
+                    {
+                        var slot = ToBaseIndex(x, baseUnit.Value) - baseMin;
+                        var slotLeft = slot * slotWidth;
+                        xPos = slotLeft + halfGap + position * barWidth * step;
+
+                    }
+                    else
+                    {
+                        if(catAx.Axis.Orientation==eAxisOrientation.MaxMin)
+                        {
+                            x++;
+                        }
+                        xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                    }
                     rect.Left = xPos;
                     rect.Width = barWidth;
                 }
                 else
                 {
-                    xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
+                    if (baseUnit.HasValue) //Date axis should handle month or year slots.
+                    {
+                        var slot = ToBaseIndex(x, baseUnit.Value) - baseMin;
+                        var slotLeft = slot * slotWidth;
+                        xPos = slotLeft + halfGap + (seriesCount - position - 1) * barWidth * step;
+
+                    }
+                    else
+                    {
+                        if (catAx.Axis.Orientation == eAxisOrientation.MinMax)
+                        {
+                            xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + (seriesCount - position - 1) * barWidth * step;
+                        }
+                        else
+                        {
+                            xPos = catAx.GetPositionInPlotarea(x, true) - halfGap - (seriesCount - position) * barWidth * step;
+                        }
+                    }
                     rect.Top = xPos;
                     rect.Height = barWidth;
                 }
@@ -279,7 +334,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     //Stacked
                     var pYValues = valSeries[position - 1];
                     var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
-                    var yPrevPos = yAxis.GetPositionInPlotarea(pAxisEnd, false);
+                    var yPrevPos = valAx.GetPositionInPlotarea(pAxisEnd, false);
                     if (isColumn)
                     {
                         if (y < 0)
@@ -295,14 +350,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0)
+                        if (y > 0)
                         {
                             rect.Left = yPrevPos;
                             rect.Width = yPos - yPrevPos;
                         }
                         else
                         {
-                            rect.Left = yPos;
+                            rect.Left = yPrevPos;
                             rect.Width = yPrevPos - yPos;
                         }
                     }
@@ -311,7 +366,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 {
                     if (isColumn)
                     {
-                        if (y < 0 && catAx.Axis.Crosses != eCrosses.Min && ((catAx.Axis.CrossesAt ?? valAx.Min) < y)) //Below axis
+                        if (catAx.Axis.Crosses != eCrosses.Min && catAx.GetAdjustedCrossesAt() > y || catAx.Axis.ActualAxisPosition==eAxisPosition.Top) //Below axis
                         {
                             rect.Top = chartBaseY;
                             rect.Height = yPos - chartBaseY;
@@ -324,7 +379,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                     else
                     {
-                        if (y < 0 && (catAx.Axis.Crosses != eCrosses.Min && (catAx.Axis.CrossesAt??valAx.Min) < y)) //Below axis
+                        if (catAx.Axis.Crosses != eCrosses.Min && catAx.GetAdjustedCrossesAt() > y || catAx.Axis.ActualAxisPosition == eAxisPosition.Right) //Below axis
                         {
                             rect.Left = yPos;
                             rect.Width = chartBaseY - yPos;
@@ -337,9 +392,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     }
                 }
 
-                //rect.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.SeriesAxis.FillReference.Color, false, DefaultFillColor);
-                //rect.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesAxis.BorderReference.Color, serie.Border.IsEmpty==false && serie.Border.Width>0, DefaultBorderColor, 1.5, false);
-                if (i >= 0 && serie.DataPoints.ContainsKey(i))
+                if (i >= 0 &&    serie.DataPoints.ContainsKey(i))
                 {
                     var dp = serie.DataPoints[i];
                     SetFillDataPoint(Chart, serie, i, rect.Style, dp, Chart.StyleManager.Style?.SeriesLine);
@@ -351,6 +404,39 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
                 rect.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
 
+                if(serie.InvertIfNegative && y < 0)
+                {
+                    if(serie.HasInvertIfNegativeColor)
+                    {
+                        var c = serie.InvertIfNegativeColor.GetColor();
+                        if(c.IsEmpty || c==Color.White)
+                        {
+                            rect.Style.FillColor = Color.White.ToColorString();
+                            rect.Style.BorderColor = "#000000";
+                            rect.Style.BorderWidth = 0.75;
+                        }
+                        else
+                        {
+                            rect.Style.FillColor = c.ToColorString();
+                            rect.Style.BorderColor = null;
+                            rect.Style.BorderWidth = null;
+                        }
+                        rect.Style.GradientFill = null;
+                        rect.Style.BorderGradientFill = null;
+                        rect.Style.GlowRadius = null;
+                        rect.Style.FillOpacity = null;
+                    }
+                    else
+                    {
+                        rect.Style.FillColor = "#FFFFFF";
+                        rect.Style.BorderColor = "#000000";
+                        rect.Style.GradientFill = null;
+                        rect.Style.BorderGradientFill = null;
+                        rect.Style.GlowRadius = null;
+                        rect.Style.FillOpacity = null;
+                        rect.Style.BorderWidth = 0.75;
+                    }
+                }
                 dataPoints.Add(rect);
 
                 SeriesRenderItems.Add(rect);
@@ -371,7 +457,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-
+        static int ToBaseIndex(double oaDate, eTimeUnit baseUnit)
+        {
+            var d = DateTime.FromOADate(oaDate);
+            switch (baseUnit)
+            {
+                case eTimeUnit.Years: return d.Year;
+                case eTimeUnit.Months: return d.Year * 12 + d.Month - 1;
+                default: return (int)Math.Floor(oaDate);
+            }
+        }
         private void GetAxis(ExcelBarChart chartType, out ChartAxisRenderer yAxis, out ChartAxisRenderer xAxis)
         {
             if (chartType.UseSecondaryAxis)

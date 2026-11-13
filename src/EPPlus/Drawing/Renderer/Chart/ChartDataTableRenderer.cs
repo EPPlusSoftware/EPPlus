@@ -15,6 +15,7 @@ using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.DrawingRenderer.ShapeDefinitions;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
+using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
@@ -24,6 +25,7 @@ using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
@@ -32,8 +34,10 @@ using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace OfficeOpenXml.Drawing.Renderer.Chart
 {
@@ -62,6 +66,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
         public ExcelTextBody TextBody => _dataTable.TextBody;
 
+        public bool IsHeaderBottomAxis { get; }
+
         double _dataTableWidth, _columnsWidth;
         internal ChartDataTableRenderer(ChartRenderer svgChart) : base(svgChart)
         {
@@ -72,11 +78,21 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             MeasurementFont mf;
             if(_dataTable.HasFont)
             {
-                mf = _dataTable.Font.GetMeasureFont();
+                mf = _dataTable.Font.GetMeasureFont(DefaultFonts2007Style.DataTable);
             }
             else
             {
-                mf = Chart.Font.GetMeasureFont();
+                mf = Chart.Font.GetMeasureFont(DefaultFonts2007Style.DataTable);
+            }
+
+            var ba = svgChart.HorizontalAxis?.Axis.ActualAxisPosition == eAxisPosition.Bottom ? svgChart.HorizontalAxis : svgChart.SecondHorizontalAxis;
+            if(ba==null || svgChart.Chart.IsTypeBar())
+            {
+                IsHeaderBottomAxis = false;
+            }
+            else
+            {
+                IsHeaderBottomAxis = ba.IsDateAutoAxis == false || ba.Axis.IsDate;
             }
 
             _marginItemsWidth = mf.Size / 2;
@@ -98,12 +114,22 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 paragraph = null;
             }
 
-            double entryWidth = 0, entryHeight=0;
-            var values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _);
-            var horizontaValues = GetFormattedValues(svgChart, values);
+            double entryWidth = 0, entryHeight = 0;
+            //Separate header row on date axis            
+            List<object> values;
+            if (Chart.IsTypeBar())
+            {
+                values = svgChart.VerticalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+            }
+            else
+            {
+                values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+            }
+            var horizontaValues = GetFormattedValues(svgChart, values).Distinct();
+            var defaultFont = new MeasurementFont() { Size = 10 };
             foreach (var v in horizontaValues)
             {
-                var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, defaultFont, true);
                 if (paragraph == null)
                 {
                     tb.AddParagraph(v);
@@ -117,7 +143,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 {
                     entryWidth = tb.Width;
                 }
-                if(entryHeight < tb.Height)
+                if (entryHeight < tb.Height)
                 {
                     entryHeight = tb.Height;
                 }
@@ -132,34 +158,40 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             DrawingLegendSerie pSls = null;
             int index = 0;
             int seriesIndex=0;
-            var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight);
+            var maxIconLength = LegendIconRenderer.GetIconLength(Chart, entryHeight, false);
             foreach (var ct in svgChart.Chart.PlotArea.ChartTypes)
             {
-                foreach (ExcelChartStandardSerie serie in ct.Series)
+                var isBar = ct.IsTypeBar();
+                foreach (ExcelChartStandardSerie serie in ct.Series.OrderBy(x => isBar?ct.Series.Count-((ExcelChartStandardSerie)x).Index : ((ExcelChartStandardSerie)x).Index)) //Barcharts are ordered reversed.
                 {
                     //Create the legend column
                     var sls = new DrawingLegendSerie();
-                    if(ct.IsTypeLine())
+                    if (ct.IsTypeLine())
                     {
-                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetLineLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                         SeriesIcon.Add(sls);
                     }
                     else if (ct.IsTypeColumn() || ct.IsTypeBar())
                     {
-                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetBarLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                         SeriesIcon.Add(sls);
                     }
                     else if (ct.IsTypePie())
                     {
-                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                        LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
+                    }
+                    if(_dataTable.ShowKeys==false)
+                    {
+                        sls.Textbox.Left = sls.SeriesIcon.Left;
                     }
                     var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
                     pSls = sls;
-                    var formattedValues = serie.GetValues(false, true);
+                    var formattedValues = serie.GetValues(false, true, out bool isMultiLevel);
                     var l=new List<DrawingTextBody>();
                     foreach (var v in formattedValues)
                     {
-                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, true);
+                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
+                        
                         if (paragraph == null)
                         {
                             tb.AddParagraph(v.ToString());
@@ -172,7 +204,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     }
                     DataTableRenderItems.Add(l);
                 }
-                seriesIndex++;
+                seriesIndex+=ct.Series.Count;
             }
             _columnsWidth = (_dataTableWidth - (GetLegendColWidth()+LeftMargin+RightMargin)) / headers.Count;
             SetColumnWidth(entryHeight);
@@ -187,14 +219,6 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 if (_dataTable.ShowKeys)
                 {
-                    //if (lc.MarkerIcon != null)
-                    //{
-                    //    lc.MarkerIcon.Height += height;
-                    //    if (lc.MarkerBackground != null)
-                    //    {
-                    //        lc.MarkerBackground.Height += height;
-                    //    }
-                    //}
                     if(lc.SeriesIcon.Top > lc.Textbox.Top)
                     {
                         var diff = lc.SeriesIcon.Top - lc.Textbox.Top;
@@ -224,7 +248,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 else
                 {
-                    lc.Textbox.Left = height;
+                    lc.Textbox.Top = height;
                 }
                 height += GetLegendColHeight(r++);
             }
@@ -234,7 +258,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var lcw = GetLegendColWidth();
             foreach (var row in DataTableRenderItems)
             {
-                var x = lcw + LeftMargin + RightMargin;
+                var x = lcw + LeftMargin;
                 foreach (var cell in row)
                 {
                     cell.Left += x + (_columnsWidth / 2)-(cell.Width / 2);
@@ -248,7 +272,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
 
         const float MarginIconText = 1.5f;
-        private double GetLegendColWidth()
+        internal double GetLegendColWidth()
         {
             if (SeriesIcon.Count == 0) return 0;
             var w = SeriesIcon.Max(x=>x.Textbox.Width);
@@ -292,12 +316,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         }
         private List<string> GetFormattedValues(ChartRenderer svgChart, List<object> values)
         {
-            var format = svgChart.HorizontalAxis.Axis.FormatOrFirstValueFormat;
-            var nf = new ExcelFormatTranslator(format, 0);
+            var nf = svgChart.HorizontalAxis.Axis.FormatTranslator;
             //Excel replaces the format with a default date format if the axis is date based.
             if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
             {
-                if (format == "m/d/yyyy")
+                if (nf.Formats.Count > 0 && nf.Formats[0].NetFormat == "m/d/yyyy")
                 {
                     var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
                     nf = new ExcelFormatTranslator(sdFormat, 14);
@@ -306,7 +329,15 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             var displayValues = new List<string>();
             foreach (var v in values)
             {
-                var s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                string s;
+                if(v is object[] array)
+                {
+                    s = ValueToTextHandler.FormatValue(array[3], false, nf, null, out bool isValidFormat);
+                }
+                else
+                {
+                    s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
+                }
                 displayValues.Add(s);
             }
             return displayValues;
@@ -314,16 +345,24 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         private List<DrawingTextBody> AddSerieValues(ChartRenderer svgChart, double maxWidth, double maxHeight, ExcelChartSerie serie)
         {
             var ret = new List<DrawingTextBody>();
-            if (string.IsNullOrEmpty(serie.Series))
+            if (string.IsNullOrEmpty(serie.Series)==false)
             {
                 var a = new ExcelAddressBase(serie.Series);
-                var ws = svgChart.Chart.WorkSheet;
+                ExcelWorksheet ws;
+                if(string.IsNullOrEmpty(a.WorkSheetName))
+                {
+                    ws = svgChart.Chart.WorkSheet;
+                }
+                else
+                {
+                    ws = svgChart.Chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
+                }
                 if (ws != null)
                 {
                     var range = ws.Cells[a.Address];
                     foreach (var cell in range)
                     {
-                        var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                        var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                         tb.AddParagraph(cell.Text);
                         ret.Add(tb);
                     }
@@ -333,7 +372,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 foreach (var se in serie.StringLiteralsY)
                 {
-                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                     tb.AddParagraph(se);
                     ret.Add(tb);
                 }
@@ -342,7 +381,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             {
                 foreach (var nl in serie.NumberLiteralsY)
                 {
-                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, true);
+                    var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
                     tb.AddParagraph(nl.ToString());
                     ret.Add(tb);
                 }
@@ -353,19 +392,21 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
         internal override Color? GetDefaultFillColor()
         {
-            return GetDefaultFillColorForElement(ChartElement.DataTable, (int)Chart.Style);
+            return GetDefaultFillColorForElement(ChartRenderer.Theme,ChartElement.DataTable, (int)Chart.Style);
         }
 
         internal override Color? GetDefaultBorderColor()
         {
-            return GetDefaultBorderColorForElement(ChartElement.DataTable, (int)Chart.Style);
+            return GetDefaultBorderColorForElement(ChartRenderer.Theme,ChartElement.DataTable, (int)Chart.Style);
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)
         {
+            var lcw = LeftMargin + GetLegendColWidth() + RightMargin;
+
             var group = new GroupRenderItem(ChartRenderer.Bounds);
             group.Name = "DataTable";
-            group.Left = ChartRenderer.ChartArea.LeftMargin;
+            group.Left = ChartRenderer.Plotarea.Group.Left - lcw;
             group.Top = GetTop();
             //Render series header column.
             foreach (var li in SeriesIcon)
@@ -378,6 +419,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 group.ChildObjects.Add(li.Textbox);
             }
+
+            AdjustColumnWidthsFromPlotarea(lcw);
 
             foreach (var row in DataTableRenderItems)
             {
@@ -402,10 +445,34 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             renderItems.Add(group);
         }
 
+        private void AdjustColumnWidthsFromPlotarea(double lcw)
+        {
+            if (DataTableRenderItems.Count == 0) return;
+            var paw = ChartRenderer.Plotarea.Rectangle.Width;
+            Rectangle.Width = lcw + paw;
+            _columnsWidth = paw / DataTableRenderItems[0].Count;
+            foreach (var row in DataTableRenderItems)
+            {
+                var ix = 0;
+                foreach (var cell in row)
+                {
+                    while(cell.Width > _columnsWidth)
+                    {
+                        var ct = cell.Paragraphs[0].Runs[0].CurrentText;
+                        cell.Paragraphs[0].SetNewText(ct.Substring(0, ct.Length - 1));
+                        cell.RecalculateParagraphs();
+                        if (ct.Length == 1) break;
+                    }
+                    cell.Left = lcw + ix * _columnsWidth + ((_columnsWidth-cell.Width)/2);
+                    ix++;
+                }
+            }
+        }
+
         private void CreateVerticalBorderRenderItem(GroupRenderItem group)
         {
             var path = new PathRenderItem(group);
-            var lcw = GetLegendColWidth() + LeftMargin + RightMargin;
+            var lcw = LeftMargin+GetLegendColWidth()+RightMargin;
             var bottom = DataTableRenderItems[DataTableRenderItems.Count - 1][0].Bottom;
             for (int c=1;c < DataTableRenderItems[0].Count; c++)
             {
@@ -414,7 +481,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             path.Style.FillOpacity = 100;
             path.Style.FillColor = "none";
-            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.Width > 0, GetDefaultBorderColor, 0.75);
+            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.IsEmpty || _dataTable.Border.Width > 0 , GetDefaultBorderColor, 0.75);
         }
 
         private PathRenderItem CreateHorizontalBorderRenderItem(GroupRenderItem group)
@@ -429,7 +496,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             }
             path.Style.FillOpacity = 100;
             path.Style.FillColor = "none";
-            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.Width > 0, GetDefaultBorderColor, 0.75);
+            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.IsEmpty || _dataTable.Border.Width > 0, GetDefaultBorderColor, 0.75);
             return path;
         }
 
@@ -447,22 +514,29 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             path.Commands.Add(new PathCommand(PathCommandType.End));
             path.Style.FillOpacity = 100;
             path.Style.FillColor = "none";            
-            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.Width > 0, GetDefaultBorderColor, 0.75);
+            path.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, _dataTable.Border, ChartRenderer.Chart.StyleManager?.Style?.DataTable.BorderReference.Color, _dataTable.Border.IsEmpty || _dataTable.Border.Width > 0, GetDefaultBorderColor, 0.75);
             return path;
         }
 
         private double GetTop()
         {
-            var bottom = ChartRenderer.Plotarea.Rectangle.Bottom;
-            if (ChartRenderer.HorizontalAxis?.Axis.Deleted == false && (ChartRenderer.HorizontalAxis.Rectangle?.Bottom??0) > bottom)
+            var bottom = ChartRenderer.Plotarea.Rectangle.GlobalBottom;
+            if (IsHeaderBottomAxis == false)
             {
-                bottom = ChartRenderer.HorizontalAxis.Rectangle.Bottom;
+                if (ChartRenderer.HorizontalAxis?.Axis.Deleted == false && (ChartRenderer.HorizontalAxis.Rectangle?.GlobalBottom ?? 0) > bottom)
+                {
+                    bottom = ChartRenderer.HorizontalAxis.Rectangle.GlobalBottom;
+                }
+                if (ChartRenderer.SecondHorizontalAxis?.Axis.Deleted == false && (ChartRenderer.SecondHorizontalAxis.Rectangle?.GlobalBottom ?? 0) > bottom)
+                {
+                    bottom = ChartRenderer.SecondHorizontalAxis.Rectangle.GlobalBottom;
+                }
+                return bottom + TopMargin;
             }
-            if (ChartRenderer.SecondHorizontalAxis?.Axis.Deleted == false && (ChartRenderer.SecondHorizontalAxis.Rectangle?.Bottom ?? 0) > bottom)
+            else
             {
-                bottom = ChartRenderer.SecondHorizontalAxis.Rectangle.Bottom;
+                return bottom;
             }
-            return bottom+TopMargin;
         }
     }
 }

@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Down);
-                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
+                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);
@@ -319,6 +319,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (dv.Address.Address != newAddress.Address)
                     {
+                        ws.DataValidations.dvQuadTree.UpdateAddress(dv.Address, newAddress, dv);
                         dv.SetAddress(newAddress.Address);
                     }
                 }
@@ -333,7 +334,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void InsertFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
             var ws = range.Worksheet;
-            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
+            if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollision.No)
             {
                 if(shift==eShiftTypeInsert.Down)
                 {
@@ -349,7 +350,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             foreach (var slg in range.Worksheet.SparklineGroups)
             {
-                if (slg.DateAxisRange!=null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollition.Inside)
+                if (slg.DateAxisRange!=null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollision.Inside)
                 {
                     string address;
                     if (shift == eShiftTypeInsert.Down)
@@ -367,7 +368,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (shift == eShiftTypeInsert.Down)
                     {
-                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollision.Inside ||
                             range.CollideFullRow(sl.RangeAddress._fromRow, sl.RangeAddress._toRow))
                         {
                             sl.RangeAddress = sl.RangeAddress.AddRow(range._fromRow, range.Rows);
@@ -380,7 +381,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else
                     {                        
-                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollision.Inside ||
                             range.CollideFullColumn(sl.RangeAddress._fromCol, sl.RangeAddress._toCol))
                         {
                             sl.RangeAddress = sl.RangeAddress.AddColumn(range._fromCol, range.Columns);
@@ -434,7 +435,7 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 var collide = effectedAddress.Collide(address);
-                if (collide == ExcelAddressBase.eAddressCollition.Partly)
+                if (collide == ExcelAddressBase.eAddressCollision.Partly)
                 {
                     var newAddress = "";
                     if (shift == eShiftTypeInsert.Down)
@@ -475,7 +476,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
                 }
-                else if (collide != ExcelAddressBase.eAddressCollition.No)
+                else if (collide != ExcelAddressBase.eAddressCollision.No)
                 {
                     return ShiftAddress(address, range, shift);
                 }
@@ -755,11 +756,11 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         var a = new ExcelAddressBase(f.Address);
                         var c = effectedAddress.Collide(a);
-                        if (c == ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol > a._fromCol || effectedAddress._toCol < a._toCol))
+                        if (c == ExcelAddressBase.eAddressCollision.Partly && (effectedAddress._fromCol > a._fromCol || effectedAddress._toCol < a._toCol))
                         {
                             throw new Exception("Invalid shared formula"); //This should never happend!
                         }
-                        if (f.StartCol >= columnFrom && c != ExcelAddressBase.eAddressCollition.No)
+                        if (f.StartCol >= columnFrom && c != ExcelAddressBase.eAddressCollision.No)
                         {
                             if ((shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
                             {

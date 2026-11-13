@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     usedHeight += page.RowHeights[ri];
                 }
                 page.UsedHeight = usedHeight;
-
+                AddBordersAtPageBoundaries(range, page);
                 pdfPages.Page[i] = page;
             }
             pdfPages = pages;
@@ -308,6 +308,64 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                 }
             }
+        }
+
+        private static void AddBordersAtPageBoundaries(PdfRange range, Page page)
+        {
+            if (page.Map == null) return;
+            bool topIsBoundary = page.FromRow > range.Range._fromRow;
+            bool bottomIsBoundary = page.ToRow < range.Range._toRow;
+            bool leftIsBoundary = page.FromColumn > range.Range._fromCol;
+            bool rightIsBoundary = page.ToColumn < range.Range._toCol;
+            if (topIsBoundary || bottomIsBoundary)
+            {
+                for (int col = page.FromColumn; col <= page.ToColumn; col++)
+                {
+                    if (topIsBoundary)
+                    {
+                        UnsuppressTop(page.Map[page.FromRow, col]);
+                    }
+                    if (bottomIsBoundary)
+                    {
+                        UnsuppressBottom(page.Map[page.ToRow, col]);
+                    }
+                }
+            }
+            if (leftIsBoundary || rightIsBoundary)
+            {
+                for (int row = page.FromRow; row <= page.ToRow; row++)
+                {
+                    if (leftIsBoundary)
+                    {
+                        UnsuppressLeft(page.Map[row, page.FromColumn]);
+                    }
+                    if (rightIsBoundary)
+                    {
+                        UnsuppressRight(page.Map[row, page.ToColumn]);
+                    }
+                }
+            }
+        }
+
+        private static void UnsuppressTop(PdfCell cell)
+        {
+            if (cell?.CellStyle != null)
+                cell.CellStyle.SuppressTop = false;
+        }
+        private static void UnsuppressBottom(PdfCell cell)
+        {
+            if (cell?.CellStyle != null)
+                cell.CellStyle.SuppressBottom = false;
+        }
+        private static void UnsuppressLeft(PdfCell cell)
+        {
+            if (cell?.CellStyle != null)
+                cell.CellStyle.SuppressLeft = false;
+        }
+        private static void UnsuppressRight(PdfCell cell)
+        {
+            if (cell?.CellStyle != null)
+                cell.CellStyle.SuppressRight = false;
         }
     }
 }

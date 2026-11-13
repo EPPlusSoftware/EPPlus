@@ -8,6 +8,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Utils.DateUtils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,8 +22,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateHorizontalAxisByWidth(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var plotAreaWidth = options.ChartSize.Width;
-            List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
-            var uniqeItems = displayValues.Count;
+            var uniqueValues = GetUniqueValues(values, options.IsMulti);
+            List<object> displayValues;
+            if (options.IsMulti)
+            {
+                displayValues = uniqueValues.ToList();
+            }
+            else
+            {
+                displayValues = uniqueValues.Select(x => (object)x.ToString()).ToList();
+            }
+            var uniqueItems = displayValues.Count;
 
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
 
@@ -30,12 +40,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             var interval = GetMinUnitVerticalText(displayValues.Count, textHeight, plotAreaWidth);
 
             //Get max text width when using diagonal text
-            var width = fontSize * Math.Sqrt(2);
-            var margin = fontSize * 0.5;
-
-            if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+            if (options.Axis.TextBody.RotationAdjustedForTextVertical != 0 )
             {
-                if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth)) //Check horizontal
+                var orientationCustom = eTextOrientation.Custom;
+
+                if (options.Axis.TextBody.RotationAdjustedForTextVertical == 90)
+                {
+                    orientationCustom = eTextOrientation.Vertical;
+                }
+                //else if (options.Axis.TextBody.RotationAdjustedForTextVertical == 45 || (options.Axis.TextBody.RotationAdjustedForTextVertical == -45))
+                //{
+                //    orientationCustom = eTextOrientation.Diagonal;
+                //}
+
+
+                //var rot = options.Axis.TextBody.Rotation.Value;
+                //var width = fontSize * Math.Sqrt(1D/(rot % 90) / 90);
+                //var margin = fontSize * 0.5;
+                //if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                //{
+                var width = fontSize * Math.Sqrt(2);
+                var margin = fontSize * 0.5;
+                if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 {
                     return new AxisScale()
                     {
@@ -43,11 +69,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MinorInterval = 1,
                         Min = 1,
                         Max = displayValues.Count,
-                        TextOrientation = eTextOrientation.Horizontal,
+                        TextOrientation = orientationCustom,
                         DisplayValues = displayValues
                     };
                 }
-                else
+                else if(FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, options.ChartSize.Height))
                 {
                     return new AxisScale()
                     {
@@ -55,11 +81,45 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                         MinorInterval = 1,
                         Min = 1,
                         Max = displayValues.Count,
-                        TextOrientation = eTextOrientation.Diagonal,
+                        TextOrientation = orientationCustom,
                         DisplayValues = displayValues
                     };
+                }
+                //}
+            }
+            else
+            {
+                var width = fontSize * Math.Sqrt(2);
+                var margin = fontSize * 0.5;
+                if (options.IsMulti || FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
+                {
+                    if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth, options.IsMulti)) //Check horizontal
+                    {
+                        return new AxisScale()
+                        {
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            Min = 1,
+                            Max = displayValues.Count,
+                            TextOrientation = eTextOrientation.Horizontal,
+                            DisplayValues = displayValues
+                        };
+                    }
+                    else
+                    {
+                        return new AxisScale()
+                        {
+                            MajorInterval = interval,
+                            MinorInterval = 1,
+                            Min = 1,
+                            Max = displayValues.Count,
+                            TextOrientation = eTextOrientation.Diagonal,
+                            DisplayValues = displayValues
+                        };
+                    }
                 }
             }
+
             if (interval != 1)
             {
                 var removeCount = interval - 1;
@@ -81,7 +141,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MajorInterval = interval,
                 MinorInterval = 1,
                 Min = 1,
-                Max = uniqeItems,
+                Max = uniqueItems,
                 TextOrientation = eTextOrientation.Vertical,
                 DisplayValues = displayValues
             };
@@ -89,7 +149,17 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
         internal static AxisScale CalculateVerticalAxisByHeight(ref List<object> values, ITextShaper shaper, float fontSize, AxisOptions options)
         {
             var plotAreaHeight = options.ChartSize.Height;
-            List<object> displayValues = GetUniqueValues(values).Select(x => (object)x.ToString()).ToList();
+            List<object> uniqueValues = GetUniqueValues(values, options.IsMulti);
+            List<object> displayValues;
+            if (options.IsMulti)
+            {
+                displayValues = uniqueValues.ToList();
+            }
+            else
+            {
+                displayValues = uniqueValues.Select(x => (object)x.ToString()).ToList();
+            }
+
             var uniqeItems = displayValues.Count;
             var textHeight = GetTextHeight(shaper, displayValues[0].ToString(), fontSize);
             int interval = 1;
@@ -119,24 +189,49 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 MinorInterval = 1,
                 Min = 1,
                 Max = uniqeItems,
-                TextOrientation = eTextOrientation.Horizontal,
+                TextOrientation = (options.Axis.TextBody?.RotationAdjustedForTextVertical??0D) ==0 ? eTextOrientation.Horizontal : eTextOrientation.Custom,
                 DisplayValues = displayValues
             };
         }
 
 
-        private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth)
+        private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth, bool isMultLevel)
         {
             var margin = fontSize * 0.3;
-            var width = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
+            double maxWidth;
             var pos = interval;
-            while (pos < displayValues.Count && width < plotAreaWidth)
+            if (isMultLevel)
             {
-                width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
-                if (width > plotAreaWidth) return false;
-                pos += interval;
+                var arr = (object[])displayValues[0];
+                var lastIx = arr.Length - 1;
+                maxWidth = GetTextWidth(shaper, arr[lastIx].ToString(), fontSize) + margin;
+                while (pos < displayValues.Count && (maxWidth * displayValues.Count / interval) < plotAreaWidth)
+                {
+                    arr = (object[])displayValues[pos];
+                    var width = GetTextWidth(shaper, arr[lastIx].ToString(), fontSize) + margin;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                        if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                    }
+                    pos += interval;
+                }
             }
-            return width <= plotAreaWidth;
+            else
+            {
+                maxWidth = GetTextWidth(shaper, displayValues[0].ToString(), fontSize) + margin;
+                while (pos < displayValues.Count && (maxWidth * displayValues.Count / interval) < plotAreaWidth)
+                {
+                    var width = GetTextWidth(shaper, displayValues[pos].ToString(), fontSize) + margin;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                        if ((maxWidth * displayValues.Count / interval) > plotAreaWidth) return false;
+                    }
+                    pos += interval;
+                }
+            }
+            return true;
         }
 
         private static bool FitAsVerticalDiagonalText(int itemCount, int interval, double textWidth, double margin, double plotAreaWidthHeight)
@@ -159,19 +254,46 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             return interval;
         }
 
-        internal static List<object> GetUniqueValues(List<object> values)
+        internal static List<object> GetUniqueValues(List<object> values, bool isMulti)
         {
             var ret = new List<object>();
             var hs = new HashSet<string>();
+            string[] prevNonEmpty=null;
             foreach (var v in values)
             {
-                if (v is object[])
+                if (v is object[] array)
                 {
-                    var s = (object[])v;
-                    var key = s[0].ToString() + s[1].ToString();
-                    if (hs.Add(key))
+                    if(isMulti)                    
                     {
-                        ret.Add(s[0]);
+                        if(prevNonEmpty==null) prevNonEmpty = new string[array.Length - 1]; //For empty values, we will use previous non empty value in the key to match up hierarki values.
+                        var key = "";
+                        var o = new object[array.Length];
+                        for (int ix = 0;ix<array.Length;ix++)                        
+                        {
+                            var s = (object[])array[ix];
+                            if(ix < array.Length-1 && string.IsNullOrEmpty(s[0].ToString()))
+                            {
+                                key += prevNonEmpty[ix].ToString() + s[1].ToString();
+                            }
+                            else
+                            {
+                                key += s[0].ToString() + s[1].ToString();
+                                if (ix < array.Length - 1) prevNonEmpty[ix] = s[0].ToString();
+                            }
+                            o[ix] = ((object[])array[ix])[0];
+                        }
+                        if (hs.Add(key))
+                        {
+                            ret.Add(o);
+                        }
+                    }
+                    else
+                    {
+                        var key = array[0].ToString() + array[1].ToString();
+                        if (hs.Add(key))
+                        {
+                            ret.Add(array[0]);
+                        }
                     }
                 }
                 else

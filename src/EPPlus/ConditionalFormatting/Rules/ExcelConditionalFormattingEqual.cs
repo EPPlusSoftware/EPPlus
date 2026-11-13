@@ -44,7 +44,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="address"></param>
         /// <param name="ws"></param>
         /// <param name="xr"></param>
-        internal ExcelConditionalFormattingEqual(ExcelAddress address, ExcelWorksheet ws, XmlReader xr) 
+        internal ExcelConditionalFormattingEqual(ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
             : base(eExcelConditionalFormattingRuleType.Equal, address, ws, xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.Equal;

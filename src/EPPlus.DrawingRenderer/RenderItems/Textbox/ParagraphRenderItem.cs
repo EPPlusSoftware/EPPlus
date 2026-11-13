@@ -87,7 +87,22 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         protected TextAlignment _alignment;
 
         //After setting alignment we must re-calculate the rows
-        public TextAlignment HorizontalAlignment { get { return _alignment; } set { _alignment = value; WrapTextFragmentsAndGenerateTextRuns(); } }
+        public TextAlignment HorizontalAlignment 
+        { get 
+            { 
+                return _alignment; 
+            } 
+            set 
+            { 
+                _alignment = value;
+                var origRuns = Runs;
+                WrapTextFragmentsAndGenerateTextRuns();
+                if (Runs.Count != 0)
+                {
+                    ImportStyles();
+                }
+            } 
+        }
         public List<TextRunRenderItem> Runs { get; set; } = new List<TextRunRenderItem>();
         public TextLineCollection Lines { get; protected set; }
         public bool DisplayBounds { get; set; } = false;
@@ -145,7 +160,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             {
                 var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
                 DefaultParagraphFont = new FontFormatBase(defaultFont);
-                Style.FillColor = "black";
             }
         }
 
@@ -223,6 +237,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             //This is highly innefficent. Really, LayoutSystem should be 
             //Holding the fragments from the start/wrapping should only be done when textFragments are fully complete
             _layoutSystem = new LayoutSystem(RenderContext.FontEngine, _textFragments);
+            _layoutSystem.AdditionalWrappingChars = _additionalWrappingChars;
 
             //if (fragments == null && _layoutSystem == null)
             //{
@@ -232,6 +247,10 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             double maxWidthInPoints;
             if(AutoSize)
             {
+                if(ParentTextBody != null)
+                {
+                    ParentMaxWidth = ParentTextBody.MaxWidth;
+                }
                 maxWidthInPoints = Math.Round(ParentMaxWidth - RightMargin - LeftMargin, 0, MidpointRounding.AwayFromZero);
             }
             else
@@ -267,16 +286,24 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
 
-        protected void AddDefaultTextFragment(string text)
+        protected void AddDefaultTextFragment(string text, RichTextFormatSimple inputDefault = null)
         {
-            var defaults = new RichTextFormatSimple();
+            RichTextFormatSimple defaults;
+            if (inputDefault == null)
+            {
+                defaults = new RichTextFormatSimple();
+            }
+            else
+            {
+                defaults = inputDefault;
+            }
             defaults.Text = text;
             defaults.SetFont(DefaultParagraphFont);
 
             AddRichTextBase(defaults);
         }
 
-        protected void ImportLinesAndTextRunsBase(string textIfEmpty)
+        protected void ImportLinesAndTextRunsBase(string textIfEmpty, RichTextFormatSimple defaults = null)
         {
             if(string.IsNullOrEmpty(textIfEmpty))
             {
@@ -287,8 +314,18 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 TextIfEmptyIsNull = false;
             }
 
-            AddDefaultTextFragment(textIfEmpty);
+            AddDefaultTextFragment(textIfEmpty, defaults);
             WrapTextFragmentsAndGenerateTextRuns();
+        }
+
+        public double GetSpaceMargin()
+        {
+            double spaceMargin = 0;
+            if(Lines != null && Lines.SpaceWidthsPerLine != null && Lines.Count > 0)
+            {
+                spaceMargin = Lines.SpaceWidthsPerLine[Lines.idxOfLargestLine];
+            }
+            return spaceMargin;
         }
 
         protected void WrapTextFragmentsAndGenerateTextRuns()
@@ -313,7 +350,6 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 widthOfLargestLine = Lines.LargestWidthWithoutSpace;
                 combinedHeight = Lines.GetHeightOfCollection(_lsMultiplier, lineSpacingResult);
 
-
                 Width = widthOfLargestLine + RightMargin;
                 //SetHorizontalAlignment(widthOfLargestLine);
 
@@ -336,9 +372,16 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                         var run = CreateTextRun(this, displayText, rtIdx);
                         //Potentially we could import styling here instead but that leads to multiple issues.
                         //We may need to move it back here for auto-size reasons
+                        if (string.IsNullOrEmpty(displayText))
+                        {
+                            run.Left = 0;
+                        }
+                        else
+                        {
+                            run.Left = prevWidth;
+                        }
 
                         run.YPosition = Lines.GetBaseLinePosition(lineIdx, lineSpacingResult);
-                        run.Left = prevWidth;
                         run.Width = lineFragment.Width;
                         prevWidth += lineFragment.Width;
 
@@ -383,6 +426,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
                 Left = 0;
             }
         }
+
 
         void ImportStyles()
         {
@@ -432,5 +476,39 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
         }
 
         protected abstract TextRunRenderItem CreateTextRun(BoundingBox parent, string displayText, int origRtIdx);
+
+        public void SetNewText(string value)
+        {
+            _textFragments[0].Text = value;
+            while (_textFragments.Count > 1) _textFragments.RemoveAt(1);
+            WrapTextFragmentsAndGenerateTextRuns();
+        }
+
+        List<char> _additionalWrappingChars = new List<char>();
+
+        /// <summary>
+        /// By default EPPlus only wraps on spaces ` ` for additional wrapping on e.g. `-` this function can be used
+        /// </summary>
+        /// <param name="additionalChars"></param>
+        public void AddAdditionalWrappingChars(char[] additionalChars)
+        {
+            _additionalWrappingChars.AddRange(additionalChars);
+        }
+
+        /// <summary>
+        /// By default EPPlus only wraps on spaces ` `
+        /// This function removes additional wrapping chars added
+        /// </summary>
+        /// <param name="additionalChars"></param>
+        public void RemoveAdditionalWrappingChars(char[] additionalChars)
+        {
+            foreach(var c in additionalChars)
+            {
+                if(_additionalWrappingChars.Contains(c))
+                {
+                    _additionalWrappingChars.Remove(c);
+                }
+            }
+        }
     }
 }

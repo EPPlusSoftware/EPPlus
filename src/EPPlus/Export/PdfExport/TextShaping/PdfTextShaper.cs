@@ -85,9 +85,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             }
             if (cell.ContentAligmnet?.ShrinkToFit == true && cell.ContentAligmnet?.WrapText != true && cell.ContentAligmnet?.IsVertical != true)
             {
-                double hInset = 1.4d;
                 double cw = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
-                double avail = cw - 2d * hInset;
+                double avail = cw - 2d * PdfCellContentLayout.CellHorizontalInset;
                 if (avail > 0 && totalTextLength > avail)
                 {
                     float shrink = (float)(avail / totalTextLength);
@@ -98,7 +97,8 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             }
             if (cell.TextLayoutEngine != null)
             {
-                double wrapWidth = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
+                double cw = (cell.Merged && cell.Main == null) ? cell.Width : cell.ColumnWidth;
+                double wrapWidth = System.Math.Max(0d, cw - 2d * PdfCellContentLayout.CellHorizontalInset);
                 cell.TextLines = cell.ContentAligmnet?.IsVertical == true
                     ? cell.TextLayoutEngine.BuildVerticalLineCollection(cell.TextFragments)
                     : cell.ContentAligmnet.WrapText
@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             }
             if (cell.TextLayoutEngine != null)
             {
-                double wrapWidth = cell.Width;
+                double wrapWidth = System.Math.Max(0d, cell.Width - 2d * PdfCellContentLayout.CellHorizontalInset);
                 cell.TextLines = cell.ContentAligmnet.WrapText
                     ? cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, wrapWidth)
                     : cell.TextLayoutEngine.WrapRichTextLineCollection(cell.TextFragments, double.MaxValue);

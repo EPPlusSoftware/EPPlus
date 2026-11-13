@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Utils
                     var adr = GetAddressFromToken(tokens, ref i);
                     if (adr.IsFullColumn==false)
                     {
-                        if (adr.Table == null && (adr.Collide(affectedRange) != ExcelAddressBase.eAddressCollition.No) &&
+                        if (adr.Table == null && (adr.Collide(affectedRange) != ExcelAddressBase.eAddressCollision.No) &&
                                 ((extRef == string.Empty && ws == string.Empty) ||
                                 (ws.Equals(range.WorkSheetName, StringComparison.InvariantCultureIgnoreCase) && extRef == string.Empty) ||
                                  int.TryParse(extRef, out int ier) && ier == range.ExternalReferenceIndex))
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Utils
                     var adr = GetAddressFromToken(tokens, ref i);
                     if (adr.IsFullRow == false)
                     {
-                        if (adr.Table == null && (adr.Collide(affectedRange) != ExcelAddressBase.eAddressCollition.No) &&
+                        if (adr.Table == null && (adr.Collide(affectedRange) != ExcelAddressBase.eAddressCollision.No) &&
                                 ((extRef == string.Empty && ws == string.Empty) ||
                                 (ws.Equals(range.WorkSheetName, StringComparison.InvariantCultureIgnoreCase) && extRef == string.Empty) ||
                                  int.TryParse(extRef, out int ier) && ier == range.ExternalReferenceIndex))

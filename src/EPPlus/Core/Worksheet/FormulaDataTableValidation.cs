@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             fa._fromCol--;
                         }
 
-                        if (deleteRange.Collide(fa)==ExcelAddressBase.eAddressCollition.Partly)
+                        if (deleteRange.Collide(fa)==ExcelAddressBase.eAddressCollision.Partly)
                         {
                             throw new InvalidOperationException(errorMsg);
                         }

@@ -143,6 +143,9 @@ namespace OfficeOpenXml.Drawing
             get;
         }
 
+
+        public bool HasTextRuns => _textRun != null;
+
         ExcelDrawingTextRunCollection _textRun = null;
         /// <summary>
         /// A collection of text runs for the paragraph

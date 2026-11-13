@@ -12,12 +12,13 @@
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
+using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
+using OfficeOpenXml.Drawing.Renderer.RenderItems.Textbox;
 using OfficeOpenXml.Drawing.Renderer.TextBox;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Collections.Generic;
 using System.Drawing;
-using EPPlus.Graphics;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -33,11 +34,11 @@ namespace EPPlusImageRenderer.Svg
             DefaultFillColor = Color.Transparent;
         }
 
-        internal List<DrawingTextBox> TextBoxes
+        internal List<DrawingTextContainer> TextBoxes
         {
             get;
             set;
-        }=new List<DrawingTextBox>();
+        }=new List<DrawingTextContainer>();
 
 
         public override void AppendRenderItems(List<Transform> renderItems)
@@ -50,9 +51,11 @@ namespace EPPlusImageRenderer.Svg
                 axisTxtBoxGroup.Left = _axis.Rectangle.Left;
                 _axis.Rectangle.Top = 0;
                 _axis.Rectangle.Left = 0;
+                _axis.Rectangle.Parent = axisTxtBoxGroup;
+
                 foreach (var tb in TextBoxes)
                 {
-                    tb.AppendRenderItems(axisTxtBoxGroup.ChildObjects);
+                    tb.Parent = axisTxtBoxGroup;
                 }
                 renderItems.Add(axisTxtBoxGroup);
             }

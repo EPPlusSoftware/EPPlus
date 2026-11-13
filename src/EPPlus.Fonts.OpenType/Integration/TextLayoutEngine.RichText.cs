@@ -241,7 +241,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
         public List<TextLineSimple> WrapRichTextRuns(
             List<StyleRun> fragments,
-            double maxWidthPoints)
+            double maxWidthPoints, List<char> AdditionalWrappingChars = null)
         {
             if (fragments == null || fragments.Count == 0)
             {
@@ -259,7 +259,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 if (string.IsNullOrEmpty(fragment.Text)) continue;
 
-                ProcessStyleRun(fragment, maxWidthPoints, lineBuilder, state);
+                ProcessStyleRun(fragment, maxWidthPoints, lineBuilder, state, AdditionalWrappingChars);
             }
 
             FinalizeCurrentLine(lineBuilder, state.CurrentLineWidth, state.WordStart, state.CurrentTextLine);
@@ -278,16 +278,26 @@ namespace EPPlus.Fonts.OpenType.Integration
         StyleRun run,
         double maxWidthPoints,
         StringBuilder lineBuilder,
-        WrapStateRichText state)
+        WrapStateRichText state,
+        List<char> additionalWrappingChars = null)
         {
             state.CharIdxRt = 0;
             state.CharIdxWithinOriginal = run.FullTextStart;
+
+            state.CurrentFragmentIdx = run.FragmentIndex;
 
             int i = 0;
             var len = run.Length;
             while (i < (len))
             {
                 char c = run.Text[i];
+
+                //Must be done here rather than above the while loop since when a linebreak is the first char of a new linefragment it will produce empty internalLineFragments otherwise
+                if (i == 0)
+                {
+                    state.LineFrag = new LineFragment(run.FragmentIndex, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
+                    state.LineFrag.SpaceWidth = run.SpaceWidth;
+                }
 
                 if (IsLineBreak(c))
                 {
@@ -301,13 +311,6 @@ namespace EPPlus.Fonts.OpenType.Integration
                     continue;
                 }
 
-                //Must be done here rather than above the while loop since when a linebreak is the first char of a new linefragment it will produce empty internalLineFragments otherwise
-                if(i == 0)
-                {
-                    state.LineFrag = new LineFragment(state.CurrentFragmentIdx, lineBuilder.Length, state.CharIdxRt, state.CharIdxWithinOriginal);
-                    state.LineFrag.SpaceWidth = run.SpaceWidth;
-                }
-
                 state.CharIdxRt = i;
 
                 var cWidth = run.GetCharWidthByIndex(i);
@@ -318,7 +321,7 @@ namespace EPPlus.Fonts.OpenType.Integration
 
                 lineBuilder.Append(c);
 
-                if (c == ' ')
+                if (c == ' ' || additionalWrappingChars != null && additionalWrappingChars.Contains(c))
                 {
                     state.SetAndLogWordStartState(lineBuilder.Length - 1);
                 }
@@ -336,8 +339,6 @@ namespace EPPlus.Fonts.OpenType.Integration
             {
                 state.CurrentTextLine.InternalLineFragments.Add(state.LineFrag);
             }
-
-            state.CurrentFragmentIdx++;
         }
 
         private void ProcessFragment(

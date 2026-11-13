@@ -282,19 +282,22 @@ namespace EPPlusTest.Core.Worksheet
                 var wb = p.Workbook;
                 var worksheets = wb.Worksheets;
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 10; i++)
                 {
-                    worksheets.Add($"Data {i}");
-                }
+                    if(i% 2 == 0)
+                    {
+                        worksheets.Add($"SomeWorksheet{i}");
+                    }
+                    else
+                    {
+                        worksheets.Add($"Data {i}");
 
-                for (int i = 0; i < 5; i++)
-                {
-                    worksheets.Add($"SomeWorksheet{i}");
+                    }
                 }
 
                 worksheets.DeleteAll(ws => ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase));
 
-                var countWs = p.Workbook.Worksheets.Count();
+                var countWs = p.Workbook.Worksheets.Where(x=>x.Name.StartsWith("SomeWorksheet", StringComparison.OrdinalIgnoreCase)).Count();
 
                 Assert.AreEqual(5, countWs);
             }

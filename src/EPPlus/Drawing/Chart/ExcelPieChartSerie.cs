@@ -76,7 +76,8 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return TopNode.SelectSingleNode("c:dLbls", NameSpaceManager) != null;
+                return ExistsNode("c:dLbls");
+                //return TopNode.SelectSingleNode("c:dLbls", NameSpaceManager) != null;
             }
         }
         ExcelChartDataPointCollection _dataPoints = null;

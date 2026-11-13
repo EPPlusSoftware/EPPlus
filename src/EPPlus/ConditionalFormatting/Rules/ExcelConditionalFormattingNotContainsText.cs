@@ -37,7 +37,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
         }
 
-        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy, ExcelWorksheet newWs) :base(copy, newWs)
+        ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy, ExcelWorksheet newWs) : base(copy, newWs)
         {
             Text = copy.Text;
         }
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_text != null)
             {
-                if(Address != null)
+                if (Address != null)
                 {
                     Formula = string.Format(
                         "ISERROR(SEARCH(\"{1}\",{0}))",

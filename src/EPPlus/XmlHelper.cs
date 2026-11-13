@@ -1035,6 +1035,23 @@ namespace OfficeOpenXml
                 return true;
             }
         }
+        /// <summary>
+        /// Checks if th 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal bool ExistsElement(string path)
+        {
+            var attrIx = path.LastIndexOf("/@");
+            if(attrIx>0)
+            {
+                return ExistsNode(path.Substring(0, attrIx));
+            }
+            else
+            {
+                return ExistsNode(path);
+            }
+        }
         internal bool ExistsNode(string path, out XmlNode node)
         {            
             if (TopNode != null )
@@ -1101,8 +1118,19 @@ namespace OfficeOpenXml
             TopNode = tempNode;
             return retVal;
         }
-        internal bool GetXmlNodeBool(string path, bool blankValue)
+        internal bool GetXmlNodeBool(string path, bool blankValue, bool? elementNotExistValue = null)
         {
+            if (elementNotExistValue.HasValue)
+            {
+                var attrIx = path.LastIndexOf("/@");
+                if (attrIx > 0)
+                {
+                    if (ExistsNode(path.Substring(0, attrIx)) == false)
+                    {
+                        return elementNotExistValue.Value;
+                    }
+                }
+            }
             string value = GetXmlNodeString(path);
             if (value == "1" || value == "-1" || value.StartsWith("t", StringComparison.OrdinalIgnoreCase))
             {
@@ -1453,6 +1481,18 @@ namespace OfficeOpenXml
             XmlReader reader = XmlReader.Create(sr, settings);
             xmlDoc.Load(reader);
         }
+        internal static XmlTextReader CreateXmlReaderSafe(Stream stream, WhitespaceHandling whitespaceHandling=WhitespaceHandling.All)
+        {
+            var xr = new XmlTextReader(stream);
+            xr.WhitespaceHandling = whitespaceHandling;
+#if (NET35)
+            xr.ProhibitDtd = true;
+#else
+            xr.DtdProcessing = DtdProcessing.Prohibit;
+#endif
+            return xr;
+        }
+
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
             using (var stream = EPPlusMemoryManager.GetStream(encoding.GetBytes(xml)))
@@ -1473,9 +1513,9 @@ namespace OfficeOpenXml
             }
         }
 
-        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string[] uriOrder = null)
+        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string extLstPrefix = "d", string[] uriOrder = null)
         {
-            foreach (XmlElement node in GetNodes("d:extLst/d:ext"))
+            foreach (XmlElement node in GetNodes($"{extLstPrefix}:extLst/{extLstPrefix}:ext"))
             {
                 if (node.Attributes["uri"].Value.Equals(uriGuid, StringComparison.OrdinalIgnoreCase))
                 {
@@ -1499,7 +1539,12 @@ namespace OfficeOpenXml
                     }
                 }
             }
-            var newExt = TopNode.OwnerDocument.CreateElement("ext", ExcelPackage.schemaMain);
+            var ns = NameSpaceManager.LookupNamespace(extLstPrefix);
+            if(string.IsNullOrEmpty(ns))
+            {
+                ns = ExcelPackage.schemaMain;
+            }
+            var newExt = TopNode.OwnerDocument.CreateElement("ext", ns);
             if (!string.IsNullOrEmpty(prefix))
             {
                 newExt.SetAttribute($"xmlns:{prefix}", NameSpaceManager.LookupNamespace(prefix));
