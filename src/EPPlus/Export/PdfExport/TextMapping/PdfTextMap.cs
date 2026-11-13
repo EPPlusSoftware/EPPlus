@@ -100,10 +100,18 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                         if (iconRule != null)
                         {
                             tempMap.ContentAligmnet.IconSize = cell.Style.Font.Size * 1.2d;
-                            var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
-                            if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
+                            try
                             {
-                                cellStyle.Icon = icon;
+                                var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
+                                if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
+                                {
+                                    cellStyle.Icon = icon;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                cellStyle.Icon = null;
+                                tempMap.ContentAligmnet.IconSize = 0d;
                             }
                         }
                         var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
