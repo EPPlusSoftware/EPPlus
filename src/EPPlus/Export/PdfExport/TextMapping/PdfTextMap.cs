@@ -11,176 +11,280 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
-using EPPlus.Export.Pdf.Layout;
 using EPPlus.Export.Pdf.Resources;
 using EPPlus.Export.Pdf.Settings;
-using EPPlus.Fonts.OpenType.Integration;
-using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics.Units;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.PdfExport.Data;
-using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.RichData.Structures.Constants;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+
 
 namespace OfficeOpenXml.Export.PdfExport.TextMapping
 {
     internal class PdfTextMap
     {
+        readonly PdfPageSettings _pageSettings;
+        readonly PdfDictionaries _dictionaries;
+        readonly PdfWorksheet _pdfSheet;
+        readonly ExcelWorksheet _worksheet;
+        readonly double _zeroCharWidth;
+        readonly CellPicturesManager _cellPictures;
+        readonly int _addedColumns;
+        readonly Dictionary<ExcelTable, ExcelTableNamedStyle> _tableStyleCache = new Dictionary<ExcelTable, ExcelTableNamedStyle>();
+        readonly List<string> _checkedMergedCells = new List<string>();
+        readonly PdfCellCollection _map;
+
+        PdfRange _range;
+
+        private PdfTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, PdfRange range)
+        {
+            _pageSettings = pageSettings;
+            _dictionaries = dictionaries;
+            _pdfSheet = pdfSheet;
+            _range = range;
+            _worksheet = range.Range.Worksheet;
+            _zeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(_worksheet, pageSettings.FontEngine);
+            _cellPictures = new CellPicturesManager(_worksheet);
+            _addedColumns = range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, _worksheet, pdfSheet) : 0;
+            _map = new PdfCellCollection(range.Range._fromRow, range.Range._toRow, range.Range._fromCol, range.Range._toCol + _addedColumns);
+            _pdfSheet.ToRow = _pdfSheet.ToRow < range.Range._toRow ? range.Range._toRow : _pdfSheet.ToRow;
+        }
+
         public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
         {
-            var tableStyleCache = new Dictionary<ExcelTable, ExcelTableNamedStyle>();
-            var Range = pdfRange;
-            var worksheet = Range.Range.Worksheet;
-            var ZeroCharWidth = pdfSheet.ZeroCharWidth = PdfWorksheet.GetThemeFont0Width(worksheet, pageSettings.FontEngine);
-            var cellPictures = new CellPicturesManager(worksheet);
-            int addedColumns = Range.ExtendColumns ? AddColumnsForNonWrappedText(pageSettings, worksheet, pdfSheet) : 0;
-            var Map = new PdfCellCollection(Range.Range._fromRow, Range.Range._toRow, Range.Range._fromCol, Range.Range._toCol + addedColumns);
-            pdfSheet.ToRow = pdfSheet.ToRow < Range.Range._toRow ? Range.Range._toRow : pdfSheet.ToRow;
-            bool firstColumnRun = true;
-            List<string> checkedMergedCells = new List<string>();
-            for (int row = Range.Range._fromRow; row <= Range.Range._toRow; row++)
+            var builder = new PdfTextMap(pageSettings, dictionaries, pdfSheet, pdfRange);
+            var map = builder.Build();
+            pdfRange = builder._range;
+            return map;
+        }
+
+        private PdfCellCollection Build()
+        {
+            for (int row = _range.Range._fromRow; row <= _range.Range._toRow; row++)
             {
-                var hiddenRow = worksheet.Row(row).Hidden;
-                var r = (RowInternal)worksheet.GetValueInner(row, 0);
-                bool usesDefaultValue = false;
-                double height = 0;
-                if (r == null || r.Height < 0)
-                {
-                    usesDefaultValue = true;
-                    height = worksheet.DefaultRowHeight;
-                }
-                else
-                {
-                    usesDefaultValue = !r.CustomHeight;
-                    height = UnitConversion.ExcelRowHeightToPoints(r.Height);
-                }
-                Range.TotalHeight += hiddenRow ? 0d : height;
-                Range.RowHeights.Add(new RowHeight { Height = hiddenRow ? 0d : height, UsesDefaultValue = usesDefaultValue });
-                for (int col = Range.Range._fromCol; col <= Range.Range._toCol + addedColumns; col++)
-                {
-                    var hiddenCol = worksheet.Column(col).Hidden;
-                    var width = UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(col).Width, ZeroCharWidth);
-                    if (firstColumnRun)
-                    {
-                        Range.TotalWidth += hiddenCol ? 0d : width;
-                        Range.ColWidths.Add(hiddenCol ? 0d : width);
-                    }
-                    var tempMap = new PdfCell();
-                    tempMap.Hidden = hiddenRow || hiddenCol;
-                    tempMap.ColumnWidth = tempMap.Width = hiddenCol ? 0d : width;
-                    var cell = worksheet.Cells[row, col];
-                    tempMap.Name = cell.Address;
-                    if (cell.Merge)
-                    {
-                        HandleMergedCell(pageSettings, dictionaries, cell, checkedMergedCells, Map, tempMap, pdfSheet.ZeroCharWidth, tableStyleCache);
-                    }
-                    var cellStyle = new PdfCellStyle();
-                    GetBorderStyles(cell, cellStyle, tempMap, tableStyleCache);
-                    if (tempMap.Main == null)
-                    {
-                        GetFillStyles(cell, cellStyle, tableStyleCache);
-                        GetFontStyle(cell, cellStyle, tableStyleCache);
-                        tempMap.ContentAligmnet = GetContentAlignment(cell);
-                        var dataBarRule = GetDataBarRule(cell);
-                        GetDataBarStyle(cell, cellStyle, dataBarRule);
-                        var iconRule = GetIconSetRule(cell);
-                        if (iconRule != null)
-                        {
-                            tempMap.ContentAligmnet.IconSize = cell.Style.Font.Size * 1.2d;
-                            try
-                            {
-                                var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
-                                if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
-                                {
-                                    cellStyle.Icon = icon;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                cellStyle.Icon = null;
-                                tempMap.ContentAligmnet.IconSize = 0d;
-                            }
-                        }
-                        var cellPicture = cellPictures.GetCellPicture(row, col) ?? cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
-                        if (cellPicture != null)
-                        {
-                            LoadCellPicture(cellPicture, tempMap);
-                        }
-                        bool hideText = (dataBarRule != null && !dataBarRule.ShowValue) || (iconRule != null && !iconRule.ShowValue);
-                        if (!string.IsNullOrEmpty(cell.Text) && !hideText)
-                        { 
-                            tempMap.Text = cell.Text;
-                            tempMap.TextFragments = GetTextFragments(pageSettings, dictionaries, cell, cellStyle);
-                        }
-                        var hl = cell.Hyperlink;
-                        string screenTip = (hl as ExcelHyperLink)?.ToolTip;
-                        if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
-                        {
-                            if (TryResolveInternalLink(worksheet, eh.ReferenceAddress, out var ts, out var tr, out var tc))
-                            {
-                                tempMap.HyperlinkTargetSheet = ts;
-                                tempMap.HyperlinkTargetRow = tr;
-                                tempMap.HyperlinkTargetCol = tc;
-                                tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : eh.ReferenceAddress;
-                            }
-                        }
-                        else if (hl != null)
-                        {
-                            tempMap.HyperlinkUri = NormalizeExternalTarget(hl.OriginalString);
-                            if (tempMap.HyperlinkUri != null)
-                                tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : hl.OriginalString;
-                        }
-                        else if (TryGetFormulaHyperlink(cell, out var fUri, out var fInternal))
-                        {
-                            if (fUri != null)
-                            {
-                                tempMap.HyperlinkUri = fUri;
-                                tempMap.HyperlinkToolTip = fUri;
-                            }
-                            else if (fInternal != null && TryResolveInternalLink(worksheet, fInternal, out var ts, out var tr, out var tc))
-                            {
-                                tempMap.HyperlinkTargetSheet = ts;
-                                tempMap.HyperlinkTargetRow = tr;
-                                tempMap.HyperlinkTargetCol = tc;
-                                tempMap.HyperlinkToolTip = fInternal;
-                            }
-                        }
-                    }
-                    tempMap.CellStyle = cellStyle;
-                    Map[row, col] = tempMap;
-                    if (pageSettings.CommentsAndNotes != CommentsAndNotes.None)
-                    {
-                        if (cell.Comment != null && cell.ThreadedComment == null)
-                        {
-                            pdfSheet.CommentsAndNotesCollections.Add(cell.Address, new PdfCommentsAndNotes(cell.Comment));
-                        }
-                        if (cell.ThreadedComment != null)
-                        {
-                            pdfSheet.CommentsAndNotesCollections.Add(cell.Address, new PdfCommentsAndNotes(cell.ThreadedComment));
-                            PdfCommentsAndNotes.HasThreadedComment = true;
-                        }
-                    }
-                }
-                firstColumnRun = false;
+                MapRow(row, firstColumnRun: row == _range.Range._fromRow);
             }
-            worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
-            pdfRange = Range;
-            ReconcileSharedBorders(Map);
-            return Map;
+            _worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
+            PdfBorderReconciler.ReconcileSharedBorders(_map);
+            return _map;
+        }
+
+        private void MapRow(int row, bool firstColumnRun)
+        {
+            bool hiddenRow = ComputeRowHeight(row);
+            for (int col = _range.Range._fromCol; col <= _range.Range._toCol + _addedColumns; col++)
+            {
+                MapCell(row, col, hiddenRow, firstColumnRun);
+            }
+        }
+
+        private bool ComputeRowHeight(int row)
+        {
+            var hiddenRow = _worksheet.Row(row).Hidden;
+            var r = (RowInternal)_worksheet.GetValueInner(row, 0);
+            bool usesDefaultValue;
+            double height;
+            if (r == null || r.Height < 0)
+            {
+                usesDefaultValue = true;
+                height = _worksheet.DefaultRowHeight;
+            }
+            else
+            {
+                usesDefaultValue = !r.CustomHeight;
+                height = UnitConversion.ExcelRowHeightToPoints(r.Height);
+            }
+            _range.TotalHeight += hiddenRow ? 0d : height;
+            _range.RowHeights.Add(new RowHeight { Height = hiddenRow ? 0d : height, UsesDefaultValue = usesDefaultValue });
+            return hiddenRow;
+        }
+
+        private double ComputeColumnWidth(int col, bool firstColumnRun, out bool hiddenCol)
+        {
+            hiddenCol = _worksheet.Column(col).Hidden;
+            var width = UnitConversion.ExcelColumnWidthToPoints(_worksheet.Column(col).Width, _zeroCharWidth);
+            if (firstColumnRun)
+            {
+                _range.TotalWidth += hiddenCol ? 0d : width;
+                _range.ColWidths.Add(hiddenCol ? 0d : width);
+            }
+            return width;
+        }
+
+        private void MapCell(int row, int col, bool hiddenRow, bool firstColumnRun)
+        {
+            var width = ComputeColumnWidth(col, firstColumnRun, out var hiddenCol);
+            var tempMap = new PdfCell();
+            tempMap.Hidden = hiddenRow || hiddenCol;
+            tempMap.ColumnWidth = tempMap.Width = hiddenCol ? 0d : width;
+            var cell = _worksheet.Cells[row, col];
+            tempMap.Name = cell.Address;
+            if (cell.Merge)
+            {
+                HandleMergedCell(cell, tempMap);
+            }
+            var cellStyle = new PdfCellStyle();
+            PdfBorderStyleResolver.GetBorderStyles(cell, cellStyle, tempMap, _tableStyleCache);
+            if (tempMap.Main == null)
+            {
+                BuildCellContent(cell, row, col, tempMap, cellStyle);
+            }
+            tempMap.CellStyle = cellStyle;
+            _map[row, col] = tempMap;
+            CollectComments(cell);
+        }
+
+        private void BuildCellContent(ExcelRange cell, int row, int col, PdfCell tempMap, PdfCellStyle cellStyle)
+        {
+            PdfFillStyleResolver.GetFillStyles(cell, cellStyle, _tableStyleCache);
+            PdfFontStyleResolver.GetFontStyle(cell, cellStyle, _tableStyleCache);
+            tempMap.ContentAligmnet = PdfCellAlignmentResolver.GetContentAlignment(cell);
+            bool hideText = ApplyConditionalFormatVisuals(cell, tempMap, cellStyle);
+            var cellPicture = _cellPictures.GetCellPicture(row, col) ?? _cellPictures.GetCellPicture(row, col, StructureTypes.WebImage);
+            if (cellPicture != null)
+            {
+                LoadCellPicture(cellPicture, tempMap);
+            }
+
+            if (!string.IsNullOrEmpty(cell.Text) && !hideText)
+            {
+                tempMap.Text = cell.Text;
+                tempMap.TextFragments = PdfTextFragmentBuilder.GetTextFragments(_pageSettings, _dictionaries, cell, cellStyle);
+            }
+
+            ResolveCellHyperlink(cell, tempMap);
+        }
+
+        private bool ApplyConditionalFormatVisuals(ExcelRange cell, PdfCell tempMap, PdfCellStyle cellStyle)
+        {
+            var dataBarRule = PdfDataBarResolver.GetDataBarRule(cell);
+            PdfDataBarResolver.GetDataBarStyle(cell, cellStyle, dataBarRule);
+            var iconRule = PdfDataBarResolver.GetIconSetRule(cell);
+            if (iconRule != null)
+            {
+                tempMap.ContentAligmnet.IconSize = cell.Style.Font.Size * 1.2d;
+                try
+                {
+                    var icon = iconRule.GetCustomIcon(new ExcelAddress(cell.Address));
+                    if (icon != null && icon != eExcelconditionalFormattingCustomIcon.NoIcon)
+                    {
+                        cellStyle.Icon = icon;
+                    }
+                }
+                catch (Exception)
+                {
+                    cellStyle.Icon = null;
+                    tempMap.ContentAligmnet.IconSize = 0d;
+                }
+            }
+            return (dataBarRule != null && !dataBarRule.ShowValue) || (iconRule != null && !iconRule.ShowValue);
+        }
+
+        private void ResolveCellHyperlink(ExcelRange cell, PdfCell tempMap)
+        {
+            var hl = cell.Hyperlink;
+            string screenTip = (hl as ExcelHyperLink)?.ToolTip;
+            if (hl is ExcelHyperLink eh && !string.IsNullOrEmpty(eh.ReferenceAddress))
+            {
+                if (PdfHyperlinkResolver.TryResolveInternalLink(_worksheet, eh.ReferenceAddress, out var ts, out var tr, out var tc))
+                {
+                    tempMap.HyperlinkTargetSheet = ts;
+                    tempMap.HyperlinkTargetRow = tr;
+                    tempMap.HyperlinkTargetCol = tc;
+                    tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : eh.ReferenceAddress;
+                }
+            }
+            else if (hl != null)
+            {
+                tempMap.HyperlinkUri = PdfHyperlinkResolver.NormalizeExternalTarget(hl.OriginalString);
+                if (tempMap.HyperlinkUri != null)
+                {
+                    tempMap.HyperlinkToolTip = !string.IsNullOrEmpty(screenTip) ? screenTip : hl.OriginalString;
+                }
+            }
+            else if (PdfHyperlinkResolver.TryGetFormulaHyperlink(cell, out var fUri, out var fInternal))
+            {
+                if (fUri != null)
+                {
+                    tempMap.HyperlinkUri = fUri;
+                    tempMap.HyperlinkToolTip = fUri;
+                }
+                else if (fInternal != null && PdfHyperlinkResolver.TryResolveInternalLink(_worksheet, fInternal, out var ts, out var tr, out var tc))
+                {
+                    tempMap.HyperlinkTargetSheet = ts;
+                    tempMap.HyperlinkTargetRow = tr;
+                    tempMap.HyperlinkTargetCol = tc;
+                    tempMap.HyperlinkToolTip = fInternal;
+                }
+            }
+        }
+
+        private void CollectComments(ExcelRange cell)
+        {
+            if (_pageSettings.CommentsAndNotes == CommentsAndNotes.None) return;
+            if (cell.Comment != null && cell.ThreadedComment == null)
+            {
+                _pdfSheet.CommentsAndNotesCollections.Add(cell.Address, new PdfCommentsAndNotes(cell.Comment));
+            }
+            if (cell.ThreadedComment != null)
+            {
+                _pdfSheet.CommentsAndNotesCollections.Add(cell.Address, new PdfCommentsAndNotes(cell.ThreadedComment));
+                PdfCommentsAndNotes.HasThreadedComment = true;
+            }
+        }
+
+        private void HandleMergedCell(ExcelRange cell, PdfCell tempMap)
+        {
+            var worksheet = cell.Worksheet;
+            string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
+            ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
+            if (!_checkedMergedCells.Contains(mergeAddress))
+            {
+                double totalWidth = 0, totalHeight = 0;
+                for (int k = address._fromRow; k <= address._toRow; k++)
+                {
+                    if (worksheet.Row(k).Hidden) continue;
+                    totalHeight += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
+                }
+                for (int l = address._fromCol; l <= address._toCol; l++)
+                {
+                    if (worksheet.Column(l).Hidden) continue;
+                    totalWidth += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, _zeroCharWidth);
+                }
+                _checkedMergedCells.Add(mergeAddress);
+                tempMap.Width = totalWidth;
+                tempMap.Height = totalHeight;
+                tempMap.Main = null;
+            }
+            else
+            {
+                tempMap.Main = _map[address._fromRow, address._fromCol];
+                if (tempMap.Main == null)
+                {
+                    var main = worksheet.Cells[address._fromRow, address._fromCol];
+                    PdfCell mainCell = new PdfCell();
+                    var cellStyle = new PdfCellStyle();
+                    PdfBorderStyleResolver.GetBorderStyles(main, cellStyle, mainCell, _tableStyleCache);
+                    PdfFillStyleResolver.GetFillStyles(main, cellStyle, _tableStyleCache);
+                    PdfFontStyleResolver.GetFontStyle(main, cellStyle, _tableStyleCache);
+                    mainCell.ContentAligmnet = PdfCellAlignmentResolver.GetContentAlignment(main);
+                    if (!string.IsNullOrEmpty(main.Text))
+                    {
+                        mainCell.Text = main.Text;
+                        mainCell.TextFragments = PdfTextFragmentBuilder.GetTextFragments(_pageSettings, _dictionaries, main, cellStyle);
+                    }
+                    mainCell.CellStyle = cellStyle;
+                    tempMap.Main = mainCell;
+                }
+            }
+            tempMap.MergedAddress = address;
+            tempMap.Name = tempMap.Name + " ; " + address.ToString();
+            tempMap.Merged = true;
         }
 
         private static void LoadCellPicture(ExcelCellPicture picture, PdfCell target)
@@ -199,702 +303,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             {
                 // Corrupt or unreadable image — leave the cell blank rather than throwing.
             }
-        }
-
-        private static void HandleMergedCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRange cell, List<string> checkedMergedCells, PdfCellCollection map, PdfCell tempMap, double ZeroCharWidth, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
-        {
-            var worksheet = cell.Worksheet;
-            string mergeAddress = worksheet.MergedCells[cell.Start.Row, cell.Start.Column];
-            ExcelAddressBase address = new ExcelAddressBase(mergeAddress);
-            if (!checkedMergedCells.Contains(mergeAddress))
-            {
-                double totalWidth = 0, totalHeight = 0;
-                for (int k = address._fromRow; k <= address._toRow; k++)
-                {
-                    if (worksheet.Row(k).Hidden) continue;
-                    totalHeight += UnitConversion.ExcelRowHeightToPoints(worksheet.Row(k).Height);
-                }
-                for (int l = address._fromCol; l <= address._toCol; l++)
-                {
-                    if (worksheet.Column(l).Hidden) continue;
-                    totalWidth += UnitConversion.ExcelColumnWidthToPoints(worksheet.Column(l).Width, ZeroCharWidth);
-                }
-                checkedMergedCells.Add(mergeAddress);
-                tempMap.Width = totalWidth;
-                tempMap.Height = totalHeight;
-                tempMap.Main = null;
-            }
-            else
-            {
-                tempMap.Main = map[address._fromRow, address._fromCol];
-                if (tempMap.Main == null)
-                {
-                    var main = worksheet.Cells[address._fromRow, address._fromCol];
-                    PdfCell mainCell = new PdfCell();
-                    var cellStyle = new PdfCellStyle();
-                    GetBorderStyles(main, cellStyle, mainCell, tableStyleCache);
-                    GetFillStyles(main, cellStyle, tableStyleCache);
-                    GetFontStyle(main, cellStyle, tableStyleCache);
-                    mainCell.ContentAligmnet = GetContentAlignment(main);
-                    if (!string.IsNullOrEmpty(main.Text))
-                    {
-                        mainCell.Text = main.Text;
-                        mainCell.TextFragments = GetTextFragments(pageSettings, dictionaries, main, cellStyle);
-                    }
-                    mainCell.CellStyle = cellStyle;
-                    tempMap.Main = mainCell;
-                }
-            }
-            tempMap.MergedAddress = address;
-            tempMap.Name = tempMap.Name + " ; " + address.ToString();
-            tempMap.Merged = true;
-        }
-
-        private static IEnumerable<ExcelTableStyleElement> GetApplicableTableElements(ExcelTable table, ExcelTableNamedStyle ts, int tableRow, int tableCol, ExcelRangeBase cell)
-        {
-            var range = table.Range;
-            bool firstCol = table.ShowFirstColumn && tableCol == 0;
-            bool lastCol = table.ShowLastColumn && cell._fromCol == range._toCol;
-            bool header = table.ShowHeader && tableRow == 0;
-            bool total = table.ShowTotal && cell._fromRow == range._toRow;
-            yield return ts.WholeTable;                                                 // 1
-            // column-spanning: header + data + total
-            if (table.ShowColumnStripes)
-                yield return (tableCol & 1) == 0 ? ts.FirstColumnStripe                 // 2
-                                                 : ts.SecondColumnStripe;               // 3
-                                                                                        // row stripes: data rows only
-            if (!header && !total && table.ShowRowStripes)
-                yield return (tableRow & 1) != 0 ? ts.FirstRowStripe                    // 4
-                                                 : ts.SecondRowStripe;                  // 5
-
-            if (lastCol) yield return ts.LastColumn;                                    // 6
-            if (firstCol) yield return ts.FirstColumn;                                  // 7
-            if (total) yield return ts.TotalRow;                                        // 8
-            if (header) yield return ts.HeaderRow;                                      // 9
-            if (header && firstCol) yield return ts.FirstHeaderCell;                    // 10
-            if (header && lastCol) yield return ts.LastHeaderCell;                      // 11
-            if (total && firstCol) yield return ts.FirstTotalCell;                      // 12
-            if (total && lastCol) yield return ts.LastTotalCell;                        // 13
-        }
-
-        // Overlay only the font properties `src` actually specifies onto `dst`. All members are on the base type.
-        private static void OverlayFont(ExcelDxfFontBase dst, ExcelDxfFontBase src)
-        {
-            if (src.Bold != null) dst.Bold = src.Bold;
-            if (src.Italic != null) dst.Italic = src.Italic;
-            if (src.Strike != null) dst.Strike = src.Strike;
-            if (src.Underline != null) dst.Underline = src.Underline;
-            if (src.Color != null && src.Color.HasValue) dst.Color = src.Color;
-        }
-
-        private static void GetFillStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
-        {
-            cellStyle.xfFill = cell.Style.Fill;
-
-            // Conditional formatting is evaluated regardless of the cell's own fill, because a
-            // color scale paints over the base cell background (Excel behaviour).
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf != null && cf.Count > 0)
-            {
-                var ordered = cf.OrderBy(r => r.Priority);
-                foreach (var rule in ordered)
-                {
-                    if (!rule.ShouldApplyToCell(cell))
-                    {
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    //Data Bar
-                    if (rule is ExcelConditionalFormattingDataBar)
-                    {
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    //Icon set
-                    if (rule is IExcelConditionalFormattingIconSet)
-                    {
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    // Color scale (two/three)
-                    if (rule is ExcelConditionalFormattingTwoColorScale colorScale)
-                    {
-                        var c = colorScale.GetColorScaleColor(new ExcelAddress(cell.Address));
-                        if (c != null)
-                        {
-                            cellStyle.ConditionalFill = c;
-                            return;
-                        }
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    // dxf fill
-                    if (rule.Style?.Fill != null && rule.Style.Fill.HasValue)
-                    {
-                        cellStyle.dxfFill = rule.Style.Fill;
-                        return;
-                    }
-
-                    if (rule.StopIfTrue) break;
-                }
-            }
-
-            // Table styling only applies to cells without an explicit fill of their own.
-            if (cell.Style.Fill.IsEmpty())
-            {
-                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
-                if (tables.Count > 0)
-                {
-                    var table = tables[0].Value;
-                    var range = table.Range;
-                    ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
-                    if (tableStyle != null)
-                    {
-                        int tableRow = cell._fromRow - range._fromRow;
-                        int tableCol = cell._fromCol - range._fromCol;
-
-                        ExcelDxfFill fill = null;
-                        foreach (var el in GetApplicableTableElements(table, tableStyle, tableRow, tableCol, cell))
-                        {
-                            var f = el.Style.Fill;
-                            if (FillIsPaintable(f)) fill = f;
-                        }
-
-                        GetTableRegionOverride(cell, table, out var ovCol, out var ovTbl);
-                        var ovFill = (ovCol?.Fill != null && ovCol.Fill.HasValue) ? ovCol.Fill
-                                   : (ovTbl?.Fill != null && ovTbl.Fill.HasValue) ? ovTbl.Fill
-                                   : null;
-                        if (ovFill != null && FillIsPaintable(ovFill)) fill = ovFill;
-
-                        cellStyle.dxfFill = fill;
-                    }
-                }
-            }
-        }
-
-        private static void GetBorderStyles(ExcelRangeBase cell, PdfCellStyle cellStyle, PdfCell pcell, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
-        {
-            if (cell != null)
-            {
-                cellStyle.xfTop = cell.Style.Border.Top;
-                cellStyle.xfBottom = cell.Style.Border.Bottom;
-                cellStyle.xfLeft = cell.Style.Border.Left;
-                cellStyle.xfRight = cell.Style.Border.Right;
-                if (pcell.Main == null)
-                {
-                    cellStyle.Diagonal = cell.Style.Border.Diagonal;
-                    cellStyle.DiagonalUp = cell.Style.Border.DiagonalUp;
-                    cellStyle.DiagonalDown = cell.Style.Border.DiagonalDown;
-                }
-                else
-                {
-                    cellStyle.Diagonal = cell.Style.Border.Diagonal;
-                    cellStyle.DiagonalUp = false;
-                    cellStyle.DiagonalDown = false;
-                }
-                var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
-                if (tables.Count > 0)
-                {
-                    var table = tables[0].Value;
-                    ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
-                    if (tableStyle != null)
-                    {
-                        cellStyle.dxfTop = GetTopBorderItem(cell, cellStyle.xfTop, table, tableStyle, out int topOrder);
-                        cellStyle.dxfTopElementOrder = topOrder;
-                        cellStyle.dxfBottom = GetBottomBorderItem(cell, cellStyle.xfBottom, table, tableStyle, out int botOrder);
-                        cellStyle.dxfBottomElementOrder = botOrder;
-                        cellStyle.dxfLeft = GetLeftBorderItem(cell, cellStyle.xfLeft, table, tableStyle, out int leftOrder);
-                        cellStyle.dxfLeftElementOrder = leftOrder;
-                        cellStyle.dxfRight = GetRightBorderItem(cell, cellStyle.xfRight, table, tableStyle, out int rightOrder);
-                        cellStyle.dxfRightElementOrder = rightOrder;
-                    }
-                }
-                var cfBorder = GetConditionalFormattingBorder(cell);
-                if (cfBorder != null)
-                {
-                    if (cfBorder.Top != null && cfBorder.Top.HasValue)
-                    {
-                        cellStyle.dxfTop = cfBorder.Top;
-                        cellStyle.dxfTopElementOrder = TableEdgeOrder.ConditionalFormat;
-                    }
-                    if (cfBorder.Bottom != null && cfBorder.Bottom.HasValue)
-                    {
-                        cellStyle.dxfBottom = cfBorder.Bottom;
-                        cellStyle.dxfBottomElementOrder = TableEdgeOrder.ConditionalFormat;
-                    }
-                    if (cfBorder.Left != null && cfBorder.Left.HasValue)
-                    {
-                        cellStyle.dxfLeft = cfBorder.Left;
-                        cellStyle.dxfLeftElementOrder = TableEdgeOrder.ConditionalFormat;
-                    }
-                    if (cfBorder.Right != null && cfBorder.Right.HasValue)
-                    {
-                        cellStyle.dxfRight = cfBorder.Right;
-                        cellStyle.dxfRightElementOrder = TableEdgeOrder.ConditionalFormat;
-                    }
-                }
-            }
-        }
-
-        private static ExcelDxfBorderBase GetConditionalFormattingBorder(ExcelRangeBase cell)
-        {
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf != null && cf.Count > 0)
-            {
-                var ordered = cf.OrderBy(r => r.Priority);
-                foreach (var rule in ordered)
-                {
-                    if (!rule.ShouldApplyToCell(cell))
-                    {
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    if (rule.Style?.Border != null && rule.Style.Border.HasValue)
-                    {
-                        return rule.Style.Border;
-                    }
-                    if (rule.StopIfTrue) break;
-                }
-            }
-            return null;
-        }
-
-        private static void GetTableRegionOverride(ExcelRangeBase cell, ExcelTable table,
-            out ExcelDxfStyle colStyle, out ExcelDxfStyle tblStyle)
-        {
-            colStyle = null;
-            tblStyle = null;
-            var range = table.Range;
-            int tableRow = cell._fromRow - range._fromRow;
-            int tableCol = cell._fromCol - range._fromCol;
-            ExcelTableColumn column = (tableCol >= 0 && tableCol < table.Columns.Count) ? table.Columns[tableCol] : null;
-
-            string attr;
-            ExcelDxfStyle tblCandidate, colCandidate;
-            if (table.ShowHeader && tableRow == 0)
-            { attr = "headerRowDxfId"; tblCandidate = table.HeaderRowStyle; colCandidate = column?.HeaderRowStyle; }
-            else if (table.ShowTotal && cell._fromRow == range._toRow)
-            { attr = "totalsRowDxfId"; tblCandidate = table.TotalsRowStyle; colCandidate = column?.TotalsRowStyle; }
-            else
-            { attr = "dataDxfId"; tblCandidate = table.DataStyle; colCandidate = column?.DataStyle; }
-
-            var tableNode = table.TableXml?.DocumentElement;
-            if (tableNode == null) return;
-
-            if (tableNode.Attributes?[attr] != null) tblStyle = tblCandidate;
-
-            if (column != null)
-            {
-                var colNode = GetTableColumnNode(tableNode, tableCol);
-                if (colNode?.Attributes?[attr] != null) colStyle = colCandidate;
-            }
-        }
-
-        private static System.Xml.XmlNode GetTableColumnNode(System.Xml.XmlNode tableNode, int index)
-        {
-            foreach (System.Xml.XmlNode child in tableNode.ChildNodes)
-            {
-                if (child.LocalName != "tableColumns") continue;
-                int i = 0;
-                foreach (System.Xml.XmlNode col in child.ChildNodes)
-                {
-                    if (col.LocalName != "tableColumn") continue;
-                    if (i == index) return col;
-                    i++;
-                }
-            }
-            return null;
-        }
-
-        private static PdfCellStyle GetFontStyle(ExcelRangeBase cell, PdfCellStyle cellStyle, Dictionary<ExcelTable, ExcelTableNamedStyle> tableStyleCache)
-        {
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf != null && cf.Count > 0)
-            {
-                // Sort ascending
-                var ordered = cf.OrderBy(r => r.Priority);
-                foreach (var rule in ordered)
-                {
-                    if (!rule.ShouldApplyToCell(cell))
-                    {
-                        if (rule.StopIfTrue) break;
-                        continue;
-                    }
-                    if (rule.Style?.Font != null && rule.Style.Font.HasValue)
-                    {
-                        cellStyle.dxfFont = rule.Style.Font;
-                        return cellStyle;
-                    }
-                    if (rule.StopIfTrue) break;
-                }
-            }
-            var tables = cell.Worksheet.Tables.GetIntersectingRanges(cell);
-            if (tables.Count > 0)
-            {
-                var table = tables[0].Value;
-                var range = table.Range;
-                ExcelTableNamedStyle tableStyle = GetTableStyle(table, tableStyleCache);
-                if (tableStyle != null)
-                {
-                    int tableRow = cell._fromRow - range._fromRow;
-                    int tableCol = cell._fromCol - range._fromCol;
-
-                    ExcelDxfFontBase font = null;
-                    foreach (var el in GetApplicableTableElements(table, tableStyle, tableRow, tableCol, cell))
-                    {
-                        var f = el.Style.Font;                                   // ExcelDxfFontBase
-                        if (f == null || !f.HasValue) continue;
-                        if (font == null) font = (ExcelDxfFontBase)f.Clone();   // Clone() returns DxfStyleBase
-                        else OverlayFont(font, f);
-                    }
-
-                    GetTableRegionOverride(cell, table, out var ovCol, out var ovTbl);
-                    cellStyle.dxfFontOverride = (ovCol?.Font != null && ovCol.Font.HasValue) ? ovCol.Font
-                                              : (ovTbl?.Font != null && ovTbl.Font.HasValue) ? ovTbl.Font
-                                              : null;
-                    cellStyle.dxfFont = font;
-                }
-            }
-            return cellStyle;
-        }
-
-        private static PdfCellAlignmentData GetContentAlignment(ExcelRangeBase cell)
-        {
-            var contentAlignment = new PdfCellAlignmentData();
-            contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)cell.Style.HorizontalAlignment;
-            contentAlignment.VerticalAlignment = (EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment)cell.Style.VerticalAlignment;
-            contentAlignment.Indent = cell.Style.Indent;
-            contentAlignment.WrapText = cell.Style.WrapText;
-            contentAlignment.ShrinkToFit = cell.Style.ShrinkToFit;
-            contentAlignment.TextRotation = (cell.Style.TextRotation > 90) ? ((cell.Style.TextRotation == 255) ? 0 : 90 - cell.Style.TextRotation) : cell.Style.TextRotation;
-            contentAlignment.IsVertical = cell.Style.TextRotation == 255 ? true : false;
-            contentAlignment.TextDirection = (EPPlus.Export.Pdf.Enums.ExcelReadingOrder)cell.Style.ReadingOrder;
-            return contentAlignment;
-        }
-
-        private static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle cellStyle)
-        {
-            bool dxfBold, dxfItalic, dxfStrike, dxfUnderline;
-            ExcelUnderLineType dxfUnderLineType;
-            System.Drawing.Color? dxfColor;
-            ReadDxfFontOverrides(cellStyle, out dxfBold, out dxfItalic, out dxfStrike, out dxfUnderline, out dxfUnderLineType, out dxfColor);
-            string forcedText = ResolveErrorText(pageSettings, cell);
-            if (cell.IsRichText)
-            {
-                return GetTextFragmentsFromRichText(pageSettings, dictionaries, cell.RichText, forcedText,
-                    dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType, dxfColor);
-            }
-            return GetTextFragmentsFromCellStyle(pageSettings, dictionaries, cell, forcedText,
-                dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType, dxfColor);
-        }
-
-        private static List<TextFragment> GetTextFragmentsFromRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection richText, string forcedText,
-            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
-        {
-            var textFragments = new List<TextFragment>(richText.Count);
-            for (int i = 0; i < richText.Count; i++)
-            {
-                var rt = richText[i];
-                var textFrag = new TextFragment();
-                textFrag.Font = new RichTextFormatSimple();
-                textFrag.Text = forcedText == null ? rt.Text : forcedText;
-                textFrag.Font.Family = rt.FontName;
-                textFrag.Font.Size = rt.Size;
-                textFrag.RichTextOptions.Bold = rt.Bold || dxfBold;
-                textFrag.RichTextOptions.Italic = rt.Italic || dxfItalic;
-                textFrag.RichTextOptions.UnderlineType = MapUnderlineType(rt.UnderLineType);
-                textFrag.RichTextOptions.StrikeType = (rt.Strike || dxfStrike) ? 2 : 1;
-                textFrag.RichTextOptions.SuperScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-                textFrag.RichTextOptions.SubScript = rt.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-                textFrag.RichTextOptions.FontColor = dxfColor ?? rt.Color;
-                textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
-                textFragments.Add(textFrag);
-                dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
-            }
-            return textFragments;
-        }
-
-        private static List<TextFragment> GetTextFragmentsFromCellStyle(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, string forcedText,
-            bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
-        {
-            var font = cell.Style.Font;
-            var textFragments = new List<TextFragment>(1);
-            var textFrag = new TextFragment();
-            textFrag.Font = new RichTextFormatSimple();
-            textFrag.Text = forcedText == null ? cell.Text : forcedText;
-            textFrag.Font.Family = font.Name;
-            textFrag.Font.Size = font.Size;
-            textFrag.RichTextOptions.Bold = font.Bold || dxfBold;
-            textFrag.RichTextOptions.Italic = font.Italic || dxfItalic;
-            ExcelUnderLineType underLineType;
-            if (font.UnderLine)
-            {
-                underLineType = font.UnderLineType == ExcelUnderLineType.None ? ExcelUnderLineType.Single : font.UnderLineType;
-            }
-            else if (dxfUnderline)
-            {
-                underLineType = dxfUnderLineType;
-            }
-            else
-            {
-                underLineType = ExcelUnderLineType.None;
-            }
-            textFrag.RichTextOptions.UnderlineType = MapUnderlineType(underLineType);
-            textFrag.RichTextOptions.StrikeType = (font.Strike || dxfStrike) ? 2 : 1;
-            textFrag.RichTextOptions.SuperScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Superscript;
-            textFrag.RichTextOptions.SubScript = font.VerticalAlign == ExcelVerticalAlignmentFont.Subscript;
-            bool cellColorWins = !HasConditionalFontColor(cell) && CellFontColorIsUserSet(cell);
-            textFrag.RichTextOptions.FontColor = cellColorWins
-                ? font.Color.ToColor()
-                : (dxfColor ?? font.Color.ToColor());
-            textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
-            textFragments.Add(textFrag);
-            dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
-            return textFragments;
-        }
-        private static bool CellFontColorIsUserSet(ExcelRangeBase cell)
-        {
-            try
-            {
-                var cellColor = cell.Style.Font.Color;                 // ExcelColor
-                var normal = cell.Worksheet.Workbook.Styles.GetNormalStyle();
-                var normalColor = normal?.Style?.Font?.Color;
-                var c = cellColor.ToColor();
-                if (normalColor == null) return c.R != 0 || c.G != 0 || c.B != 0;
-                var n = normalColor.ToColor();
-                return c.R != n.R || c.G != n.G || c.B != n.B;
-            }
-            catch { return false; }   // anything odd -> treat as default, let the table colour apply
-        }
-
-        // Whether conditional formatting supplies the font for this cell (mirrors the CF branch in
-        // GetFontStyle). If it does, CF outranks the cell's own colour, so the cell must NOT win.
-        private static bool HasConditionalFontColor(ExcelRangeBase cell)
-        {
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf == null || cf.Count == 0) return false;
-            foreach (var rule in cf.OrderBy(r => r.Priority))
-            {
-                if (!rule.ShouldApplyToCell(cell)) { if (rule.StopIfTrue) break; continue; }
-                if (rule.Style?.Font != null && rule.Style.Font.HasValue) return true;
-                if (rule.StopIfTrue) break;
-            }
-            return false;
-        }
-
-        private static void ReadDxfFontOverrides(PdfCellStyle cellStyle, out bool bold, out bool italic, out bool strike, out bool underline, out ExcelUnderLineType underLineType, out System.Drawing.Color? color)
-        {
-            bold = false; italic = false; strike = false; underline = false;
-            underLineType = ExcelUnderLineType.None; color = null;
-            if (cellStyle == null) return;
-
-            var elem = cellStyle.dxfFont;         // named-style elements (folded), base layer
-            var ov = cellStyle.dxfFontOverride; // region/column override dxf, top layer
-
-            // Toggles: ON is the only specified value; an OFF override never clears the style's ON.
-            bold = (elem?.Bold == true) || (ov?.Bold == true);
-            italic = (elem?.Italic == true) || (ov?.Italic == true);
-            strike = (elem?.Strike == true) || (ov?.Strike == true);
-
-            // Underline: unchanged from the original.
-            var un = ov?.Underline ?? elem?.Underline;
-            underline = un != null;
-            underLineType = un != null ? (ExcelUnderLineType)un : ExcelUnderLineType.None;
-
-            var cl = (ov?.Color != null && ov.Color.HasValue) ? ov.Color
-                   : (elem?.Color != null && elem.Color.HasValue) ? elem.Color : null;
-            if (cl != null && cl.HasValue)
-            {
-                if (cl.Auto == true)
-                {
-                    color = System.Drawing.Color.Black;
-                }
-                else
-                {
-                    var baseColor = cl.GetColorAsColor();
-                    if (!baseColor.IsEmpty)
-                    {
-                        var t = cl.Tint ?? 0d;
-                        color = t != 0d ? ApplyThemeTint(baseColor, t) : baseColor;   // <-- must be here
-                    }
-                }
-            }
-        }
-        private static System.Drawing.Color ApplyThemeTint(System.Drawing.Color c, double tint)
-        {
-            double r = c.R / 255.0, g = c.G / 255.0, b = c.B / 255.0;
-            double max = System.Math.Max(r, System.Math.Max(g, b));
-            double min = System.Math.Min(r, System.Math.Min(g, b));
-            double h = 0, s = 0, l = (max + min) / 2.0;
-            if (max != min)
-            {
-                double d = max - min;
-                s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
-                if (max == r) h = (g - b) / d + (g < b ? 6.0 : 0.0);
-                else if (max == g) h = (b - r) / d + 2.0;
-                else h = (r - g) / d + 4.0;
-                h /= 6.0;
-            }
-            l = tint < 0 ? l * (1.0 + tint) : l * (1.0 - tint) + tint;
-            double R, G, B;
-            if (s == 0) { R = G = B = l; }
-            else
-            {
-                double q = l < 0.5 ? l * (1.0 + s) : l + s - l * s;
-                double p = 2.0 * l - q;
-                R = Hue2Rgb(p, q, h + 1.0 / 3.0);
-                G = Hue2Rgb(p, q, h);
-                B = Hue2Rgb(p, q, h - 1.0 / 3.0);
-            }
-            return System.Drawing.Color.FromArgb(c.A, Clamp255(R), Clamp255(G), Clamp255(B));
-        }
-        private static double Hue2Rgb(double p, double q, double t)
-        {
-            if (t < 0) t += 1.0;
-            if (t > 1) t -= 1.0;
-            if (t < 1.0 / 6.0) return p + (q - p) * 6.0 * t;
-            if (t < 1.0 / 2.0) return q;
-            if (t < 2.0 / 3.0) return p + (q - p) * (2.0 / 3.0 - t) * 6.0;
-            return p;
-        }
-        private static int Clamp255(double v)
-        {
-            int x = (int)System.Math.Round(v * 255.0);
-            return x < 0 ? 0 : (x > 255 ? 255 : x);
-        }
-
-        private static string ResolveErrorText(PdfPageSettings pageSettings, ExcelRangeBase cell)
-        {
-            if (!ExcelErrorValue.IsErrorValue(cell.Text)) return null;
-            switch (pageSettings.CellErrors)
-            {
-                case CellErrors.Blank: return "";
-                case CellErrors.Dashed: return "--";
-                case CellErrors.NA: return "#N/A";
-                case CellErrors.Displayed:
-                default: return null;
-            }
-        }
-
-        private static int MapUnderlineType(ExcelUnderLineType type)
-        {
-            // 12 = none, 13 = single, 4 = double (matches existing rendering code; accounting not supported).
-            if (type == ExcelUnderLineType.Single) return 13;
-            if (type == ExcelUnderLineType.Double) return 4;
-            return 12;
-        }
-
-        private static FontSubFamily ComputeFontStyle(TextFragment textFrag)
-        {
-            if (textFrag.RichTextOptions.Bold && textFrag.RichTextOptions.Italic) return FontSubFamily.BoldItalic;
-            if (textFrag.RichTextOptions.Bold) return FontSubFamily.Bold;
-            if (textFrag.RichTextOptions.Italic) return FontSubFamily.Italic;
-            return FontSubFamily.Regular;
-        }
-
-        internal static PdfCellAlignmentData GetAlignmentData(PdfHeaderFooter headerFooter)
-        {
-            var contentAlignment = new PdfCellAlignmentData();
-            switch (headerFooter.Alignment)
-            {
-                case HeaderFooterAlignment.Left:
-                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Left;
-                    break;
-                case HeaderFooterAlignment.Center:
-                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Center;
-                    break;
-                case HeaderFooterAlignment.Right:
-                    contentAlignment.HorizontalAlignment = (EPPlus.Export.Pdf.Enums.ExcelHorizontalAlignment)ExcelHorizontalAlignment.Right;
-                    break;
-            }
-            return contentAlignment;
-        }
-
-        internal static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
-        {
-            if (textCollection == null || textCollection.Count <= 1) return null;
-            var ns = ws.Workbook.Styles.GetNormalStyle();
-            var textFragments = new List<TextFragment>();
-            List<int> NumberOfPagesIndexes = new List<int>();
-            List<int> PageNumberIndexes = new List<int>();
-            byte[] imageBytes = null;
-            double imageWidth = 0, imageHeight = 0;
-            int imageFragmentIndex = -1;
-            for (int i = 1; i < textCollection.Count; i++)
-            {
-                var hf = textCollection[i];
-                if (hf.FormatCode == ExcelHeaderFooterFormattingCodes.Image)
-                {
-                    var pic = textCollection.Picture;
-                    var picUri = pic == null ? null : ((IPictureContainer)pic).UriPic;
-                    var picBytes = picUri == null ? null : ws._package.PictureStore.GetImageBytes(picUri);
-                    if (picBytes != null)
-                    {
-                        imageBytes = picBytes;
-                        imageWidth = pic.Width;
-                        imageHeight = pic.Height;
-                        imageFragmentIndex = textFragments.Count;
-                    }
-                    continue;
-                }
-                var textFrag = new TextFragment();
-                textFrag.Font = new RichTextFormatSimple();
-                textFrag.Font.Family = string.IsNullOrEmpty(hf.FontName) ? ns.Style.Font.Name : hf.FontName;
-                textFrag.Font.Size = hf.FontSize == null ? ns.Style.Font.Size : (float)hf.FontSize;
-                textFrag.RichTextOptions.Bold = hf.Bold;
-                textFrag.RichTextOptions.Italic = hf.Italic;
-                //underline
-                //none   : 12
-                //single : 13
-                //Double : 4
-                //accouting does not exsist
-                textFrag.RichTextOptions.UnderlineType = 12;
-                textFrag.RichTextOptions.UnderlineType = hf.Underline ? 13 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.UnderlineType = hf.DoubleUnderline ? 4 : textFrag.RichTextOptions.UnderlineType;
-                textFrag.RichTextOptions.StrikeType = hf.Striketrough ? 2 : 1;
-                textFrag.RichTextOptions.FontColor = hf.Color;
-                textFrag.Font.SubFamily = ComputeFontStyle(textFrag);
-                var text = string.Empty;
-                switch (hf.FormatCode)
-                {
-                    case ExcelHeaderFooterFormattingCodes.SheetName:
-                        text += ws.Name;
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.CurrentDate:
-                        text += DateTime.Now.ToString($"yyyy-MM-dd");
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.FileName:
-                        text += ws._package.File.Name;
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.NumberOfPages:
-                        text += "000";
-                        NumberOfPagesIndexes.Add(i - 1);
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.PageNumber:
-                        text += "000";
-                        PageNumberIndexes.Add(i - 1);
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.CurrentTime:
-                        text += DateTime.Now.ToString("HH:mm");
-                        break;
-                    case ExcelHeaderFooterFormattingCodes.FilePath:
-                        text += ws._package.File.Directory.FullName + "\\";
-                        break;
-                    default:
-                        text += hf.Text;
-                        break;
-                }
-                textFrag.Text = text;
-                textFragments.Add(textFrag);
-                dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, textFrag.Text);
-                if (NumberOfPagesIndexes.Count > 0 || PageNumberIndexes.Count > 0) dictionaries.AddFont(pageSettings, textFrag.Font.Family, textFrag.Font.SubFamily, "1234567890");
-            }
-            var result = new PdfHeaderFooter(textFragments, PageNumberIndexes, NumberOfPagesIndexes, type, alignment, section);
-            result.ImageBytes = imageBytes;
-            result.ImageWidth = imageWidth;
-            result.ImageHeight = imageHeight;
-            result.ImageFragmentIndex = imageFragmentIndex;
-            return result;
         }
 
         /// <summary>
@@ -938,494 +346,6 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
                 columnWidth += UnitConversion.ExcelColumnWidthToPoints(ws.Column(ws.Dimension._toCol + columnsToAdd).Width, pdfSheet.ZeroCharWidth);
             }
             return columnsToAdd;
-        }
-
-        internal static ExcelDxfBorderItem GetTopBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
-        {
-            var range = table.Range;
-            int tableRow = cell._fromRow - range._fromRow;
-            int tableCol = cell._fromCol - range._fromCol;
-            int ts = table.ShowHeader ? 1 : 0;
-            var top = tableRow == 0 ? tableStyle.WholeTable.Style.Border.Top : tableStyle.WholeTable.Style.Border.Horizontal;
-            elementOrder = TableEdgeOrder.WholeTable;
-            if (table.ShowHeader && tableRow == 0)
-            {
-                if (tableStyle.HeaderRow.Style.Border.Top.HasValue)
-                { top = tableStyle.HeaderRow.Style.Border.Top; elementOrder = TableEdgeOrder.HeaderRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Top.HasValue)
-                { top = tableStyle.FirstHeaderCell.Style.Border.Top; elementOrder = TableEdgeOrder.FirstHeaderCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Top.HasValue)
-                { top = tableStyle.LastHeaderCell.Style.Border.Top; elementOrder = TableEdgeOrder.LastHeaderCell; }
-            }
-            else if (table.ShowTotal && cell._fromRow == range._toRow)
-            {
-                if (tableStyle.TotalRow.Style.Border.Top.HasValue)
-                { top = tableStyle.TotalRow.Style.Border.Top; elementOrder = TableEdgeOrder.TotalRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Top.HasValue)
-                { top = tableStyle.FirstTotalCell.Style.Border.Top; elementOrder = TableEdgeOrder.FirstTotalCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Top.HasValue)
-                { top = tableStyle.LastTotalCell.Style.Border.Top; elementOrder = TableEdgeOrder.LastTotalCell; }
-            }
-            else
-            {
-                if (table.ShowColumnStripes && (tableCol & 1) == 0)
-                {
-                    var band = tableStyle.FirstColumnStripe.Style.Border;
-                    if (tableRow == 0)
-                    { if (band.Top.HasValue) { top = band.Top; elementOrder = TableEdgeOrder.FirstColumnStripe; } }
-                    else if (band.Horizontal.HasValue)
-                    { top = band.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                }
-                if (table.ShowColumnStripes && (tableCol & 1) != 0)
-                {
-                    var band = tableStyle.SecondColumnStripe.Style.Border;
-                    if (tableRow == 0)
-                    { if (band.Top.HasValue) { top = band.Top; elementOrder = TableEdgeOrder.SecondColumnStripe; } }
-                    else if (band.Horizontal.HasValue)
-                    { top = band.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                }
-                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Top.HasValue && (tableRow & 1) != 0)
-                { top = tableStyle.FirstRowStripe.Style.Border.Top; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Top.HasValue && (tableRow & 1) == 0)
-                { top = tableStyle.SecondRowStripe.Style.Border.Top; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Top.HasValue && cell._fromCol == range._toCol)
-                { top = tableStyle.LastColumn.Style.Border.Top; elementOrder = TableEdgeOrder.LastColumn; }
-                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Top.HasValue && tableCol == 0)
-                { top = tableStyle.FirstColumn.Style.Border.Top; elementOrder = TableEdgeOrder.FirstColumn; }
-            }
-            if (top == null || !top.Style.HasValue || top.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
-            return top;
-        }
-
-        internal static ExcelDxfBorderItem GetBottomBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
-        {
-            var range = table.Range;
-            int tableRow = cell._fromRow - range._fromRow;
-            int tableCol = cell._fromCol - range._fromCol;
-            var bottom = range._toRow == cell._fromRow ? tableStyle.WholeTable.Style.Border.Bottom : null;
-            elementOrder = TableEdgeOrder.WholeTable;
-            if (table.ShowHeader && tableRow == 0)
-            {
-                if (tableStyle.HeaderRow.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.HeaderRow.Style.Border.Bottom; elementOrder = TableEdgeOrder.HeaderRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.FirstHeaderCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstHeaderCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.LastHeaderCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastHeaderCell; }
-            }
-            else if (table.ShowTotal && cell._fromRow == range._toRow)
-            {
-                if (tableStyle.TotalRow.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.TotalRow.Style.Border.Bottom; elementOrder = TableEdgeOrder.TotalRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.FirstTotalCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstTotalCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Bottom.HasValue)
-                { bottom = tableStyle.LastTotalCell.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastTotalCell; }
-            }
-            else
-            {
-                if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Bottom.HasValue && (tableCol & 1) != 0)
-                {
-                    if (cell._fromRow > range._fromRow && cell._fromRow < range._toRow)
-                    { bottom = tableStyle.FirstColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                    else if (cell._fromRow < range._toRow)
-                    { bottom = null; }
-                    else
-                    { bottom = tableStyle.FirstColumnStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                }
-                if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Bottom.HasValue && (tableCol & 1) == 0)
-                {
-                    if (cell._fromRow > range._fromRow && cell._fromRow < range._toRow)
-                    { bottom = tableStyle.SecondColumnStripe.Style.Border.Horizontal; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                    else if (cell._fromRow < range._toRow)
-                    { bottom = null; }
-                    else
-                    { bottom = tableStyle.SecondColumnStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                }
-                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Bottom.HasValue && (tableRow & 1) != 0)
-                { bottom = tableStyle.FirstRowStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Bottom.HasValue && (tableRow & 1) == 0)
-                { bottom = tableStyle.SecondRowStripe.Style.Border.Bottom; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Bottom.HasValue && cell._fromCol == range._toCol)
-                { bottom = tableStyle.LastColumn.Style.Border.Bottom; elementOrder = TableEdgeOrder.LastColumn; }
-                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Bottom.HasValue && tableCol == 0)
-                { bottom = tableStyle.FirstColumn.Style.Border.Bottom; elementOrder = TableEdgeOrder.FirstColumn; }
-            }
-            if (bottom == null || !bottom.Style.HasValue || bottom.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
-            return bottom;
-        }
-
-        internal static ExcelDxfBorderItem GetLeftBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
-        {
-            var range = table.Range;
-            int tableRow = cell._fromRow - range._fromRow;
-            int tableCol = cell._fromCol - range._fromCol;
-            var left = tableCol == 0 ? tableStyle.WholeTable.Style.Border.Left : tableStyle.WholeTable.Style.Border.Vertical;
-            elementOrder = TableEdgeOrder.WholeTable;
-            if (table.ShowHeader && tableRow == 0)
-            {
-                if (tableStyle.HeaderRow.Style.Border.Left.HasValue)
-                { left = tableStyle.HeaderRow.Style.Border.Left; elementOrder = TableEdgeOrder.HeaderRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Left.HasValue)
-                { left = tableStyle.FirstHeaderCell.Style.Border.Left; elementOrder = TableEdgeOrder.FirstHeaderCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Left.HasValue)
-                { left = tableStyle.LastHeaderCell.Style.Border.Left; elementOrder = TableEdgeOrder.LastHeaderCell; }
-            }
-            else if (table.ShowTotal && cell._fromRow == range._toRow)
-            {
-                if (tableStyle.TotalRow.Style.Border.Left.HasValue)
-                { left = tableStyle.TotalRow.Style.Border.Left; elementOrder = TableEdgeOrder.TotalRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Left.HasValue)
-                { left = tableStyle.FirstTotalCell.Style.Border.Left; elementOrder = TableEdgeOrder.FirstTotalCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Left.HasValue)
-                { left = tableStyle.LastTotalCell.Style.Border.Left; elementOrder = TableEdgeOrder.LastTotalCell; }
-            }
-            else
-            {
-                if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Left.HasValue && (tableCol & 1) != 0)
-                { left = tableStyle.FirstColumnStripe.Style.Border.Left; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Left.HasValue && (tableCol & 1) == 0)
-                { left = tableStyle.SecondColumnStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Left.HasValue && (tableRow & 1) != 0)
-                {
-                    if (cell._fromCol > range._fromCol)
-                    { left = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                    else
-                    { left = tableStyle.FirstRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                }
-                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Left.HasValue && (tableRow & 1) == 0)
-                {
-                    if (cell._fromCol > range._fromCol)
-                    { left = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                    else
-                    { left = tableStyle.SecondRowStripe.Style.Border.Left; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                }
-                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Left.HasValue && cell._fromCol == range._toCol)
-                { left = tableStyle.LastColumn.Style.Border.Left; elementOrder = TableEdgeOrder.LastColumn; }
-                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Left.HasValue && tableCol == 0)
-                { left = tableStyle.FirstColumn.Style.Border.Left; elementOrder = TableEdgeOrder.FirstColumn; }
-            }
-            if (left == null || !left.Style.HasValue || left.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
-            return left;
-        }
-
-        internal static ExcelDxfBorderItem GetRightBorderItem(ExcelRangeBase cell, ExcelBorderItem xfBorder, ExcelTable table, ExcelTableNamedStyle tableStyle, out int elementOrder)
-        {
-            var range = table.Range;
-            int tableRow = cell._fromRow - range._fromRow;
-            int tableCol = cell._fromCol - range._fromCol;
-            var right = cell._fromCol == range._toCol ? tableStyle.WholeTable.Style.Border.Right : tableStyle.WholeTable.Style.Border.Vertical;
-            elementOrder = TableEdgeOrder.WholeTable;
-            if (table.ShowHeader && tableRow == 0)
-            {
-                if (tableStyle.HeaderRow.Style.Border.Right.HasValue)
-                { right = tableStyle.HeaderRow.Style.Border.Right; elementOrder = TableEdgeOrder.HeaderRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstHeaderCell.Style.Border.Right.HasValue)
-                { right = tableStyle.FirstHeaderCell.Style.Border.Right; elementOrder = TableEdgeOrder.FirstHeaderCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastHeaderCell.Style.Border.Right.HasValue)
-                { right = tableStyle.LastHeaderCell.Style.Border.Right; elementOrder = TableEdgeOrder.LastHeaderCell; }
-            }
-            else if (table.ShowTotal && cell._fromRow == range._toRow)
-            {
-                if (tableStyle.TotalRow.Style.Border.Right.HasValue)
-                { right = tableStyle.TotalRow.Style.Border.Right; elementOrder = TableEdgeOrder.TotalRow; }
-                if (tableCol == 0 && table.ShowFirstColumn && tableStyle.FirstTotalCell.Style.Border.Right.HasValue)
-                { right = tableStyle.FirstTotalCell.Style.Border.Right; elementOrder = TableEdgeOrder.FirstTotalCell; }
-                if (cell._fromCol == range._toCol && table.ShowLastColumn && tableStyle.LastTotalCell.Style.Border.Right.HasValue)
-                { right = tableStyle.LastTotalCell.Style.Border.Right; elementOrder = TableEdgeOrder.LastTotalCell; }
-            }
-            else
-            {
-                if (table.ShowColumnStripes && tableStyle.FirstColumnStripe.Style.Border.Right.HasValue && (tableCol & 1) != 0)
-                { right = tableStyle.FirstColumnStripe.Style.Border.Right; elementOrder = TableEdgeOrder.FirstColumnStripe; }
-                if (table.ShowColumnStripes && tableStyle.SecondColumnStripe.Style.Border.Right.HasValue && (tableCol & 1) == 0)
-                { right = tableStyle.SecondColumnStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondColumnStripe; }
-                if (table.ShowRowStripes && tableStyle.FirstRowStripe.Style.Border.Right.HasValue && (tableRow & 1) != 0)
-                {
-                    if (cell._fromCol < range._toCol)
-                    { right = tableStyle.FirstRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                    else
-                    { right = tableStyle.FirstRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.FirstRowStripe; }
-                }
-                if (table.ShowRowStripes && tableStyle.SecondRowStripe.Style.Border.Right.HasValue && (tableRow & 1) == 0)
-                {
-                    if (cell._fromCol < range._toCol)
-                    { right = tableStyle.SecondRowStripe.Style.Border.Vertical; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                    else
-                    { right = tableStyle.SecondRowStripe.Style.Border.Right; elementOrder = TableEdgeOrder.SecondRowStripe; }
-                }
-                if (table.ShowLastColumn && tableStyle.LastColumn.Style.Border.Right.HasValue && cell._fromCol == range._toCol)
-                { right = tableStyle.LastColumn.Style.Border.Right; elementOrder = TableEdgeOrder.LastColumn; }
-                if (table.ShowFirstColumn && tableStyle.FirstColumn.Style.Border.Right.HasValue && tableCol == 0)
-                { right = tableStyle.FirstColumn.Style.Border.Right; elementOrder = TableEdgeOrder.FirstColumn; }
-            }
-            if (right == null || !right.Style.HasValue || right.Style.Value == ExcelBorderStyle.None) elementOrder = TableEdgeOrder.None;
-            return right;
-        }
-
-        private static void ReconcileSharedBorders(PdfCellCollection map)
-        {
-            for (int row = map.FromRow; row <= map.ToRow; row++)
-            {
-                for (int col = map.FromColumn; col <= map.ToColumn; col++)
-                {
-                    var cell = map[row, col];
-                    if (cell == null || cell.Hidden || cell.Merged || cell.CellStyle == null) continue;
-                    var cs = cell.CellStyle;
-                    if (col < map.ToColumn)
-                    {
-                        var next = map[row, col + 1];
-                        if (next != null && !next.Hidden && !next.Merged && next.CellStyle != null)
-                        {
-                            var ns = next.CellStyle;
-                            if (!(IsDoubleEdge(cs.xfRight, cs.dxfRight) && IsDoubleEdge(ns.xfLeft, ns.dxfLeft)))
-                            {
-                                int here = EdgeRank(cs.xfRight, cs.dxfRight, cs.dxfRightElementOrder);
-                                int there = EdgeRank(ns.xfLeft, ns.dxfLeft, ns.dxfLeftElementOrder);
-                                if (here >= there) ns.SuppressLeft = true;
-                                else cs.SuppressRight = true;
-                            }
-                        }
-                    }
-                    if (row < map.ToRow)
-                    {
-                        var below = map[row + 1, col];
-                        if (below != null && !below.Hidden && !below.Merged && below.CellStyle != null)
-                        {
-                            var bs = below.CellStyle;
-                            if (!(IsDoubleEdge(cs.xfBottom, cs.dxfBottom) && IsDoubleEdge(bs.xfTop, bs.dxfTop)))
-                            {
-                                int here = EdgeRank(cs.xfBottom, cs.dxfBottom, cs.dxfBottomElementOrder);
-                                int there = EdgeRank(bs.xfTop, bs.dxfTop, bs.dxfTopElementOrder);
-                                if (here >= there) bs.SuppressTop = true;
-                                else cs.SuppressBottom = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private static bool IsDoubleEdge(ExcelBorderItem xf, ExcelDxfBorderItem dxf)
-        {
-            if (xf != null && xf.Style != ExcelBorderStyle.None) return xf.Style == ExcelBorderStyle.Double;
-            if (dxf != null && dxf.Style.HasValue) return dxf.Style.Value == ExcelBorderStyle.Double;
-            return false;
-        }
-
-        private static int EdgeRank(ExcelBorderItem xf, ExcelDxfBorderItem dxf, int elementOrder)
-        {
-            if (xf != null && xf.Style != ExcelBorderStyle.None)
-                return TableEdgeOrder.UserSet;
-            if (dxf != null && dxf.Style.HasValue && dxf.Style.Value != ExcelBorderStyle.None)
-                return elementOrder;
-            return 0;
-        }
-
-        internal static class TableEdgeOrder
-        {
-            public const int None = 0, WholeTable = 1,
-                FirstColumnStripe = 2, SecondColumnStripe = 3,
-                FirstRowStripe = 4, SecondRowStripe = 5,
-                LastColumn = 6, FirstColumn = 7,
-                TotalRow = 8, HeaderRow = 9,
-                FirstHeaderCell = 10, LastHeaderCell = 11,
-                FirstTotalCell = 12, LastTotalCell = 13,
-                ConditionalFormat = 50,
-                UserSet = 100;
-        }
-
-        private static ExcelTableNamedStyle GetTableStyle(ExcelTable table, Dictionary<ExcelTable, ExcelTableNamedStyle> cache)
-        {
-            if (cache.TryGetValue(table, out var cached))
-                return cached;
-            ExcelTableNamedStyle tableStyle;
-            if (table.TableStyle == TableStyles.Custom)
-            {
-                tableStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
-            }
-            else
-            {
-                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tableStyle = new ExcelTableNamedStyle(
-                    table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
-                tableStyle.SetFromTemplate((TableStyles)table.TableStyle);
-            }
-            cache[table] = tableStyle;
-            return tableStyle;
-        }
-
-        private static bool FillIsPaintable(ExcelDxfFill fill)
-        {
-            if (fill == null || !fill.HasValue)
-                return false;
-            var pattern = fill.PatternType != null ? (ExcelFillStyle)fill.PatternType : ExcelFillStyle.Solid;
-            if (pattern == ExcelFillStyle.None)
-                return fill.Gradient != null;
-            if (pattern == ExcelFillStyle.Solid)
-                return !string.IsNullOrEmpty(fill.BackgroundColor?.LookupColor());
-            return true;
-        }
-
-        private static bool IsWebUri(string s) =>
-            s.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-            s.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
-            s.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
-            s.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase);
-
-        private static bool TryGetFormulaHyperlink(ExcelRangeBase cell, out string uri, out string internalRef)
-        {
-            uri = null;
-            internalRef = null;
-
-            var f = cell.Formula;
-            if (string.IsNullOrEmpty(f)) return false;
-            f = f.TrimStart();
-            const string fn = "HYPERLINK(";
-            if (!f.StartsWith(fn, StringComparison.OrdinalIgnoreCase)) return false;
-            int i = fn.Length, start = i, depth = 0;
-            bool inString = false;
-            for (; i < f.Length; i++)
-            {
-                char c = f[i];
-                if (inString)
-                {
-                    if (c == '"')
-                    {
-                        if (i + 1 < f.Length && f[i + 1] == '"') i++;
-                        else inString = false;
-                    }
-                }
-                else if (c == '"') inString = true;
-                else if (c == '(') depth++;
-                else if (c == ')') { if (depth == 0) break; depth--; }
-                else if (c == ',' && depth == 0) break;
-            }
-            var arg0 = f.Substring(start, i - start).Trim();
-            if (arg0.Length < 2 || arg0[0] != '"' || arg0[arg0.Length - 1] != '"')
-                return false;
-            var target = arg0.Substring(1, arg0.Length - 2).Replace("\"\"", "\"").Trim();
-            if (target.Length == 0)
-                return false;
-            if (target[0] == '#')
-                internalRef = target.Substring(1);
-            else
-                uri = NormalizeExternalTarget(target);
-            return true;
-        }
-
-        internal static string NormalizeExternalTarget(string target)
-        {
-            if (string.IsNullOrEmpty(target)) return null;
-            if (IsWebUri(target)) return target;
-            if (Uri.TryCreate(target, UriKind.Absolute, out var u))
-                return u.IsFile ? u.AbsoluteUri : target;
-            return null;
-        }
-
-        internal static bool TryResolveInternalLink(ExcelWorksheet linkSheet, string target, out string targetSheet, out int row, out int col)
-        {
-            targetSheet = null; row = 0; col = 0;
-            if (string.IsNullOrEmpty(target)) return false;
-            var wb = linkSheet.Workbook;
-            if (target.IndexOf('!') < 0)
-            {
-                var name = wb.Names.ContainsKey(target) ? wb.Names[target]
-                         : linkSheet.Names.ContainsKey(target) ? linkSheet.Names[target] : null;
-                if (name != null)
-                {
-                    var ws = name.Worksheet ?? linkSheet;
-                    targetSheet = ws.Name; row = name.Start.Row; col = name.Start.Column;
-                    return row > 0 && col > 0;
-                }
-            }
-            var addr = new ExcelAddress(target);
-            var sheet = string.IsNullOrEmpty(addr.WorkSheetName) ? linkSheet : wb.Worksheets[addr.WorkSheetName];
-            if (sheet == null) return false;
-            targetSheet = sheet.Name; row = addr.Start.Row; col = addr.Start.Column;
-            return row > 0 && col > 0;
-        }
-
-        private static ExcelConditionalFormattingDataBar GetDataBarRule(ExcelRangeBase cell)
-        {
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf == null || cf.Count == 0)
-            {
-                return null;
-            }
-            foreach (var rule in cf.OrderBy(r => r.Priority))
-            {
-                if (!rule.ShouldApplyToCell(cell))
-                {
-                    if (rule.StopIfTrue)
-                    {
-                        break;
-                    }
-                    continue;
-                }
-                if (rule is ExcelConditionalFormattingDataBar db)
-                {
-                    return db;
-                }
-                if (rule.StopIfTrue)
-                {
-                    break;
-                }
-            }
-            return null;
-        }
-
-        private static void GetDataBarStyle(ExcelRange cell, PdfCellStyle cellStyle, ExcelConditionalFormattingDataBar dataBarRule)
-        {
-            if (dataBarRule != null)
-            {
-                double low = dataBarRule.lowest, high = dataBarRule.highest;
-                double axisFraction;
-                if (dataBarRule.AxisPosition == eExcelDatabarAxisPosition.None) axisFraction = 0d;
-                else if (dataBarRule.AxisPosition == eExcelDatabarAxisPosition.Middle) axisFraction = 0.5d;
-                else if (low >= 0d) axisFraction = 0d;                 // all positive: axis at left
-                else if (high <= 0d) axisFraction = 1d;                 // all negative: axis at right
-                else axisFraction = Math.Abs(low) / (high - low);   // mixed
-
-                // None shows negatives in the positive direction, so only flag negatives when there's an axis.
-                bool isNeg = dataBarRule.AxisPosition != eExcelDatabarAxisPosition.None
-                             && ConvertUtil.GetValueDouble(cell.Value) < 0d;
-
-                var fillCol = (isNeg ? dataBarRule.NegativeFillColor : dataBarRule.FillColor).GetColorAsColor();
-                Color? border = dataBarRule.Border
-                    ? (isNeg ? dataBarRule.NegativeBorderColor : dataBarRule.BorderColor).GetColorAsColor()
-                    : (Color?)null;
-                Color? axis = (axisFraction > 0d && axisFraction < 1d)
-                    ? (dataBarRule.AxisColor != null && dataBarRule.AxisColor.HasValue
-                          ? dataBarRule.AxisColor.GetColorAsColor()
-                          : Color.FromArgb(0x14, 0x09, 0x04))          // Excel's default dark axis
-                    : (Color?)null;
-
-                cellStyle.DataBar = new PdfDataBar
-                {
-                    Percentage = dataBarRule.GetPercentageAtCell(cell),
-                    IsNegative = isNeg,
-                    AxisFraction = axisFraction,
-                    FillColor = fillCol,
-                    BorderColor = border,
-                    AxisColor = axis,
-                    Gradient = dataBarRule.Gradient,
-                    IsRightToLeft = dataBarRule.Direction == eDatabarDirection.RightToLeft
-                };
-            }
-        }
-
-        private static IExcelConditionalFormattingIconSet GetIconSetRule(ExcelRangeBase cell)
-        {
-            var cf = cell.ConditionalFormatting.GetConditionalFormattings();
-            if (cf == null || cf.Count == 0) return null;
-            foreach (var rule in cf.OrderBy(r => r.Priority))
-            {
-                if (!rule.ShouldApplyToCell(cell)) { if (rule.StopIfTrue) break; continue; }
-                if (rule is IExcelConditionalFormattingIconSet iconSet) return iconSet;
-                if (rule.StopIfTrue) break;
-            }
-            return null;
         }
     }
 }
