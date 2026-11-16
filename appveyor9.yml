@@ -1,4 +1,4 @@
-version: 9.0.0-preview.{build}
+version: 9.0.0-preview2.{build}
 branches:
   only:
   - develop9
@@ -7,7 +7,7 @@ image: Visual Studio 2026
 install:
 init:
 - ps: >-
-    $packageVersion = "9.0.0-preview.$env:appveyor_build_number"
+    $packageVersion = "9.0.0-preview2.$env:appveyor_build_number"
 
     Update-AppveyorBuild -Version $packageVersion
 
