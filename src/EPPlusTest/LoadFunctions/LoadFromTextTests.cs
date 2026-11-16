@@ -360,7 +360,7 @@ namespace EPPlusTest.LoadFunctions
                 format.SetColumnPositions(52, 0, 16, 26, 42, 50);
                 //format.SetColumnPaddingAlignmentType(PaddingAlignmentType.Left, PaddingAlignmentType.Auto, PaddingAlignmentType.Right, PaddingAlignmentType.Right, PaddingAlignmentType.Auto);
                 //format.SetColumnDataTypes(eDataTypes.String, eDataTypes.DateTime, eDataTypes.Number, eDataTypes.Percent, eDataTypes.String);
-                format.Culture = new CultureInfo("sv-en");
+                format.Culture = new CultureInfo("sv-SE");
                 var range = ws.Cells["A1"].LoadFromText(myFile, format);
                 Assert.AreEqual(-130000d, ws.Cells["C2"].Value);
                 Assert.AreEqual(-40.00d, ws.Cells["C5"].Value);
