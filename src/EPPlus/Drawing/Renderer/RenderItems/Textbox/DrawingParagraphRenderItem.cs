@@ -228,8 +228,11 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
                     }
                     else
                     {
-                        ////Should never happen.
-                        //Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        if(textBody._drawing.DrawingType is eDrawingType.Shape)
+                        {
+                            //Happens for shapes with color managers that have paragraphs
+                            Style.SetDrawingPropertiesFill(textBody.Theme, p.DefaultRunProperties.Fill, colorManager, UserSpaceSettings.ObjectBoundingBox, defaultTextColor);
+                        }
                     }
                 }
             }
