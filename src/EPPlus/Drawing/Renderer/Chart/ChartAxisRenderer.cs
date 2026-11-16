@@ -796,6 +796,27 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
             }
+            else if(LabelOrientation == eTextOrientation.Custom)
+            {
+                foreach (var tb in ret)
+                {
+                    var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
+                    var majorWidth = Rectangle.Width / count;
+
+                    switch (lblAlignment)
+                    {
+                        case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            break;
+                        case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            tb.Left += majorWidth / 2 - tb.Width / 2;
+                            break;
+                        case OfficeOpenXml.eAxisLabelAlignment.Right:
+                            tb.Left += majorWidth - tb.Width;
+                            break;
+                    }
+                }
+            }
+
 
             return ret;
         }
@@ -854,11 +875,11 @@ namespace EPPlusImageRenderer.Svg
 
                 double x, y;
 
-                double availableTextLength = maxWidth;
-                //if (Axis.IsVertical)
-                //{
-                //    availableTextLength = maxWidth;
-                //}
+                double availableTextLength = majorTickMarkWidth;
+                if (Axis.IsVertical)
+                {
+                    availableTextLength = maxHeight;
+                }
 
                 if (LabelOrientation == eTextOrientation.Horizontal)
                 {
@@ -1008,7 +1029,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, majorTickMarkWidth, maxHeight + TopMargin + BottomMargin);
+                var tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, availableTextLength, maxHeight + TopMargin + BottomMargin);
                 tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
 
 
