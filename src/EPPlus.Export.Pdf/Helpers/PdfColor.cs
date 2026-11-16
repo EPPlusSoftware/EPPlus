@@ -128,5 +128,15 @@ namespace EPPlus.Export.Pdf.Helpers
             int a = (int)(c.A);
             return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
         }
+
+        public static Color LerpToWhite(Color c, double t)
+        {
+            if (t <= 0d) return c;
+            if (t >= 1d) return Color.White;
+            int r = (int)(c.R + (255 - c.R) * t);
+            int g = (int)(c.G + (255 - c.G) * t);
+            int b = (int)(c.B + (255 - c.B) * t);
+            return Color.FromArgb(r, g, b);
+        }
     }
 }

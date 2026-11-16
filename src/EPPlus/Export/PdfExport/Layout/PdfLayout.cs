@@ -223,7 +223,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 if (!isBlackWhite)
                 {
-                    CreateCellFillLayout(pageLayout, map.Main?.CellStyle ?? map.CellStyle, map.Text, info.X, info.Y, info.Width, info.Height, map.Name, pageSettings, dictionaries);
+                    CreateCellFillLayout(pageLayout, map.Main?.CellStyle ?? map.CellStyle, map.Text, info.X, info.Y, info.Width, info.Height, map.Name, pageSettings, dictionaries, map.ContentAligmnet);
                 }
                 var picMap = CellHasPicture(map) ? map : CellHasPicture(map.Main) ? map.Main : null;
                 if (picMap != null)
@@ -269,7 +269,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             {
                 if (!isBlackWhite)
                 {
-                    CreateCellFillLayout(pageLayout, map.CellStyle, map.Text, x, y, effectiveWidth, rowHeight, map.Name, pageSettings, dictionaries);
+                    CreateCellFillLayout(pageLayout, map.CellStyle, map.Text, x, y, effectiveWidth, rowHeight, map.Name, pageSettings, dictionaries, map.Main?.ContentAligmnet ?? map.ContentAligmnet);
                 }
                 PdfImagePlacement.AddCellPicture(pageLayout, map, x, y, effectiveWidth, rowHeight);
             }
@@ -289,13 +289,42 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void CreateCellFillLayout(PdfPageLayout pageLayout, PdfCellStyle style, string text, double x, double y, double width, double height, string name, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        private static void CreateCellFillLayout(PdfPageLayout pageLayout, PdfCellStyle style, string text, double x, double y, double width, double height, string name, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellAlignmentData contentAlignment)
         {
             var fill = new PdfCellLayout(x, y, width, height);
             PdfFillResolver.SetFill(dictionaries, style, text, fill);
             fill.UpdateShadingPositionMatrix(pageSettings);
             fill.Name = name;
             pageLayout.AddChild(fill);
+
+            if (style.DataBar != null)
+            {
+                var dataBar = new PdfDataBarLayout(x, y, width, height)
+                {
+                    Percentage = style.DataBar.Percentage,
+                    FillColor = style.DataBar.FillColor,
+                    IsNegative = style.DataBar.IsNegative,
+                    AxisFraction = style.DataBar.AxisFraction,
+                    BorderColor = style.DataBar.BorderColor,
+                    AxisColor = style.DataBar.AxisColor,
+                    Gradient = style.DataBar.Gradient,
+                    IsRightToLeft = style.DataBar.IsRightToLeft,
+                    Name = name
+                };
+                pageLayout.AddChild(dataBar);
+            }
+
+            if (style.Icon != null)
+            {
+                var iconLayout = new PdfIconLayout(x, y, width, height)
+                {
+                    IconName = style.Icon.Value.ToString(),   // matches the Render case strings
+                    IconSize = contentAlignment != null ? contentAlignment.IconSize : 0d,
+                    VerticalAlignment = contentAlignment != null ? contentAlignment.VerticalAlignment : EPPlus.Export.Pdf.Enums.ExcelVerticalAlignment.Bottom,
+                    Name = name
+                };
+                pageLayout.AddChild(iconLayout);
+            }
         }
 
         private static void CreateTextLinks(PdfPageLayout pageLayout, PdfCellContentLayout text, PdfCell map, double clipLeft, double clipRight, double boxX, double boxY, double boxWidth, double boxHeight)

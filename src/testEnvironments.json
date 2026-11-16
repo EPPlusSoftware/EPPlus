@@ -2,7 +2,7 @@
   "version": "1",
   "environments": [
     {
-      "name": "epp-test",
+      "name": "epp-linux-net8.0",
       "type": "docker",
       "dockerFile": "Dockerfile"
     }

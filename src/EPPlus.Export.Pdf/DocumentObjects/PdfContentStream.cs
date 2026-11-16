@@ -485,6 +485,127 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add($"{x.ToPdfString()} {y.ToPdfString()} {width.ToPdfString()} {height.ToPdfString()} re W n");
         }
 
+        public void AddDataBarLayout(PdfDataBarLayout bar)
+        {
+            if (bar.Size.X <= 0d || bar.Size.Y <= 0d) return;
+
+            const double inset = 1.0;
+            double leftX = bar.LocalPosition.X + inset;
+            double barY = bar.LocalPosition.Y + inset;
+            double innerW = bar.Size.X - 2 * inset;
+            double barH = bar.Size.Y - 2 * inset;
+            if (innerW <= 0d || barH <= 0d) return;
+
+            double axisX = leftX + bar.AxisFraction * innerW;
+            double frac = bar.Percentage / 100d;
+
+            double barX, barW;
+            if (bar.IsNegative)                                   // grow left from the axis
+            {
+                barW = frac * (bar.AxisFraction * innerW);
+                barX = axisX - barW;
+            }
+            else                                                  // grow right from the axis (or left edge)
+            {
+                barW = frac * ((1d - bar.AxisFraction) * innerW);
+                barX = axisX;
+            }
+
+            if (bar.IsRightToLeft)                                 // mirror within the inner area
+                barX = leftX + innerW - (barX - leftX) - barW;
+
+            if (barW > 0d && bar.FillColor != Color.Empty)
+            {
+                commands.Add("q");
+                if (bar.Gradient)
+                {
+                    // Excel's data bar gradient is solid at the axis end and fades lighter toward the value
+                    // end. Approximate with thin solid slices — cheap, no per-bar shading objects.
+                    bool solidAtLeft = bar.IsNegative ? bar.IsRightToLeft : !bar.IsRightToLeft;
+                    const int slices = 24;
+                    double sliceW = barW / slices;
+                    for (int i = 0; i < slices; i++)
+                    {
+                        double t = (i + 0.5) / slices;            // left -> right across the bar
+                        double mix = solidAtLeft ? t : 1d - t;    // 0 at the solid (axis) end, 1 at the faded end
+                        Color c = PdfColor.LerpToWhite(bar.FillColor, mix);
+                        double sx = barX + i * sliceW;
+                        commands.Add(c.ToFillCommand());
+                        // +0.3 overlap so slice seams don't show as hairlines
+                        commands.Add($"{sx.ToPdfString()} {barY.ToPdfString()} {(sliceW + 0.3).ToPdfString()} {barH.ToPdfString()} re");
+                        commands.Add("f");
+                    }
+                }
+                else
+                {
+                    commands.Add(bar.FillColor.ToFillCommand());
+                    commands.Add($"{barX.ToPdfString()} {barY.ToPdfString()} {barW.ToPdfString()} {barH.ToPdfString()} re");
+                    commands.Add("f");
+                }
+
+                // Border: stroke the whole bar outline once (not per slice).
+                if (bar.BorderColor != null)
+                {
+                    commands.Add(bar.BorderColor.Value.ToStrokeCommand());
+                    commands.Add($"{GridLine.HalfWidth.ToPdfString()} w");
+                    commands.Add($"{barX.ToPdfString()} {barY.ToPdfString()} {barW.ToPdfString()} {barH.ToPdfString()} re");
+                    commands.Add("S");
+                }
+                commands.Add("Q");
+            }
+
+            if (bar.AxisColor != null)                            // thin vertical axis line
+            {
+                commands.Add("q");
+                commands.Add(bar.AxisColor.Value.ToStrokeCommand());
+                commands.Add($"{(GridLine.Width*3).ToPdfString()} w");   // thicker (was GridLine.HalfWidth)
+                commands.Add("[1 1] 0 d");                            // dash: 2 pts on, 2 pts off
+                commands.Add($"{axisX.ToPdfString()} {barY.ToPdfString()} m");
+                commands.Add($"{axisX.ToPdfString()} {(barY + barH).ToPdfString()} l");
+                commands.Add("S");
+                commands.Add("Q");
+            }
+        }
+
+        public void AddIconLayout(PdfIconLayout icon)
+        {
+            double cellW = icon.Size.X, cellH = icon.Size.Y;
+            if (cellW <= 0d || cellH <= 0d) return;
+
+            const double inset = 1.5;
+            double size = icon.IconSize > 0d ? icon.IconSize : System.Math.Min(cellW, cellH) - 2 * inset;
+
+            double maxW = cellW - 2 * inset;
+            double maxH = cellH - 2 * inset;
+            if (maxW > 0d && size > maxW) size = maxW;   // never wider than the cell
+            if (maxH > 0d && size > maxH) size = maxH;   // never taller than the cell
+            if (size <= 0d) return;
+
+            double iconX = icon.LocalPosition.X + inset;   // always left
+            double iconY;
+            switch (icon.VerticalAlignment)
+            {
+                case ExcelVerticalAlignment.Top:
+                case ExcelVerticalAlignment.Distributed:
+                case ExcelVerticalAlignment.Justify:
+                    iconY = icon.LocalPosition.Y + (cellH - size) - inset;   // top of cell
+                    break;
+                case ExcelVerticalAlignment.Center:
+                    iconY = icon.LocalPosition.Y + (cellH - size) / 2d;      // middle
+                    break;
+                case ExcelVerticalAlignment.Bottom:
+                default:
+                    iconY = icon.LocalPosition.Y + inset;                    // bottom of cell
+                    break;
+            }
+            double s = size / 100d;
+
+            commands.Add("q");
+            commands.Add($"{s.ToPdfString()} 0 0 {s.ToPdfString()} {iconX.ToPdfString()} {iconY.ToPdfString()} cm");
+            PdfIconRenderer.Render(icon.IconName, this);
+            commands.Add("Q");
+        }
+
         internal override string RenderDictionary()
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";

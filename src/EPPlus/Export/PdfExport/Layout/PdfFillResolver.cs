@@ -23,6 +23,11 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
     {
         internal static void SetFill(PdfDictionaries dictionaries, PdfCellStyle cellStyle, string text, PdfCellLayout fill)
         {
+            if (cellStyle.ConditionalFill != null)
+            {
+                fill.SetFill(cellStyle.ConditionalFill.Value);
+                return;
+            }
             var xfFill = cellStyle.xfFill;
             var dxfFill = cellStyle.dxfFill;
             if (dxfFill != null && xfFill.IsEmpty())

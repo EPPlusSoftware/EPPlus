@@ -152,54 +152,87 @@ namespace OfficeOpenXml.ConditionalFormatting
             get { return _middleValue; }
             set { _middleValue = value; }
         }
-        internal override string ApplyStyleOverride(ExcelAddress address)
+
+        internal override Color? GetColorScaleColor(ExcelAddress address)
         {
-            var range = _ws.Cells[address.Address];
-            var cellValue = range.Value;
-
-            if (cellValue.IsNumeric())
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (!cellValue.IsNumeric())
             {
-                var cellValues = new List<double>();
-                double average = 0;
-                int count = 0;
-                foreach (var cell in Address.GetAllAddresses())
-                {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
-                            average += ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            count++;
-                        }
-                    }
-                }
-
-                average = average / count;
-
-                var values = cellValues.OrderBy(n => n);
-
-                var aValue = cellValues.Last();
-
-                var highest = Convert.ToDouble(values.Last());
-                var lowest = Convert.ToDouble(values.First());
-                //midPoint = (highest + lowest) * 0.5;
-                var realValue = Convert.ToDouble(cellValue);
-
-                Color newColor;
-
-                if (realValue < average)
-                {
-                    newColor = CalculateNumberedGradient(realValue - lowest, average - lowest, LowValue.ColorSettings.GetColorAsColor(), MiddleValue.ColorSettings.GetColorAsColor());
-                }
-                else
-                {
-                    newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
-                }
-
-                return  "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2)+";";
+                return null;
             }
-            return "";
+
+            EnsureCache();
+
+            var highest = _sortedCache[_sortedCache.Count - 1];
+            var lowest = _sortedCache[0];
+            var realValue = Convert.ToDouble(cellValue);
+
+            if (realValue < _average)
+            {
+                var denom = _average - lowest;
+                if (denom == 0) return MiddleValue.ColorSettings.GetColorAsColor();
+                return CalculateNumberedGradient(realValue - lowest, denom,
+                    LowValue.ColorSettings.GetColorAsColor(),
+                    MiddleValue.ColorSettings.GetColorAsColor());
+            }
+            else
+            {
+                var denom = highest - _average;
+                if (denom == 0) return MiddleValue.ColorSettings.GetColorAsColor();
+                return CalculateNumberedGradient(realValue - _average, denom,
+                    MiddleValue.ColorSettings.GetColorAsColor(),
+                    HighValue.ColorSettings.GetColorAsColor());
+            }
         }
+
+        //internal override string ApplyStyleOverride(ExcelAddress address)
+        //{
+        //    var range = _ws.Cells[address.Address];
+        //    var cellValue = range.Value;
+
+        //    if (cellValue.IsNumeric())
+        //    {
+        //        var cellValues = new List<double>();
+        //        double average = 0;
+        //        int count = 0;
+        //        foreach (var cell in Address.GetAllAddresses())
+        //        {
+        //            for (int i = 1; i <= cell.Rows; i++)
+        //            {
+        //                for (int j = 1; j <= cell.Columns; j++)
+        //                {
+        //                    cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
+        //                    average += ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
+        //                    count++;
+        //                }
+        //            }
+        //        }
+
+        //        average = average / count;
+
+        //        var values = cellValues.OrderBy(n => n);
+
+        //        var aValue = cellValues.Last();
+
+        //        var highest = Convert.ToDouble(values.Last());
+        //        var lowest = Convert.ToDouble(values.First());
+        //        //midPoint = (highest + lowest) * 0.5;
+        //        var realValue = Convert.ToDouble(cellValue);
+
+        //        Color newColor;
+
+        //        if (realValue < average)
+        //        {
+        //            newColor = CalculateNumberedGradient(realValue - lowest, average - lowest, LowValue.ColorSettings.GetColorAsColor(), MiddleValue.ColorSettings.GetColorAsColor());
+        //        }
+        //        else
+        //        {
+        //            newColor = CalculateNumberedGradient(realValue - average, highest - average, MiddleValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
+        //        }
+
+        //        return  "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2)+";";
+        //    }
+        //    return "";
+        //}
     }
 }
