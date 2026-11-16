@@ -53,10 +53,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 vs.Add(new VariableCompileResult(v2.Value, null, DataType.LambdaVariableDeclaration, null));
             }
             clc.SetVariables(vs, ctx);
-            for (var argIx = 0; argIx < arguments.Count || argIx < clc.NumberOfVariables; argIx++)
+
+            var nArguments = arguments == null ? 0 : arguments.Count;
+            if (nArguments > clc.NumberOfVariables)
+            {
+                // More arguments than declared parameters.
+                return CompileResultFactory.CreateDynamicArrayResult(ExcelErrorValue.Create(eErrorType.Value));
+            }
+            for (var argIx = 0; argIx < nArguments; argIx++)
             {
                 clc.SetVariableValue(argIx, arguments[argIx].Value, arguments[argIx].DataType, ctx);
             }
+            // If fewer arguments than parameters are supplied, LambdaCalculator.Execute returns #VALUE!.
             clc.BeginCalculation();
             return clc.Execute(ctx);
         }

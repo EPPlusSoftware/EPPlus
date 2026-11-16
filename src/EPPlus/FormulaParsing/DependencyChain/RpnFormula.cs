@@ -316,7 +316,6 @@ namespace OfficeOpenXml.FormulaParsing
 
             _expressionStack.Clear();
             _funcStack.Clear();
-            VariableStorage.Clear();
             LambdaSettings.Reset();
             ClearCache(depChain);
         }
