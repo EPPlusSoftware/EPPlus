@@ -185,6 +185,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public static Dictionary<int, Expression> CompileExpressions(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext, VariableStorageScope scope = null)
         {
+            if (parsingContext.VariableStorage == null)
+            {
+                parsingContext.VariableStorage = new VariableStorageManager();
+            }
+            // Scopes created during this compilation get their parent lexically (issue #2606),
+            // never from scopes left on the shared stack by other lambda calls.
+            parsingContext.VariableStorage.BeginCompile(scope ?? rpnTokens.Scope);
+            try
+            {
+                return CompileExpressionsInternal(ref lambdaSettings, ref rpnTokens, parsingContext, scope);
+            }
+            finally
+            {
+                parsingContext.VariableStorage.EndCompile();
+            }
+        }
+
+        private static Dictionary<int, Expression> CompileExpressionsInternal(ref LambdaFormulaSettings lambdaSettings, ref RpnTokens rpnTokens, ParsingContext parsingContext, VariableStorageScope scope)
+        {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
             var stack = new Stack<FunctionExpression>();
@@ -192,10 +211,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var isInLambdaCalculation = false;
             LambdaTokensExpression lambdaCalculationExpression = null;
             var tokens = rpnTokens.Tokens;
-            if(parsingContext.VariableStorage == null)
-            {
-                parsingContext.VariableStorage = new VariableStorage.VariableStorageManager();
-            }
             var lambdaLevel = 0;
             var openingParenthesis = 0;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
@@ -204,7 +219,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 if (isInLambdaCalculation)
                 {
                     var isLambdaToken = t.IsLambdaFunction();
-                    if(t.TokenType == TokenType.OpeningParenthesis)
+                    if (t.TokenType == TokenType.OpeningParenthesis)
                     {
                         openingParenthesis++;
                         if (lambdaSettings == null) lambdaSettings = new LambdaFormulaSettings();
@@ -212,9 +227,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
                     }
-                    else if(t.TokenType == TokenType.ClosingParenthesis)
+                    else if (t.TokenType == TokenType.ClosingParenthesis)
                     {
-                        if(openingParenthesis == 0)
+                        if (openingParenthesis == 0)
                         {
                             continue;
                         }
@@ -236,7 +251,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else if (isLambdaToken && t.TokenType == TokenType.Function && lambdaLevel > 0)
                     {
-                        if(lambdaLevel > 0)
+                        if (lambdaLevel > 0)
                         {
                             if (lambdaSettings == null)
                             {
@@ -257,7 +272,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         lambdaSettings.AddLambdaToken(tokenIx);
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
-                    }  
+                    }
                 }
 
                 switch (t.TokenType)
@@ -285,7 +300,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var candidateToken = tokens[tokenIx + 1];
                             if (candidateToken.TokenType == TokenType.Operator && candidateToken.Value == ":")
                             {
-                                if(expressions.ContainsKey(tokenIx - 1) && expressions[tokenIx - 1] is RangeExpression rangeExp)
+                                if (expressions.ContainsKey(tokenIx - 1) && expressions[tokenIx - 1] is RangeExpression rangeExp)
                                 {
                                     wsIx = rangeExp.AddressInfo.WorksheetIx;
                                     extRefIx = Convert.ToInt16(rangeExp.AddressInfo.ExternalReferenceIx);
@@ -298,7 +313,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.ExcelAddress:
                         var a = new ExcelAddressBase(t.Value);
-                        if(a.Addresses?.Count>1)
+                        if (a.Addresses?.Count > 1)
                         {
                             expressions.Add(tokenIx, new MultiRangeExpression(a, parsingContext));
                         }
@@ -309,7 +324,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;
-                    case TokenType.NameValue:                        
+                    case TokenType.NameValue:
                         expressions.Add(tokenIx, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         wsIx = int.MinValue;
                         break;
@@ -320,7 +335,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         else
                         {
-                            extRefIx = (short)(parsingContext.Package.Workbook.ExternalLinks.GetExternalLink(t.Value)+1);
+                            extRefIx = (short)(parsingContext.Package.Workbook.ExternalLinks.GetExternalLink(t.Value) + 1);
                         }
                         wsIx = int.MinValue;
                         break;
@@ -334,8 +349,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             wsIx = parsingContext.Package.Workbook.ExternalLinks.GetPositionByToken(extRefIx, t.Value);
                         }
                         break;
-                    case TokenType.TableName:                                               
-                        ExtractTableAddress(extRefIx, wsIx, tokens, tokenIx, out FormulaTableAddress tableAddress, parsingContext);                        
+                    case TokenType.TableName:
+                        ExtractTableAddress(extRefIx, wsIx, tokens, tokenIx, out FormulaTableAddress tableAddress, parsingContext);
                         expressions.Add(tokenIx, new TableAddressExpression(tableAddress, parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
@@ -348,20 +363,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.ParameterVariable:
                         var paramHandled = false;
-                        foreach(var exp in stack)
+                        foreach (var exp in stack)
                         {
-                            if(exp is VariableFunctionExpression vfeExp)
+                            if (exp is VariableFunctionExpression vfeExp)
                             {
-                                if(vfeExp.VariableIsDeclared(t.Value) && !expressions.ContainsKey(tokenIx))
+                                if (vfeExp.VariableIsDeclared(t.Value) && !expressions.ContainsKey(tokenIx))
                                 {
                                     expressions.Add(tokenIx, new VariableExpression(t.Value, vfeExp, false));
                                     paramHandled = true;
                                 }
                             }
                         }
-                        if(!paramHandled)
+                        if (!paramHandled)
                         {
-                            var scp = parsingContext.VariableStorage.IsEmpty ? rpnTokens.Scope : scope ?? parsingContext.VariableStorage.Peek();
+                            // CHANGED (#2606): resolve lexically instead of against the top of the shared runtime stack.
+                            var scp = scope ?? parsingContext.VariableStorage.PeekLexical() ?? rpnTokens.Scope;
                             expressions.Add(tokenIx, new VariableExpression(t.Value, scp, false));
                         }
                         break;
@@ -370,23 +386,23 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.StartFunctionArguments:
                         FunctionExpression func = default;
-                        if(t.IsLetFunction())
+                        if (t.IsLetFunction())
                         {
                             func = new LetFunctionExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else if(t.IsLambdaFunction())
+                        else if (t.IsLambdaFunction())
                         {
                             func = new LambdaFunctionExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else if(t.IsIsOmittedFunction())
+                        else if (t.IsIsOmittedFunction())
                         {
                             func = new IsOmittedExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else if(t.IsBuiltInFunction(parsingContext.Configuration.FunctionRepository))
+                        else if (t.IsBuiltInFunction(parsingContext.Configuration.FunctionRepository))
                         {
                             func = new FunctionExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || (parsingContext.CurrentWorksheet !=null && parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value)))
+                        else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || (parsingContext.CurrentWorksheet != null && parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value)))
                         {
                             var wbNames = parsingContext.Package.Workbook.Names;
                             var name = wbNames.ContainsKey(t.Value) ? wbNames[t.Value] : null;
@@ -403,15 +419,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 }
                             }
                         }
-                        if (func == null) func = new FunctionExpression(t.Value, parsingContext, tokenIx);             
+                        if (func == null) func = new FunctionExpression(t.Value, parsingContext, tokenIx);
                         expressions.Add(tokenIx, func);
                         var nextTokenIx = 1;
                         var nextToken = tokens[tokenIx + nextTokenIx];
-                        while(nextToken.TokenType == TokenType.OpeningParenthesis || nextToken.TokenType == TokenType.ClosingParenthesis)
+                        while (nextToken.TokenType == TokenType.OpeningParenthesis || nextToken.TokenType == TokenType.ClosingParenthesis)
                         {
                             nextToken = nextToken = tokens[tokenIx + ++nextTokenIx];
                         }
-                        if(tokenIx <= tokens.Count && nextToken.TokenType != TokenType.Function && nextToken.TokenType != TokenType.OpeningParenthesis) // Check that the function has any argument
+                        if (tokenIx <= tokens.Count && nextToken.TokenType != TokenType.Function && nextToken.TokenType != TokenType.OpeningParenthesis) // Check that the function has any argument
                         {
                             func.AddArgument(tokenIx + nextTokenIx - 1);
                         }
@@ -434,14 +450,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.Function:
                         var f = stack.Pop();
-                        if(f.IsLet || f.IsLambda)
+                        if (f.IsLet || f.IsLambda)
                         {
                             parsingContext.VariableStorage.Pop();
                         }
-                        f._endPos= tokenIx;
+                        f._endPos = tokenIx;
                         if (f.IsLambda && isInLambdaCalculation)
                         {
-                            if(lambdaCalculationExpression != null && lambdaCalculationExpression.Tokens.Last().TokenType == TokenType.ClosingParenthesis)
+                            if (lambdaCalculationExpression != null && lambdaCalculationExpression.Tokens.Last().TokenType == TokenType.ClosingParenthesis)
                             {
                                 lambdaCalculationExpression.Tokens.RemoveAt(lambdaCalculationExpression.Tokens.Count - 1);
                             }
@@ -455,7 +471,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                 }
             }
-            parsingContext.VariableStorage.Clear();
+            // The stack depth is restored by VariableStorageManager.EndCompile (issue #2606).
             return expressions;
         }
 
