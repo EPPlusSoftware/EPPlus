@@ -764,6 +764,20 @@ namespace OfficeOpenXml.Drawing.Chart
         const string _minorUnitPath = "c:minorUnit/@val";
         const string _minorUnitCatPath = "c:tickMarkSkip/@val";
         /// <summary>
+        /// Specifies how many tick marks shall be skipped before the next one shall be drawn on a category axis.
+        /// </summary>
+        internal double? TickMarksSkipped
+        {
+            get
+            {
+                return GetXmlNodeDoubleNull(_minorUnitCatPath);
+            }
+            set
+            {
+                SetXmlNodeString(_minorUnitCatPath, ((double)value).ToString(CultureInfo.InvariantCulture));
+            }
+        }
+        /// <summary>
         /// Minor unit for the axis.
         /// Null is automatic
         /// </summary>

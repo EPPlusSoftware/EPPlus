@@ -114,7 +114,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void UpdateValueScale()
         {
-                Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
             if (_isMulti)
             {
                 AxisValues = null;
@@ -129,6 +129,10 @@ namespace EPPlusImageRenderer.Svg
             Min = min ?? 0D;
             Max = max ?? (Values.Count > 0 ? ConvertUtil.GetValueDouble(Values[Values.Count - 1], false, true) : 0D);
             MajorUnit = majorUnit ?? 1;
+            if(AutoAxisType == eAxisType.Cat && Axis.TickMarksSkipped.HasValue)
+            {
+                MajorUnit = Axis.TickMarksSkipped.Value;
+            }
             if (AutoAxisType == eAxisType.Cat && !(IsDateAutoAxis || IsDateScale))
             {
                 MinorUnit = (Axis.MinorUnit ?? MajorUnit) / 2D;
@@ -1512,7 +1516,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                return AddTickmarksLinear(units, dateUnit, tickMarkWidth, type, axisStyle);
+                return AddTickmarksLinear(units, parentUnit, dateUnit, tickMarkWidth, type, axisStyle);
             }
         }
 
@@ -1534,16 +1538,22 @@ namespace EPPlusImageRenderer.Svg
                 switch (Axis.ActualAxisPosition)
                 {
                     case eAxisPosition.Left:
+                        y1 = y2 = GetPositionInPlotarea(d);
+                        x1 = (float)-tickMarkWidthOutside;
+                        x2 = (float)tickMarkWidthInside;
+                        break;
                     case eAxisPosition.Right:
-                        y1 = GetPositionInPlotarea(d);
-                        y2 = y1;
+                        y1 = y2 = GetPositionInPlotarea(d);
                         x1 = (float)-tickMarkWidthInside;
                         x2 = (float)tickMarkWidthOutside;
                         break;
                     case eAxisPosition.Top:
+                        x1 = x2 = GetPositionInPlotarea(d);
+                        y1 = (float)-tickMarkWidthOutside;
+                        y2 = (float)tickMarkWidthInside;
+                        break;
                     case eAxisPosition.Bottom:
-                        x1 = GetPositionInPlotarea(d);
-                        x2 = x1;
+                        x1 = x2 = GetPositionInPlotarea(d);
                         y1 = (float)-tickMarkWidthInside;
                         y2 = (float)tickMarkWidthOutside;
                         break;
@@ -1580,7 +1590,7 @@ namespace EPPlusImageRenderer.Svg
             return tms;
         }
 
-        private List<LineRenderItem> AddTickmarksLinear(double units, eTimeUnit? dateUnit, double tickMarkWidth, eAxisTickMark type, ExcelChartStyleEntry axisStyle)
+        private List<LineRenderItem> AddTickmarksLinear(double units, double parentUnit, eTimeUnit? dateUnit, double tickMarkWidth, eAxisTickMark type, ExcelChartStyleEntry axisStyle)
         {
             var tms = new List<LineRenderItem>();
             GetTickmarkWidths(type, tickMarkWidth, out double tickMarkWidthInside, out double tickMarkWidthOutside);
@@ -1616,11 +1626,11 @@ namespace EPPlusImageRenderer.Svg
             var maxPos = IsCatAx() ? max + 1 : max;
             double d = min;
             maxPos += units * 1e-12; //To avoid rounding errors when comparing d to maxPos, we add a small epsilon value to the comparison.
-            int skipTickmark = (Axis.AxisType == eAxisType.Cat ? (int)(Axis.MinorUnit ?? 1): 1);
+            bool skipTickmark = double.IsNaN(parentUnit) || parentUnit==units;
             while (d <= maxPos)
             {
                 var addPosition = (d - min);
-                if (addPosition % skipTickmark == 0)
+                if (skipTickmark==false || addPosition % parentUnit != 0)
                 {
                     double x1, y1, x2, y2;
                     switch (Axis.ActualAxisPosition)
