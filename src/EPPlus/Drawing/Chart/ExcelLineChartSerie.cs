@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_DataLabel == null)
                 {
-                    _DataLabel = new ExcelChartSerieDataLabel(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _DataLabel = new ExcelChartSerieDataLabel(this, NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
                 return _DataLabel;
             }

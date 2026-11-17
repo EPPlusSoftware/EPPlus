@@ -1121,41 +1121,71 @@ namespace OfficeOpenXml.Drawing.Chart
                     ix++;
                 }
             }
-            if (_chart.IsTypePercentStacked() && IsYAxis)
+            if(_chart.IsTypeStacked() && IsYAxis)
             {
-                CalculateStacked100(values);
+                CalculateStacked(values, false);
+            }
+            else if (_chart.IsTypePercentStacked() && IsYAxis)
+            {
+                CalculateStacked(values, true);
             }
         }
 
-        internal static void CalculateStacked100(List<List<object>> values)
+        internal static void CalculateStacked(List<List<object>> values, bool isPercent)
         {
             for (int i = 0; i < values[0].Count; i++)
             {
                 double rowAbsSum = 0;
-                for (int k = 0; k < values.Count; k++)
+                if (isPercent)
                 {
-                    var v = values[k][i];
-                    if (ConvertUtil.IsExcelNumeric(v))
+                    for (int k = 0; k < values.Count; k++)
                     {
-                        rowAbsSum += Math.Abs(ConvertUtil.GetValueDouble(v, true, true));
+                        var v = values[k][i];
+                        if (ConvertUtil.IsExcelNumeric(v))
+                        {
+                            rowAbsSum += Math.Abs(ConvertUtil.GetValueDouble(v, true, true));
+                        }
                     }
                 }
-                var pv = 0D;
+                double pv = 0D, nv=0D;
                 for (int j=0;j < values.Count;j++)
                 {
                     var val = values[j][i];
                     if (ConvertUtil.IsExcelNumeric(val))
                     {
-                        double d = pv + ConvertUtil.GetValueDouble(val, true, true);
-                        if (rowAbsSum != 0)
+                        double v = ConvertUtil.GetValueDouble(val, true, true);
+                        double d;
+                        if(v > 0)
                         {
-                            values[j][i] = d / rowAbsSum;
-                        }   
+                            d = pv + v;
+                        }
                         else
                         {
-                            values[j][i] = 0;
+                            d = nv + v;
                         }
-                        pv = d;
+                        if (isPercent)
+                        {
+                            if (rowAbsSum != 0)
+                            {
+                                values[j][i] = d / rowAbsSum;
+                            }
+                            else
+                            {
+                                values[j][i] = 0;
+                            }
+                        }
+                        else
+                        {
+                            values[j][i] = d;
+                        }
+                        if (d > 0)
+                        {
+                            pv += v;
+                        }
+                        else
+                        {
+                            nv += v;
+                        }
                     }
                 }
             }

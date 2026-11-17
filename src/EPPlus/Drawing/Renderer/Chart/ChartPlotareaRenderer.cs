@@ -317,9 +317,10 @@ namespace EPPlusImageRenderer.Svg
 
         internal void DrawSeries()
         {
+            int serieCount = 0;
             foreach (var drawer in ChartTypeDrawers)
             {
-                drawer.DrawSeries();
+                serieCount += drawer.DrawSeries(serieCount);                
             }
         }
 

@@ -87,7 +87,7 @@ namespace EPPlusImageRenderer.Svg
             Axis = ax;
             SetMargins(ax.TextBody);
 
-            DefaultFillColor = System.Drawing.Color.Transparent;
+            DefaultFillColor = Color.Transparent;
 
             _values = ax.GetAxisValues(out bool isCount, out bool isNumeric, out bool isDate, out bool isMulti);
             IsCount = isCount;
@@ -590,7 +590,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(ChartRenderer.SecondHorizontalAxis == this && Axis.AxisTextboxPosition == eActualAxisPosition.Top)
                         {
-                            Rectangle.Top = Rectangle.Top - TopMargin;
+                            Rectangle.Top = Rectangle.Top - Rectangle.Height;
                         }
                         else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {

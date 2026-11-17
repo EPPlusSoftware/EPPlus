@@ -1,4 +1,5 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
@@ -53,11 +54,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (chartType.IsTypeStacked())
             {
-                SumSeries(_yValues);
+                //SumSeries(_yValues);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, false);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked100(_yValues);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, true);
             }
 
             CreateTrendlines(chartType, _xValues, _yValues);
@@ -98,7 +100,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 _dropLines.Add(dl);
             }
         }
-        internal override void DrawSeries()
+        internal override int DrawSeries(int startSerie)
         {
             var lct = (ExcelLineChart)_chartType;
             var coords = new List<List<BoundingBox>>();
@@ -118,7 +120,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var dataPoints = new List<BoundingBox>();
                 coords.Add(dataPoints);
 
-                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i);
+                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i, startSerie);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -131,7 +133,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
 
-                CreateDropLine(lct, coords);
+            CreateDropLine(lct, coords);
 
             //Append Trendline render items.
             foreach (var tr in Trendlines)
@@ -156,6 +158,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
+            return _chartType.Series.Count;
         }
         private new void SumSeries(List<List<object>> series)
         {
@@ -167,7 +170,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex)
+        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex, int startSerie)
         {            
             ChartAxisRenderer yAxis, xAxis;
             
@@ -270,7 +273,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if (hasMarker && yValues[i]!=null)
                 {
-                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, serieIndex);
+                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, startSerie+serieIndex);
                 }
                 else
                 {
@@ -297,18 +300,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         if(hasMarker==false)
                         {
-                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt, i);
+                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt, startSerie + i);
                         }
                         else
                         {
                             var mi = markerItems[markerItems.Count - 1];
-                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
+                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
                             markerItems[i].Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
                                 serie.Border.Fill.Style != eFillStyle.NoFill, 
-                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index));
+                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
                         }
                     }
-                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
+                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie), 3);
                     lineDp.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
                     dataPointOverrides.Add(lineDp);
                 }
