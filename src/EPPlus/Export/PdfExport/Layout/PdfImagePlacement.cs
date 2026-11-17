@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     string tip = (picLink as ExcelHyperLink)?.ToolTip;
                     if (picLink is ExcelHyperLink peh && !string.IsNullOrEmpty(peh.ReferenceAddress))
                     {
-                        if (PdfTextMap.TryResolveInternalLink(range.Range.Worksheet, peh.ReferenceAddress, out var ts, out var tr, out var tc))
+                        if (PdfHyperlinkResolver.TryResolveInternalLink(range.Range.Worksheet, peh.ReferenceAddress, out var ts, out var tr, out var tc))
                         {
                             hlSheet = ts; 
                             hlRow = tr;
@@ -234,7 +234,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
                     }
                     else
                     {
-                        hlUri = PdfTextMap.NormalizeExternalTarget(picLink.OriginalString);
+                        hlUri = PdfHyperlinkResolver.NormalizeExternalTarget(picLink.OriginalString);
                         if (hlUri != null)
                         {
                             hlToolTip = !string.IsNullOrEmpty(tip) ? tip : picLink.OriginalString;
