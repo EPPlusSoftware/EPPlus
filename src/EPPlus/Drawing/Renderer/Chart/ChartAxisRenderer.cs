@@ -13,10 +13,8 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Export.Renderer;
-using EPPlus.Fonts.OpenType.GenericFontWidths;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Fonts.OpenType.Utils;
@@ -29,27 +27,16 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Renderer.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.Defaults;
 using OfficeOpenXml.Drawing.Renderer.RenderItems.Textbox;
-using OfficeOpenXml.Drawing.Renderer.TextBox;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Interfaces.Fonts;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
-using System.Text.RegularExpressions;
-using static OfficeOpenXml.ExcelErrorValue;
 
 namespace EPPlusImageRenderer.Svg
 {
@@ -525,6 +512,7 @@ namespace EPPlusImageRenderer.Svg
             {
                 if((Axis.LogBase ?? 1) > 1)
                 {
+                    ShrinkList(Values, AxisMaxItems);
                     ShrinkList(AxisValues, AxisMaxItems);
                 }
 
@@ -590,7 +578,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         if(ChartRenderer.SecondHorizontalAxis == this && Axis.AxisTextboxPosition == eActualAxisPosition.Top)
                         {
-                            Rectangle.Top = Rectangle.Top - Rectangle.Height;
+                           // Rectangle.Top = Rectangle.Top - Rectangle.Height;
                         }
                         else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {
@@ -797,7 +785,7 @@ namespace EPPlusImageRenderer.Svg
             for (var i = 0; i < AxisValues.Count; i++)
             {
                 if (i % labelSkip != 0) continue;
-                var v = Values[i];
+                //var v = Values[i];
                 var t = AxisValues[i];
 
                 //An empty label has no size, as with ITextMeasurer.
@@ -1392,29 +1380,35 @@ namespace EPPlusImageRenderer.Svg
                     var max = ConvertUtil.GetValueDouble(Values.Last());
                     var v = ConvertUtil.GetValueDouble(Values[i]);
                     double majorWidth;
-                    if (Axis.Orientation == eAxisOrientation.MinMax)
+                    if (Axis.LogBase.HasValue)
                     {
-                        if (IsDateAutoAxis || IsDateScale)
-                        {
-                            majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
-                        }
-                        else
-                        {
-                            majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
-                        }
+                        majorWidth = GetPositionInPlotarea(v);
                     }
                     else
                     {
-                        if (IsDateAutoAxis || IsDateScale)
+                        if (Axis.Orientation == eAxisOrientation.MinMax)
                         {
-                            majorWidth = Rectangle.Width * (Max - v) / (Max - Min + 1);
+                            if (IsDateAutoAxis || IsDateScale)
+                            {
+                                majorWidth = Rectangle.Width * (v - Min) / (Max - Min + 1);
+                            }
+                            else
+                            {
+                                majorWidth = Rectangle.Width * (v - Min) / (Max - Min);
+                            }
                         }
                         else
                         {
-                            majorWidth = Rectangle.Width * (Max - v) / (Max - Min);
+                            if (IsDateAutoAxis || IsDateScale)
+                            {
+                                majorWidth = Rectangle.Width * (Max - v) / (Max - Min + 1);
+                            }
+                            else
+                            {
+                                majorWidth = Rectangle.Width * (Max - v) / (Max - Min);
+                            }
                         }
                     }
-
                     return majorWidth;
                 }
                 //}
@@ -2212,7 +2206,7 @@ namespace EPPlusImageRenderer.Svg
 
         private void ShrinkList<T>(List<T> l, int max)
         {
-            while(l.Count > max)
+            while(l.Count > max && l.Count > 2)
             { 
                 var c = l.Count-1;
                 for(int i=1;i<c--;i+=1)
