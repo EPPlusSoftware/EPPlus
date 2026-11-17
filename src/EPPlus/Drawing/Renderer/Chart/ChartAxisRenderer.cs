@@ -114,7 +114,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void UpdateValueScale()
         {
-                Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
             if (_isMulti)
             {
                 AxisValues = null;
@@ -878,7 +878,7 @@ namespace EPPlusImageRenderer.Svg
                 double availableTextLength = majorTickMarkWidth;
                 if (Axis.IsVertical)
                 {
-                    availableTextLength = maxHeight;
+                    availableTextLength = maxWidth + LeftMargin + RightMargin;
                 }
 
                 if (LabelOrientation == eTextOrientation.Horizontal)
@@ -2208,7 +2208,9 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length, options); 
+                //Note: At least for value the axis does not care about plot area size.
+                //Only about Chart area size
+                var res = ValueAxisScaleCalculator.Calculate(min ?? 0, max ?? 0, length.PointToPixel(), options); 
                 if (ax.LogBase > 1)
                 {
                     for (var v = res.Min; Math.Round(v, 12) <= Math.Round(res.Max, 12); v *= res.MajorInterval)
@@ -2219,10 +2221,31 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    for (var v = res.Min; Math.Round(v, 12) <= Math.Round(res.Max, 12); v += res.MajorInterval)
+                    var calcTickCount = (res.Max/ res.MajorInterval) + 1;
+
+                    if (res.TickCount == calcTickCount || calcTickCount < res.TickCount)
                     {
-                        l.Add(v);
-                        if (res.MajorInterval == 0) break;
+                        for (var v = res.Min; Math.Round(v, 12) <= Math.Round(res.Max, 12); v += res.MajorInterval)
+                        {
+                            l.Add(v);
+                            if (res.MajorInterval == 0) break;
+                        }
+                    }
+                    else
+                    {
+                        //The actual tickmark count can't be fit. Take every other aka double majorInterval
+                        int counter = 0;
+                        var v = res.Min;
+                        res.MajorInterval *= 2;
+
+                        for (int i = 0; i< res.TickCount; i++)
+                        {
+                            l.Add(v);
+                            if (res.MajorInterval == 0) break;
+
+                            v += res.MajorInterval;
+                            counter++;
+                        }
                     }
                 }
 

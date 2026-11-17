@@ -1,8 +1,10 @@
 ﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
 using Microsoft.VisualBasic;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 internal class ValueAxisScaleCalculator
 {
@@ -14,14 +16,117 @@ internal class ValueAxisScaleCalculator
         }
         else
         {
+            var altAxis = AlternativeCalculation(dataMin, dataMax);
             return GetNumberScale(ref dataMin, ref dataMax, chartHeightPixels, ref axisOptions);
         }
     }
 
+    private static AxisScale AlternativeCalculation(double dataMin,double dataMax)
+    {
+
+        if (dataMax < dataMin)
+        {
+            var tmp = dataMax;
+            dataMin = dataMax;
+            dataMin = tmp;
+        }
+        else if(dataMax == dataMin)
+        {
+            //Increase 1%
+            dataMax *= 1.01d;
+            //Decrease 1%
+            dataMin *= 0.99d;
+        }
+
+        var padding = 0.05d * (dataMax - dataMin);
+
+
+        if(dataMax > 0)
+        {
+            dataMax += padding;
+        }
+        else if( dataMax < 0)
+        {
+            dataMax -= padding;
+        }
+        if(dataMin > 0)
+        {
+            dataMin += padding;
+        }
+        else if(dataMin < 0)
+        {
+            dataMin -= padding;
+        }
+
+        if(dataMin == 0 && dataMax == 0)
+        {
+            dataMax = 1;
+        }
+
+        double power = Math.Log(dataMax - dataMin) / Math.Log(10);
+        var scale = Math.Pow(10, power - ((int)power));
+
+        if(scale <= 2.0d)
+        {
+            scale = 0.2d;
+        }
+        else if(scale <= 5)
+        {
+            scale = 0.5d;
+        }
+        else if (scale <= 7.5d)
+        {
+            scale = 1;
+        }
+        else
+        {
+            scale = 2.5d;
+        }
+
+        var multScale = GetScaleNumber(scale * Math.Pow(10, power), true);
+
+        var outMin = Math.Floor(dataMin / multScale) * multScale;
+        var outMax = Math.Ceiling(dataMax / multScale) * multScale;
+        var majorInterval = multScale;
+
+        var outTickCount = (int)Math.Round((outMax - dataMin) / majorInterval);
+
+        return new AxisScale
+        {
+            Min = outMin,
+            Max = outMax,
+            MajorInterval = majorInterval,
+            MinorInterval = majorInterval / 5,
+            TickCount = outTickCount,
+        };
+
+        //var power = log(max - min) / log(10)
+        //var scale = 10 ^ (power - int(power))
+
+
+        //if scale <= 2.5 let scale = .25
+        //else if scale <= 5 let scale = .5
+        //else if scale <= 7.5 let scale = 1
+        //else let scale = 2.5
+
+
+        //multiply scale by 10 ^ int(power)
+
+
+        //return {
+        //        min: scale* floor(min / scale),
+        //max: scale* ceil(max / scale),
+        //scale: scale}
+
+    }
+
     private static AxisScale GetNumberScale(ref double dataMin, ref double dataMax, double chartHeightPixels, ref AxisOptions axisOptions)
     {
-        var desiredTicks = chartHeightPixels < 200 ? 4 :
-                               chartHeightPixels < 400 ? 5 : 6;
+        //According to Peltier tech max is decided by this formula and then adding one Major axis above it
+        //var maxY = dataMax + (dataMax - dataMin)/20d;
+
+        var desiredTicks = chartHeightPixels < 200 ? 2 : chartHeightPixels < 295 ? 3 : 
+                               chartHeightPixels < 448 ? 5 : 6;
 
         if (axisOptions == null)
         {
@@ -176,7 +281,7 @@ internal class ValueAxisScaleCalculator
                 }
 
                 // Calculate interval
-                roughInterval = (axisMax - axisMin) / desiredTicks;
+                roughInterval = (dataMax - axisMin) / desiredTicks;
                 scaleInterval = GetScaleNumber(roughInterval, true);
 
                 if (!axisOptions.LockedMin.HasValue) axisMin = axisMin == 0 ? 0 : Math.Floor(axisMin / scaleInterval) * scaleInterval;
@@ -200,7 +305,7 @@ internal class ValueAxisScaleCalculator
                 axisMax = dataMax;
             }
 
-            var tickCount = (int)Math.Round((axisMax - axisMin) / scaleInterval) + 1;
+            var tickCount = (int)Math.Round((axisMax - scaleInterval) / scaleInterval);
             return new AxisScale
             {
                 Min = axisOptions.LockedMin ?? axisMin,
