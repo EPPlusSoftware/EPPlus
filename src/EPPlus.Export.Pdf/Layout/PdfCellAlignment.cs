@@ -96,14 +96,14 @@ namespace EPPlus.Export.Pdf.Layout
             double leftInset = align.IconSize > 0d ? align.IconSize + 3d : 0d;
             if (align.TextRotation != 0 && !align.IsVertical)
             {
-                return CalculateRotatedAlignment(align, textLength, textHeight, firstLineAscent, x, y, width, height, rightMargin, bottomMargin, leftInset);
+                return CalculateRotatedAlignment(align, text, textLength, textHeight, firstLineAscent, x, y, width, height, rightMargin, bottomMargin, leftInset);
             }
             double newX = CalculateHorizontalAlignment(align, text, textLength, x, width, rightMargin, leftInset);
             double newY = CalculateVerticalAlignment(align, textHeight, firstLineAscent, lastLineAscent, y, height, 0d);
             return CalculatePositionFromRotation(align, textLength, newX, newY);
         }
 
-        internal static Vector2 CalculateRotatedAlignment(PdfCellAlignmentData align, double textLength, double textHeight, double firstLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin, double leftInset = 0d)
+        internal static Vector2 CalculateRotatedAlignment(PdfCellAlignmentData align, string text, double textLength, double textHeight, double firstLineAscent, double x, double y, double width, double height, double rightMargin, double bottomMargin, double leftInset = 0d)
         {
             x += leftInset;
             width -= leftInset;
@@ -131,13 +131,13 @@ namespace EPPlus.Export.Pdf.Layout
             double blockWidth = maxX - minX;
             double blockHeight = maxY - minY;
             double bx;
-            switch (align.HorizontalAlignment)
+            switch (ResolveRotatedHorizontalAlignment(align, text))
             {
                 case ExcelHorizontalAlignment.Left:
                     bx = x + rightMargin; break;
                 case ExcelHorizontalAlignment.Right:
                     bx = x + width - blockWidth - rightMargin; break;
-                default: // Center / General
+                default: // Center / CenterContinuous
                     bx = x + (width - blockWidth) / 2d; break;
             }
             double by;
@@ -151,6 +151,21 @@ namespace EPPlus.Export.Pdf.Layout
                     by = y + (height - blockHeight) / 2d; break;
             }
             return new Vector2(bx - minX, by - minY);
+        }
+
+        private static ExcelHorizontalAlignment ResolveRotatedHorizontalAlignment(PdfCellAlignmentData align, string text)
+        {
+            if (align.HorizontalAlignment != ExcelHorizontalAlignment.General)
+            {
+                return align.HorizontalAlignment;
+            }
+            if (double.TryParse(text, out double value))
+            {
+                return ExcelHorizontalAlignment.Right;
+            }
+            int rot = align.TextRotation;
+            bool left = (rot > 0 && rot < 90) || rot == -90;
+            return left ? ExcelHorizontalAlignment.Left : ExcelHorizontalAlignment.Right;
         }
     }
 }
