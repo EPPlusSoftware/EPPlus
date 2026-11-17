@@ -359,7 +359,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         }
                         else
                         {
-                            rect.Left = yPrevPos;
+                            rect.Left = yPos;
                             rect.Width = yPrevPos - yPos;
                         }
                     }

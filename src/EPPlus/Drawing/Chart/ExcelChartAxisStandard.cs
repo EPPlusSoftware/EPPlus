@@ -1110,7 +1110,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         if (ct.YAxis.Id == Id)
                         {
                             //AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
-                            serie.AddFromSerie(l, false, false, null, out isMultiLevel, pl);
+                            serie.AddFromSerie(l, false, false, null, out isMultiLevel);
                         }
                         else if (ct.XAxis.Id == Id)
                         {

@@ -335,7 +335,7 @@ namespace OfficeOpenXml.Drawing.Chart
             AddFromSerie(l, useX, useString, null, out isMultiLevel);
             return l;
         }
-        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, out bool isMultiLevel, List<object> prevList = null, bool doSort=false)
+        internal void AddFromSerie(List<object> list, bool useX, bool useText, string[] headerInfo, out bool isMultiLevel, bool doSort=false)
         {
             isMultiLevel = false;
             var values = new List<object>[] {new List<object>(), new List<object>()};
@@ -345,12 +345,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (useX)
                 {
                     var max = GetCount(Series, NumberLiteralsY, StringLiteralsY)??0;
-                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, prevList, XSeries, NumberLiteralsX, StringLiteralsX, max);
+                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, XSeries, NumberLiteralsX, StringLiteralsX, max);
                 }
                 else
                 {
                     var max = GetCount(XSeries, NumberLiteralsX, StringLiteralsX) ?? 0;
-                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, prevList, Series, NumberLiteralsY, StringLiteralsY, max);
+                    AddSerieValues(list, useText, headerInfo, ref isMultiLevel, Series, NumberLiteralsY, StringLiteralsY, max);
                 }
             }
             else
@@ -358,8 +358,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 bool isMultiX=false, isMultiY=false;
                 var maxY = GetCount(Series, NumberLiteralsY, StringLiteralsY) ?? 0;
                 var maxX = GetCount(XSeries, NumberLiteralsX, StringLiteralsX) ?? 0;
-                AddSerieValues(values[1], useText, headerInfo, ref isMultiX, prevList, Series, NumberLiteralsY, StringLiteralsY, maxX);
-                AddSerieValues(values[0], useText, headerInfo, ref isMultiY, prevList, XSeries, NumberLiteralsX, StringLiteralsX, maxY);
+                AddSerieValues(values[1], useText, headerInfo, ref isMultiX, Series, NumberLiteralsY, StringLiteralsY, maxX);
+                AddSerieValues(values[0], useText, headerInfo, ref isMultiY, XSeries, NumberLiteralsX, StringLiteralsX, maxY);
 
                 var sorted = values[0]
                     .Zip(values[1], (k, v) => (Key: k, Value: v))
@@ -392,7 +392,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void AddSerieValues(List<object> list, bool useText, string[] headerInfo, ref bool isMultiLevel, List<object> prevList, string address, double[] numberLiterals, string[] stringLiterals, int maxOtherSeries)
+        private void AddSerieValues(List<object> list, bool useText, string[] headerInfo, ref bool isMultiLevel, string address, double[] numberLiterals, string[] stringLiterals, int maxOtherSeries)
         {
             var isStacked = false;//_chart.IsTypeStacked() && prevList != null;
 
@@ -403,10 +403,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 for (int i = 0; i < numberLiterals.Length; i++)
                 {
                     var n = numberLiterals[i];
-                    if (isStacked)
-                    {
-                        n += GetSerieValue(prevList, n, i);
-                    }
                     list.Add(n);
                     if (list.Count >= count)
                     {
@@ -430,11 +426,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 var a = new ExcelAddressBase(address);
                 if (a.ExternalReferenceIndex > 0)
                 {
-                    GetExternalValues(list, useText, prevList, isStacked, a, count, out isMultiLevel);
+                    GetExternalValues(list, useText, a, count, out isMultiLevel);
                 }
                 else
                 {
-                    GetInternalValues(list, useText, headerInfo, prevList, isStacked, a, count, out isMultiLevel);
+                    GetInternalValues(list, useText, headerInfo, a, count, out isMultiLevel);
                 }
             }
         }
@@ -457,12 +453,12 @@ namespace OfficeOpenXml.Drawing.Chart
             return null;
         }
 
-        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count, out bool isMultiLevel)
+        private void GetInternalValues(List<object> list, bool useText, string[] headerInfo, ExcelAddressBase a, int? count, out bool isMultiLevel)
         {
             var ws = _chart.WorkSheet.Workbook.Worksheets[a.WorkSheetName];
             if (ws != null)
             {
-                GetValuesFromWorksheet(list, useText, headerInfo, prevList, isStacked, a, ws, count, out isMultiLevel);
+                GetValuesFromWorksheet(list, useText, headerInfo, a, ws, count, out isMultiLevel);
             }
             else
             {
@@ -470,7 +466,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, List<object> prevList, bool isStacked, ExcelAddressBase a, ExcelWorksheet ws, int? count, out bool isMultiLevel)
+        private void GetValuesFromWorksheet(List<object> list, bool useText, string[] headerInfo, ExcelAddressBase a, ExcelWorksheet ws, int? count, out bool isMultiLevel)
         {
             var range = ws.Cells[a.Address];
             var i = 0;
@@ -514,11 +510,6 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         double d = ConvertUtil.GetValueDouble(v.Value, false, true);
                         if (double.IsNaN((double)d)) d = 0;
-                        if (isStacked)
-                        {
-                            var pv = GetSerieValue(prevList, d, i++);
-                            d += pv;
-                        }
                         o = d;
                     }
 
@@ -534,7 +525,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private void GetExternalValues(List<object> list, bool useText, List<object> prevList, bool isStacked, ExcelAddressBase a, int? count, out bool isMultiLevel)
+        private void GetExternalValues(List<object> list, bool useText, ExcelAddressBase a, int? count, out bool isMultiLevel)
         {
             var wb = _chart.WorkSheet.Workbook;
             isMultiLevel = false;
@@ -575,11 +566,6 @@ namespace OfficeOpenXml.Drawing.Chart
                             {
                                 double d = ConvertUtil.GetValueDouble(v.Value, false, true);
                                 if (double.IsNaN((double)d)) d = 0;
-                                if (isStacked)
-                                {
-                                    var pv = GetSerieValue(prevList, d, i++);
-                                    d += pv;
-                                }
                                 if (isMultiLevel)
                                 {
                                     arr[c] = d;
