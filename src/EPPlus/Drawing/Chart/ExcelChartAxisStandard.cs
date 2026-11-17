@@ -1123,21 +1123,22 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             if(_chart.IsTypeStacked() && IsYAxis)
             {
-                CalculateStacked(values, false);
+                CalculateStacked(values, false, _chart.IsTypeLine());
             }
             else if (_chart.IsTypePercentStacked() && IsYAxis)
             {
-                CalculateStacked(values, true);
+                CalculateStacked(values, true, _chart.IsTypeLine());
             }
         }
 
-        internal static void CalculateStacked(List<List<object>> values, bool isPercent)
+        internal static void CalculateStacked(List<List<object>> values, bool isPercent, bool isLine)
         {
             for (int i = 0; i < values[0].Count; i++)
             {
                 double rowAbsSum = 0;
                 if (isPercent)
                 {
+                    //Get the sum of the absolute values for the row for percent stacked charts
                     for (int k = 0; k < values.Count; k++)
                     {
                         var v = values[k][i];
@@ -1147,6 +1148,8 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                     }
                 }
+
+                //Calculate the stacked value for each series in the row. Positive and negative values are stacked separately, to show negative values from 0.
                 double pv = 0D, nv=0D;
                 for (int j=0;j < values.Count;j++)
                 {
@@ -1155,7 +1158,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         double v = ConvertUtil.GetValueDouble(val, true, true);
                         double d;
-                        if(v > 0)
+                        if(v > 0 || isLine)
                         {
                             d = pv + v;
                         }
@@ -1178,7 +1181,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             values[j][i] = d;
                         }
-                        if (d > 0)
+                        if (d > 0 || isLine)
                         {
                             pv += v;
                         }

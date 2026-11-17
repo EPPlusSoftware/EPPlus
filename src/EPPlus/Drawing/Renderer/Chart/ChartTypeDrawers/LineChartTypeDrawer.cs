@@ -55,11 +55,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             if (chartType.IsTypeStacked())
             {
                 //SumSeries(_yValues);
-                ExcelChartAxisStandard.CalculateStacked(_yValues, false);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, false, true);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked(_yValues, true);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, true, true);
             }
 
             CreateTrendlines(chartType, _xValues, _yValues);
