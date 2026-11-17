@@ -21,6 +21,7 @@ using OfficeOpenXml.Export.PdfExport.RowResize;
 using OfficeOpenXml.Export.PdfExport.Settings;
 using OfficeOpenXml.Export.PdfExport.TextMapping;
 using OfficeOpenXml.Export.PdfExport.TextShaping;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,26 +34,31 @@ namespace OfficeOpenXml.Export.PdfExport
     /// Collects the text/layout information required to render a workbook, a set of worksheets or a
     /// set of ranges as a PDF document.
     /// 
-    /// The constructors only store the input - they do not perform any work. Call <see cref="Save(string)"/>
-    /// or <see cref="Save(Stream)"/> to actually build the PDF and write it to disk/stream.
+    /// The constructors only store the input - they do not perform any work. Call <see cref="Save(string)"/>,
+    /// <see cref="Save(Stream)"/> or one of the SaveAsync methods to actually build the PDF and write it.
+    /// An instance can only be saved once.
     /// </summary>
-    internal class EPPlusToPdfWriter
+    internal partial class EPPlusToPdfWriter
     {
         internal PdfDictionaries _dictionaries = new PdfDictionaries();
         private bool _addTextForHeadings = true;
         private static bool IsFullEdition
         {
             get
-            { 
-                return (int) ExcelPackage.License.LicenseType == (int) EPPlusLicenseType.Commercial;
+            {
+                return (int)ExcelPackage.License.LicenseType == (int)EPPlusLicenseType.Commercial;
             }
         }
 
         // Captures which "build" method to run (worksheet collection, single worksheet or range
         // collection) together with the data it needs, but NOT the destination (file/stream).
-        // The destination is supplied later, when Save(...) is called.
+        // The build returns the finished layout. Any temporary comments/notes worksheet created while
+        // building is registered in _sheetsWithTemporaryComments as soon as it exists, and is removed
+        // by the Save methods, also when the build or the write fails.
         private readonly PdfPageSettings _pageSettings;
-        private readonly Action<Action<Transform>> _build;
+        private readonly Func<Transform> _build;
+        private readonly List<PdfWorksheet> _sheetsWithTemporaryComments = new List<PdfWorksheet>();
+        private bool _isUsed;
 
         public EPPlusToPdfWriter() { }
 
@@ -64,13 +70,13 @@ namespace OfficeOpenXml.Export.PdfExport
         {
             _pageSettings = pageSettings;
             var worksheets = workbook.Worksheets.ToArray();
-            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
+            _build = () => HandleWorksheetCollection(pageSettings, worksheets);
         }
 
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
             _pageSettings = pageSettings;
-            _build = writePdf => HandleWorksheetCollection(pageSettings, worksheets, writePdf);
+            _build = () => HandleWorksheetCollection(pageSettings, worksheets);
         }
 
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, List<ExcelWorksheet> worksheets)
@@ -78,45 +84,23 @@ namespace OfficeOpenXml.Export.PdfExport
         {
         }
 
-        private void HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets, Action<Transform> writePdf)
+        private Transform HandleWorksheetCollection(PdfPageSettings pageSettings, ExcelWorksheet[] worksheets)
         {
-            // Match the single-worksheet path: resolve the default font before building.
-            pageSettings.defaultFontName = worksheets[0].Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-            pageSettings.AdditionalContent = AddAdditionalContent();
-            PdfWorksheet[] pdfSheets = null;
-            try
+            InitDocumentSettings(pageSettings, worksheets[0].Workbook);
+
+            // Collect text for every worksheet.
+            var pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
+
+            BuildSubsets(pageSettings);
+
+            foreach (var pdfSheet in pdfSheets)
             {
-                // Collect text for every worksheet.
-                pdfSheets = GetPdfWorksheets(pageSettings, worksheets);
-
-                BuildSubsets(pageSettings);
-
-                foreach (var pdfSheet in pdfSheets)
-                {
-                    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                }
-
-                // One layout spanning all sheets and their ranges.
-                var layout = GetLayout(pageSettings, pdfSheets);
-                writePdf(layout);
+                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+                PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
             }
-            finally
-            {
-                // Clean up the temporary comments/notes worksheet created for each sheet,
-                // so the source workbook isn't permanently mutated by the PDF export.
-                if (pdfSheets != null)
-                {
-                    foreach (var pdfSheet in pdfSheets)
-                    {
-                        if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
-                        {
-                            pdfSheet.Worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
-                            pdfSheet.CommentsAndNotesSheet = null;
-                        }
-                    }
-                }
-            }
+
+            // One layout spanning all sheets and their ranges.
+            return GetLayout(pageSettings, pdfSheets);
         }
 
         //
@@ -126,7 +110,7 @@ namespace OfficeOpenXml.Export.PdfExport
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
             _pageSettings = pageSettings;
-            _build = writePdf => BuildPdf(pageSettings, worksheet, writePdf);
+            _build = () => BuildPdf(pageSettings, worksheet);
         }
 
         private static string AddAdditionalContent()
@@ -136,40 +120,22 @@ namespace OfficeOpenXml.Export.PdfExport
             return "null";
         }
 
-        private void BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet, Action<Transform> writePdf)
+        private Transform BuildPdf(PdfPageSettings pageSettings, ExcelWorksheet worksheet)
         {
-            GetLicenseInfo(pageSettings, worksheet.Workbook);
-            pageSettings.defaultFontName = worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-            pageSettings.AdditionalContent = AddAdditionalContent();
-            PdfWorksheet pdfSheet = null;
-            try
-            {
-                // Collect Text (GetPdfWorksheet collects into the builder via SetTextMap -> AddFont)
-                pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
+            InitDocumentSettings(pageSettings, worksheet.Workbook);
 
-                // Build subsets once, then shape
-                BuildSubsets(pageSettings);
-                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            // Collect Text (GetPdfWorksheet collects into the builder via SetTextMap -> AddFont)
+            var pdfSheet = GetPdfWorksheet(pageSettings, worksheet);
 
-                // Auto-Fit Rows
-                PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+            // Build subsets once, then shape
+            BuildSubsets(pageSettings);
+            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
 
-                // Create Layout
-                var layout = GetLayout(pageSettings, pdfSheet);
+            // Auto-Fit Rows
+            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
 
-                // Write Pdf Document
-                writePdf(layout);
-            }
-            finally
-            {
-                // Clean up the temporary worksheet used to build the comments/notes pages,
-                // so the source workbook isn't permanently mutated by the PDF export.
-                if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
-                {
-                    worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
-                    pdfSheet.CommentsAndNotesSheet = null;
-                }
-            }
+            // Create Layout
+            return GetLayout(pageSettings, pdfSheet);
         }
 
         //
@@ -179,38 +145,23 @@ namespace OfficeOpenXml.Export.PdfExport
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
             _pageSettings = pageSettings;
-            _build = writePdf => BuildPdfFromRange(pageSettings, range, writePdf);
+            _build = () => BuildPdfFromRange(pageSettings, range);
         }
 
-        private void BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range, Action<Transform> writePdf)
+        private Transform BuildPdfFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
         {
-            GetLicenseInfo(pageSettings, range.Worksheet.Workbook);
-            pageSettings.defaultFontName = range.Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
-            pageSettings.AdditionalContent = AddAdditionalContent();
-            PdfWorksheet pdfSheet = null;
-            try
-            {
-                pdfSheet = GetPdfWorksheet(pageSettings, range);
-                BuildSubsets(pageSettings);
-                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                var layout = GetLayout(pageSettings, pdfSheet);
-                writePdf(layout);
-            }
-            finally
-            {
-                if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
-                {
-                    pdfSheet.Worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
-                    pdfSheet.CommentsAndNotesSheet = null;
-                }
-            }
+            InitDocumentSettings(pageSettings, range.Worksheet.Workbook);
+            var pdfSheet = GetPdfWorksheet(pageSettings, range);
+            BuildSubsets(pageSettings);
+            ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+            PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+            return GetLayout(pageSettings, pdfSheet);
         }
 
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
             _pageSettings = pageSettings;
-            _build = writePdf => HandleRangeCollection(pageSettings, ranges, writePdf);
+            _build = () => HandleRangeCollection(pageSettings, ranges);
         }
 
         public EPPlusToPdfWriter(PdfPageSettings pageSettings, List<ExcelRangeBase> ranges)
@@ -218,41 +169,30 @@ namespace OfficeOpenXml.Export.PdfExport
         {
         }
 
-        private void HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges, Action<Transform> writePdf)
+        private Transform HandleRangeCollection(PdfPageSettings pageSettings, ExcelRangeBase[] ranges)
         {
-            GetLicenseInfo(pageSettings, ranges[0].Worksheet.Workbook);
-            pageSettings.defaultFontName = ranges[0].Worksheet.Workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
+            InitDocumentSettings(pageSettings, ranges[0].Worksheet.Workbook);
+
+            var pdfSheets = GetPdfWorksheets(pageSettings, ranges);
+
+            BuildSubsets(pageSettings);
+
+            foreach (var pdfSheet in pdfSheets)
+            {
+                ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
+                PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
+            }
+
+            return GetLayout(pageSettings, pdfSheets);
+        }
+
+        // Document-level settings shared by all build paths: metadata/license info, default font
+        // and additional content. Previously the worksheet-collection path did not set the metadata.
+        private void InitDocumentSettings(PdfPageSettings pageSettings, ExcelWorkbook workbook)
+        {
+            GetLicenseInfo(pageSettings, workbook);
+            pageSettings.defaultFontName = workbook.ThemeManager.GetOrCreateTheme().FontScheme.MinorFont[0].Typeface;
             pageSettings.AdditionalContent = AddAdditionalContent();
-            PdfWorksheet[] pdfSheets = null;
-            try
-            {
-                pdfSheets = GetPdfWorksheets(pageSettings, ranges);
-
-                BuildSubsets(pageSettings);
-
-                foreach (var pdfSheet in pdfSheets)
-                {
-                    ShapeTextInPdfWorksheet(pageSettings, pdfSheet);
-                    PdfCalculateRowHeight.ResizeRowHeights(pdfSheet);
-                }
-
-                var layout = GetLayout(pageSettings, pdfSheets);
-                writePdf(layout);
-            }
-            finally
-            {
-                if (pdfSheets != null)
-                {
-                    foreach (var pdfSheet in pdfSheets)
-                    {
-                        if (pdfSheet != null && pdfSheet.CommentsAndNotesSheet != null)
-                        {
-                            pdfSheet.Worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
-                            pdfSheet.CommentsAndNotesSheet = null;
-                        }
-                    }
-                }
-            }
         }
 
         //
@@ -265,10 +205,18 @@ namespace OfficeOpenXml.Export.PdfExport
         /// </summary>
         public void Save(string fileName)
         {
-            if (_build == null)
-                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
-
-            _build(WriteToFile(_pageSettings, fileName));
+            // Validate before building, so an invalid path is reported before the (possibly long) layout build.
+            var fullPath = FileHelper.ValidateOutputFilePath(fileName, nameof(fileName));
+            BeginSave();
+            try
+            {
+                var layout = _build();
+                new ExcelPdf().CreatePdf(PdfDocumentSettings.From(_pageSettings), _dictionaries, layout, fullPath);
+            }
+            finally
+            {
+                DeleteTemporarySheets();
+            }
         }
 
         /// <summary>
@@ -276,10 +224,42 @@ namespace OfficeOpenXml.Export.PdfExport
         /// </summary>
         public void Save(Stream stream)
         {
-            if (_build == null)
-                throw new InvalidOperationException("This PdfCatalog instance was not constructed with any input to build a PDF from.");
+            BeginSave();
+            try
+            {
+                var layout = _build();
+                new ExcelPdf().CreatePdf(PdfDocumentSettings.From(_pageSettings), _dictionaries, layout, stream);
+            }
+            finally
+            {
+                DeleteTemporarySheets();
+            }
+        }
 
-            _build(WriteToStream(_pageSettings, stream));
+        // An instance can only build once: _dictionaries, _addTextForHeadings and the page settings
+        // are mutated during the build.
+        private void BeginSave()
+        {
+            if (_build == null)
+                throw new InvalidOperationException("This EPPlusToPdfWriter instance was not constructed with any input to build a PDF from.");
+            if (_isUsed)
+                throw new InvalidOperationException("An EPPlusToPdfWriter instance can only be saved once.");
+            _isUsed = true;
+        }
+
+        // Removes the temporary comments/notes worksheets, so the source workbook isn't
+        // permanently mutated by the PDF export.
+        private void DeleteTemporarySheets()
+        {
+            foreach (var pdfSheet in _sheetsWithTemporaryComments)
+            {
+                if (pdfSheet.CommentsAndNotesSheet != null)
+                {
+                    pdfSheet.Worksheet.Workbook.Worksheets.Delete(pdfSheet.CommentsAndNotesSheet);
+                    pdfSheet.CommentsAndNotesSheet = null;
+                }
+            }
+            _sheetsWithTemporaryComments.Clear();
         }
 
         internal PdfCellCollection GetCellCollectionFromRange(PdfPageSettings pageSettings, ExcelRangeBase range)
@@ -317,16 +297,6 @@ namespace OfficeOpenXml.Export.PdfExport
             pageSettings.LicenseHolder = string.IsNullOrEmpty(ExcelPackage.License.LegalName)
                                          ? "Unnamed License holder using EPPLus"
                                          : ExcelPackage.License.LegalName;
-        }
-
-        private Action<Transform> WriteToFile(PdfPageSettings pageSettings, string fileName)
-        {
-            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, fileName);
-        }
-
-        private Action<Transform> WriteToStream(PdfPageSettings pageSettings, Stream stream)
-        {
-            return layout => new ExcelPdf().CreatePdf(PdfDocumentSettings.From(pageSettings), _dictionaries, layout, stream);
         }
 
         //Create Layout Methods
@@ -533,7 +503,6 @@ namespace OfficeOpenXml.Export.PdfExport
         private void GetPrintTitles(PdfPageSettings pageSettings, PdfWorksheet pdfSheet)
         {
             var worksheet = pdfSheet.Worksheet;
-            //Check the worksheet's _xlnm.Print_Titles defined name.
             // Check the worksheet's _xlnm.Print_Titles defined name.
             if (worksheet.Names.ContainsKey("_xlnm.Print_Titles"))
             {
@@ -624,6 +593,8 @@ namespace OfficeOpenXml.Export.PdfExport
                 cnPageSettings.CommentsAndNotes = CommentsAndNotes.None;
                 cnPageSettings.ShowHeadings = false;
                 pdfSheet.CommentsAndNotesSheet = PdfCommentsAndNotes.CreateCommentAndNotesPages(pdfSheet.CommentsAndNotesCollections, pdfSheet.Worksheet);
+                // Register immediately, so the sheet is removed even if anything below or later in the build throws.
+                _sheetsWithTemporaryComments.Add(pdfSheet);
                 pdfSheet.CommentsAndNotes = new PdfRange(pdfSheet.CommentsAndNotesSheet.Dimension, false);
                 pdfSheet.CommentsAndNotes = GetMaps(cnPageSettings, pdfSheet, pdfSheet.CommentsAndNotes);
             }
