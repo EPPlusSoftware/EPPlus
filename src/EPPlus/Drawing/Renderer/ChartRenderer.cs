@@ -472,7 +472,7 @@ namespace EPPlusImageRenderer
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) - ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
@@ -597,7 +597,7 @@ namespace EPPlusImageRenderer
             item.Rectangle.Width = Bounds.Width;
             item.Rectangle.Height = Bounds.Height;            
             item.Rectangle.Style.SetDrawingPropertiesFill(Theme, Chart.Fill, Chart.StyleManager.Style?.ChartArea.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, item.GetDefaultFillColor());
-            item.Rectangle.Name = "Plotarea";
+            item.Rectangle.Name = "ChartArea";
             var borderstyle = Theme.FormatScheme.BorderStyle[0];
 
             //First check
@@ -620,7 +620,7 @@ namespace EPPlusImageRenderer
                 Theme,
                 Chart.Border,
                 reference?.Color,
-                Chart.Border.Fill.Style != eFillStyle.NoFill,
+                true/*Chart.Border.Fill.Style != eFillStyle.NoFill*/,
                 () => item.GetDefaultBorderColor(), 0.75d);
 
             item.Rectangle.RoundedCornerRadius = Chart.RoundedCorners ? 9 : 0;

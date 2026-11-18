@@ -1391,5 +1391,16 @@ namespace EPPlusTest.PDF
             string path = _pdfPath + "PdfConditionalFormattingTest3.pdf";
             p.Workbook.SaveAsPdf(path);
         }
+
+        [TestMethod]
+        public void PdfRotatedTextTest1()
+        {
+            using var p = OpenTemplatePackage("PdfRotatedText.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.ShowGridLines = true;
+            ws.PrinterSettings.PaperSize = ePaperSize.A4;
+            string path = _pdfPath + "PdfRotatedText1.pdf";
+            p.Workbook.SaveAsPdf(path);
+        }
     }
 }

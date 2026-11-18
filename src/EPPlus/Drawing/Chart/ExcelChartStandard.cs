@@ -890,7 +890,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _chartXmlHelper.GetXmlNodeBool(_roundedCornersPath, true);
+                return _chartXmlHelper.GetXmlNodeBool(_roundedCornersPath, true, false);
             }
             set
             {
