@@ -243,7 +243,7 @@ namespace EPPlusImageRenderer.Svg
                 haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight + TopMargin;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? TopMargin) + haHeight;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos, int index)
@@ -317,9 +317,10 @@ namespace EPPlusImageRenderer.Svg
 
         internal void DrawSeries()
         {
+            int serieCount = 0;
             foreach (var drawer in ChartTypeDrawers)
             {
-                drawer.DrawSeries();
+                serieCount += drawer.DrawSeries(serieCount);                
             }
         }
 

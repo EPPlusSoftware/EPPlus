@@ -57,18 +57,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if(chartType.IsTypeStacked())
             {
-                SumSeries(_valValues);
+                //SumSeries(_valValues);
+                ExcelChartAxisStandard.CalculateStacked(_valValues, false, false);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked100(_valValues);
+                ExcelChartAxisStandard.CalculateStacked(_valValues, true, false);
             }
 
             CreateTrendlines(chartType, _catValues, _valValues);
             CreateErrorBars(chartType, _catValues, _valValues);            
         }
 
-        internal override void DrawSeries()
+        internal override int DrawSeries(int startSerie)
         {
             var isBar = _chartType.IsTypeBar();
             var count = Math.Min(_catValues.Count, _valValues.Count);
@@ -79,7 +80,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var dataPoints = new List<BoundingBox>();
 
                 //Add the bar or column.
-                AddBar((ExcelBarChart)_chartType, serie, _catValues, _valValues, dataPoints, count, i);
+                AddBar((ExcelBarChart)_chartType, serie, _catValues, _valValues, dataPoints, count, i, startSerie);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -167,11 +168,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
+            return _chartType.Series.Count;
         }
 
         double chartBaseY = double.NaN;
 
-        private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position)
+        private void AddBar(ExcelBarChart chartType, ExcelBarChartSerie serie, List<List<object>> catSeries, List<List<object>> valSeries, List<BoundingBox> dataPoints, int seriesCount, int position, int seriesStart)
         {
             GetAxis(chartType, out var yAxis, out var xAxis);
             ChartAxisRenderer valAx, catAx;
@@ -332,8 +334,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 if (position > 0 && (isStacked || isStacked100))
                 {
                     //Stacked
-                    var pYValues = valSeries[position - 1];
-                    var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
+                    var pAxisEnd = GetPrevY(y, position, valSeries, i);
+                    //var pAxisEnd = ConvertUtil.GetValueDouble(pYValues[i]);
                     var yPrevPos = valAx.GetPositionInPlotarea(pAxisEnd, false);
                     if (isColumn)
                     {
@@ -357,7 +359,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         }
                         else
                         {
-                            rect.Left = yPrevPos;
+                            rect.Left = yPos;
                             rect.Width = yPrevPos - yPos;
                         }
                     }
@@ -399,7 +401,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 else
                 {
-                    SetFillSerie(Chart, chartType, serie, position, i, rect.Style);
+                    SetFillSerie(Chart, chartType, serie, seriesStart + position, i, rect.Style);
                 }
 
                 rect.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
@@ -457,6 +459,26 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
+
+        private double GetPrevY(double y, int position, List<List<object>> valSeries, int i)
+        {
+            var ix = position - 1;
+            while(ix>=0)
+            {
+                double v = ConvertUtil.GetValueDouble(valSeries[ix][i]);
+                if(y > 0 && y > v)
+                {
+                    return v;
+                }
+                else if(y < 0 && y > v)
+                {
+                    return v;
+                }
+                ix--;
+            }
+            return 0;
+        }
+
         static int ToBaseIndex(double oaDate, eTimeUnit baseUnit)
         {
             var d = DateTime.FromOADate(oaDate);
