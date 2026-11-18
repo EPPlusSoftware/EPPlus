@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", IsVertical?270 : 0);
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", 0);
             }
             return _title;
         }

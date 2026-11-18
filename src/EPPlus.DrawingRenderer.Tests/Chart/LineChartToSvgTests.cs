@@ -26,16 +26,16 @@ namespace EPPlus.Export.ImageRenderer.Tests.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                //var ix = 1;
-                //var c = ws.Drawings[ix];
-                //var svg = c.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
+                var ix = 2;
+                var c = ws.Drawings[ix];
+                var svg = c.ToSvg();
+                SaveTextFileToWorkbook($"svg\\ChartForSvg_ind{ix++}.svg", svg);
 
                 for (int i = 0; i < ws.Drawings.Count; i++)
                 {
-                    var c = ws.Drawings[i];
-                    var svg = c.ToSvg();
-                    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg);
+                    var c1 = ws.Drawings[i];
+                    var svg1 = c1.ToSvg();
+                    SaveTextFileToWorkbook($"svg\\ChartForSvg{i}.svg", svg1);
                 }
             }
         }

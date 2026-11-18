@@ -807,7 +807,15 @@ namespace OfficeOpenXml.Style
                 }
                 return defaultFont;
             }
-            return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, Size, GetFontStyle(), _pictureRelationDocument.Package);
+
+            var fontSize = Size; 
+
+            if(defaultFont != null && fontSize <= 0 || float.IsNaN(fontSize))
+            {
+                fontSize = defaultFont.Size;
+            }
+
+            return FontUtil.GetMeasureFont(LatinFont, ComplexFont, EastAsianFont, fontSize, GetFontStyle(), _pictureRelationDocument.Package);
         }
 
         private MeasurementFontStyles GetFontStyle()
