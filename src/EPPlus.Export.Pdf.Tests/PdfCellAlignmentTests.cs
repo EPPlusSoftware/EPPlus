@@ -201,7 +201,7 @@ namespace EPPlus.Export.Pdf.Tests
         public void CalculateRotatedAlignment_90DegCenter_PlacesBlock()
         {
             var p = PdfCellAlignment.CalculateRotatedAlignment(
-                Align(h: ExcelHorizontalAlignment.Center, v: ExcelVerticalAlignment.Center, rotation: 90),
+                Align(h: ExcelHorizontalAlignment.Center, v: ExcelVerticalAlignment.Center, rotation: 90), "abc",
                 textLength: 100, textHeight: 10, firstLineAscent: 8,
                 x: 0, y: 0, width: 200, height: 50, rightMargin: RightMargin, bottomMargin: BottomMargin);
 
@@ -211,6 +211,50 @@ namespace EPPlus.Export.Pdf.Tests
             //   result = (bx - minX, by - minY) = (103, -25)
             Assert.AreEqual(103.0, p.X, Tol);
             Assert.AreEqual(-25.0, p.Y, Tol);
+        }
+
+        [TestMethod]
+        public void CalculateRotatedAlignment_General_StraightUp_ResolvesRight()
+        {
+            // General + text + rotation 90 -> Right (textRotation 90..179 -> right)
+            var p = PdfCellAlignment.CalculateRotatedAlignment(
+                Align(h: ExcelHorizontalAlignment.General, v: ExcelVerticalAlignment.Bottom, rotation: 90),
+                text: "abc", textLength: 100, textHeight: 10, firstLineAscent: 8,
+                x: 0, y: 0, width: 200, height: 50, rightMargin: RightMargin, bottomMargin: BottomMargin);
+
+            // blockWidth = 10, minX = -8 -> bx = 200 - 10 - 1.4 = 188.6 -> X = 188.6 + 8 = 196.6
+            // v Bottom: by = 0 + 3.5 = 3.5, minY = 0 -> Y = 3.5
+            Assert.AreEqual(196.6, p.X, Tol);
+            Assert.AreEqual(3.5, p.Y, Tol);
+        }
+
+        [TestMethod]
+        public void CalculateRotatedAlignment_General_StraightDown_ResolvesLeft()
+        {
+            // General + text + rotation -90 -> Left (the textRotation 180 exception)
+            var p = PdfCellAlignment.CalculateRotatedAlignment(
+                Align(h: ExcelHorizontalAlignment.General, v: ExcelVerticalAlignment.Bottom, rotation: -90),
+                text: "abc", textLength: 100, textHeight: 10, firstLineAscent: 8,
+                x: 0, y: 0, width: 200, height: 50, rightMargin: RightMargin, bottomMargin: BottomMargin);
+
+            // theta -90: minX = -2 -> bx = 0 + 1.4 = 1.4 -> X = 1.4 + 2 = 3.4
+            // blockHeight = 100, minY = -100 -> Y = 3.5 + 100 = 103.5
+            Assert.AreEqual(3.4, p.X, Tol);
+            Assert.AreEqual(103.5, p.Y, Tol);
+        }
+
+        [TestMethod]
+        public void CalculateRotatedAlignment_General_NumericText_ResolvesRight()
+        {
+            // General + numeric text -> Right regardless of angle sign
+            var p = PdfCellAlignment.CalculateRotatedAlignment(
+                Align(h: ExcelHorizontalAlignment.General, v: ExcelVerticalAlignment.Bottom, rotation: -90),
+                text: "1234", textLength: 100, textHeight: 10, firstLineAscent: 8,
+                x: 0, y: 0, width: 200, height: 50, rightMargin: RightMargin, bottomMargin: BottomMargin);
+
+            // minX = -2 -> bx = 200 - 10 - 1.4 = 188.6 -> X = 188.6 + 2 = 190.6 ; Y = 103.5
+            Assert.AreEqual(190.6, p.X, Tol);
+            Assert.AreEqual(103.5, p.Y, Tol);
         }
     }
 }
