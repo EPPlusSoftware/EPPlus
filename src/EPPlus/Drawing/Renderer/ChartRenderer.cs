@@ -110,7 +110,7 @@ namespace EPPlusImageRenderer
             {
                 DataTable = new ChartDataTableRenderer(this);
             }
-
+            
             Plotarea.SetPlotAreaRectangle(); //Set the width and height of the plotarea, so we can calculate the width and height of the axis. We will do this once more later to adjust the plotarea for the axis.
 
             VerticalAxis?.UpdateValueScale();
@@ -166,6 +166,23 @@ namespace EPPlusImageRenderer
             SecondVerticalAxis?.CalculateWidthHeightFromContent();
             SecondHorizontalAxis?.CalculateWidthHeightFromContent();
         }
+        private void PlaceDisplayUnitTitle(ChartAxisRenderer axis)
+        {
+            var ax = axis.Axis;
+            if (ax.IsVertical)
+            {
+                if(ax.ActualAxisPosition==eAxisPosition.Right)
+                {
+                    axis.DisplayUnitTitle.TextBox.Left = Plotarea.Rectangle.Right + axis.RightMargin;
+                }
+                else
+                {
+                    axis.DisplayUnitTitle.TextBox.Left = axis.Line.GlobalLeft - axis.DisplayUnitTitle.TextBox.GetActualWidth() - axis.LeftMargin;
+                }
+                axis.DisplayUnitTitle.TextBox.Top = Plotarea.Group.Top + axis.DisplayUnitTitle.TextBox.GetActualHeight();
+            }
+        }
+
         private void PlaceHorizontalAxis(ChartAxisRenderer horizontalAxis, bool isSecondary)
         {
             var ax = horizontalAxis.Axis;
@@ -281,92 +298,31 @@ namespace EPPlusImageRenderer
 
         private void PlaceHorizontalAxisTitle(ChartAxisRenderer horizontalAxis)
         {
-            if(horizontalAxis == null || horizontalAxis.Title == null)
+            if(horizontalAxis == null)
             {
                 return;
             }
-            horizontalAxis.Title.Rectangle.Height = ChartArea.Rectangle.Height / 4;
-            horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? Plotarea.Rectangle.Width;
-
-            if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Top)
+            if (horizontalAxis.Title != null)
             {
-                horizontalAxis.Title.TextBox.Top = GetTopAxisTitlePos() - horizontalAxis.Title.TextBox.GetActualHeight() - 1.5;
-            }
-            else
-            {
-                horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() + 1.5;
+                horizontalAxis.Title.Rectangle.Height = ChartArea.Rectangle.Height / 4;
+                horizontalAxis.Title.Rectangle.Width = horizontalAxis.Rectangle?.Width ?? Plotarea.Rectangle.Width;
+
+                if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Top)
+                {
+                    horizontalAxis.Title.TextBox.Top = GetTopAxisTitlePos() - horizontalAxis.Title.TextBox.GetActualHeight() - 1.5;
+                }
+                else
+                {
+                    horizontalAxis.Title.TextBox.Top = GetBottomAxisTitlePos() + 1.5;
+                }
+
+                horizontalAxis.Title.TextBox.Left = Plotarea.Group.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
             }
 
-            //if (horizontalAxis.Axis.Deleted)
-            //{
-            //    if (horizontalAxis.Axis.AxisPosition == eAxisPosition.Bottom)
-            //    {
-            //        if(horizontalAxis==SecondHorizontalAxis)
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height + (HorizontalAxis?.Rectangle?.Height??0) + (HorizontalAxis?.Title?.Rectangle.Height ?? 0);
-            //        }
-            //        else
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top + Plotarea.Rectangle.Height;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        horizontalAxis.Title.TextBox.Top = Plotarea.Group.Top - horizontalAxis.Rectangle.Height;
-            //    }
-            //}
-            //else
-            //{
-            //    if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
-            //    {
-            //        if (SecondHorizontalAxis != null && SecondHorizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom + SecondHorizontalAxis.Rectangle.Height;
-            //        }
-            //        else if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Bottom)
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Bottom;
-            //        }
-            //        else
-            //        {
-            //            if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
-            //            {
-            //                horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
-            //            }
-            //            else
-            //            {
-            //                horizontalAxis.Title.TextBox.Top = ChartArea.Rectangle.Bottom - horizontalAxis.Title.Rectangle.Height - ChartArea.BottomMargin;
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if(horizontalAxis==SecondHorizontalAxis && horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Top && horizontalAxis.Axis.AxisTextboxPosition==eActualAxisPosition.Top)
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.Rectangle.Height;
-            //        }
-            //        else if (horizontalAxis.Axis.AxisTextboxPosition == eActualAxisPosition.Top)
-            //        {
-            //            horizontalAxis.Title.TextBox.Top = horizontalAxis.Rectangle.Top - horizontalAxis.Title.TextBox.Height;
-            //        }
-            //        else
-            //        {
-            //            if (Legend != null && Chart.Legend.Position == eLegendPosition.Top)
-            //            {
-            //                horizontalAxis.Title.TextBox.Top = Legend.Rectangle.Bottom;
-            //            }
-            //            else if (Title != null)
-            //            {
-            //                horizontalAxis.Title.TextBox.Top = Title.Rectangle.Bottom;
-            //            }
-            //            else
-            //            {
-            //                horizontalAxis.Title.TextBox.Top = ChartArea.TopMargin;
-            //            }
-            //        }
-            //    }
-            //}
-            horizontalAxis.Title.TextBox.Left = Plotarea.Group.Left + (Plotarea.Rectangle.Width / 2) - (horizontalAxis.Title.TextBox.Width / 2);
+            if(horizontalAxis.DisplayUnitTitle!=null)
+            {
+                PlaceDisplayUnitTitle(horizontalAxis);
+            }
         }
         private void PlaceVerticalAxis(ChartAxisRenderer verticalAxis, bool isSecondary)
         {
@@ -511,7 +467,7 @@ namespace EPPlusImageRenderer
 
         private void PlaceVerticalAxisTitle(ChartAxisRenderer verticalAxis)
         {
-            if (verticalAxis == null || verticalAxis.Title == null) return;
+            if (verticalAxis == null) return;
             if (verticalAxis.Title != null)
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
@@ -526,6 +482,11 @@ namespace EPPlusImageRenderer
                 {
                     verticalAxis.Title.TextBox.Left = GetRightAxisTitlePos() - 1.5;
                 }
+            }
+
+            if (verticalAxis.DisplayUnitTitle != null)
+            {
+                PlaceDisplayUnitTitle(verticalAxis);
             }
         }
 

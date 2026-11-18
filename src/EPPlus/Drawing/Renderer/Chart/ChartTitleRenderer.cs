@@ -52,7 +52,8 @@ namespace EPPlusImageRenderer.Svg
         /// <param name="t"></param>
         /// <param name="defaultText"></param>
         /// <param name="axis">If null, this is the main chart title.</param>
-        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, ChartAxisRenderer axis=null) : base(sc)
+        /// <param name="isDisplayUnitTitle">If the tile is the display unit title</param>
+        internal ChartTitleRenderer(ChartRenderer sc, ExcelChartTitleStandard t, string defaultText, ChartAxisRenderer axis=null, bool isDisplayUnitTitle=false) : base(sc)
         {
             _svgChart = sc;
 
@@ -104,7 +105,14 @@ namespace EPPlusImageRenderer.Svg
                     maxHeight = sc.Bounds.Height * (isVertical ? 0.8 : 0.2); //Max Height.
 
                     InitTextBox(maxWidth, maxHeight, DefaultFonts2007Style.AxisTitle);
-                    SetAxisTitleRect(sc, axis);
+                    if(isDisplayUnitTitle)
+                    {
+                        SetAxisTitleRect(sc, axis, true);
+                    }
+                    else
+                    {
+                        SetAxisTitleRect(sc, axis, false);
+                    }
                 }
             }
             //Default NoFill for title and axis titles if not set
@@ -112,14 +120,22 @@ namespace EPPlusImageRenderer.Svg
             Rectangle.Style.SetDrawingPropertiesBorder(sc.Theme, t.Border, sc.Chart.StyleManager.Style?.Title.BorderReference.Color, t.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis)
+        private void SetAxisTitleRect(ChartRenderer sc, ChartAxisRenderer axis, bool isDisplayUnitTitle)
         {
             var margin = 8F;
             switch (axis.Axis.AxisPosition)
             {
                 case eAxisPosition.Left:
                     TextBox.Top = sc.GetPlotAreaTop();
-                    TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;                               
+                    if (isDisplayUnitTitle)
+                    {
+                        var titleWidth = (axis.Title?.Rectangle.Width??0D);
+                        TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin + titleWidth : titleWidth + margin;
+                    }
+                    else
+                    {
+                        TextBox.Left = sc.Chart.HasLegend && sc.Chart.Legend.Position == eLegendPosition.Left ? sc.Legend.Rectangle.Right + LeftMargin : margin;
+                    }
                     break;
                 case eAxisPosition.Right:
                     TextBox.Top = sc.GetPlotAreaTop();

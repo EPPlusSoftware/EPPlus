@@ -14,12 +14,8 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
-using System.Collections.Generic;
-using System.Net.Security;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -31,43 +27,59 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         internal ExcelChart _chart;
         internal string _nsPrefix = "";
+        internal string _topPath;
         internal string _fontPropertiesPath = "";
         internal string _richTextPath = "";
         internal string _defTxBodyPath = "";
         double _rotationDefault;
-        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault=0) :
+        bool _hasTopElement=false;
+        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, string topPath, double rotationDefault=0) :
             base(nameSpaceManager, node)
         {
             _chart = chart;
             _nsPrefix = nsPrefix;
+            _topPath = nsPrefix + ":" + topPath;
             _rotationDefault = rotationDefault;
-            _fontPropertiesPath = $"{_nsPrefix}:txPr";
-            _richTextPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
-            _defTxBodyPath = $"{_nsPrefix}:txPr";
+            _fontPropertiesPath = $"{topPath}/{_nsPrefix}:txPr";
+            _richTextPath = $"{topPath}/{_nsPrefix}:tx/{_nsPrefix}:rich";
+            _defTxBodyPath = $"{topPath}/{_nsPrefix}:txPr";
+
+            if(ExistsNode(_topPath, out XmlNode topNode))
+            {
+                _hasTopElement = true;
+            }
+
             if (chart._isChartEx)
             {
                 AddSchemaNodeOrder(new string[] { "layout", "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
-                CreateTopNode();
             }
             else
             {
                 AddSchemaNodeOrder(_chart._chartXmlHelper.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
-                CreateTopNode();
-                if (TopNode.HasChildNodes == false)
-                {
-                    TopNode.InnerXml = GetInitXml("c");
-                    chart.ApplyStyleOnPart(this, chart.StyleManager?.Style?.Title, true);
-                }
+            }
+        }
+        /// <summary>
+        /// If the title exists in the chart xml.
+        /// </summary>
+        public bool Exists
+        {
+            get
+            {
+                return _hasTopElement;
+            }
+        }
+        private void InitTopNode()
+        {
+            if (_hasTopElement) return;
+            var node = CreateNode(_nsPrefix + ":" + _topPath);
+            _hasTopElement = true;
+            if (node.HasChildNodes == false)
+            {
+                node.InnerXml = GetInitXml("c");
+                _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
             }
         }
 
-        private void CreateTopNode()
-        {
-            if (TopNode.LocalName != "title")
-            {
-                TopNode = CreateNode(_nsPrefix + ":title");
-            }
-        }
 
         internal static string GetInitXml(string prefix)
         {
@@ -98,7 +110,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_topPath}/{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _border;
             }
@@ -114,7 +126,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_fill == null)
                 {
 
-                    _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_topPath}/{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -129,10 +141,6 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    //if (HasLinkedCell==false && (_richText == null || _richText.Count == 0))
-                    //{
-                    //    RichText.Add("");
-                    //}
                     _font = new ExcelTextFontXml(_chart, NameSpaceManager, TopNode, $"{_fontPropertiesPath}/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
@@ -190,8 +198,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_defaultTextBody == null)
                 {
                     _defaultTextBody = new ExcelTextBody(_chart, NameSpaceManager, TopNode, $"{_defTxBodyPath}/a:bodyPr", SchemaNodeOrder);
-                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Bold = true;
-                    //_defaultTextBody.Paragraphs.FirstDefaultRunProperties.Size = 10f;
                 }
                 return _defaultTextBody;
             }
@@ -222,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_topPath}/{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -237,14 +243,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_topPath}/{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode($"{_nsPrefix}:spPr");
+            CreatespPrNode($"{_topPath}/{_nsPrefix}:spPr");
         }
 
         ExcelParagraphCollection _richText = null;
@@ -273,28 +279,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 defFont = Convert.ToSingle(stylePart.DefaultTextRun.Size);
             }
             var tb = TextBody;
-
-            //var rtNode = GetNode($"{_richTextPath}");
-            //if(rtNode != null)
-            //{
-            //    //parent node has been created but it is possible it is without a paragraph node
-            //    //If e.g. a file is read in and ApplyStyles is done before anything else
-            //    var paragraphNode = GetNode($"{_richTextPath}/a:p");
-            //    if (paragraphNode == null)
-            //    {
-            //        var runProps = tb.Paragraphs.CreateOrGetDefaultRunProperties($"{_richTextPath}/a:p/a:pPr/a:defRPr", TopNode);
-            //        //var newParagraphNode = GetNode($"{_richTextPath}/a:p");
-            //        tb.Paragraphs.SetPlaceHolderNode(runProps.PathElement.ParentNode.ParentNode);
-            //    }
-            //}
-
             _richText = new ExcelParagraphCollection(tb, _chart, NameSpaceManager, TopNode, $"{_richTextPath}/a:p", SchemaNodeOrder, defFont, eTextAlignment.Center);
-
-            //if(tb.Paragraphs.Count == 0)
-            //{
-            //    var para = _richText.Add("");
-            //    _richText.Remove(para);
-            //}
         }
 
         private ExcelChartStyleEntry GetStylePart()
@@ -320,22 +305,22 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_chart._isChartEx)
                 {
-                    return GetXmlNodeBool("@overlay");
+                    return GetXmlNodeBool($"{_topPath}/@overlay");
                 }
                 else
                 {
-                    return GetXmlNodeBool("c:overlay/@val");
+                    return GetXmlNodeBool($"{_topPath}/c:overlay/@val", true, false);
                 }
             }
             set
             {
                 if (_chart._isChartEx)
                 {
-                    SetXmlNodeBool("@overlay", value);
+                    SetXmlNodeBool($"{_topPath}/@overlay", value);
                 }
                 else
                 {
-                    SetXmlNodeBool("c:overlay/@val", value);
+                    SetXmlNodeBool($"{_topPath}/c:overlay/@val", value);
                 }
             }
         }
@@ -425,6 +410,10 @@ namespace OfficeOpenXml.Drawing.Chart
 
         void IStyleMandatoryProperties.SetMandatoryProperties()
         {
+            if(_hasTopElement==false)
+            {
+                InitTopNode();
+            }
             TextBody.Anchor = eTextAnchoringType.Center;
             TextBody.AnchorCenter = true;
             TextBody.WrapText = eTextWrappingType.Square;
@@ -464,7 +453,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 TextBody.Paragraphs.Add("Title");
             }
 
-            CreatespPrNode($"{_nsPrefix}:spPr");
+            CreatespPrNode($"{_topPath}/{_nsPrefix}:spPr");
         }
     }
     /// <summary>
@@ -472,8 +461,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTitleStandard : ExcelChartTitle
     {
-        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, double rotationDefault) : base(chart, nameSpaceManager, node, nsPrefix, rotationDefault)
+        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix, string topPath, double rotationDefault) : base(chart, nameSpaceManager, node, nsPrefix, topPath, rotationDefault)
         {
+
         }
         /// <summary>
         /// The _chart title text
@@ -584,7 +574,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                var a = GetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f");
+                var a = GetXmlNodeString($"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f");
                 if (ExcelCellBase.IsValidAddress(a))
                 {
                     var address = new ExcelAddressBase(a);
@@ -606,18 +596,18 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef");
-                    DeleteNode($"{_nsPrefix}:txPr");
-                    _fontPropertiesPath = $"{_nsPrefix}:tx/{_nsPrefix}:rich";
+                    DeleteNode($"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:strRef");
+                    DeleteNode($"{_topPath}/{_nsPrefix}:txPr");
+                    _fontPropertiesPath = $"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:rich";
                     RichText.Text = "";
                 }
                 else
                 {
-                    DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:rich");
-                    SetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f", value.FullAddressAbsolute);
-                    var cache = CreateNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef/c:strCache", false, true);
+                    DeleteNode($"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:rich");
+                    SetXmlNodeString($"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:strRef/c:f", value.FullAddressAbsolute);
+                    var cache = CreateNode($"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:strRef/c:strCache", false, true);
                     cache.InnerXml = $"<c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>{value.Text}</c:v></c:pt>";
-                    _fontPropertiesPath = $"{_nsPrefix}:txPr";
+                    _fontPropertiesPath = $"{_topPath}/{_nsPrefix}:txPr";
                 }
                 _font = null;
             }
@@ -628,8 +618,8 @@ namespace OfficeOpenXml.Drawing.Chart
         public void SetAutoTitle()
         {
             _chart.AutoTitleDeleted = false;
-            DeleteNode($"{_nsPrefix}:tx");
-            _fontPropertiesPath = $"{_nsPrefix}:txPr";
+            DeleteNode($"{_topPath}/{_nsPrefix}:tx");
+            _fontPropertiesPath = $"{_topPath}/{_nsPrefix}:txPr";
 
         }
         internal override bool HasLinkedCell => LinkedCell != null;
@@ -644,7 +634,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_layout == null)
                 {
-                    _layout = new ExcelLayout(NameSpaceManager, TopNode, "c:layout", "", SchemaNodeOrder);
+                    _layout = new ExcelLayout(NameSpaceManager, TopNode, $"{_topPath}/c:layout", "", SchemaNodeOrder);
                 }
                 return _layout;
             }
