@@ -7,6 +7,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
@@ -236,7 +237,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
+            var color = GetVaryColor(theme, chart.StyleManager, index);
 
             style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
@@ -245,27 +246,29 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-
             if (ct.VaryColors)
             {
+                var chartStyle =(int)chart.Style;
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
+                var color = GetVaryColor(theme, chart.StyleManager, index);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             else
             {
-                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
+                var color = GetVaryColor(theme, chart.StyleManager, serieIndex);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, serieIndex);
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width>0, () => styleFormat.color, 0.75);
         }
 
-        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartStyleManager? styleManager, int index)
         {
             Color baseColor;
             var baseColorIndex = index % 6;
-            if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
+            
+            ExcelChartColorsManager colorsManager = styleManager?.ColorsManager;
+            if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count) && styleManager.Style == null)
             {
                 //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
                 baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();

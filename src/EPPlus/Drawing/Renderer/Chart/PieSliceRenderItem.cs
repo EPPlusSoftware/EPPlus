@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
-using System.Net;
+using System.Security.Cryptography;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -553,8 +553,10 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void ImportStlyeInfo(ExcelPieChartSerie serie, ExcelPieChart chartType, int position)
         {
+            _position = position;
 
-            var defaultFill = DefaultFillColor;
+            var defaultFill = GetDefaultFillColor();
+
 
             if (position >= 0 && serie.DataPoints.ContainsKey(position))
             {
@@ -564,8 +566,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
+                _slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
+                //ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
             }
+            //if (chartType.VaryColors)
+            //{
+            //    if (chartType.StyleManager.Style == null)
+            //    {
+            //        var mod5 = position % 5;
+            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+            //    }
+            //}
+            ////ChartTypeDrawer.SetFillDataPoint
+            //_slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
+            //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)
@@ -926,9 +941,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             throw new NotImplementedException();
         }
 
+        int _position = -1;
+
         internal override Color? GetDefaultFillColor()
         {
-            throw new NotImplementedException();
+            if (Chart.VaryColors)
+            {
+                if (Chart.StyleManager.Style == null)
+                {
+                    var mod5 = _position % 6;
+                    return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                    ////TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+                    //defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                }
+            }
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1).GetColor();
         }
 
         internal override Color? GetDefaultBorderColor()
