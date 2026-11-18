@@ -39,7 +39,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             //Avoid null-refs
             Rectangle = new RectRenderItem(svgChart.Bounds);
         }
-        internal abstract void DrawSeries();
+        /// <summary>
+        /// Returns the serie count for the chart type and previouse chart types. This is used to determin the color of the series.
+        /// </summary>
+        /// <param name="startSerie"></param>
+        /// <returns></returns>
+        internal abstract int DrawSeries(int startSerie);
 
 
 

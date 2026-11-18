@@ -24,21 +24,16 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public sealed class ExcelChartSerieDataLabel : ExcelChartDataLabelStandard
     {
-       internal ExcelChartSerieDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
-           : base(chart, ns, node, "dLbls", schemaNodeOrder)
+       ExcelChartStandardSerie _serie;
+       internal ExcelChartSerieDataLabel(ExcelChartStandardSerie serie, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
+           : base(serie._chart, ns, node, "dLbls", schemaNodeOrder)
         {
-            //Position = eLabelPosition.Center;
-            var parentSeries = GetParentSeries();
+            _serie = serie;
 
-            var strRef = parentSeries.GetDataLabelRange();
+            var strRef = serie.GetDataLabelRange();
             if (string.IsNullOrEmpty(strRef) == false)
             {
                 SetValueSource(strRef);
-                //ValueFromCells = strRef;
-                //if (ExcelCellBase.IsValidAddress(strRef))
-                //{
-                //    DataLabelRange = chart.WorkSheet.Cells[strRef];
-                //}
             }
         }
         ExcelChartDataLabelCollection _dataLabels = null;
@@ -95,21 +90,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal ExcelRangeBase DataLabelRange { get; private set; } = null;
 
-        ExcelChartStandardSerie GetParentSeries()
-        {
-            //TODO: The way we aquire the Series instance here is clumsy.
-            //Fix as part of datalabel refactor?
-            //Perhaps the series of a series label should be part of its constructor.
-            //Or use an eventhandler
-            //For a single case however that feels overkill.
-
-            //Has to get the series index:
-            var idxNode = (XmlElement)TopNode.ParentNode.SelectSingleNode($"{NsPrefix}:idx", NameSpaceManager);
-            var idxNodeValue = int.Parse(idxNode.GetAttribute("val"));
-            //Get the series this datalabel is on
-            return (ExcelChartStandardSerie)_chart.Series[idxNodeValue];
-        }
-
         /// <summary>
         /// Select range for Value From Cells
         /// sets ValueFromCellsRange to the AddressAbsolute of the address
@@ -132,19 +112,18 @@ namespace OfficeOpenXml.Drawing.Chart
             //This could be unified somehow so that all serie ranges; Cat, Val and DataLabelRange are handled the same way.
             //The start of this is now being done in ChartDataSource.cs
 
-            var currentSeries = GetParentSeries();
             //Set the ext data needed in the Series node
-            currentSeries.SetDataLabelRange(reference);
+            _serie.SetDataLabelRange(reference);
 
-            if(currentSeries.DataLabelRangeSource.RefIsValidAddress)
+            if(_serie.DataLabelRangeSource.RefIsValidAddress)
             {
                 DataLabelRange = _chart.WorkSheet.Cells[reference];
             }
 
             //Create the Datalabels if they do not exist
-            if (DataLabels.Count < currentSeries.NumberOfItems)
+            if (DataLabels.Count < _serie.NumberOfItems)
             {
-                for (int i = 0; i < currentSeries.NumberOfItems; i++)
+                for (int i = 0; i < _serie.NumberOfItems; i++)
                 {
                     ExcelChartDataLabelItem currentLabel;
                     if (DataLabels.Count - 1 < i)
