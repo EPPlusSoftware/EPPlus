@@ -1874,8 +1874,7 @@ namespace EPPlusTest.Issues
                 base.SwitchBackToCurrentCulture();
             }
         }
-        }
-
+        
         [TestMethod]
         public void s1095()
         {
