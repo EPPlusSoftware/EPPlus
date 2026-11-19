@@ -484,7 +484,7 @@ namespace EPPlusImageRenderer
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) - ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {

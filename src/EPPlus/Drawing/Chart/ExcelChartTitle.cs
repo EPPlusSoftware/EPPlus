@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Drawing.Chart
         private void InitTopNode()
         {
             if (_hasTopElement) return;
-            var node = CreateNode(_nsPrefix + ":" + _topPath);
+            var node = CreateNode(_topPath);
             _hasTopElement = true;
             if (node.HasChildNodes == false)
             {

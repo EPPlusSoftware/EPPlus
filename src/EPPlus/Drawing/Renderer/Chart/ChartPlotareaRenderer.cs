@@ -141,7 +141,10 @@ namespace EPPlusImageRenderer.Svg
             var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin +
                        (leftSecondAxis?.Rectangle?.Width ?? 0D) + ((leftSecondAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftSecondAxis?.Title?.LeftMargin ?? 0D)) +
                        (leftAxis?.DisplayUnitTitle?.TextBox.GetActualWidth() ?? 0D); 
-
+            if(lp==eLegendPosition.Left)
+            {
+                left += ChartRenderer.Legend.Rectangle.Width;
+            }
             double rightAxisWidth;
             if (rightActualAxis == null)
             {
