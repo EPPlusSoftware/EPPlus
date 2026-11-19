@@ -40,9 +40,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _nsPrefix = nsPrefix;
             _topPath = nsPrefix + ":" + topPath;
             _rotationDefault = rotationDefault;
-            _fontPropertiesPath = $"{topPath}/{_nsPrefix}:txPr";
-            _richTextPath = $"{topPath}/{_nsPrefix}:tx/{_nsPrefix}:rich";
-            _defTxBodyPath = $"{topPath}/{_nsPrefix}:txPr";
+            _fontPropertiesPath = $"{_topPath}/{_nsPrefix}:txPr";
+            _richTextPath = $"{_topPath}/{_nsPrefix}:tx/{_nsPrefix}:rich";
+            _defTxBodyPath = $"{_topPath}/{_nsPrefix}:txPr";
 
             if(ExistsNode(_topPath, out XmlNode topNode))
             {

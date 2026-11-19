@@ -896,10 +896,14 @@ namespace EPPlusImageRenderer.Svg
 
                 double x, y;
 
-                double availableTextLength = majorTickMarkWidth;
+                double availableTextLength;
                 if (Axis.IsVertical)
                 {
-                    availableTextLength = maxHeight;
+                    availableTextLength = maxWidth;
+                }
+                else
+                {
+                    availableTextLength = majorTickMarkWidth;
                 }
 
                 if (LabelOrientation == eTextOrientation.Horizontal)

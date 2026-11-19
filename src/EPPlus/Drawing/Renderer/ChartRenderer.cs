@@ -181,6 +181,18 @@ namespace EPPlusImageRenderer
                 }
                 axis.DisplayUnitTitle.TextBox.Top = Plotarea.Group.Top + axis.DisplayUnitTitle.TextBox.GetActualHeight();
             }
+            else
+            {
+                if(ax.ActualAxisPosition==eAxisPosition.Top)
+                {
+                    axis.DisplayUnitTitle.TextBox.Top = Plotarea.Rectangle.Top + axis.DisplayUnitTitle.TextBox.GetActualWidth() - axis.TopMargin;
+                }
+                else
+                {
+                    axis.DisplayUnitTitle.TextBox.Left = axis.Line.GlobalLeft + axis.BottomMargin;
+                }
+                axis.DisplayUnitTitle.TextBox.Top = Plotarea.Group.Top + axis.DisplayUnitTitle.TextBox.GetActualHeight();
+            }
         }
 
         private void PlaceHorizontalAxis(ChartAxisRenderer horizontalAxis, bool isSecondary)
