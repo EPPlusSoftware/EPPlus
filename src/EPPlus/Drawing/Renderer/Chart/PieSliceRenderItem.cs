@@ -7,12 +7,14 @@ using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Drawing;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -566,8 +568,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                _slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
-                //ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
+                var subtleFill = ChartRenderer.Theme.FormatScheme.FillStyle[0];
+                var bg = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
+                var darkScheme = OfficeOpenXml.Utils.TypeConversion.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
+                var dark75 = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(darkScheme, 1 - 0.75d);
+
+                var color = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(dark75, subtleFill.SolidFill.Color.Transforms);
+                //var test = ColorConverter.
+
+                //_slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
+                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
             }
             //if (chartType.VaryColors)
             //{

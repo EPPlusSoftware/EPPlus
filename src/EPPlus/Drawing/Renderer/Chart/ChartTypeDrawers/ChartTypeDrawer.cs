@@ -253,6 +253,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (ct.VaryColors)
             {
+                var accent1Scheme = chart.WorkSheet.Workbook.ThemeManager.CurrentTheme.ColorScheme.Accent1;
+                var accent1Theme = chart.WorkSheet.Workbook.ThemeManager.CurrentTheme.FormatScheme.FillStyle[0].SolidFill.Color;
+
                 var chartStyle =(int)chart.Style;
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager, index);
@@ -293,6 +296,8 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelColorTransformCollection variation;
                 if (colorsManager == null)
                 {
+                    //ExcelColorTransformCollectionDataPoints dpCollection = new();
+                    //return dpCollection.GetColor(baseColor, variationIndex, baseColorIndex);
                     var variations = ExcelColorTransformCollection.GetDefault();
                     variation = variations[variationIndex % variations.Count];
                 }

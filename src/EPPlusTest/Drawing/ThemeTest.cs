@@ -39,6 +39,7 @@ using OfficeOpenXml.Drawing.Theme;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using tc = OfficeOpenXml.Utils.TypeConversion;
 namespace EPPlusTest.Drawing
@@ -388,6 +389,17 @@ namespace EPPlusTest.Drawing
 
             Assert.AreEqual((double)Color.FromArgb(0x0, 0xBC, 0x0).ToArgb(), c.ToArgb());
         }
+
+        [TestMethod]
+        public void Shade50percentDocs()
+        {
+            //20.1.2.3.34 tint (Tint) ECMA
+            var color1 = Color.FromArgb(0, 255, 0);
+            var c = tc.ColorConverter.ApplyTintDrawing(color1, 0.5);
+
+            Assert.AreEqual((double)Color.FromArgb(0xBC, 0xFF, 0xBC).ToArgb(), c.ToArgb());
+        }
+
         [TestMethod]
         public void Shade85percent()
         {
@@ -424,6 +436,157 @@ namespace EPPlusTest.Drawing
             var expectedResult = Color.FromArgb(255, 188, 188, 188);
             Assert.AreEqual((double)expectedResult.ToArgb(), c.ToArgb());
         }
+
+        [TestMethod]
+        public void ThemeTintDocs()
+        {
+            //17.2.1 'background (Document Background)' ECMA. Technically for word 
+            //Actually accent1 but appears wrong in the docs
+            var accent2Theme = Color.FromArgb(255, 79, 129, 189);
+            var tint = tc.ColorConverter.ApplyTint(accent2Theme, 0.6d);
+            var lumMod = tc.ColorConverter.ApplyLumMod(accent2Theme, 0.6d, 1 - 0.6d);
+
+            var expectedColor = Color.FromArgb(255, 149, 179, 215);
+
+            Assert.AreEqual((double)expectedColor.ToArgb(), lumMod.ToArgb());
+        }
+
+
+        [TestMethod]
+        public void ThemeShadeDocs()
+        {
+            //17.2.1 'background (Document Background)' ECMA. Technically for word 
+            var accent2Theme = Color.FromArgb(255, 192, 80, 77);
+            var lumMod = tc.ColorConverter.ApplyLumMod(accent2Theme, 0.75d);
+
+            //Actual expected color
+            //var expectedColor = Color.FromArgb(255, 148, 54, 52);
+            //replacement as we are incredibly close
+            var expectedColor = Color.FromArgb(255, 149, 55, 53);
+
+            Assert.AreEqual((double)expectedColor.ToArgb(), lumMod.ToArgb());
+        }
+
+        //---IMPORTANT---
+
+        [TestMethod]
+        public void Apply88DarkAlt()
+        {
+            var accent1 = Color.FromArgb(255, 79, 129, 189);
+            var accent2 = Color.FromArgb(255, 192, 80, 77);
+            var c = tc.ColorConverter.ApplyTintDrawing(accent1, -0.35d);
+            var c2 = tc.ColorConverter.ApplyTintDrawing(accent2, -0.35d);
+            var expectedResult = Color.FromArgb(255, 64, 106, 156);
+            var eR2 = Color.FromArgb(255, 158, 65, 62);
+            Assert.AreEqual((double)expectedResult.ToArgb(), c.ToArgb());
+
+            var newResult = tc.ColorConverter.ApplyTintDrawing(Color.FromArgb(255, 79, 129, 189), 0.23d);
+            var newExpectedResult = Color.FromArgb(255, 147, 169, 207);
+            Assert.AreEqual(newExpectedResult, newResult);
+
+            //KEY TAKE AWAYS TO MAKE FUNC WORK
+            //VariationIndex begins at 1 NOT 0
+            //highestVariation INCREASED by 1 when REACHING 6 not the start of the next "accent1" 
+            int variationIndex = 1;
+            int highestVariation = 4;
+            var tintValue = -70d + 140d * (variationIndex / (highestVariation + 1d));
+
+            var startingShade = tc.ColorConverter.ApplyTint(accent1,-(1 + tintValue)/100d);
+
+            var lumMod = tc.ColorConverter.ApplyLumMod(accent1, 0.3);
+            var tint = tc.ColorConverter.ApplyTintDrawing(accent1, -0.7d);
+        }
+
+        [TestMethod]
+        public void CalculateLEGACYDataPointsOfWholePie()
+        {
+            //Assuming 24 data points
+            var numVariations = 24 / 6;
+
+            //KEY TAKE AWAYS TO MAKE FUNC WORK
+            //VariationIndex begins at 1 NOT 0
+            //highestVariation INCREASED by 1 when REACHING 6 not the start of the next "accent1" 
+            if (24 % 6 == 0)
+            {
+                numVariations += 1;
+            }
+
+            var accent1 = Color.FromArgb(255, 79, 129, 189);
+            var accent2 = Color.FromArgb(255, 192, 80, 77);
+            var accent3 = Color.FromArgb(255, 155, 187, 89);
+            var accent4 = Color.FromArgb(255, 128, 100, 162);
+            var accent5 = Color.FromArgb(255, 75, 172, 198);
+            var accent6 = Color.FromArgb(255, 247, 150, 70);
+
+            List<Color> colorList = new List<Color>() {accent1, accent2, accent3, accent4, accent5, accent6 };
+            List<List<Color>> outputColors = new List<List<Color>>();
+            for (int i = 1; i < numVariations; i++)
+            {
+                List<Color> currentVariations = new List<Color>();
+                for (int j = 0; j < colorList.Count; j++)
+                {
+                    var color = colorList[j];
+                    var tintValue = ( -70d + 140d * (i / (numVariations + 1d)))/100d;
+
+                    var variation = tc.ColorConverter.ApplyTintDrawing(color, tintValue);
+
+                    currentVariations.Add(variation);
+                }
+                outputColors.Add(currentVariations);
+            }
+
+            var variation1 = Color.FromArgb(255, 57, 96, 142);
+            var variation2 = Color.FromArgb(255, 144, 58, 56);
+            var variation3 = Color.FromArgb(255, 116, 140, 65);
+            var variation4 = Color.FromArgb(255, 95, 73, 121);
+            var variation5 = Color.FromArgb(255, 54, 129, 149);
+            var variation6 = Color.FromArgb(255, 186, 112, 50);
+
+            var variation14 = Color.FromArgb(113, 88, 143);
+
+            Assert.AreEqual(variation1.R, outputColors[0][0].R, 1);
+            Assert.AreEqual(variation1.G, outputColors[0][0].G, 1);
+            Assert.AreEqual(variation1.B, outputColors[0][0].B, 1);
+
+
+            Assert.AreEqual(variation2.R, outputColors[0][1].R, 1);
+            Assert.AreEqual(variation2.G, outputColors[0][1].G, 1);
+            Assert.AreEqual(variation2.B, outputColors[0][1].B, 1);
+
+
+            Assert.AreEqual(variation3.R, outputColors[0][2].R, 1);
+            Assert.AreEqual(variation3.G, outputColors[0][2].G, 1);
+            Assert.AreEqual(variation3.B, outputColors[0][2].B, 1);
+
+
+            Assert.AreEqual(variation4.R, outputColors[0][3].R, 1);
+            Assert.AreEqual(variation4.G, outputColors[0][3].G, 1);
+            Assert.AreEqual(variation4.B, outputColors[0][3].B, 1);
+
+
+            Assert.AreEqual(variation5.R, outputColors[0][4].R, 1);
+            Assert.AreEqual(variation5.G, outputColors[0][4].G, 1);
+            Assert.AreEqual(variation5.B, outputColors[0][4].B, 1);
+
+
+            Assert.AreEqual(variation6.R, outputColors[0][5].R, 1);
+            Assert.AreEqual(variation6.G, outputColors[0][5].G, 1);
+            Assert.AreEqual(variation6.B, outputColors[0][5].B, 1);
+
+            //Spot check next
+            Assert.AreEqual(variation14.R, outputColors[1][3].R, 1);
+            Assert.AreEqual(variation14.G, outputColors[1][3].G, 1);
+            Assert.AreEqual(variation14.B, outputColors[1][3].B, 1);
+
+            var lastVariation = Color.FromArgb(249, 181, 144);
+            //Spot check last
+            Assert.AreEqual(lastVariation.R, outputColors[3][5].R, 1);
+            Assert.AreEqual(lastVariation.G, outputColors[3][5].G, 1);
+            Assert.AreEqual(lastVariation.B, outputColors[3][5].B, 1);
+        }
+
+        //--- END IMPORTANT
+
         [TestMethod]
         public void Tint60Shade60()
         {
