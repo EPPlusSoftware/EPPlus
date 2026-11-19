@@ -1,6 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType.Tables.Cmap;
 using Microsoft.VisualBasic;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 
@@ -134,9 +135,9 @@ internal class ValueAxisScaleCalculator
                 }
                 else
                 {
-                    axisMin = dataMin - (dataRange * 0.05);
                     if (axisOptions.IsStacked100)
                     {
+                        axisMin = dataMin;
                         if (axisMin < -1)
                         {
                             axisMin = -1;
@@ -145,6 +146,10 @@ internal class ValueAxisScaleCalculator
                         {
                             axisMin = 0;
                         }
+                    }
+                    else
+                    {
+                        axisMin = dataMin - dataRange * 0.05;
                     }
                     //Normalize to zero if all data is positive or negative
                     if (axisMin < 0 && isAllPositive)
@@ -169,10 +174,6 @@ internal class ValueAxisScaleCalculator
                     {
                         axisMax = 0;
                     }
-                    //if (axisOptions.LockedMin.HasValue==false && axisMin > 0 && dataMin / dataMax <= 0.2)
-                    //{
-                    //    axisMin = 0;
-                    //}
                 }
 
                 // Calculate interval
@@ -201,6 +202,19 @@ internal class ValueAxisScaleCalculator
             }
 
             var tickCount = (int)Math.Round((axisMax - axisMin) / scaleInterval) + 1;
+            if(tickCount > 12)
+            {
+                tickCount /= 2;
+                scaleInterval *= 2;
+
+                var diff = ((decimal)(axisMax - axisMin)) % (decimal)(scaleInterval); //We use decimal here to avoid floating point issues.
+                if (diff != 0 && axisMin != 0)
+                {
+                    axisMin = (double)((decimal)axisMin-diff);
+                }
+            }
+
+
             return new AxisScale
             {
                 Min = axisOptions.LockedMin ?? axisMin,

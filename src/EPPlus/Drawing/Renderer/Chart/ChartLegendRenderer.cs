@@ -172,7 +172,7 @@ namespace EPPlusImageRenderer.Svg
                 //Uncertain of what scenario this is helpful for. Most bar and column charts don't appear to work this way even with a single series
                 //It IS the correct way for Pie charts and for a series with only a single point in it and no xSSeries so perhaps that?
                 //See EpplusTest.Export.SvgExport tests especially DtPt tests. //O
-                else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1 && Chart.PlotArea.ChartTypes[0].Series[0].HasHeader == false)
+                else if ((ct.IsTypeColumn() || ct.IsTypeBar()) && Chart.PlotArea.ChartTypes.Count == 1 && ct.Series.Count == 1 && Chart.VaryColors)
                 {
                     var s = ct.Series[0];
                     var catSeries = s.XSeries;
@@ -424,29 +424,31 @@ namespace EPPlusImageRenderer.Svg
             DrawingLegendSerie pSls = null;
             var pos = Chart.Legend.Position;
             var maxIconLength = GetMaxIconLength(Chart, entryHeight);
-            if ((Chart.IsTypeBar() || Chart.IsTypeColumn()) && Chart.PlotArea.ChartTypes.Count == 1 && Chart.PlotArea.ChartTypes[0].Series.Count == 1 && (Chart.PlotArea.ChartTypes[0].Series[0].HasHeader==false))
+            if ((Chart.IsTypeBar() || Chart.IsTypeColumn()) && Chart.PlotArea.ChartTypes.Count == 1 && Chart.PlotArea.ChartTypes[0].Series.Count == 1 && Chart.VaryColors)
             {
                 LegendIconRenderer.SetBarLegendSingle(ChartRenderer, this, entryWidth, entryHeight, maxIconLength);
             }
             else
             {
                 var totSeriesCount = Chart.PlotArea.ChartTypes.Sum(x => x.Series.Count)-1;
+                int entryIx = 0;
+                int prevCtSeriesCount = 0;
+                index = 0;
                 foreach (var ct in Chart.PlotArea.ChartTypes)
                 {
-                    int entryIx = 0;
                     int ix, end;
+                    
                     if ((ct.IsTypeBar() && ct.XAxis.Orientation==eAxisOrientation.MinMax) ||
                         (ct.IsTypeColumn() && ct.XAxis.Orientation == eAxisOrientation.MaxMin))
                     {
                         ix = ct.Series.Count - 1;
                         end = -1;
-                        index = totSeriesCount;
+                        index = totSeriesCount-prevCtSeriesCount;
                     }
                     else
                     {
                         ix = 0;
                         end = ct.Series.Count;
-                        index = 0;
                     }
 
                     while (ix != end)
@@ -525,6 +527,7 @@ namespace EPPlusImageRenderer.Svg
                             ix--;
                             index--;
                         }
+                        prevCtSeriesCount = ct.Series.Count;
                         entryIx++;
                     }
                 }

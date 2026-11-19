@@ -637,6 +637,17 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
+        /// Based on measurement/parent font should this item display as bold
+        /// </summary>
+        internal bool DisplayBold { get; private set; }
+
+        /// <summary>
+        /// Based on measurement/parent font should this item display as italic
+        /// </summary>
+        internal bool DisplayItalic { get; private set; }
+
+
+        /// <summary>
         /// Export to OpenTypeFormat
         /// </summary>
         /// <returns></returns>
@@ -653,7 +664,22 @@ namespace OfficeOpenXml.Drawing
                 measureFont = defaultFont;
             }
 
-            var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, FontBold, FontItalic);
+            var isBold = FontBold;
+            var isItalic = FontItalic;
+
+            //If node does not exist decide based on default font
+            if(GetXmlNodeBoolNullable(_boldPath) == null)
+            {
+                isBold = measureFont.Style.HasFlag(MeasurementFontStyles.Bold);
+                DisplayBold = isBold;
+            }
+            if (GetXmlNodeBoolNullable(_italicPath) == null)
+            {
+                isItalic = measureFont.Style.HasFlag(MeasurementFontStyles.Italic);
+                DisplayItalic = isItalic;
+            }
+
+            var rtBase = new RichTextFormatDrawing(Text, measureFont.FontFamily, measureFont.Size, isBold, isItalic);
 
             switch (Capitalization)
             {
