@@ -6,10 +6,12 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.Worksheet.Fill;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -54,7 +56,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (chartType.IsTypeStacked())
             {
-                //SumSeries(_yValues);
                 ExcelChartAxisStandard.CalculateStacked(_yValues, false, true);
             }
             else if (chartType.IsTypePercentStacked())
@@ -317,15 +318,28 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
 
-            if (nullPos.Count==0)
+            if (serie.Smooth && coords.Count > 2)
             {
-                linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+                if (nullPos.Count == 0)
+                {
+                    AddSmoothLine(linePath, coords);
+                }
+                else
+                {
+                    AddSmoothLineWithNullHandling(linePath, coords, nullPos);
+                }
             }
             else
             {
-                AddPathCommandWithNullHandling(linePath, coords, nullPos);
+                if (nullPos.Count == 0)
+                {
+                    linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+                }
+                else
+                {
+                    AddPathCommandWithNullHandling(linePath, coords, nullPos);
+                }
             }
-
             linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line
@@ -338,6 +352,53 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(errorBars);
         }
 
+        private void AddSmoothLineWithNullHandling(PathRenderItem linePath, List<double> coords, List<(int index, object nullValue)> nullPos)
+        {
+            var start = 0;
+            foreach (var item in nullPos)
+            {
+                var pos = item.Item1;
+                if (pos - start > 0)
+                {
+                    AddSmoothLine(linePath, coords.GetRange(start, pos - start));
+                }
+                start = pos + 1;
+                if ((start % 2) != 0) start++;
+            }
+
+            if (start < coords.Count - 1)
+            {
+                AddSmoothLine(linePath, coords.GetRange(start, coords.Count - start));
+            }
+        }
+
+        private void AddSmoothLine(PathRenderItem linePath, List<double> coords)
+        {
+            var smoothCoords = new List<double>();
+            int n = coords.Count / 2;                 // number of points
+
+            double X(int i) => coords[i * 2];
+            double Y(int i) => coords[i * 2 + 1];
+
+            const double f = 1d / 6d;
+            for (int i = 0; i < n - 1; i++)
+            {
+                int i0 = Math.Max(i - 1, 0);          // repeat the first point at the start
+                int i1 = i;
+                int i2 = i + 1;
+                int i3 = Math.Min(i + 2, n - 1);      // repeat the last point at the end
+
+                smoothCoords.Add(X(i1) + (X(i2) - X(i0)) * f);
+                smoothCoords.Add(Y(i1) + (Y(i2) - Y(i0)) * f);
+                smoothCoords.Add(X(i2) - (X(i3) - X(i1)) * f);
+                smoothCoords.Add(Y(i2) - (Y(i3) - Y(i1)) * f);
+                smoothCoords.Add(X(i2));
+                smoothCoords.Add(Y(i2));
+            }
+
+            linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords[0], coords[1]));
+            linePath.Commands.Add(new PathCommand(PathCommandType.CubicBézier, smoothCoords.ToArray()));
+        }
         private void AddPathCommandWithNullHandling(PathRenderItem linePath, List<double> coords, List<(int,object)> nullPos)
         {
             var start = 0;
