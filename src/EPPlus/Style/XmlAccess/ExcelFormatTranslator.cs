@@ -354,6 +354,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                                 }
                             }
 
+                            if(DataType== eFormatType.DateTime && isText==false && 
+                               (c=='Y' || c=='D' || c=='S')) //Year, day and seconds must be lower case.
+                            {
+                                c = clc;
+                            }
                             if (prevBslsh)
                             {
                                 if (_escapeChars.Contains(c))

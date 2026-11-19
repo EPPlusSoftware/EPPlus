@@ -36,7 +36,7 @@ using System.Text;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
-    public class WorksheetOutlineTests
+    public class WorksheetOutlineTests : TestBase
     {
         [TestMethod]
         public void InsertRowsSetsOutlineLevel()
@@ -159,6 +159,24 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual(1, sheet1.Column(7).OutlineLevel);
                 Assert.AreEqual(0, sheet1.Column(8).OutlineLevel);
             }
+        }
+
+        [TestMethod]
+        public void DissapearingCollapsei2600()
+        {
+            using var p = OpenPackage("i2600.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.OutLineSummaryBelow = false;
+
+            ws.Cells["A1"].Value = "Test1";   // summary row, OutlineLevel 0
+            ws.Cells["A2"].Value = "Test2";   // detail row
+
+            ws.Row(2).OutlineLevel = 1;
+            ws.Row(2).Hidden = true;
+            var row = ws.Row(1);
+            row.Collapsed = true;       // <-- lost on save
+
+            SaveAndCleanup(p);
         }
     }
 }

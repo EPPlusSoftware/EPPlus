@@ -1858,6 +1858,23 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(true, value);
             }
         }
+        [TestMethod]
+        public void s1094()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("sheet1");
+                base.SwitchToCulture();
+                ws.Cells["A1"].Formula = "=TEXT(46344,\"MM/DD/YYYY\")";
+                ws.Calculate();
+                ws.Cells["A2"].Value = new DateTime(2026, 11, 18);
+                ws.Cells["A2"].Style.Numberformat.Format = "MM/DD/YYYY";
+                Assert.AreEqual(ws.Cells["A2"].Text, "11/18/2026");
+                Assert.AreEqual(ws.Cells["A1"].Value, "11/18/2026");
+                base.SwitchBackToCurrentCulture();
+            }
+        }
+        }
 
         [TestMethod]
         public void s1095()

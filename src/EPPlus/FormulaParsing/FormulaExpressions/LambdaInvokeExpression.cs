@@ -76,7 +76,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal override void OnDispose()
         {
             base.OnDispose();
-            Context.VariableStorage.Pop();
         }
 
         private ExpressionStatus _status = ExpressionStatus.NoSet;
