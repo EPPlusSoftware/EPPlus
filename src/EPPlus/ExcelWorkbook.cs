@@ -731,229 +731,251 @@ namespace OfficeOpenXml
             return new ExcelHtmlWorkbookExporter(ranges);
         }
 
+        // Replaces all SaveAsPdf / SaveAsPdfAsync methods in OfficeOpenXml.ExcelWorkbook.
+        // The two private validation helpers at the end are new.
+
         /// <summary>
         /// Export workbook to PDF.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>
         public void SaveAsPdf(string fileName)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, this);
-            catalog.Save(fileName);
+            var pdfWriter = new EPPlusToPdfWriter(settings, this);
+            pdfWriter.Save(fileName);
         }
 
         /// <summary>
         /// Export selected worksheets to PDF.
         /// </summary>
-        /// <param name="fileName">Name of File.</param>
+        /// <param name="fileName">Name of File. If the export fails, the file is deleted.</param>
         /// <param name="worksheets">Worksheets to export.</param>
+        /// <exception cref="ArgumentException">No worksheets are supplied.</exception>
         public void SaveAsPdf(string fileName, params ExcelWorksheet[] worksheets)
         {
+            ValidatePdfWorksheets(worksheets);
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, worksheets);
-            catalog.Save(fileName);
+            var pdfWriter = new EPPlusToPdfWriter(settings, worksheets);
+            pdfWriter.Save(fileName);
         }
 
         /// <summary>
         /// Export selected ranges to PDF.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>
         /// <param name="ranges">Ranges to export.</param>
+        /// <exception cref="ArgumentException">No ranges are supplied.</exception>
         public void SaveAsPdf(string fileName, params ExcelRangeBase[] ranges)
         {
+            ValidatePdfRanges(ranges);
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, ranges);
-            catalog.Save(fileName);
+            var pdfWriter = new EPPlusToPdfWriter(settings, ranges);
+            pdfWriter.Save(fileName);
         }
 
         /// <summary>
         /// Export workbook to PDF asynchronously.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails or is cancelled, the file is deleted.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, this);
-                pdfCatalog.Save(fileName);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, this);
+            await pdfWriter.SaveAsync(fileName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export selected worksheets to PDF asynchronously.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>
         /// <param name="worksheets">Worksheets to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
         public Task SaveAsPdfAsync(string fileName, params ExcelWorksheet[] worksheets)
             => SaveAsPdfAsync(fileName, CancellationToken.None, worksheets);
 
         /// <summary>
         /// Export selected worksheets to PDF asynchronously.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails or is cancelled, the file is deleted.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <param name="worksheets">Worksheets to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        /// <exception cref="ArgumentException">No worksheets are supplied.</exception>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
         {
+            ValidatePdfWorksheets(worksheets);
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, worksheets);
-                pdfCatalog.Save(fileName);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, worksheets);
+            await pdfWriter.SaveAsync(fileName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export selected ranges to PDF asynchronously.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>
         /// <param name="ranges">Ranges to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
         public Task SaveAsPdfAsync(string fileName, params ExcelRangeBase[] ranges)
             => SaveAsPdfAsync(fileName, CancellationToken.None, ranges);
 
         /// <summary>
         /// Export selected ranges to PDF asynchronously.
         /// </summary>
-        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileName">Name of file. If the export fails or is cancelled, the file is deleted.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <param name="ranges">Ranges to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        /// <exception cref="ArgumentException">No ranges are supplied.</exception>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
         {
+            ValidatePdfRanges(ranges);
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, ranges);
-                pdfCatalog.Save(fileName);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, ranges);
+            await pdfWriter.SaveAsync(fileName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export workbook to PDF, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         public void SaveAsPdf(Stream stream)
         {
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, this);
-            catalog.Save(stream);
+            var pdfWriter = new EPPlusToPdfWriter(settings, this);
+            pdfWriter.Save(stream);
         }
 
         /// <summary>
         /// Export selected worksheets to PDF, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="worksheets">Worksheets to export.</param>
+        /// <exception cref="ArgumentException">No worksheets are supplied.</exception>
         public void SaveAsPdf(Stream stream, params ExcelWorksheet[] worksheets)
         {
+            ValidatePdfWorksheets(worksheets);
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, worksheets);
-            catalog.Save(stream);
+            var pdfWriter = new EPPlusToPdfWriter(settings, worksheets);
+            pdfWriter.Save(stream);
         }
 
         /// <summary>
         /// Export selected ranges to PDF, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="ranges">Ranges to export.</param>
+        /// <exception cref="ArgumentException">No ranges are supplied.</exception>
         public void SaveAsPdf(Stream stream, params ExcelRangeBase[] ranges)
         {
+            ValidatePdfRanges(ranges);
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            EPPlusToPdfWriter catalog = new EPPlusToPdfWriter(settings, ranges);
-            catalog.Save(stream);
+            var pdfWriter = new EPPlusToPdfWriter(settings, ranges);
+            pdfWriter.Save(stream);
         }
 
         /// <summary>
         /// Export workbook to PDF asynchronously, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, Worksheets[View.ActiveTab].PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, this);
-                pdfCatalog.Save(stream);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, this);
+            await pdfWriter.SaveAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export selected worksheets to PDF asynchronously, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="worksheets">Worksheets to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
         public Task SaveAsPdfAsync(Stream stream, params ExcelWorksheet[] worksheets)
             => SaveAsPdfAsync(stream, CancellationToken.None, worksheets);
 
         /// <summary>
         /// Export selected worksheets to PDF asynchronously, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <param name="worksheets">Worksheets to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
+        /// <exception cref="ArgumentException">No worksheets are supplied.</exception>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelWorksheet[] worksheets)
         {
+            ValidatePdfWorksheets(worksheets);
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, worksheets[0].PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, worksheets);
-                pdfCatalog.Save(stream);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, worksheets);
+            await pdfWriter.SaveAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export selected ranges to PDF asynchronously, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="ranges">Ranges to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
         public Task SaveAsPdfAsync(Stream stream, params ExcelRangeBase[] ranges)
             => SaveAsPdfAsync(stream, CancellationToken.None, ranges);
 
         /// <summary>
         /// Export selected ranges to PDF asynchronously, writing to a stream.
         /// </summary>
-        /// <param name="stream">Stream to write the PDF to. The stream is not closed; the caller owns it.</param>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
         /// <param name="cancellationToken">Token to cancel the operation.</param>
         /// <param name="ranges">Ranges to export.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
+        /// <exception cref="ArgumentException">No ranges are supplied.</exception>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken, params ExcelRangeBase[] ranges)
         {
+            ValidatePdfRanges(ranges);
+            cancellationToken.ThrowIfCancellationRequested();
             var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this, ranges[0].Worksheet.PrinterSettings);
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var pdfCatalog = new EPPlusToPdfWriter(settings, ranges);
-                pdfCatalog.Save(stream);
-            }, cancellationToken);
+            var pdfWriter = new EPPlusToPdfWriter(settings, ranges);
+            await pdfWriter.SaveAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
-        //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
-        //{
-        //    foreach (var range in ranges)
-        //    {
-        //        if (range._workbook != this)
-        //        {
-        //            throw new InvalidOperationException("All ranges must come from the current workbook");
-        //        }
-        //    }
-        //    return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
-        //}
+        private static void ValidatePdfWorksheets(ExcelWorksheet[] worksheets)
+        {
+            if (worksheets == null || worksheets.Length == 0)
+                throw new ArgumentException("At least one worksheet must be supplied.", nameof(worksheets));
+        }
+
+        private static void ValidatePdfRanges(ExcelRangeBase[] ranges)
+        {
+            if (ranges == null || ranges.Length == 0)
+                throw new ArgumentException("At least one range must be supplied.", nameof(ranges));
+        }
+
         /// <summary>
         /// Provides access to named ranges
         /// </summary>
