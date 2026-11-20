@@ -653,7 +653,10 @@ namespace OfficeOpenXml.VBA
                     }
                 }
 
-                doc.Storage.DataStreams.Add("PROJECT", new CompoundDocumentItem("PROJECT", CreateProjectStream()));
+                var projectStream = CreateProjectStream();
+                ProjectStreamText = Encoding.GetEncoding(CodePage).GetString(projectStream);
+                doc.Storage.DataStreams.Add("PROJECT", new CompoundDocumentItem("PROJECT", projectStream));
+
                 doc.Storage.DataStreams.Add("PROJECTwm", new CompoundDocumentItem("PROJECTwm", CreateProjectwmStream()));
 
                 if (Part == null)

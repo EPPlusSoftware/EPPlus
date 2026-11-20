@@ -391,50 +391,5 @@ namespace EPPlusTest.VBA
                 package.SaveAs(outFile);
             }
         }
-
-        X509Certificate2 GetSelfCert()
-        {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(3072), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
-
-            var certPrivate = finalCert.Export(X509ContentType.Pfx);
-            var certPublic = finalCert.Export(X509ContentType.Cert);
-            var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
-            return newCert;
-        }
-
-        [TestMethod]
-        public void s1096()
-        {
-            using (var p = OpenPackage("s1096.xlsm", true))
-            {
-
-                p.Workbook.Worksheets.Add("Sheet1");
-
-                p.Workbook.CreateVBAProject();
-
-                p.Workbook.CodeModule.Code =
-
-                  "Private Sub Workbook_Open()\r\n  MsgBox \"Signed macro ran\"\r\nEnd Sub\r\n";
-
-                //Works for me //O
-                //X509Store store = new X509Store(StoreLocation.CurrentUser);
-                //store.Open(OpenFlags.ReadOnly);
-                //foreach (var cert in store.Certificates)
-                //{
-                //    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
-                //    {
-                //        p.Workbook.VbaProject.Signature.Certificate = cert;
-                //        break;
-                //    }
-                //}
-
-                p.Workbook.VbaProject.Signature.Certificate = GetSelfCert(); // X509Certificate2 with private key
-
-
-                var fi = GetOutputFile("", "s1096.xlsm");
-                p.SaveAs(fi);
-            }
-        }
     }
 }
