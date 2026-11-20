@@ -350,7 +350,8 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", "title", IsVertical ? 270 : 0);
+                
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", "title", 0); //Stop putting 'IsVertical ? 270 : 0' here. Excel does not do that. It's based on textDirection not being vertical
             }
             return _title;
         }
