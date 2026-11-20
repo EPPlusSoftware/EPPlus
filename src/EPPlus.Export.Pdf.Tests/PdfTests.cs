@@ -252,8 +252,12 @@ namespace EPPlusTest.PDF
                 using var cts = new CancellationTokenSource();
                 cts.Cancel();
 
-                await Assert.ThrowsExactlyAsync<TaskCanceledException>(
+                await Assert.ThrowsAsync<OperationCanceledException>(
                     () => wb.SaveAsPdfAsync(tempFile, cts.Token));
+
+                // Cancellation is checked before the file is opened, so the existing (empty) file must be left untouched.
+                Assert.IsTrue(File.Exists(tempFile));
+                Assert.AreEqual(0, new FileInfo(tempFile).Length);
             }
             finally
             {
@@ -314,7 +318,7 @@ namespace EPPlusTest.PDF
             using var ms = new MemoryStream();
             using var cts = new CancellationTokenSource();
             cts.Cancel();
-            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => wb.SaveAsPdfAsync(ms, cts.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(() => wb.SaveAsPdfAsync(ms, cts.Token));
         }
 
         [TestMethod]
@@ -431,7 +435,7 @@ namespace EPPlusTest.PDF
             using var ms = new MemoryStream();
             using var cts = new CancellationTokenSource();
             cts.Cancel();
-            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => ws.SaveAsPdfAsync(ms, cts.Token));
+            await Assert.ThrowsExactlyAsync<OperationCanceledException>(() => ws.SaveAsPdfAsync(ms, cts.Token));
         }
 
         [TestMethod]
@@ -501,7 +505,7 @@ namespace EPPlusTest.PDF
             using var ms = new MemoryStream();
             using var cts = new CancellationTokenSource();
             cts.Cancel();
-            await Assert.ThrowsExactlyAsync<TaskCanceledException>(() => range.SaveAsPdfAsync(ms, cts.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(() => range.SaveAsPdfAsync(ms, cts.Token));
         }
 
         [TestMethod]
@@ -1389,6 +1393,17 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PdfConditionalFormattingTest.xlsx");
             string path = _pdfPath + "PdfConditionalFormattingTest3.pdf";
+            p.Workbook.SaveAsPdf(path);
+        }
+
+        [TestMethod]
+        public void PdfRotatedTextTest1()
+        {
+            using var p = OpenTemplatePackage("PdfRotatedText.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.ShowGridLines = true;
+            ws.PrinterSettings.PaperSize = ePaperSize.A4;
+            string path = _pdfPath + "PdfRotatedText1.pdf";
             p.Workbook.SaveAsPdf(path);
         }
     }

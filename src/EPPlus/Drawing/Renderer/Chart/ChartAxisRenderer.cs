@@ -95,6 +95,12 @@ namespace EPPlusImageRenderer.Svg
             {
                 Title = null;
             }
+
+            if (Axis.DisplayUnitTitle.Exists)
+            {
+                DisplayUnitTitle = new ChartTitleRenderer(ChartRenderer, (ExcelChartTitleStandard)Axis.DisplayUnitTitle,
+                    GetUnitDefaultText(), this, true);
+            }
         }
         List<object> _values;
         bool _isMulti;
@@ -206,6 +212,27 @@ namespace EPPlusImageRenderer.Svg
                 {
                     Line.Style.BorderWidth = 1;
                 }
+            }
+        }
+
+        private string GetUnitDefaultText()
+        {
+            switch(Axis.DisplayUnit)
+            {
+                case 0:
+                    return "";
+                case 100:
+                    return "Hundreds";
+                case 1000:
+                    return "Thousands";
+                case 1000000:
+                    return "Millions";
+                case 1000000000:
+                    return "Billions";
+                case 1000000000000:
+                    return "Trillions";
+                default:
+                    return $"x {Axis.DisplayUnit}";
             }
         }
 
@@ -448,6 +475,7 @@ namespace EPPlusImageRenderer.Svg
         public List<LineRenderItem> MinorTickMarkPositions { get; private set; }
         public ChartAxisTextBoxes  Textboxes{get; private set;}
         public ChartTitleRenderer Title { get; set; }
+        public ChartTitleRenderer DisplayUnitTitle { get; set; }
         public double Min { get; set; }
         public double Max { get; set; }
         public double MajorUnit { get; set; }
@@ -499,6 +527,7 @@ namespace EPPlusImageRenderer.Svg
                 //renderItems.Add(axisGroup);
                 plotareaGroup.AddChildItem(axisGroup);
             }
+            DisplayUnitTitle?.AppendRenderItems(renderItems);
             Title?.AppendRenderItems(renderItems);
 
             //The axis text boxes is rendered later as they have a higher Z-order.
@@ -867,10 +896,14 @@ namespace EPPlusImageRenderer.Svg
 
                 double x, y;
 
-                double availableTextLength = majorTickMarkWidth;
+                double availableTextLength;
                 if (Axis.IsVertical)
                 {
-                    availableTextLength = maxHeight;
+                    availableTextLength = maxWidth;
+                }
+                else
+                {
+                    availableTextLength = majorTickMarkWidth;
                 }
 
                 if (LabelOrientation == eTextOrientation.Horizontal)

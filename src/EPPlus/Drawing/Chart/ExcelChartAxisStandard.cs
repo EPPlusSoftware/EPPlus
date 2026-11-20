@@ -10,23 +10,15 @@
  *************************************************************************************************
   04/22/2020         EPPlus Software AB       Added this class
  *************************************************************************************************/
-using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Xml;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 namespace OfficeOpenXml.Drawing.Chart
@@ -358,7 +350,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", 0);
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", "title", IsVertical ? 270 : 0);
             }
             return _title;
         }
@@ -691,6 +683,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
+        const string _dispUnitLblPath = "dispUnits/c:dispUnitsLbl";
+        private ExcelChartTitle _displayUnitTitle = null;
+        /// <summary>
+        /// A title associated with the display units. 
+        /// </summary>
+        public ExcelChartTitle DisplayUnitTitle
+        {
+            get
+            {
+                if (_displayUnitTitle==null)
+                {
+                    _displayUnitTitle = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", _dispUnitLblPath, IsVertical ? 270 : 0);
+                }
+                return _displayUnitTitle;
+            }
+        }
+
         const string _majorUnitPath = "c:majorUnit/@val";
         const string _majorUnitCatPath = "c:tickLblSkip/@val";
         /// <summary>
@@ -1089,7 +1098,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
-                    values.Add(l);
                     if (AxisType == eAxisType.Cat)
                     {
                         if (string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length == 0) && (serie.StringLiteralsX == null || serie.StringLiteralsX?.Length == 0))
@@ -1102,6 +1110,11 @@ namespace OfficeOpenXml.Drawing.Chart
                             if (ct.XAxis.Id == Id || ct.YAxis.Id == Id)
                             {
                                 serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) }, out isMultiLevel);
+                            }
+                            else
+                            {
+                                ix++;
+                                continue;
                             }
                         }
                     }
@@ -1116,7 +1129,13 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             serie.AddFromSerie(l, true, false, null, out isMultiLevel);
                         }
+                        else
+                        {
+                            ix++;
+                            continue;
+                        }
                     }
+                    values.Add(l);
                     pl = l;
                     ix++;
                 }
