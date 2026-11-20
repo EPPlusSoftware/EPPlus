@@ -41,8 +41,8 @@ namespace EPPlusTest.Issues
 
                   "Private Sub Workbook_Open()\r\n  MsgBox \"Signed macro ran\"\r\nEnd Sub\r\n";
 
-                //p.Workbook.VbaProject.Signature.Certificate = GetSelfCert(); // X509Certificate2 with private key
-                p.Workbook.VbaProject.Signature.Certificate = LoadSelfCert(); // X509Certificate2 with private key
+                p.Workbook.VbaProject.Signature.Certificate = GetSelfCert(); // X509Certificate2 with private key
+                //Workbook.VbaProject.Signature.Certificate = LoadSelfCert(); // X509Certificate2 with private key
                 p.Workbook.VbaProject.Signature.V3Signature.HashAlgorithm = OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256;
                 var fi = GetOutputFile("", "s1096.xlsm");
                 p.SaveAs(fi);
@@ -65,9 +65,10 @@ namespace EPPlusTest.Issues
             //File.WriteAllBytes($"c:\\temp\\mycert-saved.pfx", pfx);
             return newCert;
         }
-        X509Certificate2 LoadSelfCert()
-        {
-            return new X509Certificate2("c:\\temp\\mycert-saved.pfx");
-        }
+        //For local testing, load a self-signed certificate from a file. The certificate will be valid for 1 day.
+        //X509Certificate2 LoadSelfCert()
+        //{
+        //    return new X509Certificate2("c:\\temp\\mycert-saved.pfx");
+        //}
     }
 }
