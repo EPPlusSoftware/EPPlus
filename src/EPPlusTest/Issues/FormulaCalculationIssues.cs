@@ -5,10 +5,12 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using static OfficeOpenXml.ExcelErrorValue;
@@ -1870,6 +1872,24 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(ws.Cells["A2"].Text, "11/18/2026");
                 Assert.AreEqual(ws.Cells["A1"].Value, "11/18/2026");
                 base.SwitchBackToCurrentCulture();
+            }
+        }
+        
+        [TestMethod]
+        public void s1095()
+        {
+            using (var package = OpenTemplatePackage("s1095.xlsx"))
+            {
+                package.Workbook.FullCalcOnLoad = true;
+                package.Workbook.Calculate();
+
+                ExcelWorksheet ws = package.Workbook.Worksheets["Sheet1"];
+                ExcelRange cell1 = ws.Cells["B5"];
+
+                Assert.AreEqual(0d, cell1.Value);
+                
+                ExcelRange cell2 = ws.Cells["B6"];
+                Assert.AreEqual(0d, cell2.Value);                
             }
         }
     }
