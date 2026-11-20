@@ -28,7 +28,16 @@ namespace OfficeOpenXml.Vba.Signatures
             CreateSignatureOnSave = SignatureHandler.ReadSignature();
             Part = SignatureHandler.Part;
             Verifier = SignatureHandler.Verifier;
-            HashAlgorithm = hashAlgorithm;
+
+            if (Verifier == null)
+            {
+                HashAlgorithm = hashAlgorithm;
+            }
+            else
+            {
+                ////TODO: Change in EPPlus 9 to set SHA256, is a less secure algorithm.
+                HashAlgorithm = SignatureHandler.Context.HashAlgorithm;   //Algorithm in the existing signature.
+            }
         }
         /// <summary>
         /// A boolean indicating if a signature for the VBA project will be created when the package is saved.
