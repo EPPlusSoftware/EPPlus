@@ -124,7 +124,7 @@ namespace EPPlusImageRenderer
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea();
 
-            Plotarea.SetPlotAreaRectangle();
+            //Plotarea.SetPlotAreaRectangle();
 
             Plotarea.DrawSeries();
             

@@ -284,7 +284,18 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                return Rectangle.GlobalBottom;
+                var lastLine = TextBox?.TextBody?.Paragraphs?.Last().Lines?.Last();
+                if(lastLine != null)
+                {
+                    
+                    //Excel spaces the bottom one line lower than the rect
+                    var lineSpace = lastLine.LargestDescent*2d;
+                    return Rectangle.GlobalBottom + lineSpace;
+                }
+                else
+                {
+                    return Rectangle.GlobalBottom;
+                }
             }
         }
 
