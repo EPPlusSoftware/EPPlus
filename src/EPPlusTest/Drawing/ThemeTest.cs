@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Drawing.Style;
 using EPPlusTest.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
@@ -497,20 +498,47 @@ namespace EPPlusTest.Drawing
             var tint = tc.ColorConverter.ApplyTintDrawing(accent1, -0.7d);
         }
 
-        [TestMethod]
-        public void CalculateLEGACYDataPointsOfWholePie()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataPointCount"></param>
+        /// <param name="origColors">usually the 6 accent colors</param>
+        /// <returns></returns>
+        internal List<List<Color>> GetLegacyColorVariations(int dataPointCount, List<Color> origColors)
         {
-            //Assuming 24 data points
-            var numVariations = 24 / 6;
+
+            var numVariations = dataPointCount / origColors.Count();
 
             //KEY TAKE AWAYS TO MAKE FUNC WORK
             //VariationIndex begins at 1 NOT 0
             //highestVariation INCREASED by 1 when REACHING 6 not the start of the next "accent1" 
-            if (24 % 6 == 0)
+            if (dataPointCount % origColors.Count() == 0)
             {
                 numVariations += 1;
             }
 
+            List<List<Color>> outputColors = new List<List<Color>>();
+            for (int i = 1; i < numVariations; i++)
+            {
+                List<Color> currentVariations = new List<Color>();
+                for (int j = 0; j < origColors.Count; j++)
+                {
+                    var color = origColors[j];
+                    var tintValue = (-70d + 140d * (i / (numVariations + 1d))) / 100d;
+
+                    var variation = tc.ColorConverter.ApplyTintDrawing(color, tintValue);
+
+                    currentVariations.Add(variation);
+                }
+                outputColors.Add(currentVariations);
+            }
+
+            return outputColors;
+        }
+
+        [TestMethod]
+        public void CalculateLEGACYDataPointsOfWholePie()
+        {
             var accent1 = Color.FromArgb(255, 79, 129, 189);
             var accent2 = Color.FromArgb(255, 192, 80, 77);
             var accent3 = Color.FromArgb(255, 155, 187, 89);
@@ -519,21 +547,7 @@ namespace EPPlusTest.Drawing
             var accent6 = Color.FromArgb(255, 247, 150, 70);
 
             List<Color> colorList = new List<Color>() {accent1, accent2, accent3, accent4, accent5, accent6 };
-            List<List<Color>> outputColors = new List<List<Color>>();
-            for (int i = 1; i < numVariations; i++)
-            {
-                List<Color> currentVariations = new List<Color>();
-                for (int j = 0; j < colorList.Count; j++)
-                {
-                    var color = colorList[j];
-                    var tintValue = ( -70d + 140d * (i / (numVariations + 1d)))/100d;
-
-                    var variation = tc.ColorConverter.ApplyTintDrawing(color, tintValue);
-
-                    currentVariations.Add(variation);
-                }
-                outputColors.Add(currentVariations);
-            }
+            List<List<Color>> outputColors = GetLegacyColorVariations(24, colorList);
 
             var variation1 = Color.FromArgb(255, 57, 96, 142);
             var variation2 = Color.FromArgb(255, 144, 58, 56);

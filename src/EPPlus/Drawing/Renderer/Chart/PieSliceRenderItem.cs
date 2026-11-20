@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Globalization;
 using System.Security.Cryptography;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
@@ -305,8 +306,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         RectRenderItem largestInscribedRectangleOuter;
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
+        int totalSliceCount = 0;
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees, int totalSlices) : base(renderer)
         {
+            totalSliceCount = totalSlices;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Parent = parent;
             _radius = slice.Circle.Radius;
@@ -568,16 +572,18 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                var subtleFill = ChartRenderer.Theme.FormatScheme.FillStyle[0];
-                var bg = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
-                var darkScheme = OfficeOpenXml.Utils.TypeConversion.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
-                var dark75 = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(darkScheme, 1 - 0.75d);
+                //var subtleFill = ChartRenderer.Theme.FormatScheme.FillStyle[0];
+                //var bg = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
+                //var darkScheme = OfficeOpenXml.Utils.TypeConversion.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
+                //var dark75 = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(darkScheme, 1 - 0.75d);
 
-                var color = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(dark75, subtleFill.SolidFill.Color.Transforms);
+                //var color = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(dark75, subtleFill.SolidFill.Color.Transforms);
                 //var test = ColorConverter.
 
                 //_slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
-                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
+                var divFactor = position / 6d;
+                var varIteration = (int)divFactor;
+                ChartTypeDrawer.SetSingleFillSerie(Chart, chartType, serie, varIteration, position, totalSliceCount, _slicePath.Style);
             }
             //if (chartType.VaryColors)
             //{

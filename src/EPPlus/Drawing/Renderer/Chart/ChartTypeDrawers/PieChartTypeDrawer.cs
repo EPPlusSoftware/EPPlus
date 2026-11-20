@@ -116,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             for (int i = 0; i < valPercents.Count; i++)
             {
-                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees);
+                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees, valPercents.Count);
                 prevDegrees = renderSlice.Degrees + prevDegrees;
                 Slices.Add(renderSlice);
             }
