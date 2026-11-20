@@ -50,8 +50,8 @@ namespace EPPlus.Export.Pdf.Settings
                 Title = s.Title,
                 Author = s.Author,
                 BlackAndWhite = s.BlackAndWhite,
-                BookmarkNamePrefix = s.BookmarkNamePrefix
-                SuppressFormFieldDetection = s.SuppressFormFieldDetection
+                BookmarkNamePrefix = s.BookmarkNamePrefix,
+                SuppressFormFieldDetection = s.SuppressFormFieldDetection,
             };
         }
 

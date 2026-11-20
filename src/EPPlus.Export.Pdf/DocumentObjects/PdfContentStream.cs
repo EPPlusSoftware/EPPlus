@@ -32,6 +32,21 @@ namespace EPPlus.Export.Pdf.DocumentObjects
     internal class PdfContentStream : PdfObject
     {
         private readonly List<string> commands = new List<string>();
+        private readonly Stack<(int index, string header)> _artifactMarks = new Stack<(int, string)>();
+
+        public void BeginArtifact() => _artifactMarks.Push((commands.Count, "/Artifact BMC"));
+        public void BeginArtifact(string type) => _artifactMarks.Push((commands.Count, $"/Artifact << /Type /{type} >> BDC"));
+
+        public void EndArtifact()
+        {
+            if (_artifactMarks.Count == 0) return;
+            var mark = _artifactMarks.Pop();
+            if (commands.Count > mark.index)
+            {
+                commands.Insert(mark.index, mark.header);
+                commands.Add("EMC");
+            }
+        }
 
         public PdfContentStream(int objectNumber, string command = null, int version = 0)
             : base(objectNumber, version)
@@ -58,6 +73,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         public void AddCellLayout(PdfCellLayout cell, string label)
         {
             if (cell.Size.X <= 0d || cell.Size.Y <= 0d) return;
+            BeginArtifact();
             if (cell.CellFillData.GradientFillData != null && cell.CellFillData.PatternStyle != ExcelFillStyle.Solid)
             {
                 commands.Add("q");
@@ -96,12 +112,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 commands.Add("f");
                 commands.Add("Q");
             }
+            EndArtifact();
         }
 
         public void AddBorderLayout(PdfCellBorderLayout cell)
         {
             var borderRenderer = new PdfBorderRenderer(cell);
-            borderRenderer.RenderBorder(this);
+            if (borderRenderer.HasBorder())
+            {
+                BeginArtifact();
+                commands.Add("q");
+                borderRenderer.RenderBorder(this);
+                commands.Add("Q");
+                EndArtifact();
+            }
         }
 
         public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfRenderSettings pageSettings)
@@ -380,6 +404,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
+            BeginArtifact();
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(Color.Black.ToFillCommand());
@@ -402,20 +427,23 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("f");
             commands.Add("Q");
+            EndArtifact();
         }
 
         public void AddImage(string label, double x, double y, double width, double height)
         {
+            BeginArtifact();
             commands.Add("q");
             commands.Add($"{width.ToPdfString()} 0 0 {height.ToPdfString()} {x.ToPdfString()} {y.ToPdfString()} cm");
             commands.Add($"/{label} Do");
             commands.Add("Q");
+            EndArtifact();
         }
         public void AddPrintTitleGridLines(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
-
+            BeginArtifact();
             commands.Add("q");
             commands.Add($"{GridLine.Width.ToPdfString()} w");
             commands.Add(Color.Black.ToFillCommand());
@@ -438,13 +466,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("f");
             commands.Add("Q");
+            EndArtifact();
         }
 
         public void AddOuterGridBorder(Transform pageLayout)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pl.isCommentsPage) return;
-
+            BeginArtifact();
             commands.Add("q");
             commands.Add("1.0 w");
             commands.Add("2 J");
@@ -457,6 +486,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
             commands.Add("S");
             commands.Add("Q");
+            EndArtifact();
         }
 
         public void AddMarginClipping(PdfPageLayout pageLayout, PdfRenderSettings pageSettings)
@@ -516,6 +546,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
             if (barW > 0d && bar.FillColor != Color.Empty)
             {
+                BeginArtifact();
                 commands.Add("q");
                 if (bar.Gradient)
                 {
@@ -552,10 +583,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     commands.Add("S");
                 }
                 commands.Add("Q");
+                EndArtifact();
             }
 
             if (bar.AxisColor != null)                            // thin vertical axis line
             {
+                BeginArtifact();
                 commands.Add("q");
                 commands.Add(bar.AxisColor.Value.ToStrokeCommand());
                 commands.Add($"{(GridLine.Width*3).ToPdfString()} w");   // thicker (was GridLine.HalfWidth)
@@ -564,6 +597,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 commands.Add($"{axisX.ToPdfString()} {(barY + barH).ToPdfString()} l");
                 commands.Add("S");
                 commands.Add("Q");
+                EndArtifact();
             }
         }
 
@@ -599,11 +633,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     break;
             }
             double s = size / 100d;
-
+            BeginArtifact();
             commands.Add("q");
             commands.Add($"{s.ToPdfString()} 0 0 {s.ToPdfString()} {iconX.ToPdfString()} {iconY.ToPdfString()} cm");
             PdfIconRenderer.Render(icon.IconName, this);
             commands.Add("Q");
+            EndArtifact();
         }
 
         internal override string RenderDictionary()

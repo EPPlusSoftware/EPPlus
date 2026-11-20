@@ -61,6 +61,11 @@ namespace EPPlus.Export.Pdf.Settings
         internal string BookmarkNamePrefix = "bm_";
 
         /// <summary>
+        /// Set true to supress Acrobat Readers auto detecting of form fillable areas.
+        /// </summary>
+        public bool SuppressFormFieldDetection = true;
+
+        /// <summary>
         /// The order in how to create pages.
         /// </summary>
         internal PageOrders PageOrders = PageOrders.DownThenOver;
