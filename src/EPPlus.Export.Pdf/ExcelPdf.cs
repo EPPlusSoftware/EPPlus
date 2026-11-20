@@ -480,6 +480,21 @@ namespace EPPlus.Export.Pdf
             return false;
         }
 
+        private void AddFormFieldSuppressor(PdfCatalog catalog, PdfPage[] pageObjs)
+        {
+            if (!_documentSettings.SuppressFormFieldDetection) return;
+            if (pageObjs.Length == 0) return;
+
+            var page = pageObjs[0];
+            var field = new PdfFormFieldObject(_document.Count + 1, page.objectNumber);
+            _document.Add(field);
+            page.annotationObjectNumbers.Add(field.objectNumber);   // widget must also be in the page's /Annots
+
+            var acro = new PdfAcroForm(_document.Count + 1, new List<int> { field.objectNumber });
+            _document.Add(acro);
+            catalog.AcroFormObjectNumber = acro.objectNumber;
+        }
+
         //Add Info
         private PdfInfoObject AddInfoObject()
         {
@@ -570,6 +585,7 @@ namespace EPPlus.Export.Pdf
             {
                 AddContent((PdfPageLayout)layout.ChildObjects[i], pageObjs[i], destIndex);
             }
+            AddFormFieldSuppressor(catalog, pageObjs);
             var catLayout = layout as PdfCatalogLayout;
             //Create Named destinations
             AddNamedDestinations(catalog, destIndex, catLayout);
