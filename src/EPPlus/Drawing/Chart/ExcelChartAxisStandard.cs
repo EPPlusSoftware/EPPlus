@@ -79,14 +79,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = GetXmlNodeString(_majorTickMark);
                 if (string.IsNullOrEmpty(v))
                 {
-                    return eAxisTickMark.Cross;
+                    //return eAxisTickMark.Cross;
                     //On Epplus generated charts e.g. the test "HtmlExportWithColumnGradient"
                     //Excel displays cross even without v or MajorTickmarkParent
-                    //if (ExistsNode(_majorTickMarkParent))
-                    //{
-                    //    return eAxisTickMark.Cross;
-                    //}
-                    //return eAxisTickMark.Out;
+                    if (ExistsNode(_majorTickMarkParent))
+                    {
+                        return eAxisTickMark.Cross;
+                    }
+                    return eAxisTickMark.Out;
                 }
                 else
                 {

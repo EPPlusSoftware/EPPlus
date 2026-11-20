@@ -133,7 +133,7 @@ namespace EPPlusImageRenderer.Svg
             var rightSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Right, 1);
             var lp = ChartRenderer.Chart.Legend?.Position;
             var right = ((lp == eLegendPosition.Right || lp == eLegendPosition.TopRight) && ChartRenderer.Legend != null && ChartRenderer.Legend.Overlay==false ?
-                        ChartRenderer.Legend.Rectangle.GlobalLeft - RightMargin :
+                        ChartRenderer.ChartArea.Rectangle.Width - ChartRenderer.Legend.Rectangle.Width - RightMargin :
                         ChartRenderer.ChartArea.Rectangle.Width - RightMargin);
 
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
