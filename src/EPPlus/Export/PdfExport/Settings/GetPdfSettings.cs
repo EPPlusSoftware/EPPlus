@@ -27,14 +27,6 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             return s;
         }
 
-        internal static PdfRenderSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
-        {
-            bool stampNonCommercial = ExcelPackage.License.LicenseType == EPPlusLicenseType.NonCommercialOrganization;
-            var settings = new PdfRenderSettings(workbook.RenderContext.FontEngine);
-            ApplyPrinterSettings(settings, eps);
-            return settings;
-        }
-
         internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps)
         {
             var s = baseSettings.CloneForSheet();

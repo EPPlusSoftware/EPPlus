@@ -260,8 +260,6 @@ namespace EPPlus.Export.Pdf.Settings
 
         internal string AdditionalContent;
 
-        internal bool SuppressFormFieldDetection { get; set; } = true;
-
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
