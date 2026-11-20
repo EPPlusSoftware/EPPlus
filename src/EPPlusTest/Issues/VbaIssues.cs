@@ -46,7 +46,7 @@ namespace EPPlusTest.Issues
                 p.Workbook.VbaProject.Signature.V3Signature.HashAlgorithm = OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256;
                 var fi = GetOutputFile("", "s1096.xlsm");
                 p.SaveAs(fi);
-            }
+             }
         }
         /// <summary>
         /// Use to creat a self-signed certificate for testing purposes. The certificate will be valid for 1 day.

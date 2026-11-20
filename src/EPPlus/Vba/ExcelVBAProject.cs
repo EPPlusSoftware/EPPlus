@@ -837,7 +837,7 @@ namespace OfficeOpenXml.VBA
             bw.Write(nameBytes);     //Name
 
             bw.Write((ushort)0x47);
-            var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.Name);
+            var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.NameUnicode ?? module.Name);
             bw.Write((uint)nameUnicodeBytes.Length);
             bw.Write(nameUnicodeBytes);                   //Name
 

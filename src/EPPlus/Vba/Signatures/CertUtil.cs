@@ -119,6 +119,10 @@ namespace OfficeOpenXml.VBA.Signatures
             var contentInfo = ProjectSignUtil.SignProject(proj, signature, ctx);
             var verifier = new SignedCms(contentInfo);
             var signer = new CmsSigner(signature.Certificate);
+            signer.SignedAttributes.Add(new AsnEncodedData(
+                new Oid("1.3.6.1.4.1.311.2.1.12"),
+                new byte[] { 0x30, 0x04, 0xA0, 0x02, 0xA0, 0x00 }));
+
             if (ctx.SignatureType != ExcelVbaSignatureType.Legacy)
             {
                 signer.DigestAlgorithm = new Oid(ctx.AlgorithmIdentifierOId);
