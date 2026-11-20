@@ -153,7 +153,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Page
-        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
+        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfRenderSettings settings)
         {
             var page = new PdfPage(_document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, _dictionaries);
             _document.Add(page);

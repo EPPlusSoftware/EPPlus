@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 {
     internal class PdfTextMap
     {
-        readonly PdfPageSettings _pageSettings;
+        readonly PdfRenderSettings _pageSettings;
         readonly PdfDictionaries _dictionaries;
         readonly PdfWorksheet _pdfSheet;
         readonly ExcelWorksheet _worksheet;
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 
         PdfRange _range;
 
-        private PdfTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, PdfRange range)
+        private PdfTextMap(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, PdfRange range)
         {
             _pageSettings = pageSettings;
             _dictionaries = dictionaries;
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             _pdfSheet.ToRow = _pdfSheet.ToRow < range.Range._toRow ? range.Range._toRow : _pdfSheet.ToRow;
         }
 
-        public static PdfCellCollection SetTextMap(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
+        public static PdfCellCollection SetTextMap(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ref PdfRange pdfRange)
         {
             var builder = new PdfTextMap(pageSettings, dictionaries, pdfSheet, pdfRange);
             var map = builder.Build();
@@ -310,7 +310,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         /// </summary>
         /// <param name="ws">The worksheet to check.</param>
         /// <returns>The number of columns to add.</returns>
-        internal static int AddColumnsForNonWrappedText(PdfPageSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
+        internal static int AddColumnsForNonWrappedText(PdfRenderSettings pageSettings, ExcelWorksheet ws, PdfWorksheet pdfSheet)
         {
             if (ws.Dimension == null) return 0; //If dimension is null, there are no cells to check, so return 0.
             int columnsToAdd = 0;

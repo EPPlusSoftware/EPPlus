@@ -379,7 +379,7 @@ namespace EPPlusTest.PDF
         {
             using var p = OpenTemplatePackage("PDFTest.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
+            var pageSettings = new PdfRenderSettings(ws.Workbook.RenderContext.FontEngine);
             using var ms = new MemoryStream();
             var pdfCatalog = new EPPlusToPdfWriter(pageSettings, ws);
             pdfCatalog.Save(ms);
@@ -670,7 +670,7 @@ namespace EPPlusTest.PDF
             var d = ws.Dimension;
             var d2 = ws.DimensionByValue;
 
-            PdfPageSettings pageSettings = new PdfPageSettings(ws.Workbook.RenderContext.FontEngine);
+            PdfRenderSettings pageSettings = new PdfRenderSettings(ws.Workbook.RenderContext.FontEngine);
             pageSettings.CommentsAndNotes = CommentsAndNotes.AtEndOfSheet;
 
             pageSettings.CellErrors = CellErrors.Displayed;
@@ -925,7 +925,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void GetOriginX_CenteringOff_ReturnsContentBoundsLeft()
         {
-            var s = new PdfPageSettings(null);
+            var s = new PdfRenderSettings(null);
             var p = new Page()
             {
                 FromRow = 1,
@@ -943,7 +943,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void GetOrigin_FlagsAreIndependent()
         {
-            var s = new PdfPageSettings(null);
+            var s = new PdfRenderSettings(null);
             s.CenterOnPageHorizontally = true;
             var p = new Page()
             {
@@ -962,7 +962,7 @@ namespace EPPlusTest.PDF
         [TestMethod]
         public void GetClampedCellWidth_CellFitsWithinPage_ReturnsCellWidthUnchanged()
         {
-            var s = new PdfPageSettings(null);
+            var s = new PdfRenderSettings(null);
 
             Assert.AreEqual(51.71d, PdfLayout.GetClampedCellWidth(s, 126.31d, 51.71d), 0.0001);
         }

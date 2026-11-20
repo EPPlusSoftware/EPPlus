@@ -104,7 +104,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             borderRenderer.RenderBorder(this);
         }
 
-        public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfRenderSettings pageSettings)
         {
             double advanceY = 0d;
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
@@ -363,7 +363,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return defaultUnitsPerEm > 0 ? defaultUnitsPerEm : (ushort)1000;
         }
 
-        public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfRenderSettings pageSettings)
         {
             commands.Add("q");
             if (cell.Clip) AddClipping(cell);
@@ -459,7 +459,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             commands.Add("Q");
         }
 
-        public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
+        public void AddMarginClipping(PdfPageLayout pageLayout, PdfRenderSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;

@@ -53,14 +53,14 @@ namespace EPPlus.Export.Pdf.Tests
             });
         }
 
-        private static PdfPageSettings CreateSettings(OpenTypeFontEngine engine, bool embeddFonts)
+        private static PdfRenderSettings CreateSettings(OpenTypeFontEngine engine, bool embeddFonts)
         {
-            var settings = new PdfPageSettings(engine);
+            var settings = new PdfRenderSettings(engine);
             settings.EmbeddFonts = embeddFonts;
             return settings;
         }
 
-        private static PdfDictionaries CreateDictionariesWithSingleFont(PdfPageSettings settings, OpenTypeFontEngine engine)
+        private static PdfDictionaries CreateDictionariesWithSingleFont(PdfRenderSettings settings, OpenTypeFontEngine engine)
         {
             var dictionaries = new PdfDictionaries();
 
@@ -182,7 +182,7 @@ namespace EPPlus.Export.Pdf.Tests
             var font = engine.LoadFont("Calibri");
             var subset = new SingleFontSubsetter().Subset(font, new HashSet<int> { 65, 66, 67 }, true);
 
-            var resource = new PdfFontResource("Calibri", FontSubFamily.Regular, 1, new PdfPageSettings(engine));
+            var resource = new PdfFontResource("Calibri", FontSubFamily.Regular, 1, new PdfRenderSettings(engine));
             resource.fontData = subset;
 
             // Object numbers are arbitrary; they only need to be set in dependency order.

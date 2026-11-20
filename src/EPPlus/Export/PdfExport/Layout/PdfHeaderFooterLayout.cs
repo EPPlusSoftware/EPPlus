@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        internal static void AddHeaderFooter(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, int displayedPageNumber, int physicalPageIndex, int totalPages)
+        internal static void AddHeaderFooter(PdfPageLayout pageLayout, Page page, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, int displayedPageNumber, int physicalPageIndex, int totalPages)
         {
             if (page.HeaderFooters == null) return;
             pageLayout.ScaleHeaderFooterWithDocument = page.HeaderFooters.ScaleWithDocument;
@@ -198,20 +198,20 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void SubstitutePageNumbers(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        private static void SubstitutePageNumbers(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
             if (hf == null) return;
             ApplyPageNumbers(hf, pageNumber, totalPages);
             PdfTextShaper.ShapeText(pageSettings, dictionaries, hf.Content);
         }
 
-        internal static bool ShapeHeaderFooterText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
+        internal static bool ShapeHeaderFooterText(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter hf, int pageNumber, int totalPages)
         {
             SubstitutePageNumbers(pageSettings, dictionaries, hf, pageNumber, totalPages);
             return hf.Content != null && hf.Content.TextLines != null && hf.Content.TextLines.Count > 0;
         }
 
-        internal static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
+        internal static Vector2 HeaderFooterPivot(HeaderFooterSection section, HeaderFooterAlignment align, PdfRenderSettings ps, bool alignWithMargins)
         {
             var (left, width) = HeaderFooterBox(ps, alignWithMargins);
             double x = align == HeaderFooterAlignment.Left ? left : (align == HeaderFooterAlignment.Right ? left + width : left + width / 2d);
@@ -219,7 +219,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return new Vector2(x, y);
         }
 
-        internal static (double Left, double Width) HeaderFooterBox(PdfPageSettings ps, bool alignWithMargins)
+        internal static (double Left, double Width) HeaderFooterBox(PdfRenderSettings ps, bool alignWithMargins)
         {
             if (alignWithMargins)
             {
@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return (d, ps.PageSize.WidthPu - 2d * d);
         }
 
-        internal static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries, PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfPageSettings ps, bool alignWithMargins)
+        internal static void AddHeaderFooterTextPart(PdfPageLayout pageLayout, PdfDictionaries dictionaries, PdfCellContentLayout text, HeaderFooterSection section, HeaderFooterAlignment align, PdfRenderSettings ps, bool alignWithMargins)
         {
             text.IsHeaderFooter = true;
             text.GidsAndCharMap(dictionaries);
@@ -251,7 +251,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static PdfHeaderFooter ShapeHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries, List<TextFragment> frags, HeaderFooterSection section, out double width, out double ascent, out double descent)
+        internal static PdfHeaderFooter ShapeHeaderFooterRun(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, List<TextFragment> frags, HeaderFooterSection section, out double width, out double ascent, out double descent)
         {
             width = 0d; ascent = 0d; descent = 0d;
             if (frags == null || frags.Count == 0)
@@ -274,7 +274,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return sub;
         }
 
-        internal static PdfCellContentLayout PlaceHeaderFooterRun(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter run, double x, double baselineY)
+        internal static PdfCellContentLayout PlaceHeaderFooterRun(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter run, double x, double baselineY)
         {
             var layout = new PdfCellContentLayout(pageSettings, dictionaries, run, x, baselineY, 0, 0);
             layout.IsHeaderFooter = true;

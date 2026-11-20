@@ -3734,6 +3734,11 @@ namespace OfficeOpenXml
         // Replaces all SaveAsPdf / SaveAsPdfAsync methods in OfficeOpenXml.ExcelWorksheet.
 
         /// <summary>
+        /// Worksheet specific overrides for PDF export.
+        /// </summary>
+        public PdfExportSettingsOverrides PdfExportOverrides { get; } = new PdfExportSettingsOverrides();
+
+        /// <summary>
         /// Export worksheet to PDF.
         /// </summary>
         /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>

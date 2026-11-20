@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 {
     internal static class PdfHeaderFooterTextBuilder
     {
-        internal static PdfHeaderFooter GetTextFormats(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
+        internal static PdfHeaderFooter GetTextFormats(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws, ExcelHeaderFooterTextCollection textCollection, HeaderFooterType type, HeaderFooterAlignment alignment, HeaderFooterSection section)
         {
             if (textCollection == null || textCollection.Count <= 1) return null;
             var ns = ws.Workbook.Styles.GetNormalStyle();

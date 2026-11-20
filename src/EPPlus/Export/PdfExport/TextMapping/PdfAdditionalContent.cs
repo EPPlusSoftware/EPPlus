@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         internal const float FontSize = 7f;
         internal PdfCellBase content;
 
-        public PdfAdditionalContent(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws)
+        public PdfAdditionalContent(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, ExcelWorksheet ws)
         {
             if (string.IsNullOrEmpty(pageSettings.AdditionalContent))
             {

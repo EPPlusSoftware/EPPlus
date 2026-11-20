@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         ///      that are not blocked by a cell border or a merged cell spanning the gap.
         ///   5. Add the four outer-frame lines to BorderLines.
         /// </summary>
-        public static void AddGridLines(PdfPageSettings pageSettings, Page page, PdfPageLayout pageLayout, bool borderOnly = false)
+        public static void AddGridLines(PdfRenderSettings pageSettings, Page page, PdfPageLayout pageLayout, bool borderOnly = false)
         {
             int rowCount = page.ToRow - page.FromRow + 1;
             int colCount = page.ToColumn - page.FromColumn + 1;

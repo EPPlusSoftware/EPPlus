@@ -30,7 +30,7 @@ namespace EPPlus.Export.Pdf.Layout
         public bool isCommentsPage = false;
         public bool ScaleHeaderFooterWithDocument;
         internal List<PdfHeaderFooterPart> HeaderFooterParts = new List<PdfHeaderFooterPart>();
-        internal PdfPageSettings Settings;
+        internal PdfRenderSettings Settings;
         internal List<LinkDrawInfo> Links = new List<LinkDrawInfo>();
         public string SheetName;
         public string CommentsSourceSheet;

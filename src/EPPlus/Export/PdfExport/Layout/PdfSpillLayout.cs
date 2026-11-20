@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 {
     internal static class PdfSpillLayout
     {
-        internal static Pages PrecomputeSpillCells(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
+        internal static Pages PrecomputeSpillCells(PdfRenderSettings pageSettings, PdfRange range, Pages pdfPages)
         {
             for (int i = 0; i < pdfPages.Page.Length; i++)
             {
@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return windowOriginX;
         }
 
-        internal static void AddSpillCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
+        internal static void AddSpillCells(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
         {
             if (page.SpillCells == null) return;
             foreach (var s in page.SpillCells)

@@ -19,22 +19,30 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
 {
     internal static class GetPdfSettings
     {
-        internal static PdfPageSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
+        internal static PdfRenderSettings BuildBase(ExcelWorkbook wb, ExcelPrinterSettings eps, PdfExportSettings export)
+        {
+            var s = new PdfRenderSettings(wb.RenderContext.FontEngine);
+            ApplyPrinterSettings(s, eps);
+            ApplyExportSettings(s, export);
+            return s;
+        }
+
+        internal static PdfRenderSettings GetPdfSettingsFromPrinterSettings(ExcelWorkbook workbook, ExcelPrinterSettings eps)
         {
             bool stampNonCommercial = ExcelPackage.License.LicenseType == EPPlusLicenseType.NonCommercialOrganization;
-            var settings = new PdfPageSettings(workbook.RenderContext.FontEngine);
+            var settings = new PdfRenderSettings(workbook.RenderContext.FontEngine);
             ApplyPrinterSettings(settings, eps);
             return settings;
         }
 
-        internal static PdfPageSettings GetPdfSettingsForSheet(PdfPageSettings baseSettings, ExcelPrinterSettings eps)
+        internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps)
         {
             var s = baseSettings.CloneForSheet();
             ApplyPrinterSettings(s, eps);
             return s;
         }
 
-        private static void ApplyPrinterSettings(PdfPageSettings settings, ExcelPrinterSettings eps)
+        private static void ApplyPrinterSettings(PdfRenderSettings settings, ExcelPrinterSettings eps)
         {
             var leftMargin = UnitConversion.ToMillimeters(eps.LeftMargin);
             var rightMargin = UnitConversion.ToMillimeters(eps.RightMargin);
@@ -63,6 +71,30 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             settings.CommentsAndNotes = (CommentsAndNotes)eps.CellComments;
             settings.CellErrors = (CellErrors)eps.Errors;
             settings.FirstPageNumber = eps.FirstPageNumber;
+        }
+
+        private static void ApplyExportSettings(PdfRenderSettings s, PdfExportSettings e)
+        {
+            if (e == null) return;
+            s.EmbeddFonts = e.EmbeddFonts;
+            s.SearchSystemDirectories = e.SearchSystemDirectories;
+            s.FontDirectories = e.FontDirectories;
+            s.defaultFontName = e.DefaultFontName;
+            s.BookmarkNamePrefix = e.BookmarkNamePrefix;
+            s.SuppressFormFieldDetection = e.SuppressFormFieldDetection;
+            s.GsubFeatures = e.GsubFeatures;
+            s.GposFeatures = e.GposFeatures;
+            s.Author = e.Author;
+            s.Title = e.Title;
+        }
+
+        internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps, PdfExportSettingsOverrides overrides)
+        {
+            var s = baseSettings.CloneForSheet();
+            ApplyPrinterSettings(s, eps);
+            if (overrides != null)
+                s.BookmarkNamePrefix = overrides.BookmarkNamePrefix ?? s.BookmarkNamePrefix;
+            return s;
         }
 
         private static PdfPageSize GetPageSize(ePaperSize PaperSize)

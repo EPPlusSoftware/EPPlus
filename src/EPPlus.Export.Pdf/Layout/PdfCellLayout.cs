@@ -103,7 +103,7 @@ namespace EPPlus.Export.Pdf.Layout
             return key;
         }
 
-        public void UpdateShadingPositionMatrix(PdfPageSettings pageSettings)
+        public void UpdateShadingPositionMatrix(PdfRenderSettings pageSettings)
         {
             if (CellFillData.GradientFillData != null)
             {

@@ -79,7 +79,7 @@ namespace EPPlus.Export.Pdf.Tests
                 BuildReproSheet(sheet);
 
                 var engine = CreateEngine();
-                var settings = new PdfPageSettings(engine);
+                var settings = new PdfRenderSettings(engine);
 
                 // Written to disk for visual inspection - this is the whole point of the test.
                 SaveAsPdf(sheet, "VariationSequenceRepro", settings);

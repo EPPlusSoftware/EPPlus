@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
 {
     internal static class PdfTextFragmentBuilder
     {
-        internal static List<TextFragment> GetTextFragments(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle cellStyle)
+        internal static List<TextFragment> GetTextFragments(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, PdfCellStyle cellStyle)
         {
             bool dxfBold, dxfItalic, dxfStrike, dxfUnderline;
             ExcelUnderLineType dxfUnderLineType;
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return GetTextFragmentsFromCellStyle(pageSettings, dictionaries, cell, forcedText, dxfBold, dxfItalic, dxfStrike, dxfUnderline, dxfUnderLineType, dxfColor);
         }
 
-        private static List<TextFragment> GetTextFragmentsFromRichText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection richText, string forcedText, bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
+        private static List<TextFragment> GetTextFragmentsFromRichText(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, ExcelRichTextCollection richText, string forcedText, bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
         {
             var textFragments = new List<TextFragment>(richText.Count);
             for (int i = 0; i < richText.Count; i++)
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return textFragments;
         }
 
-        private static List<TextFragment> GetTextFragmentsFromCellStyle(PdfPageSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, string forcedText, bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
+        private static List<TextFragment> GetTextFragmentsFromCellStyle(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, ExcelRangeBase cell, string forcedText, bool dxfBold, bool dxfItalic, bool dxfStrike, bool dxfUnderline, ExcelUnderLineType dxfUnderLineType, System.Drawing.Color? dxfColor)
         {
             var font = cell.Style.Font;
             var textFragments = new List<TextFragment>(1);
@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
             return FontSubFamily.Regular;
         }
 
-        private static string ResolveErrorText(PdfPageSettings pageSettings, ExcelRangeBase cell)
+        private static string ResolveErrorText(PdfRenderSettings pageSettings, ExcelRangeBase cell)
         {
             if (!ExcelErrorValue.IsErrorValue(cell.Text)) return null;
             switch (pageSettings.CellErrors)

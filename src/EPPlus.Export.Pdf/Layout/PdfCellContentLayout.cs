@@ -45,7 +45,7 @@ namespace EPPlus.Export.Pdf.Layout
 
         public List<PdfShapedText> ShapedTexts { get; set; }
 
-        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellContentLayout(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y-height, width, height, scaleX, scaleY, rotation, parent)
         {
             Z = 2;
@@ -63,7 +63,7 @@ namespace EPPlus.Export.Pdf.Layout
             LocalPosition = PdfCellAlignment.CalculateAlignment(CellAlignmentData, cell.Text, TextLines.LineFragments[0].Width, totalTextHeight, firstLineAscent, lastLineAscent, LocalPosition.X, LocalPosition.Y, width, height, rightMargin, bottomMargin);
         }
 
-        public PdfCellContentLayout(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
+        public PdfCellContentLayout(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfHeaderFooter headerFooter, double x, double y, double width, double height, double scaleX = 1, double scaleY = 1, double rotation = 0, Transform parent = null)
             : base(x, y, width, height, scaleX, scaleY, rotation, parent)
         {
             Z = 2;
