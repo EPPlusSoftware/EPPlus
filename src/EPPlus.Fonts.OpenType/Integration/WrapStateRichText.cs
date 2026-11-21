@@ -31,10 +31,11 @@ namespace EPPlus.Fonts.OpenType.Integration
             if (_fragmentsForNextLine == null)
             {
                 EndCurrentTextLine();
+                //The new fragment continues the same input fragment, so it has the same space width.
                 double spcWidthTemp = 0;
                 if (LineFrag != null)
                 {
-                    spcWidthTemp = LineFrag.Width;
+                    spcWidthTemp = LineFrag.SpaceWidth;
                 }
                 LineFrag = new LineFragment(CurrentFragmentIdx, startIdxOfNewFragment, CharIdxRt, CharIdxWithinOriginal);
                 LineFrag.SpaceWidth = spcWidthTemp;

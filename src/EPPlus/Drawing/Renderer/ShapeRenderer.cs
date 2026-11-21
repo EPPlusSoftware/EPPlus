@@ -48,14 +48,13 @@ namespace OfficeOpenXml.Drawing.Renderer
         /// </summary>
         public DrawingTextBody TextBody{ get; internal set; }
 
-        //public ShapeRenderer(eShapeStyle style, double top, double left, double width, double height, eTextAutofit autofit) : base()
-        //{
-        //    var parentBounds = new BoundingBox(top, left, width, height);
-        //    var shapeGroup = new GroupRenderItem(parentBounds);
+        public ShapeRenderer(ExcelShape shape, FontRenderTarget target)
+            : this(shape, target, target == FontRenderTarget.Web)
+        {
+        }
 
-        //}
-
-        public ShapeRenderer(ExcelShape shape, FontRenderTarget target) : base(shape, target)
+        public ShapeRenderer(ExcelShape shape, FontRenderTarget target, bool substituteWebFonts)
+            : base(shape, target, substituteWebFonts)
         {
             var style = shape.Style;
 

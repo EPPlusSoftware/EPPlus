@@ -102,7 +102,11 @@ namespace EPPlus.Fonts.OpenType.Tables.Gpos
             for (int i = 0; i < lookupCount; i++)
             {
                 if (lookupOffsets[i] == 0)
+                {
+                    // Invalid per spec, but keep a placeholder so that feature lookup indices stay valid
+                    lookupList.Lookups.Add(new LookupTable());
                     continue;
+                }
 
                 reader.BaseStream.Position = lookupListStart + lookupOffsets[i];
                 var lookup = ReadLookup(reader, lookupListStart + lookupOffsets[i]);

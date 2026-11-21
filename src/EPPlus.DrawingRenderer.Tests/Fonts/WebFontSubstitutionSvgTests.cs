@@ -82,7 +82,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
         {
             using (var p = CreatePackage())
             {
-                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg();
+                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => o.EmbedFonts = false);
 
                 AssertAllFamilies(svg, "Calibri");
                 Assert.IsFalse(svg.Contains("Aptos Narrow"), "The original font name leaked into the svg.");
@@ -94,7 +94,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
         {
             using (var p = CreatePackage())
             {
-                var svg = AddShapeWithText(p, "Arial").ToSvg();
+                var svg = AddShapeWithText(p, "Arial").ToSvg(o => o.EmbedFonts = false);
 
                 AssertAllFamilies(svg, "Arial");
             }
@@ -105,7 +105,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
         {
             using (var p = CreatePackage())
             {
-                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => o.FontTarget = FontRenderTarget.Document);
+                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => { o.FontTarget = FontRenderTarget.Document; o.EmbedFonts = false; });
 
                 AssertAllFamilies(svg, "Aptos Narrow");
             }
@@ -116,7 +116,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
         {
             using (var p = CreatePackage(cfg => cfg.WebFontSubstitutions["Aptos Narrow"] = "Verdana"))
             {
-                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg();
+                var svg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => o.EmbedFonts = false);
 
                 AssertAllFamilies(svg, "Verdana");
             }
@@ -143,7 +143,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
                 chart.YAxis.Font.LatinFont = "Aptos Narrow";
                 chart.Legend.Font.LatinFont = "Aptos Narrow";
 
-                var svg = chart.ToSvg();
+                var svg = chart.ToSvg(o => o.EmbedFonts = false);
 
                 //Covers title, axis labels and legend. A failure here points to a text path
                 //that bypasses the render context's target.
@@ -199,11 +199,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
             string webSvg, documentSvg;
             using (var p = CreatePackage(Deterministic))
             {
-                webSvg = AddShapeWithText(p, "Aptos Narrow").ToSvg();
+                webSvg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => o.EmbedFonts = false);
             }
             using (var p = CreatePackage(Deterministic))
             {
-                documentSvg = AddShapeWithText(p, "Calibri").ToSvg(o => o.FontTarget = FontRenderTarget.Document);
+                documentSvg = AddShapeWithText(p, "Calibri").ToSvg(o => { o.FontTarget = FontRenderTarget.Document; o.EmbedFonts = false; });
             }
 
             var webLines = GetRunTexts(webSvg);
@@ -219,11 +219,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
             string webSvg, documentSvg;
             using (var p = CreatePackage(Deterministic))
             {
-                webSvg = AddShapeWithText(p, "Aptos Narrow").ToSvg();
+                webSvg = AddShapeWithText(p, "Aptos Narrow").ToSvg(o => o.EmbedFonts = false);
             }
             using (var p = CreatePackage(Deterministic))
             {
-                documentSvg = AddShapeWithText(p, "Verdana").ToSvg(o => o.FontTarget = FontRenderTarget.Document);
+                documentSvg = AddShapeWithText(p, "Verdana").ToSvg(o => { o.FontTarget = FontRenderTarget.Document; o.EmbedFonts = false; });
             }
 
             CollectionAssert.AreNotEqual(GetRunTexts(documentSvg), GetRunTexts(webSvg));
@@ -235,11 +235,11 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
             string webSvg, documentSvg;
             using (var p = CreatePackage(Deterministic))
             {
-                webSvg = AddChartWithFont(p, "Aptos Narrow").ToSvg();
+                webSvg = AddChartWithFont(p, "Aptos Narrow").ToSvg(o => o.EmbedFonts = false);
             }
             using (var p = CreatePackage(Deterministic))
             {
-                documentSvg = AddChartWithFont(p, "Calibri").ToSvg(o => o.FontTarget = FontRenderTarget.Document);
+                documentSvg = AddChartWithFont(p, "Calibri").ToSvg(o => { o.FontTarget = FontRenderTarget.Document; o.EmbedFonts = false; });
             }
 
             //Covers title wrapping, axis label selection and legend. Any text path that measures

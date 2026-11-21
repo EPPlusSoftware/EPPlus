@@ -12,14 +12,19 @@ namespace EPPlus.DrawingRenderer
     public class SvgBasicShapesRenderer : IBasicIShapesRenderer<StringBuilder>
     {
         public SvgBasicShapesRenderer(StringBuilder outputStream)
+            : this(outputStream, SvgFontPlan.WithoutContext)
+        {
+        }
+
+        internal SvgBasicShapesRenderer(StringBuilder outputStream, SvgFontPlan fontPlan)
         {
             LineRenderer = new SvgLineRenderer(outputStream);
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
-            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
-            GroupRenderer = new SvgGroupRenderer(this, outputStream);
-            TextRunRenderer = new SvgTextRunRenderer(outputStream);
+            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream) { FontPlan = fontPlan };
+            GroupRenderer = new SvgGroupRenderer(this, outputStream) { FontPlan = fontPlan };
+            TextRunRenderer = new SvgTextRunRenderer(outputStream) { FontPlan = fontPlan };
             TitleRenderer = new SvgTitleRenderer(outputStream);
             UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
 

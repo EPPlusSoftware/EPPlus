@@ -73,6 +73,15 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
 
     public abstract class ParagraphRenderItem : RenderItem
     {
+        /// <summary>
+        /// The family of the default font of a paragraph that has no font of its own: the default
+        /// font of a new workbook.
+        /// </summary>
+        public const string FallbackFontFamily = "Aptos Narrow";
+        /// <summary>
+        /// The size in points of the default font of a paragraph that has no font of its own.
+        /// </summary>
+        public const float FallbackFontSize = 11;
         protected double LeftMargin { get; set; }
         protected double RightMargin { get; set; }        
         protected double LineSpacingAscendantOnly { get; set; }
@@ -158,7 +167,7 @@ namespace EPPlus.Export.ImageRenderer.RenderItems.Shared
             Name = "Paragraph";
             if (setFallbackDefaultFont)
             {
-                var defaultFont = new MeasurementFont { FontFamily = "Aptos Narrow", Size = 11, Style = MeasurementFontStyles.Regular };
+                var defaultFont = new MeasurementFont { FontFamily = FallbackFontFamily, Size = FallbackFontSize, Style = MeasurementFontStyles.Regular };
                 DefaultParagraphFont = new FontFormatBase(defaultFont);
             }
         }

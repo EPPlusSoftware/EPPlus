@@ -15,10 +15,32 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
+        /// <summary>
+        /// Protects the text on the root from css inherited from a host page, so the browser lays out
+        /// text the way it was measured. Set as an attribute: a style element in an svg inlined in html
+        /// would apply to the whole page.
+        /// </summary>
+        internal const string RootTextStyle =
+            "font-kerning:normal;font-variant-ligatures:common-ligatures contextual;letter-spacing:0;word-spacing:0;font-synthesis:none;text-rendering:geometricPrecision";
+
         SvgRenderOptions _options;
+        readonly SvgFontPlan _fontPlan;
         public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
+            : this(bounds, outputStream, options, null)
         {
-            BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
+        }
+
+        /// <summary>
+        /// Creates a renderer that writes font-family stacks with fallback chains and a generic
+        /// family, resolved through the render context's font engine, and that embeds the fonts as
+        /// subsets when <see cref="SvgRenderOptions.EmbedFonts"/> is set. Pass the render context the
+        /// render items were measured with. Without a context only the family and sans-serif are
+        /// written and no font is embedded.
+        /// </summary>
+        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options, RenderContext? renderContext)
+        {
+            _fontPlan = new SvgFontPlan(renderContext, options.EmbedFonts);
+            BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream, _fontPlan);
             _options = options;
             //Override size.
             if (options.Width.HasValue)
@@ -42,7 +64,7 @@ namespace EPPlus.DrawingRenderer
         public bool Render(List<Transform> items)
         {
             OutputStream.Clear();
-            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()}>");
+            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()} style=\"{RootTextStyle}\">");
             PreRender(items);
             foreach (var item in items)
             {
@@ -78,8 +100,8 @@ namespace EPPlus.DrawingRenderer
 
         private string GetViewBoxAttr()
         {
-            if (string.IsNullOrEmpty(ViewBox)) return $" viewbox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
-            return $" viewbox=\"{ViewBox}\"";
+            if (string.IsNullOrEmpty(ViewBox)) return $" viewBox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
+            return $" viewBox=\"{ViewBox}\"";
         }
 
         public void PreRenderGroup(List<Transform> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
@@ -111,11 +133,17 @@ namespace EPPlus.DrawingRenderer
             var hs = new HashSet<string>();
             var ix = 1;
 
+            // The fonts are planned from all text of the svg before anything is written.
+            _fontPlan.BeginCollect();
+            CollectText(items);
+            _fontPlan.Build();
+            _fontPlan.WriteFontFaces(defSb);
+
             //foreach (var item in items)
             //{
             //    if (item is RenderItem)
             //    {
-                    PreRenderGroup(items, defSb, hs, ref ix);
+            PreRenderGroup(items, defSb, hs, ref ix);
             //    }
             //}
 
@@ -130,6 +158,38 @@ namespace EPPlus.DrawingRenderer
             //renderItems.RemoveAll(x => x is SvgRenderItem svgX && string.IsNullOrEmpty(svgX.DefId) == false);
             return true;
         }
+
+        /// <summary>
+        /// Adds the text of the render items to the font plan, and registers the default fonts of
+        /// groups and paragraphs, which have no text of their own but get a font-family stack.
+        /// </summary>
+        void CollectText(List<Transform> items)
+        {
+            foreach (var t in items)
+            {
+                if (t is GroupRenderItem group)
+                {
+                    _fontPlan.AddText(group.GroupDefaultFont, null);
+                    CollectText(group.ChildObjects);
+                }
+                else if (t is ParagraphRenderItem paragraph)
+                {
+                    _fontPlan.AddText(paragraph.DefaultParagraphFont, null);
+                    if (paragraph.Runs != null)
+                    {
+                        foreach (var run in paragraph.Runs)
+                        {
+                            _fontPlan.AddText(run._measurementFont, run.CurrentText);
+                        }
+                    }
+                }
+                else if (t is TextRunRenderItem run)
+                {
+                    _fontPlan.AddText(run._measurementFont, run.CurrentText);
+                }
+            }
+        }
+
         Dictionary<string, string> _defsCache = new Dictionary<string, string>();
         private void WriteDefsForRenderItem(StringBuilder defSb, HashSet<string> hs, ref int ix, RenderItem item)
         {

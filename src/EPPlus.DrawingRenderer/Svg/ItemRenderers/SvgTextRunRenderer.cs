@@ -6,6 +6,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Utils;
 using System.Globalization;
 using System.Text;
@@ -20,6 +21,8 @@ namespace EPPlus.DrawingRenderer.Svg
         {
 
         }
+
+        internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
 
         string GetFontStyleAttributes(TextRunRenderItem textRun)
         {
@@ -99,6 +102,21 @@ namespace EPPlus.DrawingRenderer.Svg
             return fontStyleAttributes;
         }
 
+        /// <summary>
+        /// The textLength and lengthAdjust attributes that make the browser draw the text with the
+        /// width it was measured with, whatever font it ends up using. Empty when the text has no
+        /// measured width.
+        /// </summary>
+        string GetTextLengthAttributes(IFontFormatBase font, string text)
+        {
+            var width = FontPlan.MeasureWidthInPoints(font, text);
+            if (width.HasValue == false || width.Value <= 0)
+            {
+                return string.Empty;
+            }
+            return $"textLength=\"{width.Value.PointToPixelString()}\" lengthAdjust=\"spacing\" ";
+        }
+
         public override void Render(TextRunRenderItem textRun)
         {
             var sbStartidx = OutputStream.Length -1;
@@ -132,14 +150,21 @@ namespace EPPlus.DrawingRenderer.Svg
             finalString += $"{GetFontStyleAttributes(textRun)}";
 
 
+            // Text measured with a glyph fallback written by name is split into child tspans, each with
+            // its own font-family and textLength. Otherwise the run carries textLength itself.
+            var segments = FontPlan.GetFallbackSegments(textRun._measurementFont, textRun.CurrentText);
+
             if (textRun._measurementFont != null)
             {
-                finalString += $"font-family=\"{textRun._measurementFont.Family},"
-                    + $"{textRun._measurementFont.Family}_MSFontService,sans-serif\" "
+                finalString += $"font-family=\"{FontPlan.GetFontFamilyAttributeValue(textRun._measurementFont)}\" "
                     + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
+                if (segments == null)
+                {
+                    finalString += GetTextLengthAttributes(textRun._measurementFont, textRun.CurrentText);
+                }
             }
 
-            if(string.IsNullOrEmpty(textRun.Style.FillColor) == false)
+            if (string.IsNullOrEmpty(textRun.Style.FillColor) == false)
             {
                 finalString += $" style=\"fill: {textRun.Style.FillColor};\" ";
             }
@@ -162,7 +187,23 @@ namespace EPPlus.DrawingRenderer.Svg
 
             finalString += ">";
             //Add actual text content
-            finalString +=  ConvertUtil.HtmlEscapeString(textRun.CurrentText);
+            if (segments == null)
+            {
+                finalString += ConvertUtil.HtmlEscapeString(textRun.CurrentText);
+            }
+            else
+            {
+                foreach (var segment in segments)
+                {
+                    finalString += "<tspan ";
+                    if (segment.FontFamily != null)
+                    {
+                        finalString += $"font-family=\"{segment.FontFamily}\" ";
+                    }
+                    finalString += GetTextLengthAttributes(textRun._measurementFont, segment.Text);
+                    finalString += ">" + ConvertUtil.HtmlEscapeString(segment.Text) + "</tspan>";
+                }
+            }
             finalString += "</tspan>";
             sb.Append(finalString);
 
@@ -179,7 +220,7 @@ namespace EPPlus.DrawingRenderer.Svg
                 var tr = (SvgTextRunRenderItem)textRun;
                 if (tr.RenderTextNode)
                 {
-                    textRunString = $"<text>{textRunString}</text>";
+                    textRunString = $"<text xml:space=\"preserve\">{textRunString}</text>";
                 }
             }
 

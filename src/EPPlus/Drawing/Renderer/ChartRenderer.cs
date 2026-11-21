@@ -14,6 +14,7 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
+using OfficeOpenXml.Interfaces.Fonts;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -66,7 +67,8 @@ namespace EPPlusImageRenderer
         // From the docs: 'The default font color is the same as the Axis & Major Gridlines Line Color'
         internal Color? InbuiltStyleFontColor => GetDefaultFontColor();
 
-        public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
+        public ChartRenderer(ExcelChart chart, SvgRenderOptions options)
+            : base(chart, options.FontTarget, options.FontTarget == FontRenderTarget.Web && !options.EmbedFonts)
         {
             SetChartArea(options);
 

@@ -32,7 +32,7 @@ namespace EPPlus.Fonts.OpenType
             using (var stream = new MemoryStream())
             using (var writer = new FontsBinaryWriter(stream))
             {
-                var sortedTags = _font.TableRecords.Keys.OrderBy(k => k).ToList();
+                var sortedTags = _font.TableRecords.Keys.OrderBy(k => k, StringComparer.Ordinal).ToList();
                 int numTables = sortedTags.Count;
 
                 // 1. First pass: serialize all tables to get their actual bytes

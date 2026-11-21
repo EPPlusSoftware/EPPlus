@@ -741,7 +741,7 @@ namespace EPPlus.Fonts.OpenType
                 }
             }
             var ctx = new FontSerializationContext(this);
-            switch(tag)
+            switch (tag)
             {
                 case TableNames.Head:
                     return HeadTable.Serialize(ctx);
@@ -774,6 +774,12 @@ namespace EPPlus.Fonts.OpenType
                 case TableNames.Vmtx:
                     return VmtxTable?.Serialize(ctx);
                 default:
+                    // Tables without a typed accessor (e.g. RawFontTable) live only in the local cache.
+                    if (_localTableCache.Contains(tag))
+                    {
+                        var table = _localTableCache.Get(tag) as FontTableBase;
+                        return table != null ? table.Serialize(ctx) : null;
+                    }
                     return null;
             }
         }

@@ -406,10 +406,12 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetTextWidest(ExcelChartAxisStandard ax, bool isMulti)
         {
+            //The shaper is obtained through the render context so the family is substituted
+            //for the render target, matching the font the axis labels are measured with.
             var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
-            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
+            var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var tm = new OpenTypeFontTextMeasurer(shaper);
-            
+
             var widest = 0f;
             if (isMulti)
             {

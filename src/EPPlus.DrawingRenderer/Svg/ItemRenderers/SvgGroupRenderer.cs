@@ -16,6 +16,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             _shapeRenderer = shapeRenderer;
         }
+        internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
         internal string Suffix = "px";
         public override void Render(GroupRenderItem item)
         {
@@ -125,7 +126,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             if (font != null && string.IsNullOrEmpty(font.Family) == false)
             {
-                defFontAttributes = $" font-family=\"{font.Family},{font.Family}_MSFontService,sans-serif\" " +
+                defFontAttributes = $" font-family=\"{FontPlan.GetFontFamilyAttributeValue(font)}\" " +
                 $"font-size=\"{font.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
 
             }

@@ -30,6 +30,8 @@ namespace EPPlus.Fonts.OpenType.FontCache
     {
         private readonly object _syncRoot = new object();
         private readonly Dictionary<string, object> _fontLocks = new Dictionary<string, object>();
+
+        private readonly Dictionary<string, FontAvailability> _availability = new Dictionary<string, FontAvailability>();
         private readonly OpenTypeFontCache _fontCache = new OpenTypeFontCache();
         private readonly IFontResolver _resolver;
         private readonly EpplusFontConfiguration _configuration;
@@ -138,6 +140,8 @@ namespace EPPlus.Fonts.OpenType.FontCache
         /// to it. Otherwise it probes via <see cref="IFontResolver.ResolveFont"/>, which can only
         /// distinguish found from not found — never <see cref="FontAvailability.FamilyOnly"/>, and
         /// never NotFound at all for a resolver that substitutes internally.
+        /// The answer is cached for the lifetime of the store, like loaded fonts: a lookup searches
+        /// the font directories, and web output asks for the same fallback chains for every svg.
         /// </summary>
         public FontAvailability GetFontAvailability(string fontName, FontSubFamily subFamily)
         {
@@ -145,13 +149,31 @@ namespace EPPlus.Fonts.OpenType.FontCache
             if (fontName == null)
                 throw new ArgumentNullException("fontName");
 
+            var key = BuildCacheKey(fontName, subFamily);
+            FontAvailability availability;
+            lock (_syncRoot)
+            {
+                if (_availability.TryGetValue(key, out availability))
+                    return availability;
+            }
+
             var provider = _resolver as IFontAvailabilityProvider;
             if (provider != null)
-                return provider.GetFontAvailability(fontName, subFamily);
+            {
+                availability = provider.GetFontAvailability(fontName, subFamily);
+            }
+            else
+            {
+                availability = _resolver.ResolveFont(fontName, subFamily) != null
+                    ? FontAvailability.Exact
+                    : FontAvailability.NotFound;
+            }
 
-            return _resolver.ResolveFont(fontName, subFamily) != null
-                ? FontAvailability.Exact
-                : FontAvailability.NotFound;
+            lock (_syncRoot)
+            {
+                _availability[key] = availability;
+            }
+            return availability;
         }
 
         /// <inheritdoc/>
@@ -170,6 +192,7 @@ namespace EPPlus.Fonts.OpenType.FontCache
             {
                 _fontCache.Clear();
                 _fontLocks.Clear();
+                _availability.Clear();
             }
         }
 

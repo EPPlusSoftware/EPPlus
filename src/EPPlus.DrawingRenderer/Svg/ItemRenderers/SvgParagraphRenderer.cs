@@ -15,6 +15,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             _shapeRenderer = shapeRenderer;
         }
+        internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
         internal string Suffix = "px";
         public override void Render(ParagraphRenderItem item)
         {
@@ -96,11 +97,13 @@ namespace EPPlus.DrawingRenderer.Svg
             //    }
             //}
 
-            sb.Append("<text ");
+            // xml:space="preserve" keeps spaces at the start and end of the runs, which textLength counts.
+            // Nothing may be written between the runs: it would be text too.
+            sb.Append("<text xml:space=\"preserve\" ");
             RenderBase(item);
 
             sb.Append(/*$"{GetHorizontalAlignmentAttribute(Bounds.X)} y=\"{Bounds.Y}\" " +*/
-                $"font-family=\"{item.DefaultParagraphFont.Family},{item.DefaultParagraphFont.Family}_MSFontService,sans-serif\" " +
+                $"font-family=\"{FontPlan.GetFontFamilyAttributeValue(item.DefaultParagraphFont)}\" " +
                 $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" >");
 
             if (item.Runs != null && item.Runs.Count > 0)

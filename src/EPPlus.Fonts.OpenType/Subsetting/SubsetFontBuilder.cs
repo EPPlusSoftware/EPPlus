@@ -43,7 +43,8 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             new VmtxSubsetProcessor(),
             new Os2SubsetProcessor(),
             new PostSubsetProcessor(),
-            new KernSubsetProcessor()
+            new KernSubsetProcessor(),
+            new PassThroughTableSubsetProcessor()   // cvt, fpgm, prep, gasp - copied unchanged
         };
 
         /// <summary>
