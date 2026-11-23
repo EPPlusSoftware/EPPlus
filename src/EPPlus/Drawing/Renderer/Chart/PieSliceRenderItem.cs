@@ -568,24 +568,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var dp = serie.DataPoints[position];
                 ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, serie.NumberOfItems, UserSpaceSettings.ObjectBoundingBox);
-                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
             }
             else
             {
                 ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, totalSliceCount, position, _slicePath.Style, serie.NumberOfItems);
             }
-            //if (chartType.VaryColors)
-            //{
-            //    if (chartType.StyleManager.Style == null)
-            //    {
-            //        var mod5 = position % 5;
-            //        //TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
-            //        defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
-            //    }
-            //}
-            ////ChartTypeDrawer.SetFillDataPoint
-            //_slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
-            //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
         }
 
         internal void AppendGroupItem(GroupRenderItem group)

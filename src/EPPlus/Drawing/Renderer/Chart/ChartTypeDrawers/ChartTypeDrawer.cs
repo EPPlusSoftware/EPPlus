@@ -240,16 +240,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
 
-        internal int GetVariationCount(ExcelChartStandardSerie cStandardSerie)
-        {
-            var valValues = LoadSeriesValues(cStandardSerie.Series, cStandardSerie.NumberLiteralsY, cStandardSerie.StringLiteralsY);
-            var variationCount = valValues.Count / 6;
-            //Compare these two and take the higher count later? We should standardize loading series values more
-            //var catValues = LoadSeriesValues(cStandardSerie.XSeries, cStandardSerie.NumberLiteralsX, cStandardSerie.StringLiteralsX);
-
-            return variationCount;
-        }
-
         internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, int numDataPoints, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
             var legacyVariationCount = numDataPoints / 6;
@@ -259,22 +249,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
-
-        internal static void SetSingleFillSerieLegacy(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int valueCount, int index, RenderItemStyle style)
-        {
-            var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-            var baseColor = GetBaseColor(theme, chart.StyleManager, index);
-
-            var currentIterationIndex = index / 6;
-            var totalNumberOfVariations = (valueCount / 6);
-
-            var variation = DefaultDataPointPatterns.GetSingleLegacyColorVariation(currentIterationIndex, totalNumberOfVariations, baseColor);
-            style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, variation);
-
-            var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, currentIterationIndex);
-            style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width > 0, () => styleFormat.color, 0.75);
-        }
-
         internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style, int numValuesInSeries)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
@@ -293,31 +267,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, serieIndex);
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width>0, () => styleFormat.color, 0.75);
-        }
-
-        internal static Color GetBaseColor(ExcelTheme theme, ExcelChartStyleManager? styleManager, int index)
-        {
-            Color baseColor;
-            var baseColorIndex = index % 6;
-
-            ExcelChartColorsManager colorsManager = styleManager?.ColorsManager;
-            if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count))
-            {
-                if(styleManager.Style == null)
-                {
-                    baseColor = DefaultDataPointPatterns.FallBackColors[baseColorIndex];
-                }
-                else
-                {
-                    //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
-                    baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
-                }
-            }
-            else
-            {
-                baseColor = colorsManager.Colors[baseColorIndex].GetColor();
-            }
-            return baseColor;
         }
 
         internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartStyleManager? styleManager, int index, int legacyVariationCount)
