@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             _isFirstInParagraph = run.IsFirstInParagraph;
             _baseline = run.Baseline;
-            ImportExcelStyleInfo(run.Fill, run.FontItalic, run.FontBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
+            ImportExcelStyleInfo(run.Fill, run.DisplayItalic, run.DisplayBold, run.FontUnderLine, run.UnderLineColor, run.FontStrike);
             SetClippingHeightToCurrentTextBoxBottom(Parent);
         }
 

@@ -142,7 +142,11 @@ namespace OfficeOpenXml.Drawing.Chart
             get
             {
                 var f = Format;
-                if (string.IsNullOrEmpty(Format) || SourceLinked)
+                if (_chart.IsTypePercentStacked())
+                {
+                    f = string.IsNullOrEmpty(Format) ? "0%" : Format;
+                }
+                else if (string.IsNullOrEmpty(Format) || SourceLinked)
                 {
                     var wb = _chart.WorkSheet._package.Workbook;
                     foreach (var ct in _chart.PlotArea.ChartTypes)

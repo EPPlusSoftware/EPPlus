@@ -20,6 +20,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         private readonly int pagesObjectNumber;
         internal int NamesObjectNumber = 0;
         internal int OutlinesObjectNumber = 0;
+        internal int AcroFormObjectNumber = 0;
 
         public PdfCatalog(int objectNumber, int pagesObjectNumber, int version = 0)
             : base(objectNumber, version)
@@ -32,8 +33,14 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             var sb = new System.Text.StringBuilder();
             sb.Append("<< /Type /Catalog\n");
             sb.Append($"   /Pages {pagesObjectNumber.ToPdfStringF0()} 0 R");
+            if (AcroFormObjectNumber > 0)
+            {
+                sb.Append($"\n   /AcroForm {AcroFormObjectNumber.ToPdfStringF0()} 0 R");
+            }
             if (NamesObjectNumber > 0)
+            {
                 sb.Append($"\n   /Names {NamesObjectNumber.ToPdfStringF0()} 0 R");
+            }
             if (OutlinesObjectNumber > 0)
             {
                 sb.Append($"\n   /Outlines {OutlinesObjectNumber.ToPdfStringF0()} 0 R");

@@ -10,23 +10,15 @@
  *************************************************************************************************
   04/22/2020         EPPlus Software AB       Added this class
  *************************************************************************************************/
-using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.EnumUtils;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Xml;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 namespace OfficeOpenXml.Drawing.Chart
@@ -358,7 +350,8 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", IsVertical?270 : 0);
+                
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", "title", 0); //Stop putting 'IsVertical ? 270 : 0' here. Excel does not do that. It's based on textDirection not being vertical
             }
             return _title;
         }
@@ -691,6 +684,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
+        const string _dispUnitLblPath = "dispUnits/c:dispUnitsLbl";
+        private ExcelChartTitle _displayUnitTitle = null;
+        /// <summary>
+        /// A title associated with the display units. 
+        /// </summary>
+        public ExcelChartTitle DisplayUnitTitle
+        {
+            get
+            {
+                if (_displayUnitTitle==null)
+                {
+                    _displayUnitTitle = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c", _dispUnitLblPath, IsVertical ? 270 : 0);
+                }
+                return _displayUnitTitle;
+            }
+        }
+
         const string _majorUnitPath = "c:majorUnit/@val";
         const string _majorUnitCatPath = "c:tickLblSkip/@val";
         /// <summary>
@@ -763,6 +773,20 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         const string _minorUnitPath = "c:minorUnit/@val";
         const string _minorUnitCatPath = "c:tickMarkSkip/@val";
+        /// <summary>
+        /// Specifies how many tick marks shall be skipped before the next one shall be drawn on a category axis.
+        /// </summary>
+        internal double? TickMarksSkipped
+        {
+            get
+            {
+                return GetXmlNodeDoubleNull(_minorUnitCatPath);
+            }
+            set
+            {
+                SetXmlNodeString(_minorUnitCatPath, ((double)value).ToString(CultureInfo.InvariantCulture));
+            }
+        }
         /// <summary>
         /// Minor unit for the axis.
         /// Null is automatic
@@ -1075,7 +1099,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
-                    values.Add(l);
                     if (AxisType == eAxisType.Cat)
                     {
                         if (string.IsNullOrEmpty(serie.XSeries) && (serie.NumberLiteralsX == null || serie.NumberLiteralsX.Length == 0) && (serie.StringLiteralsX == null || serie.StringLiteralsX?.Length == 0))
@@ -1089,6 +1112,11 @@ namespace OfficeOpenXml.Drawing.Chart
                             {
                                 serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) }, out isMultiLevel);
                             }
+                            else
+                            {
+                                ix++;
+                                continue;
+                            }
                         }
                     }
                     else
@@ -1096,52 +1124,91 @@ namespace OfficeOpenXml.Drawing.Chart
                         if (ct.YAxis.Id == Id)
                         {
                             //AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
-                            serie.AddFromSerie(l, false, false, null, out isMultiLevel, pl);
+                            serie.AddFromSerie(l, false, false, null, out isMultiLevel);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
                             serie.AddFromSerie(l, true, false, null, out isMultiLevel);
                         }
+                        else
+                        {
+                            ix++;
+                            continue;
+                        }
                     }
+                    values.Add(l);
                     pl = l;
                     ix++;
                 }
             }
-            if (_chart.IsTypePercentStacked() && IsYAxis)
+            if(_chart.IsTypeStacked() && IsYAxis)
             {
-                CalculateStacked100(values);
+                CalculateStacked(values, false, _chart.IsTypeLine());
+            }
+            else if (_chart.IsTypePercentStacked() && IsYAxis)
+            {
+                CalculateStacked(values, true, _chart.IsTypeLine());
             }
         }
 
-        internal static void CalculateStacked100(List<List<object>> values)
+        internal static void CalculateStacked(List<List<object>> values, bool isPercent, bool isLine)
         {
             for (int i = 0; i < values[0].Count; i++)
             {
                 double rowAbsSum = 0;
-                for (int k = 0; k < values.Count; k++)
+                if (isPercent)
                 {
-                    var v = values[k][i];
-                    if (ConvertUtil.IsExcelNumeric(v))
+                    //Get the sum of the absolute values for the row for percent stacked charts
+                    for (int k = 0; k < values.Count; k++)
                     {
-                        rowAbsSum += Math.Abs(ConvertUtil.GetValueDouble(v, true, true));
+                        var v = values[k][i];
+                        if (ConvertUtil.IsExcelNumeric(v))
+                        {
+                            rowAbsSum += Math.Abs(ConvertUtil.GetValueDouble(v, true, true));
+                        }
                     }
                 }
-                var pv = 0D;
+
+                //Calculate the stacked value for each series in the row. Positive and negative values are stacked separately, to show negative values from 0.
+                double pv = 0D, nv=0D;
                 for (int j=0;j < values.Count;j++)
                 {
                     var val = values[j][i];
                     if (ConvertUtil.IsExcelNumeric(val))
                     {
-                        double d = pv + ConvertUtil.GetValueDouble(val, true, true);
-                        if (rowAbsSum != 0)
+                        double v = ConvertUtil.GetValueDouble(val, true, true);
+                        double d;
+                        if(v > 0 || isLine)
                         {
-                            values[j][i] = d / rowAbsSum;
-                        }   
+                            d = pv + v;
+                        }
                         else
                         {
-                            values[j][i] = 0;
+                            d = nv + v;
                         }
-                        pv = d;
+                        if (isPercent)
+                        {
+                            if (rowAbsSum != 0)
+                            {
+                                values[j][i] = d / rowAbsSum;
+                            }
+                            else
+                            {
+                                values[j][i] = 0;
+                            }
+                        }
+                        else
+                        {
+                            values[j][i] = d;
+                        }
+                        if (d > 0 || isLine)
+                        {
+                            pv += v;
+                        }
+                        else
+                        {
+                            nv += v;
+                        }
                     }
                 }
             }

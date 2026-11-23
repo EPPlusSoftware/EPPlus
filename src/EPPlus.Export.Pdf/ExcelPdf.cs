@@ -29,12 +29,14 @@ namespace EPPlus.Export.Pdf
     /// <summary>
     /// Class for exporting to PDF format.
     /// </summary>
-    internal class ExcelPdf
+    internal partial class ExcelPdf
     {
         private PdfDocumentSettings _documentSettings;
         private PdfDictionaries _dictionaries;
         internal List<PdfObject> _document = new List<PdfObject>();
-        private string _debugString;
+
+        // Only created when Debug && PrintAsText; null otherwise, so no debug text is built in normal use.
+        private StringBuilder _debugText;
 
         internal static string Header
         {
@@ -316,7 +318,7 @@ namespace EPPlus.Export.Pdf
                 }
                 else if (link.TargetSheet != null && TryResolveDest(destIndex, link.TargetSheet, link.TargetRow, link.TargetColumn, out int destPageObj, out double destX, out double destY))
                 {
-                    annot = PdfLinkAnnotationObject.GoTo(_document.Count + 1,lowerLeftX, lowerLeftY, upperRightX, upperRightY, destPageObj, destX, destY, link.ToolTip);
+                    annot = PdfLinkAnnotationObject.GoTo(_document.Count + 1, lowerLeftX, lowerLeftY, upperRightX, upperRightY, destPageObj, destX, destY, link.ToolTip);
                 }
                 else
                 {
@@ -478,6 +480,21 @@ namespace EPPlus.Export.Pdf
             return false;
         }
 
+        private void AddFormFieldSuppressor(PdfCatalog catalog, PdfPage[] pageObjs)
+        {
+            if (!_documentSettings.SuppressFormFieldDetection) return;
+            if (pageObjs.Length == 0) return;
+
+            var page = pageObjs[0];
+            var field = new PdfFormFieldObject(_document.Count + 1, page.objectNumber);
+            _document.Add(field);
+            page.annotationObjectNumbers.Add(field.objectNumber);   // widget must also be in the page's /Annots
+
+            var acro = new PdfAcroForm(_document.Count + 1, new List<int> { field.objectNumber });
+            _document.Add(acro);
+            catalog.AcroFormObjectNumber = acro.objectNumber;
+        }
+
         //Add Info
         private PdfInfoObject AddInfoObject()
         {
@@ -486,40 +503,67 @@ namespace EPPlus.Export.Pdf
             return info;
         }
 
-        //Creates the Pdf document
+        //Creates the Pdf document and writes it to a file.
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, string fileName)
         {
-            //Write the PDF to the file.
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            // Opened outside the try, so a file we never opened (e.g. locked by another process) is never deleted.
+            var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            try
             {
-                CreatePdf(documentSettings, dictionaries, layout, fs);
-            }
-            //Write pdf as txt for debug.
-            if (_documentSettings.Debug && _documentSettings.PrintAsText)
-            {
-                using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+                using (fs)
                 {
-                    using (var wr = new StreamWriter(fs))
-                    {
-                        wr.Write(_debugString);
-                    }
+                    CreatePdf(documentSettings, dictionaries, layout, fs);
                 }
             }
+            catch
+            {
+                // Don't leave a truncated PDF behind.
+                TryDeleteFile(fileName);
+                throw;
+            }
+            WriteDebugText(fileName);
         }
 
-        //Creates the Pdf document
+        //Creates the Pdf document and writes it to a stream.
         internal void CreatePdf(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
-            if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
-            //The cross-reference table stores byte offsets that the PDF reader uses to
-            //seek to each object, so the target stream has to support querying its position.
-            if (!stream.CanSeek) throw new ArgumentException("The stream must be seekable, because the PDF cross-reference table requires byte offsets.", nameof(stream));
+            ValidateStream(stream);
+            PdfCatalog catalog;
+            PdfInfoObject info;
+            BuildDocument(documentSettings, dictionaries, layout, out catalog, out info);
+
+            // Each object is serialized to a reusable buffer and then copied to the target stream.
+            // Cross-reference offsets are counted from the bytes written, so the target stream
+            // does not need to be seekable.
+            var crossRefTable = new PdfCrossRefTable();
+            long offset = 0;
+            using (var buffer = new MemoryStream())
+            using (var bw = new BinaryWriter(buffer, Encoding.ASCII))
+            {
+                WriteHeader(bw);
+                offset += FlushBuffer(bw, buffer, stream);
+
+                foreach (var pdfObj in _document)
+                {
+                    crossRefTable.AddPosition(offset);
+                    WriteObject(bw, pdfObj);
+                    offset += FlushBuffer(bw, buffer, stream);
+                }
+
+                WriteCrossRefAndTrailer(bw, crossRefTable, offset, catalog, info);
+                FlushBuffer(bw, buffer, stream);
+            }
+            stream.Flush();
+        }
+
+        // Phase 1: builds all PDF objects in memory. Pure CPU work, shared by the sync and async paths.
+        private void BuildDocument(PdfDocumentSettings documentSettings, PdfDictionaries dictionaries, Transform layout, out PdfCatalog catalog, out PdfInfoObject info)
+        {
             _documentSettings = documentSettings;
             _dictionaries = dictionaries;
-            var catalog = AddCatalog(2);
+            _debugText = documentSettings.Debug && documentSettings.PrintAsText ? new StringBuilder() : null;
+            catalog = AddCatalog(2);
             //Create Pages
-            var pagesLayout = layout.ChildObjects[0];
             var pages = AddPages();
             //Create Fonts
             AddFontData();
@@ -541,6 +585,7 @@ namespace EPPlus.Export.Pdf
             {
                 AddContent((PdfPageLayout)layout.ChildObjects[i], pageObjs[i], destIndex);
             }
+            AddFormFieldSuppressor(catalog, pageObjs);
             var catLayout = layout as PdfCatalogLayout;
             //Create Named destinations
             AddNamedDestinations(catalog, destIndex, catLayout);
@@ -548,33 +593,71 @@ namespace EPPlus.Export.Pdf
             AddOutline(catalog, destIndex, catLayout);
             //Create Image data
             AddImageData();
-            var info = AddInfoObject();
-            _debugString = "";
-            //Write to pdf
-            PdfCrossRefTable crossRefTable = new PdfCrossRefTable();
-            //Cross-reference offsets are relative to the start of the PDF.
-            //A freshly created FileStream starts at position 0, but a caller-supplied stream may already hold data, so capture the starting position and make every offset relative to it.
-            long start = stream.Position;
-            //Start writing pdf binary. leaveOpen: true so a caller-supplied stream is not closed.
-            using (var bw = new BinaryWriter(stream, Encoding.ASCII, true))
+            info = AddInfoObject();
+        }
+
+        private static void ValidateStream(Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
+        }
+
+        private void WriteHeader(BinaryWriter bw)
+        {
+            bw.Write(Encoding.ASCII.GetBytes(Header));
+            if (_debugText != null) _debugText.Append(Header);
+        }
+
+        private void WriteObject(BinaryWriter bw, PdfObject pdfObj)
+        {
+            pdfObj.ToPdfBytes(bw);
+            if (_debugText != null) _debugText.Append(pdfObj.ToPdfString());
+        }
+
+        private void WriteCrossRefAndTrailer(BinaryWriter bw, PdfCrossRefTable crossRefTable, long offset, PdfCatalog catalog, PdfInfoObject info)
+        {
+            crossRefTable.Write(bw, offset, _document.Count);
+            PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
+            if (_debugText != null)
             {
-                //Write header
-                bw.Write(Encoding.ASCII.GetBytes(Header));
-                _debugString += Header;
-                //Write body
-                foreach (var pdfobj in _document)
-                {
-                    crossRefTable.AddPosition(stream.Position - start);
-                    pdfobj.ToPdfBytes(bw);
-                    _debugString += pdfobj.ToPdfString();
-                }
-                //Write CrossReference
-                crossRefTable.Write(bw, stream.Position - start, _document.Count);
-                _debugString += crossRefTable.WriteString(_document.Count);
-                // Write trailer
-                PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                _debugString += PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-                bw.Flush();
+                _debugText.Append(crossRefTable.WriteString(_document.Count));
+                _debugText.Append(PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition));
+            }
+        }
+
+        // Copies the buffered bytes to the target, resets the buffer and returns the number of bytes written.
+        private static long FlushBuffer(BinaryWriter bw, MemoryStream buffer, Stream target)
+        {
+            bw.Flush();
+            long length = buffer.Length;
+            target.Write(buffer.GetBuffer(), 0, (int)length);
+            buffer.Position = 0;
+            buffer.SetLength(0);
+            return length;
+        }
+
+        //Write pdf as txt for debug.
+        private void WriteDebugText(string fileName)
+        {
+            if (_debugText == null) return;
+            using (var fs = new FileStream(fileName + ".txt", FileMode.Create, FileAccess.Write))
+            using (var wr = new StreamWriter(fs))
+            {
+                wr.Write(_debugText.ToString());
+            }
+        }
+
+        private static void TryDeleteFile(string fileName)
+        {
+            try
+            {
+                File.Delete(fileName);
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
             }
         }
     }

@@ -1,14 +1,17 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿using EPPlus.DrawingRenderer;
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Export.ImageRenderer.RenderItems.SvgItem;
 using EPPlus.Graphics;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.Worksheet.Fill;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
@@ -53,11 +56,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
             if (chartType.IsTypeStacked())
             {
-                SumSeries(_yValues);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, false, true);
             }
             else if (chartType.IsTypePercentStacked())
             {
-                ExcelChartAxisStandard.CalculateStacked100(_yValues);
+                ExcelChartAxisStandard.CalculateStacked(_yValues, true, true);
             }
 
             CreateTrendlines(chartType, _xValues, _yValues);
@@ -98,7 +101,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 _dropLines.Add(dl);
             }
         }
-        internal override void DrawSeries()
+        internal override int DrawSeries(int startSerie)
         {
             var lct = (ExcelLineChart)_chartType;
             var coords = new List<List<BoundingBox>>();
@@ -118,7 +121,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 var dataPoints = new List<BoundingBox>();
                 coords.Add(dataPoints);
 
-                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i);
+                AddLine(_chartType.As.Chart.LineChart, serie, xSerie, ySerie, dataPoints, i, startSerie);
 
                 dataPointsPerSerie.Add(dataPoints);
 
@@ -131,7 +134,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
 
-                CreateDropLine(lct, coords);
+            CreateDropLine(lct, coords);
 
             //Append Trendline render items.
             foreach (var tr in Trendlines)
@@ -156,6 +159,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 dataLabel.AppendRenderItems(ChartAreaRenderItems);
             }
+            return _chartType.Series.Count;
         }
         private new void SumSeries(List<List<object>> series)
         {
@@ -167,7 +171,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
-        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex)
+        private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex, int startSerie)
         {            
             ChartAxisRenderer yAxis, xAxis;
             
@@ -270,7 +274,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if (hasMarker && yValues[i]!=null)
                 {
-                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, serieIndex);
+                    SetMarker(serie, serie.Marker, dataPoints, markerItems, xPos, yPos, pt, startSerie+serieIndex);
                 }
                 else
                 {
@@ -297,32 +301,45 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         if(hasMarker==false)
                         {
-                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt, i);
+                            SetMarker(serie, dp.Marker, dataPoints, markerItems, xPos, yPos, pt, startSerie + i);
                         }
                         else
                         {
                             var mi = markerItems[markerItems.Count - 1];
-                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color);
+                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
                             markerItems[i].Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
                                 serie.Border.Fill.Style != eFillStyle.NoFill, 
-                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index));
+                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
                         }
                     }
-                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
+                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie), 3);
                     lineDp.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
                     dataPointOverrides.Add(lineDp);
                 }
             }
 
-            if (nullPos.Count==0)
+            if (serie.Smooth && coords.Count > 2)
             {
-                linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+                if (nullPos.Count == 0)
+                {
+                    AddSmoothLine(linePath, coords);
+                }
+                else
+                {
+                    AddSmoothLineWithNullHandling(linePath, coords, nullPos);
+                }
             }
             else
             {
-                AddPathCommandWithNullHandling(linePath, coords, nullPos);
+                if (nullPos.Count == 0)
+                {
+                    linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords.ToArray()));
+                }
+                else
+                {
+                    AddPathCommandWithNullHandling(linePath, coords, nullPos);
+                }
             }
-
             linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line
@@ -335,6 +352,53 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             SeriesRenderItems.AddRange(errorBars);
         }
 
+        private void AddSmoothLineWithNullHandling(PathRenderItem linePath, List<double> coords, List<(int index, object nullValue)> nullPos)
+        {
+            var start = 0;
+            foreach (var item in nullPos)
+            {
+                var pos = item.Item1;
+                if (pos - start > 0)
+                {
+                    AddSmoothLine(linePath, coords.GetRange(start, pos - start));
+                }
+                start = pos + 1;
+                if ((start % 2) != 0) start++;
+            }
+
+            if (start < coords.Count - 1)
+            {
+                AddSmoothLine(linePath, coords.GetRange(start, coords.Count - start));
+            }
+        }
+
+        private void AddSmoothLine(PathRenderItem linePath, List<double> coords)
+        {
+            var smoothCoords = new List<double>();
+            int n = coords.Count / 2;                 // number of points
+
+            double X(int i) => coords[i * 2];
+            double Y(int i) => coords[i * 2 + 1];
+
+            const double f = 1d / 6d;
+            for (int i = 0; i < n - 1; i++)
+            {
+                int i0 = Math.Max(i - 1, 0);          // repeat the first point at the start
+                int i1 = i;
+                int i2 = i + 1;
+                int i3 = Math.Min(i + 2, n - 1);      // repeat the last point at the end
+
+                smoothCoords.Add(X(i1) + (X(i2) - X(i0)) * f);
+                smoothCoords.Add(Y(i1) + (Y(i2) - Y(i0)) * f);
+                smoothCoords.Add(X(i2) - (X(i3) - X(i1)) * f);
+                smoothCoords.Add(Y(i2) - (Y(i3) - Y(i1)) * f);
+                smoothCoords.Add(X(i2));
+                smoothCoords.Add(Y(i2));
+            }
+
+            linePath.Commands.Add(new PathCommand(PathCommandType.Move, coords[0], coords[1]));
+            linePath.Commands.Add(new PathCommand(PathCommandType.CubicBézier, smoothCoords.ToArray()));
+        }
         private void AddPathCommandWithNullHandling(PathRenderItem linePath, List<double> coords, List<(int,object)> nullPos)
         {
             var start = 0;

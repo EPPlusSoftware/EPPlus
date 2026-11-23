@@ -793,7 +793,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal override ExcelChartTitle GetTitle()
         {
-            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c", 0);
+            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c", "title", 0);
         }
         /// <summary>
         /// True if the chart has a title
@@ -890,7 +890,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _chartXmlHelper.GetXmlNodeBool(_roundedCornersPath, true);
+                return _chartXmlHelper.GetXmlNodeBool(_roundedCornersPath, true, false);
             }
             set
             {

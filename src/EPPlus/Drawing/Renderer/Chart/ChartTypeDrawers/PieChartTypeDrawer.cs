@@ -228,7 +228,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
         private ExcelChartSeries<ExcelPieChartSerie> _chartSeries;
 
-        internal override void DrawSeries()
+        internal override int DrawSeries(int startSerie)
         {
             _groupItem = new GroupRenderItem(ChartRenderer.Plotarea.Group);
 
@@ -330,6 +330,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             //RenderDebugEllipse();
             ChartAreaRenderItems.Add(_groupItem);
+            return Slices.Count;
         }
 
         public override void AppendRenderItems(List<Transform> renderItems)

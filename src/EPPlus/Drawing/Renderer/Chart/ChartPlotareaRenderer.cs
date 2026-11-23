@@ -106,7 +106,7 @@ namespace EPPlusImageRenderer.Svg
                     }
                 }
 
-                vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.GetHeightOverlay(0) ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
+                vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.GetHeightOverlay(0) ?? 0D) + (bottomAxis.DisplayUnitTitle?.TextBox.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
             }
             else
             {
@@ -139,8 +139,12 @@ namespace EPPlusImageRenderer.Svg
             var leftAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 0);
             var leftSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Left, 1);
             var left = (leftAxis?.Rectangle?.Width ?? 0D) + ((leftAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftAxis?.Title?.LeftMargin ?? 0D)) + LeftMargin +
-                       (leftSecondAxis?.Rectangle?.Width ?? 0D) + ((leftSecondAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftSecondAxis?.Title?.LeftMargin ?? 0D)); 
-
+                       (leftSecondAxis?.Rectangle?.Width ?? 0D) + ((leftSecondAxis?.Title?.Rectangle?.RotatedWidth ?? 0D) + (leftSecondAxis?.Title?.LeftMargin ?? 0D)) +
+                       (leftAxis?.DisplayUnitTitle?.TextBox.GetActualWidth() ?? 0D); 
+            if(lp==eLegendPosition.Left)
+            {
+                left += ChartRenderer.Legend.Rectangle.Width;
+            }
             double rightAxisWidth;
             if (rightActualAxis == null)
             {
@@ -151,12 +155,12 @@ namespace EPPlusImageRenderer.Svg
                 }
                 else
                 {
-                    rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + +(rightSecondAxis?.Rectangle?.Width ?? 0D);
+                    rightAxisWidth = (rightAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightAxis.DisplayUnitTitle?.TextBox.GetActualWidth() ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
                 }
             }
             else
             {
-                rightAxisWidth = (rightActualAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
+                rightAxisWidth = (rightActualAxis.Title?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.DisplayUnitTitle?.TextBox.GetActualWidth() ?? 0D) + (rightActualAxis.Rectangle?.Width ?? 0D) + (rightSecondAxis?.Rectangle?.Width ?? 0D);
             }
 
             if (ChartRenderer.HorizontalAxis != null && ChartRenderer.HorizontalAxis.AxisValues != null)
@@ -212,7 +216,13 @@ namespace EPPlusImageRenderer.Svg
                 {
                     left += (leftAxis.Rectangle?.Width ?? 0) + 1.5;
                 }
-                if(leftSecondAxis!=null)
+
+                if (leftAxis.DisplayUnitTitle != null)
+                {
+                    left += leftAxis.DisplayUnitTitle.TextBox.GetActualWidth();
+                }
+
+                if (leftSecondAxis!=null)
                 {
                     left += leftSecondAxis.Rectangle.Width;
                 }
@@ -236,14 +246,14 @@ namespace EPPlusImageRenderer.Svg
             {
                 //If the axis is not on the top, we should check if there is an axis that has the position on the top. If there is, we should reserve space for the title of the axis. This can happen when LabelPosition is set to Low and the axis is on the bottom, but the position of the axis is set to top.
                 topAxis = GetAxisByPosition(eAxisPosition.Top);
-                haHeight = (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis?.Title?.GetHeightOverlay() ?? 0D);
+                haHeight = (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis?.Title?.GetHeightOverlay() ?? 0D) + (topSecondAxis?.DisplayUnitTitle?.TextBox.GetActualHeight() ?? 0D);
             }
             else
             {
-                haHeight = (topAxis.Rectangle?.Height ?? 0D) + (topSecondAxis?.Rectangle?.Height ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D);
+                haHeight = (topAxis.Rectangle?.RotatedHeight ?? 0D) + (topSecondAxis?.Rectangle?.RotatedHeight ?? 0D) + (topAxis.Title?.GetHeightOverlay() ?? 0D) + (topSecondAxis?.DisplayUnitTitle?.TextBox.GetActualHeight() ?? 0D);
             }
 
-            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? 0) + haHeight + TopMargin;
+            return (Chart.Legend?.Position == eLegendPosition.Top ? ChartRenderer.Legend.GetBottomOverlay(0) : ChartRenderer.Title?.GetBottomOverlay(TopMargin) ?? TopMargin) + haHeight;
         }
 
         private ChartAxisRenderer GetAxisActualByPosition(eActualAxisPosition pos, int index)
@@ -317,9 +327,10 @@ namespace EPPlusImageRenderer.Svg
 
         internal void DrawSeries()
         {
+            int serieCount = 0;
             foreach (var drawer in ChartTypeDrawers)
             {
-                drawer.DrawSeries();
+                serieCount += drawer.DrawSeries(serieCount);                
             }
         }
 
