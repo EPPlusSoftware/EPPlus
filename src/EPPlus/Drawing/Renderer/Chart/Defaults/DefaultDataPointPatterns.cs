@@ -69,6 +69,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart.Defaults
         {
             //legacy uses 1-based variation index
             variationIndex += 1;
+            numOfVariations += 1;
 
             var tintValue = (-70d + 140d * (variationIndex / (numOfVariations + 1d))) / 100d;
 

@@ -248,12 +248,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
 
-        internal static void SetSingleFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int variationIteration, int index, int valueCount, RenderItemStyle style)
+        internal static void SetSingleFillSerieLegacy(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int valueCount, int index, RenderItemStyle style)
         {
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             var baseColor = GetBaseColor(theme, chart.StyleManager, index);
-            var variation = DefaultDataPointPatterns.GetSingleLegacyColorVariation(variationIteration, valueCount % 6 == 0 ? valueCount / 6 + 1 : valueCount / 6, baseColor);
+
+            var currentIterationIndex = index / 6;
+            var totalNumberOfVariations = (valueCount / 6);
+
+            var variation = DefaultDataPointPatterns.GetSingleLegacyColorVariation(currentIterationIndex, totalNumberOfVariations, baseColor);
             style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, variation);
+
+            var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, currentIterationIndex);
+            style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width > 0, () => styleFormat.color, 0.75);
         }
 
         internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
@@ -261,9 +268,6 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
             if (ct.VaryColors)
             {
-                var accent1Scheme = chart.WorkSheet.Workbook.ThemeManager.CurrentTheme.ColorScheme.Accent1;
-                var accent1Theme = chart.WorkSheet.Workbook.ThemeManager.CurrentTheme.FormatScheme.FillStyle[0].SolidFill.Color;
-
                 var chartStyle =(int)chart.Style;
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
                 var color = GetVaryColor(theme, chart.StyleManager, index);
@@ -309,7 +313,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var baseColorIndex = index % 6;
             
             ExcelChartColorsManager colorsManager = styleManager?.ColorsManager;
-            if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count) && styleManager.Style == null)
+            if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count))
             {
                 //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
                 baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
@@ -329,10 +333,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelColorTransformCollection variation;
                 if (colorsManager == null)
                 {
-                    //ExcelColorTransformCollectionDataPoints dpCollection = new();
-                    //return dpCollection.GetColor(baseColor, variationIndex, baseColorIndex);
-                    var variations = ExcelColorTransformCollection.GetDefault();
-                    variation = variations[variationIndex % variations.Count];
+                    if(styleManager.Style == null)
+                    {
+                        var variations = ExcelColorTransformCollection.GetDefault();
+                        variation = variations[variationIndex % variations.Count];
+                    }
+                    else
+                    {
+                        var variations = ExcelColorTransformCollection.GetDefault();
+                        variation = variations[variationIndex % variations.Count];
+                    }
                 }
                 else
                 {

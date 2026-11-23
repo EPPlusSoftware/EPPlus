@@ -568,22 +568,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             {
                 var dp = serie.DataPoints[position];
                 ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
-                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
+                _slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
             }
             else
             {
-                //var subtleFill = ChartRenderer.Theme.FormatScheme.FillStyle[0];
-                //var bg = ChartRenderer.Theme.FormatScheme.BackgroundFillStyle[0];
-                //var darkScheme = OfficeOpenXml.Utils.TypeConversion.ColorConverter.GetSchemeColor(ChartRenderer.Theme, eSchemeColor.Dark1);
-                //var dark75 = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTintDrawing(darkScheme, 1 - 0.75d);
-
-                //var color = OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(dark75, subtleFill.SolidFill.Color.Transforms);
-                //var test = ColorConverter.
-
-                //_slicePath.Style.SetDrawingPropertiesFill(ChartRenderer.Theme, serie.Fill, chartType.StyleManager.Style?.DataPoint.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, defaultFill);
-                var divFactor = position / 6d;
-                var varIteration = (int)divFactor;
-                ChartTypeDrawer.SetSingleFillSerie(Chart, chartType, serie, varIteration, position, totalSliceCount, _slicePath.Style);
+                ChartTypeDrawer.SetSingleFillSerieLegacy(Chart, chartType, serie, totalSliceCount, position, _slicePath.Style);
             }
             //if (chartType.VaryColors)
             //{
