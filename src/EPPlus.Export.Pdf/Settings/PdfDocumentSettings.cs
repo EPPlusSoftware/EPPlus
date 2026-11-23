@@ -31,6 +31,7 @@ namespace EPPlus.Export.Pdf.Settings
         internal string Author;
         internal bool BlackAndWhite;
         internal string BookmarkNamePrefix;
+        internal bool SuppressFormFieldDetection;
 
         internal static PdfDocumentSettings From(PdfPageSettings s)
         {
@@ -49,7 +50,8 @@ namespace EPPlus.Export.Pdf.Settings
                 Title = s.Title,
                 Author = s.Author,
                 BlackAndWhite = s.BlackAndWhite,
-                BookmarkNamePrefix = s.BookmarkNamePrefix
+                BookmarkNamePrefix = s.BookmarkNamePrefix,
+                SuppressFormFieldDetection = s.SuppressFormFieldDetection,
             };
         }
 
