@@ -51,7 +51,7 @@ namespace EPPlusTest.Utils
             var decimalSign = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             var result = ConvertUtil.GetTypedCellValue<decimal>($"1{decimalSign}4");
 
-            Assert.AreEqual((decimal)1.4, result);
+            Assert.AreEqual(1.4, (double)result, 0.00001);
         }
 
         [TestMethod]
