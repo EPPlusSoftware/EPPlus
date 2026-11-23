@@ -683,11 +683,6 @@ namespace EPPlusImageRenderer
         {
             Plotarea?.AppendRenderItems(RenderItems);
 
-            HorizontalAxis?.AppendRenderItems(RenderItems);
-            VerticalAxis?.AppendRenderItems(RenderItems);
-            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
-            SecondVerticalAxis?.AppendRenderItems(RenderItems);
-
             if (Plotarea != null)
             {
                 //TODO: Add typeDrawers group?
@@ -698,6 +693,10 @@ namespace EPPlusImageRenderer
                     drawer.AppendRenderItems(RenderItems);
                 }
             }
+            HorizontalAxis?.AppendRenderItems(RenderItems);
+            VerticalAxis?.AppendRenderItems(RenderItems);
+            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
+            SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
             HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);
