@@ -382,13 +382,13 @@ namespace EPPlusImageRenderer.Svg
                     if (string.IsNullOrEmpty(s))
                         continue;
 
-                    highest = GetHightestAxisValue(shaper, fontSize, lineHeight, highest, s, LabelOrientation);
+                    highest = GetHighestAxisValue(shaper, fontSize, lineHeight, highest, s, LabelOrientation);
                 }
             }
             return highest.PointToPixel();
         }
 
-        private double GetHightestAxisValue(ITextShaper shaper, float fontSize, float lineHeight, double highest, string s, eTextOrientation labelOrientation)
+        private double GetHighestAxisValue(ITextShaper shaper, float fontSize, float lineHeight, double highest, string s, eTextOrientation labelOrientation)
         {
             switch (labelOrientation)
             {
@@ -823,16 +823,23 @@ namespace EPPlusImageRenderer.Svg
                     var lblAlignment = (Axis as ExcelChartAxisStandard)?.LabelAlignment ?? OfficeOpenXml.eAxisLabelAlignment.Center;
                     var majorWidth = Rectangle.Width / count;
 
-                    switch (lblAlignment)
+                    if (Chart.IsTypeBar() == false)
                     {
-                        case OfficeOpenXml.eAxisLabelAlignment.Left:
-                            break;
-                        case OfficeOpenXml.eAxisLabelAlignment.Center:
-                            tb.Left += majorWidth / 2 - tb.Width / 2;
-                            break;
-                        case OfficeOpenXml.eAxisLabelAlignment.Right:
-                            tb.Left += majorWidth - tb.Width;
-                            break;
+                        switch (lblAlignment)
+                        {
+                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                                tb.Left += majorWidth / 2 - tb.Width / 2;
+                                break;
+                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                                tb.Left += majorWidth - tb.Width;
+                                break;
+                        }
+                    }
+                    else
+                    {
+
                     }
                 }
             }
@@ -863,14 +870,15 @@ namespace EPPlusImageRenderer.Svg
                 if (i + 1 < Values.Count)
                 {
                     var nextTicMarkX = GetAxisItemLeft(i + 1);
-                    majorTickMarkWidth = nextTicMarkX - ticMarkX;
+                    //Abs neccesary for reversed axis
+                    majorTickMarkWidth = Math.Abs(nextTicMarkX - ticMarkX);
                 }
                 else
                 {
                     if (i > 0)
                     {
                         var prevTickMarkX = GetAxisItemLeft(i - 1);
-                        majorTickMarkWidth = ticMarkX - prevTickMarkX;
+                        majorTickMarkWidth = Math.Abs(ticMarkX - prevTickMarkX);
                     }
                     else
                     {
@@ -996,8 +1004,8 @@ namespace EPPlusImageRenderer.Svg
                                 x = x - width * cos;
 
                                 // Wrapping may be undesireable in this case?
-                                //See Epplus_Svg_Bar Axes|chart 22 when this is not doen it's wrapped even with the margins
-                                availableTextLength = width;
+                                //See Epplus_Svg_Bar Axes|chart 22 when this is not done it's wrapped even with the margins
+                                availableTextLength = width + RightMargin;
                             }
                             else
                             {
@@ -1028,6 +1036,15 @@ namespace EPPlusImageRenderer.Svg
                             var diff = Math.Abs(distX - halfWidth);
 
                             x = xPosStart;
+
+                            if (width > majorTickMarkWidth)
+                            {
+                                //x = x - width * cos;
+
+                                // Wrapping may be undesireable in this case?
+                                //See Epplus_Svg_Bar Axes|chart 22 when this is not done it's wrapped even with the margins
+                                availableTextLength = width + RightMargin;
+                            }
                             //if (width > majorTickMarkWidth)
                             //{
                             //    x = x + width * cos;
