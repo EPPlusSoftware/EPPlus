@@ -495,7 +495,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             variationIndex += 1;
             numVariations += 1;
 
-            var tintValue = (-70d + 140d * (variationIndex / (numVariations + 1d))) / 100d;
+            var tintValue = (-70d + 140d * ((double)variationIndex / ((double)numVariations + 1d)));
 
             return tintValue;
         }
@@ -503,13 +503,29 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         internal static List<ExcelColorTransformCollection> GetLegacyDefaultPattern2(int numVariations)
         {
             List<ExcelColorTransformCollection> legacyVariations = new List<ExcelColorTransformCollection>();
-
-            for (int i = 0; i< numVariations; i++)
+            //must be run at least once without changing numVariations
+            int numIterations = numVariations + 1;
+            for (int i = 0; i < numIterations; i++)
             {
                 var currVar = new ExcelColorTransformCollection();
                 var tintPercentage = GetLegacyFadePatternTintShadePercentage(i, numVariations);
-                //Negative tint percentages are shades but underlying functions handle that
-                currVar.AddTint(tintPercentage);
+                if (tintPercentage != 0)
+                {
+                    //Negative tint percentages are shades but underlying functions handle that
+                    if (tintPercentage < 0)
+                    {
+                        currVar.AddShade(100 + tintPercentage);
+                    }
+                    else
+                    {
+                        currVar.AddTint(100 - tintPercentage);
+                    }
+                }
+                else
+                {
+                    //Add nothing leaving it unchanged
+                    currVar.AddLuminance(0);
+                }
                 legacyVariations.Add(currVar);
             }
             return legacyVariations;
