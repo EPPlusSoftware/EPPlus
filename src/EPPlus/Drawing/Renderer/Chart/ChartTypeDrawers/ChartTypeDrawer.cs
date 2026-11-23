@@ -280,7 +280,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 ExcelChartColorsManager colorsManager = styleManager?.ColorsManager;
                 if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count))
                 {
-                    if (styleManager.Style != null)
+                    if (styleManager == null || styleManager.Style != null)
                     {
                         //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
                         baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
@@ -296,7 +296,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
 
                 var variationIndex = index / 6;
-                if (variationIndex == 0 && styleManager.Style != null)
+                if (variationIndex == 0 && styleManager != null && styleManager.Style != null)
                 {
                     return baseColor;
                 }
@@ -305,7 +305,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     ExcelColorTransformCollection variation;
                     if (colorsManager == null)
                     {
-                        if (styleManager.Style == null)
+                        if (styleManager == null || styleManager.Style == null)
                         {
                             var variations = ExcelColorTransformCollection.GetLegacyDefaultPattern2(legacyVariationCount);
                             variation = variations[variationIndex % variations.Count];
