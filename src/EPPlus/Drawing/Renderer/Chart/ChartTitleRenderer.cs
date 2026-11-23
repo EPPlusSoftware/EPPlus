@@ -287,7 +287,6 @@ namespace EPPlusImageRenderer.Svg
                 var lastLine = TextBox?.TextBody?.Paragraphs?.Last().Lines?.Last();
                 if(lastLine != null)
                 {
-                    
                     //Excel spaces the bottom one line lower than the rect
                     var lineSpace = lastLine.LargestDescent*2d;
                     return Rectangle.GlobalBottom + lineSpace;
@@ -301,13 +300,21 @@ namespace EPPlusImageRenderer.Svg
 
         internal double GetHeightOverlay(double overlayValue=0)
         {
+            var lastLine = TextBox?.TextBody?.Paragraphs?.Last().Lines?.Last();
+            double lineSpace = 0;
+            if (lastLine != null)
+            {
+                //Excel spaces the bottom one line lower than the rect
+                lineSpace = lastLine.LargestDescent * 2d;
+            }
+
             if (_title.Overlay)
             {
-                return overlayValue;
+                return overlayValue + lineSpace;
             }
             else
             {
-                return TextBox?.GetActualHeight() ?? overlayValue;                
+                return (TextBox?.GetActualHeight() ?? overlayValue) + lineSpace;                
             }
         }
     }

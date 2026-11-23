@@ -173,6 +173,10 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         Rectangle.Height = GetTextHeight(Axis, _isMulti);
+                        //if(Title != null)
+                        //{
+                        //    Rectangle.Height += Title.GetHeightOverlay();
+                        //}
 
                         if (Textboxes != null && Textboxes.TextBoxes != null && Textboxes.TextBoxes.Count > 0)
                         {
