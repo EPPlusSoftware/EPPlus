@@ -394,6 +394,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         }
 
         private static List<ExcelColorTransformCollection> _defaultVariations = null;
+
         internal static List<ExcelColorTransformCollection> GetDefault()
         {
             if (_defaultVariations == null)
@@ -478,6 +479,40 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             //    }
             //}
             return _defaultVariations;
+        }
+
+        /// <summary>
+        /// Get fallback legacy fade/tint values
+        /// </summary>
+        /// <param name="variationIndex">Current variation or series index</param>
+        /// <param name="numVariations">total number of variations/series</param>
+        /// <param name="isIndex1Based">
+        /// To our knowledge this pattern always considers the first index to be 1 rather than 0. 
+        /// This option is future-proofing</param>
+        /// <returns></returns>
+        internal static double GetLegacyFadePatternTintShadePercentage(int variationIndex, int numVariations, bool isIndex1Based = true)
+        {
+            variationIndex += 1;
+            numVariations += 1;
+
+            var tintValue = (-70d + 140d * (variationIndex / (numVariations + 1d))) / 100d;
+
+            return tintValue;
+        }
+
+        internal static List<ExcelColorTransformCollection> GetLegacyDefaultPattern2(int numVariations)
+        {
+            List<ExcelColorTransformCollection> legacyVariations = new List<ExcelColorTransformCollection>();
+
+            for (int i = 0; i< numVariations; i++)
+            {
+                var currVar = new ExcelColorTransformCollection();
+                var tintPercentage = GetLegacyFadePatternTintShadePercentage(i, numVariations);
+                //Negative tint percentages are shades but underlying functions handle that
+                currVar.AddTint(tintPercentage);
+                legacyVariations.Add(currVar);
+            }
+            return legacyVariations;
         }
 
         /// <summary>

@@ -567,12 +567,12 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             if (position >= 0 && serie.DataPoints.ContainsKey(position))
             {
                 var dp = serie.DataPoints[position];
-                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
-                _slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
+                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, serie.NumberOfItems, UserSpaceSettings.ObjectBoundingBox);
+                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
             }
             else
             {
-                ChartTypeDrawer.SetSingleFillSerieLegacy(Chart, chartType, serie, totalSliceCount, position, _slicePath.Style);
+                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, totalSliceCount, position, _slicePath.Style, serie.NumberOfItems);
             }
             //if (chartType.VaryColors)
             //{
