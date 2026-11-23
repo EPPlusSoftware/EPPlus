@@ -652,9 +652,16 @@ namespace EPPlus.Fonts.OpenType
 
         internal OpenTypeFont CreateSubset(IEnumerable<char> usedChars, bool addSubsetTag)
         {
+            return CreateSubset(usedChars, new SubsetOptions { AddSubsetTag = addSubsetTag });
+        }
+
+        internal OpenTypeFont CreateSubset(IEnumerable<char> usedChars, SubsetOptions options)
+        {
             // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
 
             if (!usedChars.Any())
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
@@ -662,9 +669,9 @@ namespace EPPlus.Fonts.OpenType
             var subsetBuilder = new SubsetFontBuilder();
             var codePoints = CodePointUtil.ExtractCodePoints(usedChars);
 
-            var newFont = subsetBuilder.CreateSubset(this, codePoints);
+            var newFont = subsetBuilder.CreateSubset(this, codePoints, options.RemoveHinting);
 
-            if (addSubsetTag)
+            if (options.AddSubsetTag)
             {
                 // Must happen BEFORE post-processing so lengths, checksums and any
                 // preprocessed table bytes are computed from the final name table.

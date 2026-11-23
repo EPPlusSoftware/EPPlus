@@ -54,7 +54,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
         private static List<string> GetRunFontFamilies(string svg)
         {
             var result = new List<string>();
-            foreach (Match m in Regex.Matches(svg, "<tspan[^>]*?font-family=\"([^\"]*)\""))
+            foreach (Match m in Regex.Matches(svg, "<tspan[^>]*?style=\"[^\"]*?font-family:((?:&[#\\w]+;|[^;\"])*)"))
             {
                 var first = m.Groups[1].Value.Split(',')[0].Trim().Trim('\'', '"');
                 result.Add(first);
@@ -64,7 +64,7 @@ namespace EPPlus.Export.ImageRenderer.Tests.Fonts
 
         private static void AssertAllFamilies(string svg, string expectedFamily)
         {
-            var matches = Regex.Matches(svg, "<tspan[^>]*?font-family=\"([^\"]*)\"[^>]*>([^<]*)</tspan>");
+            var matches = Regex.Matches(svg, "<tspan[^>]*?style=\"[^\"]*?font-family:((?:&[#\\w]+;|[^;\"])*)[^>]*>([^<]*)</tspan>");
             Assert.IsTrue(matches.Count > 0, "No text run with a font-family was rendered.");
             foreach (Match m in matches)
             {

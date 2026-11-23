@@ -62,7 +62,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
         /// </summary>
         private static List<string> GetTspanFontFamilies(string svg)
         {
-            return Regex.Matches(svg, "<tspan[^>]*?font-family=\"([^\"]*)\"")
+            return Regex.Matches(svg, "<tspan[^>]*?style=\"[^\"]*?font-family:((?:&[#\\w]+;|[^;\"])*)")
                 .Cast<Match>()
                 .Select(m => System.Net.WebUtility.HtmlDecode(m.Groups[1].Value))
                 .ToList();
@@ -154,7 +154,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var svg = AddShape(p, "Bob's \"Font\"").ToSvg(GetRenderOptions());
 
                 // xml: the double quote is an entity so the attribute stays well-formed.
-                StringAssert.Contains(svg, "font-family=\"'Bob\\'s &quot;Font&quot;', sans-serif\"");
+                StringAssert.Contains(svg, "font-family:'Bob\\'s &quot;Font&quot;', sans-serif;");
                 // css after xml decoding: the single quote is escaped inside the quoted name.
                 Assert.AreEqual("'Bob\\'s \"Font\"', sans-serif", GetSingleTspanFontFamily(svg));
             }
@@ -177,8 +177,14 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
             {
                 var svg = AddShape(p, "Calibri").ToSvg(GetRenderOptions());
 
-                // Every font-family in the svg, on text, tspan and g, ends with a generic family.
-                var all = Regex.Matches(svg, "font-family=\"([^\"]*)\"").Cast<Match>().Select(m => m.Groups[1].Value).ToList();
+                // Every font-family in the svg, on text, tspan and g, ends with a generic family. The group writes
+                // it as an attribute, text and tspan in the style attribute. A font-family in a style attribute is
+                // only matched inside style="...", so the @font-face rules in the style element are not counted;
+                // xml entities such as &quot; are skipped, since they contain a semicolon.
+                var all = Regex.Matches(svg, "(?:\\bfont-family=\"([^\"]*)\"|\\bstyle=\"[^\"]*?font-family:((?:&[#\\w]+;|[^;\"])*))")
+                    .Cast<Match>()
+                    .Select(m => m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value)
+                    .ToList();
                 Assert.IsTrue(all.Count >= 2, "Expected font-family on more than the text runs.");
                 foreach (var family in all)
                 {

@@ -21,12 +21,25 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
         public void Rewrite(FontSubsettingContext context)
         {
-            
             var original = context.OriginalFont.MaxpTable;
             if (original == null) return;
 
             var maxp = original.Clone();
             maxp.numGlyphs = (ushort)context.NewToOldGlyphId.Count;
+
+            if (context.RemoveHinting)
+            {
+                // No instructions remain, so nothing is reserved for them. maxZones is 1 rather than 0:
+                // 1 means no twilight zone, and 0 is not a valid value.
+                maxp.maxZones = 1;
+                maxp.maxTwilightPoints = 0;
+                maxp.maxStorage = 0;
+                maxp.maxFunctionDefs = 0;
+                maxp.maxInstructionDefs = 0;
+                maxp.maxStackElements = 0;
+                maxp.maxSizeOfInstructions = 0;
+            }
+
             context.SubsetFont.AddOrReplaceTable(maxp);
         }
     }

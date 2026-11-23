@@ -167,9 +167,9 @@ namespace EPPlus.DrawingRenderer.Tests.Text
                 var text = WebUtility.HtmlDecode(m.Groups[2].Value);
                 var x = ParseNumber(GetAttribute(attributes, "x"));
                 var y = ParseNumber(GetAttribute(attributes, "y"));
-                var family = (GetAttribute(attributes, "font-family") ?? FontName).Split(',')[0].Trim().Trim('\'', '"');
-                var sizePx = ParseNumber(GetAttribute(attributes, "font-size"));
-                var bold = GetAttribute(attributes, "font-weight") == "bold";
+                var family = (SvgStyle.Property(attributes, "font-family") ?? FontName).Split(',')[0].Trim().Trim('\'', '"');
+                var sizePx = ParseNumber(SvgStyle.Property(attributes, "font-size"));
+                var bold = SvgStyle.Property(attributes, "font-weight") == "bold";
 
                 double widthPx = double.NaN;
                 if (!double.IsNaN(sizePx))

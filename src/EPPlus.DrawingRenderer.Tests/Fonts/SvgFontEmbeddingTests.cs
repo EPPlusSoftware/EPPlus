@@ -16,9 +16,8 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
     /// The font engine only sees the test fonts, so the output does not depend on installed fonts.
     /// </summary>
     [TestClass]
-    public class SvgFontEmbeddingTests : FontTestBase
+    public class SvgFontEmbeddingTests : SvgExportTestBase
     {
-        private const string JapaneseText = "Sales あいう";
 
         [TestInitialize]
         public void Initialize()
@@ -26,7 +25,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
             ExcelPackage.License.SetNonCommercialOrganization("EPPlus Project");
         }
 
-        private OpenTypeFontEngine? _engine;
+       
 
         [TestCleanup]
         public void Cleanup()
@@ -35,71 +34,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
             _engine = null;
         }
 
-        private ExcelPackage CreatePackage(Action<IEpplusFontConfiguration>? configure = null)
-        {
-            _engine = new OpenTypeFontEngine(cfg =>
-            {
-                cfg.FontDirectories.Add(FontFolder);
-                cfg.SearchSystemDirectories = false;
-                configure?.Invoke(cfg);
-            });
-            var p = new ExcelPackage();
-            p.Workbook.UseFontEngine(_engine);
-            return p;
-        }
-
-        private static ExcelShape AddShape(ExcelPackage p, string text, string fontName, bool bold = false)
-        {
-            var ws = p.Workbook.Worksheets.Add("Sheet" + (p.Workbook.Worksheets.Count + 1));
-            var shape = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
-            shape.SetSize(300, 200);
-            shape.TextBody.Paragraphs.Add(text).TextRuns[0].SetFromFont(fontName, 11, bold);
-            return shape;
-        }
-
-        /// <summary>Hiragana is drawn with BIZ UDGothic, which an OnFontEmbedding callback may forbid.</summary>
-        private static void JapaneseFallback(IEpplusFontConfiguration cfg, bool embedFallback)
-        {
-            RequireFont(TestFolderEngine, "BIZ UDGothic");
-            cfg.SetScriptFallback(UnicodeScript.Hiragana, "BIZ UDGothic", "Yu Gothic", "Meiryo");
-            if (!embedFallback)
-            {
-                cfg.OnFontEmbedding(info => info.FontName.StartsWith("BIZ UDGothic", StringComparison.OrdinalIgnoreCase)
-                    ? FontEmbeddingDecision.Skip
-                    : FontEmbeddingDecision.Default);
-            }
-        }
-
-        private static List<string> FontFaceFamilies(string svg)
-        {
-            return Regex.Matches(svg, "@font-face\\{font-family:'([^']*)'")
-                .Cast<Match>().Select(m => m.Groups[1].Value).ToList();
-        }
-
-        private static string[] Families(string fontFamilyAttribute)
-        {
-            return System.Net.WebUtility.HtmlDecode(fontFamilyAttribute)
-                .Split(',').Select(f => f.Trim().Trim('\'')).ToArray();
-        }
-
-        /// <summary>The innermost tspans, the ones that hold text.</summary>
-        private static MatchCollection TextTspans(string svg)
-        {
-            return Regex.Matches(svg, "<tspan([^>]*)>([^<]+)</tspan>");
-        }
-
-        private static string? Attribute(string attributes, string name)
-        {
-            var m = Regex.Match(attributes, "\\s" + Regex.Escape(name) + "=\"([^\"]*)\"");
-            return m.Success ? m.Groups[1].Value : null;
-        }
-
-        /// <summary>The width in pixels, measured with the engine of the package the test created.</summary>
-        private double MeasurePixels(string text, string family, FontSubFamily subFamily, float size)
-        {
-            var points = _engine!.GetMeasurementShaper(family, subFamily).ShapeLight(text).GetWidthInPoints(size);
-            return points / 72d * 96d;
-        }
+        
 
         // -----------------------------------------------------------------------------------------
         // @font-face
@@ -134,7 +69,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
 
                 StringAssert.Contains(svg, "font-weight:700;font-style:normal;}");
                 var run = TextTspans(svg)[0].Groups[1].Value;
-                StringAssert.Contains(run, "font-weight=\"bold\"");
+                StringAssert.Contains(run, "font-weight:bold;");
                 Assert.AreEqual(MeasurePixels("Hello", "Roboto", FontSubFamily.Bold, 11),
                     double.Parse(Attribute(run, "textLength")!, CultureInfo.InvariantCulture), 0.01);
             }
@@ -149,7 +84,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var svg = AddShape(p, "Hello", "Roboto").ToSvg();
                 var subsetName = FontFaceFamilies(svg).Single();
 
-                var families = Families(Attribute(TextTspans(svg)[0].Groups[1].Value, "font-family")!);
+                var families = Families(SvgStyle.Property(TextTspans(svg)[0].Groups[1].Value, "font-family")!);
                 Assert.AreEqual(subsetName, families[0]);
                 Assert.AreEqual("Roboto", families[1]);
                 Assert.AreEqual("sans-serif", families.Last());
@@ -164,7 +99,12 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
             {
                 var svg = AddShape(p, "Hello", "Roboto").ToSvg(o => o.EmbedFonts = false);
                 Assert.IsFalse(svg.Contains("@font-face"));
-                Assert.IsFalse(svg.Contains("<style>"));
+
+                // The style element is still written: it holds the scoped rule that protects the text from host css.
+                // The style element is still written: it holds the scoped rule that protects the text from host css.
+                var style = Regex.Match(svg, "<style>(.*?)</style>").Groups[1].Value;
+                StringAssert.StartsWith(style, ".epplus-svg text,.epplus-svg tspan{",
+                    "Without embedding the style element holds only the text rule.");
             }
         }
 
@@ -253,7 +193,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
         }
 
         [TestMethod]
-        public void Root_HasViewBoxAndTextStyle()
+        public void Root_HasViewBoxAndScopedTextStyle()
         {
             RequireFont(TestFolderEngine, "Roboto");
             using (var p = CreatePackage())
@@ -263,13 +203,17 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
 
                 StringAssert.Contains(root, " viewBox=\"");
                 Assert.IsFalse(root.Contains(" viewbox="));
-                var style = Attribute(root, "style");
-                Assert.IsNotNull(style, "The root has no style.");
+                Assert.AreEqual("epplus-svg", Attribute(root, "class"));
+                Assert.IsNull(Attribute(root, "style"), "The text style is a scoped rule, not a style on the root.");
+
+                var style = Regex.Match(svg, "<style>(.*?)</style>").Groups[1].Value;
+                StringAssert.Contains(style, ".epplus-svg text,.epplus-svg tspan{");
                 foreach (var rule in new[] { "font-kerning:normal", "font-variant-ligatures:common-ligatures contextual",
-                    "letter-spacing:0", "word-spacing:0", "font-synthesis:none", "text-rendering:geometricPrecision" })
+            "letter-spacing:0", "word-spacing:0", "font-synthesis:weight style", "text-rendering:geometricPrecision" })
                 {
-                    StringAssert.Contains(style, rule);
+                    StringAssert.Contains(style, rule + "!important");
                 }
+                Assert.IsFalse(style.Contains("font-synthesis:none"), "Bold and italic synthesis must be allowed.");
             }
         }
 
@@ -290,7 +234,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var runs = TextTspans(svg);
                 Assert.AreEqual(1, runs.Count, "An embedded fallback needs no split.");
 
-                var families = Families(Attribute(runs[0].Groups[1].Value, "font-family")!);
+                var families = Families(SvgStyle.Property(runs[0].Groups[1].Value, "font-family")!);
                 Assert.IsTrue(families[0].EndsWith("+Roboto"));
                 Assert.IsTrue(families[1].EndsWith("+BIZ UDGothic"));
                 Assert.AreEqual(MeasurePixels(JapaneseText, "Roboto", FontSubFamily.Regular, 11),
@@ -314,16 +258,16 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var outer = Regex.Match(svg, "<tspan([^>]*)>((?:<tspan[^>]*>[^<]*</tspan>)+)</tspan>");
                 Assert.IsTrue(outer.Success, "The run was not split.");
                 Assert.IsNull(Attribute(outer.Groups[1].Value, "textLength"));
-                Assert.AreEqual(faces[0], Families(Attribute(outer.Groups[1].Value, "font-family")!)[0]);
+                Assert.AreEqual(faces[0], Families(SvgStyle.Property(outer.Groups[1].Value, "font-family")!)[0]);
 
                 var segments = TextTspans(outer.Groups[2].Value);
                 Assert.AreEqual(2, segments.Count);
 
                 Assert.AreEqual("Sales ", segments[0].Groups[2].Value);
-                Assert.IsNull(Attribute(segments[0].Groups[1].Value, "font-family"), "The Latin part inherits the run's stack.");
+                Assert.IsNull(SvgStyle.Property(segments[0].Groups[1].Value, "font-family"), "The Latin part inherits the run's stack.");
 
                 Assert.AreEqual("あいう", segments[1].Groups[2].Value);
-                var families = Families(Attribute(segments[1].Groups[1].Value, "font-family")!);
+                var families = Families(SvgStyle.Property(segments[1].Groups[1].Value, "font-family")!);
                 CollectionAssert.AreEqual(new[] { "BIZ UDGothic", "Yu Gothic", "Meiryo" }, families.Take(3).ToArray(),
                     "The fallback, then the rest of the script's chain.");
                 Assert.AreEqual("sans-serif", families.Last());
@@ -346,7 +290,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var svg = AddShape(p, JapaneseText, "Roboto").ToSvg();
 
                 var outer = Regex.Match(svg, "<tspan([^>]*)><tspan");
-                var families = Families(Attribute(outer.Groups[1].Value, "font-family")!).ToList();
+                var families = Families(SvgStyle.Property(outer.Groups[1].Value, "font-family")!).ToList();
                 var fallback = families.IndexOf("BIZ UDGothic");
                 Assert.IsTrue(fallback > 0, string.Join(", ", families));
                 Assert.AreEqual("Yu Gothic", families[fallback + 1]);
@@ -370,14 +314,14 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
                 var outer = Regex.Match(svg, "<tspan([^>]*)>((?:<tspan[^>]*>[^<]*</tspan>)+)</tspan>");
                 Assert.IsTrue(outer.Success, "The run was not split.");
                 CollectionAssert.AreEqual(new[] { "Roboto", "BIZ UDGothic", "Yu Gothic", "Meiryo", "sans-serif" },
-                    Families(Attribute(outer.Groups[1].Value, "font-family")!),
+                    Families(SvgStyle.Property(outer.Groups[1].Value, "font-family")!),
                     "The run's stack: the font, the glyph fallback and its script chain, a generic family.");
 
                 var segments = TextTspans(outer.Groups[2].Value);
                 Assert.AreEqual(2, segments.Count);
-                Assert.IsNull(Attribute(segments[0].Groups[1].Value, "font-family"));
+                Assert.IsNull(SvgStyle.Property(segments[0].Groups[1].Value, "font-family"));
                 CollectionAssert.AreEqual(new[] { "BIZ UDGothic", "Yu Gothic", "Meiryo", "Roboto", "sans-serif" },
-                    Families(Attribute(segments[1].Groups[1].Value, "font-family")!));
+                    Families(SvgStyle.Property(segments[1].Groups[1].Value, "font-family")!));
 
                 foreach (Match segment in segments)
                 {
@@ -398,7 +342,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
 
                 Assert.IsFalse(svg.Contains("@font-face"));
                 Assert.IsFalse(svg.Contains("Archivo Narrow"), "Archivo Narrow is only ever used embedded.");
-                var families = Families(Attribute(TextTspans(svg)[0].Groups[1].Value, "font-family")!);
+                var families = Families(SvgStyle.Property(TextTspans(svg)[0].Groups[1].Value, "font-family")!);
                 Assert.AreEqual("Calibri", families[0]);
                 Assert.AreEqual("sans-serif", families.Last());
             }

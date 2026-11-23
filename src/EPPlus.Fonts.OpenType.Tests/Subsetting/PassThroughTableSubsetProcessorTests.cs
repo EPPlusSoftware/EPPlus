@@ -11,6 +11,9 @@
   11/17/2026         EPPlus Software AB           Pass-through hinting table subsetting tests
  *************************************************************************************************/
 using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Glyph;
 using EPPlus.Fonts.OpenType.Tests.Helpers;
 using EPPlus.Fonts.OpenType.Utils;
 using System.IO;
@@ -194,6 +197,100 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             // maxSizeOfInstructions may legitimately shrink if computed over the subset glyphs,
             // but must never be smaller than the largest instruction block actually kept.
             Assert.IsTrue(s.maxSizeOfInstructions > 0 || o.maxSizeOfInstructions == 0, "maxSizeOfInstructions");
+        }
+
+        private static readonly string[] HintingProgramTags = { TableNames.Cvt, TableNames.Fpgm, TableNames.Prep };
+
+        // Accented letters are composite glyphs in many fonts, so composites are covered too.
+        private const string UnhintedSubsetText = "Hello Héllo Åäö ñ 123";
+
+        private static OpenTypeFont CreateUnhintedSubset(OpenTypeFont font)
+        {
+            var subset = font.CreateSubset(UnhintedSubsetText, new SubsetOptions { RemoveHinting = true });
+            return new OpenTypeFont(subset.Serialize());
+        }
+
+        [TestMethod]
+        [DataRow("Roboto-Regular.ttf")]
+        [DataRow("OpenSans-Regular.ttf")]
+        public void Subset_RemoveHinting_LeavesOutHintingTablesAndKeepsGasp(string fileName)
+        {
+            var font = LoadFontFile(fileName);
+            var parsed = CreateUnhintedSubset(font);
+
+            foreach (var tag in HintingProgramTags)
+            {
+                Assert.IsFalse(parsed.TableRecords.ContainsKey(tag), $"'{tag}' should be left out of an unhinted subset.");
+            }
+            Assert.AreEqual(font.TableRecords.ContainsKey(TableNames.Gasp), parsed.TableRecords.ContainsKey(TableNames.Gasp),
+                "gasp is kept when the original has it.");
+        }
+
+        [TestMethod]
+        [DataRow("Roboto-Regular.ttf")]
+        [DataRow("OpenSans-Regular.ttf")]
+        public void Subset_RemoveHinting_GlyphsHaveNoInstructions(string fileName)
+        {
+            var font = LoadFontFile(fileName);
+            var parsed = CreateUnhintedSubset(font);
+
+            int simpleCount = 0, compositeCount = 0;
+            for (ushort gid = 0; gid < parsed.MaxpTable.numGlyphs; gid++)
+            {
+                var glyph = parsed.GlyfTable.GetGlyph(gid);
+                if (glyph == null)
+                    continue;
+
+                if (glyph.SimpleData != null)
+                {
+                    simpleCount++;
+                    Assert.AreEqual(0, glyph.SimpleData.Instructions.Length, $"Simple glyph {gid} has instructions.");
+                }
+                if (glyph.CompositeData != null)
+                {
+                    compositeCount++;
+                    Assert.AreEqual(0, glyph.CompositeData.Instructions.Length, $"Composite glyph {gid} has instructions.");
+                    foreach (var component in glyph.CompositeData.Components)
+                    {
+                        Assert.AreEqual((CompositeGlyphFlags)0, component.Flags & CompositeGlyphFlags.WE_HAVE_INSTRUCTIONS,
+                            $"Composite glyph {gid} has a component with WE_HAVE_INSTRUCTIONS.");
+                    }
+                }
+            }
+
+            Assert.IsTrue(simpleCount > 0, "The subset has no simple glyphs.");
+            Console.WriteLine($"{fileName}: {simpleCount} simple and {compositeCount} composite glyphs checked.");
+        }
+
+        [TestMethod]
+        [DataRow("Roboto-Regular.ttf")]
+        public void Subset_RemoveHinting_MaxpReservesNothingForInstructions(string fileName)
+        {
+            var maxp = CreateUnhintedSubset(LoadFontFile(fileName)).MaxpTable;
+
+            Assert.AreEqual(1, maxp.maxZones, "maxZones");
+            Assert.AreEqual(0, maxp.maxTwilightPoints, "maxTwilightPoints");
+            Assert.AreEqual(0, maxp.maxStorage, "maxStorage");
+            Assert.AreEqual(0, maxp.maxFunctionDefs, "maxFunctionDefs");
+            Assert.AreEqual(0, maxp.maxInstructionDefs, "maxInstructionDefs");
+            Assert.AreEqual(0, maxp.maxStackElements, "maxStackElements");
+            Assert.AreEqual(0, maxp.maxSizeOfInstructions, "maxSizeOfInstructions");
+        }
+
+        [TestMethod]
+        [DataRow("Roboto-Regular.ttf")]
+        [DataRow("OpenSans-Regular.ttf")]
+        [DataRow("Mulish-Regular.ttf")]
+        public void Subset_RemoveHinting_IsValidAndSmallerThanHinted(string fileName)
+        {
+            var font = LoadFontFile(fileName);
+            var hinted = font.CreateSubset(UnhintedSubsetText, new SubsetOptions()).Serialize();
+            var unhinted = font.CreateSubset(UnhintedSubsetText, new SubsetOptions { RemoveHinting = true }).Serialize();
+
+            FontTestHelper.AssertFontValid(new OpenTypeFont(unhinted), FontValidationSeverity.Warning);
+            Assert.IsTrue(unhinted.Length < hinted.Length,
+                $"Unhinted {unhinted.Length} bytes, hinted {hinted.Length} bytes.");
+            Console.WriteLine($"{fileName}: hinted {hinted.Length} bytes, unhinted {unhinted.Length} bytes.");
         }
     }
 }

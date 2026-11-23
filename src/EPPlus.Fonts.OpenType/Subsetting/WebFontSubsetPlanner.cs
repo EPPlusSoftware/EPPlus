@@ -65,11 +65,6 @@ namespace EPPlus.Fonts.OpenType.Subsetting
     public sealed class WebFontSubsetPlanner
     {
         private const string LastResortFamily = "Archivo Narrow";
-
-        // Each failed subset marks that font as not embeddable and reruns the assignment. Bounds the
-        // loop in case subsets keep failing.
-        private const int MaxAttempts = 4;
-
         private readonly OpenTypeFontEngine _engine;
         private readonly bool _embedFonts;
         private readonly List<Request> _requests = new List<Request>();
@@ -138,6 +133,9 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         /// <summary>
         /// Routes, decides and subsets. Can be called once.
         /// </summary>
+        /// <summary>
+        /// Routes, decides and subsets. Can be called once.
+        /// </summary>
         public WebFontPlan Build()
         {
             if (_built)
@@ -147,13 +145,18 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             foreach (var request in _requests)
                 Route(request);
 
-            for (int attempt = 1; ; attempt++)
+            // A failed subset marks its font as not embeddable and reruns the assignment, so a failed
+            // primary is written by name followed by a safety net (ultimately the bundled Archivo
+            // Narrow), and a failed glyph fallback is written by name. The loop ends: a font that
+            // failed is never assigned again, and there are finitely many fonts. When it ends, every
+            // font the assignment embeds has a subset.
+            while (true)
             {
                 var assignment = Assign();
                 var failed = new List<FontKey>();
                 var faces = SubsetAll(assignment, failed);
 
-                if (failed.Count == 0 || attempt >= MaxAttempts)
+                if (failed.Count == 0)
                     return Compose(assignment, faces);
 
                 foreach (var id in failed)
@@ -369,7 +372,11 @@ namespace EPPlus.Fonts.OpenType.Subsetting
 
                 try
                 {
-                    var subset = font.CreateSubset(CodePointUtil.CodePointsToString(codePoints), true);
+                    // Web subsets are unhinted: browsers on most platforms ignore TrueType hinting, text is
+                    // laid out with geometric precision and a fixed textLength, and the hinting programs
+                    // are often the largest part of a small subset.
+                    var subset = font.CreateSubset(CodePointUtil.CodePointsToString(codePoints),
+                        new SubsetOptions { AddSubsetTag = true, RemoveHinting = true });
                     var data = subset.Serialize();
                     var familyName = SubsetTag.Create(id, codePoints) + id.Family;
                     faces.Add(id, new WebFontFace(familyName, id.Family, id.SubFamily, data));

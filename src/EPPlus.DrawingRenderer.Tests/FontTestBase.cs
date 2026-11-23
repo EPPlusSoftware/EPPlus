@@ -14,7 +14,7 @@ namespace EPPlus.DrawingRenderer.Tests
     ///
     /// The engines and contexts are shared by all tests. Do not dispose them.
     /// </summary>
-    public abstract class FontTestBase
+    public abstract class FontTestBase : TestBase
     {
         /// <summary>
         /// Folder holding the test fonts in the output directory.

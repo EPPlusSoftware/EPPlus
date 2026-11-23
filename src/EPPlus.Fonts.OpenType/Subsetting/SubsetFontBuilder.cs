@@ -44,7 +44,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             new Os2SubsetProcessor(),
             new PostSubsetProcessor(),
             new KernSubsetProcessor(),
-            new PassThroughTableSubsetProcessor()   // cvt, fpgm, prep, gasp - copied unchanged
+            new PassThroughTableSubsetProcessor()   // cvt, fpgm, prep, gasp - copied unchanged; only gasp when hinting is removed
         };
 
         /// <summary>
@@ -52,7 +52,19 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         /// </summary>
         public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)
         {
+            return CreateSubset(originalFont, unicodeChars, false);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="OpenTypeFont"/> containing only the necessary data for the specified characters.
+        /// </summary>
+        /// <param name="originalFont">The font to subset.</param>
+        /// <param name="unicodeChars">The code points the subset must contain.</param>
+        /// <param name="removeHinting">True to create an unhinted subset, see <see cref="SubsetOptions.RemoveHinting"/>.</param>
+        public OpenTypeFont CreateSubset(OpenTypeFont originalFont, IEnumerable<int> unicodeChars, bool removeHinting)
+        {
             var context = new FontSubsettingContext(originalFont, unicodeChars);
+            context.RemoveHinting = removeHinting;
             var processors = Processors;
 
             // Step 1: Discovery Phase - All processors identify required glyphs

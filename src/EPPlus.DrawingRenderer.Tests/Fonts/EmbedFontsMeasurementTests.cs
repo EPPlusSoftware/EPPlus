@@ -37,7 +37,7 @@ namespace EPPlus.DrawingRenderer.Tests.Fonts
 
         private static string FirstTspanFamily(string svg)
         {
-            var m = Regex.Match(svg, "<tspan[^>]*?font-family=\"([^\"]*)\"");
+            var m = Regex.Match(svg, "<tspan[^>]*?style=\"[^\"]*?font-family:((?:&[#\\w]+;|[^;\"])*)");
             Assert.IsTrue(m.Success, "No text run with a font-family was rendered.");
             return System.Net.WebUtility.HtmlDecode(m.Groups[1].Value).Split(',')[0].Trim();
         }
