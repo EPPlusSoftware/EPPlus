@@ -297,12 +297,12 @@ namespace EPPlusImageRenderer
                     case eTickLabelPosition.High:
                         //if (ax.AxisPosition == eAxisPosition.Bottom)
                         //{
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop - horizontalAxis.Rectangle.Height;
                             horizontalAxis.AdjustPosBySize = true;
                         //}
                         //else
                         //{
-                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalBottom;
                         //    horizontalAxis.AdjustPosBySize = false;
                         //}
                         break;
