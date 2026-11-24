@@ -108,7 +108,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void UpdateValueScale()
         {
-            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            Values = GetAxisValue(Axis, ChartRenderer.Plotarea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
             if (_isMulti)
             {
                 AxisValues = null;

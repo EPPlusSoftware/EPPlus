@@ -2953,5 +2953,56 @@ namespace OfficeOpenXml
             }
             return _worksheet.Tables.GetIntersectingRanges(this).Select(x => x.Value).FirstOrDefault();
         }
+        internal bool IsHidden
+        {
+            get
+            {
+                if (_fromRow == _toRow)
+                {
+                    if (IsRowHidden)
+                    {
+                        return true;
+                    }
+                    return IsColumnHidden;
+                }
+                else
+                {
+                    return IsColumnHidden || IsRowHidden;
+                }
+            }
+        }
+
+        private bool IsColumnHidden
+        {
+            get
+            {
+                ExcelValue ev = default;
+                for (int col = _fromCol; col <= _toCol; col++)
+                {
+                    if (Worksheet._values.Exists(0, col, ref ev) == false || ((ExcelColumn)ev._value).Hidden == false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+        private bool IsRowHidden
+        {
+            get
+            {
+                ExcelValue ev = default;
+                for (int row = _fromRow; row <= _toRow; row++)
+                {
+                    if (Worksheet._values.Exists(row, 0, ref ev) == false || ((RowInternal)ev._value).Hidden == false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 }

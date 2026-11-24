@@ -186,7 +186,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     }
                     var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
                     pSls = sls;
-                    var formattedValues = serie.GetValues(false, true, out bool isMultiLevel);
+                    var formattedValues = serie.GetValues(false, true, ct.ShowHiddenData, out bool isMultiLevel);
                     var l=new List<DrawingTextBody>();
                     foreach (var v in formattedValues)
                     {
