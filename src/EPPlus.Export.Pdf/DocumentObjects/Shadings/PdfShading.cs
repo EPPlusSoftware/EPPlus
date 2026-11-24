@@ -41,7 +41,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
 
         public PdfShading(int objectNumber, int version = 0) : base(objectNumber, version) { }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Shading\n" +
@@ -62,25 +62,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Shading\n" +
-                            $"   /ShadingType 0\n" +
-                            $"   /ColorSpace {ColorSpace.ToString()}");
-            if (Background != null)
-            {
-                //add background
-            }
-            if (BBox != null)
-            {
-                //add bbox
-            }
-            if (AntiAlias != null)
-            {
-                sb.AppendFormat($"\n   /AntiAlias {AntiAlias.ToString()}");
-            }
-            WriteAscii(bw, sb.ToString());
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

@@ -79,19 +79,33 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
             }
         }
 
-        internal override string RenderDictionary()
-        {
-            return "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
-                   $"/Length {Encoding.ASCII.GetByteCount(_code)} >>\nstream\n{_code}\nendstream";
-        }
+        //internal override string RenderDictionary()
+        //{
+        //    return "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
+        //           $"/Length {Encoding.ASCII.GetByteCount(_code)} >>\nstream\n{_code}\nendstream";
+        //}
 
-        internal override void RenderDictionary(BinaryWriter bw)
+        //internal override void RenderDictionary(BinaryWriter bw)
+        //{
+        //    var bytes = Encoding.ASCII.GetBytes(_code);
+        //    WriteAscii(bw, "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
+        //                   $"/Length {bytes.Length.ToPdfStringF0()} >>\nstream\n");
+        //    bw.Write(bytes);
+        //    WriteAscii(bw, "\nendstream");
+        //}
+
+        private string Body()
         {
             var bytes = Encoding.ASCII.GetBytes(_code);
-            WriteAscii(bw, "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
-                           $"/Length {bytes.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(bytes);
-            WriteAscii(bw, "\nendstream");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat($"<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
+                            $"/Length {bytes.Length.ToPdfStringF0()} >>\nstream\n");
+            sb.AppendFormat($"{bytes}");
+            sb.Append("\nendstream");
+            return sb.ToString();
         }
+
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

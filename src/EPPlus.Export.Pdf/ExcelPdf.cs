@@ -357,7 +357,7 @@ namespace EPPlus.Export.Pdf
             var pageOrder = new Dictionary<int, int>();
             for (int i = 0; i < destIndex.Count; i++)
                 pageOrder[destIndex[i].PageObj] = i;
-            var sheets = new List<(string Name, int PageObj, double TopY)>();
+            var sheets = new List<(string Name, int PageObj, double TopY, string BookmarkPrefix)>();
             var seenSheets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var commentsBySheet = new Dictionary<string, (int PageObj, double TopY)>(StringComparer.OrdinalIgnoreCase);
             foreach (var (L, obj) in destIndex)
@@ -365,7 +365,7 @@ namespace EPPlus.Export.Pdf
                 if (!L.isCommentsPage && L.SheetName != null)
                 {
                     if (seenSheets.Add(L.SheetName))
-                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu));
+                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu, L.Settings.BookmarkNamePrefix));
                 }
                 else if (L.isCommentsPage && L.CommentsSourceSheet != null)
                 {
@@ -392,7 +392,7 @@ namespace EPPlus.Export.Pdf
                 sheetItems.Add(sheetItem);
                 totalVisible++;
                 var childItems = new List<PdfOutlineItem>();
-                foreach (var k in BuildOutlineChildren(sh.Name, _documentSettings.BookmarkNamePrefix, catLayout, commentsBySheet, destIndex, pageOrder))
+                foreach (var k in BuildOutlineChildren(sh.Name, sh.BookmarkPrefix, catLayout, commentsBySheet, destIndex, pageOrder))
                 {
                     var childItem = new PdfOutlineItem(_document.Count + 1)
                     {
@@ -620,7 +620,7 @@ namespace EPPlus.Export.Pdf
             PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
             if (_debugText != null)
             {
-                _debugText.Append(crossRefTable.WriteString(_document.Count));
+                _debugText.Append(crossRefTable.Write(offset, _document.Count));
                 _debugText.Append(PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition));
             }
         }

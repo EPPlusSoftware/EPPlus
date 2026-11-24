@@ -12,10 +12,11 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.IO;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
-    internal class PdfImageXObject : PdfObject
+    internal class PdfImageXObject : PdfStreamObject
     {
         private readonly byte[] _bytes;
         internal int Width { get; }
@@ -287,16 +288,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                    $" /Length {_bytes.Length.ToPdfStringF0()} >>";
         }
 
-        internal override string RenderDictionary()
-        {
-            return DictHeader() + $"\nstream\n<{_bytes.Length.ToPdfStringF0()} bytes of image data>\nendstream";
-        }
+        //internal override string RenderDictionary()
+        //{
+        //    return DictHeader() + $"\nstream\n<{_bytes.Length.ToPdfStringF0()} bytes of image data>\nendstream";
+        //}
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            WriteAscii(bw, DictHeader() + "\nstream\n");
-            bw.Write(_bytes);
-            WriteAscii(bw, "\nendstream");
-        }
+        //internal override void RenderDictionary(BinaryWriter bw)
+        //{
+        //    WriteAscii(bw, DictHeader() + "\nstream\n");
+        //    bw.Write(_bytes);
+        //    WriteAscii(bw, "\nendstream");
+        //}
+
+        protected override (string dictionary, byte[] bytes) BuildStream() => (DictHeader(), _bytes);
     }
 }

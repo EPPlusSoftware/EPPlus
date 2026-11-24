@@ -38,7 +38,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             Size = size;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
             var fonts = string.Join(" ", fontEntries);
@@ -65,6 +65,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 if (hasImage) sb.AppendFormat($"      /XObject << {images} >>\n");
                 sb.AppendFormat($"   >>\n");
             }
+            if (HasTransparency)
+                sb.AppendFormat($"   /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>\n");
             sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
                             $"   /Contents [ {string.Join(" ", contentEntries)} ]");
             if (annotationObjectNumbers.Count > 0)
@@ -76,44 +78,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var fontEntries = dictionaries.Fonts.Select(f => $"/{f.Value.Label} {f.Value.fontObjectNumber.ToPdfStringF0()} 0 R").ToArray();
-            var fonts = string.Join(" ", fontEntries);
-            var patternEntries = dictionaries.Patterns.Select(p => $"/{p.Value.Label} {p.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
-            var patterns = string.Join(" ", patternEntries);
-            var shadingEntries = dictionaries.Shadings.Select(s => $"/{s.Value.Label} {s.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
-            var shadings = string.Join(" ", shadingEntries);
-            var imageEntries = dictionaries.Images.Select(im => $"/{im.Value.Label} {im.Value.objectNumber.ToPdfStringF0()} 0 R").ToArray();
-            var images = string.Join(" ", imageEntries);
-            var contentEntries = contentObjectNumbers.Select(con => $"{con.ToPdfStringF0()} 0 R").ToArray();
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Page\n" +
-                           $"   /Parent {parentObjectNumber.ToPdfStringF0()} 0 R\n");
-            bool hasFont = !string.IsNullOrEmpty(fonts);
-            bool hasPattern = !string.IsNullOrEmpty(patterns);
-            bool hasShading = !string.IsNullOrEmpty(shadings);
-            bool hasImage = !string.IsNullOrEmpty(images);
-            if (hasFont || hasPattern || hasShading)
-            {
-                sb.AppendFormat($"   /Resources <<\n");
-                if (hasFont   ) sb.AppendFormat($"      /Font << {fonts} >>\n");
-                if (hasPattern) sb.AppendFormat($"      /Pattern << {patterns} >>\n");
-                if (hasShading) sb.AppendFormat($"      /Shading << {shadings} >>\n");
-                if (hasImage) sb.AppendFormat($"      /XObject << {images} >>\n");
-                sb.AppendFormat($"   >>\n");
-            }
-            if (HasTransparency)
-                sb.AppendFormat($"   /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>\n");
-            sb.AppendFormat($"   /MediaBox [ 0 0 {Size.WidthPu.ToPdfString()} {Size.HeightPu.ToPdfString()} ]\n" +
-                            $"   /Contents [ {string.Join(" ", contentEntries)} ]");
-            if (annotationObjectNumbers.Count > 0)
-            {
-                var annots = string.Join(" ", annotationObjectNumbers.Select(a => $"{a.ToPdfStringF0()} 0 R"));
-                sb.AppendFormat($"\n   /Annots [ {annots} ]");
-            }
-            sb.Append(" >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

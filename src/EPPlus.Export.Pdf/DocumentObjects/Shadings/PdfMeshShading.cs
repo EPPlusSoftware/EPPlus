@@ -14,8 +14,10 @@ using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
 {
@@ -133,14 +135,34 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             "   /Decode [0 1 0 1 0 1 0 1 0 1]\n" +
             "   /Length " + _mesh.Length + " >>\n";
 
-        internal override string RenderDictionary()
-            => DictHeader() + "stream\n|BINARY DATA|\nendstream";
+        //internal override string RenderDictionary()
+        //    => DictHeader() + "stream\n|BINARY DATA|\nendstream";
 
-        internal override void RenderDictionary(BinaryWriter bw)
+        //internal override void RenderDictionary(BinaryWriter bw)
+        //{
+        //    WriteAscii(bw, DictHeader() + "stream\n");
+        //    bw.Write(_mesh);
+        //    WriteAscii(bw, "\nendstream");
+        //}
+
+        private string Body(bool debug)
         {
-            WriteAscii(bw, DictHeader() + "stream\n");
-            bw.Write(_mesh);
-            WriteAscii(bw, "\nendstream");
+            StringBuilder sb = new StringBuilder();
+            sb.Append(DictHeader());
+            sb.Append("stream\n");
+            if (debug)
+            {
+                sb.Append("|BINARY DATA|");
+            }
+            else
+            {
+                sb.AppendFormat($"{_mesh}");
+            }
+            sb.Append("\nendstream");
+            return sb.ToString();
         }
+
+        internal override string RenderDictionary() => Body(true);
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body(false));
     }
 }

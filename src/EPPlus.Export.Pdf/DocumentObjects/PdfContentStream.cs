@@ -29,7 +29,7 @@ using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
-    internal class PdfContentStream : PdfObject
+    internal class PdfContentStream : PdfStreamObject
     {
         private readonly List<string> commands = new List<string>();
         private readonly Stack<(int index, string header)> _artifactMarks = new Stack<(int, string)>();
@@ -641,20 +641,17 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             EndArtifact();
         }
 
-        internal override string RenderDictionary()
-        {
-            var content = string.Join("\n", commands.ToArray()) + "\n";
-            var bytes = Encoding.ASCII.GetBytes(content);
-            return $"<< /Length {bytes.Length.ToPdfStringF0()} >>\n" + $"stream\n{content}endstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
+        protected override (string dictionary, byte[] bytes) BuildStream()
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
             var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
+            return ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>", body);
+        }
+
+        internal override string RenderDictionary()
+        {
+            var content = string.Join("\n", commands.ToArray()) + "\n";
+            return $"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}endstream";
         }
     }
 }

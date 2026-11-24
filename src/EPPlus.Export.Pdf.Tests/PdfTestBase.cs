@@ -54,7 +54,7 @@ namespace EPPlus.Export.Pdf.Tests
         /// (GetPdfSettings.GetPdfSettingsFromPrinterSettings) with no way to override it.
         /// Drives PdfCatalog directly: the same internal entry point SaveAsPdf itself calls into.
         /// </summary>
-        protected void SaveAsPdf(ExcelWorksheet sheet, string pdfFileName, PdfRenderSettings settings)
+        internal void SaveAsPdf(ExcelWorksheet sheet, string pdfFileName, PdfRenderSettings settings)
         {
             if (!pdfFileName.ToLower().EndsWith(".pdf"))
             {
@@ -72,7 +72,7 @@ namespace EPPlus.Export.Pdf.Tests
         /// Workbook-level counterpart to <see cref="SaveAsPdf(ExcelWorksheet, string, PdfRenderSettings)"/>.
         /// See that overload's remarks for why this bypasses ExcelWorkbook.SaveAsPdf.
         /// </summary>
-        protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfRenderSettings settings)
+        internal void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfRenderSettings settings)
         {
             if (!pdfFileName.ToLower().EndsWith(".pdf"))
             {
@@ -86,7 +86,7 @@ namespace EPPlus.Export.Pdf.Tests
         /// Range-collection counterpart to <see cref="SaveAsPdf(ExcelWorksheet, string, PdfRenderSettings)"/>.
         /// See that overload's remarks for why this bypasses ExcelRangeBase/ExcelWorkbook.SaveAsPdf.
         /// </summary>
-        protected void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfRenderSettings settings, params ExcelRangeBase[] ranges)
+        internal void SaveAsPdf(ExcelWorkbook wb, string pdfFileName, PdfRenderSettings settings, params ExcelRangeBase[] ranges)
         {
             string path = GetPdfFilePath(pdfFileName);
             if (ranges.Count() > 1)

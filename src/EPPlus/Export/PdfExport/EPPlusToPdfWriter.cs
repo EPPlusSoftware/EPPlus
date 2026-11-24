@@ -313,7 +313,10 @@ namespace OfficeOpenXml.Export.PdfExport
         private Transform GetLayout(PdfRenderSettings pageSettings, PdfWorksheet pdfSheet)
         {
             PdfWorksheet[] pdfSheets = new PdfWorksheet[1] { pdfSheet };
-            var sheetSettings = new PdfRenderSettings[1] { pageSettings };
+            var sheetSettings = new PdfRenderSettings[1]
+            {
+                GetPdfSettings.GetPdfSettingsForSheet(pageSettings, pdfSheet.Worksheet.PrinterSettings, pdfSheet.Worksheet.PdfExportOverrides)
+            };
             var Layout = PdfLayout.GetLayout(sheetSettings, _dictionaries, pdfSheets);
             return Layout;
         }

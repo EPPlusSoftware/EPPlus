@@ -29,7 +29,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             this.shadingObjectNumber = shadingObjectNumber;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Pattern\n" +
@@ -44,19 +44,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Pattern\n" +
-                            $"   /PatternType 2\n" +
-                            $"   /Shading {shadingObjectNumber.ToPdfStringF0()} 0 R");
-            if (Matrix != null)
-            {
-                var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
-                sb.AppendFormat($"\n   /Matrix [ {matrixStr} ]");
-            }
-            sb.Append(" >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        internal override string RenderDictionary() => Body();
+
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

@@ -42,28 +42,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             BytesPerCode = bytesPerCode;
         }
 
-        internal override string RenderDictionary()
-        {
-            var cmapContent = GenerateCMapContent();
-            var length = Encoding.UTF8.GetByteCount(cmapContent);
-            var sb = new StringBuilder();
-            sb.AppendLine(string.Format("<< /Length {0} >>", length.ToPdfStringF0()));
-            sb.AppendLine("stream");
-            sb.Append(cmapContent);
-            sb.Append("\nendstream");
-            return sb.ToString();
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var cmapContent = GenerateCMapContent();
-            var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-            var body = PdfFlate.Compress(cmapBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
-        }
-
         private string GenerateCMapContent()
         {
             var sb = new StringBuilder();
@@ -253,5 +231,51 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                 Unicode = unicode;
             }
         }
+
+        //private string Body(bool compress)
+        //{
+        //    var cmapContent = GenerateCMapContent();
+        //    var length = Encoding.UTF8.GetByteCount(cmapContent);
+        //    var sb = new StringBuilder();
+        //    sb.AppendLine(string.Format("<< /Length {0} >>", length.ToPdfStringF0()));
+        //    sb.AppendLine("stream");
+        //    sb.Append(cmapContent);
+        //    sb.Append("\nendstream");
+        //    return sb.ToString();
+        //}
+
+        //internal override void RenderDictionary()
+        //{
+        //    var cmapContent = GenerateCMapContent();
+        //    var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
+        //    var body = PdfFlate.Compress(cmapBytes);
+        //    WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+        //    bw.Write(body);
+        //    WriteAscii(bw, "\nendstream");
+        //}
+
+        private string Body(bool compress)
+        {
+            var cmapContent = GenerateCMapContent();
+            var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
+            var cmapBytesCompressed = compress ? PdfFlate.Compress(cmapBytes) : null;
+
+            var sb = new StringBuilder();
+            if (compress)
+            {
+                sb.AppendFormat($"<< /Filter /FlateDecode /Length {cmapBytesCompressed.Length.ToPdfStringF0()} >>\nstream\n");
+                sb.AppendFormat($"{cmapBytesCompressed}");
+            }
+            else
+            {
+                sb.AppendFormat($"<< /Length {cmapBytes.Length.ToPdfStringF0()} \nstream>>");
+                sb.Append(cmapContent);
+            }
+            sb.Append("\nendstream");
+            return sb.ToString();
+        }
+
+        internal override string RenderDictionary() => Body(false);
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body(true));
     }
 }

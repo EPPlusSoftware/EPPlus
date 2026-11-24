@@ -12,10 +12,11 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.IO;
+using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    internal class PdfCidSet : PdfObject
+    internal class PdfCidSet : PdfStreamObject
     {
         byte[] CidSet;
 
@@ -24,25 +25,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             CidSet = cidSet;
         }
 
-        internal override string RenderDictionary()
-        {
-            return $"<< /Length {CidSet.Length.ToPdfStringF0()} >>\n" + $"stream\n|BINARY DATA|\nendstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
+        protected override (string dictionary, byte[] bytes) BuildStream()
         {
             var body = PdfFlate.Compress(CidSet);
-            if (body.Length < CidSet.Length)
-            {
-                WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-                bw.Write(body);
-            }
-            else
-            {
-                WriteAscii(bw, $"<< /Length {CidSet.Length.ToPdfStringF0()} >>\nstream\n");
-                bw.Write(CidSet);
-            }
-            WriteAscii(bw, "\nendstream");
+            return body.Length < CidSet.Length
+                ? ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>", body)
+                : ($"<< /Length {CidSet.Length.ToPdfStringF0()} >>", CidSet);
         }
     }
 }

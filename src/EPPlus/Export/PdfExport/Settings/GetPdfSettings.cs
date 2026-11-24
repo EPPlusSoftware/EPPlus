@@ -68,19 +68,19 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
         private static void ApplyExportSettings(PdfRenderSettings s, PdfExportSettings e)
         {
             if (e == null) return;
-            s.EmbeddFonts = e.EmbeddFonts;
-            s.SearchSystemDirectories = e.SearchSystemDirectories;
-            s.FontDirectories = e.FontDirectories;
-            s.defaultFontName = e.DefaultFontName;
+            s.EmbeddFonts = true;// e.EmbeddFonts;
+            //s.SearchSystemDirectories = e.SearchSystemDirectories;
+            //s.FontDirectories = e.FontDirectories;
+            //s.defaultFontName = e.DefaultFontName;
             s.BookmarkNamePrefix = e.BookmarkNamePrefix;
             s.SuppressFormFieldDetection = e.SuppressFormFieldDetection;
-            s.GsubFeatures = e.GsubFeatures;
-            s.GposFeatures = e.GposFeatures;
+            //s.GsubFeatures = e.GsubFeatures;
+            //s.GposFeatures = e.GposFeatures;
             s.Author = e.Author;
             s.Title = e.Title;
         }
 
-        internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps, PdfExportSettingsOverrides overrides)
+        internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps, PdfExportSettingsWorksheetOverrides overrides)
         {
             var s = baseSettings.CloneForSheet();
             ApplyPrinterSettings(s, eps);

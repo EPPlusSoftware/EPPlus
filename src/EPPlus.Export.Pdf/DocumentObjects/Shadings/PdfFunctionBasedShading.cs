@@ -29,7 +29,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             ColorSpace = DeviceColorSpace.DeviceRGB;
         }
 
-        private string Build()
+        private string Body()
         {
             var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
             var sb = new StringBuilder();
@@ -41,8 +41,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Build();
+        internal override string RenderDictionary() => Body();
 
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Build());
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

@@ -14,7 +14,7 @@ using EPPlus.Graphics.Units;
 
 namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
 {
-    public class PdfMargins
+    internal class PdfMargins
     {
         //Suffix Pu is short hand for PdfUnits.
 

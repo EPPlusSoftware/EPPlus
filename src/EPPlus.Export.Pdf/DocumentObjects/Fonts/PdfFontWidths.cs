@@ -26,16 +26,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             this.widths = widths.ToArray();
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
             return $"   [ {widthsStr} ]";
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
-            WriteAscii(bw, $"   [ {widthsStr} ]");
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

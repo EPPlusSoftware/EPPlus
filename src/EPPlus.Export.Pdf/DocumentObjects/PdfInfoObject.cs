@@ -32,42 +32,25 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             LicenseHolder = documentSettings.LicenseHolder;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             DateTime now = DateTime.Now;
             TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(now);
             string sign = offset < TimeSpan.Zero ? "-" : "+";
             offset = offset.Duration();
             string pdfDate = string.Format("D:{0:yyyyMMddHHmmss}{1}{2:00}'{3:00}'", now, sign, offset.Hours, offset.Minutes);
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Title ({Title})\n" +
-                            $"   /Author ({Author})\n" +
-                            $"   /Subject (EPPlus PDF Export with {LicenseType} for {LicenseHolder})\n" +
-                            $"   /Keywords (EPPlus, EPPlus Software, PDF, Export, {LicenseType}, {LicenseHolder})" +
-                            $"   /Creator (EPPlus Software {LicenseType}, {LicenseHolder})\n" +
-                            $"   /Producer (EPPlus Software PDF Exporter)\n" +
-                            $"   /CreationDate ({pdfDate})\n" +
-                            $"   /ModDate ({pdfDate})\n" +
-                            $"   /Trapped /False >>");
-            return sb.ToString();
+            return $"<< /Title ({Title})\n" +
+                   $"   /Author ({Author})\n" +
+                   $"   /Subject (EPPlus PDF Export with {LicenseType} for {LicenseHolder})\n" +
+                   $"   /Keywords (EPPlus, EPPlus Software, PDF, Export, {LicenseType}, {LicenseHolder})" +
+                   $"   /Creator (EPPlus Software {LicenseType}, {LicenseHolder})\n" +
+                   $"   /Producer (EPPlus Software PDF Exporter)\n" +
+                   $"   /CreationDate ({pdfDate})\n" +
+                   $"   /ModDate ({pdfDate})\n" +
+                   $"   /Trapped /False >>";
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            DateTime now = DateTime.Now;
-            TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(now);
-            string sign = offset < TimeSpan.Zero ? "-" : "+";
-            offset = offset.Duration();
-            string pdfDate = string.Format("D:{0:yyyyMMddHHmmss}{1}{2:00}'{3:00}'", now, sign, offset.Hours, offset.Minutes);
-            WriteAscii(bw, $"<< /Title ({Title})\n" +
-                           $"   /Author ({Author})\n" +
-                           $"   /Subject (EPPlus PDF Export with {LicenseType} for {LicenseHolder})\n" +
-                           $"   /Keywords (EPPlus, EPPlus Software, PDF, Export, {LicenseType}, {LicenseHolder})" +
-                           $"   /Creator (EPPlus Software {LicenseType}, {LicenseHolder})\n" +
-                           $"   /Producer (EPPlus Software PDF Exporter)\n" +
-                           $"   /CreationDate ({pdfDate})\n" +
-                           $"   /ModDate ({pdfDate})\n" +
-                           $"   /Trapped /False >>");
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

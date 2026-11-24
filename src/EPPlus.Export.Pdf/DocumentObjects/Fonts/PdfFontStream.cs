@@ -17,7 +17,7 @@ using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    internal class PdfFontStream : PdfObject
+    internal class PdfFontStream : PdfStreamObject
     {
         private readonly OpenTypeFont FontData;
 
@@ -26,20 +26,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             FontData = fontData;
         }
 
-        internal override string RenderDictionary()
+        protected override (string dictionary, byte[] bytes) BuildStream()
         {
-            var fontBytes = FontData.Serialize();
-            var fontData = Encoding.ASCII.GetString(fontBytes);
-            return $"<< /Length {fontBytes.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\n" + $"stream\n|BINARY DATA|\nendstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var fontBytes = FontData.Serialize();
-            var body = PdfFlate.Compress(fontBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
+            var raw = FontData.Serialize();
+            var body = PdfFlate.Compress(raw);
+            return ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {raw.Length.ToPdfStringF0()} >>", body);
         }
     }
 }

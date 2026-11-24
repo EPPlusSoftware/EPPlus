@@ -1,7 +1,15 @@
-﻿using EPPlus.Fonts.OpenType;
-using OfficeOpenXml.Interfaces.Fonts;
-using System.Collections.Generic;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
 
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  27/11/2025         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
 namespace OfficeOpenXml.Export.PdfExport
 {
     /// <summary>
@@ -18,26 +26,11 @@ namespace OfficeOpenXml.Export.PdfExport
     public class PdfExportSettings
     {
         /// <summary>
+        /// THIS FEATURE IS NOT SUPPORTED.
         /// If true, the subsetted fonts used in the document are embedded into the PDF.
         /// Embedding produces a self-contained, portable file at the cost of size. Default is <c>true</c>.
         /// </summary>
-        public bool EmbeddFonts { get; set; } = true;
-
-        /// <summary>
-        /// If true, EPPlus also looks for fonts in the operating system's font directories
-        /// (for example c:\windows\fonts). Default is <c>true</c>.
-        /// </summary>
-        public bool SearchSystemDirectories { get; set; } = true;
-
-        /// <summary>
-        /// Additional folders to search for fonts, beyond the system directories.
-        /// </summary>
-        public List<string> FontDirectories { get; } = new List<string>();
-
-        /// <summary>
-        /// Font family used when a cell's font cannot be resolved. Empty means EPPlus picks a default.
-        /// </summary>
-        public string DefaultFontName { get; set; } = "";
+        private bool EmbeddFonts { get; set; } = true;
 
         /// <summary>
         /// Prefix that marks a defined name as a PDF bookmark. The prefix is stripped from the
@@ -53,20 +46,6 @@ namespace OfficeOpenXml.Export.PdfExport
         /// the cell grid as fillable form fields. Default is <c>true</c>.
         /// </summary>
         public bool SuppressFormFieldDetection { get; set; } = true;
-
-        /// <summary>
-        /// GSUB (glyph substitution) features requested when shaping text, e.g. ligatures and
-        /// contextual alternates. Applies to the whole export. Whether a feature has a visible effect
-        /// still depends on the font defining it.
-        /// </summary>
-        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Calt | GsubFeature.Ccmp;
-
-        /// <summary>
-        /// GPOS (glyph positioning) features requested when shaping text, e.g. kerning and mark
-        /// attachment. Applies to the whole export. Whether a feature has a visible effect still
-        /// depends on the font defining it.
-        /// </summary>
-        public GposFeature GposFeatures { get; set; } = GposFeature.Kern | GposFeature.Mark;
 
         /// <summary>
         /// Value written to the PDF's /Author metadata. When null or empty, the workbook's

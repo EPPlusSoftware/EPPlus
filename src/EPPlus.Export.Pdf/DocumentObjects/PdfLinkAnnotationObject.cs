@@ -50,14 +50,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                    $"   {action} >>";
         }
 
-        internal override string RenderDictionary()
-        {
-            return Body();
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            WriteAscii(bw, Body());
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

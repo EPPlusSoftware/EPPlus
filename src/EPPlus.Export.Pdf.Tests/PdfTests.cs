@@ -112,7 +112,7 @@ namespace EPPlusTest.PDF
             var ws1 = wb.Worksheets[1];
             var ws2 = wb.Worksheets[2];
             string path = _pdfPath + "WorksheetsTest2.pdf";
-            wb.SaveAsPdf(path, null, ws0, ws1, ws2);
+            wb.SaveAsPdf(path, new[] { ws0, ws1, ws2 });
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
@@ -125,7 +125,7 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws2 = wb.Worksheets[2];
             string path = _pdfPath + "WorksheetsTest1.pdf";
-            wb.SaveAsPdf(path, null, ws0, ws2);
+            wb.SaveAsPdf(path, new[] { ws0, ws2 });
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
@@ -141,7 +141,7 @@ namespace EPPlusTest.PDF
             var r3 = ws.Cells["K49:Q58"];
             var r4 = ws.Cells["L142:Q147"];
             string path = _pdfPath + "RangesTest1.pdf";
-            wb.SaveAsPdf(path, null, r1, r2, r3, r4);
+            wb.SaveAsPdf(path, new[] { r1, r2, r3, r4 });
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }
@@ -173,7 +173,7 @@ namespace EPPlusTest.PDF
             string tempFile = Path.GetTempFileName();
             try
             {
-                await wb.SaveAsPdfAsync(tempFile, null, ws0, ws2);
+                await wb.SaveAsPdfAsync(tempFile, new[] { ws0, ws2 });
                 AssertLooksLikePdf(File.ReadAllBytes(tempFile));
             }
             finally
@@ -192,7 +192,7 @@ namespace EPPlusTest.PDF
             string tempFile = Path.GetTempFileName();
             try
             {
-                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, null, ws0, ws2);
+                await wb.SaveAsPdfAsync(tempFile, new[] { ws0, ws2 }, CancellationToken.None);
                 AssertLooksLikePdf(File.ReadAllBytes(tempFile));
             }
             finally
@@ -212,7 +212,7 @@ namespace EPPlusTest.PDF
             string tempFile = Path.GetTempFileName();
             try
             {
-                await wb.SaveAsPdfAsync(tempFile, null, r1, r2);
+                await wb.SaveAsPdfAsync(tempFile, new[] { r1, r2 });
                 AssertLooksLikePdf(File.ReadAllBytes(tempFile));
             }
             finally
@@ -232,7 +232,7 @@ namespace EPPlusTest.PDF
             string tempFile = Path.GetTempFileName();
             try
             {
-                await wb.SaveAsPdfAsync(tempFile, CancellationToken.None, null, r1, r2);
+                await wb.SaveAsPdfAsync(tempFile, new[] { r1, r2}, CancellationToken.None);
                 AssertLooksLikePdf(File.ReadAllBytes(tempFile));
             }
             finally
@@ -283,7 +283,7 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws2 = wb.Worksheets[2];
             using var ms = new MemoryStream();
-            wb.SaveAsPdf(ms, null, ws0, ws2);
+            wb.SaveAsPdf(ms, new[] { ws0, ws2 });
             AssertLooksLikePdf(ms.ToArray());
         }
 
@@ -296,7 +296,7 @@ namespace EPPlusTest.PDF
             var r1 = ws.Cells["D3:F6"];
             var r2 = ws.Cells["B36:F39"];
             using var ms = new MemoryStream();
-            wb.SaveAsPdf(ms, null, r1, r2);
+            wb.SaveAsPdf(ms, new[] { r1, r2 });
             AssertLooksLikePdf(ms.ToArray());
         }
 
@@ -691,7 +691,7 @@ namespace EPPlusTest.PDF
             var wb = p.Workbook;
             var ws0 = wb.Worksheets[0];
             string path = _pdfPath + "TableDiff.pdf";
-            wb.SaveAsPdf(path, null, ws0);
+            wb.SaveAsPdf(path, new[] { ws0 });
         }
 
         [TestMethod]
@@ -702,7 +702,7 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             ws0.PrinterSettings.ShowGridLines = true;
             string path = _pdfPath + "PictureOutside.pdf";
-            wb.SaveAsPdf(path, null, ws0);
+            wb.SaveAsPdf(path, new[] { ws0 });
         }
 
         [TestMethod]
@@ -1398,6 +1398,24 @@ namespace EPPlusTest.PDF
             ws.PrinterSettings.ShowGridLines = true;
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
             string path = _pdfPath + "PdfRotatedText1.pdf";
+            PdfExportSettings pset = new PdfExportSettings();
+            pset.SuppressFormFieldDetection = true;
+            p.Workbook.SaveAsPdf(path, pset);
+        }
+
+        [TestMethod]
+        public void PdfBookmarkPrefixTest1()
+        {
+            using var p = OpenTemplatePackage("BookmarkPrefixTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.PrinterSettings.ShowGridLines = true;
+            ws.PrinterSettings.PaperSize = ePaperSize.A4;
+            ws.PdfExportOverrides.BookmarkNamePrefix = "sheet1_";
+
+            var ws1 = p.Workbook.Worksheets[1];
+            ws1.PrinterSettings.PaperSize = ePaperSize.A4;
+            ws1.PdfExportOverrides.BookmarkNamePrefix = "sheet2_";
+            string path = _pdfPath + "BookmarkPrefixTest.pdf";
             p.Workbook.SaveAsPdf(path);
         }
     }

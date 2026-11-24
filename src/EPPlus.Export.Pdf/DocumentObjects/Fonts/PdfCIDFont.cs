@@ -34,9 +34,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         private readonly int FontDescriptorObjectNumber;
 
         private int? DW;                                        // Default width
-        private readonly List<object> W;                        // Width array
-        private readonly int[] DW2;                             // Default metrics for vertical writing (2 numbers)
-        private readonly List<object> W2;                       // Vertical writing metrics
+        //private readonly List<object> W;                        // Width array
+        //private readonly int[] DW2;                             // Default metrics for vertical writing (2 numbers)
+        //private readonly List<object> W2;                       // Vertical writing metrics
         private readonly string CIDToGIDMap;                    // Can be string "Identity" or stream reference
 
         private HashSet<ushort> Gids;
@@ -55,78 +55,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 
             DW = (int)Math.Round(1000.0d * 1000.0d / FontData.HeadTable.UnitsPerEm);//dw;
             CIDToGIDMap = CIDToGDI;
-        }
-
-        internal override string RenderDictionary()
-        {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<<  /Type /Font\n" +
-                            $"    /Subtype /{Subtype.ToString()}\n" +
-                            $"    /BaseFont /{BaseFont}\n" +
-                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
-                            $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
-            if (DW != null)
-            {
-                sb.AppendFormat($"\n    /DW {DW.ToPdfStringF0()}");
-            }
-            if (Gids != null)
-            {
-                sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
-            }
-            if (DW2 != null)
-            {
-                sb.AppendFormat($"\n    /DW2 {DW2}");
-            }
-            if (W2 != null)
-            {
-                var widthsStr = string.Join(" ", W2.Select(w => w.ToString()).ToArray());
-                sb.AppendFormat($"\n    /W2 [{widthsStr}]");
-            }
-            if (Subtype == CIDFontSubtype.CIDFontType2)
-            {
-                if(string.IsNullOrEmpty( CIDToGIDMap ))
-                    sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
-                else
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-            }
-            sb.Append(" >>");
-            return sb.ToString();
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<<  /Type /Font\n" +
-                            $"    /Subtype /{Subtype.ToString()}\n" +
-                            $"    /BaseFont /{BaseFont}\n" +
-                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
-                            $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
-            if (DW != null)
-            {
-                sb.AppendFormat($"\n    /DW {DW.ToPdfStringF0()}");
-            }
-            if (Gids != null)
-            {
-                sb.AppendFormat($"\n    /W [ {BuildWidthsArray()} ]");
-            }
-            if (DW2 != null)
-            {
-                sb.AppendFormat($"\n    /DW2 {DW2}");
-            }
-            if (W2 != null)
-            {
-                var widthsStr = string.Join(" ", W2.Select(w => w.ToString()).ToArray());
-                sb.AppendFormat($"\n    /W2 [ {widthsStr} ]");
-            }
-            if (Subtype == CIDFontSubtype.CIDFontType2)
-            {
-                if (string.IsNullOrEmpty(CIDToGIDMap))
-                    sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
-                else
-                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
-            }
-            sb.Append(" >>");
-            WriteAscii(bw, sb.ToString());
         }
 
         private string BuildWidthsArray()
@@ -152,5 +80,44 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
             return sb.ToString();
         }
+
+        private string Body()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat($"<<  /Type /Font\n" +
+                            $"    /Subtype /{Subtype.ToString()}\n" +
+                            $"    /BaseFont /{BaseFont}\n" +
+                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
+                            $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
+            if (DW != null)
+            {
+                sb.AppendFormat($"\n    /DW {DW.ToPdfStringF0()}");
+            }
+            if (Gids != null)
+            {
+                sb.AppendFormat($"\n    /W [{BuildWidthsArray()}]");
+            }
+            //if (DW2 != null)
+            //{
+            //    sb.AppendFormat($"\n    /DW2 {DW2}");
+            //}
+            //if (W2 != null)
+            //{
+            //    var widthsStr = string.Join(" ", W2.Select(w => w.ToString()).ToArray());
+            //    sb.AppendFormat($"\n    /W2 [{widthsStr}]");
+            //}
+            if (Subtype == CIDFontSubtype.CIDFontType2)
+            {
+                if (string.IsNullOrEmpty(CIDToGIDMap))
+                    sb.AppendFormat($"\n    /CIDToGIDMap /Identity");
+                else
+                    sb.AppendFormat($"\n    /CIDToGIDMap {CIDToGIDMap}");
+            }
+            sb.Append(" >>");
+            return sb.ToString();
+        }
+
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

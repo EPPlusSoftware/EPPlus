@@ -28,7 +28,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             this.pageObjectNumbers = pageObjectNumbers.ToList();
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n.ToPdfStringF0()} 0 R").ToArray());
             return $"<< /Type /Pages\n" +
@@ -36,13 +36,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                    $"   /Count {pageObjectNumbers.Count.ToPdfStringF0()} >>";
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var kids = string.Join(" ", pageObjectNumbers.Select(n => $"{n.ToPdfStringF0()} 0 R").ToArray());
-            StringBuilder sb = new StringBuilder();
-            WriteAscii(bw, $"<< /Type /Pages\n" +
-                           $"   /Kids [ {kids} ]\n" +
-                           $"   /Count {pageObjectNumbers.Count.ToPdfStringF0()} >>");
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }

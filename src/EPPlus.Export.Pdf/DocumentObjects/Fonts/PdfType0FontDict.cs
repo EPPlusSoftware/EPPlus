@@ -33,7 +33,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             ToUnicodeObjectNumber = toUnicodeObjectNumber;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             //var DescendantFonts = string.Join(" ", DescendantFontsObjectNumbers.Select(w => ($"{w} 0 R ").ToString()).ToArray());
             var sb = new StringBuilder();
@@ -50,21 +50,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            //var DescendantFonts = string.Join(" ", DescendantFontsObjectNumbers.Select(w => ($"{w} 0 R ").ToString()).ToArray());
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<<  /Type /Font\n" +
-                            $"    /Subtype /Type0\n" +
-                            $"    /BaseFont /{BaseFont}\n" +
-                            $"    /Encoding /{Encoding}\n" +
-                            $"    /DescendantFonts [{DescendantFontsObjectNumbers.ToPdfStringF0()} 0 R]");
-            if (ToUnicodeObjectNumber > 0)
-            {
-                sb.AppendFormat($"\n    /ToUnicode {ToUnicodeObjectNumber.ToPdfStringF0()} 0 R");
-            }
-            sb.Append(" >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        internal override string RenderDictionary() => Body();
+        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
     }
 }
