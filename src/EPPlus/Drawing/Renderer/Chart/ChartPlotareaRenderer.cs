@@ -94,7 +94,7 @@ namespace EPPlusImageRenderer.Svg
         {
             var bottomAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 0);
             double vaHeight = 0;
-            if (bottomAxis!=null)
+            if (bottomAxis!=null && bottomAxis.Axis.LabelPosition != eTickLabelPosition.None)
             {
                 var bottomSecondAxis = GetAxisActualByPosition(eActualAxisPosition.Bottom, 1);
                 if(bottomSecondAxis==null)
@@ -105,7 +105,7 @@ namespace EPPlusImageRenderer.Svg
                         vaHeight = secAxis.Title?.Rectangle?.Height??0D;
                     }
                 }
-
+                
                 vaHeight += (bottomAxis.Rectangle?.Height ?? 0D) + (bottomAxis.Title?.GetHeightOverlay(0) ?? 0D) + (bottomAxis.DisplayUnitTitle?.TextBox.GetActualHeight() ?? 0D) + (bottomSecondAxis?.Rectangle?.Height ?? 0D);
             }
             else
