@@ -7,17 +7,20 @@ using EPPlus.Graphics.TransformPrimitives;
 using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Drawing;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
-using System.Net;
+using System.Globalization;
+using System.Security.Cryptography;
 
 namespace EPPlus.Export.ImageRenderer.Svg.Chart
 {
@@ -303,8 +306,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         RectRenderItem largestInscribedRectangleOuter;
 
-        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees) : base(renderer)
+        int totalSliceCount = 0;
+
+        public PieSliceRenderItem(ChartRenderer renderer, BoundingBox parent, PieSliceTransform slice, double percentOfPie, BoundingBox circleCenter, double firstSliceOffset, double prevDegrees, int totalSlices) : base(renderer)
         {
+            totalSliceCount = totalSlices;
             DefaultFillColor = renderer.Theme.ColorScheme.Accent1.GetColor();
             Rectangle.Parent = parent;
             _radius = slice.Circle.Radius;
@@ -553,18 +559,19 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
 
         internal void ImportStlyeInfo(ExcelPieChartSerie serie, ExcelPieChart chartType, int position)
         {
+            _position = position;
 
-            var defaultFill = DefaultFillColor;
+            var defaultFill = GetDefaultFillColor();
+
 
             if (position >= 0 && serie.DataPoints.ContainsKey(position))
             {
                 var dp = serie.DataPoints[position];
-                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, UserSpaceSettings.ObjectBoundingBox);
-                //_slicePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.DataPoint.BorderReference.Color, true, null);
+                ChartTypeDrawer.SetFillDataPoint(Chart, serie, position, _slicePath.Style, dp, Chart.StyleManager.Style?.SeriesLine, serie.NumberOfItems, UserSpaceSettings.ObjectBoundingBox);
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, 0, position, _slicePath.Style);
+                ChartTypeDrawer.SetFillSerie(Chart, chartType, serie, totalSliceCount, position, _slicePath.Style, serie.NumberOfItems);
             }
         }
 
@@ -926,9 +933,21 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             throw new NotImplementedException();
         }
 
+        int _position = -1;
+
         internal override Color? GetDefaultFillColor()
         {
-            throw new NotImplementedException();
+            if (Chart.VaryColors)
+            {
+                if (Chart.StyleManager.Style == null)
+                {
+                    var mod5 = _position % 6;
+                    return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                    ////TODO: Only works for base-case. Add support for patterns 1,3 and 4 instead of just 2 as basecase
+                    //defaultFill = ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1 + mod5).GetColor();
+                }
+            }
+            return ChartRenderer.Theme.ColorScheme.GetColorByEnum(OfficeOpenXml.Drawing.eSchemeColor.Accent1).GetColor();
         }
 
         internal override Color? GetDefaultBorderColor()

@@ -171,6 +171,9 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
             }
         }
+
+        int _totalDataPoints = 0;
+
         private void AddLine(ExcelLineChart chartType, ExcelLineChartSerie serie, List<object> xValues, List<object> yValues, List<BoundingBox> dataPoints, int serieIndex, int startSerie)
         {            
             ChartAxisRenderer yAxis, xAxis;
@@ -200,6 +203,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             var hasErrorBars = serie.HasErrorBars();
             var nullPos = new List<(int index, object nullValue)>();
             var isNa = false;
+
+            _totalDataPoints = serie?.DataPoints?.Count == null ? 0 : serie.DataPoints.Count;
+            if(_totalDataPoints == 0 && yValues.Count > 0)
+            {
+                _totalDataPoints = yValues.Count;
+            }
+
             for (var i = 0; i < yValues.Count; i++)
             {
                 double x;
@@ -287,6 +297,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         dataPoints.Add(pt);
                     }
                 }
+
                 //Draw individual formatted lines between points, if the previous point has a different formatting than the current point.
                 if (i > 0 && serie.DataPoints.ContainsKey(i))
                 {
@@ -306,13 +317,13 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         else
                         {
                             var mi = markerItems[markerItems.Count - 1];
-                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
+                            markerItems[i].Style.SetDrawingPropertiesFill(ChartRenderer.Theme, dp.Marker.Fill, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie, _totalDataPoints/6, chartType.Series.Count == 1));
                             markerItems[i].Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Marker.Border, chartType.StyleManager.Style?.DataPointMarker.FillReference.Color, 
                                 serie.Border.Fill.Style != eFillStyle.NoFill, 
-                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie));
+                                ()=> ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie, _totalDataPoints/6, true));
                         }
                     }
-                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie), 3);
+                    lineDp.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, dp.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index + startSerie, _totalDataPoints / 6, chartType.Series.Count == 1), 3);
                     lineDp.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, dp.Effect);
                     dataPointOverrides.Add(lineDp);
                 }
@@ -340,7 +351,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     AddPathCommandWithNullHandling(linePath, coords, nullPos);
                 }
             }
-            linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index), 3);
+            linePath.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, chartType.StyleManager.Style?.SeriesLine.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, serie.Index, chartType.Series.Count() / 6, true), 3);
             linePath.Style.SetDrawingPropertiesEffects(ChartRenderer.Theme, serie.Effect);
             linePath.Style.FillColor = "none";    //No fill for line
             linePath.Style.StrokeMiterLimit = 4;  //A much higher value of the miter limit, might cause the "spike" to get beyond the data point on the vertical scale..
@@ -436,7 +447,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if(serie.Marker.Border.IsEmpty)
                 {
-                    ls.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, ChartRenderer.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, index), 0.75d);
+                    ls.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, ChartRenderer.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, index, _totalDataPoints / 6, false), 0.75d);
                 }
             }
             markerItems.Add(ls);

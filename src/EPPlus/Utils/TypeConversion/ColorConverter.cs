@@ -277,6 +277,10 @@ namespace OfficeOpenXml.Utils.TypeConversion
             {
                 double blend = 1.0d - tint;
                 //Docs state 10% input means A 10% tint is 10% of the input color combined with 90% white
+                //"20.1.2.3.34 tint (Tint)
+                //This element specifies a lighter version of its input color. A 10 % tint is 10 % of the input color combined with
+                //90 % white."
+
                 var r = (byte)Math.Round(ret.R * tint + (254.3d * blend));
                 var g = (byte)Math.Round(ret.G * tint + (254.3d * blend));
                 var b = (byte)Math.Round(ret.B * tint + (254.3d * blend));
