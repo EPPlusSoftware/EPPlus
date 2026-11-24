@@ -160,7 +160,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var ls = (ExcelLineChartSerie)s;
 
-            var si = GetLineSeriesIcon(chart, parent, ls, pSls, entryWidth, entryHeight);
+            var numSeries = ct.Series.Count() == 1 ? s.NumberOfItems : ct.Series.Count();
+            var si = GetLineSeriesIcon(chart, parent, ls, pSls, entryWidth, entryHeight, numSeries);
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
@@ -209,7 +210,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                         }
                         if (ls.Marker.Border.IsEmpty)
                         {
-                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index, s.NumberOfItems), 0.75d);
+                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index, s.NumberOfItems, numSeries == 1), 0.75d);
                         }
                     }
                 }
@@ -330,11 +331,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             sls = null;
         }
 
-        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
+        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int numSeries) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index, cStandardSerie.NumberOfItems), 2.25);
+            var totalVariations = numSeries == 1 ? cStandardSerie.NumberOfItems : numSeries;
+            totalVariations = totalVariations / 6;
+
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index, totalVariations, numSeries == 1), 2.25);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
