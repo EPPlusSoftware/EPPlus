@@ -447,7 +447,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                 }
                 if(serie.Marker.Border.IsEmpty)
                 {
-                    ls.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, ChartRenderer.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, index, _totalDataPoints, false), 0.75d);
+                    ls.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, serie.Border, ChartRenderer.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(ChartRenderer.Theme, null, index, _totalDataPoints / 6, false), 0.75d);
                 }
             }
             markerItems.Add(ls);
