@@ -2640,7 +2640,6 @@ namespace OfficeOpenXml.Drawing
             }
             throw new NotSupportedException("Only line-, column-, bar- and pie charts and shapes can be rendered to svg");
         }
-
     }
 }
         
