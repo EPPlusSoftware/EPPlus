@@ -344,12 +344,12 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (useX)
                 {
-                    var max = GetCount(Series, NumberLiteralsY, StringLiteralsY)??0;
+                    var max = GetCount(Series, NumberLiteralsY, StringLiteralsY) ?? 0;
                     AddSerieValues(list, useText, headerInfo, ref isMultiLevel, XSeries, NumberLiteralsX, StringLiteralsX, max, showHidden);
                 }
                 else
                 {
-                    var max = GetCount(XSeries, NumberLiteralsX, StringLiteralsX) ?? 0;
+                    var max = GetCount(XSeries, NumberLiteralsX, StringLiteralsX) ?? GetCount(Series, NumberLiteralsY, StringLiteralsY)??0;
                     AddSerieValues(list, useText, headerInfo, ref isMultiLevel, Series, NumberLiteralsY, StringLiteralsY, max, showHidden);
                 }
             }
