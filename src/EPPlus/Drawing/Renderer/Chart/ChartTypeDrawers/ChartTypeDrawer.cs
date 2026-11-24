@@ -7,6 +7,7 @@ using EPPlusImageRenderer;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
 using OfficeOpenXml;
+using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
@@ -238,82 +239,110 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
         {
             return _chartType.YAxis==ax || _chartType.XAxis==ax;
         }
-        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
+
+        internal static void SetFillDataPoint(ExcelChart chart, ExcelChartStandardSerie cStandardSerie, int index, RenderItemStyle style, ExcelChartDataPoint dp, ExcelChartStyleEntry entry, int numDataPoints, UserSpaceSettings spaceSettings = UserSpaceSettings.UserSpaceOnUse_Object)
         {
+            var legacyVariationCount = numDataPoints / 6;
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-            var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, index);
+            var color = GetVaryColor(theme, chart.StyleManager, index, legacyVariationCount, true);
 
             style.SetDrawingPropertiesFill(theme, dp.Fill.IsEmpty ? cStandardSerie.Fill : dp.Fill, entry?.FillReference.Color, spaceSettings, color);
             style.SetDrawingPropertiesBorder(theme, dp.Border.IsEmpty ? cStandardSerie.Border : dp.Border, entry?.BorderReference.Color, dp.Border.Fill.Style != eFillStyle.NoFill, () => Color.Transparent, 0.75);
         }
-
-        internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style)
+        internal static void SetFillSerie(ExcelChart chart, ExcelChart ct, ExcelChartStandardSerie cStandardSerie, int serieIndex, int index, RenderItemStyle style, int numValuesInSeries)
         {
+            var isSingleSeries = ct.Series.Count == 1;
             var theme = chart.WorkSheet.Workbook.ThemeManager.GetOrCreateTheme();
-
+            var legacyVariationCount = numValuesInSeries / 6;
             if (ct.VaryColors)
             {
+                var chartStyle =(int)chart.Style;
                 //Get the color based on the index, if no style is set. Accent1, Accent2, Accent3...
-                var color = GetVaryColor(theme, chart.StyleManager.ColorsManager, index);
+                var color = GetVaryColor(theme, chart.StyleManager, index, legacyVariationCount, isSingleSeries);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             else
             {
-                var color = GetVaryColor(theme, chart.StyleManager?.ColorsManager, serieIndex);
+                var color = GetVaryColor(theme, chart.StyleManager, serieIndex, legacyVariationCount, isSingleSeries);
                 style.SetDrawingPropertiesFill(theme, cStandardSerie.Fill, chart.StyleManager.Style?.SeriesLine.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Object, color);
             }
             var styleFormat = DefaultChartBorder.GetDefaulDataPoint2d(theme, chart, serieIndex);
             style.SetDrawingPropertiesBorder(theme, cStandardSerie.Border, chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.Fill.Style != eFillStyle.NoFill || styleFormat.width>0, () => styleFormat.color, 0.75);
         }
 
-        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartColorsManager colorsManager, int index)
+        internal static Color? GetVaryColor(ExcelTheme theme, ExcelChartStyleManager? styleManager, int index, int legacyVariationCount, bool isSingleSeries)
         {
-            Color baseColor;
-            var baseColorIndex = index % 6;
-            if (colorsManager == null || baseColorIndex >= colorsManager.Colors.Count)
+            try
             {
-                //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
-                baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
-            }
-            else
-            {
-                baseColor = colorsManager.Colors[baseColorIndex].GetColor();
-            }
 
-            var variationIndex = index / 6;
-            if (variationIndex == 0)
-            {
-                return baseColor;
-            }
-            else
-            {
-                ExcelColorTransformCollection variation;
-                if (colorsManager == null)
+                Color baseColor;
+                var baseColorIndex = index % 6;
+
+                ExcelChartColorsManager colorsManager = styleManager?.ColorsManager;
+                if ((colorsManager == null || baseColorIndex >= colorsManager.Colors.Count))
                 {
-                    var variations = ExcelColorTransformCollection.GetDefault();
-                    variation = variations[variationIndex % variations.Count];
-                }
-                else
-                {
-                    if (colorsManager.Variations.Count == 0)
+                    if (styleManager != null && styleManager.Style != null)
                     {
-                        return baseColor;
-                    }
-
-                    int colorCount = -1;
-
-                    if (colorsManager.Variations.Count > colorsManager.Colors.Count)
-                    {
-                        colorCount = colorsManager.Colors.Count;
+                        //TODO: Check Chart.Style here. Only when THAT is set to None should the below line happen
+                        baseColor = theme.ColorScheme.GetColorByEnum(eSchemeColor.Accent1 + baseColorIndex).GetColor();
                     }
                     else
                     {
-                        colorCount = colorsManager.Variations.Count;
+                        baseColor = DefaultDataPointPatterns.FallBackColors[baseColorIndex];
                     }
-
-                    variation = colorsManager.Colors[variationIndex % colorCount].Transforms;
                 }
-                return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
+                else
+                {
+                    baseColor = colorsManager.Colors[baseColorIndex].GetColor();
+                }
+
+                var variationIndex = index / 6;
+                if (variationIndex == 0 && styleManager != null && styleManager.Style != null && isSingleSeries == false)
+                {
+                    return baseColor;
+                }
+                else
+                {
+                    ExcelColorTransformCollection variation;
+                    if (colorsManager == null)
+                    {
+                        if (styleManager == null || styleManager.Style == null)
+                        {
+                            var variations = ExcelColorTransformCollection.GetLegacyDefaultPattern2(legacyVariationCount);
+                            variation = variations[variationIndex % variations.Count];
+                        }
+                        else
+                        {
+                            var variations = ExcelColorTransformCollection.GetDefault();
+                            variation = variations[variationIndex % variations.Count];
+                        }
+                    }
+                    else
+                    {
+                        if (colorsManager.Variations.Count == 0)
+                        {
+                            return baseColor;
+                        }
+
+                        int colorCount = -1;
+
+                        if (colorsManager.Variations.Count > colorsManager.Colors.Count)
+                        {
+                            colorCount = colorsManager.Colors.Count;
+                        }
+                        else
+                        {
+                            colorCount = colorsManager.Variations.Count;
+                        }
+
+                        variation = colorsManager.Colors[variationIndex % colorCount].Transforms;
+                    }
+                    return OfficeOpenXml.Utils.TypeConversion.ColorConverter.ApplyTransforms(baseColor, variation);
+                }
+            }
+            catch(Exception ex) 
+            {
+                throw new SystemException($"{ex.Message}", ex);
             }
         }
         protected double GetAxisBaseY(ChartAxisRenderer catAx, ChartAxisRenderer valAx)
