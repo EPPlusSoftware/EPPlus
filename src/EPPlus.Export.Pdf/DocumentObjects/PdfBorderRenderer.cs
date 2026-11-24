@@ -49,16 +49,25 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             DiagonalDown = cell.BorderData.DiagonalDown;
         }
 
+        public bool HasBorder()
+        {
+            if (Top != null) return true;
+            if (Bottom != null) return true;
+            if (Left != null) return true;
+            if (Right != null) return true;
+            if (DiagonalUp != null) return true;
+            if (DiagonalDown != null) return true;
+            return false;
+        }
+
         public void RenderBorder(PdfContentStream contentStream)
         {
-            contentStream.AddCommand("q");
             if (Top != null) RenderBorder(contentStream, Top);
             if (Bottom != null) RenderBorder(contentStream, Bottom);
             if (Left != null) RenderBorder(contentStream, Left);
             if (Right != null) RenderBorder(contentStream, Right);
             if (DiagonalUp != null) RenderBorder(contentStream, DiagonalUp);
             if (DiagonalDown != null) RenderBorder(contentStream, DiagonalDown);
-            contentStream.AddCommand("Q");
         }
 
         private void RenderBorder(PdfContentStream contentStream, PdfCellBorderData border)

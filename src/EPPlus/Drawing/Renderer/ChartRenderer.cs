@@ -124,6 +124,8 @@ namespace EPPlusImageRenderer
             //As we need the plotarea dimensions to calculate the axis positions we need to set the axis positions after creating the plotarea.
             SetAxisPositionsFromPlotarea();
 
+            //Plotarea.SetPlotAreaRectangle();
+
             Plotarea.DrawSeries();
             
             //Append all renderitems after everything has been created and positioned, to ensure the correct z-ordering.
@@ -156,15 +158,15 @@ namespace EPPlusImageRenderer
                 SecondHorizontalAxis.AddTickmarksAndValues(DefItems);
             }
 
-            PlaceHorizontalAxisTitle(HorizontalAxis);
-            PlaceHorizontalAxisTitle(SecondHorizontalAxis);
-            PlaceVerticalAxisTitle(VerticalAxis);
-            PlaceVerticalAxisTitle(SecondVerticalAxis);
-
             HorizontalAxis?.CalculateWidthHeightFromContent();
             VerticalAxis?.CalculateWidthHeightFromContent();
             SecondVerticalAxis?.CalculateWidthHeightFromContent();
             SecondHorizontalAxis?.CalculateWidthHeightFromContent();
+
+            PlaceHorizontalAxisTitle(HorizontalAxis);
+            PlaceHorizontalAxisTitle(SecondHorizontalAxis);
+            PlaceVerticalAxisTitle(VerticalAxis);
+            PlaceVerticalAxisTitle(SecondVerticalAxis);
         }
         private void PlaceDisplayUnitTitle(ChartAxisRenderer axis)
         {
@@ -484,7 +486,7 @@ namespace EPPlusImageRenderer
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) - ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
