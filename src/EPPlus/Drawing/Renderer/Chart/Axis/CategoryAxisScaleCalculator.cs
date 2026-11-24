@@ -60,7 +60,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
                 //if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 //{
                 var width = fontSize * Math.Sqrt(2);
-                var margin = fontSize * 0.5;
+                var margin = fontSize * 0.2;
                 if (FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 {
                     return new AxisScale()
@@ -90,7 +90,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
             else
             {
                 var width = fontSize * Math.Sqrt(2);
-                var margin = fontSize * 0.5;
+                var margin = fontSize * 0.2;
                 if (options.IsMulti || FitAsVerticalDiagonalText(displayValues.Count, interval, width, margin, plotAreaWidth)) //Check diagonal
                 {
                     if (FitAsHorizontalText(displayValues, interval, shaper, fontSize, plotAreaWidth, options.IsMulti)) //Check horizontal
@@ -197,7 +197,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.Util
 
         private static bool FitAsHorizontalText(List<object> displayValues, int interval, ITextShaper shaper, float fontSize, double plotAreaWidth, bool isMultLevel)
         {
-            var margin = fontSize * 0.3;
+            var margin = fontSize * 0.1;
             double maxWidth;
             var pos = interval;
             if (isMultLevel)

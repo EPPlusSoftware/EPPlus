@@ -2610,7 +2610,7 @@ namespace OfficeOpenXml.Drawing
         {
             return ToSvg(null);
         }
-        /// <summary>git statu
+        /// <summary>
         /// Converts the drawing to a SVG image. 
         /// This is currently only supported for shapes, line-, column-, bar- and pie- charts.
         /// </summary>

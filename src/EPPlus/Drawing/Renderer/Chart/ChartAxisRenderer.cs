@@ -744,13 +744,13 @@ namespace EPPlusImageRenderer.Svg
                     {
                         switch (lblAlignment)
                         {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            case eAxisLabelAlignment.Left:
                                 tb.Left -= (tb.Width + majorWidth) / 2;
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            case eAxisLabelAlignment.Center:
                                 tb.Left -= tb.Width / 2;
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                            case eAxisLabelAlignment.Right:
                                 tb.Left += (tb.Width + majorWidth) / 2;
                                 break;
                         }
@@ -763,28 +763,14 @@ namespace EPPlusImageRenderer.Svg
                         switch (lblAlignment)
                         {
 
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            case eAxisLabelAlignment.Left:
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            case eAxisLabelAlignment.Center:
                                 tb.Left += majorWidth / 2 - tb.Width / 2;
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Right:
 
-                                //tb.TextBody.MaxWidth = 50000d;
-                                //foreach (var item in tb.TextBody.Paragraphs)
-                                //{
-                                //    //Re-calculates wrap (so that it's one line)
-                                //    item.HorizontalAlignment = item.HorizontalAlignment;
-                                //}
-
-                                
                                 tb.Left += majorWidth - tb.Width;
-                                //foreach (var item in tb.TextBody.Paragraphs)
-                                //{
-                                //    //Re-calculates wrap (so that it's one line)
-                                //    item.HorizontalAlignment = item.HorizontalAlignment;
-                                //}
-
                                 break;
                         }
                     }
@@ -806,10 +792,10 @@ namespace EPPlusImageRenderer.Svg
                     {
                         majorWidth = Rectangle.Width / count;
                     }
-                    foreach (var tb in ret)
-                    {
-                        //tb.Left += majorWidth / 2;
-                    }
+                    //foreach (var tb in ret)
+                    //{
+                    //    //tb.Left += majorWidth / 2;
+                    //}
                 }
             }
             else if(LabelOrientation == eTextOrientation.Custom)
@@ -1386,64 +1372,9 @@ namespace EPPlusImageRenderer.Svg
                     double ticMarkX, ticMarkY;
                     double x, y;
                     ticMarkY = GetAxisItemTop(i, width, height);
-
                     ticMarkX = j * (lineHeight + LeftMargin);
-                    //if (isTopRow)
-                    //{
-                        x = ticMarkX;
-                        y = ticMarkY;
-                    //}
-                    //else
-                    //{
-                        //if (tb == null)
-                        //{
-                            //x = ticMarkX;
-                            //y = ticMarkY;
-                        //}
-                        //else
-                        //{
-                        //    x = tb.Left;
-                        //    y = tb.Top;
-                        //}
-                        //double cos = Math.Cos(MathHelper.Radians(rot));
-                        //double sin = Math.Sin(MathHelper.Radians(rot));
-
-                        //if (LabelOrientation == eTextOrientation.Diagonal || (LabelOrientation == eTextOrientation.Custom && rot != 90))
-                        //{
-                        //    if (width < MajorTickMarkPositions)
-                        //    {
-                        //        x = ticMarkX;
-                        //    }
-                        //    else
-                        //    {
-                        //        x = ticMarkX - ((height / 2) * cos);
-                        //    }
-
-                        //    var midPointText = height / 2;
-                        //    var halfHeightAfterRot = Math.Abs(((width / 2) * sin));
-                        //    var heightPastY = halfHeightAfterRot - midPointText;
-
-                        //    y = ticMarkY - heightPastY;
-                        //}
-                        //else if ((rot == 90 || rot == -90))
-                        //{
-                        //    x = ticMarkX;
-                        //    y = ticMarkY - (width / 2);
-                        //}
-                        //else
-                        //{
-                        //    x = ticMarkX - (height / 2);
-                        //    if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                        //    {
-                        //        y = ticMarkY + BottomMargin + 4;
-                        //    }
-                        //    else //Top
-                        //    {
-                        //        y = ticMarkY - TopMargin - 4;
-                        //    }
-                        //}
-                        //}
-                    //}
+                    x = ticMarkX;
+                    y = ticMarkY;
 
                     tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, GetMaxWidthForEmptyRows(maxWidth, isTopRow, i, j), maxHeight);
                     tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
