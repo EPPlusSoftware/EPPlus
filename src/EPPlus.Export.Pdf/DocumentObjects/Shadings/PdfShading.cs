@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Graphics;
-using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
@@ -62,7 +61,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

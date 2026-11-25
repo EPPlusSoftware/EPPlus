@@ -111,8 +111,10 @@ namespace EPPlusTest.PDF
             var ws0 = wb.Worksheets[0];
             var ws1 = wb.Worksheets[1];
             var ws2 = wb.Worksheets[2];
+            PdfExportSettings settings = new PdfExportSettings();
+            settings.CompressionLevel = OfficeOpenXml.Export.PdfExport.PdfCompressionLevel.Fastest;
             string path = _pdfPath + "WorksheetsTest2.pdf";
-            wb.SaveAsPdf(path, new[] { ws0, ws1, ws2 });
+            wb.SaveAsPdf(path, new[] { ws0, ws1, ws2 }, settings);
             Assert.IsTrue(File.Exists(path), "PDF file was not created.");
             AssertLooksLikePdf(File.ReadAllBytes(path));
         }

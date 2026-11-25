@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -232,50 +231,18 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             }
         }
 
-        //private string Body(bool compress)
-        //{
-        //    var cmapContent = GenerateCMapContent();
-        //    var length = Encoding.UTF8.GetByteCount(cmapContent);
-        //    var sb = new StringBuilder();
-        //    sb.AppendLine(string.Format("<< /Length {0} >>", length.ToPdfStringF0()));
-        //    sb.AppendLine("stream");
-        //    sb.Append(cmapContent);
-        //    sb.Append("\nendstream");
-        //    return sb.ToString();
-        //}
-
-        //internal override void RenderDictionary()
-        //{
-        //    var cmapContent = GenerateCMapContent();
-        //    var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-        //    var body = PdfFlate.Compress(cmapBytes);
-        //    WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-        //    bw.Write(body);
-        //    WriteAscii(bw, "\nendstream");
-        //}
-
-        private string Body(bool compress)
+        protected override void WriteBody(PdfWriter w)
         {
-            var cmapContent = GenerateCMapContent();
-            var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-            var cmapBytesCompressed = compress ? PdfFlate.Compress(cmapBytes) : null;
-
-            var sb = new StringBuilder();
-            if (compress)
+            var content = GenerateCMapContent();
+            if (w.IsDebug)
             {
-                sb.AppendFormat($"<< /Filter /FlateDecode /Length {cmapBytesCompressed.Length.ToPdfStringF0()} >>\nstream\n");
-                sb.AppendFormat($"{cmapBytesCompressed}");
+                w.Text($"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}\nendstream");
+                return;
             }
-            else
-            {
-                sb.AppendFormat($"<< /Length {cmapBytes.Length.ToPdfStringF0()} \nstream>>");
-                sb.Append(cmapContent);
-            }
-            sb.Append("\nendstream");
-            return sb.ToString();
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content), w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
-
-        internal override string RenderDictionary() => Body(false);
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body(true));
     }
 }

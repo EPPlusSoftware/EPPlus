@@ -58,5 +58,11 @@ namespace OfficeOpenXml.Export.PdfExport
         /// document properties are used.
         /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// The compression level applied to PDF content streams and images. Trades export
+        /// speed against file size. Default is <see cref="PdfCompressionLevel.Smallest"/>.
+        /// </summary>
+        public PdfCompressionLevel CompressionLevel { get; set; } = PdfCompressionLevel.Smallest;
     }
 }

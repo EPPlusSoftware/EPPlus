@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -29,7 +28,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
         private string Body()
         {
             var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
-            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderDictionary()).ToArray());
+            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderBody()).ToArray());
             var boundsStr = string.Join(" ", Bounds.Select(w => w.ToPdfString()).ToArray());
             var encodeStr = string.Join(" ", Encode.Select(w => w.ToPdfString()).ToArray());
             var sb = new StringBuilder();
@@ -41,7 +40,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

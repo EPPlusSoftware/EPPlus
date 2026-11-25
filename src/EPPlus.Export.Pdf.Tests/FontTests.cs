@@ -186,9 +186,9 @@ namespace EPPlus.Export.Pdf.Tests
             resource.fontData = subset;
 
             // Object numbers are arbitrary; they only need to be set in dependency order.
-            var descriptor = resource.GetFontDescriptorObject(10).RenderDictionary();
-            var cid = resource.GetCIDFontObject(11).RenderDictionary();
-            var type0 = resource.GetType0FontDictObject(12).RenderDictionary();
+            var descriptor = resource.GetFontDescriptorObject(10).RenderBody();
+            var cid = resource.GetCIDFontObject(11).RenderBody();
+            var type0 = resource.GetType0FontDictObject(12).RenderBody();
 
             var rx = new Regex(@"/(?:BaseFont|FontName)\s+/(\S+)");
             var names = new[] { descriptor, cid, type0 }

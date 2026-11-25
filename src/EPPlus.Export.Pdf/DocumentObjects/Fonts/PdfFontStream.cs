@@ -12,12 +12,10 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType;
-using System.IO;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    internal class PdfFontStream : PdfStreamObject
+    internal class PdfFontStream : PdfObject
     {
         private readonly OpenTypeFont FontData;
 
@@ -26,11 +24,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             FontData = fontData;
         }
 
-        protected override (string dictionary, byte[] bytes) BuildStream()
+        protected override void WriteBody(PdfWriter w)
         {
             var raw = FontData.Serialize();
-            var body = PdfFlate.Compress(raw);
-            return ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {raw.Length.ToPdfStringF0()} >>", body);
+            var body = PdfFlate.Compress(raw, w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {raw.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
     }
 }

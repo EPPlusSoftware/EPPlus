@@ -17,7 +17,6 @@ using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using EPPlus.Fonts.OpenType.Integration;
@@ -29,7 +28,7 @@ using EPPlus.Export.Pdf.Enums;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
-    internal class PdfContentStream : PdfStreamObject
+    internal class PdfContentStream : PdfObject
     {
         private readonly List<string> commands = new List<string>();
         private readonly Stack<(int index, string header)> _artifactMarks = new Stack<(int, string)>();
@@ -641,17 +640,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             EndArtifact();
         }
 
-        protected override (string dictionary, byte[] bytes) BuildStream()
+        protected override void WriteBody(PdfWriter w)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
-            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
-            return ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>", body);
+            if (w.IsDebug)
+            {
+                w.Text($"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}endstream");
+                return;
+            }
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content), w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
 
-        internal override string RenderDictionary()
-        {
-            var content = string.Join("\n", commands.ToArray()) + "\n";
-            return $"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}endstream";
-        }
     }
 }

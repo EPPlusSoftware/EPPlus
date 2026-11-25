@@ -14,7 +14,6 @@ using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -44,7 +43,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
         private string Body()
         {
             var coordsStr = string.Join(" ", Coords.Select(w => w.ToPdfString()).ToArray());
-            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderDictionary()).ToArray());
+            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderBody()).ToArray());
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Shading\n" +
                             $"   /ShadingType 3\n" +
@@ -65,7 +64,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

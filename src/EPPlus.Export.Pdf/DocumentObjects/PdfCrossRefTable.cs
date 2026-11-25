@@ -13,9 +13,6 @@
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -29,46 +26,16 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             positions.Add(position);
         }
 
-        //internal string WriteString(int bodyCount)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append("xref\n");
-        //    sb.AppendFormat($"0 {(bodyCount + 1).ToPdfStringF0()}\n");
-        //    sb.Append("0000000000 65535 f \n");
-        //    foreach (long pos in positions)
-        //    {
-        //        sb.AppendFormat(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n");
-        //    }
-        //    return sb.ToString();
-        //}
-
-        //internal void Write(BinaryWriter bw, long startPosition, int bodyCount)
-        //{
-        //    StartPosition = startPosition;
-        //    bw.Write(Encoding.ASCII.GetBytes("xref\n"));
-        //    bw.Write(Encoding.ASCII.GetBytes($"0 {(bodyCount + 1).ToPdfStringF0()}\n"));
-        //    bw.Write(Encoding.ASCII.GetBytes("0000000000 65535 f \n"));
-        //    foreach (long pos in positions)
-        //    {
-        //        bw.Write(Encoding.ASCII.GetBytes(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n"));
-        //    }
-        //}
-
-        private string Body(long startPosition, int bodyCount)
+        internal void Write(PdfWriter w, long startPosition, int bodyCount)
         {
             StartPosition = startPosition;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("xref\n");
-            sb.AppendFormat($"0 {(bodyCount + 1).ToPdfStringF0()}\n");
-            sb.Append("0000000000 65535 f \n");
+            w.Text("xref\n");
+            w.Text($"0 {(bodyCount + 1).ToPdfStringF0()}\n");
+            w.Text("0000000000 65535 f \n");
             foreach (long pos in positions)
             {
-                sb.AppendFormat(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n");
+                w.Text(pos.ToString("D10", CultureInfo.InvariantCulture) + " 00000 n \n");
             }
-            return sb.ToString();
         }
-
-        internal string Write(long startPosition, int bodyCount) => Body(startPosition, bodyCount);
-        internal void Write(BinaryWriter bw, long startPosition, int bodyCount) => bw.Write(Encoding.ASCII.GetBytes(Body(startPosition, bodyCount)));
     }
 }

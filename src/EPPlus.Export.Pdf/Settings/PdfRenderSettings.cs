@@ -260,6 +260,8 @@ namespace EPPlus.Export.Pdf.Settings
 
         internal string AdditionalContent;
 
+        internal PdfCompressionLevel CompressionLevel = PdfCompressionLevel.Smallest;
+
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;

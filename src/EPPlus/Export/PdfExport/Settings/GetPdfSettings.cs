@@ -78,6 +78,7 @@ namespace OfficeOpenXml.Export.PdfExport.Settings
             //s.GposFeatures = e.GposFeatures;
             s.Author = e.Author;
             s.Title = e.Title;
+            s.CompressionLevel = (EPPlus.Export.Pdf.Settings.PdfCompressionLevel)e.CompressionLevel;
         }
 
         internal static PdfRenderSettings GetPdfSettingsForSheet(PdfRenderSettings baseSettings, ExcelPrinterSettings eps, PdfExportSettingsWorksheetOverrides overrides)

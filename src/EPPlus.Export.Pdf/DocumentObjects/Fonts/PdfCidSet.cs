@@ -11,12 +11,10 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
-    internal class PdfCidSet : PdfStreamObject
+    internal class PdfCidSet : PdfObject
     {
         byte[] CidSet;
 
@@ -25,12 +23,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             CidSet = cidSet;
         }
 
-        protected override (string dictionary, byte[] bytes) BuildStream()
+        protected override void WriteBody(PdfWriter w)
         {
-            var body = PdfFlate.Compress(CidSet);
-            return body.Length < CidSet.Length
-                ? ($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>", body)
-                : ($"<< /Length {CidSet.Length.ToPdfStringF0()} >>", CidSet);
+            var body = PdfFlate.Compress(CidSet, w.CompressionLevel);
+            if (body.Length < CidSet.Length)
+            {
+                w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+            }
+            else
+            {
+                body = CidSet;
+                w.Text($"<< /Length {CidSet.Length.ToPdfStringF0()} >>\nstream\n");
+            }
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
     }
 }

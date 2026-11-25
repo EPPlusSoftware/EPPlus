@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.DocumentObjects;
+using EPPlus.Export.Pdf.Settings;
 
 namespace EPPlus.Export.Pdf.Resources
 {
@@ -25,10 +26,10 @@ namespace EPPlus.Export.Pdf.Resources
             ImageBytes = imageBytes;
         }
 
-        public PdfImageXObject GetImageObject(int objectNumber, bool blackAndWhite, int version = 0)
+        public PdfImageXObject GetImageObject(int objectNumber, bool blackAndWhite, PdfCompressionLevel compressionLevel, int version = 0)
         {
             this.objectNumber = objectNumber;
-            return new PdfImageXObject(objectNumber, ImageBytes, blackAndWhite, version);
+            return new PdfImageXObject(objectNumber, ImageBytes, blackAndWhite, compressionLevel, version);
         }
     }
 }

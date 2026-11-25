@@ -14,7 +14,6 @@ using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -117,7 +116,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

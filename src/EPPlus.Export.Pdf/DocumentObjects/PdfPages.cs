@@ -12,9 +12,7 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -36,7 +34,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                    $"   /Count {pageObjectNumbers.Count.ToPdfStringF0()} >>";
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }
