@@ -58,48 +58,52 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingTopBottomGroup(this, newWs);
         }
 
+        HashSet<object> _matchingValues;
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            _matchingValues = null;
+        }
+
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if (_ws.Cells[address.Address].Value.IsNumeric())
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (cellValue.IsNumeric())
             {
-                if(cellValueCache.Count == 0)
+                if(_cellValueCacheUpdated == false || _matchingValues == null)
                 {
                     UpdateCellValueCache();
+                    //Sort once per export and keep the qualifying values. Sorting per cell is O(n^2 log n).
+                    _matchingValues = GetMatchingValues();
                 }
 
-                switch (Type)
-                {
-                    case eExcelConditionalFormattingRuleType.Top:
-                        var sorted = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(Rank);
-                        if (sorted.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.TopPercent:
-                        var percentDescending = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
-                        if (percentDescending.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.Bottom:
-                        var bottomSorted = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(Rank);
-                        if (bottomSorted.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                    case eExcelConditionalFormattingRuleType.BottomPercent:
-                        var percentAscending = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
-                        if (percentAscending.Contains(_ws.Cells[address.Address].Value))
-                        {
-                            return true;
-                        }
-                        break;
-                }
+                return _matchingValues != null && _matchingValues.Contains(cellValue);
             }
             return false;
+        }
+
+        private HashSet<object> GetMatchingValues()
+        {
+            IEnumerable<object> values;
+            switch (Type)
+            {
+                case eExcelConditionalFormattingRuleType.Top:
+                    values = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(Rank);
+                    break;
+                case eExcelConditionalFormattingRuleType.TopPercent:
+                    values = cellValueCache.Where(n => n.IsNumeric()).OrderByDescending(n => n).Take(cellValueCache.Count * Rank / 100);
+                    break;
+                case eExcelConditionalFormattingRuleType.Bottom:
+                    values = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(Rank);
+                    break;
+                case eExcelConditionalFormattingRuleType.BottomPercent:
+                    values = cellValueCache.Where(n => n.IsNumeric()).OrderBy(n => n).Take(cellValueCache.Count * Rank / 100);
+                    break;
+                default:
+                    return new HashSet<object>();
+            }
+            return new HashSet<object>(values);
         }
     }
 }

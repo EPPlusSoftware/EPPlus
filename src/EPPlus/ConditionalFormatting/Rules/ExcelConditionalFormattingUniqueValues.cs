@@ -54,7 +54,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Rank = copy.Rank;
         }
 
-        IEnumerable<object> uniques;
+        HashSet<object> uniques;
 
         internal override void RemoveTempExportData()
         {
@@ -64,12 +64,13 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if(cellValueCache.Count == 0)
+            if(_cellValueCacheUpdated == false || uniques == null)
             {
                 UpdateCellValueCache();
-                uniques = cellValueCache.GroupBy(i => i)
+                //Materialize the set once per export. A deferred query here is re-evaluated for every cell.
+                uniques = new HashSet<object>(cellValueCache.GroupBy(i => i)
                              .Where(g => g.Count() == 1)
-                             .Select(g => g.First());
+                             .Select(g => g.First()));
             }
             
             if(uniques.Contains(_ws.Cells[address.Address].Value))

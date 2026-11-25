@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.ConditionalFormatting.Rules;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -218,38 +219,105 @@ namespace OfficeOpenXml.ConditionalFormatting
             set { _highValue = value; }
         }
 
+        /// <summary>
+        /// Values of the rule's range, collected once per export.
+        /// Empty cells count as zero, as they did when the range was walked cell by cell, but they are not stored.
+        /// </summary>
+        internal class ColorScaleExportCache
+        {
+            /// <summary>Values of the non-empty cells, sorted using double.CompareTo (NaN first).</summary>
+            internal double[] SortedValues;
+            /// <summary>Number of empty cells. Each one counts as the value zero.</summary>
+            internal long EmptyCount;
+            /// <summary>Total number of cells, including empty cells.</summary>
+            internal long TotalCount;
+            /// <summary>Sum of all values, added in row/column order.</summary>
+            internal double Sum;
+
+            internal double Lowest
+            {
+                get
+                {
+                    if (SortedValues.Length == 0) return 0D;
+                    if (EmptyCount > 0 && 0D.CompareTo(SortedValues[0]) < 0) return 0D;
+                    return SortedValues[0];
+                }
+            }
+
+            internal double Highest
+            {
+                get
+                {
+                    if (SortedValues.Length == 0) return 0D;
+                    var last = SortedValues[SortedValues.Length - 1];
+                    if (EmptyCount > 0 && 0D.CompareTo(last) > 0) return 0D;
+                    return last;
+                }
+            }
+
+            /// <summary>
+            /// The position of the first occurrence of <paramref name="value"/> in the sorted values of all cells.
+            /// </summary>
+            internal long IndexOf(double value)
+            {
+                if (double.IsNaN(value))
+                {
+                    return TotalCount; //Never equal to any value.
+                }
+                long index = CFRangeValues.CountLessThan(SortedValues, value);
+                if (0D.CompareTo(value) < 0)
+                {
+                    index += EmptyCount;
+                }
+                return index;
+            }
+        }
+
+        ColorScaleExportCache _exportCache = null;
+
+        internal ColorScaleExportCache GetExportCache()
+        {
+            if (_exportCache == null)
+            {
+                //Only visit cells that exist. The rule's range can cover a full sheet.
+                var values = CFRangeValues.GetValues(_ws, Address);
+                var sorted = new double[values.Count];
+                double sum = 0D;
+                for (int i = 0; i < values.Count; i++)
+                {
+                    var d = ConvertUtil.GetValueDouble(values[i]);
+                    sorted[i] = d;
+                    sum += d;
+                }
+                Array.Sort(sorted);
+                var total = CFRangeValues.GetCellCount(Address);
+                _exportCache = new ColorScaleExportCache()
+                {
+                    SortedValues = sorted,
+                    TotalCount = total,
+                    EmptyCount = total - sorted.Length,
+                    Sum = sum
+                };
+            }
+            return _exportCache;
+        }
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            _exportCache = null;
+        }
+
         internal virtual string ApplyStyleOverride(ExcelAddress address)
         {
             var range = _ws.Cells[address.Address];
             var cellValue = ConvertUtil.GetValueDouble(range.Value);
-            //TODO: Cache this for performance
             if (cellValue.IsNumeric())
             {
-                var cellValues = new List<double>();
-                foreach (var cell in Address.GetAllAddresses())
-                {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
-                        }
-                    }
-                }
+                var cache = GetExportCache();
+                var index = cache.IndexOf(cellValue);
 
-                var values = cellValues.OrderBy(n => n);
-                int index = 0;
-
-                foreach(var value in values)
-                {
-                    if (value == cellValue)
-                    {
-                        break;
-                    }
-                    index++;
-                }
-
-                var newColor = CalculateNumberedGradient(index, values.Count()-1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
+                var newColor = CalculateNumberedGradient(index, cache.TotalCount - 1, LowValue.ColorSettings.GetColorAsColor(), HighValue.ColorSettings.GetColorAsColor());
 
                 return "background-color:" + "#" + newColor.ToArgb().ToString("x8").Substring(2) + ";";
             }

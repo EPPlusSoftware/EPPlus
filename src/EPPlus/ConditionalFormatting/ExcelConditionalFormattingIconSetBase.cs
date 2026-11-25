@@ -330,6 +330,30 @@ namespace OfficeOpenXml.ConditionalFormatting
             return customIconList;
         }
 
+        double[] _sortedPercentileValues = null;
+
+        /// <summary>
+        /// Number of cached values less than <paramref name="value"/>. 
+        /// The values are sorted once per export instead of scanning the cache for every cell.
+        /// </summary>
+        private int CountValuesLessThan(double value)
+        {
+            if (_sortedPercentileValues == null)
+            {
+                //NaN is never less than another value, so leave it out.
+                _sortedPercentileValues = cellValueCache.Select(n => Convert.ToDouble(n)).Where(d => double.IsNaN(d) == false).ToArray();
+                Array.Sort(_sortedPercentileValues);
+            }
+            if (double.IsNaN(value)) return 0;
+            return CFRangeValues.CountLessThan(_sortedPercentileValues, value);
+        }
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            _sortedPercentileValues = null;
+        }
+
         protected int CalculateCorrectIcon(ExcelAddress address, ExcelConditionalFormattingIconDataBarValue[] icons)
         {
             //Icon1.Type 
@@ -337,9 +361,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             var cellValue = range.Value;
             if(cellValue.IsNumeric() && cellValue != null)
             {
-                if (cellValueCache.Count == 0)
+                if (_cellValueCacheUpdated == false)
                 {
                     UpdateCellValueCache(false, true);
+                    _sortedPercentileValues = null;
                 }
 
                 double percentile = -1d;
@@ -366,7 +391,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     {
                         if(percentile == -1)
                         {
-                            double numValuesLessThan = cellValueCache.Where(n => Convert.ToDouble(n) < cellValueAsDouble).Count();
+                            double numValuesLessThan = CountValuesLessThan(cellValueAsDouble);
 
                             percentile = (numValuesLessThan / (cellValueCache.Count() - 1d)) * 100d;
                         }

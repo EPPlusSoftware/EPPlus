@@ -329,6 +329,26 @@ namespace OfficeOpenXml.ConditionalFormatting
             return false;
         }
 
+        double? _cachedMaximum = null;
+        double? _cachedMinimum = null;
+
+        /// <summary>
+        /// A percentile is calculated over the whole range, so it is the same for every cell. 
+        /// Calculate it once per export instead of once per cell.
+        /// </summary>
+        private double GetCalculatedValue(ExcelConditionalFormattingIconDataBarValue value, ref double? cachedValue, ExcelAddressBase address)
+        {
+            if (value.Type == eExcelConditionalFormattingValueObjectType.Percentile)
+            {
+                if (cachedValue.HasValue == false)
+                {
+                    cachedValue = value.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
+                }
+                return cachedValue.Value;
+            }
+            return value.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
+        }
+
         internal double GetPercentageAtCell(ExcelAddressBase address)
         {
             var range = _ws.Cells[address.Address];
@@ -337,15 +357,15 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (cellValue.IsNumeric() && FillColor.GetColorAsColor() != Color.Empty)
             {
-                if (cellValueCache.Count == 0)
+                if (_cellValueCacheUpdated == false)
                 {
                     UpdateCellValueCache(false, true);
                 }
 
                 var realValue = Convert.ToDouble(cellValue);
 
-                var maximum = HighValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
-                var minimum = LowValue.GetCalculatedValue(highest, lowest, _ws.Workbook, address, Address, cellValueCache);
+                var maximum = GetCalculatedValue(HighValue, ref _cachedMaximum, address);
+                var minimum = GetCalculatedValue(LowValue, ref _cachedMinimum, address);
 
                 if (AxisPosition != eExcelDatabarAxisPosition.None)
                 {
@@ -440,6 +460,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             base.RemoveTempExportData();
             highest = double.NaN;
             lowest = double.NaN;
+            _cachedMaximum = null;
+            _cachedMinimum = null;
         }
 
         //internal bool GetHasNegativeBar()

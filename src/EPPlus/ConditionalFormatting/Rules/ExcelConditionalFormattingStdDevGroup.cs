@@ -63,6 +63,16 @@ namespace OfficeOpenXml.ConditionalFormatting
             StdDev = UInt16.Parse(xr.GetAttribute("stdDev"));
         }
 
+        bool _isCalculated = false;
+        bool _stdDevParsable, _avgParsable;
+        double _stdDevValue, _avgValue;
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            _isCalculated = false;
+        }
+
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
             if (_ws.Cells[address.Address].Value == null)
@@ -76,16 +86,24 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             var addressValue = Convert.ToDouble(_ws.Cells[address.Address].Value);
 
-            var stdDevFormula = $"{StdDev}*STDEV.S({Address})";
-            var avgFormula = $"AVERAGE({Address})";
+            //The standard deviation and average are the same for every cell in the range, so calculate them once per export.
+            if (_isCalculated == false)
+            {
+                var stdDevFormula = $"{StdDev}*STDEV.S({Address})";
+                var avgFormula = $"AVERAGE({Address})";
 
-            var stdDevRes = _ws.Workbook.FormulaParserManager.Parse(stdDevFormula, address.FullAddress, false).ToString();
-            var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
+                var stdDevRes = _ws.Workbook.FormulaParserManager.Parse(stdDevFormula, address.FullAddress, false).ToString();
+                var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
 
-            var stdParsable = double.TryParse(stdDevRes, out double stdDevDouble);
-            var avgParsable = double.TryParse(avgResult, out double avgDouble);
+                _stdDevParsable = double.TryParse(stdDevRes, out _stdDevValue);
+                _avgParsable = double.TryParse(avgResult, out _avgValue);
+                _isCalculated = true;
+            }
 
-            if (!(stdParsable && avgParsable)) { return false; }
+            if (!(_stdDevParsable && _avgParsable)) { return false; }
+
+            var stdDevDouble = _stdDevValue;
+            var avgDouble = _avgValue;
 
             switch (Type)
             {

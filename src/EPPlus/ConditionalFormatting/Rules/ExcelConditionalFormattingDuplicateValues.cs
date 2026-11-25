@@ -40,23 +40,23 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
         }
 
-        //HashSet<string> duplicates = new HashSet<string>();
-        IEnumerable<string> duplicates;
+        HashSet<string> duplicates;
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
-            if(cellValueCache.Count == 0)
+            if(_cellValueCacheUpdated == false || duplicates == null)
             {
                 UpdateCellValueCache(true);
-                duplicates = cellValueCache.GroupBy(value => value.ToString().ToUpper())
+                //Materialize the set once per export. A deferred query here is re-evaluated for every cell.
+                duplicates = new HashSet<string>(cellValueCache.GroupBy(value => value.ToString().ToUpper())
                                            .Where(key => key.Count() > 1)
-                                           .Select(group => group.Key);
+                                           .Select(group => group.Key));
             }
 
-            if(_ws.Cells[address.Address].Value != null)
+            var cellValue = _ws.Cells[address.Address].Value;
+            if (cellValue != null)
             {
-                var cellVal = _ws.Cells[address.Address].Value.ToString();
-                return duplicates.Contains(_ws.Cells[address.Address].Value.ToString().ToUpper());
+                return duplicates.Contains(cellValue.ToString().ToUpper());
             }
             return false;
         }

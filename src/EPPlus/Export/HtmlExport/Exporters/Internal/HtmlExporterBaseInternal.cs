@@ -226,80 +226,87 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var ws = range.Worksheet;
             HtmlImage image = null;
             bool hasFooter = table != null && table.ShowTotal;
-            while (row <= endRow)
-            {
-                EpplusHtmlAttribute attribute = null;
-                if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
-                {
-                    continue; //The row is hidden and should not be included.
-                }
-
-                HTMLElement tFoot = null;
-                if (hasFooter && row == endRow)
-                {
-                    tFoot = new HTMLElement(HtmlElements.TFoot);
-                    if (attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
-                    attribute = null;
-                }
-
-                var tr = new HTMLElement(HtmlElements.TableRow);
-
-                if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
-
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
-                {
-                    tr.AddAttribute("role", "row");
-
-                    if (table == null || !table.ShowFirstColumn && !table.ShowLastColumn)
-                    {
-                        tr.AddAttribute("scope", "row");
-                    }
-                }
-
-                if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
-
-                foreach (var col in _columns)
-                {
-                    if (InMergeCellSpan(row, col)) continue;
-                    var colIx = col - range._fromCol;
-                    var cell = ws.Cells[row, col];
-
-                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
-
-                    var tblData = new HTMLElement(HtmlElements.TableData);
-
-                    SetColRowSpan(range, tblData, cell);
-
-                    if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
-                    { 
-                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
-                    }
-
-                    if (cell.Hyperlink == null)
-                    {
-                        var addRowScope = table == null ? false : table.ShowFirstColumn && col == table.Address._fromCol || table.ShowLastColumn && col == table.Address._toCol;
-                        AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
-                    }
-                    else
-                    {
-                        GetClassData(tblData, table != null, image, cell, Settings, _exporterContext, out HTMLElement contentElement);
-
-                        AddImage(contentElement, Settings, image, cell.Value);
-                        AddHyperlink(contentElement, cell, Settings);
-                    }
-                    tr.AddChildElement(tblData);
-                }
-
-                tBody.AddChildElement(tr);
-
-                if (tFoot != null)
-                {
-                    tBody.AddChildElement(tFoot);
-                }
-                row++;
-            }
-
+            //Conditional formatting rules cache values from their range during the export. Make sure no cache is left from an earlier export or from a failed one.
             range.Worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
+            try
+            {
+                while (row <= endRow)
+                {
+                    EpplusHtmlAttribute attribute = null;
+                    if (HandleHiddenRow(attribute, range.Worksheet, Settings, ref row))
+                    {
+                        continue; //The row is hidden and should not be included.
+                    }
+
+                    HTMLElement tFoot = null;
+                    if (hasFooter && row == endRow)
+                    {
+                        tFoot = new HTMLElement(HtmlElements.TFoot);
+                        if (attribute != null) { tFoot.AddAttribute(attribute.AttributeName, attribute.Value); }
+                        attribute = null;
+                    }
+
+                    var tr = new HTMLElement(HtmlElements.TableRow);
+
+                    if (attribute != null) { tr.AddAttribute(attribute.AttributeName, attribute.Value); }
+
+                    if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                    {
+                        tr.AddAttribute("role", "row");
+
+                        if (table == null || !table.ShowFirstColumn && !table.ShowLastColumn)
+                        {
+                            tr.AddAttribute("scope", "row");
+                        }
+                    }
+
+                    if (Settings.SetRowHeight) AddRowHeightStyle(tr, range, row, Settings.StyleClassPrefix, IsMultiSheet);
+
+                    foreach (var col in _columns)
+                    {
+                        if (InMergeCellSpan(row, col)) continue;
+                        var colIx = col - range._fromCol;
+                        var cell = ws.Cells[row, col];
+
+                        var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
+
+                        var tblData = new HTMLElement(HtmlElements.TableData);
+
+                        SetColRowSpan(range, tblData, cell);
+
+                        if ((Settings.Pictures.Include == ePictureInclude.Include) || (Settings.Pictures.Include == ePictureInclude.IncludeInHtmlOnly))
+                        { 
+                            image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
+                        }
+
+                        if (cell.Hyperlink == null)
+                        {
+                            var addRowScope = table == null ? false : table.ShowFirstColumn && col == table.Address._fromCol || table.ShowLastColumn && col == table.Address._toCol;
+                            AddTableDataFromCell(cell, dataType, tblData, Settings, addRowScope, image, _exporterContext);
+                        }
+                        else
+                        {
+                            GetClassData(tblData, table != null, image, cell, Settings, _exporterContext, out HTMLElement contentElement);
+
+                            AddImage(contentElement, Settings, image, cell.Value);
+                            AddHyperlink(contentElement, cell, Settings);
+                        }
+                        tr.AddChildElement(tblData);
+                    }
+
+                    tBody.AddChildElement(tr);
+
+                    if (tFoot != null)
+                    {
+                        tBody.AddChildElement(tFoot);
+                    }
+                    row++;
+                }
+            }
+            finally
+            {
+                range.Worksheet.ConditionalFormatting.ClearTempExportCacheForAllCFs();
+            }
             return tBody;
         }
 
