@@ -87,7 +87,7 @@ namespace EPPlusTest.PDF
 
                 // GsubFeature.Dlig cannot be requested through the plain SaveAsPdf overloads -
                 // see PdfTestBase's PdfPageSettings-accepting overload for why.
-                var settings = new PdfPageSettings(engine)
+                var settings = new PdfRenderSettings(engine)
                 {
                     GsubFeatures = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Dlig
                 };

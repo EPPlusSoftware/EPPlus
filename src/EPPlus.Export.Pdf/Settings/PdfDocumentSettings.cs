@@ -32,8 +32,9 @@ namespace EPPlus.Export.Pdf.Settings
         internal bool BlackAndWhite;
         internal string BookmarkNamePrefix;
         internal bool SuppressFormFieldDetection;
+        internal PdfCompressionLevel CompressionLevel;
 
-        internal static PdfDocumentSettings From(PdfPageSettings s)
+        internal static PdfDocumentSettings From(PdfRenderSettings s)
         {
             return new PdfDocumentSettings
             {
@@ -52,6 +53,7 @@ namespace EPPlus.Export.Pdf.Settings
                 BlackAndWhite = s.BlackAndWhite,
                 BookmarkNamePrefix = s.BookmarkNamePrefix,
                 SuppressFormFieldDetection = s.SuppressFormFieldDetection,
+                CompressionLevel = s.CompressionLevel,
             };
         }
 

@@ -11,7 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
+using EPPlus.Export.Pdf.Settings;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -30,7 +30,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         internal byte[] SoftMaskData { get; }
         internal int SoftMaskObjectNumber { get; set; }
 
-        public PdfImageXObject(int objectNumber, byte[] imageBytes, bool blackAndWhite, int version = 0)
+        public PdfImageXObject(int objectNumber, byte[] imageBytes, bool blackAndWhite, PdfCompressionLevel compressionLevel, int version = 0)
             : base(objectNumber, version)
         {
             byte[] icoDib = null;
@@ -47,10 +47,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
                 if (blackAndWhite) GrayscaleRgb(icoRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(icoRgb);
+                _bytes = PdfFlate.CompressLeaveOpen(icoRgb, compressionLevel);
                 if (icoAlpha != null)
                 {
-                    SoftMaskData = PdfFlate.CompressLeaveOpen(icoAlpha);
+                    SoftMaskData = PdfFlate.CompressLeaveOpen(icoAlpha, compressionLevel);
                     HasSoftMask = true;
                 }
             }
@@ -63,7 +63,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     BitsPerComponent = 8;
                     ColorSpace = "/DeviceGray";
                     Filter = "FlateDecode";
-                    _bytes = PdfFlate.CompressLeaveOpen(grayPixels);
+                    _bytes = PdfFlate.CompressLeaveOpen(grayPixels, compressionLevel);
                 }
                 else
                 {
@@ -147,7 +147,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
                 if (blackAndWhite) GrayscaleRgb(bmpRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(bmpRgb);
+                _bytes = PdfFlate.CompressLeaveOpen(bmpRgb, compressionLevel);
             }
             else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
             {
@@ -156,8 +156,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
                 if (blackAndWhite) GrayscaleRgb(gifRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(gifRgb);
-                if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha); HasSoftMask = true; }
+                _bytes = PdfFlate.CompressLeaveOpen(gifRgb, compressionLevel);
+                if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha, compressionLevel); HasSoftMask = true; }
             }
             else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))
             {
@@ -167,10 +167,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
                 if (blackAndWhite) GrayscaleRgb(tifRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(tifRgb);
+                _bytes = PdfFlate.CompressLeaveOpen(tifRgb, compressionLevel);
                 if (tifAlpha != null)
                 {
-                    SoftMaskData = PdfFlate.CompressLeaveOpen(tifAlpha);
+                    SoftMaskData = PdfFlate.CompressLeaveOpen(tifAlpha, compressionLevel);
                     HasSoftMask = true;
                 }
             }
@@ -287,16 +287,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                    $" /Length {_bytes.Length.ToPdfStringF0()} >>";
         }
 
-        internal override string RenderDictionary()
+        protected override void WriteBody(PdfWriter w)
         {
-            return DictHeader() + $"\nstream\n<{_bytes.Length.ToPdfStringF0()} bytes of image data>\nendstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            WriteAscii(bw, DictHeader() + "\nstream\n");
-            bw.Write(_bytes);
-            WriteAscii(bw, "\nendstream");
+            w.Text(DictHeader() + "\nstream\n");
+            w.Bytes(_bytes);
+            w.Text("\nendstream");
         }
     }
 }

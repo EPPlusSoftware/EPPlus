@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Export.PdfExport.Data
         public string HeadingFontName;
         public float HeadingFontSize;
         public ExcelFill HeadingFill;
-        public PdfPageSettings Settings;
+        public PdfRenderSettings Settings;
         public int SheetIndex;
         public string SheetName;
         public int Count

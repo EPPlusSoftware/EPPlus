@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static Pages PrecomputeImages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
+        internal static Pages PrecomputeImages(PdfRenderSettings pageSettings, PdfRange range, Pages pdfPages, List<PdfDrawing> drawings, double zeroCharWidth)
         {
             if (drawings == null || drawings.Count == 0)
             {
@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static double RowEdge(double[] rowPrefix, int localRow) => rowPrefix[Math.Max(0, Math.Min(localRow, rowPrefix.Length - 1))];
 
-        private static Page PrecomputePageImages(PdfPageSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
+        private static Page PrecomputePageImages(PdfRenderSettings pageSettings, PdfRange range, Page page, List<PdfDrawing> drawings, double[] colPrefix, double[] rowPrefix, double rangeOriginX, double rangeOriginY)
         {
             page.Images = new List<ImageDrawInfo>();
             int fromCol = range.Range._fromCol;

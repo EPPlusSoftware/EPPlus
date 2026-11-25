@@ -14,7 +14,7 @@ using EPPlus.Graphics.Units;
 
 namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
 {
-    public class PdfPageSize
+    internal class PdfPageSize
     {
         public double Width { get; }
         public double Height { get; }

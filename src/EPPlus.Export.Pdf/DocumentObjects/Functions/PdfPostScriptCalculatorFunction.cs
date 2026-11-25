@@ -13,7 +13,6 @@
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using System.Drawing;
-using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Functions
@@ -79,19 +78,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
             }
         }
 
-        internal override string RenderDictionary()
+        protected override void WriteBody(PdfWriter w)
         {
-            return "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
-                   $"/Length {Encoding.ASCII.GetByteCount(_code)} >>\nstream\n{_code}\nendstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var bytes = Encoding.ASCII.GetBytes(_code);
-            WriteAscii(bw, "<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] " +
-                           $"/Length {bytes.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(bytes);
-            WriteAscii(bw, "\nendstream");
+            var length = Encoding.ASCII.GetByteCount(_code);
+            w.Text($"<< /FunctionType 4 /Domain [ 0 1 0 1 ] /Range [ 0 1 0 1 0 1 ] /Length {length.ToPdfStringF0()} >>\nstream\n");
+            w.Text(_code);
+            w.Text("\nendstream");
         }
     }
 }

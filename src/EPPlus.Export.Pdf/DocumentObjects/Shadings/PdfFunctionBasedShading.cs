@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -29,7 +28,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             ColorSpace = DeviceColorSpace.DeviceRGB;
         }
 
-        private string Build()
+        private string Body()
         {
             var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
             var sb = new StringBuilder();
@@ -41,8 +40,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override string RenderDictionary() => Build();
-
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Build());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

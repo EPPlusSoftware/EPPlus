@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -28,7 +27,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             $" /Last {Last.ToPdfStringF0()} 0 R" +
             $" /Count {Count.ToPdfStringF0()} >>";
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

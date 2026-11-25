@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextMapping
         public bool HasFirstPage = false;
         public bool HasOddEvenPages = false;
 
-        public PdfHeaderFooterCollection(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ExcelHeaderFooter headerFooter)
+        public PdfHeaderFooterCollection(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfWorksheet pdfSheet, ExcelHeaderFooter headerFooter)
         {
             bool differentFirst = pdfSheet.Worksheet.HeaderFooter.differentFirst;
             bool differentOddEven = pdfSheet.Worksheet.HeaderFooter.differentOddEven;

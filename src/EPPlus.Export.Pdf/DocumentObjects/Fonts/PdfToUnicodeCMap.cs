@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -40,28 +39,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             CodeSpaceMin = codeSpaceMin;
             CodeSpaceMax = codeSpaceMax;
             BytesPerCode = bytesPerCode;
-        }
-
-        internal override string RenderDictionary()
-        {
-            var cmapContent = GenerateCMapContent();
-            var length = Encoding.UTF8.GetByteCount(cmapContent);
-            var sb = new StringBuilder();
-            sb.AppendLine(string.Format("<< /Length {0} >>", length.ToPdfStringF0()));
-            sb.AppendLine("stream");
-            sb.Append(cmapContent);
-            sb.Append("\nendstream");
-            return sb.ToString();
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var cmapContent = GenerateCMapContent();
-            var cmapBytes = Encoding.ASCII.GetBytes(cmapContent);
-            var body = PdfFlate.Compress(cmapBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
         }
 
         private string GenerateCMapContent()
@@ -252,6 +229,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                 Code = code;
                 Unicode = unicode;
             }
+        }
+
+        protected override void WriteBody(PdfWriter w)
+        {
+            var content = GenerateCMapContent();
+            if (w.IsDebug)
+            {
+                w.Text($"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}\nendstream");
+                return;
+            }
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content), w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
     }
 }

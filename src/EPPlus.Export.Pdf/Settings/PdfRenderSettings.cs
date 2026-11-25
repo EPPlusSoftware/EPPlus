@@ -20,7 +20,7 @@ namespace EPPlus.Export.Pdf.Settings
     /// <summary>
     /// Settings object for exporting to PDF.
     /// </summary>
-    public class PdfPageSettings
+    internal class PdfRenderSettings
     {
         internal string Author { get; set; }
         internal string Title { get; set; }
@@ -31,7 +31,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Get the current font engine that is being used by EPPlus.
         /// </summary>
-        public OpenTypeFontEngine FontEngine
+        internal OpenTypeFontEngine FontEngine
         {
             get
             {
@@ -42,23 +42,23 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Add additional folders to search for fonts.
         /// </summary>
-        public List<string> FontDirectories = new List<string>();
+        internal List<string> FontDirectories = new List<string>();
 
         /// <summary>
         /// If true, epplus will look for fonts in the system directories for installed fonts.  c:\windows\fonts
         /// </summary>
-        public bool SearchSystemDirectories = true;
+        internal bool SearchSystemDirectories = true;
 
         /// <summary>
         /// If true, subsetted fonts will be embedded into the PDF document.
         /// </summary>
-        public bool EmbeddFonts = true;
+        internal bool EmbeddFonts = true;
 
         /// <summary>
         /// Prefix for marking a defined name as a bookmark for PDF export. The prefix gets stripped from the bookmark name.
         /// The name used for the bookmark is first check on the cells content. If the cell has no content it uses the defined name instead.
         /// </summary>
-        public string BookmarkNamePrefix = "bm_";
+        internal string BookmarkNamePrefix = "bm_";
 
         /// <summary>
         /// Set true to supress Acrobat Readers auto detecting of form fillable areas.
@@ -68,73 +68,73 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// The order in how to create pages.
         /// </summary>
-        public PageOrders PageOrders = PageOrders.DownThenOver;
+        internal PageOrders PageOrders = PageOrders.DownThenOver;
 
         /// <summary>
         /// Set to true to center content on page vertically.
         /// </summary>
-        public bool CenterOnPageVertically;
+        internal bool CenterOnPageVertically;
 
         /// <summary>
         /// Set to true to center content on page horizontally.
         /// </summary>
-        public bool CenterOnPageHorizontally;
+        internal bool CenterOnPageHorizontally;
 
         /// <summary>
         /// Set true to show grid lines.
         /// </summary>
-        public bool ShowGridLines = false;
+        internal bool ShowGridLines = false;
 
         /// <summary>
         /// Set true to show row and column headings.
         /// </summary>
-        public bool ShowHeadings = false;
+        internal bool ShowHeadings = false;
 
         /// <summary>
         /// Set to true for to only use black and white.
         /// </summary>
-        public bool BlackAndWhite = false;
+        internal bool BlackAndWhite = false;
 
         /// <summary>
         /// Set to true for to make a draft.
         /// </summary>
-        public bool Draft = false;
+        internal bool Draft = false;
 
         /// <summary>
         /// Set the range to repeat at the top of the page.
         /// </summary>
-        public string RowsToRepeatAtTop = null;
+        internal string RowsToRepeatAtTop = null;
 
         /// <summary>
         /// Set the range to repeat to the left of the page.
         /// </summary>
-        public string ColumnsToRepeatAtLeft = null;
+        internal string ColumnsToRepeatAtLeft = null;
 
         /// <summary>
         /// Specific range to print.
         /// </summary>
-        public string PrintArea = null;
+        internal string PrintArea = null;
 
         /// <summary>
         /// Set if comments and notes should be included.
         /// </summary>
-        public CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
+        internal CommentsAndNotes CommentsAndNotes = CommentsAndNotes.None;
 
         /// <summary>
         /// Sets how to display errors in cells.
         /// </summary>
-        public CellErrors CellErrors = CellErrors.Displayed;
+        internal CellErrors CellErrors = CellErrors.Displayed;
 
         /// <summary>
         /// Set the starting page number.
         /// </summary>
-        public int FirstPageNumber = 1;
+        internal int FirstPageNumber = 1;
 
         PdfPageSize _pageSize = PdfPageSize.A4;
         /// <summary>
         /// Set the size of pages.
         /// </summary>
-        public PdfPageSize PageSize
+        internal PdfPageSize PageSize
         {
             get
             {
@@ -163,7 +163,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Set the orientation of the pages.
         /// </summary>  
-        public Orientations Orientation
+        internal Orientations Orientation
         {
             get
             {
@@ -182,7 +182,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Set the page margins.
         /// </summary>
-        public PdfMargins Margins
+        internal PdfMargins Margins
         {
             get
             {
@@ -199,7 +199,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// <summary>
         /// Set the scaling. NOT IMPLEMENTED
         /// </summary>
-        public PdfScaling Scaling
+        internal PdfScaling Scaling
         {
             get
             {
@@ -241,7 +241,7 @@ namespace EPPlus.Export.Pdf.Settings
         /// on the font actually defining it; see <see cref="GsubFeature"/> for what each flag
         /// means and which fonts typically support it.
         /// </remarks>
-        public GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Calt | GsubFeature.Ccmp;
+        internal GsubFeature GsubFeatures { get; set; } = GsubFeature.Liga | GsubFeature.Clig | GsubFeature.Calt | GsubFeature.Ccmp;
 
         /// <summary>
         /// GPOS (glyph positioning) features to request when shaping text for this export, e.g.
@@ -253,18 +253,20 @@ namespace EPPlus.Export.Pdf.Settings
         /// on the font actually defining it; see <see cref="GposFeature"/> for what each flag
         /// means.
         /// </remarks>
-        public GposFeature GposFeatures { get; set; } = GposFeature.Kern | GposFeature.Mark;
+        internal GposFeature GposFeatures { get; set; } = GposFeature.Kern | GposFeature.Mark;
 
         internal PdfContentBounds ContentBounds = new PdfContentBounds(PdfMargins.Normal, PdfPageSize.A4);
         internal string defaultFontName = "";
 
         internal string AdditionalContent;
 
+        internal PdfCompressionLevel CompressionLevel = PdfCompressionLevel.Smallest;
+
         //DEBUG
         internal bool Debug = false;
         internal bool PrintAsText = false;
 
-        public PdfPageSettings(OpenTypeFontEngine fontEngine)
+        internal PdfRenderSettings(OpenTypeFontEngine fontEngine)
         {
             _fontEngine = fontEngine;
         }
@@ -278,18 +280,10 @@ namespace EPPlus.Export.Pdf.Settings
                 : new PdfPageSize(size.Height, size.Width); // swap (ctor is width, height)
         }
 
-        internal PdfPageSettings CloneForSheet()
+        internal PdfRenderSettings CloneForSheet()
         {
-            var c = new PdfPageSettings(_fontEngine);
-            c.FontDirectories = FontDirectories;
-            c.SearchSystemDirectories = SearchSystemDirectories;
-            c.EmbeddFonts = EmbeddFonts;
-            c.defaultFontName = defaultFontName;
-            c.GsubFeatures = GsubFeatures;
-            c.GposFeatures = GposFeatures;
-            c.Debug = Debug;
-            c.PrintAsText = PrintAsText;
-            c.AdditionalContent = AdditionalContent;
+            var c = (PdfRenderSettings)MemberwiseClone();
+            c.ContentBounds = new PdfContentBounds(_margins, _pageSize);
             return c;
         }
     }
@@ -297,7 +291,7 @@ namespace EPPlus.Export.Pdf.Settings
     /// <summary>
     /// Orientation of pages.
     /// </summary>
-    public enum Orientations
+    internal enum Orientations
     {
         /// <summary>
         /// Portrait orientation.
@@ -312,7 +306,7 @@ namespace EPPlus.Export.Pdf.Settings
     /// <summary>
     /// Order of pages.
     /// </summary>
-    public enum PageOrders
+    internal enum PageOrders
     {
         /// <summary>
         /// Order Down then over.
@@ -327,7 +321,7 @@ namespace EPPlus.Export.Pdf.Settings
     /// <summary>
     /// How comments will be displayed.
     /// </summary>
-    public enum CommentsAndNotes
+    internal enum CommentsAndNotes
     {
         /// <summary>
         /// Comments and Notes will be ignored.
@@ -346,7 +340,7 @@ namespace EPPlus.Export.Pdf.Settings
     /// <summary>
     /// How errors will be displayed.
     /// </summary>
-    public enum CellErrors
+    internal enum CellErrors
     {
         /// <summary>
         /// Errors will be displayed

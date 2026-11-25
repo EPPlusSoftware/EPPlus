@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
@@ -36,7 +35,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return $"<< /Fields [ {fields} ]\n   /NeedAppearances false >>";
         }
 
-        internal override string RenderDictionary() => Body();
-        internal override void RenderDictionary(BinaryWriter bw) => WriteAscii(bw, Body());
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

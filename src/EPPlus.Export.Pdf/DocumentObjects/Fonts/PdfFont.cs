@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
@@ -56,7 +55,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             fontDescriptorObjectNumber = fontDescObjectNumner;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Font\n" +
@@ -66,42 +65,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             {
                 sb.Append(" >>");
                 return sb.ToString();
-            }
-            else
-            {
-                sb.Append("\n");
-            }
-            if (firstChar > -1)
-            {
-                sb.AppendFormat($"   /FirstChar {firstChar.ToPdfStringF0()}\n");
-            }
-            if(lastChar > -1)
-            {
-                sb.AppendFormat($"   /LastChar {lastChar.ToPdfStringF0()}\n");
-            }
-            if (widthObjectNumber > -1)
-            {
-                sb.AppendFormat($"   /Widths {widthObjectNumber.ToPdfStringF0()} 0 R\n");
-            }
-            if (fontDescriptorObjectNumber > -1)
-            {
-                sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber.ToPdfStringF0()} 0 R\n");
-            }
-            sb.AppendFormat($"   /Encoding /{encoding} >>");
-            return sb.ToString();
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Font\n" +
-                            $"   /Subtype /{subType}\n" +
-                            $"   /BaseFont /{baseFont.Replace(" ", "")}");
-            if (encoding == PdfFontEncoding.None)
-            {
-                sb.Append(" >>");
-                WriteAscii(bw, sb.ToString());
-                return;
             }
             else
             {
@@ -124,8 +87,9 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
                 sb.AppendFormat($"   /FontDescriptor {fontDescriptorObjectNumber.ToPdfStringF0()} 0 R\n");
             }
             sb.AppendFormat($"   /Encoding /{encoding} >>");
-            WriteAscii(bw, sb.ToString());
-            return;
+            return sb.ToString();
         }
+
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

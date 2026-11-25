@@ -152,7 +152,7 @@ namespace EPPlus.Export.Pdf.Tests
                 var engine = CreateEngine();
                 InjectDigitFiveExpandsToHi(engine);
 
-                var settings = new PdfPageSettings(engine);
+                var settings = new PdfRenderSettings(engine);
 
                 // Written to disk for visual inspection - this is the whole point of the test.
                 SaveAsPdf(sheet, "MultipleSubstitutionRepro", settings);

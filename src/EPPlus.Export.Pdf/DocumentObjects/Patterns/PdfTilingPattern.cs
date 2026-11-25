@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -33,7 +32,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             this.YStep = YStep;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var bboxStr = string.Join(" ", BBox.Select(x => x.ToPdfString()).ToArray());
             var sb = new StringBuilder();
@@ -65,39 +64,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Patterns
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var bboxStr = string.Join(" ", BBox.Select(x => x.ToPdfString()).ToArray());
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Pattern\n" +
-                            $"   /PatternType 1\n" +
-                            $"   /PaintType 1\n" +
-                            $"   /TilingType 1\n" +
-                            $"   /BBox [ {bboxStr} ]\n" +
-                            $"   /XStep {XStep.ToPdfString()}\n" +
-                            $"   /YStep {YStep.ToPdfString()}\n" +
-                            $"   /Resources << >>");
-            if (Matrix != null)
-            {
-                var matrixStr = string.Join(" ", Matrix.Select(w => w.ToPdfStringF4()).ToArray());
-                sb.AppendFormat($"\n   /Matrix [ {matrixStr} ]");
-            }
-            if (fill != null)
-            {
-                var streamContent = fill.CreatePatternResource();
-                var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(streamContent));
-                sb.AppendFormat($"\n   /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()}");
-                sb.Append(" >>");
-                WriteAscii(bw, sb.ToString());
-                WriteAscii(bw, "\nstream\n");
-                bw.Write(body);
-                WriteAscii(bw, "\nendstream");
-            }
-            else
-            {
-                sb.Append(" >>");
-                WriteAscii(bw, sb.ToString());
-            }
-        }
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

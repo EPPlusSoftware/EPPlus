@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -25,7 +24,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
 
         public PdfExponentialInterpolationFunction(int objectNumber, int version = 0) : base(objectNumber, version) { }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
             var c0Str = string.Join(" ", C0.Select(w => w.ToPdfString()).ToArray());
@@ -39,18 +38,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Functions
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
-            var c0Str = string.Join(" ", C0.Select(w => w.ToPdfString()).ToArray());
-            var c1Str = string.Join(" ", C1.Select(w => w.ToPdfString()).ToArray());
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /FunctionType 2\n" +
-                            $"   /Domain [ {domainStr} ]\n" +
-                            $"   /C0 [ {c0Str} ]\n" +
-                            $"   /C1 [ {c1Str} ]\n" +
-                            $"   /N {N.ToPdfString()} >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

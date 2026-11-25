@@ -3734,14 +3734,19 @@ namespace OfficeOpenXml
         // Replaces all SaveAsPdf / SaveAsPdfAsync methods in OfficeOpenXml.ExcelWorksheet.
 
         /// <summary>
+        /// Worksheet specific overrides for PDF export.
+        /// </summary>
+        public PdfExportSettingsWorksheetOverrides PdfExportOverrides { get; } = new PdfExportSettingsWorksheetOverrides();
+
+        /// <summary>
         /// Export worksheet to PDF.
         /// </summary>
         /// <param name="fileName">Name of file. If the export fails, the file is deleted.</param>
-        public void SaveAsPdf(string fileName)
+        /// <param name="settings">Additional EPPlus specific PDF Export settings.</param>
+        public void SaveAsPdf(string fileName, PdfExportSettings settings = null)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfWriter = new EPPlusToPdfWriter(settings, this);
-            pdfWriter.Save(fileName);
+            var rs = GetPdfSettings.BuildBase(this.Workbook, PrinterSettings, settings);
+            new EPPlusToPdfWriter(rs, this).Save(fileName);
         }
 
         /// <summary>
@@ -3752,23 +3757,34 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
         /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
-        public async Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+        public Task SaveAsPdfAsync(string fileName, CancellationToken cancellationToken = default)
+            => SaveAsPdfAsync(fileName, (PdfExportSettings)null, cancellationToken);
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously.
+        /// </summary>
+        /// <param name="fileName">Name of file. If the export fails or is cancelled, the file is deleted.</param>
+        /// <param name="settings">Additional EPPlus specific PDF Export settings.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(string fileName, PdfExportSettings settings, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfWriter = new EPPlusToPdfWriter(settings, this);
-            await pdfWriter.SaveAsync(fileName, cancellationToken).ConfigureAwait(false);
+            var rs = GetPdfSettings.BuildBase(this.Workbook, PrinterSettings, settings);
+            await new EPPlusToPdfWriter(rs, this).SaveAsync(fileName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Export worksheet to PDF, writing to a stream.
         /// </summary>
         /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
-        public void SaveAsPdf(Stream stream)
+        /// <param name="settings">Additional EPPlus specific PDF Export settings.</param>
+        public void SaveAsPdf(Stream stream, PdfExportSettings settings = null)
         {
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfWriter = new EPPlusToPdfWriter(settings, this);
-            pdfWriter.Save(stream);
+            var rs = GetPdfSettings.BuildBase(this.Workbook, PrinterSettings, settings);
+            new EPPlusToPdfWriter(rs, this).Save(stream);
         }
 
         /// <summary>
@@ -3779,12 +3795,23 @@ namespace OfficeOpenXml
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
         /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
-        public async Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+        public Task SaveAsPdfAsync(Stream stream, CancellationToken cancellationToken = default)
+            => SaveAsPdfAsync(stream, (PdfExportSettings)null, cancellationToken);
+
+        /// <summary>
+        /// Export worksheet to PDF asynchronously, writing to a stream.
+        /// </summary>
+        /// <param name="stream">Stream to write the PDF to. The stream does not need to be seekable. The stream is not closed; the caller owns it.</param>
+        /// <param name="settings">Additional EPPlus specific PDF Export settings.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <remarks>The PDF layout is built synchronously on the calling thread; only writing is asynchronous.
+        /// In UI applications, wrap the call in <c>Task.Run</c> to keep the UI responsive.</remarks>
+        public async Task SaveAsPdfAsync(Stream stream, PdfExportSettings settings, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var settings = GetPdfSettings.GetPdfSettingsFromPrinterSettings(this.Workbook, PrinterSettings);
-            var pdfWriter = new EPPlusToPdfWriter(settings, this);
-            await pdfWriter.SaveAsync(stream, cancellationToken).ConfigureAwait(false);
+            var rs = GetPdfSettings.BuildBase(this.Workbook, PrinterSettings, settings);
+            await new EPPlusToPdfWriter(rs, this).SaveAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }

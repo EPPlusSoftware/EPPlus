@@ -96,7 +96,7 @@ namespace EPPlusTest.PDF
                 sheet.Row(1).Height = 70;
 
                 var engine = package.Workbook.RenderContext.FontEngine;
-                var settings = new PdfPageSettings(engine);
+                var settings = new PdfRenderSettings(engine);
                 var range = sheet.Cells["A1"];
 
                 double measuredWidth = GetMeasuredWidth(settings, range);
@@ -123,14 +123,14 @@ namespace EPPlusTest.PDF
             }
         }
 
-        private static double GetMeasuredWidth(PdfPageSettings settings, ExcelRangeBase range)
+        private static double GetMeasuredWidth(PdfRenderSettings settings, ExcelRangeBase range)
         {
             var catalog = new EPPlusToPdfWriter();
             var cells = catalog.GetCellCollectionFromRange(settings, range);
             return cells[range.Start.Row, range.Start.Column].TotalTextLength;
         }
 
-        private static byte[] RenderToBytes(PdfPageSettings settings, ExcelWorksheet sheet)
+        private static byte[] RenderToBytes(PdfRenderSettings settings, ExcelWorksheet sheet)
         {
             using (var stream = new MemoryStream())
             {

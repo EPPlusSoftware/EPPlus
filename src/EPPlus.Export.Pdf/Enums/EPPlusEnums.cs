@@ -9,7 +9,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// Horizontal text alignment
     /// </summary>
-    public enum ExcelHorizontalAlignment
+    internal enum ExcelHorizontalAlignment
     {
         /// <summary>
         /// General aligned
@@ -47,7 +47,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// Vertical text alignment
     /// </summary>
-    public enum ExcelVerticalAlignment
+    internal enum ExcelVerticalAlignment
     {
         /// <summary>
         /// Top aligned
@@ -73,7 +73,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// The reading order
     /// </summary>
-    public enum ExcelReadingOrder
+    internal enum ExcelReadingOrder
     {
         /// <summary>
         /// Reading order is determined by the first non-whitespace character
@@ -91,7 +91,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// Fill pattern
     /// </summary>
-    public enum ExcelFillStyle
+    internal enum ExcelFillStyle
     {
         /// <summary>
         /// No fill
@@ -190,7 +190,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// BulletType of gradient fill
     /// </summary>
-    public enum ExcelFillGradientType
+    internal enum ExcelFillGradientType
     {
         /// <summary>
         /// No gradient fill. 
@@ -208,7 +208,7 @@ namespace EPPlus.Export.Pdf.Enums
     /// <summary>
     /// Border line style
     /// </summary>
-    public enum ExcelBorderStyle
+    internal enum ExcelBorderStyle
     {
         /// <summary>
         /// No border style

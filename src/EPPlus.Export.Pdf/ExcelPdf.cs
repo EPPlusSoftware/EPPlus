@@ -139,7 +139,7 @@ namespace EPPlus.Export.Pdf
         {
             foreach (var image in _dictionaries.Images)
             {
-                var img = image.Value.GetImageObject(_document.Count + 1, _documentSettings.BlackAndWhite);
+                var img = image.Value.GetImageObject(_document.Count + 1, _documentSettings.BlackAndWhite, _documentSettings.CompressionLevel);
                 if (img.HasSoftMask)
                 {
                     var mask = PdfImageXObject.CreateSoftMask(_document.Count + 1, img.SoftMaskData, img.Width, img.Height);
@@ -153,7 +153,7 @@ namespace EPPlus.Export.Pdf
         }
 
         //Create Page
-        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfPageSettings settings)
+        private PdfPage AddPage(int pagesObjectNumber, List<int> contentObjectNumbers, PdfRenderSettings settings)
         {
             var page = new PdfPage(_document.Count + 1, pagesObjectNumber, contentObjectNumbers, settings.PageSize, _dictionaries);
             _document.Add(page);
@@ -357,7 +357,7 @@ namespace EPPlus.Export.Pdf
             var pageOrder = new Dictionary<int, int>();
             for (int i = 0; i < destIndex.Count; i++)
                 pageOrder[destIndex[i].PageObj] = i;
-            var sheets = new List<(string Name, int PageObj, double TopY)>();
+            var sheets = new List<(string Name, int PageObj, double TopY, string BookmarkPrefix)>();
             var seenSheets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var commentsBySheet = new Dictionary<string, (int PageObj, double TopY)>(StringComparer.OrdinalIgnoreCase);
             foreach (var (L, obj) in destIndex)
@@ -365,7 +365,7 @@ namespace EPPlus.Export.Pdf
                 if (!L.isCommentsPage && L.SheetName != null)
                 {
                     if (seenSheets.Add(L.SheetName))
-                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu));
+                        sheets.Add((L.SheetName, obj, L.Settings.PageSize.HeightPu, L.Settings.BookmarkNamePrefix));
                 }
                 else if (L.isCommentsPage && L.CommentsSourceSheet != null)
                 {
@@ -392,7 +392,7 @@ namespace EPPlus.Export.Pdf
                 sheetItems.Add(sheetItem);
                 totalVisible++;
                 var childItems = new List<PdfOutlineItem>();
-                foreach (var k in BuildOutlineChildren(sh.Name, _documentSettings.BookmarkNamePrefix, catLayout, commentsBySheet, destIndex, pageOrder))
+                foreach (var k in BuildOutlineChildren(sh.Name, sh.BookmarkPrefix, catLayout, commentsBySheet, destIndex, pageOrder))
                 {
                     var childItem = new PdfOutlineItem(_document.Count + 1)
                     {
@@ -530,7 +530,15 @@ namespace EPPlus.Export.Pdf
             ValidateStream(stream);
             PdfCatalog catalog;
             PdfInfoObject info;
+
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             BuildDocument(documentSettings, dictionaries, layout, out catalog, out info);
+            
+            
+            System.Diagnostics.Debug.WriteLine($"BuildDocument: {sw.ElapsedMilliseconds} ms");
+            sw.Restart();
+
 
             // Each object is serialized to a reusable buffer and then copied to the target stream.
             // Cross-reference offsets are counted from the bytes written, so the target stream
@@ -540,20 +548,24 @@ namespace EPPlus.Export.Pdf
             using (var buffer = new MemoryStream())
             using (var bw = new BinaryWriter(buffer, Encoding.ASCII))
             {
-                WriteHeader(bw);
+                var writer = new PdfWriter(bw, _debugText != null, _documentSettings.CompressionLevel);
+                WriteHeader(writer);
                 offset += FlushBuffer(bw, buffer, stream);
 
                 foreach (var pdfObj in _document)
                 {
                     crossRefTable.AddPosition(offset);
-                    WriteObject(bw, pdfObj);
+                    WriteObject(writer, pdfObj);
                     offset += FlushBuffer(bw, buffer, stream);
                 }
 
-                WriteCrossRefAndTrailer(bw, crossRefTable, offset, catalog, info);
+                WriteCrossRefAndTrailer(writer, crossRefTable, offset, catalog, info);
                 FlushBuffer(bw, buffer, stream);
+                _debugText?.Append(writer.DebugText);
             }
             stream.Flush();
+
+            System.Diagnostics.Debug.WriteLine($"Write: {sw.ElapsedMilliseconds} ms");
         }
 
         // Phase 1: builds all PDF objects in memory. Pure CPU work, shared by the sync and async paths.
@@ -602,27 +614,20 @@ namespace EPPlus.Export.Pdf
             if (!stream.CanWrite) throw new ArgumentException("The stream must be writable.", nameof(stream));
         }
 
-        private void WriteHeader(BinaryWriter bw)
+        private void WriteHeader(PdfWriter w)
         {
-            bw.Write(Encoding.ASCII.GetBytes(Header));
-            if (_debugText != null) _debugText.Append(Header);
+            w.Text(Header);
         }
 
-        private void WriteObject(BinaryWriter bw, PdfObject pdfObj)
+        private void WriteObject(PdfWriter w, PdfObject pdfObj)
         {
-            pdfObj.ToPdfBytes(bw);
-            if (_debugText != null) _debugText.Append(pdfObj.ToPdfString());
+            pdfObj.Write(w);
         }
 
-        private void WriteCrossRefAndTrailer(BinaryWriter bw, PdfCrossRefTable crossRefTable, long offset, PdfCatalog catalog, PdfInfoObject info)
+        private void WriteCrossRefAndTrailer(PdfWriter w, PdfCrossRefTable crossRefTable, long offset, PdfCatalog catalog, PdfInfoObject info)
         {
-            crossRefTable.Write(bw, offset, _document.Count);
-            PdfTrailer.Write(bw, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
-            if (_debugText != null)
-            {
-                _debugText.Append(crossRefTable.WriteString(_document.Count));
-                _debugText.Append(PdfTrailer.WriteString(_document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition));
-            }
+            crossRefTable.Write(w, offset, _document.Count);
+            PdfTrailer.Write(w, _document.Count, catalog.objectNumber, info.objectNumber, crossRefTable.StartPosition);
         }
 
         // Copies the buffered bytes to the target, resets the buffer and returns the number of bytes written.
