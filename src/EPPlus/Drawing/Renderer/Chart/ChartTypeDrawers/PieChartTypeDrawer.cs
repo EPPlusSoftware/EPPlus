@@ -13,6 +13,7 @@ using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Renderer.Chart.ChartTypeDrawers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils.Drawing;
 using OfficeOpenXml.Utils.TypeConversion;
 using System;
@@ -116,7 +117,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
 
             for (int i = 0; i < valPercents.Count; i++)
             {
-                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees);
+                PieSliceRenderItem renderSlice = new PieSliceRenderItem(ChartRenderer, _groupItem, pieTransform.TransformSlices[i], pieTransform.Slices.Percentages[i], pieTransform, _startDegrees, prevDegrees, valPercents.Count);
                 prevDegrees = renderSlice.Degrees + prevDegrees;
                 Slices.Add(renderSlice);
             }
@@ -202,8 +203,11 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart.ChartTypeDrawers
                 var dValue = ConvertUtil.GetValueDouble(origValue, false, true);
                 if (double.IsNaN(dValue))
                 {
-                    //Ignore values that are NAN. Possibly we should throw here but Excel simply seems to skip it.
-                    continue;
+                    //Ignore values that are NAN. Possibly we should throw here but Excel simply seems to add as 0 size.
+                    //Excel interestingly for numRef appears to skip blanks entirely but adds N/A errors yet treats fills as if all values are valid.
+                    //Alternatively we could do "continue" here instead and use the catValues for the fills
+                    //For now appears easier to add 0
+                    dValue = 0;
                 }
                 _serieValuesAsDoubles.Add(dValue);
                 _totalOfSerieValues += dValue;

@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 }
                 else if (ls.Fill.IsEmpty)
                 {
-                    style.SetDrawingPropertiesFillBasic(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(sc.Theme, null, ls.Index));
+                    style.SetDrawingPropertiesFillBasic(sc.Theme, ls.Fill, sc.Chart.StyleManager.Style?.DataPointMarker.FillReference.Color, UserSpaceSettings.ObjectBoundingBox, ChartTypeDrawer.GetVaryColor(sc.Theme, null, ls.Index, ls.NumberOfItems, sc.Chart.Series.Count == 1));
                 }
                 else
                 {
