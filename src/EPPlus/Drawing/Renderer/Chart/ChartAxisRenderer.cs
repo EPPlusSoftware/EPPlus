@@ -865,7 +865,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         //There is only one axisValue as we are somehow both the first and last value
-                        majorTickMarkWidth = 0;
+                        majorTickMarkWidth = maxWidth;
                     }
                 }
 
@@ -919,7 +919,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-                            x = ticMarkX - width / 2;
+                            x = ticMarkX/* - width / 2*/;
                             y = ticMarkY;
                         }
                     }
