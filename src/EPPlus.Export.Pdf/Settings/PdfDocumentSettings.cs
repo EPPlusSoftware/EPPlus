@@ -53,10 +53,7 @@ namespace EPPlus.Export.Pdf.Settings
                 BlackAndWhite = s.BlackAndWhite,
                 BookmarkNamePrefix = s.BookmarkNamePrefix,
                 SuppressFormFieldDetection = s.SuppressFormFieldDetection,
-<<<<<<< HEAD
                 CompressionLevel = s.CompressionLevel,
-=======
->>>>>>> develop9
             };
         }
 
