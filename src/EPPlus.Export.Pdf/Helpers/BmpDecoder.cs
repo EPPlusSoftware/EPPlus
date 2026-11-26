@@ -34,6 +34,7 @@ namespace EPPlus.Export.Pdf.Helpers
 
             width = h.Width;
             height = h.Height;
+            if (!ImageLimits.IsAllowed(width, height, 3)) return false;
             var outRgb = new byte[width * height * 3];
             if (h.Compression == BI_RLE8 || h.Compression == BI_RLE4)
             {

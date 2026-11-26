@@ -52,7 +52,7 @@ namespace EPPlus.Export.Pdf.Helpers
             }
         }
 
-        internal static byte[] Decompress(byte[] data)
+        internal static byte[] Decompress(byte[] data, long maxBytes = long.MaxValue)
         {
             using (var input = new MemoryStream(data))
             using (var z = new ZlibStream(input, CompressionMode.Decompress))
@@ -60,7 +60,16 @@ namespace EPPlus.Export.Pdf.Helpers
             {
                 byte[] buffer = new byte[8192];
                 int n;
-                while ((n = z.Read(buffer, 0, buffer.Length)) > 0) output.Write(buffer, 0, n);
+                long total = 0;
+                while ((n = z.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    total += n;
+                    if (total > maxBytes)
+                    {
+                        throw new InvalidDataException("Compressed image stream expands beyond the allowed size.");
+                    }
+                    output.Write(buffer, 0, n);
+                }
                 return output.ToArray();
             }
         }

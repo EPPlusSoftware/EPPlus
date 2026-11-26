@@ -11,6 +11,7 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using System.IO;
+using EPPlus.Export.Pdf.Helpers;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -50,7 +51,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             pos += 10;
             if (fw <= 0 || fh <= 0 || fw > MaxDimension || fh > MaxDimension)
                 return false;
-
+            if (!ImageLimits.IsAllowed(screenW, screenH, 3) || !ImageLimits.IsAllowed(fw, fh, 1))
+                return false;
             bool lctFlag = (packed & 0x80) != 0;
             bool interlace = (packed & 0x40) != 0;
             byte[] palette = gct;
