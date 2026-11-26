@@ -6,6 +6,7 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Utils;
 using System.Globalization;
@@ -25,17 +26,33 @@ namespace EPPlus.DrawingRenderer.Svg
         internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
 
         /// <summary>
-        /// Appends the font-style, font-weight and text-decoration declarations of the run. When the
-        /// underline has a color of its own, text-decoration goes on a wrapping tspan instead (see
-        /// <see cref="UnderlineColorString"/>), whose fill is the color the line is drawn with.
+        /// Appends the font-style, font-weight and text-decoration declarations of the run. Weight and
+        /// style follow the subfamily the text was measured with, which is also the subfamily of the
+        /// embedded face, so output cannot diverge from measurement; the run's own flags are used only
+        /// when it has no measurement font. When the underline has a color of its own, text-decoration
+        /// goes on a wrapping tspan instead (see <see cref="UnderlineColorString"/>), whose fill is the
+        /// color the line is drawn with.
         /// </summary>
         void AppendFontStyleDeclarations(TextRunRenderItem textRun, StringBuilder style)
         {
-            if (textRun._isItalic)
+            bool bold, italic;
+            if (textRun._measurementFont != null)
+            {
+                var subFamily = textRun._measurementFont.SubFamily;
+                bold = subFamily == FontSubFamily.Bold || subFamily == FontSubFamily.BoldItalic;
+                italic = subFamily == FontSubFamily.Italic || subFamily == FontSubFamily.BoldItalic;
+            }
+            else
+            {
+                bold = textRun._isBold;
+                italic = textRun._isItalic;
+            }
+
+            if (italic)
             {
                 style.Append("font-style:italic;");
             }
-            if (textRun._isBold)
+            if (bold)
             {
                 style.Append("font-weight:bold;");
             }
