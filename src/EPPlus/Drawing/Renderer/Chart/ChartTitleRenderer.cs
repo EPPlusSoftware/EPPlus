@@ -214,9 +214,9 @@ namespace EPPlusImageRenderer.Svg
         {
             TextBox = new DrawingTextBox(ChartRenderer.RenderContext, _svgChart.Drawing, _svgChart.ChartArea.Rectangle, defaultFont, maxWidth, maxHeight);
             TextBox.TextBody.Style.FillColor = "#" + ChartRenderer.InbuiltStyleFontColor.Value.ToColorString();
-            if (_title.Rotation != 0)
+            if (_title.TextBody.Rotation.HasValue && _title.TextBody.Rotation != 0)
             {
-                TextBox.Rotation = _title.Rotation;
+                TextBox.Rotation = _title.TextBody.Rotation.Value;
             }
             if (_title.TextBody.Paragraphs.Count > 0)
             {

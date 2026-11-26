@@ -57,6 +57,7 @@ namespace EPPlusImageRenderer.Svg
                 {
                     tb.Parent = axisTxtBoxGroup;
                 }
+                axisTxtBoxGroup.ChildObjects.AddRange(_axis.MultiCategoryLineRenderItems);
                 renderItems.Add(axisTxtBoxGroup);
             }
 

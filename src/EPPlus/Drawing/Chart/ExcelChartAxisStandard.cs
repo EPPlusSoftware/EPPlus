@@ -79,14 +79,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 var v = GetXmlNodeString(_majorTickMark);
                 if (string.IsNullOrEmpty(v))
                 {
-                    return eAxisTickMark.Cross;
+                    //return eAxisTickMark.Cross;
                     //On Epplus generated charts e.g. the test "HtmlExportWithColumnGradient"
                     //Excel displays cross even without v or MajorTickmarkParent
-                    //if (ExistsNode(_majorTickMarkParent))
-                    //{
-                    //    return eAxisTickMark.Cross;
-                    //}
-                    //return eAxisTickMark.Out;
+                    if (ExistsNode(_majorTickMarkParent))
+                    {
+                        return eAxisTickMark.Cross;
+                    }
+                    return eAxisTickMark.Out;
                 }
                 else
                 {
@@ -1096,6 +1096,7 @@ namespace OfficeOpenXml.Drawing.Chart
             isMultiLevel = false;
             foreach (var ct in _chart.PlotArea.ChartTypes)
             {
+                var showHidden = ct.ShowHiddenData;
                 foreach (var serie in ct.Series)
                 {
                     var l = new List<object>();
@@ -1110,7 +1111,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             if (ct.XAxis.Id == Id || ct.YAxis.Id == Id)
                             {
-                                serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) }, out isMultiLevel);
+                                serie.AddFromSerie(l, true, true, new string[] { serie.HeaderAddress?.Address, serie.GetHeaderText(ix) }, showHidden, out isMultiLevel);
                             }
                             else
                             {
@@ -1124,11 +1125,11 @@ namespace OfficeOpenXml.Drawing.Chart
                         if (ct.YAxis.Id == Id)
                         {
                             //AddFromSerie(l, serie.Series, serie.NumberLiteralsY, serie.StringLiteralsY, false, null, pl);
-                            serie.AddFromSerie(l, false, false, null, out isMultiLevel);
+                            serie.AddFromSerie(l, false, false, null, showHidden, out isMultiLevel);
                         }
                         else if (ct.XAxis.Id == Id)
                         {
-                            serie.AddFromSerie(l, true, false, null, out isMultiLevel);
+                            serie.AddFromSerie(l, true, false, null, showHidden, out isMultiLevel);
                         }
                         else
                         {
