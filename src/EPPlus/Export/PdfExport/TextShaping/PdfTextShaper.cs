@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         private static ConcurrentDictionary<IFontProvider, TextShaper> shaperCache = new ConcurrentDictionary<IFontProvider, TextShaper>();
         private static ConcurrentDictionary<IFontProvider, TextLayoutEngine> layoutEngineCache = new ConcurrentDictionary<IFontProvider, TextLayoutEngine>();
 
-        public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
+        public static void ShapeText(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfCell cell)
         {
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
             cell.TotalTextLength = totalTextLength;
         }
 
-        public static void ShapeText(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell)
+        public static void ShapeText(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfCellBase cell)
         {
             var totalTextLength = 0d;
             var maxLineHeight = 0d;
@@ -193,7 +193,7 @@ namespace OfficeOpenXml.Export.PdfExport.TextShaping
         /// outright, which is unambiguous regardless of what an empty tag list would otherwise be
         /// interpreted as further down.
         /// </remarks>
-        internal static ShapingOptions BuildShapingOptions(PdfPageSettings pageSettings)
+        internal static ShapingOptions BuildShapingOptions(PdfRenderSettings pageSettings)
         {
             var options = ShapingOptions.Default;
 

@@ -60,19 +60,21 @@ namespace EPPlus.Export.Pdf
             using (var buffer = new MemoryStream())
             using (var bw = new BinaryWriter(buffer, Encoding.ASCII))
             {
-                WriteHeader(bw);
+                var writer = new PdfWriter(bw, _debugText != null, documentSettings.CompressionLevel);
+                WriteHeader(writer);
                 offset += await FlushBufferAsync(bw, buffer, stream, cancellationToken).ConfigureAwait(false);
 
                 foreach (var pdfObj in _document)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     crossRefTable.AddPosition(offset);
-                    WriteObject(bw, pdfObj);
+                    WriteObject(writer, pdfObj);
                     offset += await FlushBufferAsync(bw, buffer, stream, cancellationToken).ConfigureAwait(false);
                 }
 
-                WriteCrossRefAndTrailer(bw, crossRefTable, offset, catalog, info);
+                WriteCrossRefAndTrailer(writer, crossRefTable, offset, catalog, info);
                 await FlushBufferAsync(bw, buffer, stream, cancellationToken).ConfigureAwait(false);
+                _debugText?.Append(writer.DebugText);
             }
             await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }

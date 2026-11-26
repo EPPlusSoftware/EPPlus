@@ -10,25 +10,12 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
-using EPPlus.Export.Pdf.DocumentObjects;
-
-namespace EPPlus.Export.Pdf.Resources
+namespace EPPlus.Export.Pdf.Settings
 {
-    internal class PdfImageResource : PdfResource
+    internal enum PdfCompressionLevel
     {
-        internal int objectNumber;
-        internal readonly byte[] ImageBytes;
-
-        public PdfImageResource(int labelNumber, byte[] imageBytes)
-            : base("Im", labelNumber)
-        {
-            ImageBytes = imageBytes;
-        }
-
-        public PdfImageXObject GetImageObject(int objectNumber, bool blackAndWhite, int version = 0)
-        {
-            this.objectNumber = objectNumber;
-            return new PdfImageXObject(objectNumber, ImageBytes, blackAndWhite, version);
-        }
+        Fastest,
+        Balanced,
+        Smallest
     }
 }

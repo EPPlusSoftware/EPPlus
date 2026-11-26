@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static Pages GetNumberOfPages(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
+        internal static Pages GetNumberOfPages(PdfRenderSettings pageSettings, PdfWorksheet pdfSheet, ref PdfRange range)
         {
             var xPages = (int)Math.Max(1, Math.Ceiling(range.TotalWidth / pageSettings.EffectiveContentWidth));
             var yPages = (int)Math.Max(1, Math.Ceiling(range.TotalHeight / pageSettings.EffectiveContentHeight));
@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        private static List<PageSegment> GetColumnSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth, double titleWidth, int printTitleColTo)
+        private static List<PageSegment> GetColumnSegments(PdfRenderSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedWidth, double titleWidth, int printTitleColTo)
         {
             var segments = new List<PageSegment>();
             int segStartIdx = 0;
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return segments;
         }
 
-        private static List<PageSegment> GetRowSegments(PdfPageSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedHeight, double titleHeight, int printTitleRowTo)
+        private static List<PageSegment> GetRowSegments(PdfRenderSettings pageSettings, PdfRange range, ExcelWorksheet worksheet, double addedHeight, double titleHeight, int printTitleRowTo)
         {
             var segments = new List<PageSegment>();
             int segStartIdx = 0;
@@ -188,7 +188,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return segments;
         }
 
-        internal static Pages AssignRangeToPages(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
+        internal static Pages AssignRangeToPages(PdfRenderSettings pageSettings, PdfRange range, Pages pdfPages)
         {
             var pages = pdfPages;
             var worksheet = range.Range.Worksheet;
@@ -242,7 +242,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        internal static void ResolveFitScale(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
+        internal static void ResolveFitScale(PdfRenderSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range)
         {
             var scaling = pageSettings.Scaling;
             if (scaling == null || scaling.ScalingMode != ScalingMode.FitToPages) return;

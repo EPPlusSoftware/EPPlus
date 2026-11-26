@@ -12,8 +12,6 @@
  *************************************************************************************************/
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Fonts.OpenType;
-using System.IO;
-using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
 {
@@ -26,20 +24,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             FontData = fontData;
         }
 
-        internal override string RenderDictionary()
+        protected override void WriteBody(PdfWriter w)
         {
-            var fontBytes = FontData.Serialize();
-            var fontData = Encoding.ASCII.GetString(fontBytes);
-            return $"<< /Length {fontBytes.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\n" + $"stream\n|BINARY DATA|\nendstream";
-        }
-
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var fontBytes = FontData.Serialize();
-            var body = PdfFlate.Compress(fontBytes);
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {fontBytes.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
+            var raw = FontData.Serialize();
+            var body = PdfFlate.Compress(raw, w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} /Length1 {raw.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
     }
 }

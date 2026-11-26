@@ -13,7 +13,6 @@
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Graphics;
 using System;
-using System.IO;
 using System.Text;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
@@ -64,7 +63,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             FontFile2ObjectNumber = fontFile2ObjectNumber;
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
@@ -88,24 +87,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
-                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
-                            $"    /Flags {flags.ToPdfStringF0()}\n" +
-                            $"    /FontBBox [{fontBBox.X.ToPdfStringF0()} {fontBBox.Y.ToPdfStringF0()} {fontBBox.Width.ToPdfStringF0()} {fontBBox.Height.ToPdfStringF0()}]\n" +
-                            $"    /Ascent {ascent.ToPdfStringF0()}\n" +
-                            $"    /Descent {descent.ToPdfStringF0()}\n" +
-                            $"    /CapHeight {capheight.ToPdfStringF0()}\n" +
-                            $"    /ItalicAngle {((int)italicAngle).ToPdfStringF0()}\n" +
-                            $"    /StemV {((int)stemV).ToPdfStringF0()}");
-            if (FontFile2ObjectNumber > 0)
-            {
-                sb.AppendFormat($"\n    /FontFile2 {FontFile2ObjectNumber.ToPdfStringF0()} 0 R");
-            }
-            sb.AppendFormat(" >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

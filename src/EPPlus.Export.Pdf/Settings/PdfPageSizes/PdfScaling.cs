@@ -12,7 +12,7 @@
  *************************************************************************************************/
 namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
 {
-    public enum ScalingMode
+    internal enum ScalingMode
     {
         /// <summary>
         /// Adjust size based on the normal size
@@ -24,7 +24,7 @@ namespace EPPlus.Export.Pdf.Settings.PdfPageSizes
         FitToPages
     }
 
-    public class PdfScaling
+    internal class PdfScaling
     {
         public ScalingMode ScalingMode { get; set; }
 

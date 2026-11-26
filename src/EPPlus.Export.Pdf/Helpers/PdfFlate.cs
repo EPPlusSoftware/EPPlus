@@ -11,17 +11,28 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Packaging.Ionic.Zlib;
+using EPPlus.Export.Pdf.Settings;
 using System.IO;
 
 namespace EPPlus.Export.Pdf.Helpers
 {
     internal static class PdfFlate
     {
-        internal static byte[] Compress(byte[] data)
+        private static CompressionLevel GetCompressionLevel(PdfCompressionLevel level)
+        {
+            switch (level)
+            {
+                case PdfCompressionLevel.Fastest: return CompressionLevel.BestSpeed;
+                case PdfCompressionLevel.Balanced: return CompressionLevel.Default;
+                default: return CompressionLevel.BestCompression;
+            }
+        }
+
+        internal static byte[] Compress(byte[] data, PdfCompressionLevel level = PdfCompressionLevel.Smallest)
         {
             using (var ms = new MemoryStream())
             {
-                using (var zs = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression))
+                using (var zs = new ZlibStream(ms, CompressionMode.Compress, GetCompressionLevel(level)))
                 {
                     zs.Write(data, 0, data.Length);
                 }
@@ -29,11 +40,11 @@ namespace EPPlus.Export.Pdf.Helpers
             }
         }
 
-        internal static byte[] CompressLeaveOpen(byte[] data)
+        internal static byte[] CompressLeaveOpen(byte[] data, PdfCompressionLevel level = PdfCompressionLevel.Smallest)
         {
             using (var output = new MemoryStream())
             {
-                using (var z = new ZlibStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, true))
+                using (var z = new ZlibStream(output, CompressionMode.Compress, GetCompressionLevel(level), true))
                 {
                     z.Write(data, 0, data.Length);
                 }

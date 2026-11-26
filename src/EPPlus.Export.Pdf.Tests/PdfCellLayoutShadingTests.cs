@@ -11,7 +11,7 @@ namespace EPPlus.Export.Pdf.Tests
     {
         private const double Tol = 1e-9;
 
-        private static PdfPageSettings NewSettings() => new PdfPageSettings(new OpenTypeFontEngine());
+        private static PdfRenderSettings NewSettings() => new PdfRenderSettings(new OpenTypeFontEngine());
 
         private static PdfCellLayout LinearCell(double degree)
         {

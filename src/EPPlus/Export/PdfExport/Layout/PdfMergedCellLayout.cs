@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 {
     internal static class PdfMergedCellLayout
     {
-        internal static Pages PrecomputeMergedCells(PdfPageSettings pageSettings, PdfRange range, Pages pdfPages)
+        internal static Pages PrecomputeMergedCells(PdfRenderSettings pageSettings, PdfRange range, Pages pdfPages)
         {
             for (int i = 0; i < pdfPages.Page.Length; i++)
             {
@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        private static Page PrecomputePageMergedCells(PdfPageSettings pageSettings, PdfRange range, Page page)
+        private static Page PrecomputePageMergedCells(PdfRenderSettings pageSettings, PdfRange range, Page page)
         {
             page.MergedCells = new Dictionary<string, MergedCellDrawInfo>();
             var colX = PdfLayout.BuildColumnXPositions(pageSettings, page);

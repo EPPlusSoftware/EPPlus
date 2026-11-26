@@ -33,12 +33,12 @@ namespace EPPlus.Export.Pdf.Tests
     {
         public TestContext? TestContext { get; set; }
 
-        private static PdfPageSettings CreateSettings()
+        private static PdfRenderSettings CreateSettings()
         {
             // BuildShapingOptions never touches pageSettings.FontEngine, but the engine is kept
             // alive (not disposed) regardless, so this helper stays valid if that ever changes.
             var engine = new OpenTypeFontEngine();
-            return new PdfPageSettings(engine);
+            return new PdfRenderSettings(engine);
         }
 
         [TestMethod]

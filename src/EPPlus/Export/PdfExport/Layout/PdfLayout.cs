@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
     {
         internal const double rowHeadingWith1CharWidth = 18d;
 
-        public static Transform GetLayout(PdfPageSettings[] sheetSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
+        public static Transform GetLayout(PdfRenderSettings[] sheetSettings, PdfDictionaries dictionaries, PdfWorksheet[] pdfSheets)
         {
             var PagesCollection = GetPages(sheetSettings, pdfSheets);
             var Catalog = GetCatalog(sheetSettings[0].FirstPageNumber, dictionaries, PagesCollection);
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return Catalog;
         }
 
-        private static PdfPageLayout CreatePageLayout(Pages sheet, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, out double contentStartX, out double contentStartY)
+        private static PdfPageLayout CreatePageLayout(Pages sheet, Page page, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, out double contentStartX, out double contentStartY)
         {
             var pageLayout = new PdfPageLayout(0d, 0d, 0d, 0d);
             pageLayout.Settings = pageSettings;
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pageLayout;
         }
 
-        private static void CreateCellLayouts(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries, double contentStartX, double contentStartY, bool isDraft, bool isBlackWhite)
+        private static void CreateCellLayouts(PdfPageLayout pageLayout, Page page, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, double contentStartX, double contentStartY, bool isDraft, bool isBlackWhite)
         {
             var drawnMergedCells = new HashSet<string>();
             double y = contentStartY;
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 
         private static bool CellHasPicture(PdfCell cell) => cell?.CellPictureBytes != null;
 
-        private static void CreateMergedCellLayout(PdfPageLayout pageLayout, PdfCell map, MergedCellDrawInfo info, PdfPageSettings pageSettings, PdfDictionaries dictionaries, bool isDraft, bool isBlackWhite)
+        private static void CreateMergedCellLayout(PdfPageLayout pageLayout, PdfCell map, MergedCellDrawInfo info, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, bool isDraft, bool isBlackWhite)
         {
             if (!isDraft)
             {
@@ -262,7 +262,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void CreateCellLayout(PdfPageLayout pageLayout, Page page, PdfCell map, PdfPageSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double rowHeight, int row, int col, bool isDraft, bool isBlackWhite)
+        private static void CreateCellLayout(PdfPageLayout pageLayout, Page page, PdfCell map, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, double x, double y, double rowHeight, int row, int col, bool isDraft, bool isBlackWhite)
         {
             var effectiveWidth = GetClampedCellWidth(pageSettings, x, map.ColumnWidth);
             if (!isDraft)
@@ -289,7 +289,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        private static void CreateCellFillLayout(PdfPageLayout pageLayout, PdfCellStyle style, string text, double x, double y, double width, double height, string name, PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfCellAlignmentData contentAlignment)
+        private static void CreateCellFillLayout(PdfPageLayout pageLayout, PdfCellStyle style, string text, double x, double y, double width, double height, string name, PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfCellAlignmentData contentAlignment)
         {
             var fill = new PdfCellLayout(x, y, width, height);
             PdfFillResolver.SetFill(dictionaries, style, text, fill);
@@ -358,7 +358,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             pageLayout.AddChild(border);
         }
 
-        private static void AddAdditionalContent(PdfPageLayout pageLayout, Page page, PdfPageSettings pageSettings, PdfDictionaries dictionaries)
+        private static void AddAdditionalContent(PdfPageLayout pageLayout, Page page, PdfRenderSettings pageSettings, PdfDictionaries dictionaries)
         {
             if (page.AddedContent == null || page.AddedContent.content?.TextLines == null || page.AddedContent.content.TextLines.Count == 0) return;
             var content = page.AddedContent.content;
@@ -406,7 +406,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return result;
         }
 
-        internal static List<Pages> GetPages(PdfPageSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
+        internal static List<Pages> GetPages(PdfRenderSettings[] sheetSettings, PdfWorksheet[] pdfSheets)
         {
             List<Pages> PagesCollection = new List<Pages>();
             for (int si = 0; si < pdfSheets.Length; si++)
@@ -462,7 +462,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return PagesCollection;
         }
 
-        internal static double[] BuildColumnXPositions(PdfPageSettings pageSettings, Page page)
+        internal static double[] BuildColumnXPositions(PdfRenderSettings pageSettings, Page page)
         {
             int colCount = page.ToColumn - page.FromColumn + 1;
             var colX = new double[colCount];
@@ -491,7 +491,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         /// The X coordinate where the page's printed block begins.
         /// Currently the left content bound; will include the centering offset.
         /// </summary>
-        internal static double GetOriginX(PdfPageSettings pageSettings, Page page)
+        internal static double GetOriginX(PdfRenderSettings pageSettings, Page page)
         {
             if (!pageSettings.CenterOnPageHorizontally) return pageSettings.ContentBounds.Left;
             var contentWidth = page.IsCommentsPage ? pageSettings.ContentBounds.Width : pageSettings.EffectiveContentWidth;
@@ -502,7 +502,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
         /// <summary>
         /// The Y coordinate where the page's printed block begins (top edge).
         /// </summary>
-        internal static double GetOriginY(PdfPageSettings pageSettings, Page page)
+        internal static double GetOriginY(PdfRenderSettings pageSettings, Page page)
         {
             if (!pageSettings.CenterOnPageVertically) return pageSettings.ContentBounds.Top;
             var contentHeight = page.IsCommentsPage ? pageSettings.ContentBounds.Height : pageSettings.EffectiveContentHeight;
@@ -510,7 +510,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pageSettings.ContentBounds.Top - Math.Max(0d, offset);
         }
 
-        internal static double GetClampedCellWidth(PdfPageSettings pageSettings, double cellX, double cellWidth)
+        internal static double GetClampedCellWidth(PdfRenderSettings pageSettings, double cellX, double cellWidth)
         {
             double s = pageSettings.ContentScale;
             double pageRightNatural = pageSettings.ContentBounds.Left + (pageSettings.PageSize.WidthPu - pageSettings.ContentBounds.Left) / s;

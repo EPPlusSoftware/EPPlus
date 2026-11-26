@@ -173,14 +173,14 @@ namespace EPPlus.Export.ImageRenderer.Tests
 
                 //simpleChart.Title.TextBody.Paragraphs[0].TextRuns[0].Fill.Color = Color.CornflowerBlue;
 
-                //var svg = simpleChart.ToSvg();
-                //SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
+                var svg = simpleChart.ToSvg();
+                SaveTextFileToWorkbook($"svg\\MyLineIonThemeExcelChangeOnlyTitle.svg", svg);
 
                 var fontSize = simpleChart.Title.Font.Size;
 
                 Assert.AreEqual(simpleChart.Title.Font.Size, 14d);
-                var paragraphPropeties = simpleChart.Title.GetNode("c:txPr/a:p/a:pPr");
-                var paragraphPropertiesRich = simpleChart.Title.GetNode("c:tx/c:rich/a:p/a:pPr");
+                var paragraphPropeties = simpleChart.Title.GetNode($"{simpleChart.Title._defTxBodyPath}/a:p/a:pPr");
+                var paragraphPropertiesRich = simpleChart.Title.GetNode($"{simpleChart.Title._richTextPath}/a:p/a:pPr");
                 Assert.AreEqual(paragraphPropeties.InnerXml, paragraphPropertiesRich.InnerXml);
 
                 SaveAndCleanup(p);

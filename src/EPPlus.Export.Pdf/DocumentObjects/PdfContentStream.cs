@@ -17,7 +17,6 @@ using EPPlus.Graphics.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using EPPlus.Fonts.OpenType.Integration;
@@ -128,7 +127,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             }
         }
 
-        public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddText(PdfCellContentLayout cell, Vector2 position, double textRotation, PdfDictionaries dictionaries, PdfRenderSettings pageSettings)
         {
             double advanceY = 0d;
             double line0Width = cell.TextLines.Count > 0 ? cell.TextLines[0].Width : 0d;
@@ -387,7 +386,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return defaultUnitsPerEm > 0 ? defaultUnitsPerEm : (ushort)1000;
         }
 
-        public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfPageSettings pageSettings)
+        public void AddCellContentLayout(PdfCellContentLayout cell, PdfDictionaries dictionaries, PdfRenderSettings pageSettings)
         {
             commands.Add("q");
             if (cell.Clip) AddClipping(cell);
@@ -489,7 +488,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             EndArtifact();
         }
 
-        public void AddMarginClipping(PdfPageLayout pageLayout, PdfPageSettings pageSettings)
+        public void AddMarginClipping(PdfPageLayout pageLayout, PdfRenderSettings pageSettings)
         {
             if (pageLayout is not PdfPageLayout pl) return;
             if (pageLayout.isCommentsPage) return;
@@ -641,20 +640,19 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             EndArtifact();
         }
 
-        internal override string RenderDictionary()
+        protected override void WriteBody(PdfWriter w)
         {
             var content = string.Join("\n", commands.ToArray()) + "\n";
-            var bytes = Encoding.ASCII.GetBytes(content);
-            return $"<< /Length {bytes.Length.ToPdfStringF0()} >>\n" + $"stream\n{content}endstream";
+            if (w.IsDebug)
+            {
+                w.Text($"<< /Length {Encoding.ASCII.GetByteCount(content).ToPdfStringF0()} >>\nstream\n{content}endstream");
+                return;
+            }
+            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content), w.CompressionLevel);
+            w.Text($"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
+            w.Bytes(body);
+            w.Text("\nendstream");
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var content = string.Join("\n", commands.ToArray()) + "\n";
-            var body = PdfFlate.Compress(Encoding.ASCII.GetBytes(content));
-            WriteAscii(bw, $"<< /Filter /FlateDecode /Length {body.Length.ToPdfStringF0()} >>\nstream\n");
-            bw.Write(body);
-            WriteAscii(bw, "\nendstream");
-        }
     }
 }

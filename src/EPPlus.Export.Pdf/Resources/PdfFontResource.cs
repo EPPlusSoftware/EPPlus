@@ -45,7 +45,7 @@ namespace EPPlus.Export.Pdf.Resources
         internal HashSet<ushort> Gids = new HashSet<ushort>();
         internal Dictionary<ushort, string> charactermappings = new Dictionary<ushort, string>();
 
-        public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfPageSettings pageSettings)
+        public PdfFontResource(string fontName, FontSubFamily subFamily, int labelNumber, PdfRenderSettings pageSettings)
             : base("F", labelNumber)
         {
             this.fontName = fontName;

@@ -15,7 +15,6 @@ using EPPlus.Export.Pdf.Layout;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
 {
@@ -133,14 +132,11 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             "   /Decode [0 1 0 1 0 1 0 1 0 1]\n" +
             "   /Length " + _mesh.Length + " >>\n";
 
-        internal override string RenderDictionary()
-            => DictHeader() + "stream\n|BINARY DATA|\nendstream";
-
-        internal override void RenderDictionary(BinaryWriter bw)
+        protected override void WriteBody(PdfWriter w)
         {
-            WriteAscii(bw, DictHeader() + "stream\n");
-            bw.Write(_mesh);
-            WriteAscii(bw, "\nendstream");
+            w.Text(DictHeader() + "stream\n");
+            w.Bytes(_mesh);
+            w.Text("\nendstream");
         }
     }
 }

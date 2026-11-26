@@ -160,7 +160,8 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
         {
             var ls = (ExcelLineChartSerie)s;
 
-            var si = GetLineSeriesIcon(chart, parent, ls, pSls, entryWidth, entryHeight);
+            var numSeries = ct.Series.Count() == 1 ? s.NumberOfItems : ct.Series.Count();
+            var si = GetLineSeriesIcon(chart, parent, ls, pSls, entryWidth, entryHeight, numSeries);
             sls.SeriesIcon = si;
 
             var tbLeft = si.X1 + maxIconLength + MarginIconText;
@@ -209,7 +210,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                         }
                         if (ls.Marker.Border.IsEmpty)
                         {
-                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index), 0.75d);
+                            sls.MarkerIcon.Style.SetDrawingPropertiesBorder(chart.Theme, ls.Border, chart.Chart.StyleManager.Style?.DataPointMarker.BorderReference.Color, true, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, index, s.NumberOfItems, numSeries == 1), 0.75d);
                         }
                     }
                 }
@@ -295,11 +296,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (i >= 0 && ps.DataPoints.ContainsKey(i))
                 {
                     var dp = ps.DataPoints[i];
-                    ChartTypeDrawer.SetFillDataPoint(chart.Chart, ps, i, sls.SeriesIcon.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine);
+                    ChartTypeDrawer.SetFillDataPoint(chart.Chart, ps, i, sls.SeriesIcon.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine, s.NumberOfItems);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(chart.Chart, ct, ps, 0, i, sls.SeriesIcon.Style);
+                    ChartTypeDrawer.SetFillSerie(chart.Chart, ct, ps, 0, i, sls.SeriesIcon.Style, s.NumberOfItems);
                 }
 
                 parent.SeriesIcon.Add(sls);
@@ -330,11 +331,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             sls = null;
         }
 
-        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
+        internal static LineRenderItem GetLineSeriesIcon<T>(ChartRenderer chart, T parent, ExcelChartStandardSerie cStandardSerie, DrawingLegendSerie pSls, double entryWidth, double entryHeight, int numSeries) where T : ChartDrawingObjectWithBackground, ILegendKeyContainer
         {
             var line = new LineRenderItem(parent.Rectangle);
             //Default style is NoLine NoFill
-            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index), 2.25);
+            var totalVariations = numSeries == 1 ? cStandardSerie.NumberOfItems : numSeries;
+            totalVariations = totalVariations / 6;
+
+            line.Style.SetDrawingPropertiesBorder(chart.Theme, cStandardSerie.Border, chart.Chart.StyleManager.Style?.SeriesLine.BorderReference.Color, cStandardSerie.Border.IsEmpty || cStandardSerie.Border.Fill.Style != eFillStyle.NoFill, () => ChartTypeDrawer.GetVaryColor(chart.Theme, null, cStandardSerie.Index, totalVariations, numSeries == 1), 2.25);
             double iconTop = 0, iconLeft = 0;
             pSls?.GetIconTopLeft(out iconTop, out iconLeft);
 
@@ -377,11 +381,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             if (index >= 0 && chartSerie.DataPoints.ContainsKey(index))
             {
                 var dp = chartSerie.DataPoints[index];
-                ChartTypeDrawer.SetFillDataPoint(chart.Chart, chartSerie, index, item.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine);
+                ChartTypeDrawer.SetFillDataPoint(chart.Chart, chartSerie, index, item.Style, dp, chart.Chart.StyleManager.Style?.SeriesLine, chartSerie.NumberOfItems);
             }
             else
             {
-                ChartTypeDrawer.SetFillSerie(chart.Chart, ct, chartSerie, serieIndex, index, item.Style);
+                ChartTypeDrawer.SetFillSerie(chart.Chart, ct, chartSerie, serieIndex, index, item.Style, chartSerie.NumberOfItems);
             }
 
             return item;
@@ -566,11 +570,11 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 if (index >= 0 && dataPoints.ContainsKey(index))
                 {
                     var dp = dataPoints[index];
-                    ChartTypeDrawer.SetFillDataPoint(chart, s, index, item.Style, dp, chart.StyleManager.Style?.SeriesLine);
+                    ChartTypeDrawer.SetFillDataPoint(chart, s, index, item.Style, dp, chart.StyleManager.Style?.SeriesLine, s.NumberOfItems);
                 }
                 else
                 {
-                    ChartTypeDrawer.SetFillSerie(chart, s._chart, s, index, index, item.Style);
+                    ChartTypeDrawer.SetFillSerie(chart, s._chart, s, index, index, item.Style, s.NumberOfItems);
                 }
 
                 return item;

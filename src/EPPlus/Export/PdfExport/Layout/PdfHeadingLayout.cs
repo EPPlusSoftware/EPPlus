@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
 {
     internal static class PdfHeadingLayout
     {
-        internal static Pages PrecomputePrintTitleCells(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Pages pdfPages)
+        internal static Pages PrecomputePrintTitleCells(PdfRenderSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Pages pdfPages)
         {
             for (int i = 0; i < pdfPages.Page.Length; i++)
             {
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return pdfPages;
         }
 
-        private static Page PrecomputePagePrintTitleCells(PdfPageSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Page page)
+        private static Page PrecomputePagePrintTitleCells(PdfRenderSettings pageSettings, PdfWorksheet pdfSheet, PdfRange range, Page page)
         {
             page.PrintTitleCells = new List<PrintTitleCellDraw>();
             page.PrintTitleBorders = new List<PrintTitleCellDraw>();
@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             return page;
         }
 
-        internal static void AddPrintTitleCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
+        internal static void AddPrintTitleCells(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout)
         {
             if (page.PrintTitleCells == null) return;
             pageLayout.PrintTitleGridLines = page.PrintTitleGridLines ?? new List<GridLine>();
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static void AddHeadingCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, PdfPageLayout pageLayout, PdfCellStyle headingStyle, string label, double x, double y, double width, double height, string fontName, float fontSize, string namePrefix)
+        internal static void AddHeadingCell(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, PdfPageLayout pageLayout, PdfCellStyle headingStyle, string label, double x, double y, double width, double height, string fontName, float fontSize, string namePrefix)
         {
             if (width == 0d || height == 0d) return;
             var fill = new PdfCellLayout(x, y, width, height);
@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static void AddHeadingCells(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, double contentStartX, double contentStartY, double headingWidth, double headingHeight, string fontName, float fontSize, ExcelFill fill)
+        internal static void AddHeadingCells(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, double contentStartX, double contentStartY, double headingWidth, double headingHeight, string fontName, float fontSize, ExcelFill fill)
         {
             var headingStyle = new PdfCellStyle();
             headingStyle.xfFill = fill;
@@ -287,7 +287,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             }
         }
 
-        internal static void AddPrintTitleHeadings(PdfPageSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, string fontName, float fontSize, ExcelFill fill)
+        internal static void AddPrintTitleHeadings(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, Page page, PdfPageLayout pageLayout, string fontName, float fontSize, ExcelFill fill)
         {
             if (page.PrintTitleHeadings == null || page.PrintTitleHeadings.Count == 0) return;
             var headingStyle = new PdfCellStyle();
@@ -310,7 +310,7 @@ namespace OfficeOpenXml.Export.PdfExport.Layout
             pageLayout.BorderLines.Add(new GridLine(right, y, right, bottom));
         }
 
-        private static PdfCell CreateHeadingPdfCell(PdfPageSettings pageSettings, PdfDictionaries dictionaries, string text, ExcelHorizontalAlignment hAlign, double width, double height, string fontName, float fontSize)
+        private static PdfCell CreateHeadingPdfCell(PdfRenderSettings pageSettings, PdfDictionaries dictionaries, string text, ExcelHorizontalAlignment hAlign, double width, double height, string fontName, float fontSize)
         {
             var cell = new PdfCell();
             cell.ColumnWidth = width;

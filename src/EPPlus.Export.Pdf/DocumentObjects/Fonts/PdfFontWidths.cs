@@ -11,7 +11,6 @@
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
@@ -26,16 +25,12 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             this.widths = widths.ToArray();
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
             return $"   [ {widthsStr} ]";
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var widthsStr = string.Join(" ", widths.Select(w => w.ToString()).ToArray());
-            WriteAscii(bw, $"   [ {widthsStr} ]");
-        }
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }

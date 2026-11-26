@@ -38,7 +38,7 @@ namespace EPPlus.Export.Pdf.Resources
             return fam + "|" + ((int)subFamily);
         }
 
-        internal FontKey ResolveFontKey(PdfPageSettings pageSettings, string family, FontSubFamily subFamily)
+        internal FontKey ResolveFontKey(PdfRenderSettings pageSettings, string family, FontSubFamily subFamily)
         {
             var cacheKey = BuildRequestCacheKey(family, subFamily);
             FontKey key;
@@ -52,20 +52,20 @@ namespace EPPlus.Export.Pdf.Resources
             return key;
         }
 
-        public void AddFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily, string text)
+        public void AddFont(PdfRenderSettings pageSettings, string fontName, FontSubFamily subFamily, string text)
         {
             EnsureBuilder(pageSettings);
             ResolveFontKey(pageSettings, fontName, subFamily);
             _subsetBuilder.AddText(fontName, subFamily, text);
         }
 
-        private void EnsureBuilder(PdfPageSettings pageSettings)
+        private void EnsureBuilder(PdfRenderSettings pageSettings)
         {
             if (_subsetBuilder == null)
                 _subsetBuilder = new DocumentFontSubsetBuilder(pageSettings.FontEngine);
         }
 
-        internal void BuildSubsets(PdfPageSettings pageSettings)
+        internal void BuildSubsets(PdfRenderSettings pageSettings)
         {
             if (_subsetBuilder == null) return;
             _subsetBuilder.Build();
@@ -78,7 +78,7 @@ namespace EPPlus.Export.Pdf.Resources
             }
         }
 
-        internal PdfFontResource GetFont(PdfPageSettings pageSettings, string fontName, FontSubFamily subFamily)
+        internal PdfFontResource GetFont(PdfRenderSettings pageSettings, string fontName, FontSubFamily subFamily)
         {
             var requestedKey = ResolveFontKey(pageSettings, fontName, subFamily);
             IFontProvider provider;

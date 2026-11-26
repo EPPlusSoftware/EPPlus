@@ -14,7 +14,6 @@ using EPPlus.Export.Pdf.DocumentObjects.Functions;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Layout;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,10 +40,10 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             Extend = [true, true];
         }
 
-        internal override string RenderDictionary()
+        private string Body()
         {
             var coordsStr = string.Join(" ", Coords.Select(w => w.ToPdfString()).ToArray());
-            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderDictionary()).ToArray());
+            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderBody()).ToArray());
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Shading\n" +
                             $"   /ShadingType 3\n" +
@@ -65,28 +64,6 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Shadings
             return sb.ToString();
         }
 
-        internal override void RenderDictionary(BinaryWriter bw)
-        {
-            var coordsStr = string.Join(" ", Coords.Select(w => w.ToPdfString()).ToArray());
-            var functionsStr = string.Join("\n", Functions.Select(w => w.RenderDictionary()).ToArray());
-            var sb = new StringBuilder();
-            sb.AppendFormat($"<< /Type /Shading\n" +
-                            $"   /ShadingType 3\n" +
-                            $"   /ColorSpace /{ColorSpace.ToString()}\n" +
-                            $"   /Coords [ {coordsStr} ]\n");
-            sb.AppendFormat($"   /Function {functionsStr}");
-            if (Domain != null)
-            {
-                var domainStr = string.Join(" ", Domain.Select(w => w.ToPdfString()).ToArray());
-                sb.AppendFormat($"\n   /Domain [ {domainStr} ]");
-            }
-            if (Extend != null)
-            {
-                var extendStr = string.Join(" ", Extend.Select(w => w.ToString().ToLower()).ToArray());
-                sb.AppendFormat($"\n   /Extend [ {extendStr} ]");
-            }
-            sb.Append(" >>");
-            WriteAscii(bw, sb.ToString());
-        }
+        protected override void WriteBody(PdfWriter w) => w.Text(Body());
     }
 }
