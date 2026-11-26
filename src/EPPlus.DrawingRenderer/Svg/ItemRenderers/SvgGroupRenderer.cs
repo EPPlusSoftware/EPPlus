@@ -31,8 +31,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
 
             OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}" +
-                $"{GetDefaultFontAttribute(item)}>");
-
+                $"{GetDefaultFontAttribute(item)}{SetClip(item)}>");
             foreach (var childItem in item.ChildObjects)
             {
                 if (childItem is RenderItem renderItem)
@@ -48,6 +47,16 @@ namespace EPPlus.DrawingRenderer.Svg
 
             OutputStream.Append("</g>");
         }
+
+        private string SetClip(GroupRenderItem item)
+        {
+            if(item.ClipToBounds)
+            {
+                return $" clip-path=\"url(#{item.Name}_clip)\" ";
+            }
+            return "";
+        }
+
         string GetCombinedTransformString(GroupRenderItem item)
         {
             string positionStr = "";
