@@ -686,6 +686,10 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
+            if(Axis.AxisType==eAxisType.Val)
+            {
+                maxWidth = Rectangle.Width; //We dont want to wrap value axis labels as they are numeric.
+            }
             List<DrawingTextContainer> ret;
             if (AxisValues==null)
             {
@@ -886,7 +890,7 @@ namespace EPPlusImageRenderer.Svg
                 double x, y;
 
                 double availableTextLength;
-                if (Axis.IsVertical)
+                if (Axis.IsVertical || AutoAxisType==eAxisType.Val)
                 {
                     availableTextLength = maxWidth;
                 }
@@ -908,7 +912,8 @@ namespace EPPlusImageRenderer.Svg
                         if (Axis.IsVertical)
                         {
                             x = ticMarkX;
-                            if (ChartRenderer.Chart.IsTypeBar())
+                            var ct = ChartRenderer.Chart.PlotArea.ChartTypes.First(x => x.XAxis?.Id == Axis.Id || x.YAxis?.Id == Axis.Id);                            
+                            if ((ct??ChartRenderer.Chart).IsTypeBar())
                             {
                                 y = ticMarkY;
                             }
@@ -919,7 +924,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else
                         {
-                            x = ticMarkX/* - width / 2*/;
+                            x = ticMarkX - width / 2;
                             y = ticMarkY;
                         }
                     }
@@ -938,9 +943,16 @@ namespace EPPlusImageRenderer.Svg
 
                     if (rot == 90 || rot == -90 || LabelOrientation == eTextOrientation.Vertical)
                     {
-                        if(Axis.IsVertical == false)
+                        if (Axis.IsVertical == false)
                         {
-                            x = xPosToMiddle - (width/2);
+                            if (Axis.AxisType == eAxisType.Cat)
+                            {
+                                x = xPosToMiddle - (width / 2);
+                            }
+                            else
+                            {
+                                x = ticMarkX - (width / 2);
+                            }
                             y = ticMarkY + descent;
                         }
                         else
@@ -2630,6 +2642,41 @@ namespace EPPlusImageRenderer.Svg
                 return eTimeUnit.Months;
             }
             return eTimeUnit.Days;
+        }
+
+        internal double GetAxisPosition(double cv)
+        {
+            if(cv <= Min)
+            {
+                if (Axis.CrossingAxis.ActualAxisPosition == eAxisPosition.Bottom)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height;
+                }
+                else if (Axis.CrossingAxis.ActualAxisPosition == eAxisPosition.Right)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else if (cv >= Max)
+            {
+                if (Axis.ActualAxisPosition == eAxisPosition.Top)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height;
+                }
+                else if (Axis.ActualAxisPosition == eAxisPosition.Left)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return GetPositionInPlotarea(cv);
         }
     }
 }
