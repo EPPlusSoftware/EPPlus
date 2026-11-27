@@ -31,7 +31,6 @@ namespace EPPlusImageRenderer.Svg
     {
         public ChartPlotareaRenderer(ChartRenderer sc) : base(sc)
         {
-             
         }
         public List<ChartTypeDrawer> ChartTypeDrawers { get; set; } 
         public GroupRenderItem Group { get; private set; }
@@ -46,7 +45,8 @@ namespace EPPlusImageRenderer.Svg
             TopMargin = BottomMargin = LeftMargin = RightMargin = 10.5;     //14px
             Group = new GroupRenderItem(ChartRenderer.Bounds)
             {
-                Name = "PlotArea"
+                Name = "PlotArea",
+                ClipToBounds = true
             };
 
             var rect = GetPlotareaRect();

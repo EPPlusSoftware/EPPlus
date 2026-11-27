@@ -141,11 +141,17 @@ namespace EPPlus.DrawingRenderer
                 {
                     if (item is GroupRenderItem group)
                     {
+                        if(group.ClipToBounds )
+                        {
+                            if(string.IsNullOrEmpty(group.Name))
+                            {
+                                group.Name = $"Group{ix}";
+                            }
+                            var clipId = $"{group.Name}_clip";
+                            defSb.AppendLine($"<clipPath id=\"{clipId}\"><rect x=\"{0}\" y=\"{0}\" width=\"{group.ClippingRecangle.Width.PointToPixelString()}\" height=\"{group.ClippingRecangle.Height.PointToPixelString()}\"/></clipPath>");
+                            hs.Add(clipId);
+                        }
                         PreRenderGroup(group.ChildObjects, defSb, hs, ref ix);
-                        //foreach(var child in group.RenderItems)
-                        //{
-                        //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
-                        //}
                     }
                     else
                     {

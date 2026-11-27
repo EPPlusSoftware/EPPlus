@@ -175,7 +175,21 @@ namespace EPPlus.DrawingRenderer.RenderItems
             }
         }
         public override RenderItemType Type => RenderItemType.Group;
-
+        /// <summary>
+        /// If the group should clip the content to the group bounding box
+        /// </summary>
+        public bool ClipToBounds { get; set; } = false;
+        public RectRenderItem ClippingRecangle
+        {
+            get
+            {
+                if (ChildObjects.Count >0 && ChildObjects[0] is RectRenderItem rect)
+                {
+                    return rect;
+                }
+                return null;
+            }
+        }
         //Note: This does not take negative child items into acount
         //TODO: Fix that
 

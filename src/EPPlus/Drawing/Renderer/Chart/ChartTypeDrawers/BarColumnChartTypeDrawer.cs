@@ -224,7 +224,14 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
             }
             else
             {
-                slotSize = (catAx.Max - catAx.Min) + 1;   // category count; tickLblSkip/tickMarkSkip don't matter
+                if(valAx.Axis.CrossBetween==eCrossBetween.Between)
+                {
+                    slotSize = (catAx.Max - catAx.Min) + 1;
+                }
+                else
+                {
+                    slotSize = (catAx.Max - catAx.Min);
+                }
                 baseUnit = null;
                 baseMin = 0;
             }
@@ -293,7 +300,7 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                     {
                         var slot = ToBaseIndex(x, baseUnit.Value) - baseMin;
                         var slotLeft = slot * slotWidth;
-                        xPos = slotLeft + halfGap + position * barWidth * step;
+                        xPos = slotLeft;
 
                     }
                     else
@@ -302,7 +309,16 @@ namespace EPPlus.Export.ImageRenderer.Svg.Chart
                         {
                             x++;
                         }
-                        xPos = catAx.GetPositionInPlotarea(x, true) + halfGap + position * barWidth * step;
+                        xPos = catAx.GetPositionInPlotarea(x, true);
+                    }
+
+                    if(valAx.Axis.CrossBetween==eCrossBetween.MidCat)
+                    {
+                        xPos += halfGap + position * barWidth * step - slotWidth / 2;
+                    }
+                    else
+                    {
+                        xPos += halfGap + position * barWidth * step;
                     }
                     rect.Left = xPos;
                     rect.Width = barWidth;

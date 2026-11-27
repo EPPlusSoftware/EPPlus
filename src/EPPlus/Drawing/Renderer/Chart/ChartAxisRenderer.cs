@@ -2199,7 +2199,16 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis == false)
                 {
-                    var majorWidth  = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    double majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
+                    {
+                        majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    }
+                    else
+                    {
+                        majorWidth = ChartRenderer.Plotarea.Rectangle.Width / (Max-1);
+
+                    }
                     if (startValue)
                     {
                         return majorWidth * val;
