@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System.IO;
+using EPPlus.Export.Pdf.Helpers;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -99,6 +100,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             if (predictor != 1 && predictor != 2) return false;
             if (compression != 1 && compression != 5 && compression != 8 && compression != 32946 && compression != 32773) return false;
             int w = (int)imgW, h = (int)imgH, samples = (int)spp;
+            if (!ImageLimits.IsAllowed(w, h, 4)) return false;
             int bits = (bitsPerSample != null && bitsPerSample.Length > 0) ? (int)bitsPerSample[0] : 1;
             if (bitsPerSample != null)
                 foreach (var b in bitsPerSample) 
@@ -134,7 +136,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                     case 1: strip = raw; break;
                     case 5: strip = LzwDecode(raw, expected); break;
                     case 32773: strip = PackBits(raw, expected); break;
-                    default: strip = Inflate(raw); break;
+                    default: strip = Inflate(raw, ImageLimits.MaxDecodedBytes); break;
                 }
                 if (strip == null) return false;
                 int copy = System.Math.Min(expected, strip.Length);
@@ -251,7 +253,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             return outBuf;
         }
 
-        private static byte[] Inflate(byte[] s)
+        private static byte[] Inflate(byte[] s, long maxBytes)
         {
             try
             {
@@ -261,7 +263,13 @@ namespace EPPlus.Export.Pdf.DocumentObjects
                 {
                     var buf = new byte[8192];
                     int n;
-                    while ((n = z.Read(buf, 0, buf.Length)) > 0) output.Write(buf, 0, n);
+                    long total = 0;
+                    while ((n = z.Read(buf, 0, buf.Length)) > 0)
+                    {
+                        total += n;
+                        if (total > maxBytes) return null;
+                        output.Write(buf, 0, n);
+                    }
                     return output.ToArray();
                 }
             }
@@ -371,7 +379,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         private static long[] ReadValues(byte[] d, bool be, int type, int count, int fieldOffset)
         {
             int ts = TypeSize(type);
-            if (ts == 0 || count <= 0 || count > (1 << 24)) return new long[0];
+            if (ts == 0 || count <= 0 || count > (1 << 20)) return new long[0];
             long total = (long)ts * count;
             int dataOffset = total <= 4 ? fieldOffset : (int)ReadU32(d, be, fieldOffset);
             var vals = new long[count];

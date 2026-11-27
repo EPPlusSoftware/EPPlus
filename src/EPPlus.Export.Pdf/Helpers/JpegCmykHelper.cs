@@ -193,7 +193,7 @@ namespace EPPlus.Export.Pdf.Helpers
                 i = segEnd;
             }
 
-            if (W == 0 || H == 0 || comps.Count != 4 || scanStart < 0) return false;
+            if (!ImageLimits.IsAllowed(W, H, 4)) return false;
             if (adobeTransform == 2) return false;                // YCCK -> handled by the transcoder
 
             int Hmax = 1, Vmax = 1;

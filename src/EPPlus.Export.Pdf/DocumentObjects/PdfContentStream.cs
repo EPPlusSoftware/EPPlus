@@ -34,7 +34,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         private readonly Stack<(int index, string header)> _artifactMarks = new Stack<(int, string)>();
 
         public void BeginArtifact() => _artifactMarks.Push((commands.Count, "/Artifact BMC"));
-        public void BeginArtifact(string type) => _artifactMarks.Push((commands.Count, $"/Artifact << /Type /{type} >> BDC"));
+        public void BeginArtifact(string type) => _artifactMarks.Push((commands.Count, $"/Artifact << /Type /{type.ToPdfName()} >> BDC"));
 
         public void EndArtifact()
         {

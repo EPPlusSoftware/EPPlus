@@ -10,6 +10,8 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using System;
+using System.IO;
 using EPPlus.Export.Pdf.Helpers;
 using EPPlus.Export.Pdf.Settings;
 
@@ -33,155 +35,171 @@ namespace EPPlus.Export.Pdf.DocumentObjects
         public PdfImageXObject(int objectNumber, byte[] imageBytes, bool blackAndWhite, PdfCompressionLevel compressionLevel, int version = 0)
             : base(objectNumber, version)
         {
-            byte[] icoDib = null;
-            if (IcoDecoder.IsIco(imageBytes) && IcoDecoder.TryGetBestFrame(imageBytes, out byte[] icoFrame, out bool icoSelfContained))
+            try
             {
-                if (icoSelfContained) imageBytes = icoFrame;
-                else icoDib = icoFrame;
-            }
-            if (icoDib != null && IcoDecoder.TryDecodeDib(icoDib, out int icoW, out int icoH, out byte[] icoRgb, out byte[] icoAlpha))
-            {
-                Width = icoW;
-                Height = icoH;
-                BitsPerComponent = 8;
-                ColorSpace = "/DeviceRGB";
-                Filter = "FlateDecode";
-                if (blackAndWhite) GrayscaleRgb(icoRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(icoRgb, compressionLevel);
-                if (icoAlpha != null)
+                byte[] icoDib = null;
+                if (IcoDecoder.IsIco(imageBytes) && IcoDecoder.TryGetBestFrame(imageBytes, out byte[] icoFrame, out bool icoSelfContained))
                 {
-                    SoftMaskData = PdfFlate.CompressLeaveOpen(icoAlpha, compressionLevel);
-                    HasSoftMask = true;
+                    if (icoSelfContained) imageBytes = icoFrame;
+                    else icoDib = icoFrame;
                 }
-            }
-            else if (JpegDecoder.IsJpeg(imageBytes))
-            {
-                if (blackAndWhite && JpegCmykHelper.TryDecode(imageBytes, out int gw, out int gh, out byte[] grayPixels))
+                if (icoDib != null && IcoDecoder.TryDecodeDib(icoDib, out int icoW, out int icoH, out byte[] icoRgb, out byte[] icoAlpha))
                 {
-                    Width = gw;
-                    Height = gh;
+                    Width = icoW;
+                    Height = icoH;
                     BitsPerComponent = 8;
-                    ColorSpace = "/DeviceGray";
+                    ColorSpace = "/DeviceRGB";
                     Filter = "FlateDecode";
-                    _bytes = PdfFlate.CompressLeaveOpen(grayPixels, compressionLevel);
-                }
-                else
-                {
-                    JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
-                    _bytes = blackAndWhite ? JpegBlackWhiteHelper.MakeGrayscale(imageBytes) : imageBytes;
-                    Filter = "DCTDecode";
-                    BitsPerComponent = 8;
-                    Width = width;
-                    Height = height;
-                    if (components == 4)
+                    if (blackAndWhite) GrayscaleRgb(icoRgb);
+                    _bytes = PdfFlate.CompressLeaveOpen(icoRgb, compressionLevel);
+                    if (icoAlpha != null)
                     {
-                        ColorSpace = "/DeviceCMYK";
-                        if (adobe) Decode = "[ 1 0 1 0 1 0 1 0 ]";
+                        SoftMaskData = PdfFlate.CompressLeaveOpen(icoAlpha, compressionLevel);
+                        HasSoftMask = true;
+                    }
+                }
+                else if (JpegDecoder.IsJpeg(imageBytes))
+                {
+                    if (blackAndWhite && JpegCmykHelper.TryDecode(imageBytes, out int gw, out int gh, out byte[] grayPixels))
+                    {
+                        Width = gw;
+                        Height = gh;
+                        BitsPerComponent = 8;
+                        ColorSpace = "/DeviceGray";
+                        Filter = "FlateDecode";
+                        _bytes = PdfFlate.CompressLeaveOpen(grayPixels, compressionLevel);
                     }
                     else
                     {
-                        ColorSpace = components == 1 ? "/DeviceGray" : "/DeviceRGB";
+                        JpegDecoder.ReadJpegInfo(imageBytes, out int width, out int height, out int components, out bool adobe);
+                        _bytes = blackAndWhite ? JpegBlackWhiteHelper.MakeGrayscale(imageBytes) : imageBytes;
+                        Filter = "DCTDecode";
+                        BitsPerComponent = 8;
+                        Width = width;
+                        Height = height;
+                        if (components == 4)
+                        {
+                            ColorSpace = "/DeviceCMYK";
+                            if (adobe) Decode = "[ 1 0 1 0 1 0 1 0 ]";
+                        }
+                        else
+                        {
+                            ColorSpace = components == 1 ? "/DeviceGray" : "/DeviceRGB";
+                        }
                     }
                 }
-            }
-            else if (PngDecoder.IsPng(imageBytes))
-            {
-                PngDecoder.ReadPngHeader(imageBytes, out int width, out int height, out int bitDepth, out int colorType, out int _);
-                Width = width;
-                Height = height;
-                Filter = "FlateDecode";
-                if (colorType == 6 || colorType == 4)
+                else if (PngDecoder.IsPng(imageBytes))
                 {
-                    BitsPerComponent = 8;
-                    ColorSpace = colorType == 6 ? "/DeviceRGB" : "/DeviceGray";
-                    PngDecoder.DecodePngWithAlpha(imageBytes, width, height, blackAndWhite, colorType, out byte[] color, out byte[] alpha);
-                    _bytes = color;
-                    SoftMaskData = alpha;
-                    HasSoftMask = true;
+                    if (!PngDecoder.ReadPngHeader(imageBytes, out int width, out int height, out int bitDepth, out int colorType, out int _))
+                        throw new InvalidDataException("Unsupported or oversized PNG image.");
+                    Width = width;
+                    Height = height;
+                    Filter = "FlateDecode";
+                    if (colorType == 6 || colorType == 4)
+                    {
+                        BitsPerComponent = 8;
+                        ColorSpace = colorType == 6 ? "/DeviceRGB" : "/DeviceGray";
+                        PngDecoder.DecodePngWithAlpha(imageBytes, width, height, blackAndWhite, colorType, out byte[] color, out byte[] alpha);
+                        _bytes = color;
+                        SoftMaskData = alpha;
+                        HasSoftMask = true;
+                    }
+                    else if (colorType == 2 && blackAndWhite)
+                    {
+                        BitsPerComponent = 8;
+                        ColorSpace = "/DeviceRGB";
+                        PngDecoder.DecodePngTruecolor(imageBytes, width, height, blackAndWhite, out byte[] grayRgb);
+                        _bytes = grayRgb;
+                    }
+                    else
+                    {
+                        BitsPerComponent = bitDepth;
+                        _bytes = PngDecoder.ReadPngIdat(imageBytes, out byte[] palette);
+                        int colors;
+                        switch (colorType)
+                        {
+                            case 0:
+                                ColorSpace = "/DeviceGray";
+                                colors = 1;
+                                break;
+                            case 3:
+                                if (blackAndWhite && palette != null)
+                                    GrayscaleRgb(palette);
+                                int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
+                                ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
+                                colors = 1;
+                                if (PngDecoder.DecodeIndexedAlpha(imageBytes, width, height, bitDepth, out byte[] indexedAlpha))
+                                {
+                                    SoftMaskData = indexedAlpha;
+                                    HasSoftMask = true;
+                                }
+                                break;
+                            default:
+                                ColorSpace = "/DeviceRGB";
+                                colors = 3;
+                                break;
+                        }
+                        DecodeParms = "<< /Predictor 15 /Colors " + colors +
+                                      " /BitsPerComponent " + bitDepth +
+                                      " /Columns " + width + " >>";
+                    }
                 }
-                else if (colorType == 2 && blackAndWhite)
+                else if (BmpDecoder.TryDecode(imageBytes, out int bmpW, out int bmpH, out byte[] bmpRgb))
                 {
+                    Width = bmpW;
+                    Height = bmpH;
                     BitsPerComponent = 8;
                     ColorSpace = "/DeviceRGB";
-                    PngDecoder.DecodePngTruecolor(imageBytes, width, height, blackAndWhite, out byte[] grayRgb);
-                    _bytes = grayRgb;
+                    Filter = "FlateDecode";
+                    if (blackAndWhite) GrayscaleRgb(bmpRgb);
+                    _bytes = PdfFlate.CompressLeaveOpen(bmpRgb, compressionLevel);
+                }
+                else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
+                {
+                    Width = gifW; Height = gifH;
+                    BitsPerComponent = 8;
+                    ColorSpace = "/DeviceRGB";
+                    Filter = "FlateDecode";
+                    if (blackAndWhite) GrayscaleRgb(gifRgb);
+                    _bytes = PdfFlate.CompressLeaveOpen(gifRgb, compressionLevel);
+                    if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha, compressionLevel); HasSoftMask = true; }
+                }
+                else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))
+                {
+                    Width = tifW;
+                    Height = tifH;
+                    BitsPerComponent = 8;
+                    ColorSpace = "/DeviceRGB";
+                    Filter = "FlateDecode";
+                    if (blackAndWhite) GrayscaleRgb(tifRgb);
+                    _bytes = PdfFlate.CompressLeaveOpen(tifRgb, compressionLevel);
+                    if (tifAlpha != null)
+                    {
+                        SoftMaskData = PdfFlate.CompressLeaveOpen(tifAlpha, compressionLevel);
+                        HasSoftMask = true;
+                    }
                 }
                 else
                 {
-                    BitsPerComponent = bitDepth;
-                    _bytes = PngDecoder.ReadPngIdat(imageBytes, out byte[] palette);
-                    int colors;
-                    switch (colorType)
-                    {
-                        case 0:
-                            ColorSpace = "/DeviceGray";
-                            colors = 1;
-                            break;
-                        case 3:
-                            if (blackAndWhite && palette != null)
-                                GrayscaleRgb(palette);
-                            int hival = palette == null || palette.Length < 3 ? 0 : (palette.Length / 3) - 1;
-                            ColorSpace = "[ /Indexed /DeviceRGB " + hival + " <" + PngDecoder.ToHex(palette) + "> ]";
-                            colors = 1;
-                            if (PngDecoder.DecodeIndexedAlpha(imageBytes, width, height, bitDepth, out byte[] indexedAlpha))
-                            {
-                                SoftMaskData = indexedAlpha;
-                                HasSoftMask = true;
-                            }
-                            break;
-                        default:
-                            ColorSpace = "/DeviceRGB";
-                            colors = 3;
-                            break;
-                    }
-                    DecodeParms = "<< /Predictor 15 /Colors " + colors +
-                                  " /BitsPerComponent " + bitDepth +
-                                  " /Columns " + width + " >>";
+                    _bytes = imageBytes;
+                    Filter = "DCTDecode";
+                    BitsPerComponent = 8;
+                    ColorSpace = "/DeviceRGB";
                 }
             }
-            else if (BmpDecoder.TryDecode(imageBytes, out int bmpW, out int bmpH, out byte[] bmpRgb))
+            catch (Exception ex) when ( ex is InvalidDataException || ex is IndexOutOfRangeException || ex is ArgumentException || ex is OverflowException)
             {
-                Width = bmpW;
-                Height = bmpH;
+                // Degrade to a 1x1 white pixel; the drawing area just renders blank.
+                Width = 1;
+                Height = 1;
                 BitsPerComponent = 8;
                 ColorSpace = "/DeviceRGB";
                 Filter = "FlateDecode";
-                if (blackAndWhite) GrayscaleRgb(bmpRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(bmpRgb, compressionLevel);
+                Decode = null;
+                HasSoftMask = false;
+                SoftMaskData = null;
+                _bytes = PdfFlate.CompressLeaveOpen(new byte[] { 255, 255, 255 }, compressionLevel);
             }
-            else if (GifDecoder.TryDecode(imageBytes, out int gifW, out int gifH, out byte[] gifRgb, out byte[] gifAlpha))
-            {
-                Width = gifW; Height = gifH;
-                BitsPerComponent = 8;
-                ColorSpace = "/DeviceRGB";
-                Filter = "FlateDecode";
-                if (blackAndWhite) GrayscaleRgb(gifRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(gifRgb, compressionLevel);
-                if (gifAlpha != null) { SoftMaskData = PdfFlate.CompressLeaveOpen(gifAlpha, compressionLevel); HasSoftMask = true; }
-            }
-            else if (TiffDecoder.TryDecode(imageBytes, out int tifW, out int tifH, out byte[] tifRgb, out byte[] tifAlpha))
-            {
-                Width = tifW;
-                Height = tifH;
-                BitsPerComponent = 8;
-                ColorSpace = "/DeviceRGB";
-                Filter = "FlateDecode";
-                if (blackAndWhite) GrayscaleRgb(tifRgb);
-                _bytes = PdfFlate.CompressLeaveOpen(tifRgb, compressionLevel);
-                if (tifAlpha != null)
-                {
-                    SoftMaskData = PdfFlate.CompressLeaveOpen(tifAlpha, compressionLevel);
-                    HasSoftMask = true;
-                }
-            }
-            else
-            {
-                _bytes = imageBytes;
-                Filter = "DCTDecode";
-                BitsPerComponent = 8;
-                ColorSpace = "/DeviceRGB";
-            }
-
         }
 
         private PdfImageXObject(int objectNumber, int version, byte[] deflatedGray, int width, int height)

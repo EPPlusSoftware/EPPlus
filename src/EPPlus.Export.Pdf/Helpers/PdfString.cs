@@ -109,5 +109,64 @@ namespace EPPlus.Export.Pdf.Helpers
             sb.Append('>');
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Escapes a string for use as the body of a PDF name object (the part after '/'),
+        /// per the PDF spec: any character outside the regular set 0x21–0x7E, any of the
+        /// delimiters ()&lt;&gt;[]{}/% , and '#' itself are written as '#' followed by two hex
+        /// digits (UTF-8 bytes for non-ASCII). Leaves ordinary names (e.g. "ABCDEF+ArialMT")
+        /// byte-for-byte unchanged.
+        /// </summary>
+        internal static string ToPdfName(this string s)
+        {
+            if (string.IsNullOrEmpty(s)) return string.Empty;
+            var sb = new System.Text.StringBuilder(s.Length + 8);
+            foreach (byte b in System.Text.Encoding.UTF8.GetBytes(s))
+            {
+                bool regular = b >= 0x21 && b <= 0x7E &&
+                               b != '(' && b != ')' && b != '<' && b != '>' &&
+                               b != '[' && b != ']' && b != '{' && b != '}' &&
+                               b != '/' && b != '%' && b != '#';
+                if (regular) sb.Append((char)b);
+                else { sb.Append('#'); sb.Append(((int)b).ToString("X2")); }
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// True if a hyperlink URI uses an active-content scheme that should never be turned into
+        /// a PDF URI action (javascript:, vbscript:, data:, file:, about:). Whitespace and control
+        /// characters are stripped first so "java\tscript:" / " javascript:" can't slip past.
+        /// Relative URIs and ordinary web/mail schemes are treated as safe.
+        /// </summary>
+        internal static bool IsDangerousUriScheme(string uri)
+        {
+            if (string.IsNullOrEmpty(uri)) return false;
+
+            var sb = new System.Text.StringBuilder(uri.Length);
+            foreach (char c in uri) if (c > ' ') sb.Append(c);   // drop spaces + control chars
+            string norm = sb.ToString();
+
+            int colon = norm.IndexOf(':');
+            if (colon <= 0) return false;                        // no scheme (relative) -> safe
+            for (int i = 0; i < colon; i++)
+            {
+                char c = norm[i];
+                bool schemeChar = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                                  (i > 0 && ((c >= '0' && c <= '9') || c == '+' || c == '-' || c == '.'));
+                if (!schemeChar) return false;                   // not a real scheme -> leave as-is
+            }
+            switch (norm.Substring(0, colon).ToLowerInvariant())
+            {
+                case "javascript":
+                case "vbscript":
+                case "data":
+                case "file":
+                case "about":
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace EPPlus.Export.Pdf.Helpers
             bitDepth = d[q + 8];
             colorType = d[q + 9];
             interlace = d[q + 12];
+            if (!ImageLimits.IsAllowed(width, height, 4)) return false;
             return true;
         }
 
@@ -77,6 +78,8 @@ namespace EPPlus.Export.Pdf.Helpers
         internal static void DecodePngTruecolor(byte[] pngBytes, int width, int height, bool blackAndWhite, out byte[] deflatedRgb)
         {
             const int channels = 3;
+            if (!ImageLimits.IsAllowed(width, height, channels))
+                throw new InvalidDataException("PNG dimensions exceed the allowed limit.");
             byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
             int stride = width * channels;
             var rgb = new byte[width * height * channels];
@@ -116,6 +119,8 @@ namespace EPPlus.Export.Pdf.Helpers
         {
             int channels = colorType == 6 ? 4 : 2;
             int colorChannels = colorType == 6 ? 3 : 1;
+            if (!ImageLimits.IsAllowed(width, height, channels))
+                throw new InvalidDataException("PNG dimensions exceed the allowed limit.");
             byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
 
             int stride = width * channels;
@@ -206,7 +211,7 @@ namespace EPPlus.Export.Pdf.Helpers
             deflatedAlpha = null;
             if (!TryReadChunk(pngBytes, "tRNS", out byte[] trns) || trns == null || trns.Length == 0)
                 return false;
-
+            if (!ImageLimits.IsAllowed(width, height, 1)) return false;
             byte[] filtered = PdfFlate.Decompress(ReadPngIdat(pngBytes, out byte[] _));
             const int bpp = 1;
             int stride = (width * bitDepth + 7) / 8;

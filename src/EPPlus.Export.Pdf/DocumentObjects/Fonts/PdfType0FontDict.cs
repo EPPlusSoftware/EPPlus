@@ -38,7 +38,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /Font\n" +
                             $"    /Subtype /Type0\n" +
-                            $"    /BaseFont /{BaseFont}\n" +
+                            $"    /BaseFont /{BaseFont.ToPdfName()}\n" +
                             $"    /Encoding /{Encoding}\n" +
                             $"    /DescendantFonts [{DescendantFontsObjectNumbers.ToPdfStringF0()} 0 R]");
             if (ToUnicodeObjectNumber > 0)

@@ -230,6 +230,7 @@ namespace EPPlus.Export.Pdf.Helpers
             }
 
             if (sosEnd < 0 || scanTermMarker < 0 || W == 0 || H == 0) return null;
+            if (!ImageLimits.IsAllowed(W, H, 4)) return null;
 
             bool threeYcbcr = comps == 3 && sNs == 3 && adobeTransform != 0;
             bool fourYcck = comps == 4 && sNs == 4 && adobeTransform == 2;   //            transform 0 on 3 comps = RGB, leave alone

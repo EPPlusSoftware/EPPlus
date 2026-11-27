@@ -10,6 +10,7 @@
  *************************************************************************************************
   27/11/2025         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
+using EPPlus.Export.Pdf.Helpers;
 
 namespace EPPlus.Export.Pdf.DocumentObjects
 {
@@ -97,6 +98,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects
             int andOffset = colorOffset + (int)colorSize;
             int andRow = ((w + 31) / 32) * 4;
             bool hasAnd = andOffset + (long)andRow * h <= d.Length;
+            if (!ImageLimits.IsAllowed(w, h, 3)) return false;
             var outRgb = new byte[w * h * 3];
             var outAlpha = new byte[w * h];
             bool anyTransparent = false;
