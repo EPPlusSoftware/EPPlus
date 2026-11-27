@@ -29,9 +29,11 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -116,27 +118,47 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
 
             double entryWidth = 0, entryHeight = 0;
             //Separate header row on date axis            
-            List<object> values;
+            List<List<object>> values;
             if (Chart.IsTypeBar())
             {
-                values = svgChart.VerticalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+                svgChart.VerticalAxis.Axis.GetSeriesValues(out _, out _, out values); 
             }
             else
             {
-                values = svgChart.HorizontalAxis.Axis.GetAxisValues(out _, out _, out _, out _);
+                svgChart.HorizontalAxis.Axis.GetSeriesValues(out _, out _, out values);
             }
-            var horizontaValues = GetFormattedValues(svgChart, values).Distinct();
+            var nf = GetFormatTranslator(svgChart);
             var defaultFont = new MeasurementFont() { Size = 10 };
-            foreach (var v in horizontaValues)
+            var count = svgChart.GetMaxSerieCount();
+            entryWidth = _maxWidth / count;
+            foreach(var v in values[0])
             {
                 var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, defaultFont, true);
-                if (paragraph == null)
+                object value;
+                if(v is object[] arr)
                 {
-                    tb.AddParagraph(v);
+                    value = arr[3];
                 }
                 else
                 {
-                    tb.ImportParagraph(paragraph, 0, v);
+                    value = v;
+                }
+
+                if(ConvertUtil.IsExcelNumeric(v))
+                {
+                    tb.AddParagraph(ConvertUtil.GetValueDouble(value), nf, entryWidth, paragraph);
+                }
+                else
+                {
+                    var s = value?.ToString() ?? "";
+                    if (paragraph == null)
+                    {
+                        tb.AddParagraph(s);
+                    }
+                    else
+                    {
+                        tb.ImportParagraph(paragraph, 0, s);
+                    }
                 }
                 headers.Add(tb);
                 if (entryWidth < tb.Width)
@@ -153,7 +175,10 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
             DataTableRenderItems.Add(headers);
 
             _dataTableWidth = GetDataTableWidth(svgChart, _dataTable);
-
+            if (_dataTableWidth / count < entryWidth)
+            {
+                entryWidth = _dataTableWidth / count;
+            }
             //Create the source data for the data table from the series.
             DrawingLegendSerie pSls = null;
             int index = 0;
@@ -180,34 +205,37 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     {
                         LegendIconRenderer.SetPieLegend(ChartRenderer, this, ct, seriesIndex + serie.Index, pSls, serie, sls, entryWidth, entryHeight, maxIconLength);
                     }
-                    if(_dataTable.ShowKeys==false)
+                    if(_dataTable.ShowKeys == false)
                     {
                         sls.Textbox.Left = sls.SeriesIcon.Left;
                     }
-                    var rows = AddSerieValues(svgChart, _maxWidth, _maxHeight, serie);
-                    pSls = sls;
-                    var formattedValues = serie.GetValues(false, true, ct.ShowHiddenData, out bool isMultiLevel);
-                    var l=new List<DrawingTextBody>();
-                    foreach (var v in formattedValues)
+                    if (_columnsWidth == 0)
                     {
-                        var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
-                        
-                        if (paragraph == null)
-                        {
-                            tb.AddParagraph(v.ToString());
-                        }
-                        else
-                        {
-                            tb.ImportParagraph(paragraph, 0, v.ToString());
-                        }
-                        l.Add(tb);
+                        _columnsWidth = (_dataTableWidth - (GetLegendColWidth() + LeftMargin + RightMargin)) / headers.Count;
                     }
-                    DataTableRenderItems.Add(l);
+                    var rows = AddSerieValues(svgChart, paragraph, _columnsWidth, entryHeight, serie, nf);
+                    //pSls = sls;
+                    //var formattedValues = serie.GetValues(false, false, ct.ShowHiddenData, out bool isMultiLevel);
+                    //var l=new List<DrawingTextBody>();
+                    //foreach (var v in formattedValues)
+                    //{
+                    //    var tb = new DrawingTextBody(RenderContext, ChartRenderer.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
+                        
+                    //    if (paragraph == null)
+                    //    {
+                    //        tb.AddParagraph(v.ToString());
+                    //    }
+                    //    else
+                    //    {
+                    //        tb.ImportParagraph(paragraph, 0, v.ToString());
+                    //    }
+                    //    l.Add(tb);
+                    //}
+                    DataTableRenderItems.Add(rows);
                 }
                 seriesIndex+=ct.Series.Count;
             }
-            _columnsWidth = (_dataTableWidth - (GetLegendColWidth()+LeftMargin+RightMargin)) / headers.Count;
-            SetColumnWidth(entryHeight);
+            SetColumnWidth(entryWidth);
         }
 
 
@@ -314,7 +342,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 return width - svgChart.Legend.Rectangle.Width - svgChart.Legend.RightMargin;
             }
         }
-        private List<string> GetFormattedValues(ChartRenderer svgChart, List<object> values)
+        private ExcelFormatTranslator GetFormatTranslator(ChartRenderer svgChart)
         {
             var nf = svgChart.HorizontalAxis.Axis.FormatTranslator;
             //Excel replaces the format with a default date format if the axis is date based.
@@ -326,23 +354,24 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     nf = new ExcelFormatTranslator(sdFormat, 14);
                 }
             }
-            var displayValues = new List<string>();
-            foreach (var v in values)
-            {
-                string s;
-                if(v is object[] array)
-                {
-                    s = ValueToTextHandler.FormatValue(array[3], false, nf, null, out bool isValidFormat);
-                }
-                else
-                {
-                    s = ValueToTextHandler.FormatValue(v, false, nf, null, out bool isValidFormat);
-                }
-                displayValues.Add(s);
-            }
-            return displayValues;
+            return nf;
         }
-        private List<DrawingTextBody> AddSerieValues(ChartRenderer svgChart, double maxWidth, double maxHeight, ExcelChartSerie serie)
+        private ExcelFormatTranslator GetFormattedValues(ChartRenderer svgChart, List<object> values)
+        {
+            var nf = svgChart.HorizontalAxis.Axis.FormatTranslator;
+            //Excel replaces the format with a default date format if the axis is date based.
+            if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
+            {
+                if (nf.Formats.Count > 0 && nf.Formats[0].NetFormat == "m/d/yyyy")
+                {
+                    var sdFormat = ExcelNumberFormat.GetFromBuildInFromID(14); //14 is standard regional short date.
+                    nf = new ExcelFormatTranslator(sdFormat, 14);
+                }
+            }
+            return nf;
+        }
+
+        private List<DrawingTextBody> AddSerieValues(ChartRenderer svgChart, ExcelDrawingParagraph paragraph, double maxWidth, double maxHeight, ExcelChartSerie serie, ExcelFormatTranslator nf)
         {
             var ret = new List<DrawingTextBody>();
             if (string.IsNullOrEmpty(serie.Series)==false)
@@ -363,7 +392,14 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                     foreach (var cell in range)
                     {
                         var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
-                        tb.AddParagraph(cell.Text);
+                        if (ConvertUtil.IsExcelNumeric(cell.Value))
+                        { 
+                            tb.AddParagraph(ConvertUtil.GetValueDouble(cell.Value), nf, maxWidth, paragraph);
+                        }
+                        else
+                        {
+                            tb.AddParagraph(cell.Value.ToString(), paragraph);
+                        }
                         ret.Add(tb);
                     }
                 }
@@ -382,7 +418,7 @@ namespace OfficeOpenXml.Drawing.Renderer.Chart
                 foreach (var nl in serie.NumberLiteralsY)
                 {
                     var tb = new DrawingTextBody(RenderContext, svgChart.Chart, Rectangle, DefaultFonts2007Style.DataTable, true);
-                    tb.AddParagraph(nl.ToString());
+                    tb.AddParagraph(nl, nf, maxWidth);
                     ret.Add(tb);
                 }
             }

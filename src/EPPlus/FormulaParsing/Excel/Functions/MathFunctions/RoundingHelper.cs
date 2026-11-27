@@ -260,5 +260,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return result - 1;
         }
+        /// <summary>
+        /// Rounds to a number of decimals the way Excel displays it, using the same approach as the ROUND function.
+        /// Casting double to decimal keeps 15 significant digits (Excel's precision), and rounding in decimal
+        /// avoids binary errors, so 2.675 becomes 2.68 instead of 2.67.
+        /// </summary>
+        internal static double RoundToDecimals(double number, int decimals)
+        {
+            if (Math.Abs(number) >= 7.9E27) return number;   // Outside the decimal range. Only reachable on the scientific path.
+            return (double)Math.Round((decimal)number, Math.Min(decimals, 28), MidpointRounding.AwayFromZero);
+        }
     }
 }

@@ -4,23 +4,17 @@ using EPPlus.DrawingRenderer.RenderItems.SvgItem;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
 using EPPlus.Graphics;
-using EPPlusImageRenderer;
-using EPPlusImageRenderer.RenderItems;
-using EPPlusImageRenderer.Svg;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Font;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.String;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-
+using EPPlus.Fonts.OpenType.TextShaping;
 namespace OfficeOpenXml.Drawing.Renderer.TextBox
 {
     public class DrawingTextBody : RenderTextBody
@@ -89,7 +83,17 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             Paragraphs.Add(paragraph);
             RecalculateParagraphs();
         }
-
+        public void AddParagraph(string text, ExcelDrawingParagraph paragraph)        
+        { 
+            if(paragraph==null)
+            {
+                AddParagraph(text);
+            }
+            else
+            {
+                ImportParagraph(paragraph, 0, text);
+            }
+        }
         //Horizontal alignment should technically be set directly in paragraph
         //But as the text is not measured until a paragraph has been imported an autosized textbody
         //does not know its maximum size until all its paragraphs has been imported
@@ -148,8 +152,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             double currentHeight = 0;
             double largestWidth = double.MinValue;
 
-            //var defaultAlignment = TranslateHorizontalPosition(horizontalDefault);
-
             body.GetInsetsInPoints(out double left, out double top, out double right, out double bottom);
 
             if (AutoSize == false)
@@ -170,7 +172,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
                 ImportParagraph(paragraph, currentHeight);
                 var addedPara = Paragraphs.Last();
-                //addedPara.HorizontalAlignment = defaultAlignment;
 
                 currentHeight = addedPara.Bottom;
                 largestWidth = Math.Max(largestWidth, addedPara.Width);
@@ -196,31 +197,6 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
 
             //Style.FillColor = FontColorString;
         }
-
-        //internal override void AppendRenderItems(List<RenderItem> renderItems)
-        //{
-        //    SvgGroupItem groupItem;
-        //    if (Parent.Rotation == 0) //If the parent is rotated, we should not apply rotation again. This is usually when the parent is a textbox.
-        //    {
-        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds, Rotation);
-        //    }
-        //    else
-        //    {
-        //        groupItem = new SvgGroupItem(DrawingRenderer, Bounds);
-        //    }
-
-        //    if (FontColorString != null)
-        //    {
-        //        groupItem.GroupTransform += $" fill=\"{FontColorString}\"";
-        //    }
-
-        //    renderItems.Add(groupItem);
-        //    foreach (SvgParagraphItem item in Paragraphs)
-        //    {
-        //        renderItems.Add(item);
-        //    }
-        //    renderItems.Add(new SvgEndGroupItem(DrawingRenderer, Bounds));
-        //}
 
         internal DrawingParagraphRenderItem CreateParagraph(DrawingTextBody textBody, BoundingBox parent)
         {
@@ -249,5 +225,24 @@ namespace OfficeOpenXml.Drawing.Renderer.TextBox
             paragraph.AddRichText(richText);
             return paragraph;
         }
+        internal ParagraphRenderItem AddParagraph(double value, ExcelFormatTranslator nf, double maxWidth,
+                                                  ExcelDrawingParagraph style = null)
+        {
+            var mf = style != null && style.DefaultRunProperties.Size >= 0
+                   ? style.DefaultRunProperties.GetMeasureFont(_defaultFont) : _defaultFont;
+            var font = new FontFormatBase(mf);
+            font.Family = RenderContext.GetFamilyForTarget(font.Family);
+            var shaper = (ITextShaper)RenderContext.FontEngine.GetShaperForFont(font);
+
+            string chosen = null;
+            foreach (var s in NumberFitFormatter.GetCandidates(value, nf))
+            {
+                chosen = s;
+                if (shaper.MeasureTextInPoints(s, font.Size) <= maxWidth) break;
+            }
+            if (style == null) AddParagraph(chosen); else ImportParagraph(style, 0, chosen);
+            return Paragraphs[Paragraphs.Count - 1];
+        }
     }
+
 }

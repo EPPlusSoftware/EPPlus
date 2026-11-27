@@ -736,5 +736,19 @@ namespace EPPlusImageRenderer
             }
 
         }
+
+        internal int GetMaxSerieCount()
+        {
+            var count = 0;
+            foreach(var s in Chart.Series)
+            {
+                var c = s.SeriesCount(true);
+                if(c > count)
+                {
+                    count = c;
+                }
+            }
+            return count;
+        }
     }
 }

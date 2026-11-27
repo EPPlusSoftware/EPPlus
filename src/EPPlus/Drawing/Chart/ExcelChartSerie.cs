@@ -432,8 +432,17 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-
-        private int? GetCount(string address, double[] numberLiterals, string[] stringLiterals)
+        internal int SeriesCount(bool xOnly)
+        {
+            var cx = GetCount(XSeries, NumberLiteralsX, StringLiteralsX) ?? 0;
+            if (xOnly)
+            {
+                return cx;
+            }
+            var cy = GetCount(Series, NumberLiteralsY, StringLiteralsY) ?? 0;
+            return cy > cx ? cy : cx;
+        }
+        private static int? GetCount(string address, double[] numberLiterals, string[] stringLiterals)
         {
             if (ExcelAddressBase.IsValidAddress(address))
             {
