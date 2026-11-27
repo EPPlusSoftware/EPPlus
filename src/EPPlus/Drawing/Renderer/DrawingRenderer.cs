@@ -32,13 +32,25 @@ namespace OfficeOpenXml.Drawing.Renderer
     internal abstract class DrawingRenderer 
     {
         internal DrawingRenderer(ExcelDrawing drawing, FontRenderTarget target = FontRenderTarget.Document)
+            : this(drawing, target, target == FontRenderTarget.Web)
+        {
+        }
+
+        /// <param name="drawing">The drawing to render.</param>
+        /// <param name="target">The output kind text is laid out for.</param>
+        /// <param name="substituteWebFonts">
+        /// Whether fonts are substituted for the web before measuring. False when the fonts are embedded
+        /// in the output, so text is measured with the requested font. Has no effect unless the target
+        /// is <see cref="FontRenderTarget.Web"/>.
+        /// </param>
+        internal DrawingRenderer(ExcelDrawing drawing, FontRenderTarget target, bool substituteWebFonts)
         {
             Drawing = drawing;
             Bounds = drawing.GetBoundingBox();
 
             var wb = drawing._drawings.Worksheet.Workbook;
             Theme = wb.ThemeManager.GetOrCreateTheme();
-            RenderContext = wb.RenderContext.ForTarget(target);
+            RenderContext = wb.RenderContext.ForTarget(target, substituteWebFonts);
             ShapeDefaultFont = new RichTextFormatDrawing();
             if (drawing is ExcelShapeBase shapeBase)
             {

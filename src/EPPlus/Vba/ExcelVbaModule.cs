@@ -53,6 +53,7 @@ namespace OfficeOpenXml.VBA
                 if (value != _name)
                 {
                     _name = value;
+                    NameUnicode = value;    
                     streamName = value;
                     if (_nameChangeCallback != null)
                     {

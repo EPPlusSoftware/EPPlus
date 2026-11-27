@@ -430,7 +430,7 @@ namespace EPPlusImageRenderer.Svg
             }
             else
             {
-                var totSeriesCount = Chart.PlotArea.ChartTypes.Sum(x => x.Series.Count)-1;
+                //var totSeriesCount = Chart.PlotArea.ChartTypes.Sum(x => x.Series.Count)-1;
                 int entryIx = 0;
                 int prevCtSeriesCount = 0;
                 index = 0;
@@ -443,7 +443,7 @@ namespace EPPlusImageRenderer.Svg
                     {
                         ix = ct.Series.Count - 1;
                         end = -1;
-                        index = totSeriesCount-prevCtSeriesCount;
+                        index = ix+prevCtSeriesCount;
                     }
                     else
                     {

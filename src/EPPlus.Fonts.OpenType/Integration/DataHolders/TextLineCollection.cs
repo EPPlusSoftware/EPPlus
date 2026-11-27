@@ -290,7 +290,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             }
             else
             {
-                position = lineIndex+1 * exactLineSpacing;
+                position = (lineIndex + 1) * exactLineSpacing;
             }
 
             return position;

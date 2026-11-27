@@ -471,6 +471,7 @@ namespace EPPlus.Fonts.OpenType.Integration
             int fragIdxAtBreak = state.CurrentFragmentIdx;
 
             int adjustmentForLineBuilderLength = 0;
+            double movedCharWidth = 0;
 
             // Bounds check to prevent ArgumentOutOfRangeException
             if (state.WordStart >= 0 && state.WordStart < lineBuilder.Length)
@@ -505,7 +506,11 @@ namespace EPPlus.Fonts.OpenType.Integration
                 //handle line data
                 state.CurrentTextLine.Width = state.CurrentLineWidth - advanceWidth;
                 state.CurrentTextLine.Text = line;
-                //state.CurrentTextLine.
+
+                //The char that went over max was already added to the current line fragment.
+                //It leaves this line, so its width must leave the fragment too, or the fragment
+                //is wider than its text.
+                state.LineFrag.Width -= advanceWidth;
 
                 //Add the char that went over max to the next line
                 state.CurrentLineWidth = 0;
@@ -522,6 +527,7 @@ namespace EPPlus.Fonts.OpenType.Integration
                     //must be added to the new line
                     state.CurrentWordWidth = advanceWidth;
                     state.CurrentLineWidth = advanceWidth;
+                    movedCharWidth = advanceWidth;
                 }
                 else
                 {
@@ -531,6 +537,9 @@ namespace EPPlus.Fonts.OpenType.Integration
 
             state.EndCurrentTextLineAndIntializeNext(lineBuilder.Length - adjustmentForLineBuilderLength);
             state.CurrentWordWidth = state.CurrentLineWidth;
+
+            //The fragment that starts the new line holds the moved char, so it carries its width.
+            state.LineFrag.Width += movedCharWidth;
 
             state.WordStart = -1;
             state.LineStart = -1;

@@ -56,7 +56,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
         /// </summary>
         internal LookupRewriteResult Rewrite(FontSubsettingContext context)
         {
-
             var result = new LookupRewriteResult
             {
                 NewLookupList = new LookupListTable(),
@@ -74,11 +73,40 @@ namespace EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups
                     int newIndex = result.NewLookupList.Lookups.Count;
                     result.NewLookupList.Lookups.Add(rewrittenLookup);
                     result.OldToNewIndexMap[i] = newIndex;
-
                 }
             }
 
+            // Contextual subtables still reference lookups by their original index. The new
+            // lookup order is only known now, after all lookups have been rewritten.
+            result.NewLookupList.RemapLookupRecords(result.OldToNewIndexMap);
+
             return result;
+        }
+
+        /// <summary>
+        /// Remaps lookup records in all contextual subtables of this list, including subtables
+        /// wrapped in Extension lookups. Must only be called on a rewritten (subset) list.
+        /// </summary>
+        internal void RemapLookupRecords(Dictionary<int, int> oldToNewIndexMap)
+        {
+            foreach (LookupTable lookup in this.Lookups)
+            {
+                foreach (FontTableElement subTable in lookup.SubTables)
+                {
+                    FontTableElement target = subTable;
+                    ExtensionSubTableBase extension = target as ExtensionSubTableBase;
+                    if (extension != null)
+                    {
+                        target = extension.ExtendedSubTable;
+                    }
+
+                    ILookupRecordContainer container = target as ILookupRecordContainer;
+                    if (container != null)
+                    {
+                        container.RemapLookupListIndices(oldToNewIndexMap);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,60 +1,92 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
- *************************************************************************************************/
-using EPPlus.Fonts.OpenType.Subsetting;
+﻿using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables;
 using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
-using System;
+using EPPlus.Fonts.OpenType.Tables.Gsub.Handlers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace EPPlus.Fonts.OpenType.Tables.Gsub.Handlers
+/// <summary>
+/// Handler for GSUB Lookup Type 7: Extension Substitution.
+/// <para>
+/// The loader keeps each wrapped subtable in an <see cref="ExtensionSubstSubTable"/> together
+/// with its inner lookup type. This handler unwraps them into a lookup of the inner type and
+/// delegates to the handler for that type.
+/// </para>
+/// <para>
+/// The rewritten lookup is returned with the inner lookup type, not re-wrapped as type 7.
+/// The subset is written from scratch and is small, so there is no 16 bit offset overflow
+/// to avoid. This matches how <c>ExtensionPosHandler</c> handles GPOS type 9.
+/// </para>
+/// </summary>
+internal class ExtensionSubstHandler : IGsubLookupHandler
 {
-    internal class ExtensionSubstHandler : IGsubLookupHandler
+    public ushort LookupType => 7;
+
+    public void Discover(FontSubsettingContext context, LookupTable lookup, GsubSubsetProcessor processor)
     {
-        public ushort LookupType => 7;
-
-        public void Discover(FontSubsettingContext context, LookupTable lookup, GsubSubsetProcessor processor)
+        LookupTable unwrapped = Unwrap(lookup);
+        if (unwrapped != null)
         {
-            foreach (var subTable in lookup.SubTables.OfType<ExtensionSubstSubTable>())
+            processor.DiscoverLookup(context, unwrapped);
+        }
+    }
+
+    public LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
+    {
+        LookupTable unwrapped = Unwrap(oldLookup);
+        if (unwrapped == null) return null;
+
+        IGsubLookupHandler handler = context.GsubProcessor.GetHandler(unwrapped.LookupType);
+        if (handler == null) return null;
+
+        // The inner handlers set LookupType to their own type, so the result already
+        // carries the inner type.
+        LookupTable rewritten = handler.Rewrite(context, unwrapped);
+        if (rewritten == null || rewritten.SubTables.Count == 0) return null;
+
+        return rewritten;
+    }
+
+    /// <summary>
+    /// Builds a lookup of the inner lookup type from the wrapped subtables.
+    /// Returns null if no wrapped subtables were loaded.
+    /// </summary>
+    private static LookupTable Unwrap(LookupTable lookup)
+    {
+        if (lookup.SubTables == null || lookup.SubTables.Count == 0) return null;
+
+        ushort innerLookupType = 0;
+        List<FontTableElement> innerSubTables = new List<FontTableElement>();
+
+        foreach (FontTableElement subTable in lookup.SubTables)
+        {
+            ExtensionSubstSubTable extension = subTable as ExtensionSubstSubTable;
+            if (extension == null || extension.ExtendedSubTable == null) continue;
+
+            if (innerLookupType == 0)
             {
-                // Extension-tabellen är bara en skal som pekar på den riktiga datan
-                if (subTable.ExtendedSubTable == null) continue;
-
-                // Vi skapar en "fejkad" LookupTable som vi kan skicka vidare till processorn
-                // för att återanvända den logik vi redan har för t.ex. Typ 4.
-                var dummyLookup = new LookupTable
-                {
-                    LookupType = subTable.ExtensionLookupType,
-                    LookupFlag = lookup.LookupFlag,
-                    SubTables = new List<FontTableElement> { subTable.ExtendedSubTable }
-                };
-
-                // Nu skickar vi tillbaka den inre tabellen till processorn
-                processor.DiscoverLookup(context, dummyLookup);
+                innerLookupType = extension.ExtensionLookupType;
             }
+            else if (extension.ExtensionLookupType != innerLookupType)
+            {
+                // All subtables of a lookup must share the same type per the OpenType
+                // specification. Ignore mismatching ones rather than emitting a lookup
+                // whose type does not describe its subtables.
+                continue;
+            }
+
+            innerSubTables.Add(extension.ExtendedSubTable);
         }
 
-        public LookupTable Rewrite(FontSubsettingContext context, LookupTable oldLookup)
+        // Type 7 can never be the inner type; guard against recursion on malformed fonts.
+        if (innerLookupType == 0 || innerLookupType == 7) return null;
+
+        return new LookupTable
         {
-            // För Rewrite låter vi din befintliga arkitektur sköta omskrivningen av subtabeller
-            var newLookup = new LookupTable { LookupType = 7, LookupFlag = oldLookup.LookupFlag, SubTables = new List<FontTableElement>() };
-            foreach (var subtable in oldLookup.SubTables.OfType<ExtensionSubstSubTable>())
-            {
-                var rewritten = subtable.Rewrite(context, oldLookup);
-                if (rewritten != null) newLookup.SubTables.Add(rewritten);
-            }
-            return newLookup.SubTables.Count > 0 ? newLookup : null;
-        }
+            LookupType = innerLookupType,
+            LookupFlag = lookup.LookupFlag,
+            MarkFilteringSet = lookup.MarkFilteringSet,
+            SubTables = innerSubTables
+        };
     }
 }

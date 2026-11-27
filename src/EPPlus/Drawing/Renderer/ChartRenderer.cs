@@ -14,6 +14,7 @@
 using EPPlus.DrawingRenderer;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
+using OfficeOpenXml.Interfaces.Fonts;
 using EPPlus.Export.ImageRenderer.Svg.Chart;
 using EPPlusImageRenderer.RenderItems;
 using EPPlusImageRenderer.Svg;
@@ -66,7 +67,8 @@ namespace EPPlusImageRenderer
         // From the docs: 'The default font color is the same as the Axis & Major Gridlines Line Color'
         internal Color? InbuiltStyleFontColor => GetDefaultFontColor();
 
-        public ChartRenderer(ExcelChart chart, SvgRenderOptions options) : base(chart, options.FontTarget) 
+        public ChartRenderer(ExcelChart chart, SvgRenderOptions options)
+            : base(chart, options.FontTarget, options.FontTarget == FontRenderTarget.Web && !options.EmbedFonts)
         {
             SetChartArea(options);
 
@@ -216,11 +218,11 @@ namespace EPPlusImageRenderer
                         var cv = ax.CrossesAt.Value;
                         if (isSecondary)
                         {
-                            axisY = SecondVerticalAxis.GetPositionInPlotarea(Math.Max(Math.Min(cv, SecondHorizontalAxis.Min), SecondVerticalAxis.Max));
+                            axisY = SecondVerticalAxis.GetAxisPosition(cv);
                         }
                         else
                         {
-                            axisY = VerticalAxis.GetPositionInPlotarea(Math.Min(Math.Max(cv, VerticalAxis.Min), VerticalAxis.Max));
+                            axisY = VerticalAxis.GetAxisPosition(cv);
                         }
                         horizontalAxis.Line.Y1 = horizontalAxis.Line.Y2 = axisY;
                     }
@@ -231,7 +233,7 @@ namespace EPPlusImageRenderer
                         {
                             if(VerticalAxis.Min < 0)
                             {
-                                pos = VerticalAxis.GetPositionInPlotarea(0);
+                                pos = VerticalAxis.GetAxisPosition(0);
                             }
                             else
                             {
@@ -297,12 +299,12 @@ namespace EPPlusImageRenderer
                     case eTickLabelPosition.High:
                         //if (ax.AxisPosition == eAxisPosition.Bottom)
                         //{
-                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop;
+                            horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop - horizontalAxis.Rectangle.Height;
                             horizontalAxis.AdjustPosBySize = true;
                         //}
                         //else
                         //{
-                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalTop+Plotarea.Rectangle.Height;
+                        //    horizontalAxis.Rectangle.Top = Plotarea.Group.GlobalBottom;
                         //    horizontalAxis.AdjustPosBySize = false;
                         //}
                         break;
@@ -348,7 +350,6 @@ namespace EPPlusImageRenderer
                 verticalAxis.Line?.Y2 = (float)verticalAxis.Rectangle.Height;
                 var axisPos = verticalAxis.Axis.ActualAxisPosition;
                 var ax = verticalAxis.Axis;
-
                 if (ax.CrossesAt.HasValue)
                 {
                     double axisX;
@@ -486,7 +487,14 @@ namespace EPPlusImageRenderer
             {
                 var sinRot = Math.Abs(Math.Sin(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
                 var cosRot = Math.Abs(Math.Cos(MathHelper.Radians(verticalAxis.Title.TextBox.Rotation)));
-                verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) - ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+
+                if(verticalAxis.Title.TextBox.Rotation < 0)
+                {
+                    verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) - ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                }
+                {
+                    verticalAxis.Title.TextBox.Top = Plotarea.Group.Top + (Plotarea.Rectangle.Height / 2) + ((verticalAxis.Title.TextBox.Height * cosRot + verticalAxis.Title.TextBox.Width * sinRot) / 2);
+                }
 
                 if (verticalAxis.Axis.AxisPosition == eAxisPosition.Left)
                 {
@@ -683,11 +691,6 @@ namespace EPPlusImageRenderer
         {
             Plotarea?.AppendRenderItems(RenderItems);
 
-            HorizontalAxis?.AppendRenderItems(RenderItems);
-            VerticalAxis?.AppendRenderItems(RenderItems);
-            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
-            SecondVerticalAxis?.AppendRenderItems(RenderItems);
-
             if (Plotarea != null)
             {
                 //TODO: Add typeDrawers group?
@@ -698,6 +701,10 @@ namespace EPPlusImageRenderer
                     drawer.AppendRenderItems(RenderItems);
                 }
             }
+            HorizontalAxis?.AppendRenderItems(RenderItems);
+            VerticalAxis?.AppendRenderItems(RenderItems);
+            SecondHorizontalAxis?.AppendRenderItems(RenderItems);
+            SecondVerticalAxis?.AppendRenderItems(RenderItems);
 
             HorizontalAxis?.Textboxes?.AppendRenderItems(RenderItems);
             VerticalAxis?.Textboxes?.AppendRenderItems(RenderItems);

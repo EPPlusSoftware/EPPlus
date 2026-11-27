@@ -5,10 +5,12 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using static OfficeOpenXml.ExcelErrorValue;
@@ -1854,6 +1856,40 @@ namespace EPPlusTest.Issues
                 var value = ws.Cells["E1"].Value;
                 Assert.AreEqual(true, value);
             }
-        }    
+        }
+        [TestMethod]
+        public void s1094()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("sheet1");
+                base.SwitchToCulture();
+                ws.Cells["A1"].Formula = "=TEXT(46344,\"MM/DD/YYYY\")";
+                ws.Calculate();
+                ws.Cells["A2"].Value = new DateTime(2026, 11, 18);
+                ws.Cells["A2"].Style.Numberformat.Format = "MM/DD/YYYY";
+                Assert.AreEqual(ws.Cells["A2"].Text, "11/18/2026");
+                Assert.AreEqual(ws.Cells["A1"].Value, "11/18/2026");
+                base.SwitchBackToCurrentCulture();
+            }
+        }
+        
+        [TestMethod]
+        public void s1095()
+        {
+            using (var package = OpenTemplatePackage("s1095.xlsx"))
+            {
+                package.Workbook.FullCalcOnLoad = true;
+                package.Workbook.Calculate();
+
+                ExcelWorksheet ws = package.Workbook.Worksheets["Sheet1"];
+                ExcelRange cell1 = ws.Cells["B5"];
+
+                Assert.AreEqual(0d, cell1.Value);
+                
+                ExcelRange cell2 = ws.Cells["B6"];
+                Assert.AreEqual(0d, cell2.Value);                
+            }
+        }
     }
 }

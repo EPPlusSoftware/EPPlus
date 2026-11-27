@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -82,7 +83,7 @@ namespace OfficeOpenXml.VBA.Signatures
         {
             // [MS-OSHARED] 2.3.2.1 DigSigInfoSerialized
             bw.Write((uint)cert.Length);
-            bw.Write((uint)44);                  //?? 36 ref inside cert ??
+            bw.Write((uint)44);                  //blobHeaderSize(8) + infoHeaderSize(9 * 4) = 44, blobHeaderSize is not written to the stream, but is included in the offset values
             bw.Write((uint)certStore.Length);    //cbSigningCertStore
             bw.Write((uint)(cert.Length + 44));  //certStoreOffset
             bw.Write((uint)0);                   //cbProjectName
@@ -94,7 +95,6 @@ namespace OfficeOpenXml.VBA.Signatures
             bw.Write(certStore);
             bw.Write((ushort)0);//rgchProjectNameBuffer
             bw.Write((ushort)0);//rgchTimestampBuffer
-            bw.Write((ushort)0);
             bw.Flush();
             var b = ms.ToArray();
             return b;
@@ -119,6 +119,14 @@ namespace OfficeOpenXml.VBA.Signatures
             var contentInfo = ProjectSignUtil.SignProject(proj, signature, ctx);
             var verifier = new SignedCms(contentInfo);
             var signer = new CmsSigner(signature.Certificate);
+            signer.SignedAttributes.Add(new AsnEncodedData(
+                new Oid("1.3.6.1.4.1.311.2.1.12"),
+                new byte[] { 0x30, 0x04, 0xA0, 0x02, 0xA0, 0x00 }));
+
+            if (ctx.SignatureType != ExcelVbaSignatureType.Legacy)
+            {
+                signer.DigestAlgorithm = new Oid(ctx.AlgorithmIdentifierOId);
+            }
             verifier.ComputeSignature(signer, false);
             return verifier;
         }

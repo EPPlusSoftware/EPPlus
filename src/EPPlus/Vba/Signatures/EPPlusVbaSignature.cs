@@ -131,7 +131,6 @@ namespace OfficeOpenXml.VBA.Signatures
                 Part = SignaturePartUtil.GetPart(project, this);
                 Part.GetStream(FileMode.Create).Write(signatureBytes, 0, signatureBytes.Length);
             }
-            
         }
     }
 }

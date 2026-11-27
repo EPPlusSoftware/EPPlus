@@ -32,6 +32,9 @@
 		<None Update="Fonts\EBGaramond-Regular.ttf">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Fonts\Mulish-Regular-GsubExtension.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Fonts\Mulish-Regular.ttf">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -67,6 +70,9 @@
 		</None>
 		<None Update="Fonts\SourceSans3-Regular.otf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Fonts\UnicaOne-Regular.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Fonts\VariableFonts\ArchivoNarrow-VariableFont_wght.ttf">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

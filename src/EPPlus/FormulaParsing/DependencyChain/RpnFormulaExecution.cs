@@ -44,72 +44,124 @@ namespace OfficeOpenXml.FormulaParsing
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
-            foreach (var ws in wb.Worksheets)
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
             {
-#if !NET35
-                options.CancellationToken.ThrowIfCancellationRequested();
-#endif
-                if (ws.IsChartSheet == false)
+                foreach (var ws in wb.Worksheets)
                 {
-                    ExecuteChain(depChain, ws.Cells, options, true);
-                    ExecuteChain(depChain, ws.Names, options, true);
+#if !NET35
+                    options.CancellationToken.ThrowIfCancellationRequested();
+#endif
+                    if (ws.IsChartSheet == false)
+                    {
+                        ExecuteChain(depChain, ws.Cells, options, true);
+                        ExecuteChain(depChain, ws.Names, options, true);
+                    }
                 }
+                ExecuteChain(depChain, wb.Names, options, true);
             }
-            ExecuteChain(depChain, wb.Names, options, true);
-            
+            finally
+            {
+                EndVariableStorageCalculation(depChain, storageDepth);
+            }
             return depChain;
         }
+
         internal static RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
-            ExecuteChain(depChain, ws.Cells, options, true);
-            ExecuteChain(depChain, ws.Names, options, true);
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
+            {
+                ExecuteChain(depChain, ws.Cells, options, true);
+                ExecuteChain(depChain, ws.Names, options, true);
+            }
+            finally
+            {
+                EndVariableStorageCalculation(depChain, storageDepth);
+            }
             return depChain;
         }
+
         internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
         {
             //Range chain
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
-            if (cells is ExcelNamedRange name)
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
             {
-                ExecuteName(depChain, name, options, true);
+                if (cells is ExcelNamedRange name)
+                {
+                    ExecuteName(depChain, name, options, true);
+                }
+                else
+                {
+                    ExecuteChain(depChain, cells, options, true);
+                }
             }
-            else
+            finally
             {
-                ExecuteChain(depChain, cells, options, true);
+                EndVariableStorageCalculation(depChain, storageDepth);
             }
-
             return depChain;
         }
+
         internal static object ExecuteFormula(ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
-            return ExecuteChain(depChain, ws, formula, options, true);
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
+            {
+                return ExecuteChain(depChain, ws, formula, options, true);
+            }
+            finally
+            {
+                EndVariableStorageCalculation(depChain, storageDepth);
+            }
         }
+
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, FormulaCellAddress cell, ExcelCalculationOption options)
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
-            ExcelWorksheet ws;
-            if (cell.WorksheetIx < 0 || cell.WorksheetIx >= wb.Worksheets.Count)
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
             {
-                ws = null;
+                ExcelWorksheet ws;
+                if (cell.WorksheetIx < 0 || cell.WorksheetIx >= wb.Worksheets.Count)
+                {
+                    ws = null;
+                }
+                else
+                {
+                    ws = wb.GetWorksheetByIndexInList(cell.WorksheetIx);
+                }
+                return ExecuteChain(depChain, ws, formula, cell, options, false);
             }
-            else
+            finally
             {
-                ws = wb.GetWorksheetByIndexInList(cell.WorksheetIx);
+                EndVariableStorageCalculation(depChain, storageDepth);
             }
-            return ExecuteChain(depChain, ws, formula, cell, options, false);
         }
+
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, ExcelCalculationOption options)
         {
             _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
-            return ExecuteChain(depChain, null, formula, options, true);
+            var storageDepth = GetVariableStorageDepth(depChain);
+            try
+            {
+                return ExecuteChain(depChain, null, formula, options, true);
+            }
+            finally
+            {
+                EndVariableStorageCalculation(depChain, storageDepth);
+            }
         }
+
         internal static object ExecutePivotFieldFormula(RpnOptimizedDependencyChain depChain, IList<Token> tokens, ExcelCalculationOption options)
         {
             var formula = new RpnFormula(null, 0, 0);
@@ -1419,9 +1471,10 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.StartFunctionArguments:
                         var fe = (FunctionExpression)f._expressions[f._tokenIndex];
-                        if(fe is VariableFunctionExpression varFuncExp && varFuncExp.VariableScope != null)
+                        if (fe is VariableFunctionExpression varFuncExp && varFuncExp.VariableScope != null)
                         {
-                            depChain._parsingContext.VariableStorage.Push(varFuncExp.VariableScope);
+                            // Depth is recorded so OnDispose can restore it (issue #2606).
+                            varFuncExp.PushRuntimeScope(depChain._parsingContext.VariableStorage);
                         }
                         if (fe._function == null)  //Function does not exists. Push #NAME?
                         {
@@ -1854,23 +1907,19 @@ namespace OfficeOpenXml.FormulaParsing
             return list;
         }
 
-        private static bool GetProcessedAddress(RpnOptimizedDependencyChain depChain, ref FormulaRangeAddress address)
+        private static int GetVariableStorageDepth(RpnOptimizedDependencyChain depChain)
         {
-            if (depChain.accessedRanges.TryGetValue(address.WorksheetIx, out RangeHashset wsRd) == false)
-            {
-                wsRd = new RangeHashset();
-                depChain.accessedRanges.Add(address.WorksheetIx, wsRd);
-            }
-            return wsRd.Merge(ref address);
+            var storage = depChain._parsingContext.VariableStorage;
+            return storage == null ? 0 : storage.Count;
         }
-        private static bool GetProcessedAddress(RpnOptimizedDependencyChain depChain, int wsIndex, int row, int col)
+
+        private static void EndVariableStorageCalculation(RpnOptimizedDependencyChain depChain, int depth)
         {
-            if (depChain.accessedRanges.TryGetValue(wsIndex, out RangeHashset wsRd) == false)
+            var storage = depChain._parsingContext.VariableStorage;
+            if (storage != null)
             {
-                wsRd = new RangeHashset();
-                depChain.accessedRanges.Add(wsIndex, wsRd);
+                storage.EndCalculation(depth);
             }
-            return wsRd.Merge(row, col);
         }
     }
 }

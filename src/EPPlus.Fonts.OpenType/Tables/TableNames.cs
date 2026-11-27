@@ -29,5 +29,9 @@ namespace EPPlus.Fonts.OpenType.Tables
         public const string Cmap = "cmap";
         public const string Gsub = "GSUB";
         public const string Gpos = "GPOS";
+        public const string Cvt = "cvt ";   // Note: trailing space is part of the tag
+        public const string Fpgm = "fpgm";
+        public const string Prep = "prep";
+        public const string Gasp = "gasp";
     }
 }

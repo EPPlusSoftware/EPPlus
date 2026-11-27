@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  23/11/2026         EPPlus Software AB           EPPlus 9
  *************************************************************************************************/
 using OfficeOpenXml.Interfaces.Fonts;
 
@@ -35,12 +35,23 @@ namespace EPPlus.DrawingRenderer.Svg
         public SvgSize SvgSize { get; } = new SvgSize();
 
         /// <summary>
-        /// The render target used for text layout. Defaults to <see cref="FontRenderTarget.Web"/>, which
-        /// substitutes fonts unlikely to be available to a browser, both when measuring and in the output.
-        /// Use <see cref="FontRenderTarget.Document"/> when the fonts are made available to the consumer
-        /// by other means, e.g. embedded.
+        /// The render target used for text layout. Only has an effect when <see cref="EmbedFonts"/> is
+        /// false. <see cref="FontRenderTarget.Web"/> (the default) then substitutes fonts unlikely to be
+        /// available to a browser, both when measuring and in the output, e.g. Aptos Narrow with Calibri.
+        /// <see cref="FontRenderTarget.Document"/> keeps the requested fonts, for when they are made
+        /// available to the consumer by other means.
         /// </summary>
         public FontRenderTarget FontTarget { get; set; } = FontRenderTarget.Web;
+
+        /// <summary>
+        /// When true (the default), text is measured with the requested fonts (no web font
+        /// substitution) and the fonts are embedded in the svg as subsets that only hold the glyphs
+        /// used, so the output does not depend on the fonts the browser has. A font is only embedded
+        /// when its licence allows it, see <c>IEpplusFontConfiguration.OnFontEmbedding</c>; other fonts
+        /// are referenced by name. When false, no font is embedded and <see cref="FontTarget"/>
+        /// decides whether fonts are substituted.
+        /// </summary>
+        public bool EmbedFonts { get; set; } = true;
     }
     
 }

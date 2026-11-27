@@ -17,6 +17,7 @@ using EPPlus.Export.ImageRenderer.Svg.Chart.Util;
 using EPPlus.Export.Renderer;
 using EPPlus.Fonts.OpenType.Integration;
 using EPPlus.Fonts.OpenType.Integration.DataHolders;
+using EPPlus.Fonts.OpenType.TextShaping;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlus.Graphics;
 using EPPlusImageRenderer.RenderItems;
@@ -107,7 +108,7 @@ namespace EPPlusImageRenderer.Svg
 
         internal void UpdateValueScale()
         {
-            Values = GetAxisValue(Axis, ChartRenderer.ChartArea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
+            Values = GetAxisValue(Axis, ChartRenderer.Plotarea.Rectangle, out double? min, out double? max, out double? majorUnit, out eTimeUnit? dateUnit, out eTextOrientation orientation);
             if (_isMulti)
             {
                 AxisValues = null;
@@ -196,11 +197,6 @@ namespace EPPlusImageRenderer.Svg
                                 }
                             }
                         }
-
-                        //if (Axis.TextBody.Rotation != 0)
-                        //{
-                        //    Rectangle.Width += 
-                        //}
                     }
                 }
 
@@ -424,10 +420,12 @@ namespace EPPlusImageRenderer.Svg
 
         private double GetTextWidest(ExcelChartAxisStandard ax, bool isMulti)
         {
+            //The shaper is obtained through the render context so the family is substituted
+            //for the render target, matching the font the axis labels are measured with.
             var mf = ax.Font.GetMeasureFont(DefaultFonts2007Style.Axis);
-            var shaper = RenderContext.FontEngine.GetShaperForFont(mf);
+            var shaper = ChartRenderer.RenderContext.GetMeasurementShaper(new FontFormatBase(mf));
             var tm = new OpenTypeFontTextMeasurer(shaper);
-            
+
             var widest = 0f;
             if (isMulti)
             {
@@ -439,7 +437,10 @@ namespace EPPlusImageRenderer.Svg
                         widest = w.Width;
                     }
                 }
-                widest += (float)(AxisValuesMulti.Count - 1 * shaper.GetLineHeightInPoints(mf.Size) * 1.5); 
+                if (ax.IsVertical)
+                {
+                    widest += (float)((AxisValuesMulti[0].Length - 1) * shaper.GetLineHeightInPoints(mf.Size) * 1.5);
+                }
             }
             else
             {
@@ -454,16 +455,6 @@ namespace EPPlusImageRenderer.Svg
             }
             return widest;
         }
-        //internal GetAxisWidthForPlotarea()
-        //{
-
-        //}
-        //internal double GetAxisHeightForPlotarea()
-        //{
-        //    var pa = ChartRenderer.Plotarea;
-
-        //    var 
-        //}
         public List<object> Values
         {
             get;
@@ -522,7 +513,6 @@ namespace EPPlusImageRenderer.Svg
                 {
                     axisGroup.ChildObjects.Add(TickMarkGroup);
                 }
-                axisGroup.ChildObjects.AddRange(MultiCategoryLineRenderItems);
 
                 //renderItems.Add(axisGroup);
                 plotareaGroup.AddChildItem(axisGroup);
@@ -611,7 +601,7 @@ namespace EPPlusImageRenderer.Svg
                         }
                         else if (ChartRenderer.HorizontalAxis == this || ChartRenderer.HorizontalAxis.Axis.AxisTextboxPosition != Axis.AxisTextboxPosition)
                         {
-                            Rectangle.Top -= Rectangle.Height;
+                            //Rectangle.Top -= Rectangle.Height;
                         }
                         else if (Axis.AxisTextboxPosition == eActualAxisPosition.Top)
                         {
@@ -649,7 +639,7 @@ namespace EPPlusImageRenderer.Svg
 
             }
         }
-        List<RenderItem> MultiCategoryLineRenderItems { get; } = new List<RenderItem>();
+        internal List<RenderItem> MultiCategoryLineRenderItems { get; } = new List<RenderItem>();
 
         private List<DrawingTextContainer> GetAxisValueTextBoxes(out double widest, out double highest)
         {
@@ -698,10 +688,21 @@ namespace EPPlusImageRenderer.Svg
                 }
             }
 
+            if(Axis.AxisType==eAxisType.Val)
+            {
+                maxWidth = Rectangle.Width; //We dont want to wrap value axis labels as they are numeric.
+            }
             List<DrawingTextContainer> ret;
             if (AxisValues==null)
             {
-                return AddTextboxesMulti(shaper, fontSize, lineHeight, maxWidth, maxHeight, out widest, out highest);
+                if(Axis.IsVertical)
+                {
+                    return AddTextboxesMultiVertical(shaper, fontSize, lineHeight, maxWidth, maxHeight, out widest, out highest);
+                }
+                else
+                {
+                    return AddTextboxesMultiHorizontal(shaper, fontSize, lineHeight, maxWidth, maxHeight, out widest, out highest);
+                }
             }
             else
             {
@@ -749,13 +750,13 @@ namespace EPPlusImageRenderer.Svg
                     {
                         switch (lblAlignment)
                         {
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            case eAxisLabelAlignment.Left:
                                 tb.Left -= (tb.Width + majorWidth) / 2;
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            case eAxisLabelAlignment.Center:
                                 tb.Left -= tb.Width / 2;
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Right:
+                            case eAxisLabelAlignment.Right:
                                 tb.Left += (tb.Width + majorWidth) / 2;
                                 break;
                         }
@@ -768,28 +769,14 @@ namespace EPPlusImageRenderer.Svg
                         switch (lblAlignment)
                         {
 
-                            case OfficeOpenXml.eAxisLabelAlignment.Left:
+                            case eAxisLabelAlignment.Left:
                                 break;
-                            case OfficeOpenXml.eAxisLabelAlignment.Center:
+                            case eAxisLabelAlignment.Center:
                                 tb.Left += majorWidth / 2 - tb.Width / 2;
                                 break;
                             case OfficeOpenXml.eAxisLabelAlignment.Right:
 
-                                //tb.TextBody.MaxWidth = 50000d;
-                                //foreach (var item in tb.TextBody.Paragraphs)
-                                //{
-                                //    //Re-calculates wrap (so that it's one line)
-                                //    item.HorizontalAlignment = item.HorizontalAlignment;
-                                //}
-
-                                
                                 tb.Left += majorWidth - tb.Width;
-                                //foreach (var item in tb.TextBody.Paragraphs)
-                                //{
-                                //    //Re-calculates wrap (so that it's one line)
-                                //    item.HorizontalAlignment = item.HorizontalAlignment;
-                                //}
-
                                 break;
                         }
                     }
@@ -811,10 +798,10 @@ namespace EPPlusImageRenderer.Svg
                     {
                         majorWidth = Rectangle.Width / count;
                     }
-                    foreach (var tb in ret)
-                    {
-                        //tb.Left += majorWidth / 2;
-                    }
+                    //foreach (var tb in ret)
+                    //{
+                    //    //tb.Left += majorWidth / 2;
+                    //}
                 }
             }
             else if(LabelOrientation == eTextOrientation.Custom)
@@ -884,7 +871,7 @@ namespace EPPlusImageRenderer.Svg
                     else
                     {
                         //There is only one axisValue as we are somehow both the first and last value
-                        majorTickMarkWidth = 0;
+                        majorTickMarkWidth = maxWidth;
                     }
                 }
 
@@ -905,7 +892,7 @@ namespace EPPlusImageRenderer.Svg
                 double x, y;
 
                 double availableTextLength;
-                if (Axis.IsVertical)
+                if (Axis.IsVertical || AutoAxisType==eAxisType.Val)
                 {
                     availableTextLength = maxWidth;
                 }
@@ -927,7 +914,8 @@ namespace EPPlusImageRenderer.Svg
                         if (Axis.IsVertical)
                         {
                             x = ticMarkX;
-                            if (ChartRenderer.Chart.IsTypeBar())
+                            var ct = ChartRenderer.Chart.PlotArea.ChartTypes.First(x => x.XAxis?.Id == Axis.Id || x.YAxis?.Id == Axis.Id);                            
+                            if ((ct??ChartRenderer.Chart).IsTypeBar())
                             {
                                 y = ticMarkY;
                             }
@@ -957,9 +945,16 @@ namespace EPPlusImageRenderer.Svg
 
                     if (rot == 90 || rot == -90 || LabelOrientation == eTextOrientation.Vertical)
                     {
-                        if(Axis.IsVertical == false)
+                        if (Axis.IsVertical == false)
                         {
-                            x = xPosToMiddle - (width/2);
+                            if (Axis.AxisType == eAxisType.Cat)
+                            {
+                                x = xPosToMiddle - (width / 2);
+                            }
+                            else
+                            {
+                                x = ticMarkX - (width / 2);
+                            }
                             y = ticMarkY + descent;
                         }
                         else
@@ -1159,7 +1154,7 @@ namespace EPPlusImageRenderer.Svg
             }
             return ret;
         }
-        private List<DrawingTextContainer> AddTextboxesMulti(ITextShaper shaper, float fontSize, float lineHeight, double maxWidth, double maxHeight, out double widest, out double highest)
+        private List<DrawingTextContainer> AddTextboxesMultiHorizontal(ITextShaper shaper, float fontSize, float lineHeight, double maxWidth, double maxHeight, out double widest, out double highest)
         {
             widest = highest = 0;
             var axisStyle = GetAxisStyleEntry();
@@ -1169,7 +1164,7 @@ namespace EPPlusImageRenderer.Svg
             var firstItem = (string[])AxisValuesMulti.First();
             var isTopRow = true;
             var heightAdd = 0D;
-            var majorWidth = Rectangle.Width / AxisValuesMulti.Count;
+            var majorSize = Rectangle.Width / AxisValuesMulti.Count;
             var margin = fontSize * 0.5; //margin between lines
             for (int j = firstItem.Length - 1; j >= 0; j--)
             {
@@ -1187,38 +1182,9 @@ namespace EPPlusImageRenderer.Svg
                     }
                     else if (isTopRow == false && tb != null)
                     {
-                        //center the text box in the middle of the empty cells.
-                        var left = GetAxisItemLeft(i - emptyCells - 1);
-                        if (i + 1 == AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
+                        if (AdjustEmptyCellsHorizontal(tb, i, j, emptyCells, majorSize) == false)
                         {
-                            switch (Axis.LabelAlignment)
-                            {
-                                case eAxisLabelAlignment.Left:
-                                    tb.Left = left;
-                                    break;
-                                case eAxisLabelAlignment.Center:
-                                    tb.Left = left + (majorWidth * (emptyCells + 2) / 2) - (tb.Width / 2);
-                                    break;
-                                case eAxisLabelAlignment.Right:
-                                    tb.Left = left + majorWidth * (emptyCells + 2) - tb.Width;
-                                    break;
-                            }
                             continue;
-                        }
-                        else
-                        {
-                            switch (Axis.LabelAlignment)
-                            {
-                                case eAxisLabelAlignment.Left:
-                                    tb.Left = left;
-                                    break;
-                                case eAxisLabelAlignment.Center:
-                                    tb.Left = left + (majorWidth * (emptyCells + 1) / 2) - (tb.Width / 2);
-                                    break;
-                                case eAxisLabelAlignment.Right:
-                                    tb.Left = left + majorWidth * (emptyCells + 1) - tb.Width;
-                                    break;
-                            }
                         }
                         emptyCells = 0;
                     }
@@ -1226,7 +1192,13 @@ namespace EPPlusImageRenderer.Svg
                     var v = ((object[])Values[i])[j];
                     var t = AxisValuesMulti[i][j];
 
-                    var ticMarkX = GetAxisItemLeft(i);
+                    //An empty label has no size, as with ITextMeasurer.
+                    float width = string.IsNullOrEmpty(t) ? 0f : shaper.Shape(t).GetWidthInPoints(fontSize);
+                    float height = string.IsNullOrEmpty(t) ? 0f : lineHeight;
+
+                    double ticMarkX, ticMarkY;
+                    double x, y;
+                    ticMarkX = GetAxisItemLeft(i);
                     double majorTickMarkWidth;
                     if (i + 1 < Values.Count)
                     {
@@ -1246,13 +1218,8 @@ namespace EPPlusImageRenderer.Svg
                             majorTickMarkWidth = 0;
                         }
                     }
+                    ticMarkY = GetAxisItemTop(i, width, height) + heightAdd;
 
-                    //An empty label has no size, as with ITextMeasurer.
-                    float width = string.IsNullOrEmpty(t) ? 0f : shaper.Shape(t).GetWidthInPoints(fontSize);
-                    float height = string.IsNullOrEmpty(t) ? 0f : lineHeight;
-
-                    var ticMarkY = GetAxisItemTop(i, width, height) + heightAdd;
-                    double x, y;
                     if (LabelOrientation == eTextOrientation.Horizontal || isTopRow == false)
                     {
                         x = ticMarkX;
@@ -1309,61 +1276,26 @@ namespace EPPlusImageRenderer.Svg
                     }
                     if (isTopRow)
                     {
-                        AddGroupLines(x, heightFirstRow + margin);
+                        AddGroupLinesVertical(x, heightFirstRow + margin);
                         switch (Axis.LabelAlignment)
                         {
                             case eAxisLabelAlignment.Left:
                                 break;
                             case eAxisLabelAlignment.Center:
-                                x += (majorWidth / 2) - (width / 2);
+                                x += (majorSize / 2) - (width / 2);
                                 break;
                             case eAxisLabelAlignment.Right:
-                                x += majorWidth - tb.Width;
+                                x += majorSize - tb.Width;
                                 break;
                         }
                     }
                     else
                     {
-                        AddGroupLines(x, lineHeight + margin + heightAdd);
+                        AddGroupLinesVertical(x, lineHeight + margin + heightAdd);
                     }
 
                     tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, GetMaxWidthForEmptyRows(maxWidth, isTopRow, i, j), maxHeight);
                     tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
-                    //if (isTopRow)
-                    //{
-                    //    if (LabelOrientation == eTextOrientation.Diagonal)
-                    //    {
-                    //        tb.Rotation = -45;
-                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    //        {
-                    //            tb.TextAnchor = eTextAnchor.End;
-                    //        }
-                    //    }
-                    //    else if (LabelOrientation == eTextOrientation.Vertical)
-                    //    {
-                    //        if (Axis.TextBody.VerticalText == eTextVerticalType.EastAsianVertical)
-                    //        {
-                    //            tb.Rotation = 90;
-                    //        }
-                    //        else
-                    //        {
-                    //            tb.Rotation = -90;
-                    //        }
-                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    //        {
-                    //            tb.TextAnchor = eTextAnchor.End;
-                    //        }
-                    //    }
-                    //    else if (LabelOrientation == eTextOrientation.Custom)
-                    //    {
-                    //        tb.Rotation = Axis.TextBody?.RotationAdjustedForTextVertical ?? 0D;
-                    //        if (Axis.ActualAxisPosition == eAxisPosition.Bottom)
-                    //        {
-                    //            tb.TextAnchor = eTextAnchor.End;
-                    //        }
-                    //    }
-                    //}
-
                     var p = Axis.TextBody.Paragraphs.FirstOrDefault();
 
                     if (p != null)
@@ -1392,7 +1324,6 @@ namespace EPPlusImageRenderer.Svg
                         highest = tb.Height;
                     }
                     ret.Add(tb);
-                    
                 }
                 if(isTopRow)
                 {
@@ -1404,24 +1335,212 @@ namespace EPPlusImageRenderer.Svg
                     heightAdd += lineHeight + margin;
                 }
             }
-            AddGroupLines(Rectangle.Width, heightAdd);
+            AddGroupLinesVertical(Rectangle.Width, heightAdd);
+            return ret;
+        }
+        private List<DrawingTextContainer> AddTextboxesMultiVertical(ITextShaper shaper, float fontSize, float lineHeight, double maxWidth, double maxHeight, out double widest, out double highest)
+        {
+            var axisStyle = GetAxisStyleEntry();
+            var ret = new List<DrawingTextContainer>();
+            int labelSkip = Axis.AxisType == eAxisType.Cat ? (int)(Axis.MajorUnit ?? 1) : 1;
+            var heightFirstRow = Rectangle.Height - (lineHeight * AxisValuesMulti[0].Length - 1);
+            var firstItem = (string[])AxisValuesMulti.First();
+            var isTopRow = true;
+            var isVertical = Axis.IsVertical;
+            var majorSize = (isVertical ? Rectangle.Height : Rectangle.Width) / AxisValuesMulti.Count;
+            var margin = fontSize * 0.5; //margin between lines
+
+            widest = GetFirstColTextWidest(shaper, fontSize, AxisValuesMulti);
+            var widthAdd = widest+RightMargin;
+            highest = 0;
+            for (int j = firstItem.Length - 1; j >= 0; j--)
+            {
+                var emptyCells = 0;
+                DrawingTextContainer tb = null;
+                for (var i = 0; i < AxisValuesMulti.Count; i++)
+                {
+                    if (i % labelSkip != 0) continue;
+                    var items = AxisValuesMulti[i];
+
+                    if (isTopRow == false && i + 1 < AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
+                    {
+                        emptyCells++;
+                        continue;
+                    }
+                    else if (isTopRow == false && tb != null)
+                    {
+                        if (AdjustEmptyCellsVertical(tb, i, j, emptyCells, majorSize, widest) == false)
+                        {
+                            continue;
+                        }
+                        emptyCells = 0;
+                    }
+
+                    var v = ((object[])Values[i])[j];
+                    var t = AxisValuesMulti[i][j];
+
+                    //An empty label has no size, as with ITextMeasurer.
+                    float width = string.IsNullOrEmpty(t) ? 0f : shaper.Shape(t).GetWidthInPoints(fontSize);
+                    float height = string.IsNullOrEmpty(t) ? 0f : lineHeight;
+
+                    double ticMarkX, ticMarkY;
+                    double x, y;
+                    ticMarkY = GetAxisItemTop(i, width, height);
+                    ticMarkX = j * (lineHeight + LeftMargin);
+                    x = ticMarkX;
+                    y = ticMarkY;
+
+                    tb = new DrawingTextContainer(ChartRenderer.RenderContext, Chart, Rectangle, DefaultFonts2007Style.Axis, x, y, width, height, GetMaxWidthForEmptyRows(maxWidth, isTopRow, i, j), maxHeight);
+                    tb.SetRotation(EPPlus.DrawingRenderer.RenderItems.Textbox.RotationAnchor.Middle);
+                    if (isTopRow == false)
+                    {
+                        tb.TextBody.Rotation = -90;
+                    }
+
+                    var p = Axis.TextBody.Paragraphs.FirstOrDefault();
+
+                    if (p != null)
+                    {
+                        if (p.HorizontalAlignment != eTextAlignment.Center && Axis.AxisType != eAxisType.Val && (Axis.AxisPosition == eAxisPosition.Bottom || Axis.AxisPosition == eAxisPosition.Top))
+                        {
+                            //Horizontal axises are always center aligned visually
+                            //Should be broken out as input to ImportParagraph instead of changing the base item
+                            p.HorizontalAlignment = eTextAlignment.Center;
+                        }
+                        tb.ImportParagraph(p, 0, t);
+                    }
+                    else
+                    {
+                        tb.AddText(t);
+                    }
+
+                    tb.GetStyleBg().SetDrawingPropertiesFill(ChartRenderer.Theme, Axis.Fill, axisStyle?.FillReference.Color, UserSpaceSettings.UserSpaceOnUse_Global, DefaultFillColor);
+                    ret.Add(tb);
+                    AddGroupLinesHorizontal(y+majorSize, widthAdd);
+                }
+                widthAdd += lineHeight + LeftMargin;
+                isTopRow = false;
+            }
+            AddGroupLinesHorizontal(0, widthAdd- lineHeight - LeftMargin);
             return ret;
         }
 
-        private void AddGroupLines(double x, double length)
+        private double GetFirstColTextWidest(ITextShaper shaper, float fontSize, List<string[]> axisValuesMulti)
         {
-            if (Axis.IsVertical)
+            var widest = 0D;
+            foreach(string[] v in AxisValuesMulti)
             {
+                var t = v[v.Length - 1];
+                var w = shaper.MeasureTextInPoints(t, fontSize);
+                if(w > widest)
+                {
+                    widest = w;
+                }
+            }
+            return widest;
+        }
 
+        private bool AdjustEmptyCellsHorizontal(DrawingTextContainer tb, int i, int j, int emptyCells, double majorWidth)
+        {
+            //center the text box in the middle of the empty cells.
+            var left = GetAxisItemLeft(i - emptyCells - 1);
+            if (i + 1 == AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
+            {
+                switch (Axis.LabelAlignment)
+                {
+                    case eAxisLabelAlignment.Left:
+                        tb.Left = left;
+                        break;
+                    case eAxisLabelAlignment.Center:
+                        tb.Left = left + (majorWidth * (emptyCells + 2) / 2) - (tb.Width / 2);
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        tb.Left = left + majorWidth * (emptyCells + 2) - tb.Width;
+                        break;
+                }
+                return false;
             }
             else
             {
-                var li = new LineRenderItem(Rectangle) { X1 = x, X2 = x, Y1 = 0, Y2 = length };
-                li.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, ChartRenderer.Chart.StyleManager.Style?.Title.BorderReference.Color, Axis.Border.IsEmpty == true || Axis.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
-                MultiCategoryLineRenderItems.Add(li);
+                switch (Axis.LabelAlignment)
+                {
+                    case eAxisLabelAlignment.Left:
+                        tb.Left = left;
+                        break;
+                    case eAxisLabelAlignment.Center:
+                        tb.Left = left + (majorWidth * (emptyCells + 1) / 2) - (tb.Width / 2);
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        tb.Left = left + majorWidth * (emptyCells + 1) - tb.Width;
+                        break;
+                }
             }
+
+            return true;
+        }
+        private bool AdjustEmptyCellsVertical(DrawingTextContainer tb, int i, int j, int emptyCells, double majorHeight, double widest)
+        {
+            //center the text box in the middle of the empty cells.
+            var top = majorHeight * (AxisValuesMulti.Count-i); //GetAxisItemTop(i - emptyCells - 1, tb.Width, tb.Height);
+            if (i + 1 == AxisValuesMulti.Count && string.IsNullOrEmpty(AxisValuesMulti[i][j]))
+            {
+                top -= majorHeight;
+                switch (Axis.LabelAlignment)
+                {
+                    case eAxisLabelAlignment.Left:
+                        tb.Top = top + majorHeight * (emptyCells + 2);
+                        break;
+                    case eAxisLabelAlignment.Center:
+                        tb.Top = top + (majorHeight * (emptyCells + 2) / 2) + (tb.TextBody.RotatedHeight / 2);
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        tb.Top = top +  tb.TextBody.RotatedHeight;
+                        break;
+                }
+                return false;
+            }
+            else
+            {
+                switch (Axis.LabelAlignment)
+                {
+                    case eAxisLabelAlignment.Left:
+                        tb.Top = top + majorHeight * (emptyCells + 1);
+                        break;
+                    case eAxisLabelAlignment.Center:
+                        tb.Top = top + (majorHeight * (emptyCells + 1) / 2) + (tb.TextBody.RotatedHeight / 2);
+                        break;
+                    case eAxisLabelAlignment.Right:
+                        tb.Top = top + majorHeight * (emptyCells + 1) - tb.TextBody.RotatedHeight;
+                        break;
+                }
+            }
+
+            return true;
         }
 
+        private void AddGroupLinesVertical(double x, double length)
+        {
+            var li = new LineRenderItem(Rectangle) { X1 = x, X2 = x, Y1 = 0, Y2 = length };
+            li.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, ChartRenderer.Chart.StyleManager.Style?.Title.BorderReference.Color, Axis.Border.IsEmpty == true || Axis.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
+            MultiCategoryLineRenderItems.Add(li);
+        }
+        private void AddGroupLinesHorizontal(double y, double length)
+        {
+            double x1, x2;
+            if(Axis.ActualAxisPosition==eAxisPosition.Left)
+            {
+                x1 = Rectangle.Width - length;
+                x2 = Rectangle.Width;
+            }
+            else
+            {
+                x1 = 0;
+                x2 = length;
+            }
+            var li = new LineRenderItem(Rectangle) { X1 = x1, X2 = x2, Y1 = y, Y2 = y };
+            li.Style.SetDrawingPropertiesBorder(ChartRenderer.Theme, Axis.Border, ChartRenderer.Chart.StyleManager.Style?.Title.BorderReference.Color, Axis.Border.IsEmpty == true || Axis.Border.Fill.Style != eFillStyle.NoFill, GetDefaultBorderColor, 0.75);
+            MultiCategoryLineRenderItems.Add(li);
+        }
         private double GetMaxWidthForEmptyRows(double maxWidth, bool isTopRow, int startIndex, int col)
         {
             if (isTopRow) return maxWidth;
@@ -2080,7 +2199,16 @@ namespace EPPlusImageRenderer.Svg
             {
                 if (Axis.AxisType == eAxisType.Cat && IsDateAutoAxis == false)
                 {
-                    var majorWidth  = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    double majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    if (Axis.CrossingAxis == null || Axis.CrossingAxis.CrossBetween == eCrossBetween.Between)
+                    {
+                        majorWidth = ChartRenderer.Plotarea.Rectangle.Width / Max;
+                    }
+                    else
+                    {
+                        majorWidth = ChartRenderer.Plotarea.Rectangle.Width / (Max-1);
+
+                    }
                     if (startValue)
                     {
                         return majorWidth * val;
@@ -2525,6 +2653,41 @@ namespace EPPlusImageRenderer.Svg
                 return eTimeUnit.Months;
             }
             return eTimeUnit.Days;
+        }
+
+        internal double GetAxisPosition(double cv)
+        {
+            if(cv <= Min)
+            {
+                if (Axis.CrossingAxis.ActualAxisPosition == eAxisPosition.Bottom)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height;
+                }
+                else if (Axis.CrossingAxis.ActualAxisPosition == eAxisPosition.Right)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else if (cv >= Max)
+            {
+                if (Axis.ActualAxisPosition == eAxisPosition.Top)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Height;
+                }
+                else if (Axis.ActualAxisPosition == eAxisPosition.Left)
+                {
+                    return ChartRenderer.Plotarea.Rectangle.Width;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return GetPositionInPlotarea(cv);
         }
     }
 }

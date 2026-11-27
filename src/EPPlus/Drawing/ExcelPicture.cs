@@ -649,7 +649,7 @@ namespace OfficeOpenXml.Drawing
 
         internal ZipPackageRelationship LinkedImageRel = null;
         /// <summary>
-        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// Returns true if the drawing supports svg export via the <see cref="ExcelDrawing.ToSvg()"/> method.
         /// </summary>
         public override bool SupportsSvgExport => true;
     }

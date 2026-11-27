@@ -1270,7 +1270,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         /// <summary>
-        /// Returns true if the chart supports svg export via the <see cref="ToSvg()" method./>.
+        /// Returns true if the chart supports svg export via the <see cref="ExcelDrawing.ToSvg()"/> method.
         /// </summary>
         public override bool SupportsSvgExport => _svgSupportedChartTypes.Contains(ChartType);
 

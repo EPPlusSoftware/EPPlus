@@ -1,4 +1,16 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  23/11/2026         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.Fonts.OpenType.GenericFontWidths;
 using EPPlus.Fonts.OpenType.Utils;
 using System.Globalization;
@@ -16,6 +28,7 @@ namespace EPPlus.DrawingRenderer.Svg
         {
             _shapeRenderer = shapeRenderer;
         }
+        internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
         internal string Suffix = "px";
         public override void Render(GroupRenderItem item)
         {
@@ -31,8 +44,7 @@ namespace EPPlus.DrawingRenderer.Svg
             }
 
             OutputStream.Append($"<g class=\"{item.Name}\" {GetTransformOrigin(item)} transform=\"{combinedTransform}\"{fillPropery}" +
-                $"{GetDefaultFontAttribute(item)}>");
-
+                $"{GetDefaultFontAttribute(item)}{SetClip(item)}>");
             foreach (var childItem in item.ChildObjects)
             {
                 if (childItem is RenderItem renderItem)
@@ -48,6 +60,16 @@ namespace EPPlus.DrawingRenderer.Svg
 
             OutputStream.Append("</g>");
         }
+
+        private string SetClip(GroupRenderItem item)
+        {
+            if(item.ClipToBounds)
+            {
+                return $" clip-path=\"url(#{item.Name}_clip)\" ";
+            }
+            return "";
+        }
+
         string GetCombinedTransformString(GroupRenderItem item)
         {
             string positionStr = "";
@@ -125,7 +147,7 @@ namespace EPPlus.DrawingRenderer.Svg
 
             if (font != null && string.IsNullOrEmpty(font.Family) == false)
             {
-                defFontAttributes = $" font-family=\"{font.Family},{font.Family}_MSFontService,sans-serif\" " +
+                defFontAttributes = $" font-family=\"{FontPlan.GetFontFamilyAttributeValue(font)}\" " +
                 $"font-size=\"{font.Size.ToString(CultureInfo.InvariantCulture)}px\" ";
 
             }

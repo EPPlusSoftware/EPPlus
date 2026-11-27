@@ -1,4 +1,16 @@
-﻿using DrawingRenderer.Constants;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  23/11/2026         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using DrawingRenderer.Constants;
 using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.DrawingRenderer.Utils;
@@ -15,10 +27,49 @@ namespace EPPlus.DrawingRenderer
 {
     public class SvgShapeRenderer : IShapeRenderer<StringBuilder>
     {
+        /// <summary>
+        /// The class on the root svg element, which scopes <see cref="TextStyleRule"/> to this svg.
+        /// </summary>
+        internal const string RootClass = "epplus-svg";
+
+        /// <summary>
+        /// Protects the text from css of a host page, so the browser lays out text the way it was
+        /// measured. The rule is written in the svg's style element, scoped by <see cref="RootClass"/> so
+        /// it applies to nothing else on a page the svg is inlined in, and marked important so it also
+        /// wins over host rules that match text and tspan directly (e.g. "* { letter-spacing: 2px }"),
+        /// which inherited values do not.
+        /// Bold and italic synthesis is allowed: measurement uses the regular font file when a family
+        /// has no bold or italic file, and the face is declared with the weight and style of that file,
+        /// so the browser synthesizes exactly where no matching face exists, as Excel does. The widths
+        /// are kept by textLength either way.
+        /// </summary>
+        internal const string TextStyleRule =
+            "." + RootClass + " text,." + RootClass + " tspan{" +
+            "font-kerning:normal!important;" +
+            "font-variant-ligatures:common-ligatures contextual!important;" +
+            "letter-spacing:0!important;" +
+            "word-spacing:0!important;" +
+            "font-synthesis:weight style!important;" +
+            "text-rendering:geometricPrecision!important}";
+
         SvgRenderOptions _options;
+        readonly SvgFontPlan _fontPlan;
         public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options)
+            : this(bounds, outputStream, options, null)
         {
-            BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream);
+        }
+
+        /// <summary>
+        /// Creates a renderer that writes font-family stacks with fallback chains and a generic
+        /// family, resolved through the render context's font engine, and that embeds the fonts as
+        /// subsets when <see cref="SvgRenderOptions.EmbedFonts"/> is set. Pass the render context the
+        /// render items were measured with. Without a context only the family and sans-serif are
+        /// written and no font is embedded.
+        /// </summary>
+        public SvgShapeRenderer(BoundingBox bounds, StringBuilder outputStream, SvgRenderOptions options, RenderContext? renderContext)
+        {
+            _fontPlan = new SvgFontPlan(renderContext, options.EmbedFonts);
+            BasicShapesRenderer = new SvgBasicShapesRenderer(outputStream, _fontPlan);
             _options = options;
             //Override size.
             if (options.Width.HasValue)
@@ -42,35 +93,35 @@ namespace EPPlus.DrawingRenderer
         public bool Render(List<Transform> items)
         {
             OutputStream.Clear();
-            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()}>");
+            OutputStream.Append($"<svg {_options.SvgSize.Width.ToAttributeString("width", Math.Round(Bounds.Width.PointToPixel()))} {_options.SvgSize.Height.ToAttributeString("height", Math.Round(Bounds.Height.PointToPixel()))} xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"default\" overflow=\"hidden\"{GetViewBoxAttr()} class=\"{RootClass}\">");
             PreRender(items);
             foreach (var item in items)
             {
-                if(item is RenderItem renderItem)
-                switch (renderItem.Type)
-                {
-                    case RenderItemType.Group:
-                        BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
-                        break;
-                    case RenderItemType.Line:
-                        BasicShapesRenderer.LineRenderer.Render((LineRenderItem)item);
-                        break;
-                    case RenderItemType.Rect:
-                        BasicShapesRenderer.RectangleRenderer.Render((RectRenderItem)item);
-                        break;
-                    case RenderItemType.Ellipse:
-                        BasicShapesRenderer.EllipseRenderer.Render((EllipseRenderItem)item);
-                        break;
-                    case RenderItemType.Path:
-                        BasicShapesRenderer.PathRenderer.Render((PathRenderItem)item);
-                        break;
-                    case RenderItemType.Paragraph:
-                        BasicShapesRenderer.ParagraphRenderer.Render((ParagraphRenderItem)item);
-                        break;
-                    case RenderItemType.UseReference:
-                        BasicShapesRenderer.UseReferenceRenderer.Render((UseReferenceRenderItem)item);
-                        break;
-                }
+                if (item is RenderItem renderItem)
+                    switch (renderItem.Type)
+                    {
+                        case RenderItemType.Group:
+                            BasicShapesRenderer.GroupRenderer.Render((GroupRenderItem)item);
+                            break;
+                        case RenderItemType.Line:
+                            BasicShapesRenderer.LineRenderer.Render((LineRenderItem)item);
+                            break;
+                        case RenderItemType.Rect:
+                            BasicShapesRenderer.RectangleRenderer.Render((RectRenderItem)item);
+                            break;
+                        case RenderItemType.Ellipse:
+                            BasicShapesRenderer.EllipseRenderer.Render((EllipseRenderItem)item);
+                            break;
+                        case RenderItemType.Path:
+                            BasicShapesRenderer.PathRenderer.Render((PathRenderItem)item);
+                            break;
+                        case RenderItemType.Paragraph:
+                            BasicShapesRenderer.ParagraphRenderer.Render((ParagraphRenderItem)item);
+                            break;
+                        case RenderItemType.UseReference:
+                            BasicShapesRenderer.UseReferenceRenderer.Render((UseReferenceRenderItem)item);
+                            break;
+                    }
             }
             OutputStream.AppendLine("</svg>");
             return true;
@@ -78,8 +129,8 @@ namespace EPPlus.DrawingRenderer
 
         private string GetViewBoxAttr()
         {
-            if (string.IsNullOrEmpty(ViewBox)) return $" viewbox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
-            return $" viewbox=\"{ViewBox}\"";
+            if (string.IsNullOrEmpty(ViewBox)) return $" viewBox=\"0 0 {Math.Round(Bounds.Width + 1,0).PointToPixelString()} {Math.Round(Bounds.Height + 1).PointToPixelString()}\""; // +1 here is to make sure outer borders are not clipped. This should be fixed for when the full calculation for the viewbox is implemented. For now, we just add 1 pixel to the width and height to make sure the outer border is not clipped.
+            return $" viewBox=\"{ViewBox}\"";
         }
 
         public void PreRenderGroup(List<Transform> items, StringBuilder defSb, HashSet<string> hs, ref int ix)
@@ -90,11 +141,17 @@ namespace EPPlus.DrawingRenderer
                 {
                     if (item is GroupRenderItem group)
                     {
+                        if(group.ClipToBounds )
+                        {
+                            if(string.IsNullOrEmpty(group.Name))
+                            {
+                                group.Name = $"Group{ix}";
+                            }
+                            var clipId = $"{group.Name}_clip";
+                            defSb.AppendLine($"<clipPath id=\"{clipId}\"><rect x=\"{0}\" y=\"{0}\" width=\"{group.ClippingRecangle.Width.PointToPixelString()}\" height=\"{group.ClippingRecangle.Height.PointToPixelString()}\"/></clipPath>");
+                            hs.Add(clipId);
+                        }
                         PreRenderGroup(group.ChildObjects, defSb, hs, ref ix);
-                        //foreach(var child in group.RenderItems)
-                        //{
-                        //    WriteDefsForRenderItem(defSb, hs, ref ix, child);
-                        //}
                     }
                     else
                     {
@@ -111,13 +168,17 @@ namespace EPPlus.DrawingRenderer
             var hs = new HashSet<string>();
             var ix = 1;
 
-            //foreach (var item in items)
-            //{
-            //    if (item is RenderItem)
-            //    {
-                    PreRenderGroup(items, defSb, hs, ref ix);
-            //    }
-            //}
+            // The fonts are planned from all text of the svg before anything is written. The style
+            // element declares the embedded subsets, then the rule that protects the text from host css.
+            _fontPlan.BeginCollect();
+            CollectText(items);
+            _fontPlan.Build();
+            defSb.Append("<style>");
+            _fontPlan.AppendFontFaceRules(defSb);
+            defSb.Append(TextStyleRule);
+            defSb.Append("</style>");
+
+            PreRenderGroup(items, defSb, hs, ref ix);
 
             if (defSb.Length > 0)
             {
@@ -126,10 +187,40 @@ namespace EPPlus.DrawingRenderer
                 OutputStream.Append("</defs>");
             }
 
-            ////Remove all items that have already been rendered
-            //renderItems.RemoveAll(x => x is SvgRenderItem svgX && string.IsNullOrEmpty(svgX.DefId) == false);
             return true;
         }
+
+        /// <summary>
+        /// Adds the text of the render items to the font plan, and registers the default fonts of
+        /// groups and paragraphs, which have no text of their own but get a font-family stack.
+        /// </summary>
+        void CollectText(List<Transform> items)
+        {
+            foreach (var t in items)
+            {
+                if (t is GroupRenderItem group)
+                {
+                    _fontPlan.AddText(group.GroupDefaultFont, null);
+                    CollectText(group.ChildObjects);
+                }
+                else if (t is ParagraphRenderItem paragraph)
+                {
+                    _fontPlan.AddText(paragraph.DefaultParagraphFont, null);
+                    if (paragraph.Runs != null)
+                    {
+                        foreach (var run in paragraph.Runs)
+                        {
+                            _fontPlan.AddText(run._measurementFont, run.CurrentText);
+                        }
+                    }
+                }
+                else if (t is TextRunRenderItem run)
+                {
+                    _fontPlan.AddText(run._measurementFont, run.CurrentText);
+                }
+            }
+        }
+
         Dictionary<string, string> _defsCache = new Dictionary<string, string>();
         private void WriteDefsForRenderItem(StringBuilder defSb, HashSet<string> hs, ref int ix, RenderItem item)
         {

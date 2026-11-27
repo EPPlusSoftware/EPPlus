@@ -38,6 +38,12 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         internal GposSubsetProcessor GposProcessor { get; set; }
 
         /// <summary>
+        /// True when the subset is created without TrueType hinting, see <see cref="SubsetOptions.RemoveHinting"/>.
+        /// Read by the processors that write glyf, maxp, head and the hinting tables.
+        /// </summary>
+        internal bool RemoveHinting { get; set; }
+
+        /// <summary>
         /// Creates a new subsetting context and initializes all collections.
         /// </summary>
         public FontSubsettingContext(OpenTypeFont originalFont, IEnumerable<int> unicodeChars)

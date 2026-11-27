@@ -31,10 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var arg = GetFirstValue(arguments);
-            
+
             if (arg is bool)
             {
-                var val = (bool) arg ? 1d : 0d;
+                var val = (bool)arg ? 1d : 0d;
                 return CreateResult(val, DataType.Decimal);
             }
             else if (IsNumeric(arg))
@@ -49,6 +49,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             else if (arg is ExcelErrorValue err)
             {
                 return CompileResult.GetErrorResult(err.Type);
+            }
+            else if (arg is null)
+            {
+                return CreateResult(0d, DataType.Decimal);
             }
             throw new ExcelErrorValueException(eErrorType.Value);
         }

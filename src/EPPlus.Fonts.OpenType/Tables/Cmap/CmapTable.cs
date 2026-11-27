@@ -56,70 +56,65 @@ namespace EPPlus.Fonts.OpenType.Tables.Cmap
 
         internal override void SerializeInternal(FontsBinaryWriter writer, FontSerializationContext context)
         {
-            // Start of cmap table
             long tableStart = writer.BaseStream.Position;
 
-            // Write header
+            // Only records that actually have a subtable to write become part of the serialized table.
+            // A skipped record would otherwise be written with a stale offset pointing at nothing.
+            // The OpenType spec requires the records sorted by platform ID, then encoding ID.
+            // OrderBy/ThenBy is a stable sort, so records with equal keys keep their relative order.
+            var recordsToWrite = EncodingRecords
+                .Where(r => !r.IsSkipped && r.Subtable != null)
+                .OrderBy(r => (ushort)r.PlatformId)
+                .ThenBy(r => r.EncodingId)
+                .ToList();
+
+            // Header
             writer.WriteUInt16BigEndian(Version);
-            writer.WriteUInt16BigEndian((ushort)EncodingRecords.Count);
+            writer.WriteUInt16BigEndian((ushort)recordsToWrite.Count);
 
-            // Reserve space for encoding records
+            // Reserve space for the encoding records; they are written once the offsets are known
             long encodingRecordStart = writer.BaseStream.Position;
-            foreach (var _ in EncodingRecords)
+            for (int i = 0; i < recordsToWrite.Count; i++)
             {
-                writer.Write(new byte[8]); // placeholder
+                writer.Write(new byte[8]);
             }
 
-            // Precompute offsets for unique subtables. Deduplication is keyed by the SUBTABLE
-            // INSTANCE, not by SubtableOffset: for a freshly-built cmap (e.g. a subset's cmap),
-            // every EncodingRecord starts out with the same placeholder SubtableOffset (0), so
-            // keying on that value would wrongly alias two DIFFERENT subtables (e.g. a subset's
-            // format 4 and format 12 tables) onto the same bytes the first time this ran with two
-            // fresh tables sharing that placeholder. Keying by the actual object reference only
-            // dedups encoding records that genuinely point at the SAME subtable (e.g. (3,1) and
-            // (0,3) both referencing one shared Unicode BMP subtable), which is what this is for.
-            var subtableOffsetsMap = new Dictionary<CmapSubtableBase, uint>();
-            var subTableStartIndex = writer.BaseStream.Position;
-            var encRecordsToSerialize = EncodingRecords.OrderBy(er => er.SubtableOffset);
-            foreach (var encRecord in encRecordsToSerialize)
+            // Write each unique subtable once. Deduplication is keyed by the subtable instance, not by
+            // SubtableOffset: in a freshly built cmap (e.g. a subset's) every record starts with the
+            // same placeholder offset (0), so keying on that would alias different subtables. Keying by
+            // reference only shares bytes between records that genuinely point at the same subtable,
+            // such as (0,3) and (3,1) referencing one Unicode BMP subtable.
+            // Subtables are written in their original offset order, so a loaded font keeps its layout.
+            var subtableOffsets = new Dictionary<CmapSubtableBase, uint>();
+            foreach (var record in recordsToWrite.OrderBy(r => r.SubtableOffset))
             {
-                // Skip any explicitly marked skipped records. Format 14 (Unicode Variation
-                // Sequences) subtables ARE serialized like any other format now - they used to be
-                // unconditionally dropped here, which silently discarded variation-sequence data
-                // from every embedded font.
-                if (encRecord.IsSkipped)
+                if (subtableOffsets.ContainsKey(record.Subtable))
                 {
                     continue;
                 }
-                uint existingOffset;
-                if (encRecord.Subtable != null && subtableOffsetsMap.TryGetValue(encRecord.Subtable, out existingOffset))
-                {
-                    encRecord.SubtableOffset = existingOffset;
-                    continue;
-                }
-                var subTableBytes = encRecord.Subtable.Serialize();
-                writer.Write(subTableBytes);
-                if (encRecord.Subtable != null)
-                    subtableOffsetsMap[encRecord.Subtable] = (uint)subTableStartIndex;
-                encRecord.SubtableOffset = (uint)subTableStartIndex;
-                subTableStartIndex += subTableBytes.Length;
 
+                // Offsets are relative to the start of the cmap table, as the spec requires, so the
+                // result does not depend on where in the stream the table is written.
+                subtableOffsets[record.Subtable] = (uint)(writer.BaseStream.Position - tableStart);
+                writer.Write(record.Subtable.Serialize());
             }
 
-            // Go back and write encoding records with correct offsets
-            long currentPos = writer.BaseStream.Position;
+            // Go back and write the encoding records with their final offsets
+            long endPosition = writer.BaseStream.Position;
             writer.BaseStream.Seek(encodingRecordStart, SeekOrigin.Begin);
 
-            for (int i = 0; i < EncodingRecords.Count; i++)
+            foreach (var record in recordsToWrite)
             {
-                var record = EncodingRecords[i];
+                uint offset = subtableOffsets[record.Subtable];
+                record.SubtableOffset = offset;
+
                 writer.WriteUInt16BigEndian((ushort)record.PlatformId);
                 writer.WriteUInt16BigEndian(record.EncodingId);
-                writer.WriteUInt32BigEndian(record.SubtableOffset);
+                writer.WriteUInt32BigEndian(offset);
             }
 
-            // Return to end of stream
-            writer.BaseStream.Seek(currentPos, SeekOrigin.Begin);
+            // Return to the end of the table
+            writer.BaseStream.Seek(endPosition, SeekOrigin.Begin);
         }
 
 

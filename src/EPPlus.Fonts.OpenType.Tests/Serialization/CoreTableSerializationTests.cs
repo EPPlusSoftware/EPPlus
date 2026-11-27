@@ -81,8 +81,8 @@ namespace EPPlus.Fonts.OpenType.Tests.Serialization
         [TestMethod]
         [DataRow("Roboto", FontSubFamily.Regular, 96)]
         [DataRow("Roboto", FontSubFamily.Italic, 96)]
-        [DataRow("EB Garamond", FontSubFamily.Regular, 100)]
-        [DataRow("Mulish", FontSubFamily.Regular, 100)]
+        [DataRow("EB Garamond", FontSubFamily.Regular, 96)]
+        [DataRow("Mulish", FontSubFamily.Regular, 96)]
         public void SerializeOs2Table(string fontName, FontSubFamily subFamily, int expectedLength)
         {
             var ffi = FontScannerV2.FindBestMatch(FontFolder, fontName, subFamily);

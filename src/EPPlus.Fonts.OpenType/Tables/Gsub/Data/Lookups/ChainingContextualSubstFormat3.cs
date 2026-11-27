@@ -10,15 +10,16 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Subsetting;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EPPlus.Fonts.OpenType.Subsetting;
-using EPPlus.Fonts.OpenType.Tables.Common.Layout.Coverage;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 {
-    public class ChainingContextualSubstFormat3 : FontTableElement
+    public class ChainingContextualSubstFormat3 : FontTableElement, ILookupRecordContainer
     {
         public List<CoverageTable> BacktrackCoverages { get; set; } = new();
         public List<CoverageTable> InputCoverages { get; set; } = new();
@@ -76,27 +77,30 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
 
         internal ChainingContextualSubstFormat3 Rewrite(FontSubsettingContext context)
         {
+            // A rule can only match if every backtrack, input and lookahead position can still be
+            // matched by at least one glyph in the subset. If any position lost all its glyphs, the
+            // rule can never fire and is dropped. Dropping only the backtrack or lookahead context
+            // instead would make the rule match more broadly than in the original font.
+            List<CoverageTable> backtrack = RewriteCoverageList(this.BacktrackCoverages, context);
+            if (backtrack == null) return null;
+
+            List<CoverageTable> input = RewriteCoverageList(this.InputCoverages, context);
+            if (input == null || input.Count == 0) return null;
+
+            List<CoverageTable> lookahead = RewriteCoverageList(this.LookaheadCoverages, context);
+            if (lookahead == null) return null;
+
             var newTable = new ChainingContextualSubstFormat3();
+            newTable.BacktrackCoverages = backtrack;
+            newTable.InputCoverages = input;
+            newTable.LookaheadCoverages = lookahead;
 
-            // 1. Mappa om listorna. 
-            // Vår hjälpmetod RewriteCoverageList returnerar nu en tom lista istället för null
-            // om originalet var tomt/null, för att tillfredsställa Writer-koden.
-            newTable.BacktrackCoverages = RewriteCoverageList(this.BacktrackCoverages, context) ?? new List<CoverageTable>();
-            newTable.InputCoverages = RewriteCoverageList(this.InputCoverages, context);
-            newTable.LookaheadCoverages = RewriteCoverageList(this.LookaheadCoverages, context) ?? new List<CoverageTable>();
-
-            // 2. Validering: Input MÅSTE finnas för att regeln ska vara giltig.
-            if (newTable.InputCoverages == null || newTable.InputCoverages.Count == 0) return null;
-
-            // 3. Kopiera records
-            if (this.SubstLookupRecords != null)
-            {
-                newTable.SubstLookupRecords = new List<SubstLookupRecord>(this.SubstLookupRecords);
-            }
-            else
-            {
-                newTable.SubstLookupRecords = new List<SubstLookupRecord>();
-            }
+            // Lookup indices still refer to the original LookupList at this point. They are
+            // remapped by LookupListTable.Rewrite once the new lookup order is known. The remap
+            // creates new record instances, so the original font's records are never modified.
+            newTable.SubstLookupRecords = this.SubstLookupRecords != null
+                ? new List<SubstLookupRecord>(this.SubstLookupRecords)
+                : new List<SubstLookupRecord>();
 
             return newTable;
         }
@@ -134,6 +138,27 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups
                 });
             }
             return newCoverages;
+        }
+
+        void ILookupRecordContainer.RemapLookupListIndices(Dictionary<int, int> oldToNewIndexMap)
+        {
+            var remapped = new List<SubstLookupRecord>(SubstLookupRecords.Count);
+            foreach (SubstLookupRecord record in SubstLookupRecords)
+            {
+                int newIndex;
+                if (oldToNewIndexMap.TryGetValue(record.LookupListIndex, out newIndex))
+                {
+                    remapped.Add(new SubstLookupRecord
+                    {
+                        SequenceIndex = record.SequenceIndex,
+                        LookupListIndex = (ushort)newIndex
+                    });
+                }
+                // Otherwise the target lookup became empty in the subset and was removed, so the
+                // record was a no-op. The subtable itself is kept even if no records remain: a
+                // matching rule still stops later subtables in the same lookup from being tried.
+            }
+            SubstLookupRecords = remapped;
         }
     }
 }
