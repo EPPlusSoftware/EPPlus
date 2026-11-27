@@ -43,9 +43,20 @@ namespace EPPlus.Export.Pdf.DocumentObjects
 
         private string Body()
         {
-            string action = IsGoTo
-                ? $"/A << /S /GoTo /D [ {DestPageObj.ToPdfStringF0()} 0 R /XYZ {DestX.ToPdfStringF4()} {DestY.ToPdfStringF4()} null ] >>"
-                : $"/A << /S /URI /URI {Uri.ToPdfLiteral()} >>";
+            string action;
+            if (IsGoTo)
+            {
+                action = $"/A << /S /GoTo /D [ {DestPageObj.ToPdfStringF0()} 0 R /XYZ {DestX.ToPdfStringF4()} {DestY.ToPdfStringF4()} null ] >>";
+            }
+            else if (!PdfString.IsDangerousUriScheme(Uri))
+            {
+                action = $"/A << /S /URI /URI {Uri.ToPdfLiteral()} >>";
+            }
+            else
+            {
+                // Active-content scheme (javascript:, file:, ...) -> emit an inert link, no action.
+                action = "";
+            }
 
             string contents = string.IsNullOrEmpty(ToolTip) ? "" : $"\n   /Contents {ToolTip.ToPdfTextString()}";
 

@@ -60,7 +60,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var sb = new StringBuilder();
             sb.AppendFormat($"<< /Type /Font\n" +
                             $"   /Subtype /{subType}\n" +
-                            $"   /BaseFont /{baseFont.Replace(" ", "")}");
+                            $"   /BaseFont /{baseFont.Replace(" ", "").ToPdfName()}");
             if (encoding == PdfFontEncoding.None)
             {
                 sb.Append(" >>");

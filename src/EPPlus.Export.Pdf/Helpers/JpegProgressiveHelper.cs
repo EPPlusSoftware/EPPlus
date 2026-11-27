@@ -158,6 +158,7 @@ namespace EPPlus.Export.Pdf.Helpers
                     W = ((d[p + 3] & 0xFF) << 8) | (d[p + 4] & 0xFF);
                     int nc = d[p + 5] & 0xFF;
                     if (nc != 3) return null;
+                    if (!ImageLimits.IsAllowed(W, H, 4)) return null;
                     for (int c = 0; c < nc; c++)
                     {
                         int q = p + 6 + c * 3;

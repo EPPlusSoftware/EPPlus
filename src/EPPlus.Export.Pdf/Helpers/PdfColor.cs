@@ -63,40 +63,45 @@ namespace EPPlus.Export.Pdf.Helpers
             if (string.IsNullOrEmpty(hex) || hex == "0" || hex == "#0")
             {
                 return Color.Empty;
-
             }
             hex = hex.Trim().TrimStart('#');
-            int R=0, G=0, B=0, A=0;
-            if (hex.Length == 3)
+            int R = 0, G = 0, B = 0, A = 0;
+            try
             {
-                R = Convert.ToByte(new string(hex[0], 2), 16);
-                G = Convert.ToByte(new string(hex[1], 2), 16);
-                B = Convert.ToByte(new string(hex[2], 2), 16);
-
+                if (hex.Length == 3)
+                {
+                    R = Convert.ToByte(new string(hex[0], 2), 16);
+                    G = Convert.ToByte(new string(hex[1], 2), 16);
+                    B = Convert.ToByte(new string(hex[2], 2), 16);
+                }
+                else if (hex.Length == 4)
+                {
+                    A = Convert.ToByte(new string(hex[0], 2), 16);
+                    R = Convert.ToByte(new string(hex[1], 2), 16);
+                    G = Convert.ToByte(new string(hex[2], 2), 16);
+                    B = Convert.ToByte(new string(hex[3], 2), 16);
+                }
+                else if (hex.Length == 6)
+                {
+                    R = Convert.ToByte(hex.Substring(0, 2), 16);
+                    G = Convert.ToByte(hex.Substring(2, 2), 16);
+                    B = Convert.ToByte(hex.Substring(4, 2), 16);
+                }
+                else if (hex.Length == 8)
+                {
+                    A = Convert.ToByte(hex.Substring(0, 2), 16);
+                    R = Convert.ToByte(hex.Substring(2, 2), 16);
+                    G = Convert.ToByte(hex.Substring(4, 2), 16);
+                    B = Convert.ToByte(hex.Substring(6, 2), 16);
+                }
+                else
+                {
+                    return Color.Empty;
+                }
             }
-            else if (hex.Length == 4)
+            catch (FormatException)
             {
-                A = Convert.ToByte(new string(hex[0], 2), 16);
-                R = Convert.ToByte(new string(hex[1], 2), 16);
-                G = Convert.ToByte(new string(hex[2], 2), 16);
-                B = Convert.ToByte(new string(hex[3], 2), 16);
-            }
-            else if (hex.Length == 6)
-            {
-                R = Convert.ToByte(hex.Substring(0, 2), 16);
-                G = Convert.ToByte(hex.Substring(2, 2), 16);
-                B = Convert.ToByte(hex.Substring(4, 2), 16);
-            }
-            else if (hex.Length == 8)
-            {
-                A = Convert.ToByte(hex.Substring(0, 2), 16);
-                R = Convert.ToByte(hex.Substring(2, 2), 16);
-                G = Convert.ToByte(hex.Substring(4, 2), 16);
-                B = Convert.ToByte(hex.Substring(6, 2), 16);
-            }
-            else
-            {
-                throw new FormatException("Invalid hex color format.");
+                return Color.Empty;   // non-hex digits -> no colour instead of aborting the export
             }
             return Color.FromArgb(A, R, G, B);
         }

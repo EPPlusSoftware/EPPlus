@@ -85,8 +85,8 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
             var sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /Font\n" +
                             $"    /Subtype /{Subtype.ToString()}\n" +
-                            $"    /BaseFont /{BaseFont}\n" +
-                            $"    /CIDSystemInfo << /Registry ({CIDInfoObject.Registry}) /Ordering ({CIDInfoObject.Ordering}) /Supplement {CIDInfoObject.Supplement} >>\n" +
+                            $"    /BaseFont /{BaseFont.ToPdfName()}\n" +
+                            $"    /CIDSystemInfo << /Registry {CIDInfoObject.Registry.ToPdfLiteral()} /Ordering {CIDInfoObject.Ordering.ToPdfLiteral()} /Supplement {CIDInfoObject.Supplement} >>\n" +
                             $"    /FontDescriptor {FontDescriptorObjectNumber.ToPdfStringF0()} 0 R");
             if (DW != null)
             {

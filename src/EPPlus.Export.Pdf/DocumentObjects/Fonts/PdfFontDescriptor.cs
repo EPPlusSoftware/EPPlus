@@ -67,7 +67,7 @@ namespace EPPlus.Export.Pdf.DocumentObjects.Fonts
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat($"<<  /Type /FontDescriptor\n" +
-                            $"    /FontName /{fontName.Replace(" ", "")}\n" +
+                            $"    /FontName /{fontName.Replace(" ", "").ToPdfName()}\n" +
                             $"    /Flags {flags.ToPdfStringF0()}\n" +
                             $"    /FontBBox [{fontBBox.X.ToPdfStringF0()} {fontBBox.Y.ToPdfStringF0()} {fontBBox.Width.ToPdfStringF0()} {fontBBox.Height.ToPdfStringF0()}]\n" +
                             $"    /Ascent {ascent.ToPdfStringF0()}\n" +
