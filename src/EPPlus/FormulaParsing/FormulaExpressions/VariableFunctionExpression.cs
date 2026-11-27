@@ -28,22 +28,29 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 _storageScope = _variableStorage.AddNewScope();
                 _isOutOfVariableScope = false;
             }
-            else if(!_variableStorage.IsEmpty)
-            {
-                _storageScope = _variableStorage.Peek();
-                _isOutOfVariableScope = false;
-            }
             else
             {
-                _isOutOfVariableScope = true;
+                // Use the lexically enclosing scope (issue #2606), not the top of the shared runtime stack.
+                var lexicalScope = _variableStorage.PeekLexical();
+                if (lexicalScope != null)
+                {
+                    _storageScope = lexicalScope;
+                    _isOutOfVariableScope = false;
+                }
+                else
+                {
+                    _isOutOfVariableScope = true;
+                }
             }
-             VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
+            VariableScopeId = _isOutOfVariableScope ? -1 : _storageScope.Id;
         }
 
         private string _lastDeclaredVariable;
         private readonly VariableStorageManager _variableStorage;
         private readonly VariableStorageScope _storageScope;
         private bool _isOutOfVariableScope = false;
+        private VariableStorageManager _runtimeStorage;
+        private int _runtimeStackDepth = -1;
 
 
         internal int VariableScopeId { get; private set; }
@@ -115,6 +122,30 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return _storageScope.GetVariableValue(variableName) ?? CompileResult.Empty;
             }
             return CompileResult.Empty;
+        }
+
+        /// <summary>
+        /// Pushes this expression's scope on the runtime stack and records the depth before the push,
+        /// so that <see cref="OnDispose"/> can restore it.
+        /// </summary>
+        /// <param name="storage">The runtime variable storage</param>
+        internal void PushRuntimeScope(VariableStorageManager storage)
+        {
+            if (_storageScope == null || storage == null) return;
+            _runtimeStorage = storage;
+            _runtimeStackDepth = storage.Count;
+            storage.Push(_storageScope);
+        }
+
+        internal override void OnDispose()
+        {
+            base.OnDispose();
+            if (_runtimeStorage != null && _runtimeStackDepth >= 0)
+            {
+                _runtimeStorage.RestoreDepth(_runtimeStackDepth);
+            }
+            _runtimeStorage = null;
+            _runtimeStackDepth = -1;
         }
     }
 }

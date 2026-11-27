@@ -3,12 +3,13 @@ name: GitHub Advisory Check
 on:
   schedule:
     - cron: '15 * * * *'  # Every hour at :15
-  workflow_dispatch:        # Allow manual triggering
+  workflow_dispatch:        # Allow manual triggering, e.g. right after publishing an advisory
 
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      # Unchanged: triage advisories -> internal alert in the support portal
       - name: Check GitHub security advisories
         env:
           GH_TOKEN: ${{ secrets.ADVISORY_READ_TOKEN }}
@@ -46,4 +47,81 @@ jobs:
           else
             echo "Advisory sync successful:"
             cat response.json
+          fi
+
+      # New: published advisories -> mirrored to the public Vulnerability Disclosures page.
+      # The API treats the payload as the FULL set of published advisories, so this step
+      # must never post a partial or empty list caused by an error. Any failure aborts.
+      - name: Sync published security advisories
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.ADVISORY_READ_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          http_code=$(curl -s -L -o published.json -w "%{http_code}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/security-advisories?state=published&per_page=100")
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::GitHub API returned HTTP $http_code"
+            cat published.json
+            exit 1
+          fi
+
+          if [ "$(jq -r 'type' published.json)" != "array" ]; then
+            echo "::error::Unexpected response from GitHub API"
+            cat published.json
+            exit 1
+          fi
+
+          count=$(jq 'length' published.json)
+          echo "Found $count published advisories"
+
+          # One page only. Abort rather than sync an incomplete set if we ever reach the limit.
+          if [ "$count" -ge 100 ]; then
+            echo "::error::100 or more published advisories; pagination must be added before syncing"
+            exit 1
+          fi
+
+          jq '{
+            advisories: [.[] | {
+              ghsaId: .ghsa_id,
+              cveId: .cve_id,
+              summary: .summary,
+              description: .description,
+              severity: .severity,
+              cvssScore: (.cvss_severities.cvss_v3.score // .cvss.score),
+              cvssVector: (.cvss_severities.cvss_v3.vector_string // .cvss.vector_string),
+              cweIds: [(.cwes // [])[] | .cwe_id],
+              htmlUrl: .html_url,
+              publishedAt: .published_at,
+              updatedAt: .updated_at,
+              withdrawnAt: .withdrawn_at,
+              vulnerabilities: [(.vulnerabilities // [])[] | {
+                ecosystem: .package.ecosystem,
+                packageName: .package.name,
+                vulnerableVersionRange: .vulnerable_version_range,
+                patchedVersions: .patched_versions
+              }]
+            }]
+          }' published.json > payload.json
+
+          response=$(curl -s -o response.json -w "%{http_code}" \
+            -X POST "https://epplussoftware.com/api/security/github-advisories/published" \
+            -H "X-Api-Key: ${{ secrets.EPPLUS_VULNERABILITY_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            --data-binary @payload.json)
+
+          cat response.json
+          if [ "$response" != "200" ]; then
+            echo "::error::Published advisory sync failed with HTTP $response"
+            exit 1
+          fi
+
+          if [ "$(jq '(.warnings // []) | length' response.json)" -gt 0 ]; then
+            echo "::warning::Sync completed with warnings, see response above"
           fi

@@ -189,28 +189,40 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <exception cref="InvalidOperationException"></exception>
         public CompileResult Execute(ParsingContext ctx)
         {
-            if(_currentTokens == null)
+            if (_currentTokens == null)
             {
                 throw new InvalidOperationException("LambdaCalculator.Execute was called without having initialized it with BeginCalculation. OriginalTokens.Count = " + _originalTokens.Count + ", # variables = " + (_variables != null ? _variables.Count : 0));
             }
-            if(_nVariablesSet < NumberOfVariables)
+            if (_nVariablesSet < NumberOfVariables)
             {
                 var result = ExcelErrorValue.Create(eErrorType.Value);
                 return CompileResultFactory.CreateDynamicArrayResult(result);
             }
-            var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
-            formula.IgnoreCaching = true;
-            formula.ExpressionStack = _formula.ExpressionStack;
-            formula.FunctionStack = _formula.FunctionStack;
-            formula._flags = _formula._flags | FormulaFlags.IsLambda;
-            formula._lambdaFormulaStackCount = ctx.DependencyChain._formulaStack.Count;
-            var rpnTokens = new RpnTokens { Tokens = _currentTokens, Scope = _scope };
-            formula.SetTokens(rpnTokens, ctx, _scope);
-            // SetTokens clears the variable storage...
-            ctx.VariableStorage.Push(_scope);
-            var chain = ctx.DependencyChain;
-            var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, true);
-            return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+            if (ctx.VariableStorage == null)
+            {
+                ctx.VariableStorage = new VariableStorageManager();
+            }
+            // Record the depth so the scope pushed below, and anything left by the body, is removed afterwards (issue #2606).
+            var storageDepth = ctx.VariableStorage.Count;
+            try
+            {
+                var formula = new RpnFormula(ctx.CurrentWorksheet, ctx.CurrentCell.Row, ctx.CurrentCell.Column, ctx.VariableStorage);
+                formula.IgnoreCaching = true;
+                formula.ExpressionStack = _formula.ExpressionStack;
+                formula.FunctionStack = _formula.FunctionStack;
+                formula._flags = _formula._flags | FormulaFlags.IsLambda;
+                formula._lambdaFormulaStackCount = ctx.DependencyChain._formulaStack.Count;
+                var rpnTokens = new RpnTokens { Tokens = _currentTokens, Scope = _scope };
+                formula.SetTokens(rpnTokens, ctx, _scope);
+                ctx.VariableStorage.Push(_scope);
+                var chain = ctx.DependencyChain;
+                var compileResult = RpnFormulaExecution.ExecutePartialFormula(chain, formula, ctx.CalcOption, true);
+                return CompileResultFactory.CreateDynamicArrayResult(compileResult.Result, compileResult.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+            }
+            finally
+            {
+                ctx.VariableStorage.RestoreDepth(storageDepth);
+            }
         }
 
         private void CloneTokens()

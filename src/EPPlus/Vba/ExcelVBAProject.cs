@@ -653,7 +653,10 @@ namespace OfficeOpenXml.VBA
                     }
                 }
 
-                doc.Storage.DataStreams.Add("PROJECT", new CompoundDocumentItem("PROJECT", CreateProjectStream()));
+                var projectStream = CreateProjectStream();
+                ProjectStreamText = Encoding.GetEncoding(CodePage).GetString(projectStream);
+                doc.Storage.DataStreams.Add("PROJECT", new CompoundDocumentItem("PROJECT", projectStream));
+
                 doc.Storage.DataStreams.Add("PROJECTwm", new CompoundDocumentItem("PROJECTwm", CreateProjectwmStream()));
 
                 if (Part == null)
@@ -834,7 +837,7 @@ namespace OfficeOpenXml.VBA
             bw.Write(nameBytes);     //Name
 
             bw.Write((ushort)0x47);
-            var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.Name);
+            var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.NameUnicode ?? module.Name);
             bw.Write((uint)nameUnicodeBytes.Length);
             bw.Write(nameUnicodeBytes);                   //Name
 

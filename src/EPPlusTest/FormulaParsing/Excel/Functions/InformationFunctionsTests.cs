@@ -565,5 +565,16 @@ namespace EPPlusTest.Excel.Functions
                 Assert.IsFalse((bool)result);
             }
         }
+        [TestMethod]
+        public void NFunctionShouldReturnZeroIfBlankCell()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet2");
+                ws.Cells["A1"].Formula = "N(B1)";
+                ws.Cells["A1"].Calculate();
+                Assert.AreEqual(ws.Cells["A1"].Value, 0d);
+            }
+        }
     }
 }

@@ -39,16 +39,5 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             return arg % 2 == 0 && !isLastArgument;
         }
-
-        internal override void OnDispose()
-        {
-            base.OnDispose();
-            if (Context.VariableStorage.Count > 0)
-            {
-                Context.VariableStorage.Pop();
-            }
-
-        }
-
     }
 }
