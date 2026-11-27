@@ -48,50 +48,45 @@ namespace OfficeOpenXml.ConditionalFormatting.Rules
         }
 
         protected List<object> cellValueCache = new List<object>();
+        /// <summary>
+        /// True when <see cref="cellValueCache"/> has been filled for the current export.
+        /// </summary>
+        protected bool _cellValueCacheUpdated = false;
 
         protected virtual void UpdateCellValueCache(bool asStrings = false, bool cacheOnlyNumeric = false)
         {
             cellValueCache.Clear();
 
-            foreach (var cell in Address.GetAllAddresses())
+            //Only visit cells that exist. The rule's range can cover a full sheet.
+            foreach (var value in CFRangeValues.GetValues(_ws, Address))
             {
-                for (int i = 1; i <= cell.Rows; i++)
+                if (asStrings)
                 {
-                    for (int j = 1; j <= cell.Columns; j++)
+                    cellValueCache.Add(value.ToString());
+                }
+                else
+                {
+                    if (cacheOnlyNumeric)
                     {
-                        var row = cell._fromRow + i - 1;
-                        var col = cell._fromCol + j - 1;
-                        var value = _ws.Cells[row, col].Value;
-                        if (value != null)
+                        if (value.IsNumeric())
                         {
-                            if (asStrings)
-                            {
-                                cellValueCache.Add(value.ToString());
-                            }
-                            else
-                            {
-                                if(cacheOnlyNumeric)
-                                {
-                                    if(value.IsNumeric())
-                                    {
-                                        cellValueCache.Add(value);
-                                    }
-                                }
-                                else
-                                {
-                                    cellValueCache.Add(value);
-                                }
-                            }
+                            cellValueCache.Add(value);
                         }
+                    }
+                    else
+                    {
+                        cellValueCache.Add(value);
                     }
                 }
             }
+            _cellValueCacheUpdated = true;
         }
 
         internal override void RemoveTempExportData()
         {
             base.RemoveTempExportData();
             cellValueCache.Clear();
+            _cellValueCacheUpdated = false;
         }
     }
 }

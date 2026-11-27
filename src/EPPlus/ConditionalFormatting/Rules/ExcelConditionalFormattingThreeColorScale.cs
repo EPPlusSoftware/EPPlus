@@ -159,30 +159,11 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (cellValue.IsNumeric())
             {
-                var cellValues = new List<double>();
-                double average = 0;
-                int count = 0;
-                foreach (var cell in Address.GetAllAddresses())
-                {
-                    for (int i = 1; i <= cell.Rows; i++)
-                    {
-                        for (int j = 1; j <= cell.Columns; j++)
-                        {
-                            cellValues.Add(ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value));
-                            average += ConvertUtil.GetValueDouble(_ws.Cells[cell._fromRow + i - 1, cell._fromCol + j - 1].Value);
-                            count++;
-                        }
-                    }
-                }
+                var cache = GetExportCache();
+                double average = cache.Sum / cache.TotalCount;
 
-                average = average / count;
-
-                var values = cellValues.OrderBy(n => n);
-
-                var aValue = cellValues.Last();
-
-                var highest = Convert.ToDouble(values.Last());
-                var lowest = Convert.ToDouble(values.First());
+                var highest = cache.Highest;
+                var lowest = cache.Lowest;
                 //midPoint = (highest + lowest) * 0.5;
                 var realValue = Convert.ToDouble(cellValue);
 

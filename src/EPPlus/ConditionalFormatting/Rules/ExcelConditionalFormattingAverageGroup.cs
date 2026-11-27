@@ -42,6 +42,14 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         //TODO: This needs to be cleared if this CF ever changes.
         double? average = null;
+        bool _isAverageCalculated = false;
+
+        internal override void RemoveTempExportData()
+        {
+            base.RemoveTempExportData();
+            average = null;
+            _isAverageCalculated = false;
+        }
 
         internal override bool ShouldApplyToCell(ExcelAddress address)
         {
@@ -49,8 +57,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (_ws.Cells[address.Address].Value.IsNumeric())
                 {
-                    if (average == null) 
+                    //Calculate once per export, also when the result is not numeric.
+                    if (_isAverageCalculated == false) 
                     {
+                        _isAverageCalculated = true;
                         var avgFormula = $"AVERAGE({Address})";
 
                         var avgResult = _ws.Workbook.FormulaParserManager.Parse(avgFormula, address.FullAddress, false).ToString();
