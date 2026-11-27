@@ -61,9 +61,10 @@ namespace EPPlusTest
 
             var svg = RenderRobotoTextbox(package);
 
-            // The requested name always appears; the real proof is that rendering with the
-            // directory configured does not throw and produces a measurable tspan.
-            StringAssert.Contains(svg, "font-family=\"Roboto");
+            // The requested name always appears in the stack (after the embedded subset); the real
+            // proof is that rendering with the directory configured does not throw and produces a
+            // measurable tspan.
+            StringAssert.Matches(svg, new System.Text.RegularExpressions.Regex("font-family=\"[^\"]*'Roboto'"));
             Assert.IsTrue(GetFirstTspanBaselineY(svg) > 0);
         }
 

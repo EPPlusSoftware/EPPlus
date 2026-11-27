@@ -226,5 +226,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Assert.IsTrue(embedded.Font.FullName.Contains("Archivo"), embedded.Font.FullName);
             Assert.IsNotNull(builder.GetShapingProvider("Roboto", FontSubFamily.Regular));
         }
+
+
     }
 }

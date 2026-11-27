@@ -1,4 +1,7 @@
 ﻿using EPPlus.Fonts.OpenType.FontValidation;
+using EPPlus.Fonts.OpenType.Tables;
+using EPPlus.Fonts.OpenType.Tables.Common.Layout.Lookups;
+using EPPlus.Fonts.OpenType.Tables.Gsub;
 using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using OfficeOpenXml.Interfaces.Fonts;
 using System;
@@ -209,6 +212,94 @@ namespace EPPlus.Fonts.OpenType.Tests.Helpers
             var tempPath = Path.Combine(Path.GetTempPath(), filename);
             File.WriteAllBytes(tempPath, bytes);
             Console.WriteLine($"Font saved to: {tempPath}");
+        }
+
+        /// <summary>
+        /// Asserts that every lookup index referenced by the GSUB table is within the bounds of
+        /// its LookupList: indices from features, and from SubstLookupRecords in contextual
+        /// subtables, including subtables wrapped in Extension lookups.
+        /// </summary>
+        internal static void AssertGsubLookupIndicesValid(OpenTypeFont font)
+        {
+            GsubTable gsub = font.GsubTable;
+            if (gsub == null || gsub.LookupList == null) return;
+
+            int lookupCount = gsub.LookupList.Lookups.Count;
+            List<string> errors = new List<string>();
+
+            if (gsub.FeatureList != null)
+            {
+                for (int f = 0; f < gsub.FeatureList.FeatureRecords.Count; f++)
+                {
+                    // ASSUMPTION: property names on FeatureRecord/FeatureTable - adjust if they differ
+                    var featureRecord = gsub.FeatureList.FeatureRecords[f];
+                    foreach (ushort lookupIndex in featureRecord.FeatureTable.LookupListIndices)
+                    {
+                        if (lookupIndex >= lookupCount)
+                        {
+                            errors.Add(string.Format("Feature {0} ('{1}') references lookup {2}, lookup count is {3}",
+                                f, featureRecord.FeatureTag, lookupIndex, lookupCount));
+                        }
+                    }
+                }
+            }
+
+            for (int l = 0; l < lookupCount; l++)
+            {
+                LookupTable lookup = gsub.LookupList.Lookups[l];
+                for (int s = 0; s < lookup.SubTables.Count; s++)
+                {
+                    FontTableElement subTable = lookup.SubTables[s];
+                    ExtensionSubTableBase extension = subTable as ExtensionSubTableBase;
+                    if (extension != null)
+                    {
+                        subTable = extension.ExtendedSubTable;
+                    }
+
+                    ChainingContextualSubstFormat3 chainContext = subTable as ChainingContextualSubstFormat3;
+                    if (chainContext == null) continue;
+
+                    foreach (SubstLookupRecord record in chainContext.SubstLookupRecords)
+                    {
+                        if (record.LookupListIndex >= lookupCount)
+                        {
+                            errors.Add(string.Format("Lookup {0} (type {1}), subtable {2}: SubstLookupRecord references lookup {3}, lookup count is {4}",
+                                l, lookup.LookupType, s, record.LookupListIndex, lookupCount));
+                        }
+                    }
+                }
+            }
+
+            foreach (string error in errors)
+            {
+                Console.WriteLine(error);
+            }
+            Assert.AreEqual(0, errors.Count, "Invalid GSUB lookup indices:" + Environment.NewLine + string.Join(Environment.NewLine, errors.ToArray()));
+        }
+
+        /// <summary>
+        /// Finds a table in a serialized font's table directory and returns its offset and length.
+        /// Reads the bytes directly so tests do not depend on the font model.
+        /// </summary>
+        public static void FindTableInDirectory(byte[] fontBytes, string tag, out int offset, out int length)
+        {
+            int numTables = (fontBytes[4] << 8) | fontBytes[5];
+            for (int i = 0; i < numTables; i++)
+            {
+                int recordStart = 12 + i * 16;
+                if (System.Text.Encoding.ASCII.GetString(fontBytes, recordStart, 4) == tag)
+                {
+                    offset = ReadInt32BigEndian(fontBytes, recordStart + 8);
+                    length = ReadInt32BigEndian(fontBytes, recordStart + 12);
+                    return;
+                }
+            }
+            throw new AssertFailedException("Table " + tag + " not found");
+        }
+
+        private static int ReadInt32BigEndian(byte[] bytes, int index)
+        {
+            return (bytes[index] << 24) | (bytes[index + 1] << 16) | (bytes[index + 2] << 8) | bytes[index + 3];
         }
     }
 }

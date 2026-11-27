@@ -59,21 +59,39 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
 
             var usWinAscent = _reader.ReadUInt16BigEndian();
             var usWinDescent = _reader.ReadUInt16BigEndian();
-            var ulCodePageRange1 = _reader.ReadUInt32BigEndian();
-            var ulCodePageRange2 = _reader.ReadUInt32BigEndian();
-            var sxHeight = _reader.ReadInt16BigEndian();
-            var sCapHeight = _reader.ReadInt16BigEndian();
-            var usDefaultChar = _reader.ReadUInt16BigEndian();
-            var usBreakChar = _reader.ReadUInt16BigEndian();
-            var usMaxContext = _reader.ReadUInt16BigEndian();
-            ushort usLowerOpticalPointSize = default;
-            ushort usUpperOpticalPointSize = default;
-            if (version > 3)
+
+            // Fields added in later versions. Each group is only present from the version
+            // that introduced it; reading it for an older version would read past the table end.
+            uint ulCodePageRange1 = 0;
+            uint ulCodePageRange2 = 0;
+            if (version >= 1)
+            {
+                ulCodePageRange1 = _reader.ReadUInt32BigEndian();
+                ulCodePageRange2 = _reader.ReadUInt32BigEndian();
+            }
+
+            short sxHeight = 0;
+            short sCapHeight = 0;
+            ushort usDefaultChar = 0;
+            ushort usBreakChar = 0;
+            ushort usMaxContext = 0;
+            if (version >= 2)
+            {
+                sxHeight = _reader.ReadInt16BigEndian();
+                sCapHeight = _reader.ReadInt16BigEndian();
+                usDefaultChar = _reader.ReadUInt16BigEndian();
+                usBreakChar = _reader.ReadUInt16BigEndian();
+                usMaxContext = _reader.ReadUInt16BigEndian();
+            }
+
+            ushort usLowerOpticalPointSize = 0;
+            ushort usUpperOpticalPointSize = 0;
+            if (version >= 5)
             {
                 usLowerOpticalPointSize = _reader.ReadUInt16BigEndian();
                 usUpperOpticalPointSize = _reader.ReadUInt16BigEndian();
             }
-           
+
 
 
             var table = new Os2Table
@@ -117,11 +135,8 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
                 usBreakChar = usBreakChar,
                 usMaxContext = usMaxContext,
             };
-            if(table.version > 3)
-            {
-                table.usLowerOpticalPointSize = usLowerOpticalPointSize;
-                table.usUpperOpticalPointSize = usUpperOpticalPointSize;
-            }
+            table.usLowerOpticalPointSize = usLowerOpticalPointSize;
+            table.usUpperOpticalPointSize = usUpperOpticalPointSize;
             return table;
         }
     }

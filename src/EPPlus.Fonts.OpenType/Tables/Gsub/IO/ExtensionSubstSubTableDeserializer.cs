@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/07/2025         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
  *************************************************************************************************/
+using EPPlus.Fonts.OpenType.Tables.Gsub.Data.Lookups;
 using System.IO;
 
 namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
@@ -32,26 +33,45 @@ namespace EPPlus.Fonts.OpenType.Tables.Gsub.IO
         {
             _reader.BaseStream.Seek(absoluteStart, SeekOrigin.Begin);
 
-            ushort format = _reader.ReadUInt16BigEndian(); // Extension format (must be 1)
-            ushort lookuptype = _reader.ReadUInt16BigEndian(); // The actual substitution type being extended
-            uint offset = _reader.ReadUInt32BigEndian(); // 32-bit offset to the actual subtable
+            ushort format = _reader.ReadUInt16BigEndian();          // Extension format (must be 1)
+            ushort extensionLookupType = _reader.ReadUInt16BigEndian(); // The wrapped substitution type
+            uint offset = _reader.ReadUInt32BigEndian();             // 32-bit offset to the wrapped subtable
+
+            if (format != 1) return null;
 
             long innerSubTableAbsoluteStart = absoluteStart + offset;
+            FontTableElement inner;
 
-            // Redirect to the appropriate deserializer based on the encapsulated lookup type
-            switch (lookuptype)
+            switch (extensionLookupType)
             {
                 case 1:
-                    return new SingleSubstSubTableDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    inner = new SingleSubstSubTableDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    break;
+                case 2:
+                    inner = new MultipleSubstSubTableDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    break;
                 case 4:
-                    return new LigatureSubstSubTableDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    inner = new LigatureSubstSubTableDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    break;
                 case 6:
-                    // Note: We will add the ChainingContextualDeserializer here once implemented
-                    return null;
+                    // Returns null for formats 1 and 2, which are not supported yet
+                    inner = new ChainingContextualDeserializer(_reader).Deserialize(innerSubTableAbsoluteStart);
+                    break;
                 default:
-                    // Other types can be added here as support grows
-                    return null;
+                    // Types 3, 5 and 8 are not supported yet. Type 7 must never be wrapped in itself.
+                    inner = null;
+                    break;
             }
+
+            if (inner == null) return null;
+
+            // Keep the wrapper so the inner lookup type is preserved in the model, rather than
+            // having to be guessed from the subtable's class later.
+            return new ExtensionSubstSubTable
+            {
+                ExtensionLookupType = extensionLookupType,
+                ExtendedSubTable = inner
+            };
         }
     }
 }

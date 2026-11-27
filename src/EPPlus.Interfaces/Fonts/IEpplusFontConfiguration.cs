@@ -98,7 +98,8 @@ namespace OfficeOpenXml.Interfaces.Fonts
 
         /// <summary>
         /// Registers a callback invoked for each font that is about to be embedded, letting the
-        /// caller override how EPPlus handles the font's declared embedding restriction (fsType).
+        /// caller override how EPPlus handles the font's declared embedding restriction (fsType)
+        /// and, for web output, its licence.
         /// Return <see cref="FontEmbeddingDecision.Default"/> to keep EPPlus's standard behaviour.
         /// </summary>
         /// <remarks>
@@ -107,7 +108,33 @@ namespace OfficeOpenXml.Interfaces.Fonts
         /// <see cref="FontEmbeddingDecision.EmbedWhole"/>, the caller asserts they hold the rights
         /// to do so; EPPlus cannot verify any licence the caller may have obtained from the font's
         /// owner. Only one callback is active; a later call replaces the earlier one.
+        /// <para>
+        /// The callback is called for every output that embeds fonts: PDF export
+        /// (<see cref="FontRenderTarget.Document"/>) and SVG export (<see cref="FontRenderTarget.Web"/>),
+        /// where a subset is delivered to browsers as a web font. Many font licences permit embedding
+        /// in documents but not use as a web font, so check <see cref="FontEmbeddingInfo.Target"/>
+        /// before returning <see cref="FontEmbeddingDecision.Subset"/>.
+        /// </para>
+        /// <para>
+        /// For web output the default policy subsets only fonts whose fsType permits it and that name
+        /// an open licence (<see cref="FontEmbeddingInfo.HasOpenLicense"/>); other fonts are referenced
+        /// by name. <see cref="FontEmbeddingDecision.EmbedWhole"/> is not supported for web output, and
+        /// such a font is referenced by name.
+        /// </para>
+        /// <para>
+        /// Fonts bundled with EPPlus are always subsetted, and the callback is not called for them.
+        /// The callback may be called many times for the same font, for instance once per exported
+        /// drawing, so it should be fast and free of side effects.
+        /// </para>
         /// </remarks>
+        /// <example>
+        /// Embed commercial fonts in PDF export only, and leave web output to the default policy:
+        /// <code>
+        /// cfg.OnFontEmbedding(info => info.Target == FontRenderTarget.Document
+        ///     ? FontEmbeddingDecision.Subset
+        ///     : FontEmbeddingDecision.Default);
+        /// </code>
+        /// </example>
         void OnFontEmbedding(Func<FontEmbeddingInfo, FontEmbeddingDecision> callback);
 
         /// <summary>

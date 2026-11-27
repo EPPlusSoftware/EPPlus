@@ -1,25 +1,38 @@
-﻿using EPPlus.DrawingRenderer.RenderItems;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  23/11/2026         EPPlus Software AB           EPPlus 9
+ *************************************************************************************************/
+using EPPlus.DrawingRenderer.RenderItems;
 using EPPlus.DrawingRenderer.Svg;
 using EPPlus.Export.ImageRenderer.RenderItems.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlus.DrawingRenderer
 {
     public class SvgBasicShapesRenderer : IBasicIShapesRenderer<StringBuilder>
     {
         public SvgBasicShapesRenderer(StringBuilder outputStream)
+            : this(outputStream, SvgFontPlan.WithoutContext)
+        {
+        }
+
+        internal SvgBasicShapesRenderer(StringBuilder outputStream, SvgFontPlan fontPlan)
         {
             LineRenderer = new SvgLineRenderer(outputStream);
             RectangleRenderer = new SvgRectRenderer(outputStream);
             EllipseRenderer = new SvgEllipseRenderer(outputStream);
             PathRenderer = new SvgPathRenderer(outputStream);
-            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream);
-            GroupRenderer = new SvgGroupRenderer(this, outputStream);
-            TextRunRenderer = new SvgTextRunRenderer(outputStream);
+            ParagraphRenderer = new SvgParagraphRenderer(this, outputStream) { FontPlan = fontPlan };
+            GroupRenderer = new SvgGroupRenderer(this, outputStream) { FontPlan = fontPlan };
+            TextRunRenderer = new SvgTextRunRenderer(outputStream) { FontPlan = fontPlan };
             TitleRenderer = new SvgTitleRenderer(outputStream);
             UseReferenceRenderer = new SvgUseReferenceRenderer(outputStream);
 

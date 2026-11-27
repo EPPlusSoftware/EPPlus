@@ -37,7 +37,7 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
 
             SaveFontForCurrentTest(parsedFont);
 
-            Assert.AreEqual(12, parsedFont.TableRecords.Count);
+            Assert.AreEqual(16, parsedFont.TableRecords.Count);
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("head"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("name"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("maxp"));
@@ -50,6 +50,10 @@ namespace EPPlus.Fonts.OpenType.Tests.Subsetting
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("OS/2"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("GSUB"));
             Assert.IsTrue(parsedFont.TableRecords.ContainsKey("GPOS"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("cvt "));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("fpgm"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("prep"));
+            Assert.IsTrue(parsedFont.TableRecords.ContainsKey("gasp"));
 
             FontTestHelper.AssertFontValid(parsedFont);
 

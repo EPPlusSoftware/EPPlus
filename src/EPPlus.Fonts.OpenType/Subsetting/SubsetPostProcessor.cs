@@ -25,7 +25,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
         {
             // 1) Sort table records by tag (spec requires directory sorted alphabetically)
             var sortedRecords = font.TableRecords
-                .OrderBy(r => r.Key)
+                .OrderBy(r => r.Key, StringComparer.Ordinal)
                 .Select(r => r.Value)
                 .ToList();
 

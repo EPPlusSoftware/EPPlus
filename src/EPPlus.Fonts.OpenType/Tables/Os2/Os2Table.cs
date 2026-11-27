@@ -75,6 +75,33 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
         }
 
         /// <summary>
+        /// Interprets the usage-permission bits (0-3) of <see cref="fsType"/>. When several bits are set,
+        /// the least restrictive one applies, as the OpenType specification prescribes.
+        /// Pure interpretation — carries no policy about what EPPlus does with it.
+        /// </summary>
+        public FontEmbeddingPermission GetEmbeddingPermission()
+        {
+            var usage = fsType & (FsTypeFlags)FsTypeUsageMask;
+            if ((usage & FsTypeFlags.Editable) != 0)
+                return FontEmbeddingPermission.Editable;
+            if ((usage & FsTypeFlags.PreviewPrint) != 0)
+                return FontEmbeddingPermission.PreviewAndPrint;
+            if ((usage & FsTypeFlags.RestrictedLicense) != 0)
+                return FontEmbeddingPermission.RestrictedLicense;
+            return FontEmbeddingPermission.Installable;
+        }
+
+        /// <summary>
+        /// Returns true when <see cref="fsType"/> declares that only bitmap data may be embedded,
+        /// which means the font's outlines must not be embedded.
+        /// Pure interpretation — carries no policy about what EPPlus does with it.
+        /// </summary>
+        public bool IsBitmapEmbeddingOnly()
+        {
+            return (fsType & FsTypeFlags.BitmapEmbeddingOnly) != 0;
+        }
+
+        /// <summary>
         /// The recommended horizontal size in font design units for subscripts for this font.
         /// </summary>
         public short ySubscriptXSize { get; set; }
@@ -250,15 +277,23 @@ namespace EPPlus.Fonts.OpenType.Tables.Os2
             writer.WriteUInt16BigEndian(usWinAscent);
             writer.WriteUInt16BigEndian(usWinDescent);
 
-            writer.WriteUInt32BigEndian(ulCodePageRange1);
-            writer.WriteUInt32BigEndian(ulCodePageRange2);
+            // Fields added in later versions; only write the groups that exist for this version
+            if (version >= 1)
+            {
+                writer.WriteUInt32BigEndian(ulCodePageRange1);
+                writer.WriteUInt32BigEndian(ulCodePageRange2);
+            }
 
-            writer.WriteInt16BigEndian(sxHeight);
-            writer.WriteInt16BigEndian(sCapHeight);
-            writer.WriteUInt16BigEndian(usDefaultChar);
-            writer.WriteUInt16BigEndian(usBreakChar);
-            writer.WriteUInt16BigEndian(usMaxContext);
-            if(version > 3)
+            if (version >= 2)
+            {
+                writer.WriteInt16BigEndian(sxHeight);
+                writer.WriteInt16BigEndian(sCapHeight);
+                writer.WriteUInt16BigEndian(usDefaultChar);
+                writer.WriteUInt16BigEndian(usBreakChar);
+                writer.WriteUInt16BigEndian(usMaxContext);
+            }
+
+            if (version >= 5)
             {
                 writer.WriteUInt16BigEndian(usLowerOpticalPointSize);
                 writer.WriteUInt16BigEndian(usUpperOpticalPointSize);

@@ -6,6 +6,8 @@ using EPPlus.Export.ImageRenderer.RenderItems.Shared;
 using EPPlus.Fonts.OpenType.Utils;
 using EPPlusImageRenderer.RenderItems;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Interfaces.Fonts;
+using OfficeOpenXml.Interfaces.RichText;
 using OfficeOpenXml.Utils;
 using System.Globalization;
 using System.Text;
@@ -21,166 +23,166 @@ namespace EPPlus.DrawingRenderer.Svg
 
         }
 
-        string GetFontStyleAttributes(TextRunRenderItem textRun)
+        internal SvgFontPlan FontPlan { get; set; } = SvgFontPlan.WithoutContext;
+
+        /// <summary>
+        /// Appends the font-style, font-weight and text-decoration declarations of the run. Weight and
+        /// style follow the subfamily the text was measured with, which is also the subfamily of the
+        /// embedded face, so output cannot diverge from measurement; the run's own flags are used only
+        /// when it has no measurement font. When the underline has a color of its own, text-decoration
+        /// goes on a wrapping tspan instead (see <see cref="UnderlineColorString"/>), whose fill is the
+        /// color the line is drawn with.
+        /// </summary>
+        void AppendFontStyleDeclarations(TextRunRenderItem textRun, StringBuilder style)
         {
-            string fontStyleAttributes = " ";
-
-            if (textRun._isItalic)
+            bool bold, italic;
+            if (textRun._measurementFont != null)
             {
-                fontStyleAttributes += "font-style=\"italic\" ";
+                var subFamily = textRun._measurementFont.SubFamily;
+                bold = subFamily == FontSubFamily.Bold || subFamily == FontSubFamily.BoldItalic;
+                italic = subFamily == FontSubFamily.Italic || subFamily == FontSubFamily.BoldItalic;
             }
-            if (textRun._isBold)
+            else
             {
-                fontStyleAttributes += "font-weight=\"bold\" ";
+                bold = textRun._isBold;
+                italic = textRun._isItalic;
             }
 
-            string content = "";
-
-            if (textRun._underLineType != eDrawingUnderLineType.None | textRun._strikeType != eDrawingStrikeType.No)
+            if (italic)
             {
-                string underlineContent = "";
-                if (textRun._underLineType != eDrawingUnderLineType.None)
-                {
-                    switch (textRun._underLineType)
-                    {
-                        case eDrawingUnderLineType.Single:
-                            underlineContent += "underline";
-                            break;
-                        //These are all css only apparently
-                        //case eUnderLineType.Double:
-                        //    fontStyleAttributes += "double";
-                        //    break;
-                        //case eUnderLineType.Dotted:
-                        //    fontStyleAttributes += "dotted";
-                        //    break;
-                        //case eUnderLineType.Dash:
-                        //    fontStyleAttributes += "dashed";
-                        //    break;
-                        //case eUnderLineType.Wavy:
-                        //    fontStyleAttributes += "wavy";
-                        //    break;
-                        default:
-                            underlineContent += "underline";
-                            break;
-                            //throw new NotImplementedException("Not implemented yet");
-                    }
-                    if(textRun._underlineColor != System.Drawing.Color.Empty)
-                    {
-                        UnderlineColorString = $"<tspan style=\"fill: #{textRun._underlineColor.To6CharHexString()}; {{0}} \">{{1}}</tspan>";
-                    }
-                    content += underlineContent;
-                    //Underline color
-                    //We can change the underline color using double tspans
-                    // <text>SVG with a <tspan style="fill: red; text-decoration: underline;"><tspan style="fill:black;">colored underline</tspan></tspan>section.</text>
-                }
+                style.Append("font-style:italic;");
+            }
+            if (bold)
+            {
+                style.Append("font-weight:bold;");
+            }
 
-                if (textRun._strikeType == eDrawingStrikeType.Single)
+            string decoration = string.Empty;
+            if (textRun._underLineType != eDrawingUnderLineType.None)
+            {
+                // Double, dotted, dashed and wavy underlines need text-decoration-style, which svg
+                // renderers do not support consistently, so every type is drawn as a single underline.
+                decoration = "underline";
+                if (textRun._underlineColor != System.Drawing.Color.Empty)
                 {
-                    //Has to check if Both underline and strike
-                    if (textRun._underLineType != eDrawingUnderLineType.None)
-                    {
-                        content += ",";
-                    }
-                    content += "line-through";
-                }
-
-                if(string.IsNullOrEmpty(content) == false)
-                {
-                    if (string.IsNullOrEmpty(UnderlineColorString))
-                    {
-                        fontStyleAttributes += $" text-decoration=\"{content}\" ";
-                    }
-                    else
-                    {
-                        UnderlineColorString = string.Format(UnderlineColorString, $"text-decoration: {content};", "{0}");
-                    }
+                    UnderlineColorString = $"<tspan style=\"fill:#{textRun._underlineColor.To6CharHexString()};{{0}}\">{{1}}</tspan>";
                 }
             }
-            return fontStyleAttributes;
+            if (textRun._strikeType == eDrawingStrikeType.Single)
+            {
+                // Line values are separated by spaces; a comma makes the whole declaration invalid.
+                decoration += decoration.Length > 0 ? " line-through" : "line-through";
+            }
+
+            if (decoration.Length == 0)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(UnderlineColorString))
+            {
+                style.Append("text-decoration:").Append(decoration).Append(';');
+            }
+            else
+            {
+                UnderlineColorString = string.Format(UnderlineColorString, $"text-decoration:{decoration};", "{0}");
+            }
+        }
+
+        /// <summary>
+        /// The textLength and lengthAdjust attributes that make the browser draw the text with the
+        /// width it was measured with, whatever font it ends up using. Empty when the text has no
+        /// measured width.
+        /// </summary>
+        string GetTextLengthAttributes(IFontFormatBase font, string text)
+        {
+            var width = FontPlan.MeasureWidthInPoints(font, text);
+            if (width.HasValue == false || width.Value <= 0)
+            {
+                return string.Empty;
+            }
+            return $"textLength=\"{width.Value.PointToPixelString()}\" lengthAdjust=\"spacing\" ";
         }
 
         public override void Render(TextRunRenderItem textRun)
         {
-            var sbStartidx = OutputStream.Length -1;
-
-            string finalString = "";
-            var xString = $"x =\"{(textRun.Left.PointToPixelString())}\" ";
-
-            var currentYEndPos = textRun.Position.Y; // Global position Y
-            finalString += $"<tspan ";
-            string visibility = "";
-
             double fontSize = textRun.FontSizeInPixels;
-            //var baseLine = -textRun._baseline / 100D;
-            if (textRun._baseline != 0)
-            {
-                //For sub/superscript, move the text up/down by baseline% of font size. Negative value moves up, positive moves down.
-                finalString += $" dy=\"{(fontSize.PointToPixel() * -textRun._baseline / 100D).ToString(CultureInfo.InvariantCulture)}px\" ";
-                //fontSize *= (1 - Math.Abs(baseLine));
-            }
-            finalString += xString;
-            var yString = $" y=\"{textRun.YPosition.PointToPixelString()}px\" ";
-            finalString += yString;
 
-            currentYEndPos += textRun.YPosition;
-
-            if (double.IsNaN(textRun.ClippingHeight) == false && currentYEndPos >= textRun.ClippingHeight)
-            {
-                //visibility = " display=\"none\"";
-            }
-            finalString += visibility;
-            finalString += $"{GetFontStyleAttributes(textRun)}";
-
-
-            if (textRun._measurementFont != null)
-            {
-                finalString += $"font-family=\"{textRun._measurementFont.Family},"
-                    + $"{textRun._measurementFont.Family}_MSFontService,sans-serif\" "
-                    + $"font-size=\"{fontSize.ToString(CultureInfo.InvariantCulture)}px\" ";
-            }
-
-            if(string.IsNullOrEmpty(textRun.Style.FillColor) == false)
-            {
-                finalString += $" style=\"fill: {textRun.Style.FillColor};\" ";
-            }
-
-            //Avoid rendering fill color as we do so via style
-            var temp = textRun.Style.FillColor;
-            textRun.Style.FillColor = null;
+            // Text measured with a glyph fallback written by name is split into child tspans, each with
+            // its own font-family and textLength. Otherwise the run carries textLength itself.
+            var segments = FontPlan.GetFallbackSegments(textRun._measurementFont, textRun.CurrentText);
 
             var sb = new StringBuilder();
-            sb.Append(finalString);
+            sb.Append("<tspan ");
+            if (textRun._baseline != 0)
+            {
+                // For sub- and superscript, move the text up or down by baseline% of the font size.
+                // A negative value moves it up, a positive value down.
+                sb.Append($"dy=\"{(fontSize.PointToPixel() * -textRun._baseline / 100D).ToString(CultureInfo.InvariantCulture)}px\" ");
+            }
+            sb.Append($"x=\"{textRun.Left.PointToPixelString()}\" ");
+            sb.Append($"y=\"{textRun.YPosition.PointToPixelString()}px\" ");
 
-            //Get color etc.
-            //Renders up until this point (must be done to end the attribute addings so that text content can then be added)
+            if (textRun._measurementFont != null && segments == null)
+            {
+                sb.Append(GetTextLengthAttributes(textRun._measurementFont, textRun.CurrentText));
+            }
+
+            // Font and fill go in the style attribute rather than in presentation attributes: an inline
+            // style wins over the css rules of a host page (e.g. "* { font-family: ... }"), which beat
+            // presentation attributes and would draw the text with another font than it was measured with.
+            var style = new StringBuilder();
+            if (textRun._measurementFont != null)
+            {
+                style.Append("font-family:").Append(FontPlan.GetFontFamilyAttributeValue(textRun._measurementFont)).Append(';');
+                style.Append("font-size:").Append(fontSize.ToString(CultureInfo.InvariantCulture)).Append("px;");
+            }
+            AppendFontStyleDeclarations(textRun, style);
+            if (string.IsNullOrEmpty(textRun.Style.FillColor) == false)
+            {
+                style.Append("fill:").Append(textRun.Style.FillColor).Append(';');
+            }
+            if (style.Length > 0)
+            {
+                sb.Append("style=\"").Append(style).Append("\" ");
+            }
+
+            // The fill is in the style attribute, so the base must not write it as an attribute as well.
+            var fillColor = textRun.Style.FillColor;
+            textRun.Style.FillColor = null;
             RenderBaseToSpecified(textRun, sb);
+            textRun.Style.FillColor = fillColor;
 
-            textRun.Style.FillColor = temp;
-
-            //Since final string has been written in base.render erase it.
-            finalString = "";
-
-            finalString += ">";
-            //Add actual text content
-            finalString +=  ConvertUtil.HtmlEscapeString(textRun.CurrentText);
-            finalString += "</tspan>";
-            sb.Append(finalString);
+            sb.Append('>');
+            if (segments == null)
+            {
+                sb.Append(ConvertUtil.HtmlEscapeString(textRun.CurrentText));
+            }
+            else
+            {
+                foreach (var segment in segments)
+                {
+                    sb.Append("<tspan ");
+                    if (segment.FontFamily != null)
+                    {
+                        sb.Append("style=\"font-family:").Append(segment.FontFamily).Append(";\" ");
+                    }
+                    sb.Append(GetTextLengthAttributes(textRun._measurementFont, segment.Text));
+                    sb.Append('>').Append(ConvertUtil.HtmlEscapeString(segment.Text)).Append("</tspan>");
+                }
+            }
+            sb.Append("</tspan>");
 
             var textRunString = sb.ToString();
 
-            //Wrap in another tspan to apply underline color if neccesary
+            // Wrap in another tspan to draw the underline in its own color.
             if (string.IsNullOrEmpty(UnderlineColorString) == false)
             {
                 textRunString = string.Format(UnderlineColorString, textRunString);
             }
 
-            if (textRun is SvgTextRunRenderItem)
+            if (textRun is SvgTextRunRenderItem tr && tr.RenderTextNode)
             {
-                var tr = (SvgTextRunRenderItem)textRun;
-                if (tr.RenderTextNode)
-                {
-                    textRunString = $"<text>{textRunString}</text>";
-                }
+                textRunString = $"<text xml:space=\"preserve\">{textRunString}</text>";
             }
 
             OutputStream.Append(textRunString);

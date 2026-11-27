@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using EPPlus.DrawingRenderer.Svg;
+using OfficeOpenXml.Interfaces.Fonts;
 using EPPlus.Export.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Renderer;
@@ -97,14 +98,15 @@ namespace OfficeOpenXml.Drawing
         }
         public string ToSvg(SvgRenderOptions options)
         {
-            var sr = new ShapeRenderer(this, options.FontTarget);           
+            var sr = new ShapeRenderer(this, options.FontTarget,
+               options.FontTarget == FontRenderTarget.Web && !options.EmbedFonts);
             var sb = new StringBuilder();
-            var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb, options);
+            var svg = new SvgShapeRenderer(this.GetBoundingBox(), sb, options, sr.RenderContext);
             svg.Render(sr.RenderItems);
             return sb.ToString();
         }
         /// <summary>
-        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// Returns true if the drawing supports svg export via the <see cref="ExcelDrawing.ToSvg()"/> method.
         /// </summary>
         public override bool SupportsSvgExport => true;
     }

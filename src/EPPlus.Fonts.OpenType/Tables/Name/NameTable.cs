@@ -221,19 +221,6 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
             }
         }
 
-        //private Encoding GetEncodingForRecord(NameRecord record)
-        //{
-        //    if (record.platformId == 0)
-        //        return Encoding.GetEncoding("utf-16BE");
-
-        //    if (record.platformId == 1)
-        //        return Encoding.GetEncoding(10000); // MacRoman
-
-        //    if (record.platformId == 3)
-        //        return NameTableLoader.GetWindowsEncoding(record.encodingId);
-
-        //    return Encoding.UTF8; // Fallback
-        //}
 
         /// <summary>
         /// Loads the name table from raw table bytes (used during font scanning).
@@ -308,6 +295,52 @@ namespace EPPlus.Fonts.OpenType.Tables.Name
                     record.LanguageMapping = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns the licence description (nameID 13): English first, otherwise the first
+        /// non-empty record. Null when the font has none.
+        /// </summary>
+        public string GetLicenseDescription()
+        {
+            return GetEnglishName(NameRecordTypes.LicenseDescription)
+                ?? GetFirstNonEmpty(NameRecordTypes.LicenseDescription);
+        }
+
+        /// <summary>
+        /// Returns the licence URL (nameID 14): English first, otherwise the first non-empty
+        /// record. Null when the font has none.
+        /// </summary>
+        public string GetLicenseInfoUrl()
+        {
+            return GetEnglishName(NameRecordTypes.LicenseInfoUrl)
+                ?? GetFirstNonEmpty(NameRecordTypes.LicenseInfoUrl);
+        }
+
+        /// <summary>
+        /// True when any licence description (nameID 13) or licence URL (nameID 14) record, on
+        /// any platform and in any language, names one of the open licences in
+        /// <see cref="OpenFontLicenses"/>. A font without these records is not open.
+        /// </summary>
+        public bool HasOpenLicense()
+        {
+            if (NameRecords == null)
+                return false;
+
+            foreach (var record in NameRecords)
+            {
+                if (record == null)
+                    continue;
+
+                if (record.RecordType == NameRecordTypes.LicenseDescription
+                    && OpenFontLicenses.IsOpenLicenseDescription(record.Name))
+                    return true;
+
+                if (record.RecordType == NameRecordTypes.LicenseInfoUrl
+                    && OpenFontLicenses.IsOpenLicenseUrl(record.Name))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>

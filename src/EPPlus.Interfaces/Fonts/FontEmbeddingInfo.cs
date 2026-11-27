@@ -1,17 +1,4 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  10/07/2026         EPPlus Software AB           EPPlus.Fonts.OpenType 1.0
- *************************************************************************************************/
-
-namespace OfficeOpenXml.Interfaces.Fonts
+﻿namespace OfficeOpenXml.Interfaces.Fonts
 {
     /// <summary>
     /// Information passed to the <see cref="IEpplusFontConfiguration.OnFontEmbedding"/>
@@ -20,9 +7,36 @@ namespace OfficeOpenXml.Interfaces.Fonts
     public class FontEmbeddingInfo
     {
         public FontEmbeddingInfo(string fontName, FontEmbeddingRestriction restriction)
+            : this(fontName, restriction, FontEmbeddingPermission.Installable, false, FontRenderTarget.Document)
+        {
+        }
+
+        public FontEmbeddingInfo(
+            string fontName,
+            FontEmbeddingRestriction restriction,
+            FontEmbeddingPermission permission,
+            bool bitmapEmbeddingOnly,
+            FontRenderTarget target)
+            : this(fontName, restriction, permission, bitmapEmbeddingOnly, target, false, null)
+        {
+        }
+
+        public FontEmbeddingInfo(
+            string fontName,
+            FontEmbeddingRestriction restriction,
+            FontEmbeddingPermission permission,
+            bool bitmapEmbeddingOnly,
+            FontRenderTarget target,
+            bool hasOpenLicense,
+            string licenseDescription)
         {
             FontName = fontName;
             Restriction = restriction;
+            Permission = permission;
+            BitmapEmbeddingOnly = bitmapEmbeddingOnly;
+            Target = target;
+            HasOpenLicense = hasOpenLicense;
+            LicenseDescription = licenseDescription;
         }
 
         /// <summary>The full name of the font being prepared for embedding.</summary>
@@ -30,5 +44,39 @@ namespace OfficeOpenXml.Interfaces.Fonts
 
         /// <summary>The restriction the font declares via its OS/2 fsType field.</summary>
         public FontEmbeddingRestriction Restriction { get; private set; }
+
+        /// <summary>
+        /// The usage permission the font declares via its OS/2 fsType field. Distinguishes
+        /// Preview &amp; Print from Editable and Installable, which <see cref="Restriction"/> does not.
+        /// </summary>
+        public FontEmbeddingPermission Permission { get; private set; }
+
+        /// <summary>
+        /// True when the font's OS/2 fsType field declares that only bitmap data may be embedded.
+        /// The font's outlines must then not be embedded.
+        /// </summary>
+        public bool BitmapEmbeddingOnly { get; private set; }
+
+        /// <summary>
+        /// The output the font is embedded in. <see cref="FontRenderTarget.Document"/> is a PDF;
+        /// <see cref="FontRenderTarget.Web"/> is an SVG or HTML file, where an embedded font is
+        /// delivered as a web font. Font licences often treat the two differently.
+        /// </summary>
+        public FontRenderTarget Target { get; private set; }
+
+        /// <summary>
+        /// True when the font's name table (licence description, nameID 13, or licence URL,
+        /// nameID 14) names an open licence that EPPlus recognises: SIL Open Font License,
+        /// Apache License, Ubuntu Font Licence or Bitstream Vera. The default web policy embeds
+        /// only such fonts. False for commercial fonts and for fonts that carry no licence text.
+        /// </summary>
+        public bool HasOpenLicense { get; private set; }
+
+        /// <summary>
+        /// The font's licence description (nameID 13) as written in the font, or null when it has
+        /// none. Lets the callback apply its own rules, for instance for a licence EPPlus does not
+        /// recognise.
+        /// </summary>
+        public string LicenseDescription { get; private set; }
     }
 }

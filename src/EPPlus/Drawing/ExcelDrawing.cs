@@ -1768,7 +1768,7 @@ namespace OfficeOpenXml.Drawing
 
         internal ExcelDrawingCustomGeometry CustomGeom { get; private set; }
         /// <summary>
-        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()" method./>.
+        /// Returns true if the drawing supports svg export via the <see cref="ToSvg()"/> method.
         /// </summary>
         public virtual bool SupportsSvgExport { get => false; }
         internal eDrawingInclude? IncludeInHtmlExport { get; set; } = eDrawingInclude.Include;
@@ -2631,7 +2631,7 @@ namespace OfficeOpenXml.Drawing
 
                 var sb = new StringBuilder();
 
-                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb, o);
+                var shapeRenderer = new SvgShapeRenderer(this.GetBoundingBox(), sb, o, cr.RenderContext);
                 shapeRenderer.Render(cr.RenderItems);
 
                 var str = sb.ToString();

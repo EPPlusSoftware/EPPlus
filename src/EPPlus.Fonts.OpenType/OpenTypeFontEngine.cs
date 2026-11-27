@@ -126,7 +126,7 @@ namespace EPPlus.Fonts.OpenType
         /// The configured logger, or one that is never enabled. Read on each use, so a logger
         /// assigned after construction is picked up.
         /// </summary>
-        private IFontLogger Logger
+        internal IFontLogger Logger
         {
             get { return _configuration.ActiveLogger; }
         }
@@ -335,14 +335,28 @@ namespace EPPlus.Fonts.OpenType
 
         internal FontEmbeddingDecision ResolveEmbeddingDecision(OpenTypeFont font)
         {
+            return ResolveEmbeddingDecision(font, FontRenderTarget.Document);
+        }
+
+        internal FontEmbeddingDecision ResolveEmbeddingDecision(OpenTypeFont font, FontRenderTarget target)
+        {
             var logger = Logger;
 
-            var restriction = font.Os2Table != null
-                ? font.Os2Table.GetEmbeddingRestriction()
+            var os2 = font.Os2Table;
+            var restriction = os2 != null
+                ? os2.GetEmbeddingRestriction()
                 : FontEmbeddingRestriction.None;
+            var permission = os2 != null
+                ? os2.GetEmbeddingPermission()
+                : FontEmbeddingPermission.Installable;
+            var bitmapEmbeddingOnly = os2 != null && os2.IsBitmapEmbeddingOnly();
 
             var fontName = font.NameTable != null ? font.NameTable.GetFullFontName() : null;
+            var hasOpenLicense = font.NameTable != null && font.NameTable.HasOpenLicense();
+            var licenseDescription = font.NameTable != null ? font.NameTable.GetLicenseDescription() : null;
 
+            // Bundled fonts (Archivo Narrow, Noto Emoji, Noto Math) are OFL-licensed and may be
+            // subsetted for every target.
             if (font.NameTable != null && EmbeddedFonts.IsBundledFamily(font.GetEnglishFontFamilyName()))
             {
                 LogEmbedding(logger, FontLogSeverity.Debug, fontName, restriction,
@@ -353,7 +367,8 @@ namespace EPPlus.Fonts.OpenType
             var callback = _configuration.GetEmbeddingCallback();
             if (callback != null)
             {
-                var decision = callback(new FontEmbeddingInfo(fontName, restriction));
+                var decision = callback(new FontEmbeddingInfo(
+                    fontName, restriction, permission, bitmapEmbeddingOnly, target, hasOpenLicense, licenseDescription));
                 if (decision != FontEmbeddingDecision.Default)
                 {
                     LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
@@ -362,7 +377,10 @@ namespace EPPlus.Fonts.OpenType
                 }
             }
 
-            // No callback, or callback returned Default → derive from the restriction.
+            // No callback, or callback returned Default → derive from fsType and the target.
+            if (target == FontRenderTarget.Web)
+                return ResolveDefaultWebDecision(logger, fontName, restriction, permission, bitmapEmbeddingOnly, hasOpenLicense);
+
             switch (restriction)
             {
                 case FontEmbeddingRestriction.NoEmbedding:
@@ -395,6 +413,49 @@ namespace EPPlus.Fonts.OpenType
                         FontEmbeddingDecision.Subset, "default policy");
                     return FontEmbeddingDecision.Subset;
             }
+        }
+
+        /// <summary>
+        /// Default embedding policy for web output (SVG/HTML), where an embedded font is delivered as a
+        /// web font. A font is subsetted only when both hold:
+        ///   * its fsType permits embedding of outlines and subsetting, and
+        ///   * its name table names an open licence (see <see cref="Tables.Name.NameTable.HasOpenLicense"/>).
+        /// fsType Editable means the font may be embedded in documents, not that it may be served as a
+        /// web font, so commercial fonts are skipped whatever their fsType. Everything else is skipped,
+        /// never thrown on: the fallback chain and the CSS font-family list always provide a replacement,
+        /// so a font that may not be embedded is not an error in web output. The OnFontEmbedding callback
+        /// can return Subset for any font the caller holds a web font licence for.
+        /// </summary>
+        private FontEmbeddingDecision ResolveDefaultWebDecision(
+            IFontLogger logger,
+            string fontName,
+            FontEmbeddingRestriction restriction,
+            FontEmbeddingPermission permission,
+            bool bitmapEmbeddingOnly,
+            bool hasOpenLicense)
+        {
+            string reason = null;
+            if (permission == FontEmbeddingPermission.RestrictedLicense)
+                reason = "fsType declares a restricted license";
+            else if (permission == FontEmbeddingPermission.PreviewAndPrint)
+                reason = "fsType permits Preview & Print embedding only";
+            else if (bitmapEmbeddingOnly)
+                reason = "fsType permits bitmap embedding only, and web output embeds outlines";
+            else if (restriction == FontEmbeddingRestriction.NoSubsetting)
+                reason = "fsType forbids subsetting, and a whole font is not embedded in web output";
+            else if (!hasOpenLicense)
+                reason = "the name table names no open licence (nameID 13/14), so the font is treated as commercial";
+
+            if (reason != null)
+            {
+                LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
+                    FontEmbeddingDecision.Skip, reason + " (web default policy)");
+                return FontEmbeddingDecision.Skip;
+            }
+
+            LogEmbedding(logger, FontLogSeverity.Information, fontName, restriction,
+                FontEmbeddingDecision.Subset, "web default policy");
+            return FontEmbeddingDecision.Subset;
         }
 
         // -----------------------------------------------------------------------------------------
@@ -548,6 +609,59 @@ namespace EPPlus.Fonts.OpenType
                 return substitute;
             }
             return fontName;
+        }
+
+        /// <summary>
+        /// Returns the fallback chain for a font: the user-configured chain
+        /// (<see cref="IEpplusFontConfiguration.FontFallbacks"/>) followed by the built-in chain,
+        /// in the order the default font resolver tries them. Names are compared case-insensitively
+        /// and only the first occurrence is kept. The font itself and the embedded last-resort font
+        /// are not included. Returns an empty array when no chain is known for the font.
+        ///
+        /// The chain lists names only; it does not tell which of them are installed.
+        /// </summary>
+        public string[] GetFallbackChain(string fontName)
+        {
+            ThrowIfDisposed();
+            if (string.IsNullOrEmpty(fontName))
+                return new string[0];
+
+            var result = new List<string>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { fontName };
+
+            AddChain(result, seen, _configuration.GetFallbacks(fontName));
+            AddChain(result, seen, BuiltinFontFallbackChains.GetFallbacks(fontName));
+
+            return result.ToArray();
+        }
+
+        private static void AddChain(List<string> result, HashSet<string> seen, string[] chain)
+        {
+            if (chain == null)
+                return;
+
+            foreach (var name in chain)
+            {
+                if (string.IsNullOrEmpty(name))
+                    continue;
+                if (seen.Add(name))
+                    result.Add(name);
+            }
+        }
+
+        /// <summary>
+        /// Returns the CSS generic family (sans-serif, serif or monospace) of the font that
+        /// <see cref="LoadFont"/> resolves for the given name, which is the font text in that
+        /// family is measured with. See <see cref="GenericFontFamilyClassifier"/> for the rules.
+        /// Returns <see cref="GenericFontFamily.SansSerif"/> when nothing resolves.
+        /// </summary>
+        public GenericFontFamily GetGenericFamily(string fontName, FontSubFamily subFamily = FontSubFamily.Regular)
+        {
+            ThrowIfDisposed();
+            if (string.IsNullOrEmpty(fontName))
+                return GenericFontFamily.SansSerif;
+
+            return GenericFontFamilyClassifier.Classify(LoadFont(fontName, subFamily));
         }
 
         // -----------------------------------------------------------------------------------------

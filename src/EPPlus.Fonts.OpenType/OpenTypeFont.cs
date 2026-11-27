@@ -652,9 +652,16 @@ namespace EPPlus.Fonts.OpenType
 
         internal OpenTypeFont CreateSubset(IEnumerable<char> usedChars, bool addSubsetTag)
         {
+            return CreateSubset(usedChars, new SubsetOptions { AddSubsetTag = addSubsetTag });
+        }
+
+        internal OpenTypeFont CreateSubset(IEnumerable<char> usedChars, SubsetOptions options)
+        {
             // Validate input
             if (usedChars == null)
                 throw new ArgumentNullException(nameof(usedChars));
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
 
             if (!usedChars.Any())
                 throw new ArgumentException("Text cannot be empty", nameof(usedChars));
@@ -662,9 +669,9 @@ namespace EPPlus.Fonts.OpenType
             var subsetBuilder = new SubsetFontBuilder();
             var codePoints = CodePointUtil.ExtractCodePoints(usedChars);
 
-            var newFont = subsetBuilder.CreateSubset(this, codePoints);
+            var newFont = subsetBuilder.CreateSubset(this, codePoints, options.RemoveHinting);
 
-            if (addSubsetTag)
+            if (options.AddSubsetTag)
             {
                 // Must happen BEFORE post-processing so lengths, checksums and any
                 // preprocessed table bytes are computed from the final name table.
@@ -741,7 +748,7 @@ namespace EPPlus.Fonts.OpenType
                 }
             }
             var ctx = new FontSerializationContext(this);
-            switch(tag)
+            switch (tag)
             {
                 case TableNames.Head:
                     return HeadTable.Serialize(ctx);
@@ -774,6 +781,12 @@ namespace EPPlus.Fonts.OpenType
                 case TableNames.Vmtx:
                     return VmtxTable?.Serialize(ctx);
                 default:
+                    // Tables without a typed accessor (e.g. RawFontTable) live only in the local cache.
+                    if (_localTableCache.Contains(tag))
+                    {
+                        var table = _localTableCache.Get(tag) as FontTableBase;
+                        return table != null ? table.Serialize(ctx) : null;
+                    }
                     return null;
             }
         }

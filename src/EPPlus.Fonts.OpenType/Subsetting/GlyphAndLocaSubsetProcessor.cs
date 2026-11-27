@@ -52,7 +52,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 }
                 else
                 {
-                    newGlyphs.Add(CloneGlyphWithRemappedComponents(originalGlyph, context.OldToNewGlyphId));
+                    newGlyphs.Add(CloneGlyphWithRemappedComponents(originalGlyph, context.OldToNewGlyphId, context.RemoveHinting));
                 }
             }
 
@@ -95,7 +95,13 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             return g.Header.numberOfContours == 0 && g.CompositeData == null && g.SimpleData == null;
         }
 
-        private static Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNewMap)
+        /// <summary>
+        /// Clones a glyph with its component glyph IDs remapped to the subset. With removeHinting the
+        /// glyph is written without instructions: a simple glyph gets an empty instruction array, and a
+        /// composite glyph loses its instructions and the WE_HAVE_INSTRUCTIONS flag on its components,
+        /// so nothing calls into the fpgm and cvt tables that an unhinted subset leaves out.
+        /// </summary>
+        private static Glyph CloneGlyphWithRemappedComponents(Glyph original, Dictionary<ushort, ushort> oldToNewMap, bool removeHinting)
         {
             GlyphHeader header = new GlyphHeader(original.Header.numberOfContours, original.Header.Bounds);
 
@@ -105,7 +111,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                 SimpleGlyph simple = new SimpleGlyph
                 {
                     EndPtsOfContours = (ushort[])original.SimpleData.EndPtsOfContours.Clone(),
-                    Instructions = (byte[])original.SimpleData.Instructions.Clone(),
+                    Instructions = removeHinting ? new byte[0] : (byte[])original.SimpleData.Instructions.Clone(),
                     XBytes = (byte[])original.SimpleData.XBytes.Clone(),
                     YBytes = (byte[])original.SimpleData.YBytes.Clone(),
                     FlagRuns = new List<FlagRun>()
@@ -124,7 +130,7 @@ namespace EPPlus.Fonts.OpenType.Subsetting
             {
                 CompositeGlyph composite = new CompositeGlyph
                 {
-                    Instructions = (byte[])original.CompositeData.Instructions.Clone(),
+                    Instructions = removeHinting ? new byte[0] : (byte[])original.CompositeData.Instructions.Clone(),
                     Components = new List<GlyphComponent>()
                 };
 
@@ -136,9 +142,14 @@ namespace EPPlus.Fonts.OpenType.Subsetting
                         newGid = 0; // Fallback to .notdef
                     }
 
+                    // The flag belongs on the last component; it is cleared on all of them, which is harmless.
+                    var flags = removeHinting
+                        ? comp.Flags & ~CompositeGlyphFlags.WE_HAVE_INSTRUCTIONS
+                        : comp.Flags;
+
                     composite.Components.Add(new GlyphComponent
                     {
-                        Flags = comp.Flags,
+                        Flags = flags,
                         GlyphIndex = newGid,
                         Argument1 = comp.Argument1,
                         Argument2 = comp.Argument2,
